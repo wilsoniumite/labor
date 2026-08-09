@@ -1,0 +1,12 @@
+=== right tail build (unit 3): exposure layer + capability clock ===
+exposure: 798 soc6 -> 320 occ1990dd rows (variants = Eloundou's published six; mean across mapped codes)
+right tail: exposure covers 1.000 of 2025 employment
+headline (d40, median variant): 0.239 of surviving 2025 employment sits at exposure >= 0.5
+clock trace eci: 497 dated points, 2023-02-24 .. 2026-08-02, frontier 99.36 -> 161.65
+clock trace gpqa_diamond: 202 dated points, 2023-03-14 .. 2026-08-02, frontier 0.36 -> 0.95
+clock trace swe_bench_verified: 35 dated points, 2024-11-20 .. 2026-06-16, frontier 0.31 -> 0.83
+clock trace metr_horizon_min: 49 dated points, 2019-11-05 .. 2026-04-07, frontier 0.04 -> 1044.78
+METR horizon doubling time: 5.0 months (fit on 49 models, 2019-11-05..2026-04-07)
+metr raw: 24,008 runs, 21 models
+metr raw-vs-published: 15 models matched, log-space correlation 0.993
+wrote figures/right_tail.png

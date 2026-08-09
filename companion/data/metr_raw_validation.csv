@@ -1,0 +1,16 @@
+alias,h50_raw,epoch_model,h50_epoch
+Claude 3 Opus (Inspect),3.9523801007201538,claude-3-opus-20240229,6.405197
+Claude 3.5 Sonnet (New) (Inspect),20.52323055517563,claude-3-5-sonnet-20241022,29.575983
+Claude 3.5 Sonnet (Old) (Inspect),11.394299643906471,claude-3-5-sonnet-20240620,18.683233
+Claude 3.7 Sonnet (Inspect),60.38778032401756,claude-3-7-sonnet-20250219,60.388937
+Claude Opus 4.5 (Inspect),292.99947867489516,claude-opus-4-5-20251101,292.994594
+Claude Opus 4.6 (Inspect),718.9097828212998,claude-opus-4-6_unknown,718.80683
+GPT-4 0314,3.987227600429908,gpt-4-0314,5.364045
+GPT-4 1106 (Inspect),4.044903243695031,gpt-4-1106-preview,8.557433
+GPT-4 Turbo (Inspect),3.7328088323914046,gpt-4-turbo,3.732787
+GPT-4o (Inspect),6.990738069989238,gpt-4o-2024-08-06,6.991195
+GPT-5 (Inspect),202.99468215849836,gpt-5-2025-08-07_high,203.012577
+GPT-5.1-Codex-Max (Inspect),223.72565279776325,gpt-5.1-codex-max,161.753349
+GPT-5.3-Codex,349.4920773521022,gpt-5.3-codex,349.530732
+Gemini 3 Pro,224.34382043882604,gemini-3-pro-preview,224.325884
+o1-preview,20.329515581623006,o1-preview-2024-09-12,22.221357

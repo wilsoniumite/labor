@@ -1,0 +1,13 @@
+=== envelope build (unit 2): w/c grid + revealed-adoption envelope ===
+c member pc_hedonic (B935RG3Q086SBEA): 1999->2025 level ratio 0.286
+c member ppi_computer (PCU334111334111): 1999->2025 level ratio 0.144
+c member equip_broad (Y033RG3Q086SBEA): 1999->2025 level ratio 0.961
+w/c grid: 6 members, waterline median 1999=1.000 -> 2025=8.04 (spread 2.37-16.14)
+universe: 313 occupations with mean emp >= 10,000 (0.999 of 1999 employment); 13 screened out
+rule d30: 132/308 occupations flipped, 0.330 of 1999 universe employment
+rule d40: 102/308 occupations flipped, 0.150 of 1999 universe employment
+rule d50: 77/308 occupations flipped, 0.106 of 1999 universe employment
+telephone operators under d30: flip year 2004
+telephone operators under d40: flip year 2004
+telephone operators under d50: flip year 2005
+wrote figures\schedule_envelope.png

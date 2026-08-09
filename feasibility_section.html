@@ -1,0 +1,55 @@
+<!-- ============================================================
+  feasibility_section.html — new material for "The Link" (working draft,
+  Aug 2026). Queue item 3, THEOREM HALF: Proposition 8, the coverage ratio
+  of the rent-funded floor. (The empirical half — measuring κ for the U.S. —
+  is a separate unit; spec in feasibility_empirics_spec.md.)
+
+  Every claim verified in checks/check_feasibility.py (numerics anchored to
+  check_closure.py's world: same a, ℓ, ρ̄, L̄, T, r).
+
+  SPLICED 2026-08-05 under standing delegation ("I leave the call up to
+  you"); veto window open — this file is the exact pre-splice record.
+
+  POST-SPLICE REPAIR (surviving session, same day): 8(i)'s margins clause
+  said coverage rises "without bound along ρ̄ → 0 and ℓ → 0" — but κ is
+  bounded by T/(N·h_s) in the same sentence. Paper now reads: "along a ↓
+  only as far as the bounded q = 1/(ℓ·ρ̄·L̄) allows (the 4(ii) echo); along
+  ρ̄ → 0 and ℓ → 0 all the way toward the ratio itself." Body below is the
+  as-spliced text, kept exact. The empirics spec this header references
+  now exists (written by the surviving session).
+
+  SPLICE 1 (main): end of Section 6, after "...in the corner, he is
+  necessary.", before <h2>7 — the subsection below. Enters as Proposition 8;
+  NOTHING downstream renumbers (no numbered props after §6).
+
+  SPLICE 2+3 (cross-ref tightening in §5, killing the dangling promises):
+    "and becomes the subject of the feasibility proposition to follow"
+      → "and becomes the subject of Proposition 8"
+    "The feasibility proposition takes it up next."
+      → "Proposition 8 takes it up."
+
+  Notation entering (registered in NOTES.md): g_s, h_s subsistence bundle
+  quantities (good, direct land services); P_s = pg·g_s + r·h_s subsistence
+  cost (the bare P of 4(iii)'s proof is the aggregate index); κ coverage
+  ratio at full capture; q* feasibility threshold. Supersedes the queue
+  line's shorthand rT/(N·P_s·q). σs (subsistence land SHARE) superseded by
+  the quantity pair.
+============================================================ -->
+
+<h3>Feasibility: the coverage ratio</h3>
+
+<p>Necessity is not sufficiency: Proposition 7(iii) says the rent column is the only one standing, not that it is tall enough. The stark remark of Section 5 asked whether anyone without a site eats; this subsection prices the question.</p>
+
+<p><b>Setup.</b> Per person, subsistence is a bundle (g<sub>s</sub>, h<sub>s</sub>) — g<sub>s</sub> units of the machine-made good, h<sub>s</sub> of direct land services — costing P<sub>s</sub> = p<sub>g</sub>·g<sub>s</sub> + r·h<sub>s</sub> (the bare P of Proposition 4's proof is the aggregate index; P<sub>s</sub> is the floor's price tag). Full capture of site rent funds a universal transfer of rT/N per head; partial capture funds the proportional fraction, so the clean object is coverage at full capture, κ ≡ rT/(N·P<sub>s</sub>), with q ≡ r/p<sub>g</sub> = (1−a)/(ℓ·ρ̄·L̄) as in Proposition 4(ii).</p>
+
+<div class="prop"><p><b>Proposition 8 (Feasibility of the rent-funded floor).</b> In the corner regime: (i) the coverage ratio is</p>
+<div class="eq">κ = q·T / (N·(g<sub>s</sub> + q·h<sub>s</sub>)),</div>
+<p>strictly increasing in q from 0 toward the physical land ratio T/(N·h<sub>s</sub>), which it never attains: machine improvement raises coverage on every margin — boundedly along a ↓ (the 4(ii) echo), without bound along ρ̄ → 0 and ℓ → 0. (ii) The floor is fundable, κ ≥ 1, iff q ≥ q* = N·g<sub>s</sub>/(T − N·h<sub>s</sub>), a finite threshold that exists iff T &gt; N·h<sub>s</sub>; if land per head falls short of subsistence's direct land content, no machine progress funds the floor. (iii) The fiscal constraint is the land constraint in disguise: κ ≥ 1 holds exactly when N·(g<sub>s</sub>/q + h<sub>s</sub>) ≤ T — the direct plus embodied land content of N subsistence bundles fits in the land there is. Since national income is rT identically (5ii) and the base cannot contract under taxation (7ii), the rent-funded floor is feasible whenever any allocation of the economy could deliver N subsistence bundles; the wage-funded route stays infeasible at every q (7i).</p></div>
+
+<p class="proof"><i>Proof.</i> (i) Substitute P<sub>s</sub> and divide through by p<sub>g</sub>: κ = q·T/(N·(g<sub>s</sub> + q·h<sub>s</sub>)); dκ/dq = T·g<sub>s</sub>/(N·(g<sub>s</sub> + q·h<sub>s</sub>)²) &gt; 0, with limits 0 and T/(N·h<sub>s</sub>), and the margins move q by Proposition 4(ii). (ii) Set κ = 1 and solve for q. (iii) One unit of the good carries ℓ·ρ̄·L̄/(1−a) = 1/q units of land through the recursion, so N bundles demand N·(g<sub>s</sub>/q + h<sub>s</sub>) of the T available; rearranging κ ≥ 1 gives exactly this inequality. ∎</p>
+
+<p>The demolition funds its own remedy: the same q that empties the wage column (4ii–iii) runs the coverage ratio up its curve, so George's program grows more fundable precisely as it grows more necessary. The failure modes are exhaustive and physical, not fiscal: too little land per person (T ≤ N·h<sub>s</sub>), or progress not yet far enough (q &lt; q*). A worked instance (a = 0.6, ℓ = 0.2, ρ̄ = 1.8, L̄ = 1, so q = 10/9; T = 100; unit bundle g<sub>s</sub> = h<sub>s</sub> = 1): fifty people are covered with a nineteenth to spare (κ = 20/19); eighty must wait for q to reach 4; one hundred twenty — land per head below the bundle's land content — are never covered. The ratio says which world you are in.</p>
+
+<p><b>Remark (the base feeds back — tendency, not theorem).</b> The floor is spent partly on land services; in the corner that spending resolves into rents (Proposition 5), lifting r and with it the base rT. The direction is favorable — the loop closes the right way — but the magnitude rides on distribution and substitution; claimed as tendency only.</p>
+
+<p><b>Remark (measurement).</b> κ is a measurable object: the numerator is the aggregate site-rent flow the national accounts carry in pieces; the denominator, population times a costed subsistence bundle — and κ itself needs only the bundle's cost, not its decomposition. Every contestable step — the land-value source (purpose-built estimates against the Z.1 residual, whose land value is unreliable after the mid-1990s), the capitalization rate, the bundle costing — goes through Section 7's rule grid: all defensible variants, medians with bands.</p>

@@ -1,0 +1,51 @@
+<!-- ============================================================
+  conditionality_section.html — new material for "The Link" (working draft,
+  Aug 2026). Queue item 4: substitution/income decomposition of Prop 6(i),
+  Hoynes–Rothstein cite, corner-regime insurance.
+
+  Drafted directly in the paper's HTML idiom (the source is HTML; decided
+  2026-08-05). Every claim verified in checks/check_conditionality.py.
+
+  SPLICED 2026-08-05 — by the parallel session, under standing delegation,
+  with apostrophes house-styled to curly. The surviving session then
+  double-applied splices B and C before noticing; duplicates removed same
+  day (see NOTES changelog). The paper carries the live text; this file is
+  the drafting record.
+
+  Numbering is post-splice: Conditionality = Proposition 6, Funding = 7.
+
+  Notation entering with this section (registered in NOTES.md):
+  m_w, m_e instrument payments in/out of work (m chosen over τ — τ is the
+  parcel dummy in §5's idle-margin remark); Δ = m_w − m_e; R reservation
+  wage; y exit-state unearned cash; s(y) reduced-form outside-option
+  schedule, s′ ≥ 0, s(0) = the baseline s.
+
+  SPLICE A — inside Proposition 6(i)'s statement. Replace:
+
+    "— and cancels: no margin moves, while the disposable floor rises by
+     exactly u. Once u ≥ s,"
+
+  with:
+
+    "— and cancels: no margin moves, while the disposable floor rises by
+     exactly u. The cancellation decomposes: u leaves the work–exit price
+     w − s untouched, so its compensated (substitution) response is zero as
+     an identity; what remains is income effect. Once u ≥ s,"
+
+  SPLICE B — between Proposition 6's proof line ("The displayed inequalities
+  plus Proposition 1's comparative statics. ∎") and Proposition 7's div:
+  insert the remark and the insurance paragraph below.
+
+  SPLICE C — References div: insert the Hoynes–Rothstein entry between
+  George (1879) and Korinek–Stiglitz (2019).
+============================================================ -->
+
+<!-- ================= SPLICE B body ================= -->
+
+<p><b>Remark (the decomposition, and the price of a moved margin).</b> Write an instrument as the pair (m<sub>w</sub>, m<sub>e</sub>) — its payment in and out of work — and Δ = m<sub>w</sub> − m<sub>e</sub> for its work-contingent differential. The reservation wage is R = s − Δ, or R = s(y) − Δ once the exit option's value rises with the unearned cash y that accompanies it (leisure normal, in reduced form; s′ ≥ 0). Participation then responds through two channels only: ∂R/∂Δ = −1 — the substitution effect, full strength always — and ∂R/∂y = s′, the income effect, which the reviewed evidence puts near zero (Hoynes and Rothstein, 2019). The proposition's three instruments are three values of Δ. The in-work benefit (Δ = b) and the out-of-work benefit (Δ = −b′, its income term pushing the same way) are substitution instruments: moving the margin is their operating principle, and 6(ii)–(iii) price what that costs by regime. The unconditional transfer is the unique Δ = 0 instrument — zero compensated response as an identity, s′-sized response in fact. In the corner the accounting closes, symmetrically: every misplaced hour of participation burns |c·ρ̄ − s| — make-work summoned below the outside option burns s − c·ρ̄ (6ii); income-effect exit above it burns c·ρ̄ − s — a price that vanishes at the regime boundary. Deadweight is margin-moving times this price: full-strength for b and b′, s′-sized for u. And in the linked regime u's residual is not even a loss to labor: what little exit it induces pushes the threshold back and the base wage up — the Speenhamland leak run in reverse, accruing to workers rather than employers.</p>
+
+<p>Read against the demolition schedule, the conditioning is the coverage. A work-conditioned claim pays only in the state the collapse removes — insurance that lapses exactly when the insured event arrives. An exit-conditioned claim pays in the loss state but manufactures entries into it, taxing the first hour back (6iii). The unconditional transfer is written on no state at all, so its guarantee survives the regime change that voids the others; in the corner it is pure insurance at zero deadweight — no substitution margin by construction, no leak to employers (the wage is pinned), nothing summoned. Proposition 7(ii)'s funding invariance is the same property read from the base side: the pairing cannot be taxed away at one end and moves no margin at the other.</p>
+
+<!-- ================= SPLICE C body ================= -->
+
+<p>Hoynes, H., and J. Rothstein (2019). “Universal Basic Income in the United States and Advanced Countries.” <i>Annual Review of Economics</i> 11.</p>

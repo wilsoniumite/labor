@@ -1,0 +1,309 @@
+occ1990dd,label,emp_base,peak_year,end_over_peak,flipped,flip_year
+4,Chief Executives,597060.0,1999,0.2623262497041648,True,2001.0
+7,Financial Managers,646050.0,1999,0.9985767293571185,False,
+8,Human Resources Managers,227810.0,1999,0.9812378264214789,False,
+13,Sales Managers,856440.0,2025,1.0,False,
+14,"Education Administrators, Kindergarten through Secondary",317290.0,2025,1.0,False,
+15,Medical and Health Services Managers,230640.0,2025,1.0,False,
+18,"Property, Real Estate, and Community Association Managers",143040.0,2025,1.0,False,
+19,"Morticians, Undertakers, and Funeral Arrangers",23740.0,2013,0.6452160063563113,True,2019.0
+22,General and Operations Managers,4332450.0,2025,1.0,False,
+23,Accountants and Auditors,908120.0,2020,0.9827768201276935,False,
+24,Insurance Underwriters,93970.0,2003,0.8470319926538517,False,
+25,Financial and Investment Analysts,626710.0,2021,0.9139780052118321,False,
+26,Management Analysts,300600.0,2024,0.9963995208181167,False,
+27,Human Resources Specialists,446960.0,2025,1.0,False,
+28,Buyers and Purchasing Agents,21550.0,2025,1.0,False,
+29,Buyers and Purchasing Agents,133070.0,2002,0.9173787939951974,False,
+33,Buyers and Purchasing Agents,362060.0,1999,0.5252714708363235,True,2004.0
+34,"Agents and Business Managers of Artists, Performers, and Athletes",7280.0,2020,0.6732779545381353,True,2021.0
+35,Construction and Building Inspectors,67010.0,2025,1.0,False,
+36,Compliance Officers,150910.0,2025,1.0,False,
+43,"Architects, Except Landscape and Naval",84910.0,2008,0.8324026627309224,False,
+44,Aerospace Engineers,71790.0,2006,0.6659460659303515,True,2008.0
+45,Materials Engineers,21730.0,2000,0.7311730717216887,False,
+47,Petroleum Engineers,9640.0,2012,0.41449871311296227,True,2016.0
+48,Chemical Engineers,28630.0,2003,0.5048595575681829,True,2005.0
+53,Civil Engineers,209100.0,2025,1.0,False,
+55,Electrical Engineers,316460.0,2003,0.8141155751720683,False,
+56,Industrial Engineers,196380.0,2025,1.0,False,
+57,Mechanical Engineers,202910.0,2020,0.874805197389905,False,
+59,"Engineers, All Other",62350.0,2007,0.7972132128680561,False,
+64,Computer User Support Specialists,1818430.0,2009,0.9187624070207396,False,
+65,Logisticians,43760.0,2025,1.0,False,
+66,Actuaries,12560.0,2024,0.93311224099894,False,
+68,Data Scientists,1560.0,2025,1.0,False,
+69,Physicists,10970.0,2021,0.9306350658731137,False,
+73,Chemists,82040.0,2001,0.7605795662593507,False,
+75,"Environmental Scientists and Specialists, Including Health",81440.0,2013,0.7842025678174226,False,
+77,Soil and Plant Scientists,9720.0,2014,0.8732007881241306,False,
+78,"Biological Scientists, All Other",38560.0,2023,0.9307916496679829,False,
+79,Conservation Scientists,22330.0,2025,1.0,False,
+83,"Medical Scientists, Except Epidemiologists",23470.0,2025,1.0,False,
+84,"Physicians, All Other",313180.0,2025,1.0,False,
+85,"Dentists, General",69360.0,2022,0.9861797666977749,False,
+86,Veterinarians,39250.0,2021,0.9837271277893437,False,
+87,Optometrists,21400.0,2019,0.9946978251689489,False,
+89,Chiropractors,11540.0,2005,0.7761599534922123,False,
+95,Registered Nurses,2205430.0,2025,1.0,False,
+96,Pharmacists,226300.0,2020,0.8842567957963281,False,
+97,Dietitians and Nutritionists,41320.0,2025,1.0,False,
+98,Respiratory Therapists,80230.0,2020,0.918301515430935,False,
+99,Occupational Therapists,78950.0,2025,1.0,False,
+103,Physical Therapists,131050.0,2025,1.0,False,
+104,Speech-Language Pathologists,98870.0,2025,1.0,False,
+105,"Therapists, All Other",42530.0,2009,0.9011272693766048,False,
+106,Physician Assistants,56750.0,2025,1.0,False,
+155,"Preschool Teachers, Except Special Education",497560.0,2001,0.8470795398575296,False,
+156,"Elementary School Teachers, Except Special Education",1944800.0,2010,0.757064934806477,False,
+157,"Secondary School Teachers, Except Special and Career/Technical Education",1054340.0,2003,0.8234229796766336,False,
+158,"Special Education Teachers, Kindergarten and Elementary School",410410.0,2013,0.9969811234477679,False,
+159,"Teaching Assistants, Except Postsecondary",96090.0,2020,0.9630242786355616,False,
+163,"Substance Abuse, Behavioral Disorder, and Mental Health Counselors",422790.0,2025,1.0,False,
+164,Librarians and Media Collections Specialists,137760.0,2002,0.33036723716366384,True,2007.0
+165,Museum Technicians and Conservators,16760.0,2019,0.9104629981123812,False,
+166,Market Research Analysts and Marketing Specialists,104150.0,2025,1.0,False,
+167,Clinical and Counseling Psychologists,94240.0,2025,1.0,False,
+169,"Social Scientists and Related Workers, All Other",9730.0,2020,0.9414114524213223,False,
+173,Urban and Regional Planners,28730.0,2010,0.9176737517188064,False,
+174,"Child, Family, and School Social Workers",436980.0,2020,0.986588119719043,False,
+176,Clergy,40960.0,2025,1.0,False,
+177,Social and Human Service Assistants,363080.0,2020,0.9511891150715214,False,
+178,Lawyers,464250.0,2020,0.9887148976235792,False,
+183,Writers and Authors,45670.0,1999,0.8045482659837169,False,
+184,Technical Writers,46680.0,2000,0.704018484708433,False,
+185,Graphic Designers,316690.0,2024,0.9275141423810046,False,
+186,Musicians and Singers,52750.0,2011,0.5831294084001529,True,2014.0
+187,Producers and Directors,123990.0,2023,0.8919275132718346,False,
+188,Art Directors,62960.0,2022,0.7934706016804891,False,
+189,Photographers,66070.0,1999,0.6004475068619387,True,2004.0
+193,Dancers,26080.0,2002,0.26698608198474433,True,2007.0
+194,Interpreters and Translators,13640.0,2005,0.5861619294664289,True,2007.0
+195,Editors,189900.0,2003,0.673875758516455,True,2012.0
+198,Broadcast Announcers and Radio Disc Jockeys,50410.0,1999,0.47186757727540657,True,2007.0
+199,Coaches and Scouts,84590.0,2019,0.9397344999226505,False,
+203,Clinical Laboratory Technologists and Technicians,287840.0,2010,0.8358367948982368,False,
+204,Dental Hygienists,90050.0,2019,0.9212390964528555,False,
+205,Medical Records Specialists,142720.0,2021,0.9653745982065954,False,
+206,Radiologic Technologists and Technicians,266500.0,2020,0.9780204214614501,False,
+207,Licensed Practical and Licensed Vocational Nurses,688510.0,2010,0.7153080476786244,False,
+208,Emergency Medical Technicians,175690.0,2020,0.5792714382277332,True,2021.0
+214,Electrical and Electronic Engineering Technologists and Technicians,518670.0,2000,0.5724638542918179,True,2003.0
+217,Architectural and Civil Drafters,198640.0,2004,0.6173970660707065,True,2011.0
+218,Surveying and Mapping Technicians,103630.0,2006,0.7543198409607438,False,
+223,Biological Technicians,54630.0,2020,0.8391241902511304,False,
+224,Chemical Technicians,78730.0,1999,0.5601633506361203,True,2002.0
+225,"Geological Technicians, Except Hydrologic Technicians",10830.0,2015,0.4420004645597129,True,2021.0
+226,"Airline Pilots, Copilots, and Flight Engineers",106820.0,2024,0.9919347424180874,False,
+227,Air Traffic Controllers,27130.0,2023,0.9065996348127556,False,
+228,Audio and Video Technicians,77330.0,2018,0.8688750163118866,False,
+229,Software Developers,528600.0,2023,0.974313621823488,False,
+233,Computer Numerically Controlled Tool Operators,192350.0,1999,0.39438319848270953,True,2001.0
+234,Paralegals and Legal Assistants,258120.0,2025,1.0,False,
+235,"Life, Physical, and Social Science Technicians, All Other",51360.0,2020,0.8613241865598261,False,
+243,First-Line Supervisors of Retail Sales Workers,1539920.0,2000,0.6582463979886963,True,2004.0
+253,Insurance Sales Agents,241730.0,2025,1.0,False,
+254,Real Estate Sales Agents,186960.0,2007,0.8920995146700984,False,
+255,"Securities, Commodities, and Financial Services Sales Agents",249660.0,2020,0.9633568195328093,False,
+256,Advertising Sales Agents,142830.0,2000,0.47596009506092163,True,2016.0
+258,Sales Engineers,93620.0,1999,0.42399658561091247,True,2002.0
+274,"Sales Representatives, Wholesale and Manufacturing, Except Technical and Scientific Products",2143480.0,2004,0.6206965663623234,True,2014.0
+275,Retail Salespersons,4386980.0,2015,0.8335552725690838,False,
+276,Cashiers,3222580.0,2003,0.6929614110615213,True,2021.0
+277,"Door-to-Door Sales Workers, News and Street Vendors, and Related Workers",36130.0,1999,0.05854990645807647,True,2001.0
+283,Demonstrators and Product Promoters,100380.0,2000,0.5043282158234329,True,2004.0
+303,First-Line Supervisors of Office and Administrative Support Workers,1312630.0,2001,0.787561796590744,False,
+308,"Computer Occupations, All Other",198500.0,1999,0.8405297278029095,False,
+313,"Secretaries and Administrative Assistants, Except Legal, Medical, and Executive",3418410.0,2003,0.6593784042860584,True,2014.0
+315,Word Processors and Typists,271310.0,1999,0.09890343936846924,True,2001.0
+316,"Interviewers, Except Eligibility and Loan",317000.0,2003,0.4151537033377229,True,2011.0
+317,"Hotel, Motel, and Resort Desk Clerks",152040.0,2019,0.8940601935871642,False,
+318,Reservation and Transportation Ticket Agents and Travel Clerks,333470.0,1999,0.3995103740898985,True,2002.0
+319,Receptionists and Information Clerks,987680.0,2002,0.6635405454377846,True,2012.0
+326,Order Clerks,376430.0,1999,0.15311533819521728,True,2003.0
+328,"Human Resources Assistants, Except Payroll and Timekeeping",174110.0,1999,0.3971588022735084,True,2006.0
+329,"Library Assistants, Clerical",187080.0,2002,0.5311432074093503,True,2012.0
+335,File Clerks,266890.0,1999,0.21090430834428534,True,2004.0
+336,"Information and Record Clerks, All Other",72930.0,2005,0.3990951850108317,True,2006.0
+337,"Bookkeeping, Accounting, and Auditing Clerks",1619870.0,2003,0.6108499785717029,True,2013.0
+338,Payroll and Timekeeping Clerks,196660.0,1999,0.5968396856993358,True,2011.0
+344,Billing and Posting Clerks,551410.0,1999,0.5616377704566226,True,2004.0
+346,"Postal Service Mail Sorters, Processors, and Processing Machine Operators",234820.0,2002,0.31064711417931584,True,2004.0
+347,"Office Machine Operators, Except Computer",101490.0,1999,0.18978169500493555,True,2000.0
+348,"Switchboard Operators, Including Answering Service",299390.0,1999,0.09653934039994332,True,2004.0
+354,Postal Service Clerks,80330.0,1999,0.7033842583705888,False,
+355,Postal Service Mail Carriers,352550.0,1999,0.7148626242007099,False,
+356,"Mail Clerks and Mail Machine Operators, Except Postal Service",198440.0,1999,0.2133196733175337,True,2001.0
+357,Couriers and Messengers,134370.0,1999,0.39152549088303656,True,2004.0
+359,"Dispatchers, Except Police, Fire, and Ambulance",250700.0,2010,0.8838891349760124,False,
+364,"Shipping, Receiving, and Inventory Clerks",938920.0,1999,0.746550516553584,False,
+365,Stockers and Order Fillers,1877810.0,2022,0.9460538828675592,False,
+366,"Meter Readers, Utilities",46090.0,2002,0.28675592166341257,True,2005.0
+368,"Weighers, Measurers, Checkers, and Samplers, Recordkeeping",83840.0,1999,0.48726029572203244,True,2006.0
+373,"Production, Planning, and Expediting Clerks",422220.0,2025,1.0,False,
+375,"Claims Adjusters, Examiners, and Investigators",442730.0,2017,0.875297606824945,False,
+376,Customer Service Representatives,1935020.0,2020,0.7874450718726246,False,
+377,"Eligibility Interviewers, Government Programs",107650.0,2021,0.9265836179582481,False,
+378,Bill and Account Collectors,383090.0,2004,0.2942062785128483,True,2013.0
+379,"Office Clerks, General",2561300.0,2003,0.655788869457515,True,2021.0
+383,Tellers,453140.0,2005,0.511591234110897,True,2015.0
+384,Proofreaders and Copy Markers,25970.0,2000,0.12924129675089446,True,2004.0
+385,Data Entry Keyers,520220.0,1999,0.1872299177296053,True,2001.0
+386,Statistical Assistants,24450.0,2001,0.14160396719884819,True,2003.0
+387,,1115820.0,2003,,False,
+389,"Office and Administrative Support Workers, All Other",93910.0,2004,0.7277655179268354,False,
+405,Maids and Housekeeping Cleaners,913470.0,2000,0.7120387000780787,False,
+408,Laundry and Dry-Cleaning Workers,217350.0,1999,0.6983583950120743,True,2012.0
+417,Firefighters,321710.0,2010,0.9898613785244531,False,
+418,Police and Sheriff's Patrol Officers,784460.0,2010,0.8734934045510694,False,
+423,Correctional Officers and Jailers,422170.0,2010,0.7061168268460394,False,
+425,Crossing Guards and Flaggers,68310.0,2020,0.9612462944917716,False,
+426,Security Guards,1131940.0,1999,0.8995931079549815,False,
+427,"Lifeguards, Ski Patrol, and Other Recreational Protective Service Workers",8300.0,2025,1.0,False,
+433,First-Line Supervisors of Food Preparation and Serving Workers,545700.0,2022,0.9948279040147514,False,
+434,Bartenders,358450.0,2025,1.0,False,
+435,Waiters and Waitresses,2039950.0,2016,0.7981693876088715,False,
+436,"Cooks, Restaurant",1794830.0,2024,0.9662260139747401,False,
+439,Food Preparation Workers,878650.0,1999,0.7794932015794811,False,
+444,Fast Food and Counter Workers,3896590.0,2018,0.8987976945757323,False,
+445,Dental Assistants,175160.0,2025,1.0,False,
+447,Home Health and Personal Care Aides,2889020.0,2025,1.0,False,
+448,First-Line Supervisors of Housekeeping and Janitorial Workers,202460.0,2002,0.6767260591315705,True,2005.0
+450,"First-Line Supervisors of Landscaping, Lawn Service, and Groundskeeping Workers",91330.0,2025,1.0,False,
+451,Landscaping and Groundskeeping Workers,810790.0,2006,0.8938705235571569,False,
+453,"Janitors and Cleaners, Except Maids and Housekeeping Cleaners",2090560.0,1999,0.8164635766638726,False,
+455,Pest Control Workers,40240.0,2025,1.0,False,
+457,Barbers,14150.0,2002,0.6334856817056882,True,2004.0
+458,"Hairdressers, Hairstylists, and Cosmetologists",364950.0,2019,0.8711131563974485,False,
+459,Amusement and Recreation Attendants,332350.0,2010,0.9823872725423463,False,
+461,Tour and Travel Guides,39960.0,2025,1.0,False,
+462,"Ushers, Lobby Attendants, and Ticket Takers",88590.0,2019,0.8076505317193634,False,
+464,Concierges,76020.0,1999,0.7838945002825393,False,
+466,Recreation Workers,372490.0,2019,0.8764098688097881,False,
+468,Childcare Workers,420370.0,2011,0.6924237966976768,True,2017.0
+469,"Personal Care and Service Workers, All Other",31640.0,2009,0.7228142769252446,False,
+470,First-Line Supervisors of Personal Service Workers,84610.0,2018,0.883703438623522,False,
+471,Flight Attendants,168530.0,2000,0.8147542683559131,False,
+472,Animal Caretakers,90660.0,2024,0.952434212082608,False,
+479,"Farmworkers and Laborers, Crop, Nursery, and Greenhouse",267220.0,2020,0.7813276919343264,False,
+488,"Graders and Sorters, Agricultural Products",62380.0,1999,0.3093822833749032,True,2003.0
+489,Agricultural Inspectors,10520.0,2001,0.8010725874029954,False,
+496,"First-Line Supervisors of Farming, Fishing, and Forestry Workers",91550.0,1999,0.5271818256326201,True,2003.0
+503,"First-Line Supervisors of Mechanics, Installers, and Repairers",386170.0,2025,1.0,False,
+505,Automotive Service Technicians and Mechanics,587320.0,2001,0.7810366538275401,False,
+507,Bus and Truck Mechanics and Diesel Engine Specialists,273320.0,1999,0.813114609210755,False,
+508,Aircraft Mechanics and Service Technicians,125970.0,2001,0.7934873672143498,False,
+509,Outdoor Power Equipment and Other Small Engine Mechanics,56390.0,2021,0.9057487241207828,False,
+514,Automotive Body and Related Repairers,200480.0,1999,0.6484717933669808,True,2004.0
+516,"Mobile Heavy Equipment Mechanics, Except Engines",282320.0,2020,0.9793724608018487,False,
+518,Industrial Machinery Mechanics,179390.0,2020,0.9873354507826941,False,
+519,"Maintenance Workers, Machinery",107180.0,1999,0.42920752094615583,True,2002.0
+523,"Electrical and Electronics Repairers, Commercial and Industrial Equipment",132900.0,2003,0.5639486487311172,True,2010.0
+525,"Computer, Automated Teller, and Office Machine Repairers",130090.0,2003,0.3537387534006897,True,2007.0
+526,Home Appliance Repairers,33050.0,2005,0.6250861675139464,True,2008.0
+527,"Telecommunications Equipment Installers and Repairers, Except Line Installers",336260.0,2001,0.5036089101367052,True,2005.0
+533,Avionics Technicians,29810.0,2005,0.5717326704746359,True,2011.0
+534,"Heating, Air Conditioning, and Refrigeration Mechanics and Installers",187850.0,2025,1.0,False,
+535,Medical Equipment Repairers,62030.0,2023,0.9483855106055921,False,
+536,Locksmiths and Safe Repairers,11300.0,2003,0.6054065629019867,True,2004.0
+539,"Control and Valve Installers and Repairers, Except Mechanical Door",40660.0,2020,0.8902685847830941,False,
+543,Elevator and Escalator Installers and Repairers,25010.0,2001,0.69901070492518,True,2002.0
+544,Millwrights,80390.0,1999,0.3845132221945241,True,2002.0
+549,"Maintenance and Repair Workers, General",1275740.0,2022,0.9741918405375392,False,
+558,First-Line Supervisors of Construction Trades and Extraction Workers,476770.0,2024,0.9990814682353915,False,
+563,Brickmasons and Blockmasons,189960.0,2006,0.47460538733433455,True,2009.0
+567,Carpenters,771030.0,2006,0.5796503996169772,True,2009.0
+573,Drywall and Ceiling Tile Installers,155250.0,2006,0.4526978847578466,True,2009.0
+575,Electricians,650270.0,2000,0.9745004821916187,False,
+577,Electrical Power-Line Installers and Repairers,134360.0,1999,0.8301140718383276,False,
+579,"Painters, Construction and Maintenance",260880.0,1999,0.661596806429383,True,2008.0
+584,Plasterers and Stucco Masons,50060.0,2002,0.2756411447498876,True,2005.0
+585,"Plumbers, Pipefitters, and Steamfitters",466700.0,2001,0.7840994140544274,False,
+588,Cement Masons and Concrete Finishers,156330.0,2006,0.7869874858923862,False,
+589,Glaziers,49630.0,1999,0.9031256433617182,False,
+593,Hazardous Materials Removal Workers,91600.0,2025,1.0,False,
+594,"Paving, Surfacing, and Tamping Equipment Operators",58410.0,1999,0.5487593175194172,True,2010.0
+595,Roofers,115280.0,2003,0.8909390208001197,False,
+597,Structural Iron and Steel Workers,207670.0,1999,0.49654972477453246,True,2004.0
+598,"Earth Drillers, Except Oil and Gas",19650.0,2003,0.8576308091909716,False,
+599,Miscellaneous Construction and Related Workers,18430.0,2004,0.4133668263229496,True,2005.0
+617,"Roustabouts, Oil and Gas",108840.0,2019,0.49549389827324525,True,2021.0
+628,First-Line Supervisors of Production and Operating Workers,760050.0,1999,0.679102581196525,True,2005.0
+634,Tool and Die Makers,132350.0,1999,0.3296873799992448,True,2001.0
+637,Machinists,419800.0,1999,0.5240831563518976,True,2004.0
+643,Boilermakers,29160.0,1999,0.26783772621525653,True,2000.0
+644,"Tool Grinders, Filers, and Sharpeners",28150.0,1999,0.15247362053504385,True,2002.0
+645,"Model Makers, Metal and Plastic",20860.0,1999,0.1499101173271714,True,2001.0
+653,Sheet Metal Workers,231690.0,1999,0.3962103763273771,True,2002.0
+657,Cabinetmakers and Bench Carpenters,136910.0,1999,0.4320145907919237,True,2004.0
+658,Furniture Finishers,38040.0,1999,0.2917515275909301,True,2001.0
+666,"Tailors, Dressmakers, and Custom Sewers",56220.0,1999,0.21962905058879184,True,2004.0
+668,Upholsterers,45380.0,1999,0.34015750684599216,True,2004.0
+675,"Molders, Shapers, and Casters, Except Metal and Plastic",34310.0,2000,0.6467167460020176,True,2009.0
+677,"Opticians, Dispensing",58860.0,2000,0.866365999246377,False,
+678,Pharmacy Technicians,517590.0,2024,0.9971582525288875,False,
+679,Print Binding and Finishing Workers,116570.0,1999,0.21815977161374536,True,2002.0
+686,"Meat, Poultry, and Fish Cutters and Trimmers",415730.0,1999,0.6491051806250827,True,2006.0
+687,Bakers,176080.0,2025,1.0,False,
+688,Food Batchmakers,64760.0,2020,0.9865273076960118,False,
+694,Water and Wastewater Treatment Plant and System Operators,81830.0,2020,0.9325214256148483,False,
+695,Power Plant Operators,51630.0,2012,0.5979483070464949,True,2016.0
+696,Stationary Engineers and Boiler Operators,56350.0,1999,0.3842462314939692,True,2004.0
+699,"Petroleum Pump System Operators, Refinery Operators, and Gaugers",115430.0,2004,0.5279955377421829,True,2011.0
+703,"Lathe and Turning Machine Tool Setters, Operators, and Tenders, Metal and Plastic",83940.0,1999,0.1525782291471106,True,2003.0
+706,"Cutting, Punching, and Press Machine Setters, Operators, and Tenders, Metal and Plastic",353300.0,1999,0.3714028294307378,True,2001.0
+707,"Rolling Machine Setters, Operators, and Tenders, Metal and Plastic",47580.0,2000,0.3984723986646145,True,2004.0
+708,"Drilling and Boring Machine Tool Setters, Operators, and Tenders, Metal and Plastic",75140.0,1999,0.047737508357085214,True,2001.0
+709,"Grinding, Lapping, Polishing, and Buffing Machine Tool Setters, Operators, and Tenders, Metal and Plastic",127920.0,1999,0.40144073306156675,True,2001.0
+713,"Forging Machine Setters, Operators, and Tenders, Metal and Plastic",60970.0,1999,0.11225878796741096,True,2001.0
+719,"Molding, Coremaking, and Casting Machine Setters, Operators, and Tenders, Metal and Plastic",214480.0,1999,0.5834156519528277,True,2001.0
+723,"Plating Machine Setters, Operators, and Tenders, Metal and Plastic",58350.0,1999,0.4257192179868181,True,2001.0
+724,"Heat Treating Equipment Setters, Operators, and Tenders, Metal and Plastic",36300.0,1999,0.2956014062025816,True,2002.0
+727,"Sawing Machine Setters, Operators, and Tenders, Wood",54760.0,2005,0.5680096987724195,True,2008.0
+729,"Woodworking Machine Setters, Operators, and Tenders, Except Sawing",103650.0,1999,0.4541774741874033,True,2003.0
+734,,45850.0,2001,,False,
+736,Printing Press Operators,318330.0,1999,0.4047391630182378,True,2003.0
+738,"Textile Winding, Twisting, and Drawing Out Machine Setters, Operators, and Tenders",83360.0,1999,0.20246254594040022,True,2001.0
+739,"Textile Knitting and Weaving Machine Setters, Operators, and Tenders",79440.0,1999,0.12571591634149118,True,2000.0
+743,"Textile Cutting Machine Setters, Operators, and Tenders",39870.0,1999,0.17301404458487118,True,2002.0
+744,Sewing Machine Operators,403770.0,1999,0.19908737294140605,True,2001.0
+747,"Pressers, Textile, Garment, and Related Materials",93320.0,2000,0.2045170034086055,True,2004.0
+753,Adhesive Bonding Machine Operators and Tenders,32440.0,2000,0.26363220371690094,True,2002.0
+754,Packaging and Filling Machine Operators and Tenders,379760.0,2003,0.7364886380202106,False,
+755,"Extruding and Drawing Machine Setters, Operators, and Tenders, Metal and Plastic",182670.0,2000,0.49234642928849554,True,2004.0
+756,"Mixing and Blending Machine Setters, Operators, and Tenders",213740.0,1999,0.47129603699573325,True,2010.0
+757,Chemical Equipment Operators and Tenders,84550.0,2025,1.0,False,
+763,"Food and Tobacco Roasting, Baking, and Drying Machine Operators and Tenders",19830.0,1999,0.7873238361421405,False,
+764,"Cleaning, Washing, and Metal Pickling Equipment Operators and Tenders",18850.0,1999,0.6001503835788888,True,2004.0
+765,"Paper Goods Machine Setters, Operators, and Tenders",118830.0,2001,0.6180442240491761,True,2005.0
+766,Metal-Refining Furnace Operators and Tenders,64590.0,2000,0.4156343463110691,True,2005.0
+769,"Cutting and Slicing Machine Setters, Operators, and Tenders",162990.0,1999,0.3869645559787624,True,2003.0
+774,Photographic Process Workers and Processing Machine Operators,76440.0,2003,0.04561493410744949,True,2006.0
+779,"Production Workers, All Other",16680.0,2024,0.9437631431789,False,
+783,"Welders, Cutters, Solderers, and Brazers",478720.0,1999,0.7169639194593742,False,
+785,Miscellaneous Assemblers and Fabricators,1980090.0,1999,0.6771104015714466,True,2002.0
+789,"Coating, Painting, and Spraying Machine Setters, Operators, and Tenders",182310.0,1999,0.7007418990441008,False,
+799,"Inspectors, Testers, Sorters, Samplers, and Weighers",577650.0,1999,0.7926176078499674,False,
+804,Heavy and Tractor-Trailer Truck Drivers,3619370.0,1999,0.8955371903731536,False,
+808,"Bus Drivers, School",624070.0,2002,0.7988864611203389,False,
+809,Shuttle Drivers and Chauffeurs,133150.0,2008,0.7222068036881006,False,
+813,Parking Attendants,109340.0,2015,0.8465567155408189,False,
+823,Railroad Conductors and Yardmasters,36680.0,2011,0.8513341386023819,False,
+824,Locomotive Engineers,25900.0,2020,0.6883853434866228,True,2022.0
+825,"Railroad Brake, Signal, and Switch Operators and Locomotive Firers",14500.0,2011,0.21119473990448376,True,2014.0
+829,"Captains, Mates, and Pilots of Water Vessels",51860.0,2016,0.8822613888530746,False,
+834,Aircraft Service Attendants,11970.0,2010,0.6615730782907888,True,2012.0
+844,Operating Engineers and Other Construction Equipment Operators,324350.0,2025,1.0,False,
+848,Crane and Tower Operators,61730.0,2000,0.5485917355467566,True,2004.0
+853,"Excavating and Loading Machine and Dragline Operators, Surface Mining",67200.0,2001,0.5392327196152727,True,2005.0
+859,Wellhead Pumpers,35130.0,2004,0.4330474725520033,True,2008.0
+865,"Helpers--Installation, Maintenance, and Repair Workers",145610.0,2002,0.49788985357434723,True,2009.0
+866,Helpers--Electricians,401570.0,1999,0.3475631865148027,True,2008.0
+869,Construction Laborers,902990.0,2007,0.9096559387139859,False,
+873,Helpers--Production Workers,584060.0,1999,0.21744535226101647,True,2001.0
+875,Refuse and Recyclable Material Collectors,135320.0,2003,0.8277410850583,False,
+878,Machine Feeders and Offbearers,176400.0,2000,0.15520889337970964,True,2002.0
+885,Automotive and Watercraft Service Attendants,109050.0,1999,0.7169719459724438,False,
+887,Cleaners of Vehicles and Equipment,302380.0,2019,0.9109946840689229,False,
+888,"Packers and Packagers, Hand",1114330.0,1999,0.3850522559807207,True,2001.0
+889,"Laborers and Freight, Stock, and Material Movers, Hand",2044260.0,2020,0.9115457513485771,False,

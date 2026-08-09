@@ -1,0 +1,58 @@
+=== companion panel build, sources per fetch.py manifest ===
+census lists: 2002 has 495 exact + 13 wildcard pairs, 2010 has 525 + 13
+soc->occ1990dd map sizes: soc2000 455+13p, soc2010 474+13p, soc2018 752
+oews 1999: 708 detailed rows summing 118,253,400 of all-occ 127,274,000, top-coded cells 122
+map 1999: coverage 0.912 of all-occ employment (0.324 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 53-1031 (175,260), 53-1021 (138,210), 25-1194 (129,780)
+oews 2000: 711 detailed rows summing 121,021,750 of all-occ 129,738,980, top-coded cells 120
+map 2000: coverage 0.916 of all-occ employment (0.328 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 53-1031 (186,710), 53-1021 (146,790), 25-1191 (129,270)
+oews 2001: 710 detailed rows summing 119,952,450 of all-occ 127,980,410, top-coded cells 122
+map 2001: coverage 0.920 of all-occ employment (0.333 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 53-1031 (197,430), 53-1021 (147,490), 25-1191 (133,690)
+oews 2002: 711 detailed rows summing 119,619,630 of all-occ 127,523,760, top-coded cells 122
+map 2002: coverage 0.920 of all-occ employment (0.334 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 53-1031 (207,280), 53-1021 (147,180), 25-3021 (136,780)
+oews 2003: 711 detailed rows summing 120,191,910 of all-occ 127,567,910, top-coded cells 122
+map 2003: coverage 0.924 of all-occ employment (0.338 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 53-1031 (214,030), 53-1021 (154,750), 25-3021 (136,680)
+oews 2004: 800 detailed rows summing 128,127,380 of all-occ 128,127,360, top-coded cells 136
+map 2004: coverage 0.975 of all-occ employment (0.369 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3099 (505,570), 25-1199 (248,330), 53-1031 (222,590)
+oews 2005: 797 detailed rows summing 130,246,420 of all-occ 130,307,840, top-coded cells 138
+map 2005: coverage 0.974 of all-occ employment (0.370 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3099 (530,670), 25-1199 (267,280), 53-1031 (221,520)
+oews 2006: 798 detailed rows summing 132,548,140 of all-occ 132,604,980, top-coded cells 144
+map 2006: coverage 0.974 of all-occ employment (0.370 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3099 (576,840), 25-1199 (272,410), 53-1031 (220,570)
+oews 2007: 800 detailed rows summing 134,354,270 of all-occ 134,354,250, top-coded cells 144
+map 2007: coverage 0.975 of all-occ employment (0.373 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3099 (555,460), 25-1199 (265,500), 53-1031 (223,710)
+oews 2008: 800 detailed rows summing 135,185,400 of all-occ 135,185,230, top-coded cells 138
+map 2008: coverage 0.975 of all-occ employment (0.374 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3099 (574,540), 25-1199 (242,780), 53-1031 (218,480)
+oews 2009: 800 detailed rows summing 130,647,660 of all-occ 130,647,610, top-coded cells 136
+map 2009: coverage 0.974 of all-occ employment (0.376 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3099 (599,500), 53-1031 (205,780), 25-1199 (205,760)
+oews 2010: 796 detailed rows summing 127,097,160 of all-occ 127,097,160, top-coded cells 136
+map 2010: coverage 0.960 of all-occ employment (0.363 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3999 (710,230), 43-9799 (253,190), 15-1179 (243,330)
+oews 2011: 796 detailed rows summing 128,278,750 of all-occ 128,278,550, top-coded cells 134
+map 2011: coverage 0.958 of all-occ employment (0.361 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3999 (827,800), 15-1179 (272,670), 43-9799 (261,990)
+oews 2012: 820 detailed rows summing 130,287,780 of all-occ 130,287,700, top-coded cells 140
+map 2012: coverage 0.971 of all-occ employment (0.345 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3098 (619,700), 25-3099 (271,740), 25-1199 (204,380)
+oews 2013: 820 detailed rows summing 132,588,900 of all-occ 132,588,810, top-coded cells 138
+map 2013: coverage 0.972 of all-occ employment (0.344 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3098 (630,320), 25-3099 (270,290), 53-1031 (197,800)
+oews 2014: 820 detailed rows summing 135,128,140 of all-occ 135,128,260, top-coded cells 140
+map 2014: coverage 0.972 of all-occ employment (0.343 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3098 (622,600), 25-3097 (269,760), 25-3021 (202,360)
+oews 2015: 820 detailed rows summing 137,896,690 of all-occ 137,896,660, top-coded cells 142
+map 2015: coverage 0.972 of all-occ employment (0.343 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3098 (626,750), 25-3097 (272,920), 25-3021 (217,530)
+oews 2016: 820 detailed rows summing 140,399,950 of all-occ 140,400,040, top-coded cells 136
+map 2016: coverage 0.972 of all-occ employment (0.342 via hierarchy walk), 0.00% of mapped codes split; top unmapped: 25-3098 (609,960), 25-3097 (292,950), 25-3021 (229,840)
+oews 2017: 809 detailed rows summing 142,549,100 of all-occ 142,549,250, top-coded cells 140
+map 2017: coverage 0.973 of all-occ employment (0.340 via hierarchy walk), 0.14% of mapped codes split; top unmapped: 25-3098 (611,310), 53-1048 (395,350), 25-3097 (294,240)
+oews 2018: 808 detailed rows summing 144,731,220 of all-occ 144,733,270, top-coded cells 138
+map 2018: coverage 0.973 of all-occ employment (0.338 via hierarchy walk), 0.14% of mapped codes split; top unmapped: 25-3098 (587,240), 53-1048 (411,060), 25-3097 (315,510)
+oews 2019: 789 detailed rows summing 146,873,470 of all-occ 146,875,480, top-coded cells 140
+map 2019: coverage 0.945 of all-occ employment (0.333 via hierarchy walk), 0.72% of mapped codes split; top unmapped: 15-1256 (1,406,870), 53-3058 (700,030), 25-3031 (587,120)
+oews 2020: 788 detailed rows summing 139,096,790 of all-occ 139,099,570, top-coded cells 144
+map 2020: coverage 0.943 of all-occ employment (0.336 via hierarchy walk), 0.73% of mapped codes split; top unmapped: 15-1256 (1,476,800), 53-3058 (599,980), 25-3031 (512,030)
+oews 2021: 831 detailed rows summing 140,885,570 of all-occ 140,886,310, top-coded cells 168
+map 2021: coverage 0.974 of all-occ employment (0.055 via hierarchy walk), 2.02% of mapped codes split; top unmapped: 53-1047 (549,260), 25-3031 (374,620), 25-3021 (216,910)
+oews 2022: 830 detailed rows summing 147,884,760 of all-occ 147,886,000, top-coded cells 150
+map 2022: coverage 0.974 of all-occ employment (0.055 via hierarchy walk), 2.02% of mapped codes split; top unmapped: 53-1047 (591,760), 25-3031 (397,200), 25-3021 (248,150)
+oews 2023: 831 detailed rows summing 151,853,170 of all-occ 151,853,870, top-coded cells 158
+map 2023: coverage 0.974 of all-occ employment (0.056 via hierarchy walk), 2.02% of mapped codes split; top unmapped: 53-1047 (594,330), 25-3031 (444,530), 25-3021 (272,110)
+oews 2024: 831 detailed rows summing 154,186,300 of all-occ 154,187,380, top-coded cells 162
+map 2024: coverage 0.974 of all-occ employment (0.058 via hierarchy walk), 2.02% of mapped codes split; top unmapped: 53-1047 (605,510), 25-3031 (481,300), 25-3021 (308,520)
+oews 2025: 830 detailed rows summing 155,481,840 of all-occ 155,495,730, top-coded cells 126
+map 2025: coverage 0.974 of all-occ employment (0.060 via hierarchy walk), 2.02% of mapped codes split; top unmapped: 53-1047 (623,640), 25-3031 (524,770), 25-3021 (332,110)
+attributes: 330 occ1990dd rows, 330 with ALM tasks, 320 with O*NET attachments

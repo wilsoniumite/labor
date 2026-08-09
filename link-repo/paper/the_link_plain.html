@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Link, in Plain English</title>
+<style>
+body { font-family: "DejaVu Serif", Georgia, serif; font-size: 11.5pt; line-height: 1.65; color: #0b0b0b; background: #fcfcfb; max-width: 44em; margin: 0 auto; padding: 2.5em 1.5em 4em; }
+h1 { font-size: 21pt; line-height: 1.2; margin-bottom: 4px; }
+h2 { font-size: 14pt; margin-top: 1.8em; margin-bottom: 0.4em; }
+p { margin: 0.6em 0; }
+.subtitle { font-size: 12pt; color: #52514e; margin-bottom: 2px; }
+.byline { font-size: 10pt; color: #52514e; margin-bottom: 1.6em; }
+.tag { font-size: 9pt; color: #52514e; }
+figure { margin: 1.4em 0; text-align: center; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 9.5pt; color: #52514e; text-align: left; margin-top: 6px; line-height: 1.45; }
+.eq { text-align: center; font-style: italic; margin: 0.8em 0; }
+ul { padding-left: 1.3em; } li { margin: 0.45em 0; }
+a { color: #2a78d6; }
+.close { border-top: 1px solid #d8d7d2; margin-top: 2em; padding-top: 1em; font-size: 10pt; color: #52514e; }
+</style>
+</head>
+<body>
+
+<h1>The Link, in Plain English</h1>
+<div class="subtitle">What sets your pay, where the money goes as machines improve, and the one repair that survives.</div>
+<div class="byline">Stella Wilson, with Claude (Anthropic) · August 2026 · This is the short version of <a href="the_link.html"><i>The Link: Wages, Machines, and What Remains</i></a>, which carries the model, the proofs, and the measurements. Every claim below has a formal twin there, and every formal result was checked by computer before it entered the text.</div>
+
+<h2>What sets your pay</h2>
+<p>Start with a question that sounds vague and turns out to have an exact answer. What sets your wage? People will tell you effort, skill, fairness, experience. The market keeps none of those in mind. It keeps one comparison in mind, and this essay teaches you that comparison.</p>
+<p>Think of the economy as a very long checklist. Every unit of everything we make requires a list of tasks, and every task can be done two ways: an hour of a person, or an hour of a machine. For each task, compare the two. If you can do four times as much in an hour as the machine can, your edge on that task is 4. Machines rent by the hour, so a firm assigns each task to whichever is cheaper: your wage divided by your edge, or the machine's rent.</p>
+<p>Now line every task up, smallest edge on the left, biggest on the right. Somewhere there is a line. Tasks below it go to machines. Tasks above it stay with people. The paper calls this line the waterline, because it behaves like water. When machines improve, it rises, and tasks that used to be dry go under.</p>
+
+<figure>
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A rising curve of the human edge across tasks, with a horizontal waterline. Tasks under the waterline belong to machines, tasks above it to people.">
+  <line x1="70" y1="305" x2="610" y2="305" stroke="#52514e" stroke-width="1"/>
+  <line x1="70" y1="305" x2="70" y2="40" stroke="#52514e" stroke-width="1"/>
+  <text x="340" y="338" font-size="13" fill="#52514e" text-anchor="middle">every task, sorted by the human edge</text>
+  <text x="30" y="180" font-size="13" fill="#52514e" text-anchor="middle" transform="rotate(-90 30 180)">the human edge (person ÷ machine)</text>
+  <rect x="70" y="212" width="390" height="93" fill="#2a78d6" opacity="0.14"/>
+  <line x1="70" y1="210" x2="610" y2="210" stroke="#2a78d6" stroke-width="2" stroke-dasharray="7 5"/>
+  <path d="M 70 298 C 250 288, 430 252, 600 70" fill="none" stroke="#eb6834" stroke-width="2.5"/>
+  <circle cx="462" cy="210" r="5" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="462" y="188" font-size="13" fill="#0b0b0b" text-anchor="middle">this task sets everyone's wage</text>
+  <text x="255" y="265" font-size="13" fill="#0b0b0b">machines hold these tasks</text>
+  <text x="530" y="130" font-size="13" fill="#0b0b0b" text-anchor="middle">people hold these</text>
+  <text x="128" y="200" font-size="12.5" fill="#2a78d6">the waterline = wage ÷ machine rent</text>
+  <line x1="95" y1="270" x2="95" y2="228" stroke="#0b0b0b" stroke-width="1.5"/>
+  <path d="M 95 224 l -4 8 h 8 z" fill="#0b0b0b"/>
+  <text x="104" y="248" font-size="12" fill="#52514e">machines improve,</text>
+  <text x="104" y="263" font-size="12" fill="#52514e">the water rises</text>
+</svg>
+<figcaption><b>The task shelf.</b> The curve is the human edge, task by task. The dashed line is the waterline. A firm keeps a person on a task only while the person's edge stands above the water. The circled task is the one at the water's surface, and competition ties the wage to it.</figcaption>
+</figure>
+
+<p>Here is the key step, and it is worth reading twice. Competition pins the wage to the task at the water's surface. If firms paid more than that task justifies, the machine would be cheaper there, and firms would swap people out. If they paid less, people would be a bargain on tasks just below, and firms would bid the wage back up. So the wage settles at one number:</p>
+<p class="eq">wage&nbsp;=&nbsp;machine rent&nbsp;×&nbsp;your edge at the waterline task.</p>
+<p>The rule mentions your needs nowhere and your effort nowhere. It prices your replacement. <span class="tag">(In the full paper: Lemma 1 and Proposition 1.)</span></p>
+<p>A small example makes it concrete. Suppose a machine hour rents for $10, and at the waterline task a person does 4 times what the machine does. The wage is $40. Now let AI make every machine 25 percent better. Your edge at that task falls to about 3.2, and the wage falls toward $32. Notice what happened. You got no worse at anything. Someone else's machine got better at your task, and your pay moved. That is the whole mechanism, and everything else in the theory follows from taking it seriously. Hold one thought for later: better machines also make goods cheaper, so what a falling wage can actually buy is its own question, and a later section settles it.</p>
+
+<h2>Why two centuries were good to workers</h2>
+<p>For most of history, machines barely existed, and wages sat near the cost of staying alive. The classical economists built their bookkeeping around that world: wages at subsistence, growth settling into land rent. Then the industrial revolution broke the pattern, and it broke in labor's favor. Engines beat muscle at the physical tasks and were useless at the thinking ones. The gap between what machines could do and what people could do became enormous, and it became uneven.</p>
+<p>Look back at the picture. Two features of that curve decide a worker's fate, and they are separate. The height of the curve at the waterline sets the wage. The steepness of the curve protects it: when the curve climbs sharply, replacing people gets expensive fast, so a flood of new workers or a burst of machine progress moves the wage only a little. The paper calls this pair the link: the level and the slope of the human edge at the margin. A steep, high curve was the industrial era. It made labor scarce in exactly the places machines were weak, and it held wages far above subsistence for two hundred years.</p>
+<p>Computers began flattening the simple thinking tasks. AI flattens broadly. That injures workers twice, in two different ways. The level falls, and pay falls with it. The slope falls, and the protection goes. A world of uniform machine capability is a world where the curve lies flat, and on a flat curve the wage is pinned at machine parity no matter how many or how few humans exist. <span class="tag">(Proposition 1 and Figure 2 of the full paper.)</span></p>
+
+<h2>The three layers of a paycheck</h2>
+<p>Real paychecks carry more than the waterline wage, so the theory splits pay into three layers and asks what automation does to each.</p>
+
+<figure>
+<svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A single bar with three stacked layers: job rents on top, the link premium in the middle, the floor at the bottom. Automation removes them from the top down.">
+  <rect x="120" y="52" width="150" height="52" fill="#a5a49e"/>
+  <rect x="120" y="108" width="150" height="70" fill="#7a7973"/>
+  <rect x="120" y="182" width="150" height="76" fill="#52514e"/>
+  <text x="300" y="72" font-size="13" fill="#0b0b0b">job rents: protection, licenses, seniority</text>
+  <text x="300" y="89" font-size="12" fill="#52514e">removed first, and the best protected go earliest</text>
+  <text x="300" y="136" font-size="13" fill="#0b0b0b">the link premium: your edge at the waterline</text>
+  <text x="300" y="153" font-size="12" fill="#52514e">eroded second, as the curve flattens</text>
+  <text x="300" y="214" font-size="13" fill="#0b0b0b">the floor: what walking away is worth</text>
+  <text x="300" y="231" font-size="12" fill="#52514e">crossed last, when parity drops below it</text>
+  <line x1="88" y1="55" x2="88" y2="250" stroke="#0b0b0b" stroke-width="1.5"/>
+  <path d="M 88 254 l -4 -8 h 8 z" fill="#0b0b0b"/>
+  <text x="80" y="150" font-size="12" fill="#52514e" text-anchor="middle" transform="rotate(-90 80 150)">demolition runs downward</text>
+</svg>
+<figcaption><b>The three layers.</b> The floor is what your best life outside the labor market is worth. The premium is what the waterline pays above that. The rents sit on top, wherever a union contract, a license, or an employer's caution pays more than the market requires. Automation removes the layers in order, from the top.</figcaption>
+</figure>
+
+<p>The strangest result in the paper lives in that top layer. The better protected a job is, the earlier the machine comes for it. The reason is cold arithmetic. A firm deciding what to automate next compares the cost of the person with the cost of the machine, and protection raises the cost of the person. A union premium or a licensing rent makes its own job the most profitable target on the list. Protection that works by raising your price is self-undermining. Protection survives only when it works by rule: a law, a scope-of-practice line, a required human in the loop. <span class="tag">(Proposition 2.)</span></p>
+<p>This sounds like theory until you see it in data. Within the American groups most exposed to automation from 1980 to 2016, the biggest losses landed in the upper middle of each group's pay scale, roughly the 70th to 95th percentiles, exactly where the rent-carrying jobs sit. Acemoglu and Restrepo, whose framework this paper builds on, measured that U-shaped pattern and estimated the rents at 40 to 50 percent above base pay. They also measured the waste. When a firm automates a protected job, the firm saves the whole protected wage, while society gains only the difference between what the worker produced there and produces next. Their estimate is that this gap offset 60 to 90 percent of automation's productivity gains across those decades. An entire era of automation ran close to break-even for society while being highly profitable for firms.</p>
+
+<h2>When machines make machines</h2>
+<p>So wages fall as the curve flattens. Follow the money, because it has to come to rest somewhere, and the resting place is the heart of the theory.</p>
+<p>Ask what a machine costs. A machine is built from machine work plus the things nobody manufactures: land, energy, ore, water. Write the recipe down. Producing one unit of machine service takes <i>a</i> units of machine service and some rented nature. Competition then forces the price of a machine hour to the cost of its recipe:</p>
+<p class="eq">machine rent&nbsp;=&nbsp;rent on the nature in the recipe&nbsp;÷&nbsp;(1&nbsp;−&nbsp;a).</p>
+<p>Read that in words. When machines make machines, the price of a machine hour collapses toward the rent on the land and energy it takes to build one. And since the wage is chained to the machine rent, and goods prices are chained to both, every dollar of spending traced through this recipe lands on rent. The value that automation squeezes out of wages migrates to the owners of the things machines cannot make: sites, power, water, ground. <span class="tag">(Propositions 3 and 5.)</span></p>
+<p>This produces a strange comfort and a real threat, and they are the same fact. Machine-made goods get cheap. Measured in gadgets, wages hold up fine. Measured in ground, they collapse. You can see the split in public data now: the same average American paycheck, tracked since 1964, buys nearly four times the durable goods and a fifth less shelter. That is a 4.8-fold fork between two ways of measuring one wage. If poverty comes, it arrives through the rent, while the gadgets stay cheap. <span class="tag">(Proposition 4 and Figure 7.)</span></p>
+<p>A live example. AI model weights are numbers. They copy freely, they leak through the products they power, and no secrecy fully contains a function you can query. The durable assets in the AI industry are the datacenters, the land under them, the power contracts, and the water rights. This theory predicts the market value of the industry migrates from the weights to the ground. Watch and see. <span class="tag">(Prediction 7.)</span></p>
+
+<h2>The state drinks downstream</h2>
+<p>Now the uncomfortable accounting, because the welfare state lives on the thing that is eroding.</p>
+<p>Roughly seven tenths of American consumption is financed by wages, and roughly seven tenths of tax revenue is tied to wages. Benefits are tied to work even more tightly: at least 84 percent of benefit spending is conditioned on work history or means, and by withdrawal rules the figure reaches about 99 percent. The only sizable unconditional cash program in the country is Alaska's oil dividend. So the state drinks from the same stream automation is draining, and over sixty years its wage exposure rose while the economy's wage linkage fell. Two blades of a scissors, closing. <span class="tag">(Section 8 of the full paper measures all of this.)</span></p>
+<p>Conditional programs then fail in specific, predictable ways as the curve flattens:</p>
+<ul>
+<li><b>Pay people for working</b>, and while wages still have slope, part of the benefit leaks to employers through lower pay. At machine parity it buys make-work instead: jobs whose product is worth less than the worker's time.</li>
+<li><b>Pay people for staying out of work</b>, and the first hour of work gets taxed back. As pay compresses toward the floor, more workers fall inside that trap each year with no rule change at all.</li>
+<li><b>Fund a universal income from wages</b>, and at parity the arithmetic closes on itself: what the tax takes from each worker, the transfer hands back, and with partial participation it is worse, a spiral of exits shrinking the base. A wage-funded floor becomes a loop through the same pockets.</li>
+</ul>
+<p><span class="tag">(Propositions 6 and 7.)</span></p>
+
+<h2>The third loop</h2>
+<p>So the repair has to stand on something a wage collapse cannot drain, and two properties pick it out. The funding base must be unable to shrink when taxed. The payment must change nobody's work decision. Each property points at the same design.</p>
+<p>Land passes the first test. It cannot leave, it cannot hide, and a tax on its rent leaves the rent and the use unchanged. What falls is the price of owning land, while the flow the tax collects stays whole. An equal dividend to every person passes the second test. It arrives whether you work or you rest, so it enters both sides of every work-or-leave comparison and cancels out. Tax the site rent, pay everyone the same dividend. This is Henry George's program, a century and a half old, waiting for the world that would need it. <span class="tag">(Propositions 7 and 13.)</span></p>
+
+<figure>
+<svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three loops between people, production, owners, and land: a thinning wage loop, an owner loop, and a third loop carrying land rent out as an equal dividend.">
+  <rect x="55" y="165" width="140" height="62" rx="8" fill="none" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="125" y="201" font-size="14" fill="#0b0b0b" text-anchor="middle">People</text>
+  <rect x="440" y="120" width="185" height="62" rx="8" fill="none" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="532" y="147" font-size="14" fill="#0b0b0b" text-anchor="middle">Production</text>
+  <text x="532" y="166" font-size="11.5" fill="#52514e" text-anchor="middle">(machines doing the tasks)</text>
+  <rect x="270" y="28" width="130" height="48" rx="8" fill="none" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="335" y="57" font-size="14" fill="#0b0b0b" text-anchor="middle">Owners</text>
+  <rect x="440" y="330" width="185" height="56" rx="8" fill="none" stroke="#0b0b0b" stroke-width="1.5"/>
+  <text x="532" y="363" font-size="14" fill="#0b0b0b" text-anchor="middle">Land, sites, energy</text>
+  <path d="M 200 178 C 290 160, 350 152, 435 148" fill="none" stroke="#2a78d6" stroke-width="2" stroke-dasharray="6 5"/>
+  <path d="M 439 150 l -9 -3 l 2 7 z" fill="#2a78d6"/>
+  <text x="315" y="140" font-size="12" fill="#52514e" text-anchor="middle">work (thinning)</text>
+  <path d="M 435 172 C 350 186, 290 190, 200 196" fill="none" stroke="#2a78d6" stroke-width="2"/>
+  <path d="M 196 197 l 9 3 l -2 -7 z" fill="#2a78d6"/>
+  <text x="318" y="212" font-size="12" fill="#52514e" text-anchor="middle">pay</text>
+  <path d="M 402 60 C 470 70, 505 88, 522 114" fill="none" stroke="#eb6834" stroke-width="2"/>
+  <path d="M 524 118 l -1 -9 l -6 4 z" fill="#eb6834"/>
+  <path d="M 500 118 C 470 96, 440 80, 404 70" fill="none" stroke="#eb6834" stroke-width="2"/>
+  <path d="M 400 69 l 9 4 l -1 -8 z" fill="#eb6834"/>
+  <text x="475" y="82" font-size="12" fill="#52514e">own · profit</text>
+  <path d="M 532 186 L 532 326" fill="none" stroke="#1baf7a" stroke-width="2.5"/>
+  <path d="M 532 330 l -4 -9 h 8 z" fill="#1baf7a"/>
+  <text x="545" y="262" font-size="12" fill="#52514e">rent</text>
+  <path d="M 436 362 C 240 372, 110 330, 118 232" fill="none" stroke="#1baf7a" stroke-width="2.5"/>
+  <path d="M 118 228 l -4 9 h 8 z" fill="#1baf7a"/>
+  <text x="240" y="345" font-size="12" fill="#52514e">the rent, taxed, paid to every person equally</text>
+  <path d="M 155 162 C 190 90, 330 88, 436 122" fill="none" stroke="#1baf7a" stroke-width="2.5"/>
+  <path d="M 440 123 l -9 -4 l 1 8 z" fill="#1baf7a"/>
+  <text x="222" y="96" font-size="12" fill="#52514e">spending</text>
+  <line x1="66" y1="290" x2="92" y2="290" stroke="#2a78d6" stroke-width="3"/>
+  <text x="100" y="295" font-size="12.5" fill="#0b0b0b">the wage loop</text>
+  <line x1="66" y1="312" x2="92" y2="312" stroke="#eb6834" stroke-width="3"/>
+  <text x="100" y="317" font-size="12.5" fill="#0b0b0b">the owner loop</text>
+  <line x1="66" y1="334" x2="92" y2="334" stroke="#1baf7a" stroke-width="3"/>
+  <text x="100" y="339" font-size="12.5" fill="#0b0b0b">the third loop</text>
+</svg>
+<figcaption><b>The three loops.</b> The wage loop carries work out and pay back, and automation thins it. The owner loop runs between owners and their machines, and it survives on its own. The third loop is the constructed one: production pays rent for sites and energy, the tax collects that rent, every person receives the same dividend, and spending carries it back through production to the land again. The dividend cancels out of every work decision, and the base cannot run away.</figcaption>
+</figure>
+
+<p>Can the third loop actually pay for a life? Define one number and watch it. Coverage is all the site rent in the country, divided by the number of people times the cost of one person's basic bundle:</p>
+<p class="eq">coverage&nbsp;κ&nbsp;=&nbsp;total site rent&nbsp;÷&nbsp;(people&nbsp;×&nbsp;cost of the basics).</p>
+<p>When κ reaches 1, full capture of rent funds the floor for everyone. Measured for the United States, κ was about 0.05 in the 1950s and stands near one third today, with an honest range of 0.18 to 0.59 depending on how land is valued, and it has climbed for seventy years. The climb is the theory working: the same machine progress that empties wages raises rents, so the remedy grows fundable at the same pace that it grows necessary. <span class="tag">(Proposition 8, measured in Figure 6 of the full paper.)</span></p>
+
+<figure>
+<svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coverage ratio rising from 0.05 in the 1950s to about one third today, still below the line at 1 where rents fully fund the floor.">
+  <line x1="70" y1="255" x2="610" y2="255" stroke="#52514e" stroke-width="1"/>
+  <line x1="70" y1="255" x2="70" y2="40" stroke="#52514e" stroke-width="1"/>
+  <text x="340" y="286" font-size="13" fill="#52514e" text-anchor="middle">1950s → today → ahead</text>
+  <line x1="70" y1="70" x2="610" y2="70" stroke="#52514e" stroke-width="1.2" stroke-dasharray="6 5"/>
+  <text x="78" y="60" font-size="12.5" fill="#0b0b0b">κ = 1: rents fully fund the floor</text>
+  <path d="M 90 246 C 220 240, 330 225, 445 195" fill="none" stroke="#1baf7a" stroke-width="2.5"/>
+  <path d="M 445 195 C 500 178, 560 150, 605 118" fill="none" stroke="#1baf7a" stroke-width="2.5" stroke-dasharray="3 5"/>
+  <circle cx="445" cy="195" r="5" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+  <text x="445" y="172" font-size="12.5" fill="#0b0b0b" text-anchor="middle">about one third today</text>
+  <text x="445" y="188" font-size="11" fill="#52514e" text-anchor="middle">(range 0.18 to 0.59)</text>
+  <text x="118" y="235" font-size="12" fill="#52514e">0.05 in the 1950s</text>
+  <text x="560" y="105" font-size="11.5" fill="#52514e" text-anchor="middle">the climb continues</text>
+  <text x="560" y="119" font-size="11.5" fill="#52514e" text-anchor="middle">with automation</text>
+</svg>
+<figcaption><b>Coverage, sketched.</b> The shape and the anchors are from the paper's measured series (its Figure 6 carries the full band and sources). Every land measure used there is a lower bound, so the truth likely sits above the middle of the range.</figcaption>
+</figure>
+
+<p>Two honest complications, briefly. First, the walking-away option itself sits on land. When no acre is left idle, even leaving the market costs rent, and the natural floor dies on its own schedule. The dividend then takes over the job the commons used to do. Second, until κ reaches 1 the floor needs a bridge, and a broad consumption tax is the honest bridge: it reaches the profits and license rents a land register cannot see, and it is built to shrink as coverage climbs. <span class="tag">(Propositions 9 and 10.)</span></p>
+<p>Now hold the technology fixed and vary only the plumbing. Same machines, same rents, two futures. In the wage-plumbed state, revenue follows wages down, work-tested floors lapse exactly when the work disappears, and a person with no property ends with nothing. In the rent-plumbed state, the same economy pays every person an equal share of what the land earns, work remains worth exactly what it produces, and the machines work for whoever holds the dividend. The paper's closing theorem shows the second future gives up nothing in efficiency to get there. In the paper's words: the corner is a fork between two bookkeeping systems. Dystopia and inheritance sit on the same technology. The difference is a choice of tax base. <span class="tag">(Proposition 13.)</span></p>
+
+<h2>How this could be wrong</h2>
+<p>A theory this size owes you its failure modes, and the paper states three openly.</p>
+<p><b>New tasks may keep appearing.</b> For two centuries, automation also invented work: whole occupations that had never existed. If that reinstatement continues forever, this paper describes a direction of travel rather than a destination. The catch is what continuation requires: a standing reservoir of tasks where humans keep an edge after each advance. That reservoir is precisely the thing in question, and the accounting since the late 1980s shows displacement outrunning reinstatement. The paper takes the pessimistic branch and says so. <span class="tag">(Section 10 of the full paper.)</span></p>
+<p><b>Human-essential spending may rescue the labor share.</b> If people insist on human care, human teaching, human performance, spending concentrates on those services as everything else gets cheap, and labor's overall share of income can survive. The paper grants the mechanism a full theorem and then prices it. The rescue depends on how substitutable those services are. It binds only where humanity can be verified, in the room or by law, because certificates of human origin unravel through fakes. And where it saves the average, it still hollows the middle: a share held up by superstars and rooms leaves the median wage to fall regardless. <span class="tag">(Proposition 11.)</span></p>
+<p><b>The predictions can simply fail.</b> The paper closes with thirteen of them, each naming the data that would test it. If protected jobs turn out to be automated later rather than earlier, if the capital share stops resolving into land and housing, if wages deflated by shelter recover while machines keep improving, the theory is in real trouble, and honestly so.</p>
+
+<h2>Where the proofs live</h2>
+<p class="close">The full paper is <a href="the_link.html"><i>The Link: Wages, Machines, and What Remains</i></a>: two lemmas, thirteen propositions, thirteen predictions, and United States measurements from 1962 to 2025, with every contestable measurement choice computed under all defensible variants and every proposition verified by computer algebra before it entered the draft. The theory and its central claims belong to the author. This short version, like most sentences of the long one, was drafted by Claude (Anthropic) under her direction and review. One disclosure carries over from the paper, because it belongs in both: the capability being priced in these pages is the capability that drafted them.</p>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+=== wedge layer build (unit 4): family C + targeting-order test ===
+unionstats 1999: 496 detail occupations, 118,963k employment
+unionstats 1999 -> occ1990dd: 330 occupations, 1.000 of source employment mapped
+unionstats 2000: 495 detail occupations, 120,786k employment
+unionstats 2000 -> occ1990dd: 330 occupations, 1.000 of source employment mapped
+unionstats 2001: 496 detail occupations, 120,708k employment
+unionstats 2001 -> occ1990dd: 330 occupations, 1.000 of source employment mapped
+unionstats 2025: 525 detail occupations, 146,685k employment
+unionstats 2025 -> occ1990dd: 323 occupations, 0.982 of source employment mapped
+cpsaat53: licensed-or-certified shares for 22 SOC major groups
+licensure attached (group-level, ecological) to 322 occ1990dd
+wedge table: 330 occ1990dd rows (330 with pre-period coverage, 322 with licensure)
+wrote figures/wedge_targeting.png
