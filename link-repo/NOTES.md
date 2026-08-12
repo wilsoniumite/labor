@@ -696,6 +696,20 @@ thread up there.
 
 ## Changelog
 
+- 2026-08-09 (later session) · HOUSEKEEPING: the working files moved off the
+  outer repo root into their homes. This NOTES.md now lives at link-repo root
+  (was outer root); `checks/` → `link-repo/checks/`; the per-unit
+  `*_section.html` + `closure_section.tex` → `link-repo/drafts/`; the six
+  `the_link_pre_*_snapshot.html` → `link-repo/paper/snapshots/`;
+  `rewrite_brief.md` and `feasibility_empirics_spec.md` → `link-repo/docs/`;
+  `companion_schedule_spec.md` → `companion/`. All moves via git mv; the two
+  path-bearing references updated (companion/README.md,
+  code/feasibility_kappa.py header); link-repo/README.md map extended. Older
+  entries below that say "repo root" mean the OUTER root as it stood then —
+  read them against this map. The revision working folder is
+  `../the-link-revision/` (its own STATE.md is the resume point for that
+  thread).
+
 - 2026-08-09 · ACKNOWLEDGEMENTS SPLICED + THE PDF MYSTERY SOLVED. The
   splice: her three closing paragraphs (final wording, one agreed comma)
   entered as the paper's last section, after the AI-use note; manifest in

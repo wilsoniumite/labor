@@ -8,7 +8,10 @@ One sentence: wages are prices on the non-uniformity of human capability relativ
 
 ## Repository map
 
-- `paper/` — the paper (PDF + HTML source)
+- `paper/` — the paper (PDF + HTML source; `the_link_plain.html` is the plain-English companion; `snapshots/` holds pre-pass states of the HTML)
+- `NOTES.md` — working notes: decisions, notation registry, queue, per-session changelog
+- `checks/` — the verification gate: one script per section of new material (sympy algebra + numeric instantiation); no proposition entered the draft before its check passed
+- `drafts/` — the per-unit section drafts as authored (spliced into the paper; kept as provenance records)
 - `code/` — all computation, plain Python, notebook-cell style
   - `lambda_compute2.py` — wage-linkage of consumption financing (λ_C) and tax revenue (λ_R), 1960–2025, medians and bands across a labeled grid of classification rules
   - `three_way.py` — split of non-owner-loop consumption financing: direct wages / wage-tax transfers / ownership-tax transfers
@@ -18,7 +21,7 @@ One sentence: wages are prices on the non-uniformity of human capability relativ
   - `make_figs.py` — regenerates Figures 1–5 (Figures 6–7 rebuild from `feasibility_kappa.py` and `deflator_fork.py`)
 - `data/` — computed results (CSV). Re-running the code regenerates these from live pulls.
 - `figures/` — paper figures plus the standalone λ band chart
-- `docs/` — the formal model notes (`link_model_formal.md`), the merged-model companion (`layered_link_model.md`), and a self-commissioned hostile referee report (`referee_report.md`) with the revisions it prompted already applied to the paper
+- `docs/` — the formal model notes (`link_model_formal.md`), the merged-model companion (`layered_link_model.md`), a self-commissioned hostile referee report (`referee_report.md`) with the revisions it prompted already applied to the paper, the readability-rewrite brief (`rewrite_brief.md`), and the κ empirics spec (`feasibility_empirics_spec.md`)
 
 ## Reproduction
 

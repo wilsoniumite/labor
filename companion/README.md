@@ -1,7 +1,7 @@
 # Companion paper — the empirical ρ̃(x,t) schedule
 
 Working home of the companion to "The Link" (design and pre-registration:
-`../companion_schedule_spec.md`). The Link prices the capability schedule's
+`companion_schedule_spec.md`, in this folder). The Link prices the capability schedule's
 flattening; this paper measures the schedule.
 
 ## Layout

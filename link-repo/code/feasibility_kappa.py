@@ -1,5 +1,5 @@
 # feasibility_kappa.py — coverage ratio kappa(t) = rT / (N·P_s) for Proposition 8.
-# Method and all classification choices per feasibility_empirics_spec.md (repo root);
+# Method and all classification choices per feasibility_empirics_spec.md (docs/);
 # fetch/cache/validation machinery reused from lambda_compute2.py (same folder).
 # All FRED IDs verified by page title on 2026-08-05.
 #
