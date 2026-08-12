@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A Task and Scarcity Based Model of the Wage</title>
+<style>
+@page { size: A4; margin: 2.3cm 2.5cm; @bottom-center { content: counter(page); font-size: 8.5pt; color: #666; } }
+body { font-family: "DejaVu Serif", Georgia, serif; font-size: 10.3pt; line-height: 1.48; color: #111; }
+h1 { font-size: 19pt; margin-bottom: 2px; line-height: 1.2; }
+.subtitle { font-size: 11.5pt; color: #333; margin-bottom: 2px; }
+.draftline { font-size: 9pt; color: #666; margin-bottom: 18px; }
+.authorline { font-size: 11.5pt; margin: 8px 0 3px; }
+.affil { font-size: 9pt; color: #444; }
+h2 { font-size: 12.5pt; margin-top: 22px; margin-bottom: 6px; page-break-after: avoid; }
+h3 { font-size: 10.8pt; margin-top: 14px; margin-bottom: 4px; page-break-after: avoid; }
+p { margin: 6px 0; text-align: justify; }
+.abstract { font-size: 9.6pt; margin: 14px 28px; color: #222; }
+.prop { border-left: 3px solid #1a1a3d; padding: 2px 0 2px 12px; margin: 12px 0; page-break-inside: avoid; }
+.prop p { margin: 4px 0; }
+.proof { font-size: 9.3pt; color: #333; margin: 4px 0 10px 0; }
+.eq { text-align: center; margin: 10px 0; font-style: italic; font-size: 10.8pt; }
+figure { margin: 14px 0; text-align: center; page-break-inside: avoid; }
+figure img { width: 88%; }
+figcaption { font-size: 8.8pt; color: #444; text-align: justify; margin: 4px 18px 0 18px; line-height: 1.35; }
+table { border-collapse: collapse; margin: 10px auto; font-size: 9.3pt; }
+th, td { border-bottom: 0.5pt solid #999; padding: 3.5px 9px; text-align: left; }
+th { border-bottom: 1pt solid #333; }
+ol.pred { padding-left: 20px; }
+ol.pred li { margin: 7px 0; text-align: justify; }
+.refs p { font-size: 9.2pt; margin: 4px 0; padding-left: 18px; text-indent: -18px; text-align: left; }
+.fnote { font-size: 8.8pt; color: #444; border-top: 0.5pt solid #999; margin-top: 10px; padding-top: 5px; }
+.tag { font-size: 8.6pt; color: #555; }
+/* --- scaffolding only; delete every .scaffold block before circulating --- */
+.scaffold { font-size: 8.8pt; color: #5a5a72; background: #f4f4f8; border-left: 2px solid #9a9ab5;
+            padding: 5px 9px; margin: 8px 0; text-align: left; }
+.scaffold b { color: #33334d; }
+.unver { color: #8a5a00; font-size: 8.2pt; }
+</style>
+</head>
+<body>
+
+<h1>A Task and Scarcity Based Model of the Wage</h1>
+<div class="subtitle">Pinning the wage to scarce factors and the uniformity of machine capability</div>
+<div class="authorline">Stella Wilson<br><span class="affil">KTH Royal Institute of Technology · Skandinaviska Enskilda Banken (SEB) · thmwi@kth.se</span></div>
+<div class="draftline">Working draft — [date]. Views are the author's own and do not represent those of KTH or SEB.</div>
+
+<div class="abstract"><b>Abstract.</b> Total automation, in which machines can perform any task at parity with a human, is the case in which existing accounts of wage determination become degenerate. We study it as a limiting case, and find that the limit identifies what sets the wage both today and in the past. To begin, we define "the link" as the pair (ρ̃(x*), ρ̃′(x*)): the level and slope, at the marginal task, of human capability relative to machine capability net of institutional wedges. Thereafter we present a model in which the wage is pinned at w = ρ̃(x*)·c, the rental price of the machine services that substitute for labor at the marginal task, scaled by the human capability advantage there; and in which that rental, machine services being themselves machine-made, resolves under free entry into the rents of the inputs that cannot be produced. Land and other statically scarce resources bound the wage above through the machine sector's cost recursion and below through the price of exit. We read the model across the pre-industrial, industrial, and post-industrial periods, and against United States series since 1950, where the same average wage now buys [N]× the durable goods and less shelter than it did in 1964. We close on the implications for the current diffusion of artificial intelligence, for which the model gestures at both a significant risk and possible solution.</div>
+
+<h2>1. Introduction</h2>
+
+<p>Hi. It's rare that an academic piece would start this way but I am not quite an academic. Given the subject matter I thought I might leverage my humanity and at least start in a more informal tone. I wish to describe <i>how</i> I came to develop this model, rather than simply describe it, as I believe everyone should be able to both take part in and benefit from our collective production of knowledge. All of the maths in this piece is validated using Lean, an automatic proof system, and so the questions we need to ask are around the validity of the assumptions going into the model, the simplicity of the model, how the model relates to what is already known to academia, and how the model aligns with the data of history. I will come to all those questions, but first, I will start with a story. Some years ago, when the first large language models became popular, I, like a few others, wondered what a fully automated world would look like. This hypothetical "limit case" has an obvious character, as one in which no human could compete with a machine leaves only those that own the machines as being able to benefit from them. Although an unrealistic hypothetical, like any good thought experiment it can lead us to real understanding. First let us consider only machines and their owners themselves, and ask what sets prices in such a world.</p>
+
+<p>In a static economy, with free entry and where all prices are stable and consumption is fixed, every machine and every good costs only what its inputs cost. Those inputs are only other goods and machines, and energy. To save me from saying both every time, I will refer to goods and machines as just "machines" from here. It might be pleasing to decompose this model all the way down to energy, thermodynamics, but for practical reasons we won't. Instead, we will terminate in <i>land</i>. By that I mean, if every machine requires other machines, we recursively calculate each until land is the only deciding scarce factor. I choose land because it's <i>good enough</i>. Oil is in the land, you can build solar panels on the land. You can mine iron ore out of the land, or if not that, recycle from the scrapheap on the land. This is another assumption I invite you to scrutinize, but I will talk about the exceptions later and so that is preferably the place to do it. Accepting this means that on the one side we have consumption, what people (in our case, owners) want, and at the other end is land. I will keep the maths light in this introduction, but we end up with the form</p>
+<div class="eq">c = ℓr / (1 − a).</div>
+<p>Here, c is the rental price of any machine in our limit case. ℓ is how much land it needs, r is how much that land rents for. (1 - a) is our recursion, where "a" is the amount of machines you need to make a machine. If a is less than one, machines net reproduce. This is what makes our limit case possible, a world in which owners need not do anything but say what they want.</p>
+
+<p>Now lets take one step back away from the limit case. We imagine one task that a machine actually cannot do, one that <i>must</i> be done by a person. We have a choice to make: is that person truly scarce, or not. On the one hand, we aren't scarce, we are born and we die. In many ways, we come from the land too. However, that framing is rather morbid (indeed, Malthusian), and so a very important assumption comes in here: I will make humans truly scarce, so for the purposes of this paper, we do not plan on waiting until people die or are born for the economy to come into equilibrium. A later model could relax that restriction, it would be interesting, but I think this one is interesting as it is. This means the "scale" of our model is somewhere between the economic timeline of a static economy (a decade or two), and the human timeline, a few generations. So, what happens now?</p>
+
+<p>Centuries ago the classical economists identified that the worst land cannot earn any rent, and only land that was better than the worst could command a rent. This meant land rents could be ordered by their <i>heterogeneity</i>, the worst piece earning nothing, and every better piece earning based on how much better it was than the worst. Essentially</p>
+
+<div class="eq">R<sub>i</sub> = q<sub>i</sub> − q<sub>m</sub></div>
+
+<p>i.e the rent <i>R<sub>i</sub></i> earned by the parcel of land <i>i</i> is the difference between the value of that parcel, <i>q<sub>i</sub></i>, and the value of the worst parcel <i>q<sub>m</sub></i></p>
+
+<p>One of the nice things about making people, labor, truly scarce is that we can use similar logic for work done by humans, but we do need some adjustments. First, I'm going to pretend everyone is the same. Before you shout at me, we do return to that assumption later but for now we need that heterogeneity dimension for something else, for tasks. That means that each thing, task, that needs doing can be different from some other task. The other adjustment is that the rent commanded by the "simplest" human task can't be zero because then the person doing it would die. So, unlike land, rents earned by people (wages) start at subsistence, the amount needed to survive (going forward, I will use the more precise term "exit", which could be someone dying but also just could be someone unable to find work and living with their parents, which is usually a level somewhere above subsistence). However, since labor is so necessary for everything centuries ago, tasks don't differ that much, they just always need a person. This is how we get the world of the classical economists. If you want something done you either need to own land, or you need to get someone else to do it and you trade your labor for mostly equivalent labor, and you live at subsistence.</p>
+
+<p>And then in comes the industrial revolution. Here, tasks change in character. Some tasks can now be done quite easily and cheaply by a machine, most notably physical tasks. Conversely, many tasks remain essentially only the domain of humans. Here, we bring in <i>The Link</i>. Put abstractly, if machines get much, much better than us at some stuff, but stay useless at others, they need us. Even if a billionaire owns lots of machines, if they want to use them, they still need to employ humans. If the machine gets twice as good at something it already does, but still needs a human, then that human claims some of the benefit. This is <i>augmentation</i>, and the industrial revolution was full of it. The alternative is <i>displacement</i>, where a machine gets better in such a way that it needs fewer people. At this point, we bring in another important assumption regarding our set of tasks. We could claim that new, human only tasks might be <i>reinstated</i>, and that there may be no limit to the number of new tasks. In our model, we do not do this. The task set is fixed, and when we consider things like a new <i>job description</i>, like for example a developer, we argue these are not new tasks, instead they were tasks that were not augmented enough to be worth doing. I could babble about programming languages and carve algorithms into tablets a thousand years ago, it’s just nobody would pay me for it. We will do more work defending this assumption later.</p>
+
+<p>With that, we have essentially completed our model. We start with an exit level <i>s</i>, below which a person leaves the economy. On top of that, we add <i>The Link</i>, raising wages further. If machines get better but don't replace people, real wages rise, if they start creeping into human tasks, they can fall. At this point, this may seem like the most obvious model ever, in which case I've done a good job. There's details to iron out, but this really is mostly it. So what's new? All I have done is joined the work of the classical economists with a task based framework such as that of Acemoglu and Restrepo. <i>The Link</i> really is theirs, we only create the term because we close reinstatement</p>
+
+
+
+<p class="scaffold"><b>Job of this section.</b> (a) Pose the question: what pins the <i>level</i> of the aggregate wage at horizons over which technology moves. (b) The limiting-case device: when the schedule flattens, every account that prices labor through its scarcity has a comparative static that goes to zero — bargaining has no surplus to split once the firm's alternative is priced at the margin, the marginal product stops depending on the labor supply, population stops moving the wage. (c) <b>The load-bearing step</b>, and the one a referee will test: the limit licenses a claim about the present only through <i>continuity in the slope</i>. The pair (level, slope) carries the standard accounts as its slope-positive case and the limit as its degenerate one. State this here or the frame does not hold. (d) The result in one paragraph. (e) Scope, stated as modelling choice rather than disclaimer — the horizon over which the schedule moves, the level rather than the dispersion.</p>
+
+<h2>2. What the standing accounts pin the wage to</h2>
+
+<p>Accounts of the aggregate wage differ less in their mechanisms than in where they stop. Each of the families below determines the wage relative to a quantity that labor itself helps produce, or leaves it inside an interval whose endpoints it takes as given, or determines its rate of growth while remaining silent on its level. The model of Section 3 is not offered against them. It supplies the objects at which they terminate.</p>
+
+<h3>2.1 Marginal product, and the aggregate it requires</h3>
+
+<p>The textbook answer sets the wage equal to the marginal product of labor in an aggregate production function. As a statement about a competitive equilibrium it is correct and this paper's Proposition [1] is an instance of it: <i>w</i> = <i>c</i>·ρ̃(<i>x</i>*) is the marginal product, evaluated where the substitute for labor prices in. What the identity does not supply is a level, since the marginal product is a function of the capital stock and of the technology, and both are moving in the case at issue.</p>
+
+<p>Two further difficulties are worth stating because they bear on the long-run reading of Section 8. The aggregate production function requires a measure of capital independent of distribution, and the reswitching and capital-reversing results establish that no such measure exists in general (Robinson 1953; Sraffa 1960; Samuelson 1966). Applied work proceeds under Cobb–Douglas, which imposes constant factor shares — the object whose movement motivates the present exercise. And in growth theory the wage's <i>growth rate</i> is pinned along a balanced path, but only under labor-augmenting technical change, which Uzawa's theorem shows the balanced path requires (Uzawa 1961). The form of technical change is precisely what is at issue here.</p>
+
+<p class="scaffold"><b>Register note.</b> Absorb, do not refute. The sentence that does the work is "this paper's proposition is an instance of it." A reader who teaches this material should finish the subsection agreeing with you.</p>
+
+<h3>2.2 Search, matching, and bargaining: an interval with undetermined endpoints</h3>
+
+<p>The search and matching framework (Diamond 1982; Mortensen and Pissarides 1994; Pissarides 2000) places the wage between the worker's outside option and the value of the match, dividing the surplus by a bargaining parameter that is calibrated rather than derived. The framework is therefore explicit that the level is not determined within it: it is determined by two endpoints and a split, and it supplies none of the three.</p>
+
+<p>That the endpoints, and the outside option in particular, carry the weight is not a criticism from outside the literature but its own finding. The volatility puzzle (Shimer 2005) is resolved in one direction by setting the outside option close to productivity so that the surplus is small (Hagedorn and Manovskii 2008), and in another by rigid wages (Hall 2005); and Ljungqvist and Sargent (2017) show that the models are unified by the fundamental surplus — the part of productivity that can be allocated to recruiting, which is to say productivity net of the outside option. The calibration debate is a debate about a level the framework treats as a parameter. Sections 4 and 5 supply both endpoints and find them to be prices in the same market.</p>
+
+<p class="scaffold"><b>This is the single most valuable positioning subsection in the paper.</b> It converts the contribution into a term this literature already agrees is decisive, and it is addressed to the readers most able to dismiss the paper. Do not compress it. Ljungqvist–Sargent in particular should be quoted or paraphrased precisely — verify the fundamental-surplus definition against the paper before writing the sentence.</p>
+
+<h3>2.3 Task and assignment models</h3>
+
+<p>The task framework (Zeira 1998; Acemoglu and Autor 2011; Acemoglu and Restrepo 2018, 2022) determines the wage at the threshold task and is the direct ancestor of what follows. Its equilibrating force is the creation of new labor tasks, so that displacement is met by reinstatement (Acemoglu and Restrepo 2018; Autor 2015). Grossman and Rossi-Hansberg (2008) supply the same threshold logic for tasks that move abroad rather than to machines. In each case the capability schedule, the machine rental, and the outside option enter as given. The wage is passed through the threshold rather than determined at it.</p>
+
+<p>Acemoglu and Restrepo (2026) add institutional wedges and establish that adoption is directed at the tasks where those wedges are largest; Section [3] recovers that result as a corollary of the deflation lemma, and Section [8] uses its empirical signature.</p>
+
+<h3>2.4 Institutional accounts: theories of the wedge</h3>
+
+<p>Efficiency wages (Shapiro and Stiglitz 1984), monopsony (Manning 2003), firm-level rent sharing (Card, Cardoso, Heining, and Kline 2018), and the minimum-wage literature explain why individual wages depart from a common base and why the dispersion moves as it does. They are, in the notation below, accounts of µ. The present model takes them as given at that layer and asks what the base is.</p>
+
+<h3>2.5 The classical accounts, and the condition under which they held</h3>
+
+<p>The wage was pinned to land and to the cost of reproduction before it was pinned to anything else. Ricardo (1817) priced land at the margin and the wage at subsistence, with Malthus (1798) supplying the mechanism; the chapter on machinery added in 1821 concedes that machinery can injure the laboring class. Marx priced labor power at its cost of reproduction and read enclosure as the making of a labor supply. Lewis (1954) pinned the modern-sector wage to what the traditional sector affords — the closest antecedent to Section 5, differing in that the traditional sector there is exhausted by absorption rather than priced away by rent. George (1879) drew the fiscal consequence; Polanyi (1944) the institutional one.</p>
+
+<p>These accounts were not refuted. The premise on which they rested — that the human advantage over tools varied little across tasks — stopped holding, and the conclusions went dormant with it. Section 8 reads the three periods as three configurations of a single schedule, on which the classical case is the flat one.</p>
+
+<h3>2.6 Automation and the wage: the contemporary literature</h3>
+
+<p>Korinek and Stiglitz (2019) pose the below-subsistence case; Korinek and Suh (2024) is the closest formal predecessor on wage collapse under transformative AI. Susskind (2017) and Sachs and Kotlikoff (2012) reach technological unemployment and immiseration by other channels. Moll, Rachel, and Restrepo (2022) route automation's gains to wealth-holders. Aghion, Jones, and Jones (2019) supply the strongest stabilizing argument, that expenditure concentrates on whatever remains human-essential. Caselli and Manning (2019) establish that real wages cannot fall in terms of machine-made goods, which Section 7 concedes and answers through the non-produced content of the consumption bundle. Hémous and Olsen (2022) endogenize automation's direction.</p>
+
+<h3>2.7 Factor shares, and why a share is not a wage</h3>
+
+<p>The decline of labor's share is documented and global (Karabarbounis and Neiman 2014). Its counterpart on the capital side resolves substantially into housing, which is to say land (Rognlie 2015; Knoll, Schularick, and Steger 2017; Piketty and Zucman 2014). These are measurements of a ratio; the object here is a level, and Section [11] notes one configuration in which the two move in opposite directions.</p>
+
+<h3>2.8 The long wage record</h3>
+
+<p>The empirical exercise of Section 9 rests on real wages measured against the cost of a subsistence basket — welfare ratios in the sense of Allen (2001), extended for England by Clark (2005, 2007). The construction is the same object the model calls the coverage of the floor, computed at the household rather than the aggregate level.</p>
+
+<p class="scaffold"><b>Verify before writing:</b> Allen's welfare-ratio definition and coverage (cities, dates), Clark's series vintage and endpoints. State plainly that these are the paper's own P<sub>s</sub> under another name — that equivalence is doing real work and should not be asserted loosely.</p>
+
+<h3>2.9 The incidence of payroll taxation</h3>
+
+<p>Section 9 reads the slope of the schedule from the incidence literature: under the model, the share of a payroll tax borne by workers is a function of the elasticity of labor demand, which Proposition [1] maps to the inverse slope of ρ̃ at the margin. Quasi-experimental estimates exist across countries and decades (Gruber 1997; Kugler and Kugler 2009; Saez, Schoefer, and Seim 2019; Bozio, Breda, and Grenet 2019<span class="unver"> [verify]</span>).</p>
+
+<p class="scaffold"><b>Unbuilt and cheap.</b> This is the paper's second identification and it uses other people's designs. The build is: assemble the estimates chronologically, on a common definition of pass-through, and read the trend. Everything marked [verify] below needs a live check against the published source before it enters the draft — the project's standing data rule applies to citations.</p>
+
+<h2>3. The model</h2>
+
+<h3>3.1 Tasks, machines, and the effective schedule</h3>
+
+<p class="scaffold">Tasks x ∈ [0,1], Leontief over tasks. γ<sub>L</sub>, γ<sub>M</sub>, ρ = γ<sub>L</sub>/γ<sub>M</sub>. Machine rental c, taken as given here and closed in §4. Wedges µ(x) ≥ 1 with the rationing convention stated where introduced. N workers, outside option s, taken as given here and closed in §5. Land: fixed, heterogeneous, worst parcel's reservation rent zero. <b>Lemma 1 (deflation)</b>: ρ̃ = ρ/µ. Three lines, and the only wholly original result in the section. Monotonicity and continuity of the relabelled ρ̃ stated as an assumption <i>here</i>, not confessed later.</p>
+
+<h3>3.2 The wage at the margin</h3>
+
+<p class="scaffold"><b>Proposition [1]</b>: w = c·ρ̃(x*); level sets the wage, slope insulates it from the labor supply; no equilibrium wage below s while anyone works. Define the pair. Existence and uniqueness to the appendix. Name "the link" here, once the pair has done something — not in the abstract. Corollary in one paragraph: targeting (a wedge is negative altitude, so the adoption region is a lower set in ρ̃), which is Acemoglu–Restrepo (2026) recovered from Lemma 1 and is needed only because §9 uses its signature.</p>
+
+<h2>4. The ceiling: what sets the machine rental</h2>
+
+<p class="scaffold"><b>Proposition [2]</b>: free entry gives c = ℓr/(1−a); with time preference and wear, the user-cost form. Half a page. Present as Sraffa/Leontief, borrowed and uncontroversial — the contribution is the chaining, not the link. <b>The sentence that matters:</b> the recursion terminates at inputs that cannot be produced and therefore cannot be cheapened. Ideas as the boundary case, with Romer (1990) conceded, in one short paragraph.</p>
+
+<h2>5. The floor: what sets the price of exit</h2>
+
+<p class="scaffold"><b>Proposition [3]</b>: s(q) = max(s<sub>0</sub> − q·h<sub>e</sub>, s<sub>d</sub>), with q = r/p<sub>g</sub>. The idle margin as the commons; its closure; the exit plot paying the ruling rent thereafter. <b>This section is what makes the paper yours</b> and it should be the longest of the three model sections. The trigger is land scarcity, not machine parity — so it fires in the sloped regime, which is the regime the evidence covers. Enclosure manufactures labor supply: one event posting to two ledgers, historical and contemporary. Lewis and Polanyi belong here in the body, not only in §2. Honest version of s<sub>0</sub>: the modern outside option is family and transfer, not woods — which strengthens the argument rather than weakening it, and should be stated as the case rather than conceded as a limitation.</p>
+
+<h2>6. The interval, closed</h2>
+
+<p class="scaffold">Short — one page. Both walls of the bargaining set of §2.2 are prices formed in the land market, so the model does not split the interval but collapses it; as ρ̃ flattens the interval closes entirely and the accounts that live inside it lose their comparative statics. Heterogeneity: every statement holds type by type, and floor statements refer to the bottom of the support. This section is where §1's continuity claim is discharged, so it cannot be dropped for length.</p>
+
+<h2>7. What the wage buys</h2>
+
+<p class="scaffold"><b>Proposition [4]</b>: the real wage in machine-made goods is bounded by absolute solo productivity and is invariant to machine quality; the relative price of non-produced services q = r/p<sub>g</sub> = (1−a)/(ℓ·ρ̄·L̄); against a bundle with non-produced share σ the real wage falls iff σ > 0. Caselli and Manning (2019) conceded in full and then answered. Needed early enough that the deflator fork in §9 has a theory attached. The CES dial (η) belongs in the appendix, but note here that Prediction [8] estimates it.</p>
+
+<h2>8. Three configurations of one schedule</h2>
+
+<h3>8.1 Pre-industrial</h3>
+<p class="scaffold">Few machine-held tasks; the binding margin is land; the wage sits near the exit value and the exit value is a land price. The classical account is this configuration, correctly described.</p>
+
+<h3>8.2 Industrial</h3>
+<p class="scaffold">Capability splits violently and unevenly; the schedule becomes dispersed and steep; the wage rises and gains insulation; land leaves the production function in the same window. <b>Joint prediction to flag here and test in §9.1:</b> the wage's escape from subsistence and land's exit from the story are one event, so the two series should move inversely.</p>
+
+<h3>8.3 Post-industrial</h3>
+<p class="scaffold">Computing flattens the simple-cognitive region; the fork between machine-made and land-priced consumption reopens. <b>Handle the dating carefully.</b> The coincidence of the wage-growth break with the onset of continuous machine improvement is suggestive and contested — 1973 carries several other shocks. Let the cross-section carry the time series (Autor, Levy, and Murnane 2003; Autor and Dorn 2013), never the reverse.</p>
+
+<h2>9. Measurement</h2>
+
+<h3>9.1 The long record</h3>
+<p class="scaffold">Welfare ratios (Allen; Clark) against a long-run land-share series. One figure, spanning the regime changes. Register: the mechanism implies this joint shape, and no single alternative mechanism implies both legs. No causal claim; none is available and none is needed.</p>
+
+<h3>9.2 The United States since 1953</h3>
+<p class="scaffold">The deflator fork — the same average wage against durables and against shelter, 1964 = 100, reaching 4.8× — is q, measured, and is the section's headline. Coverage of a subsistence floor by the site-rent flow, 1953–2025, median with min–max band across the rule grid, ≈0.05 → 0.33. Both series exist in <code>link-repo/</code>; the rule-grid discipline carries over. The rival for the land leg is supply constraint (zoning) and must be met here rather than in a discussion section — the discriminating content is cross-sectional, not the level of r.</p>
+
+<h3>9.3 The slope, read from incidence</h3>
+<p class="scaffold">Pass-through of payroll taxation to net wages, assembled chronologically from §2.9's estimates; the model reads a rising share borne by workers as a falling slope. Unbuilt. Secondary: the revealed-adoption envelope (Lemma 1 inverted — flip timing against the waterline) recovers ρ̃ in waterline units for 1999–2025, in <code>companion/</code>. State its limits where it is introduced: relative, recent, and identified up to scale.</p>
+
+<h2>10. Discussion</h2>
+
+<p class="scaffold">Not a confession. The assumptions have been stated where they were introduced; this section is for what is genuinely open. Candidates: the closed new-task margin and the evidence for taking that branch; whether the schedule's flattening is measurable on existing tasks or only inferred from adoption; the two channels of flattening (copying what is recorded, which is underway, versus crossing on the residual, which is not); the substitutability parameter on which §7 turns.</p>
+
+<h2>11. Implications for the diffusion of artificial intelligence</h2>
+
+<p class="scaffold">One or two pages, not a programme. The finding to state: the same margin that lowers the wage raises the value of the base that could replace it — coverage rises with q while the exit value falls with it, so the two move against each other on one parameter. Name the fiscal consequence, give κ, and point at the companion work rather than developing it. Resist the whole George arc here; it is the second paper and the abstract should not promise it.</p>
+
+<h2>Appendix</h2>
+
+<p class="scaffold">Existence and uniqueness; the CES dial between goods and land services; heterogeneous parcels and the idle margin; the corner-above case with labor still present; the durable-machine user-cost form.</p>
+
+<h2>References</h2>
+<div class="refs">
+<p class="scaffold">Entries carried from <code>link-repo/paper/the_link.html</code> are already checked. Entries marked <span class="unver">[verify]</span> are new to this paper and have not been checked against the published source; the project's data rule applies — verify or drop, do not approximate.</p>
+
+<p>Acemoglu, D., and D. Autor (2011). "Skills, Tasks and Technologies: Implications for Employment and Earnings." In <i>Handbook of Labor Economics</i>, vol. 4B. <span class="unver">[verify]</span></p>
+<p>Acemoglu, D., and P. Restrepo (2018). "The Race between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment." <i>American Economic Review</i> 108(6): 1488–1542.</p>
+<p>Acemoglu, D., and P. Restrepo (2022). "Tasks, Automation, and the Rise in U.S. Wage Inequality." <i>Econometrica</i> 90(5).</p>
+<p>Acemoglu, D., and P. Restrepo (2026). "Automation and Rent Dissipation: Implications for Wages, Inequality, and Productivity." <i>The Quarterly Journal of Economics</i> 141(2): 1521–1579.</p>
+<p>Aghion, P., B. F. Jones, and C. I. Jones (2019). "Artificial Intelligence and Economic Growth." In <i>The Economics of Artificial Intelligence</i>, University of Chicago Press.</p>
+<p>Allen, R. C. (2001). "The Great Divergence in European Wages and Prices from the Middle Ages to the First World War." <i>Explorations in Economic History</i> 38(4). <span class="unver">[verify]</span></p>
+<p>Autor, D. (2015). "Why Are There Still So Many Jobs? The History and Future of Workplace Automation." <i>Journal of Economic Perspectives</i> 29(3).</p>
+<p>Autor, D., and D. Dorn (2013). "The Growth of Low-Skill Service Jobs and the Polarization of the US Labor Market." <i>American Economic Review</i> 103(5). <span class="unver">[verify]</span></p>
+<p>Autor, D., F. Levy, and R. J. Murnane (2003). "The Skill Content of Recent Technological Change: An Empirical Exploration." <i>The Quarterly Journal of Economics</i> 118(4). <span class="unver">[verify]</span></p>
+<p>Bozio, A., T. Breda, and J. Grenet (2019). "Does Tax-Benefit Linkage Matter for the Incidence of Payroll Taxes?" <span class="unver">[verify — venue and year uncertain]</span></p>
+<p>Card, D., A. R. Cardoso, J. Heining, and P. Kline (2018). "Firms and Labor Market Inequality: Evidence and Some Theory." <i>Journal of Labor Economics</i> 36(S1). <span class="unver">[verify]</span></p>
+<p>Caselli, F., and A. Manning (2019). "Robot Arithmetic: New Technology and Wages." <i>American Economic Review: Insights</i> 1(1).</p>
+<p>Clark, G. (2005). "The Condition of the Working Class in England, 1209–2004." <i>Journal of Political Economy</i> 113(6). <span class="unver">[verify]</span></p>
+<p>Diamond, P. A. (1982). "Aggregate Demand Management in Search Equilibrium." <i>Journal of Political Economy</i> 90(5). <span class="unver">[verify]</span></p>
+<p>George, H. (1879). <i>Progress and Poverty.</i></p>
+<p>Grossman, G. M., and E. Rossi-Hansberg (2008). "Trading Tasks: A Simple Theory of Offshoring." <i>American Economic Review</i> 98(5).</p>
+<p>Gruber, J. (1997). "The Incidence of Payroll Taxation: Evidence from Chile." <i>Journal of Labor Economics</i> 15(S3). <span class="unver">[verify]</span></p>
+<p>Hagedorn, M., and I. Manovskii (2008). "The Cyclical Behavior of Equilibrium Unemployment and Vacancies Revisited." <i>American Economic Review</i> 98(4). <span class="unver">[verify]</span></p>
+<p>Hall, R. E. (2005). "Employment Fluctuations with Equilibrium Wage Stickiness." <i>American Economic Review</i> 95(1). <span class="unver">[verify]</span></p>
+<p>Hémous, D., and M. Olsen (2022). "The Rise of the Machines: Automation, Horizontal Innovation, and Income Inequality." <i>American Economic Journal: Macroeconomics</i> 14(1).</p>
+<p>Karabarbounis, L., and B. Neiman (2014). "The Global Decline of the Labor Share." <i>The Quarterly Journal of Economics</i> 129(1).</p>
+<p>Knoll, K., M. Schularick, and T. Steger (2017). "No Price Like Home: Global House Prices, 1870–2012." <i>American Economic Review</i> 107(2).</p>
+<p>Korinek, A., and J. E. Stiglitz (2019). "Artificial Intelligence and Its Implications for Income Distribution and Unemployment." In <i>The Economics of Artificial Intelligence</i>, University of Chicago Press.</p>
+<p>Korinek, A., and D. Suh (2024). "Scenarios for the Transition to AGI." NBER Working Paper 32255.</p>
+<p>Kugler, A., and M. Kugler (2009). "Labor Market Effects of Payroll Taxes in Developing Countries: Evidence from Colombia." <i>Economic Development and Cultural Change</i> 57(2). <span class="unver">[verify]</span></p>
+<p>Lewis, W. A. (1954). "Economic Development with Unlimited Supplies of Labour." <i>The Manchester School</i> 22(2). <span class="unver">[verify]</span></p>
+<p>Ljungqvist, L., and T. J. Sargent (2017). "The Fundamental Surplus." <i>American Economic Review</i> 107(9). <span class="unver">[verify]</span></p>
+<p>Malthus, T. R. (1798). <i>An Essay on the Principle of Population.</i></p>
+<p>Manning, A. (2003). <i>Monopsony in Motion: Imperfect Competition in Labor Markets.</i> Princeton University Press. <span class="unver">[verify]</span></p>
+<p>Moll, B., L. Rachel, and P. Restrepo (2022). "Uneven Growth: Automation's Impact on Income and Wealth Inequality." <i>Econometrica</i> 90(6).</p>
+<p>Mortensen, D. T., and C. A. Pissarides (1994). "Job Creation and Job Destruction in the Theory of Unemployment." <i>Review of Economic Studies</i> 61(3). <span class="unver">[verify]</span></p>
+<p>Piketty, T., and G. Zucman (2014). "Capital is Back: Wealth-Income Ratios in Rich Countries 1700–2010." <i>The Quarterly Journal of Economics</i> 129(3). <span class="unver">[verify]</span></p>
+<p>Pissarides, C. A. (2000). <i>Equilibrium Unemployment Theory.</i> 2nd ed., MIT Press. <span class="unver">[verify]</span></p>
+<p>Polanyi, K. (1944). <i>The Great Transformation.</i> <span class="unver">[verify]</span></p>
+<p>Ricardo, D. (1817). <i>On the Principles of Political Economy and Taxation.</i> Third edition, 1821, adds the chapter "On Machinery."</p>
+<p>Robinson, J. (1953). "The Production Function and the Theory of Capital." <i>Review of Economic Studies</i> 21(2). <span class="unver">[verify]</span></p>
+<p>Rognlie, M. (2015). "Deciphering the Fall and Rise in the Net Capital Share." <i>Brookings Papers on Economic Activity.</i></p>
+<p>Romer, P. M. (1990). "Endogenous Technological Change." <i>Journal of Political Economy</i> 98(5): S71–S102.</p>
+<p>Sachs, J. D., and L. J. Kotlikoff (2012). "Smart Machines and Long-Term Misery." NBER Working Paper 18629.</p>
+<p>Saez, E., B. Schoefer, and D. Seim (2019). "Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden." <i>American Economic Review</i> 109(5). <span class="unver">[verify]</span></p>
+<p>Samuelson, P. A. (1966). "A Summing Up." <i>The Quarterly Journal of Economics</i> 80(4). <span class="unver">[verify]</span></p>
+<p>Shapiro, C., and J. E. Stiglitz (1984). "Equilibrium Unemployment as a Worker Discipline Device." <i>American Economic Review</i> 74(3). <span class="unver">[verify]</span></p>
+<p>Shimer, R. (2005). "The Cyclical Behavior of Equilibrium Unemployment and Vacancies." <i>American Economic Review</i> 95(1). <span class="unver">[verify]</span></p>
+<p>Sraffa, P. (1960). <i>Production of Commodities by Means of Commodities.</i> Cambridge University Press. <span class="unver">[verify]</span></p>
+<p>Susskind, D. (2017). "A Model of Technological Unemployment." Oxford Department of Economics Discussion Paper 819.</p>
+<p>Uzawa, H. (1961). "Neutral Inventions and the Stability of Growth Equilibrium." <i>Review of Economic Studies</i> 28(2). <span class="unver">[verify]</span></p>
+<p>Zeira, J. (1998). "Workers, Machines, and Economic Growth." <i>The Quarterly Journal of Economics</i> 113(4).</p>
+</div>
+
+<div class="fnote"><b>Data and computation.</b> [carry the note from the existing draft, narrowed to the series this paper uses]</div>
+
+</body>
+</html>
