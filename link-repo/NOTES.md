@@ -696,6 +696,14 @@ thread up there.
 
 ## Changelog
 
+- 2026-08-13 · THE REWRITE (in the revision thread): the restructured paper
+  `../the-link-revision/paper/pinning.html` ("Pinning the Wage to Scarcity
+  and Technology") was written in full and its draftline DECLARES
+  SUPERSESSION of this repo's long draft. This repo remains the record —
+  its checks, figures, and measured numbers carry into the new paper's
+  appendix — but new writing happens in the revision thread; see that
+  thread's STATE.md (verify-list of 2026-08-13) for the veto window.
+
 - 2026-08-09 (later session) · HOUSEKEEPING: the working files moved off the
   outer repo root into their homes. This NOTES.md now lives at link-repo root
   (was outer root); `checks/` → `link-repo/checks/`; the per-unit

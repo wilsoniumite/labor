@@ -2,11 +2,256 @@
 
 **Project:** revision of *The Link: Wages, Machines, and What Remains* (Stella Wilson, working draft Aug 2026; the blog post "A New-ish Theory of Economics" at wilsoniumite.com links the PDF — this folder sits next to the papers folder).
 **Collaboration:** extended, multi-session; working format, sequencing, and drafting decisions delegated to Claude. Direct critique preferred over validation.
-**State as of:** 2026-08-09.
+**State as of:** 2026-08-13.
 
 ## Where things stand
 
-The paper went through a hard assumptions audit, then a theoretical extension (the talent/practice split + the task anatomy), a falsifiability stress test that passed, four new sketch blocks, and three data passes. **The algebra/numerical pass over the sketches is complete (2026-08-09):** all ten [check] flags verified in `checks/` (sympy + numeric per the house rule), eight clean and two WITH AMENDMENTS now recorded at the flags — B2's aggregate-dispersion claim needs the empirical covariance sign or the F2 channel, and C1's cobweb stability condition is lag-indexed ("product < 1" exact only at T_E = 1). The blocks are merge-eligible under the standing rule; merge SCOPE is still the pending decision below.
+**2026-08-13: THE REWRITE IS EXECUTED.** `paper/pinning.html` is now the full
+restructured paper — "Pinning the Wage to Scarcity and Technology" — built
+around the core contribution (the two closures), with the λ-recursion adopted,
+coined terms removed, and the old draft's supporting material compressed into
+Appendices A–I. The skeleton it replaced is snapshotted. Veto window below.
+The sketch-block merge decision (pending, further down) is UNTOUCHED by this:
+the rewrite deliberately absorbed none of the A–E blocks, consistent with the
+parked paper-three recommendation.
+
+Earlier state: the paper went through a hard assumptions audit, then a theoretical extension (the talent/practice split + the task anatomy), a falsifiability stress test that passed, four new sketch blocks, and three data passes. **The algebra/numerical pass over the sketches is complete (2026-08-09):** all ten [check] flags verified in `checks/` (sympy + numeric per the house rule), eight clean and two WITH AMENDMENTS now recorded at the flags — B2's aggregate-dispersion claim needs the empirical covariance sign or the F2 channel, and C1's cobweb stability condition is lag-indexed ("product < 1" exact only at T_E = 1). The blocks are merge-eligible under the standing rule; merge SCOPE is still the pending decision below.
+
+## Verify-list — 2026-08-13: the pinning rewrite (veto window, current)
+
+One unit (her plan: "the big rewrite in one turn"; decisions recorded in
+`docs/rewrite_brief_pinning.md` — the frozen brief). Snapshot of the replaced
+skeleton: `paper/snapshots/pinning_skeleton_snapshot.html`.
+
+- [ ] **LENGTH DEVIATION, flagged first:** main text landed at ~5,030 words
+      against the brief's ~9,000 target (appendices ~6,900; total body
+      ~11,960). Written lean in the direction of her "shorten significantly";
+      every planned element is present, but sections average ~55% of their
+      budgeted words. An expansion pass (more words-before-algebra, worked
+      examples restored) is the obvious next unit if the compression reads
+      as clipped rather than tight.
+- [ ] The λ-recursion adopted throughout: c = ac + λw + ℓr; Proposition 2
+      (replacement closure) c = ℓr/(1−a−λρ*), w = ρ*ℓr/(1−a−λρ*), viability
+      1−a−λρ* > 0; the two automation channels named (task ρ*↓, recursive
+      λ↓) with the cross-effect sentence (with λ>0, task automation also
+      cheapens the machine). Worked instance in text: (a,λ,ρ*,ℓ,r) =
+      (0.5,0.1,3,0.2,1) → c=1, w=3; λ→0 → c=0.4, w=1.2 (the 60% cut).
+      `checks/check_pinning.py` ALL GREEN (27): closures, statics signs,
+      limits (domain-explicit), fork displays with λ, welfare sums, s(q)
+      kink at q_enc, λ→0 agreement with the corner spine.
+- [ ] De-coining executed: "the link", "waterline", "demolition",
+      "fortification", "the corner"/"corner regime", "George pair" all gone
+      from body text (lint-enforced, `checks/lint_pinning.py` ALL GREEN);
+      ONE term kept by design — the real-wage fork. "Terminal input" used
+      informally, defined once; propositions say "non-produced input".
+      Wedge/targeting material compressed to Appendix B, credited to A&R
+      2026 as theirs (her call: "just a remark or in the appendix").
+- [ ] §2 built on her skeleton's design: the fundamental-surplus positioning
+      quotes Ljungqvist–Sargent's definition VERBATIM (verified against the
+      AEA page): "an upper bound on the fraction of a job's output that the
+      invisible hand can allocate to vacancy creation"; Shimer's 20× fact
+      verified same pass. Cambridge-capital material cut to one clause
+      (Sraffa; Samuelson "A Summing Up"), Robinson dropped.
+- [ ] Citations: 17 new entries live-verified WITH pages (L–S 2017; H–M
+      2008; Mas–Pallais 2019; Jones–Marinescu 2022 incl. the +1.8pp
+      part-time finding; Bouscasse–Nakamura–Steinsson 2025; Crafts 2022;
+      Arnott–Stiglitz 1979; Lewis 1954; Gruber 1997; Saez–Schoefer–Seim
+      2019; Kugler–Kugler 2009 incl. the 1.4–2.3%-per-10% finding; Allen
+      2001; Clark 2005; Uzawa 1961; Shimer 2005; ALM 2003; Autor–Dorn 2013;
+      MP 1994; Shapiro–Stiglitz 1984; Leontief 1936). Books/chapters/
+      proceedings entered WITHOUT page numbers (nothing approximated).
+      DROPPED as unverifiable-or-unneeded: Bozio–Breda–Grenet, Schwerhoff–
+      Edenhofer–Fleurbaey, OECD 2026 tax wedge, Robinson 1953. Zero
+      remembered constants entered.
+- [ ] Appendix consolidation vs the brief: A–I instead of A–J — the
+      enclosure race folded into F.4 beside the κ algebra it references
+      (structure preserved, lettering consolidated; sole deviation from the
+      frozen brief besides length).
+- [ ] Figures: fork + κ figures carried BYTE-IDENTICAL from link-repo
+      (their checked records stand; old-register titles tolerated, a
+      regeneration unit is flagged below); the era schematic REGENERATED
+      de-coined (`code/fig_eras.py` → `figures/fig_eras.png`, y-axis
+      "relative human productivity ρ(x)", neutral annotation) — schematic
+      only, no data implications. All three referenced at ../figures/ and
+      alt-texted.
+- [ ] Measurement honesty: κ ceiling caveat IN (median 1.26, 13/32 members
+      below one, per data item two); three assemblies marked [spec'd,
+      unbuilt] in §10 (incidence slope; λ via input–output; the long
+      record) — Claude's delegated call was NOT to build them inside the
+      rewrite turn; zoning rival met in one paragraph with the concession
+      explicit.
+- [ ] Back matter: acknowledgements carried VERBATIM (her instruction);
+      AI-use note adapted; verification note states the Lean scope EXACTLY
+      (corner spine machine-verified; λ>0 sympy-only; the λ>0 user-cost
+      form deliberately unstated because unchecked); draftline declares
+      supersession of the long draft by name.
+- Not done, deliberately: no commit (none requested); no PDF render (hers,
+  or `link-repo/code/render_pdf.py`); Lean extension to λ>0 queued;
+  Appendix A's joint-system existence stated at sketch level (full proof
+  rides with the Lean extension); the "code and data are public" sentence
+  still carries no URL (standing handoff item, inherited).
+
+ADDENDUM (same day, her follow-up "bring a task slope figure back... then
+also the other figures"): the paper now carries SEVEN figures.
+- [ ] NEW Figure 1 (§3): the assignment margin, de-wedged as she specified —
+      single ρ(x) schedule, the w/c line, x* at the crossing, regions
+      labeled (`code/fig_model_schematics.py` → `figures/fig_schedule.png`;
+      schematic, no data). Her "section 2" read as the MODEL section (old
+      draft's §2 = the model; new §3) — flag if she meant the survey §2.
+- [ ] Figures 5–6 (Appendix B) REGENERATED, not carried: the old fig3/fig4
+      had coined vocabulary baked into pixels ("link premium", "wedges
+      demolished", "corner-below") and fig4 carried the KNOWN handoff
+      defect (trough at ~40th pctile vs the text's 70th–95th). New strata
+      bars keep the running-example dollars (25/15/10, parity 18 < s 25);
+      new U-shape troughs exactly 70th–95th with band markers — the old
+      handoff item (3) defect is DISCHARGED in this paper. App B gained
+      the checked three-layer display + running numbers to anchor Fig 5.
+- [ ] Figure 7 (Appendix F): fig5_fourway carried BYTE-IDENTICAL (data
+      figure, record stands); caption defines "owner loop" inline; §10's
+      ledger sentence and Prediction 9's tag now point at it.
+- [ ] Renumbering swept: eras → Fig 2, fork → Fig 3, κ → Fig 4; all 18
+      in-text references checked by grep; one stale ref caught and fixed
+      (F.3's κ pointer). lint_pinning ALL GREEN, 7/7 figures, alt-texted.
+
+ADDENDUM 2 (same day, her math-necessity audit: "if the core doesn't need
+an equation, there should be no equation"; her suspicion "3.2" read as the
+matrix/multi-machine block — ChatGPT-draft §3.2 — already Appendix C here):
+- [ ] FOUR CUTS applied to main-text math, none touching a .eq display's
+      claim: (1) §4's parenthetical no longer flashes c = Ac + Λw + Br
+      (the formula now appears once in the core, in §10's assembly (2)
+      where it names the estimand; App C keeps the full treatment);
+      (2) §4's cross-effect derivative ∂c/∂ρ* moved from body prose into
+      Prop 2's proof — the body keeps the words; (3) §5 no longer displays
+      q_enc = (s0−sd)/he — defined only in App F.4, the sole place the
+      core uses it (grep-verified); (4) §6's channel display writes c(r)
+      instead of restating the closure formula.
+ADDENDUM 3 (same day, her "yes please" to the register diagnosis): the
+one-temperature pass, seven edits. §5's kink sentence regains a second
+beat without the formula ("...finds nothing in the exit bundle left to
+price"); Prop 2's proof loses its cross-referential aside; the Figure 5
+caption drops the old draft's two-beat close ("the rational move is
+exit — in practice, dependency" → "exit pays more than work") and gains
+a hatched-bar reading note; Figure 6's close becomes a plain estimate
+sentence with years; the App B countdown paragraph drops its agentive
+verb triple; §10's "[spec'd, unbuilt]" tag removed (the bold lead
+already says specified and open — the state-file idiom leak); Figure
+7's ratchet clause cooled ("bites" → "lowers"). The rule is now IN THE
+BRIEF (One temperature + the provenance rule: carried prose is
+re-voiced, never pasted). lint re-run ALL GREEN.
+
+ADDENDUM 4 (same day, her abstract call: "I liked the older version that
+also had that cooler voice... it was a bit long and was 5 paragraphs when
+it arguably should be one"): the abstract REWRITTEN in the ChatGPT
+draft's register (the five-paragraph version she liked), compressed to
+one paragraph, ~285 → ~265 words. Kept from ours: the search-and-matching
+positioning clause, the two measured numbers (4.8×; one-third and
+rising), the closing classical-configuration sentence, and the single
+inline equation c = ac + λw + ℓr (words-then-equation order preserved).
+Dropped: the solved closure formula w = ρ*ℓr/(1−a−λρ*) (Prop 2's job,
+not the abstract's), the warm clause "carried while machine production
+still employs labor and thinning as it stops," and "the demolition"-era
+cadence generally. lint re-run ALL GREEN.
+
+ADDENDUM 5 (same day, her sentence pair — she prefers "This paper closes
+two prices around that margin: ... the price of market exit" over "the two
+prices that condition takes as given"): the ASSERT-FORWARD rule named,
+written into the brief (assert new as new; one job per sentence; right-
+branching; colons over interruptive dashes; nouns carry their domain; no
+rhetoric about rhetoric), and applied in a 14-edit pass. Abstract: her
+preferred sentence adopted verbatim; the endpoints sentence split (the
+"treats as parameters" clause now its own assertion). §1: "two questions
+around that margin"; "The paper closes both prices" (de-nominalized);
+"market for non-produced inputs". §5: cleft removed ("The model adds the
+price"). §6: the embedded re-litigation deleted ("the interval that
+bargaining theory treats as exogenously placed" → "the whole interval" —
+§2.2 already carries that argument); one dash → semicolon. §8: suspended
+opener flattened; the old-draft tag "— not low; none" cut. §10: the
+meta-sentence about overselling cut. §12: "coincidence that is not a
+coincidence" trope replaced; "meanwhile" dash clause flattened; "is not
+open" → "is not an open question". lint gained soft metrics (em-dash
+density 12.6/1,000 words; presuppose-pattern grep now at ZERO hits) and
+re-runs ALL GREEN. CROWNS KEPT, exempt by the brief rule, one per
+section, awaiting her word if any should go: §1 "the capability priced in
+this paper is the capability that drafted it"; §2.2 "This paper supplies
+both endpoints"; §5 "Enclosure manufactures labor supply"; §6 "their
+object has vanished"; §7 the squeeze sentence + "Wages have left the
+list"; §8 "Both halves of that sentence are theorems"; §9 "The classical
+account is this configuration, correctly described".
+
+ADDENDUM 6 (same day, her contribution-paragraph edits — first sentence
+cut, "in this paper" folded inline, "Our contribution is"): the
+SPEAK-AS-THE-AUTHOR rule named, written into the brief (stage directions
+deleted; sentences self-ground when frames go; authorial acts take
+first-person "we/our", unhedged; math imperatives and "this paper"-as-
+subject stay; "the author" only where the human-vs-AI distinction is the
+content), and applied in a 21-edit sweep. Her paragraph rewritten as
+instructed ("The task margin in this paper is Acemoglu and Restrepo's...
+Our contribution is the closure. We price... We price... we derive...
+and we measure..."), the "to the author's knowledge" hedge dropped per
+her wording (NOTE for her: the hedge protected the novelty claim; one
+word restores it). Stage directions cut: "One disclosure belongs up
+front" (§1 — FLAGGED, it was carried from the approved old paper);
+"Three placements." (§8); "the limit the introduction promised" (§7);
+"The objection deserves a theorem, and gets one" (App G → "Proposition
+G.1 grants the mechanism its theorem and prices the premise");
+provenance asides "compressed from the long draft" (App B, App F, App G,
+App I). Self-commentary cut: "honest caveat"/"honesty notes"/"honest
+scope" de-adjectived; "restated once" (§12). First-person conversions:
+"We do not offer the model against them" (§2 intro); "We supply both
+endpoints" (§2.2 crown, person-converted not cut — FLAGGED); "our
+long-run claims" (§4); "our claim is architectural" (§1); "We take this
+branch, as a bet" (§11); "Our baseline" (App G); "our permanent-case
+claims" (App C). lint gained the hedge check + authorial-possessive
+counts ("the paper's" now ×0 authorial; "the author" ×2, both in the
+disclosure/draftline where they belong) and re-runs ALL GREEN.
+
+ADDENDUM 7 (same day, her catch: "keeps the arithmetic honest" — "that
+sounds familiar, can we find out why the previous passes didn't catch
+it?"). POST-MORTEM, recorded per house practice. Provenance: the §3
+sentence is a fusion — the ChatGPT draft's clean pair ("The equality is
+an indifference condition. The worker has no cost advantage at the
+marginal task; the non-zero object is relative productivity") plus a
+meta-clause CLAUDE ADDED in the original rewrite turn, before any
+register rule existed. Why three passes missed it: pass 1 (one
+temperature) was SITE-scoped to the diagnosed drift and never opened §3;
+pass 2 (assert forward) was FORM-scoped to presupposing noun phrases,
+clefts, and interruptive dashes, none of which this sentence has; pass 3
+(speak as the author) hunted "honest" but from a MEMORY inventory tuned
+to the adjective+discourse-noun form ("honest caveat/notes/scope/
+statement") — the predicate form ("keeps X honest") escaped, and no
+mechanical grep was run. Root cause: register rules were enforced by
+hand inventory while structural rules were mechanized — the exact
+failure mode the repo's check discipline exists to prevent. FIXES: the
+sentence reverted to the clean form; §3's "note now that" (same species)
+dropped; lint now HARD-BANS the family over the body ("honest",
+"honesty", "note that", "note now", "reading it as", "worth noting/
+stating/saying/ending") with the Acknowledgements exempt (her verbatim
+text); sweep found zero further instances; ALL GREEN.
+
+- [ ] AUDIT RESULT, the keep list — all nine .eq displays in the main text
+      are load-bearing (§1 chains×2 are words-as-displays; §3 ρ; §4
+      recursion + Prop 2 closure + λ→0 limit; §5 s(q); §6 channels; §7
+      fork). KEPT DELIBERATELY over the strict rule, flagged for her veto:
+      §7's bounded-substitution formula inside Prop 4(ii) (it carries the
+      robustness claim, not decoration) and §8's inline shell-game
+      arithmetic (1−t)cρ̄ + t·cρ̄ (self-verifying where words would be
+      assertion). Section-level: nothing cuttable — §2 argues the novelty,
+      §9 is her framing, §6 is the payoff. lint re-run ALL GREEN.
+
+## Session log (2026-08-13)
+
+12. **The pinning rewrite executed** (this thread's unit; discussion → frozen
+    brief → checks → verified citations → full draft, one session). Stella's
+    decisions: one paper, core-first with long appendix; λ IN; title hers
+    ("Pinning the Wage to Scarcity and Technology"); acknowledgements stay;
+    checks post-writing except where Claude wanted one (taken: the λ spine,
+    27 green pre-splice); §10 build-vs-flag delegated (flagged). New files:
+    `docs/rewrite_brief_pinning.md`, `checks/check_pinning.py`,
+    `checks/lint_pinning.py`, `code/fig_eras.py`, `figures/` (3),
+    `paper/snapshots/pinning_skeleton_snapshot.html`; `paper/pinning.html`
+    REPLACED (skeleton → full paper). Veto window above. NOTE: main-text
+    length came in ~45% under the brief's target — flagged as the window's
+    first item.
 
 ## Session log (2026-08-09)
 
@@ -42,6 +287,12 @@ A full zoom-out read of the finished paper (Claude, this session) produced four 
 
 ## Next actions (priority order)
 
+0. **The rewrite's veto window (Stella):** read `paper/pinning.html`; the
+   first call is length — accept the ~5k lean main text or commission the
+   expansion pass back toward the brief's ~9k. Then: Lean extension to the
+   λ>0 spine + the Appendix A fixed point (queued verification); the three
+   §10 assemblies as data units (incidence slope; λ via input–output; the
+   long record); optional register regeneration of the fork/κ figures.
 1. **Merge (scope PENDING Stella's decision — see the pending-decision block above):** the checked blocks either merge per their Integration notes, or the surgical-repair list goes into the paper and the blocks become paper three. The algebra pass itself is DONE (log entry 11); nothing blocks either path.
 2. **Second sketch — transition dynamics:** machine stock, land prices vs rents (capitalization, collateral), the κ-vs-enclosure race in real time.
 3. **C4 back-of-envelope** (doomed vintage): IPEDS completions by CIP × cost of attendance × exposure shares, banded. Field-level queue structure (NY Fed by-major) belongs to the same pass.
@@ -70,7 +321,19 @@ A full zoom-out read of the finished paper (Claude, this session) produced four 
 the-link-revision/
 ├── README.md
 ├── STATE.md                          ← you are here; start here next session
+├── docs/
+│   └── rewrite_brief_pinning.md      the frozen rewrite brief (2026-08-13)
+├── paper/
+│   ├── pinning.html                  THE PAPER (rewritten in full 2026-08-13)
+│   └── snapshots/
+│       └── pinning_skeleton_snapshot.html   the replaced skeleton
+├── figures/
+│   ├── fig_eras.png                  regenerated schematic (de-coined)
+│   ├── fig_deflator_fork.png         carried byte-identical from link-repo
+│   └── fig_kappa.png                 carried byte-identical from link-repo
 ├── checks/
+│   ├── check_pinning.py              the λ-recursion spine, 27 checks (2026-08-13)
+│   ├── lint_pinning.py               mechanical sweeps over pinning.html
 │   ├── check_split.py                A0-DR, A1-FP, A2-POOL (Block A)
 │   ├── check_mirror.py               B1-OCC, B2-COV amended (Block B)
 │   ├── check_anatomy.py              B0'1-MEAS, B0'2-RES (Block B.0′)
@@ -97,6 +360,7 @@ the-link-revision/
 ├── kappa_ceiling.csv               the ceiling grid, 32 members (data item two)
 │   ├── hud_fy25_fmrs.xlsx            vendored raw FMR county file (validated)
 └── code/
+    ├── fig_eras.py                   regenerates the de-coined era schematic
     ├── pull_premium_race.py          self-contained, idempotent pull + build (pass one)
     └── premium_pass_two.py           composition adjustment + race decomposition (no downloads)
 ```
