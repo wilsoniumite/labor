@@ -36,12 +36,14 @@ check("all figures carry alt text", all('alt="' in i and 'alt=""' not in i for i
 check("html lang=en", '<html lang="en">' in html)
 check("<title> present", "<title>" in html)
 
-# 6. banned coined terms in body text (case-insensitive; allowed: 'fork';
-#    the superseded long draft's own title "The Link: ..." is exempt)
+# 6. banned coined terms in body text (case-insensitive; allowed: 'fork').
+#    The paper reads as timeless: no reference to any prior draft, so the
+#    ban list also covers 'long draft' and the old title outright.
 body = html[html.index("<body>"):]
-body_scrubbed = body.replace("The Link: Wages, Machines, and What Remains", "")
+body_scrubbed = body
 for term in ["waterline", "demolition", "the link", "fortified", "fortification",
-             "george pair", "corner regime", "corner-above", "corner-below"]:
+             "george pair", "corner regime", "corner-above", "corner-below",
+             "long draft", "supersede"]:
     hits = re.findall(term, body_scrubbed, flags=re.I)
     check(f"banned term absent: '{term}'", len(hits) == 0, f"{len(hits)} hits")
 
