@@ -238,6 +238,115 @@ text); sweep found zero further instances; ALL GREEN.
       assertion). Section-level: nothing cuttable — §2 argues the novelty,
       §9 is her framing, §6 is the payoff. lint re-run ALL GREEN.
 
+## Session log (2026-08-13, continued) — WOUND REPAIRS (W1 + W2)
+
+14. **The two structural wounds repaired**, on her go after a
+    propose-first turn (her constraints: no lengthening/complication;
+    register rules apply; she reads the diff). Ten edits, diff at
+    scratchpad wounds.diff, pre-state snapshot pinning_pre_wounds.html.
+    W1 (parity ≠ superiority): corollary rewritten — parity keeps its
+    wage ("Parity does not erase the wage... The wage goes to zero only
+    in a stricter limit: ρ̄ → 0... or parity below the outside option"),
+    the parity/weakened-identity case stated inline, "thin" dropped from
+    interest, "Wages have left the list" gone (her jargon flag); §8
+    "once wages are gone" → "while the wage thins"; §1 + abstract gain
+    "as capability closes"; F.5 scoped to "the corollary's limit".
+    W2 (commons vs recursion) + HER THREE-FORMS ADDITION: §4 ties r to
+    the sites production uses (schedule pointer); Prop 3(i) triggered on
+    idle SUITABLE parcels; 3(ii) proof outbids-the-margin instead of
+    same-q-per-quality-unit; NEW §5 passage (her content, register-
+    treated): zero rent means nothing can be done with the parcel, so
+    the idle margin supports no exit — free-and-livable is the historical
+    commons; the modern floor s_d is otherwise-funded in three forms
+    (dependency = unpaid transfer from the employed to the exited;
+    public provision = F.1's out-of-work payment, thin where it exists;
+    tolerated use = land held by others, priced in enforcement); none
+    insulated from q — the flat segment at s_d is an UPPER BOUND and
+    F.4's race runs against a falling floor. Superseded "modern commons"
+    clause removed; the §10→§11 cross-ref bug fixed in passing (copy
+    audit item, same sentence). Net +~115 words; no new symbols; s(q)
+    display and F.4 algebra untouched (the upper-bound reading
+    STRENGTHENS the race conclusion). lint ALL GREEN (174 p-tags, all
+    register bans hold). Remaining review repairs (Tier 1 batch, Tier 2
+    units) still awaiting her go — see the synthesis doc.
+    FOLLOW-UP (her flag): "one event posting to two ledgers" DELETED —
+    the accounting metaphor pre-stated what the next sentence says
+    plainly; that sentence now carries it ("three things happen at
+    once"), and "Enclosure manufactures labor supply" keeps the
+    contrast. wounds.diff regenerated to include it; lint ALL GREEN.
+
+## Session log (2026-08-13, continued) — THE METAPHOR/JARGON PASS
+
+15. **Metaphor/jargon pass executed** (her ask, after the ledger-sentence
+    lesson: this class fails at the meaning layer, so fresh-eyes detectors,
+    not self-read). Two detector agents: a no-economics plain reader (213
+    items inventoried, TRANSPARENT/OPAQUE/DECORATIVE verdicts) and an
+    economist jargon auditor (standard-vocabulary keep-list; defined-term
+    audit; undefined/unearned list; metaphor-family collisions;
+    figurative-inside-formal-statements list). ~50 edits applied, diff at
+    scratchpad metaphor_pass.diff (baseline pinning_pre_metaphor.html):
+    COLLISIONS UNIFIED — "close/closure" reserved for endogenization
+    ("holds the new-task margin shut", "balances exactly", "agree on the
+    same number", "blocked", "closed-economy limit"); "fork" reserved for
+    the real-wage fork (Prop G.1 renamed "Baumol concentration", "an
+    empirical question", "The Baumol case also raises the floor's
+    price"); "parity" fixed by definition at §7 + "the parity wage" for
+    the level (Fig 5, prediction 11); "floor/ceiling" de-overloaded (κ's
+    "upper bound", "minimum housing bundles"); Lemma B.1 renamed "the
+    effective schedule"; "terminal allocation" → "end-state"; idle/exit/
+    margins doubles fixed. GLOSSES ADDED — Speenhamland (1795), Baumol
+    (1967, entry added, live-verified AER 57(3):415–426), Alaska dividend,
+    distillation, credence, Z.1 residual method (+ the post-1995 caveat
+    STATED and the 2020 business-structure disclosure RESTORED in Fig 4's
+    caption — review items), withdrawal bands, "sorry"/mathlib, enclosure
+    at §2.5, assemblies at §2.7, φ_H and ρ_f and t and Y and n defined,
+    τ parcel-dummy collision fixed (∫r(z)dz), η/s_h notation-footnote
+    entries. PROP-INTERNAL FIGURATIVES literalized (unresponsive;
+    necessary; by design not by size; rental flow unchanged; accrues;
+    aphorism cut from G.1(ii)). DECORATIVES cut ("(build!)", "violently").
+    ALSO RIDING: "as capability closes" → "as the capability gap closes"
+    everywhere (the most-repeated opaque ellipsis); "drying" → "slowing";
+    "near zero" → "small" (search-referee item); L̄ mislabel fixed ("the
+    inverse of absolute solo productivity"); "welfare completion" →
+    "fiscal completion" (label unified); §10 "measured and carried" split.
+    KEPT DELIBERATELY: the ~dozen transparent recurring families (pin,
+    carry, resolve, anchor, erode, migrate, travel, recipe, disguise,
+    thin), the explicit named metaphors both reviewers passed (the fuel
+    tank, the wage of waiting, scaffolding, the fiscal scissors, the
+    room), and the seven crowns. Net +~260 words (glosses); em-dashes
+    13.7/1,000 (appositive glosses); lint ALL GREEN.
+
+## Session log (2026-08-13, continued) — THE SIX-PROFILE REVIEW
+
+13. **Six-reviewer parallel review executed** (her ask: "spin up some
+    subagents with different profiles"): task-literature referee,
+    search-macro referee, empirics referee, cold reader, copy/notation
+    auditor, adversarial theorist — all six read the full paper
+    independently (a service overload forced staggered resumes; all
+    completed). Synthesis, deduplicated and Claude-verified:
+    `docs/review_synthesis_2026-08-13.md`. HEADLINES: all arithmetic
+    verified clean (three independent recomputations; empirics matched
+    every number to the built CSVs) — but TWO STRUCTURAL WOUNDS, both
+    Claude-verified: (W1) the terminal-income corollary conflates parity
+    with unbounded machine superiority ("wages have left the list" needs
+    ρ̄→0 or full exit; at parity the paper's own Prop 4(i) pins a positive
+    wage and F.3's parameters give a ~47% wage share — propagates to §8,
+    F.5, intro, abstract); (W2) the open commons of Prop 3(i) is
+    incompatible with the recursion's viability condition as stated
+    (r = 0 forces 1−a−λρ* = 0; fix via Ricardian differential rents).
+    Plus: four repairs that STRENGTHEN the thesis (the signed
+    one-movement theorem replacing §6's "parameter question"; the
+    endpoints→primitives/nesting rewrite of §2.2; the terminal-claimant
+    correction of §2.3; the determinacy-vs-crossing split), two unsourced
+    load-bearing claims (task-birth; low-income shelter shares), a false
+    Figure 7 caption/annotation vs the built series (SAME BUG IN THE LONG
+    DRAFT — flag to link-repo), the λ>0 flat-regime gap, ~40 mechanical
+    fixes, and two big upgrade proposals (the fundamental-surplus
+    subsection; the general-technology fork theorem). Verdicts: field-
+    journal R&R now, top-five after Demands 1–2; "the kind the search
+    literature would rather steal than ignore." NOTHING SPLICED — the
+    repair pass awaits Stella's direction on W1/W2 and the Tier-2 units.
+
 ## Session log (2026-08-13)
 
 12. **The pinning rewrite executed** (this thread's unit; discussion → frozen
@@ -360,6 +469,7 @@ the-link-revision/
 ├── kappa_ceiling.csv               the ceiling grid, 32 members (data item two)
 │   ├── hud_fy25_fmrs.xlsx            vendored raw FMR county file (validated)
 └── code/
+    ├── word_diff_report.py           word-level HTML diff for prose files (her diff-reading workflow)
     ├── fig_eras.py                   regenerates the de-coined era schematic
     ├── pull_premium_race.py          self-contained, idempotent pull + build (pass one)
     └── premium_pass_two.py           composition adjustment + race decomposition (no downloads)
