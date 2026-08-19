@@ -170,6 +170,47 @@ J. Prediction register — the numbered predictions with tags and status.
   Provenance rule: any prose carried from the long draft is RE-VOICED to
   the setpoint, never pasted with its cadence — pasted captions were how
   the drift got in.
+  Control-vocabulary corollary (added 2026-08-19, from the environment-
+  appendix drift — "One environment carries the paper", "extension
+  block", "full cast", "dials"): the paper describes economies, never its
+  own architecture. Planning-layer vocabulary (blocks, switches, dials,
+  cast, activation) stays in the brief, STATE, and chat; model-states are
+  named in the paper's own words — configuration, case, limit,
+  restriction. An appendix anchors to Appendix A by naming the OBJECT it
+  takes ("the wage wedge µ(x) of Appendix A"), never an architecture
+  noun. Lint enforces the family. Root pattern to watch: this was the
+  third collaboration-layer leak (ADDENDUM 3's "[spec'd, unbuilt]",
+  ADDENDUM 7's meta-clause) — vocabulary that describes the WORK leaking
+  into the ARTIFACT.
+
+- SYMBOLS EARN THEIR INK (added 2026-08-19, from her Appendix-G catch —
+  per-task machine cost "m" read as shadowing the rental c): a symbol or
+  defined term is introduced only when reused enough to pay for itself.
+  Otherwise (1) write the full form (c/γ_M(x)), or better (2) rework the
+  statement onto an existing central object (ρ(x) → 0 outside K). A
+  symbol introduced and consumed inside one sentence is acceptable only
+  when the formula IS the content and words cannot carry it
+  (v·f/(1−v); ε_D/(ε_D+ε_S); (1−β)) and it shadows nothing defined
+  elsewhere. Enforcement is mechanical — checks/census_symbols.py counts
+  occurrences of every defined symbol and hard-fails if a killed symbol
+  returns; no hand inventories.
+
+- ITALIC VARIABLES (added 2026-08-19, hers): every variable is italic in
+  prose — Latin letters and lowercase Greek — including inside props,
+  proofs, captions, tables, and the notation footnote. Upright: uppercase
+  Greek (Δ, Λ, Σ), operator names (max, min), digits, parentheses, bold
+  vectors (Appendix C), list labels, and roman-numeral part tags (i)–(iii).
+  .eq displays are italic via CSS and stay unwrapped. Maintenance: write
+  new prose bare, run code/italicize_math.py (idempotent), re-run lint —
+  its sentinels fail on any bare Greek entity in prose. The
+  Acknowledgements are verbatim and exempt.
+
+- TWO-PART INTRODUCTIONS (added 2026-08-19, hers): a new symbol is
+  introduced in two parts, words first — name the object in words, then
+  give the defining relation ("Let x be the …, x = …" / "… the coverage
+  ratio κ … κ = rT/(N·P_s)"). A primitive with no defining relation gets
+  words plus its role ("a parameter here, the subject of Section 4").
+  Never formula-first.
 
 - Every technical claim stated plainly before any compressed form.
 - Words before algebra at each section opening.

@@ -2,7 +2,7 @@
 
 **Project:** revision of *The Link: Wages, Machines, and What Remains* (Stella Wilson, working draft Aug 2026; the blog post "A New-ish Theory of Economics" at wilsoniumite.com links the PDF — this folder sits next to the papers folder).
 **Collaboration:** extended, multi-session; working format, sequencing, and drafting decisions delegated to Claude. Direct critique preferred over validation.
-**State as of:** 2026-08-13.
+**State as of:** 2026-08-19.
 
 ## Where things stand
 
@@ -238,6 +238,227 @@ text); sweep found zero further instances; ALL GREEN.
       assertion). Section-level: nothing cuttable — §2 argues the novelty,
       §9 is her framing, §6 is the payoff. lint re-run ALL GREEN.
 
+## Session log (2026-08-19) — THE SYMBOLS PASS
+
+16. **Symbols-earn-their-ink pass executed** (her catch: Appendix G's
+    per-task machine cost m read as shadowing the rental c; her rule: a
+    definition must be reused "a fair few times," else full form or rework
+    onto existing objects; her ask: the whole paper, hunting mergeable
+    concepts). Census MECHANIZED per the ADDENDUM-7 lesson:
+    `checks/census_symbols.py` counts every defined symbol's occurrences
+    (informational table + hard-fail if a killed symbol returns).
+    SEVEN SYMBOLS ELIMINATED at three sites:
+    - App G's m — premise reworked to &rho;(x) → 0 outside K (Section 7's
+      corollary's stricter limit confined to the tasks machines can hold),
+      with the reconciliation her misread proved missing now stated: c
+      stays PINNED by the recursion (Prop 2), what vanishes is per-task
+      cost c/γ_M = c·ρ/γ_L. NOTE: m → c would have been WRONG — c → 0
+      contradicts Prop 2; the m/c distinction was load-bearing but
+      undefined at first use.
+    - App G's φ_H — credence sentence reworded; the bound is now NAMED
+      "the fraud bound v·f/(1−v)", anchoring Prediction 12's previously
+      unanchored term; the trivial min(taste, bound) arm dropped.
+    - F.1's (m_w, m_e, b, b′, y) — transfer pair now words ("what it pays
+      in work and what it pays out of it"), Δ defined as their difference,
+      cases as Δ > 0 / Δ < 0; the s(y)-vs-s(q) collision gone (income-
+      effect caveat now in words).
+    ONE CONCEPT MERGED: G.1(ii)'s proof now cites Appendix E's share
+    display with q read as K-content's relative price — one CES formula,
+    two readings (the notation footnote's context-local η note still
+    accurate). RIDING FIXES, same families as the bugs: G.1(iii)
+    "terminal expenditure" → "end-state expenditure" (the metaphor pass's
+    terminal-collision family, missed instance); App H's "when machine
+    cost undercuts w_f" made per-task (c·ρ(x) below w_f·ρ_f(x) — the same
+    rental-vs-per-task conflation as the m bug).
+    KEPT with reasons (census-verified): formula-bearing one-passage
+    symbols where the symbol IS the full form (v, f, β, ε_D/ε_S, §8's t
+    shell-game, ω_ij, k, w_K, w_f, ρ_f, δ, d, P-index) and proof-locals
+    (n, X, z); λ_R (table row handle); q* (crosses F.3→F.4). CONSIDERED,
+    REJECTED: folding Appendix E into D or G (renumbers E–I for marginal
+    gain). FLAGGED, not applied: "the fiscal scissors" (Prediction 9) is
+    a once-used named metaphor — the metaphor pass kept it deliberately,
+    so it stands; it is the one borderline the new rule would catch.
+    `check_pinning.py` +8 checks (G.1 in ρ-form: c pinned positive at the
+    limit, unit-cost limit, K-free collapse, divergence; CES share limits
+    doubling as App E's display — this repo previously leaned on
+    link-repo's m-form kset record): 35 ALL GREEN. lint ALL GREEN. Rule
+    written into the brief (SYMBOLS EARN THEIR INK). Diff at scratchpad
+    symbols_pass.diff.html; baseline pinning_pre_symbols.html (git also
+    holds the pre-state: pinning.html was committed clean at ff460b9).
+
+17. **The environment appendix executed** (her go on option 1 of the
+    complete-model discussion — one environment defined once, appendices
+    as activated blocks, NOT one master model deriving everything jointly;
+    her constraints: take restructure/cut/expand opportunities as they
+    arise, preserve the main text's cold register — met by touching the
+    main text ZERO times). Appendix A retitled "The environment and
+    assignment equilibrium"; new opening: the full cast in seven blocks
+    (tasks/technology with µ and K and the tradable subset; machines
+    scalar and matrix; non-produced inputs with r(z); people with the
+    exit technology and CES(σ, η); government's four instruments; abroad)
+    + an equilibrium definition per configuration + a nine-row switch
+    table (main §§3–7 all-off; §8 (τ,u,t); B wedges; C matrix+durability;
+    D the limit row with η=1; E general η; F government in full; G the
+    K block; H the border). Honesty line: "the other blocks off unless
+    named. Existence for the full assembly is not claimed."
+    THE PAIR RESTORED, tightly: (m_w, m_e) now DEFINED in A's government
+    block and DERIVED in F.1 (w + m_w vs s + m_e ⟹ Δ = m_w − m_e) — the
+    fix for her "the words now feel even looser" regression; census shows
+    the pair at 8 hits across its two homes. NEW CROSS-MODULE DISPLAY
+    (G×F): F.3's bundle extended with k_s hours of K-service, κ =
+    qT/(N(g_s + k_s·w_K/p_g + q·h_s)), below the K-free ratio at every q
+    and falling in the K-hour's price — algebra first verified in
+    link-repo's check_kset.py, now restated and re-checked on this
+    paper's own display (+2 checks). Appendix openers re-anchored to A's
+    blocks (B "turn on the wedge block", C "many-machine block in full",
+    D "set the dials to the limit row", E "the general η", F "government
+    block in full", G "turn on the K block", H "open the border");
+    Cobb–Douglas now explicitly D's η=1. Notation footnote updated (µ in
+    A and B). NOT BUILT, left open by design: the in-kind-housing m_e
+    against q·h_e (formalizes §5's three-forms passage) and wedges inside
+    the machine sector's own labor (µ meets λ) — the two cross-module
+    candidates she can commission separately. check_pinning 37 ALL GREEN;
+    lint ALL GREEN (body ~13.4k words, +~640, main text unchanged at
+    ~5,235); census updated (m_w/m_e revived with a defining home, k_s
+    live, DEAD list still zero). Diff at scratchpad
+    environment_pass.diff.html; baseline pinning_pre_environment.html.
+    STRUCTURAL NOTE for future sessions: deviation from the frozen
+    brief's appendix plan — A is now environment + equilibrium; letters
+    B–I unchanged, no reference churn.
+
+18. **Environment-appendix register repair + post-mortem** (her catch,
+    Socratic: "compare this language with that of the introduction" —
+    "One environment carries the paper" / "extension block" / "full
+    cast"). DIAGNOSIS, confirmed: §1's sentences take the economy as
+    subject, and the paper's self-references act on model objects in
+    model vocabulary ("The paper closes both prices"); the new opener's
+    sentences took the DOCUMENT'S ORGANIZATION as subject, in vocabulary
+    coined for the occasion (block/cast/dials/switch) while the paper
+    already owned the needed words (configuration §9, case, limit,
+    restriction). ROOT CAUSE: planning-layer vocabulary from the
+    design discussion transplanted into the artifact — third instance
+    of the collaboration-layer leak family (ADDENDUM 3 state-file idiom;
+    ADDENDUM 7 meta-clause). FIXES: A's opener rewritten object-level
+    ("The economy below generalizes the model of Sections 3–5; the main
+    text is the case with every extension absent... each appendix
+    relaxes one restriction"); table header "Blocks on" → "Configuration";
+    all anchors de-jargoned to object-naming ("Let tasks carry the wage
+    wedge µ(x) of Appendix A", "Take Appendix A's economy to the full
+    limit", "Open Appendix A's economy", "Let Appendix A's set K have
+    positive measure k", "Appendix A's government in full"); E's opener
+    also names D as its η = 1 case. lint HARD-BANS the family
+    (extension/wedge/government/K/preference/machine block, blocks
+    on/off, full cast, the dials, turn on appendix, switch(ed) on);
+    the brief's ONE TEMPERATURE gains the control-vocabulary corollary
+    naming the leak pattern. lint + checks ALL GREEN; diff regenerated.
+
+19. **Italics + two-part-introductions pass executed** (her rules: all
+    variables italic in prose; every new symbol introduced words-first
+    with its defining relation). MECHANIZED, not hand-done:
+    `code/italicize_math.py` — an idempotent transformer (re-run = +0)
+    that wraps Latin variables and lowercase Greek in <i>…</i> across
+    prose, props, proofs, captions, tables, and the notation footnote,
+    per TeX convention. Upright by design: uppercase Greek (Δ, Λ, Σ),
+    max/min, digits, bold vectors, (a)–(d) list labels, (i)–(iii) part
+    tags, possessive 's, "i.e.", appendix letters, Z.1. Skipped: .eq
+    displays (CSS-italic already), references, Acknowledgements
+    (verbatim). +944 spans (82 → 1026, balanced); one manual fix the
+    sentinel caught on first run — §11's bold kill-header λ, now
+    bold-italic (the transformer's bold-skip protects Appendix C's
+    upright vectors, which shielded it). MAINTENANCE WORKFLOW: write new
+    prose bare → run the transformer → lint (tag balance now covers
+    i/b/sub/sup; new sentinel FAILS on any bare Greek entity in prose).
+    census_symbols.py normalizes the markup away before counting.
+    TWO-PART AUDIT: census-guided sweep of every first introduction —
+    the paper was already near-compliant (words-before-algebra held);
+    three gaps fixed: w now introduced ("Labor, at wage w, holds task
+    x..."), z introduced ("rent schedule r(z) over parcels z"), q_enc
+    given its words ("dies where rising rents exhaust the independent
+    keep, at q_enc = ..."). Both rules written into the brief (ITALIC
+    VARIABLES; TWO-PART INTRODUCTIONS). check_pinning 37 ALL GREEN; lint
+    ALL GREEN. Diff at scratchpad italics_pass.diff.html (538 regions);
+    baseline pinning_pre_italics.html.
+
+20. **Poetic-register sweep executed** (her catch: "floor dies" — the
+    lens is WARMTH, distinct from the metaphor pass's opacity lens; her
+    ask: "what else reads a bit overly poetic?"). Grep-swept, not
+    hand-inventoried; ~35 edits across four families, all lint-banned
+    now so none can return:
+    (1) LIFE-CYCLE VERBS on model objects: floor "dies"→independent exit
+    "ends" (F.4); "outlives"→"outlasts"; "the welfare claim dies"→
+    "fails" (§11); wage "lives in"→"sits in" an interval (§1, §6 het.);
+    accounts that "live"→"defined" inside the interval; "went dormant"→
+    "lapsed" (§2.5).
+    (2) ORNATE PRICE DICTION: "dear/dearer" family OUT everywhere (§1,
+    §6, Fig 1 caption "costlier worker", G proof "costlier category", G
+    κ-sentence); G's closing aphorism CUT ("what survives the machines
+    makes surviving them dearer" — the display now carries it).
+    (3) VIVID MECHANISM VERBS: "comes to rest"→"settles" (×3: §1, §7,
+    §12); "walks the floor down"→"lowers the floor"; "summons"→
+    "induces" (F.1, §8); "society burns"→"loses" + "appearance of
+    employment"→"employment so preserved"; "housing eats the budget"→
+    "takes the whole budget" (E); "plumbed into"→"taxes" (§10); "blind
+    in opposite places"→"miss opposite bases", "mix question retires"→
+    "disappears" (F.5); "thicken"→"add"/"extend" (§4, C); "hands
+    tasks"→"shifts tasks" (Fig 1); "on display"→"showing" (§4);
+    "reservoir"→"stock", "loses its engine"→"mechanism" (§11); "the
+    human hour the floor must buy"→"put human hours in the subsistence
+    bundle" (G); "last variable standing"→"reduces the distributional
+    question to ownership" (§8); "backdrops"→"background" (§2.7);
+    "labor-hungry"→"labor-intensive" (§9).
+    (4) ERA LABELS COOLED: "the floor does the work"→"the floor binds"
+    (matches the paragraph's own "binding boundary"); "the ceiling lifts
+    off"→"the ceiling rises".
+    KEPT, with reasons, flagged to her: the seven crowns (brief-exempt);
+    the named metaphors (fuel tank, wage of waiting, scaffolding, the
+    room, fiscal scissors); the ten transparent families (pin, carry,
+    resolve, anchor, erode, migrate, travel, recipe, disguise, thin);
+    literature-standard usages ("escape" from Malthus, "sheds labor",
+    "unravel" (Roth), "sufferance" (legal), "spiral", "in disguise"
+    P6); "way-station" (H); §5's "finds nothing in the exit bundle left
+    to price" (the ADDENDUM-3 beat); "aggregate rescue, median
+    collapse" + the "rescue" family (G/§11/P12); "direction, not a
+    destination" (§11); the abstract untouched (her approved version).
+    FALSE-POSITIVE discipline: "treats/beats/subsidies/Studies"
+    excluded; §9's "engines" is literal machinery, kept. lint gains the
+    poetic-ban family (" dies" spaced to spare "subsidies"); transformer
+    re-run +0 (no new variables); 37 checks + lint ALL GREEN. Isolated
+    diff at scratchpad register_pass.diff.html (48 regions).
+
+21. **Abstract rewritten** (her direction, supersedes the ADDENDUM-4
+    abstract): three candidates offered (compressed arc / minimal /
+    implication-forward); she chose MINIMAL (B) with three fixes, all
+    applied: (1) "forks by deflator" replaced by the spelled-out form —
+    "real wages diverge by what they are measured in: in machine-made
+    goods the wage is pinned by absolute human productivity; against
+    housing, space, and energy it falls without bound" + the concrete
+    paycheck sentence (4× durables, a fifth less shelter, 4.8×). HER
+    CALL: "fork" stays body-only, out of the abstract. "K-shaped
+    economy" considered at her mention, REJECTED by Claude with reasons
+    given (collides with Appendix G's K set; trend vocabulary) — flag
+    if she wants it anyway. (2) "instrument pair that survives" →
+    "From the model we derive a taxation and benefit system: a tax on
+    the rents of non-produced inputs funding a uniform per-person
+    transfer. It distorts no production decision and changes no
+    work–exit choice." (3) "full rent capture" → "Taxed in full, U.S.
+    site rents would fund one-third of a per-person subsistence floor
+    today, up from a twentieth in the 1950s." Result ~190 words (was
+    ~265): w = cρ(x*), the search-positioning sentence, and the
+    classical close all dropped from the abstract (§§1–2 carry them);
+    the one inline equation kept (c = ac + λw + ℓr, words-first). ALSO
+    NOW IN THE ABSTRACT for the first time: the κ trend (0.05 → 1/3).
+    Transformer re-run (+5 wraps), lint ALL GREEN. Diff at scratchpad
+    abstract_rewrite.diff.html; pre-state pinning_pre_abstract.html.
+    FOLLOW-UP (her call, same day): BOTH wage equations added back —
+    sentence 1 regains w = cρ(x*), and a new sentence carries the
+    solved closure with a title echo: "Margin and recursion together
+    pin the wage to scarcity and technology: w = ρ(x*)·ℓr/(1−a−λρ(x*))"
+    — written with ρ(x*) in full (no ρ* definition spent in the
+    abstract; same object as Prop 2's, already checked). This REVERSES
+    ADDENDUM 4's "solved closure is Prop 2's job, not the abstract's,"
+    at her direction. Abstract now ~212 words. Transformer +12 wraps;
+    lint ALL GREEN; diff regenerated.
+
 ## Session log (2026-08-13, continued) — WOUND REPAIRS (W1 + W2)
 
 14. **The two structural wounds repaired**, on her go after a
@@ -384,6 +605,12 @@ text); sweep found zero further instances; ALL GREEN.
 
 A full zoom-out read of the finished paper (Claude, this session) produced four load-bearing critiques that Stella marked as **probably the next paper, not yet decided**: (1) the paper's stark results live on the K=∅ edge of its own Prop 11 while plausible K (law-reserved + co-present) approaches half of employment — sizing K and modeling reallocation into it (w_K dynamics, entry gates) is the open machinery; (2) the land facts (deflator fork, Rognlie) have an unpriced rival in zoning — the discriminating content is the second derivative; (3) the rent taxonomy protects the migration claim from falsification — Prediction 7 needs dating like the stress-test P-S set; (4) the political economy of enacting the remedy (taxing the only surviving asset class) is absent — belongs with the transition-dynamics sketch. Items (1) and (4) are new relative to the audit; (2) and (3) sharpen audit points. Do not fold these into the current revision uninvited; they are scoped as follow-on work.
 
+**Spun out (2026-08-17):** the long-record extension — §10 assembly (3) grown
+into a fittable dynamic wrapper over the static core — now lives at
+`../long-record/` (own STATE.md; governing spec at `long-record/docs/spec.md`;
+parked at its Breakpoint A). Decided with Stella in-session; `pinning.html`
+untouched by that thread.
+
 **PENDING DECISION (Stella's, raised 2026-08-09):** whether the sketch blocks merge into the main paper at all, or become the next paper together with the critiques above. Claude's recommendation on a full read of the finished text: the paper takes only surgical repairs — the audit-v heterogeneity fix, Assumption F named in §10, a κ-ceiling sentence on Prop 8, possibly a political-economy paragraph in §10 — and everything else (the split, task anatomy, education race, μ anatomy, the premium data) becomes paper three. The companion never merges; it gets cited from the prediction tags once its measurements stabilize. Queue item "algebra pass then merge" narrows accordingly if confirmed. Also raised: the companion's figures failed the author-readability test — a figure-level Dr. R. pass on the companion is proposed work, not yet queued.
 
 ## Standing rules (Stella's — do not relax)
@@ -426,6 +653,10 @@ A full zoom-out read of the finished paper (Claude, this session) produced four 
 
 ## File map
 
+Prose-maintenance loop (2026-08-19 onward): new prose is written BARE,
+then `code/italicize_math.py` (idempotent) wraps the math variables, then
+lint verifies (Greek-entity sentinels + tag balance). Never hand-wrap.
+
 ```
 the-link-revision/
 ├── README.md
@@ -441,8 +672,9 @@ the-link-revision/
 │   ├── fig_deflator_fork.png         carried byte-identical from link-repo
 │   └── fig_kappa.png                 carried byte-identical from link-repo
 ├── checks/
-│   ├── check_pinning.py              the λ-recursion spine, 27 checks (2026-08-13)
+│   ├── check_pinning.py              the λ-recursion spine + ρ-form G.1, 35 checks
 │   ├── lint_pinning.py               mechanical sweeps over pinning.html
+│   ├── census_symbols.py             defined-symbol census (symbols-earn-their-ink rule)
 │   ├── check_split.py                A0-DR, A1-FP, A2-POOL (Block A)
 │   ├── check_mirror.py               B1-OCC, B2-COV amended (Block B)
 │   ├── check_anatomy.py              B0'1-MEAS, B0'2-RES (Block B.0′)

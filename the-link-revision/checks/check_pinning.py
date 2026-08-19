@@ -144,6 +144,55 @@ ok("P3 floor: s(q) weakly decreasing in q (numeric grid)",
 ok("P3 floor: above q_enc the floor is s_d (constant)",
    s_of_q.subs(inst_e).subs(q, 2) == 4 and s_of_q.subs(inst_e).subs(q, 5) == 4)
 
+# ------------------------------------------------- Appendix G (rho-form)
+# G.1 restated 2026-08-19 on rho -> 0 outside K (the per-task symbol m is
+# gone; link-repo/checks/check_kset.py holds the old m-form record). The
+# new claim chain: c stays pinned by the recursion while per-task machine
+# cost c*rho/gamma_L vanishes, so a K-holding good's unit cost tends to
+# its K-labor cost. CES share limits double as Appendix E's display
+# (G.1(ii) now cites it), previously unchecked in THIS repo.
+k_, wK, gL = sp.symbols("k w_K gamma_L", positive=True)
+c_of_rho = ell*r/(1 - a - lam*rho)          # worst case: margin at the vanishing rho
+unit_cost = k_*wK/gL + (1 - k_)*c_of_rho*rho/gL
+anet2 = sp.symbols("anet2", positive=True)
+ok("G1(i): c pinned at rho->0: c -> ell*r/(1-a) > 0, not zero",
+   sp.limit(c_of_rho.subs(a, 1 - anet2), rho, 0, "+") == ell*r/anet2)
+ok("G1(i): unit cost -> k*w_K/gamma_L as rho->0 outside K",
+   sp.limit(unit_cost.subs(a, 1 - anet2), rho, 0, "+") == k_*wK/gL)
+ok("G1(i): labor's share of cost -> 1",
+   sp.limit((k_*wK/gL)/unit_cost.subs(a, 1 - anet2), rho, 0, "+") == 1)
+ok("G1(iii): K-free good's price -> 0 (k=0 case of (i))",
+   sp.limit(unit_cost.subs({a: 1 - anet2, k_: 0}), rho, 0, "+") == 0)
+ok("G1(ii): relative price of K-content over K-free diverges",
+   sp.limit((wK/gL)/(c_of_rho.subs(a, 1 - anet2)*rho/gL), rho, 0, "+") == sp.oo)
+# Appendix E's share display s_h(q) = sigma*q^(1-eta)/(sigma*q^(1-eta)+1-sigma),
+# limits as the dear category's relative price q -> oo, at sigma = 1/4:
+eta_ = sp.symbols("eta", positive=True)
+sig4 = sp.Rational(1, 4)
+s_h = sig4*q**(1 - eta_) / (sig4*q**(1 - eta_) + 1 - sig4)
+ok("E/G1(ii): CES share -> 1 for eta<1 (complements: the dear category eats the budget)",
+   sp.limit(s_h.subs(eta_, sp.Rational(1, 2)), q, sp.oo) == 1)
+ok("E/G1(ii): CES share = taste weight for eta=1 (Cobb-Douglas)",
+   sp.simplify(s_h.subs(eta_, 1) - sig4) == 0)
+ok("E/G1(ii): CES share -> 0 for eta>1 (substitution defuses)",
+   sp.limit(s_h.subs(eta_, 2), q, sp.oo) == 0)
+
+# --------------------------------------------- Appendix G x F.3 (2026-08-19)
+# The cross-module display added with the environment appendix: a K-service
+# component in the subsistence bundle lowers coverage at every q, further
+# the dearer the K-hour. (Algebra first verified in link-repo's
+# check_kset.py; restated here on this paper's own display.)
+ks, wKg = sp.symbols("k_s w_K_over_pg", positive=True)
+gs, hs, T_, N_ = sp.symbols("g_s h_s T N", positive=True)
+kappa_free = q*T_/(N_*(gs + q*hs))
+kappa_K = q*T_/(N_*(gs + ks*wKg + q*hs))
+ok("GxF: K-component lowers coverage at every q (positive gap identity)",
+   sp.simplify(kappa_free - kappa_K
+               - q*T_*ks*wKg/(N_*(gs + q*hs)*(gs + ks*wKg + q*hs))) == 0)
+ok("GxF: the gap grows as the K-hour gets dearer (d kappa_K / d(w_K/p_g) < 0)",
+   sp.simplify(sp.diff(kappa_K, wKg)
+               + q*T_*ks/(N_*(gs + ks*wKg + q*hs)**2)) == 0)
+
 # ------------------------------------------------------- Appendix A hook
 # Market-clearing wage decreasing in participation, given r: w(rho*) rises
 # in rho*, and rho(x*) falls as more tasks must be held — composite falls.
