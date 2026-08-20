@@ -82,6 +82,21 @@ are veto windows (defaults stand unless vetoed).
    1947–1982 is context. Unit order is now 3 = century arc, 4 = Family B
    (+SEA hours), 5 = US hours + rent layer, 6 = THE GATE READ. Amendment
    log at the foot of `lambda_spec.md`.
+8. **λ unit 3 DONE — century arc built, checks ALL GREEN (10)**
+   (2026-08-20). Nine benchmark vintages parsed (1947–1992) from BEA's
+   historical packages; compensation λ̂ points **1967–1992** (six, incl.
+   both W1b anchors 1982 and 1992); 1947/1958/1963 carry no compensation
+   split at the 85-level and are DROPPED from λ̂, not imputed (parses
+   validated by the resolution identity; NIPA-bridge recovery queued).
+   Identification is self-verifying (GDP anchor + dominant-component rule;
+   externally cross-checked vs HIST components at 0.9%/0.7% for 1987/1992).
+   Splice 1992 SIC → 1997 NAICS: ratio 0.9204, the classification-break
+   step, stated on the figure with BEA's "should not be used as a time
+   series" caveat. Outputs `lambda/data/lambda_us_century.csv` +
+   `lambda/figures/lambda_us_century.png` — **UNREAD** (gate read =
+   unit 6). SIC-era two-digit published TRs are NOT reproduced by the
+   unit-2 algebra (recon 0.19–0.25, old conventions) — published TR used,
+   recorded report-only.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -120,24 +135,27 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       start for W1b; A&R §3.3 + Stansbury–Summers as the published-values
       rent anchors; the two mixed-case interpretations as pre-named;
       century arc's 1947–1982 as context with no sign requirement.
+- [ ] Unit 3's delegated calls: self-identifying parsing (GDP anchor with
+      per-vintage scale detection; compensation = dominant VA-block row);
+      pre-1967 points dropped rather than imputed (NIPA-bridge recovery
+      queued); ratio splice at 1992→1997 with the 0.9204 step stated;
+      published TR trusted over the failed 2-digit reconstruction
+      (report-only); SIC machine set 43–58 with the +instruments (62)
+      variant.
 
 ## Next actions (priority order)
 
-1. **λ unit 3 — century arc (promoted into the gate):** probe + pull the
-   historical benchmark make–use tables 1947–1992 (SIC); SIC↔NAICS
-   machinery concordance; splice onto 1997–2023 under the house rule; the
-   accounting-tier long figure. W1b (1982→2023) joins the PASS test.
-2. **λ unit 4 — Family B pull:** WIOD SEA (compensation AND hours) + ICIO
+1. **λ unit 4 — Family B pull:** WIOD SEA (compensation AND hours) + ICIO
    (route proven, unit 1); world λ̂, world H_rel; domestic/foreign
    decomposition.
-3. **λ unit 5 — US hours + rent layer:** BEA–BLS integrated-accounts hours
+2. **λ unit 5 — US hours + rent layer:** BEA–BLS integrated-accounts hours
    → H_rel for W3/W1b; A&R §3.3 published values + Stansbury–Summers
    series probed; w̄_rel and the rent-purged variant.
-4. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
+3. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
    two legs); memo with the pass / fail / ambiguous call; PLAN.md updated
    either way. No book work that depends on the hypothesis proceeds past a
    fail or an unresolved ambiguous.
-5. Then per spec: delivery (P1 §10 subsection + companion note).
+4. Then per spec: delivery (P1 §10 subsection + companion note).
 
 ## File map
 

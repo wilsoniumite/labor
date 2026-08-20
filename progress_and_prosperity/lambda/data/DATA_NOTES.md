@@ -56,6 +56,46 @@ dom ≤ tot; exact VA resolution; domestic resolution ∈ [0.572, 0.996]
 - 2017-detail run (repair 811, finer software split): queued.
 - GDPxInd cross-check is report-only in v1 (C7); tighten if promoted.
 
+## Century arc (unit 3, built 2026-08-20)
+
+Sources: BEA historical benchmark packages (harvested via the in-app browser
+from `bea.gov/industry/historical-benchmark-input-output-tables`, pulled by
+`code/pull_century.py`): 85-order Excel vintages 1947/1958/1963/1967/1972/
+1977, two-digit text vintages 1982 (`ndn0125`), 1987 (`ndn0019`), 1992
+(`ndn0180`); plus `AllTablesHIST.zip` (historical GDP-by-Industry 1947–1997,
+NAICS-basis retrospective) for the GDP anchor and the 1987+ compensation
+cross-check. BEA's own caveat is carried on every output: the historical
+benchmarks "should not be used as a time series" — used as benchmark POINTS,
+splice stated.
+
+Construction (`code/compute_century.py`), self-identifying by design:
+industries = numeric prefix 1–85; the VA block is the greedy special-row
+subset matching revised GDP (scales {1e-3, 1e-1, 1, 1e3} tried — 1982 ships
+in $100K units; scale cancels everywhere but the anchor); compensation =
+the dominant VA-block row (share ∈ [0.45, 0.72]); FD columns = positive-
+total specials, cell-clip rule; published total requirements used for every
+vintage (in-file, the 1958 TR workbook, 1982's trailing ×1e7 fields, 1987
+TBL5, 1992 IXCTR.TXT). Machine set: SIC 85-order 43–58; "+i" adds 62
+(instruments, NAICS-334 ancestry). Software not separable pre-NAICS —
+century set is narrow-only, stated.
+
+Results discipline: compensation λ̂ points 1967–1992 (six, incl. both W1b
+anchors); **1947/1958/1963 carry no compensation split at the 85-level and
+are dropped from λ̂, not imputed** — their parses are validated by the
+resolution identity (res_va 0.955–0.994). External verification where
+possible: comp row vs HIST components, dev 0.9% (1987) and 0.7% (1992).
+Splice 1992 SIC → 1997 NAICS narrow: ratio link 0.9204, the classification-
+break step, reported on the figure. The unit-2 algebra does NOT reproduce
+the SIC-era two-digit published TRs (recon_err 0.19–0.25 — old transfer/
+secondary-product conventions); published TR is the source there,
+reconstruction recorded report-only.
+
+Checks: `checks/check_century.py` — ALL GREEN (10) on 2026-08-20.
+
+Queued extensions, recorded: pre-1967 compensation via NIPA 6.2-style
+industry compensation bridged to 85-order sets (recovers 1947/58/63 points
+if wanted); hours layer for the century arc (best-effort, unit 5 scope).
+
 ## Read status
 
 **UNREAD.** The series and figure exist; the committed read criteria are
