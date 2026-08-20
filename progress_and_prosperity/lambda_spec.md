@@ -300,6 +300,18 @@ plus extension, and the paper cites instead of rediscovering.
   the US century arc (unit 3, 1967–). ICIO's data zips 403 every scriptable
   client — the 1995–2022 extension is parked behind a documented manual
   download, decided before the gate read or not at all.
+- **2026-08-20, post-read clarification (Stella).** Her original rent-wages
+  point meant specifically the MASKING direction: new rent-bearing wages
+  propping the measured share up, making λ̂ read flatter than true λ (the
+  false-fail channel) — not the dissipation/false-pass direction Claude's
+  prose foregrounded as "the dangerous one." Both directions were in the
+  amendment (hers = the pre-named λ̂→/H_rel↓ mixed case; the H_rel leg is
+  immune to wage-side propping incl. rents outside S&S's definitions), so
+  her case was tested: H_rel fell on 100% of members, measured machinery
+  rents fell rather than rose, and w̄_rel's mild rise implies measured λ̂
+  if anything UNDERSTATES the technical decline. Consequence for the
+  record: the masking channel is a conservative-bias footnote on the PASS,
+  to be stated in the companion note's caveats at final drafting.
 - **2026-08-20, unit 6a (Stella's breakpoint decision: Option A —
   committed BEFORE the repaired number is computed).** The gate read
   returned the pre-named λ̂↓/H_rel→ case on the world quantity leg, with

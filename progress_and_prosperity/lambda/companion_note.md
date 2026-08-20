@@ -154,7 +154,12 @@ KLEMS index; the 28-block hours bridge; rest-of-world labor as a
 zero-to-mean band; rents purged with Stansbury–Summers' definitions;
 self-employment handled via the WIOD LAB variant on the world leg and
 recorded as a deferred axis on the US leg; machinery-set membership as a
-grid, software inseparable before the NAICS era.
+grid, software inseparable before the NAICS era. One bias runs in the
+conservative direction: rent-bearing wages not captured by the
+Stansbury–Summers channels (e.g., superstar pay in software) would prop
+the value share up, so measured λ̂ if anything understates the technical
+decline — the hours legs, which no wage-side composition can flatten,
+carry the floor under that possibility.
 
 ## 6. Reproduction
 
