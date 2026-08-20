@@ -55,6 +55,19 @@ are veto windows (defaults stand unless vetoed).
    81 areas × 50 activities; machine-set codes concordanced (C26/C27/C28
    narrow; J62_63 medium; C31T33 coarse-broad; leasing BEA-only). Spec
    sources table updated in place.
+6. **λ unit 2 DONE — Family A built, checks ALL GREEN (11)** (2026-08-20).
+   `lambda/`: pull + compute + reconstruction diagnostic + check battery;
+   `lambda/data/lambda_us_family_a.csv` (1997–2023; {narrow, medium, broad}
+   × {tot, dom} λ̂ members + dom_purch, direct shares, non-wage resolution)
+   and the banded figure — both **UNREAD**; the gate read is unit 4.
+   Construction verified, not assumed: the published IxC_TR is reproduced
+   to 1.3e-04 from Make + published DR (the SUT-framework tables miss by
+   ~0.3 — the published TR's basis is the MU after-redefinitions framework;
+   `lambda/code/diag_reconstruction.py` is the record). Exact full-VA
+   resolution identity holds at 1.4e-06; ρ(BW) ≤ 0.52 (net reproduction —
+   the model's a < 1, empirically). Deferred axes recorded in
+   `lambda/data/DATA_NOTES.md` (self-employment; import-matrix purge;
+   before-redefinitions; 2017-detail/repair).
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -78,19 +91,24 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       behind its dated wall; the ICIO fetcher route with manual-download
       fallback; f_M investment-flow weighting (vom Lehn–Winberry) deferred
       to build as a grid-axis candidate.
+- [ ] Unit 2's delegated calls: MU after-redefinitions basis (forced by the
+      reconstruction gate); proportional import purge for the domestic
+      variant (import-matrix variant queued); final-use weights = all
+      F-columns except inventories (F030) and imports (F050), clipped ≥ 0;
+      summary-level sets with 514 (the summary code, not 518) and repair
+      only at 2017 detail; raw-zip cache .gitignored while the derived CSV
+      is committed as the checks' input; the figure stays UNREAD until
+      unit 4.
 
 ## Next actions (priority order)
 
-1. **λ unit 2 — first pull, Family A:** BEA annual supply–use 1997–2023 +
-   VA components; the sector grid; first λ̂_US series; checks green before
-   anything is read.
-2. **λ unit 3 — Family B pull:** WIOD + ICIO (route proven, unit 1) + SEA
+1. **λ unit 3 — Family B pull:** WIOD + ICIO (route proven, unit 1) + SEA
    labor layer; world λ̂; domestic/foreign decomposition.
-3. **λ unit 4 — THE GATE READ:** criteria applied to both referees; memo
+2. **λ unit 4 — THE GATE READ:** criteria applied to both referees; memo
    with the pass / fail / ambiguous call; PLAN.md updated either way. No
    book work that depends on the hypothesis proceeds past a fail or an
    unresolved ambiguous.
-4. Then per spec: century arc (benchmarks + splice) and delivery (P1 §10
+3. Then per spec: century arc (benchmarks + splice) and delivery (P1 §10
    subsection + companion note).
 
 ## File map
@@ -101,7 +119,11 @@ progress_and_prosperity/
 ├── PLAN.md           the program: phases, chapter map, papers P1–P5, provenance ledger
 ├── lambda_spec.md       Phase 0 gate spec, pre-registered 2026-08-20
 ├── lambda_prior_art.md  unit 1: existence verdict, literature, ICIO routing
-└── (lambda/             code, data, figures — created at the pull, not before)
+└── lambda/              unit 2 build (Family A)
+    ├── code/            pull_family_a.py · compute_family_a.py · diag_reconstruction.py
+    ├── checks/          check_family_a.py — ALL GREEN (11); gates the build
+    ├── data/            lambda_us_family_a.csv · DATA_NOTES.md · cache/ (.gitignored; the pull script recreates it)
+    └── figures/         lambda_us_family_a.png (UNREAD until unit 4)
 ```
 
 ## Repro notes

@@ -163,8 +163,8 @@ world referee runs on WIOD 2016 + WIOD-LR and says so.
 
 | Member | Coverage | Status |
 |---|---|---|
-| BEA IO accounts (benchmarks; annual supply–use; total/domestic requirements) | benchmarks 1947–2017; annual 1997–2023 | REACHABLE — landing green; tables live in the interactive app with no-registration XLSX/CSV; flat-file and API routes to title-verify at pull |
-| BEA GDP-by-Industry value-added components | 1947– | REACHABLE — XLSX + archive, no registration |
+| BEA IO accounts (benchmarks; annual supply–use; total/domestic requirements) | benchmarks 1947–2017; annual 1997–2023 | PULLED (unit 2) — static zips title-verified (`AllTablesIO.zip`, `AllTablesSUP.zip`, no registration); truststore/PowerShell routes; construction verified against the published IxC_TR (see `lambda/data/DATA_NOTES.md`) |
+| BEA GDP-by-Industry value-added components | 1947– | PULLED (unit 2) — cross-check members, report-only in v1 |
 | OECD ICIO, 2025 edition (rev. 2026-01) | 1995–2022; 81 areas × 50 activities | GREEN (unit 1, 2026-08-20) — direct zips on webfs-sti.oecd.org, URL set in `lambda_prior_art.md`; harness fetcher passes the host (ReadMe pulled), local curl/PowerShell 403 → fetcher route, manual vendored download as the large-file fallback |
 | OECD TiM (labor layer for ICIO) | ~1995– | NOT PROBED — landing recorded unit 1 (`oecd.org/en/data/datasets/trade-in-employment.html`); WIOD SEA is the probed-green labor pairing |
 | WIOD 2016 (+SEA) | 2000–2014 | REACHABLE (rug.nl/ggdc) — SEA presence known from the literature, confirm on release page at pull |
