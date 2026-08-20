@@ -77,7 +77,10 @@ substituted for the primary):
 supply–use 1997–2023, GDP-by-Industry value-added components (compensation,
 GOS, taxes) 1947–. Import treatment is a grid axis: domestic-requirements
 (US labor content only) vs total-requirements with the import proxy. Century
-coverage; carries the offshoring caveat below.
+coverage; carries the offshoring caveat below. The BLS
+employment-requirements matrices (direct + indirect jobs per $1M final
+demand) join as the hours cross-check when BLS republishes them (dated
+wall — sources table).
 
 **Family B — world content (the falsifier's referee).** OECD ICIO 1995–2022
 (2025 edition, rev. Jan 2026; ~45 industries, 80 economies) paired with a
@@ -162,11 +165,12 @@ world referee runs on WIOD 2016 + WIOD-LR and says so.
 |---|---|---|
 | BEA IO accounts (benchmarks; annual supply–use; total/domestic requirements) | benchmarks 1947–2017; annual 1997–2023 | REACHABLE — landing green; tables live in the interactive app with no-registration XLSX/CSV; flat-file and API routes to title-verify at pull |
 | BEA GDP-by-Industry value-added components | 1947– | REACHABLE — XLSX + archive, no registration |
-| OECD ICIO, 2025 edition (rev. 2026-01) | 1995–2022 | AMBER — dataset landing 403 via harness fetcher this day; bulk-file host answered a search-indexed file, so a route likely exists (Data Explorer bulk / direct zip). Resolve at pull; BLOCKED-and-stop if not |
-| OECD TiM (labor layer for ICIO) | ~1995– | NOT PROBED — secondary; WIOD SEA is the probed-green labor pairing |
+| OECD ICIO, 2025 edition (rev. 2026-01) | 1995–2022; 81 areas × 50 activities | GREEN (unit 1, 2026-08-20) — direct zips on webfs-sti.oecd.org, URL set in `lambda_prior_art.md`; harness fetcher passes the host (ReadMe pulled), local curl/PowerShell 403 → fetcher route, manual vendored download as the large-file fallback |
+| OECD TiM (labor layer for ICIO) | ~1995– | NOT PROBED — landing recorded unit 1 (`oecd.org/en/data/datasets/trade-in-employment.html`); WIOD SEA is the probed-green labor pairing |
 | WIOD 2016 (+SEA) | 2000–2014 | REACHABLE (rug.nl/ggdc) — SEA presence known from the literature, confirm on release page at pull |
 | WIOD 2013 | 1995–2011 | REACHABLE — splice-check member |
 | WIOD long-run | 1965–2000 | REACHABLE — coarse-sector caveat above |
+| BLS Employment Requirements Matrices (Family A hours cross-check) | ~1997–2023; nominal + chained-2017; domestic + total | DATED WALL — all ERM tables removed by BLS 2026-02-06 (value-added error), republication at the next EP release; revisit then (unit 1) |
 
 Walls policy: BEA's API key is free registration — v1 routes through
 no-registration downloads; if the key becomes necessary, that is an explicit

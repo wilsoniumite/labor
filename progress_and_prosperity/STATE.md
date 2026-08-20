@@ -11,7 +11,7 @@ book posts; papers and data are joint with Claude drafting; working format,
 sequencing, and drafting decisions delegated to Claude; direct critique
 preferred. One work unit per session; checks gate absolutely; verify-lists
 are veto windows (defaults stand unless vetoed).
-**State as of:** 2026-08-20 (founding day, sessions 1–2).
+**State as of:** 2026-08-20 (founding day: gates, founding, and λ unit 1).
 
 ## Where things stand
 
@@ -43,6 +43,18 @@ are veto windows (defaults stand unless vetoed).
    credited in P2's AI-use note**. λ delivery default settled: both venues
    (P1 §10 results subsection + short companion note); spec updated to
    match.
+5. **λ unit 1 DONE — prior-art scan + ICIO routing**
+   (`lambda_prior_art.md`, committed same day). Existence verdict: build
+   ours — the nearest existing object is the BLS employment-requirements
+   matrix (the hours version), currently REMOVED by BLS pending an error
+   correction; adopted as Family A's future hours cross-check. **ICIO
+   routing RESOLVED GREEN:** direct zips on webfs-sti.oecd.org, harness
+   fetcher passes the host (proven on the 2025 ReadMe), URL set recorded
+   verbatim; local curl/PowerShell 403 → fetcher route with a manual
+   vendored-download fallback for the large zips. 2025 edition = 1995–2022,
+   81 areas × 50 activities; machine-set codes concordanced (C26/C27/C28
+   narrow; J62_63 medium; C31T33 coarse-broad; leasing BEA-only). Spec
+   sources table updated in place.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -61,23 +73,24 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       for the thread; PLAN.md stays the program doc and is edited by both of
       us (Stella: phases, chapters, papers; Claude: status marks and
       reconciliations, logged here).
+- [ ] Unit 1's delegated calls: the existence verdict (build, cite the
+      Pasinetti/Leontief lineage); BLS ERM adopted as secondary member
+      behind its dated wall; the ICIO fetcher route with manual-download
+      fallback; f_M investment-flow weighting (vom Lehn–Winberry) deferred
+      to build as a grid-axis candidate.
 
 ## Next actions (priority order)
 
-1. **λ unit 1 — prior-art scan + ICIO routing:** vom Lehn–Winberry, KORV,
-   Karabarbounis–Neiman, Elsby–Hobijn–Şahin, Pasinetti's vertically
-   integrated sectors, "labor embodied in investment goods"; resolve the
-   ICIO 403 (Data Explorer bulk / direct zip) or declare the WIOD fallback.
-2. **λ unit 2 — first pull, Family A:** BEA annual supply–use 1997–2023 +
+1. **λ unit 2 — first pull, Family A:** BEA annual supply–use 1997–2023 +
    VA components; the sector grid; first λ̂_US series; checks green before
    anything is read.
-3. **λ unit 3 — Family B pull:** WIOD (+ICIO if unblocked) + SEA labor
-   layer; world λ̂; domestic/foreign decomposition.
-4. **λ unit 4 — THE GATE READ:** criteria applied to both referees; memo
+2. **λ unit 3 — Family B pull:** WIOD + ICIO (route proven, unit 1) + SEA
+   labor layer; world λ̂; domestic/foreign decomposition.
+3. **λ unit 4 — THE GATE READ:** criteria applied to both referees; memo
    with the pass / fail / ambiguous call; PLAN.md updated either way. No
    book work that depends on the hypothesis proceeds past a fail or an
    unresolved ambiguous.
-5. Then per spec: century arc (benchmarks + splice) and delivery (P1 §10
+4. Then per spec: century arc (benchmarks + splice) and delivery (P1 §10
    subsection + companion note).
 
 ## File map
@@ -86,8 +99,9 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
 progress_and_prosperity/
 ├── STATE.md          ← you are here; start here next session
 ├── PLAN.md           the program: phases, chapter map, papers P1–P5, provenance ledger
-├── lambda_spec.md    Phase 0 gate spec, pre-registered 2026-08-20
-└── (lambda/          code, data, figures — created at the pull, not before)
+├── lambda_spec.md       Phase 0 gate spec, pre-registered 2026-08-20
+├── lambda_prior_art.md  unit 1: existence verdict, literature, ICIO routing
+└── (lambda/             code, data, figures — created at the pull, not before)
 ```
 
 ## Repro notes
@@ -95,8 +109,9 @@ progress_and_prosperity/
 - No code in this thread yet. When the pull starts: shared repo venv
   (`./venv/Scripts/python.exe`), house pipeline patterns (probe-first URLs,
   cache, validation ledgers, BLOCKED-and-stop).
-- Network, recorded 2026-08-20: OECD ICIO dataset landing returns 403 to the
-  harness fetcher; BEA and rug.nl/ggdc (WIOD) open. Sibling-thread precedent
-  says several academic hosts block local curl while the harness fetcher
-  passes — expect the pull scripts to need per-host routing, documented when
-  built.
+- Network, recorded 2026-08-20 (updated at unit 1): oecd.org pages 403 every
+  non-browser client but load in the in-app browser; the file host
+  webfs-sti.oecd.org 403s local curl and PowerShell yet serves the harness
+  fetcher (proven on the 2025 ReadMe, 320KB). BEA and rug.nl/ggdc open.
+  Pull scripts need per-host routing — fetcher route for OECD files, manual
+  vendored download as the large-file fallback — documented when built.
