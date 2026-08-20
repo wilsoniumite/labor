@@ -96,6 +96,42 @@ Queued extensions, recorded: pre-1967 compensation via NIPA 6.2-style
 industry compensation bridged to 85-order sets (recovers 1947/58/63 points
 if wanted); hours layer for the century arc (best-effort, unit 5 scope).
 
+## Family B — the world referee (unit 4, built 2026-08-20)
+
+Sources (GGDC DataverseNL, public GET; URL↔content mapping browser-harvested;
+pulled by `code/pull_family_b.py`): WIOD 2016 release (WIOTs in Stata,
+639MB, per-year wide dta; SEA16 with COMP, LAB, H_EMPE), WIOD 2013 release
+(`wiot_full.dta`, 724MB long panel; SEA13 July-2014 with COMP, LAB, H_EMP).
+**Long-run WIOD DOWNGRADED, recorded:** its SEA carries only GO/II/VA/EXP —
+no labor variables — so no world λ̂ before 1995 from WIOD; the partial LR
+WIOT download was killed and the member dropped. **ICIO parked:** the file
+host serves small files to the harness fetcher but 403s the data zips to
+every scriptable client (fetcher, curl, PowerShell, requests) — extension
+lives behind a documented manual vendored download (five clicks).
+
+Construction (`code/compute_family_b.py`): global Leontief inverse per year
+(1435 and 2464 country-industries); currency handled by shares —
+(COMP/GO)_SEA is dimensionless, hours use WIOT USD output as denominator;
+zero-GO sectors dropped from the system (the exact identity holds only on
+GO > 0; dropped flow ≤ $15.3B, reported). Grid: {COMP, LAB (self-employment
+adjustment — that deferred axis now live on the world leg)} × {ROW=0 lower
+bound, ROW=mean} × sector sets (ISIC4 C26/C27/C28 narrow, +J62_J63 medium;
+ISIC3 items 13/14 for 2013 — mapping verified via USA machinery GO, WIOT vs
+SEA, dev 0.000). Views: world $1 and US-purchases $1, the latter split into
+US vs foreign labor content (the offshoring decomposition). FD excludes the
+inventory category (detected by sign), cell-clip ≥ 0. H_rel = hours embodied
+× world average hourly compensation (USD) — the amended criteria's quantity
+leg — with w̄_rel = λ̂/H_rel derivable at the read.
+
+Discipline items: exact global identity ≤ 8e-15 every kept year (the closed
+world table makes it exact — no import leakage exists at world level);
+SEA13's labor layer thins to 24% output coverage in 2010–11 → those two
+years are EXCLUDED and flagged, not kept; vintage overlap 2000–2009 agrees
+to 0.019 max deviation (report-only — classifications differ). Kept
+coverage ≥ 0.84.
+
+Checks: `checks/check_family_b.py` — ALL GREEN (11) on 2026-08-20.
+
 ## Read status
 
 **UNREAD.** The series and figure exist; the committed read criteria are

@@ -97,6 +97,23 @@ are veto windows (defaults stand unless vetoed).
    unit 6). SIC-era two-digit published TRs are NOT reproduced by the
    unit-2 algebra (recon 0.19–0.25, old conventions) — published TR used,
    recorded report-only.
+9. **λ unit 4 DONE — the world referee built, checks ALL GREEN (11)**
+   (2026-08-20). World λ̂ and H_rel from the global Leontief inverse:
+   WIOD 2013 (1995–2009 labor-kept) + WIOD 2016 (2000–2014); grid
+   {COMP, LAB} × {ROW=0, ROW=mean} × sector sets; world and US-purchases
+   views with the US/foreign labor decomposition (the offshoring
+   discriminator — foreign share of US machinery purchases spans
+   [0.26, 0.57] over the window, UNREAD as to trend). Exact global
+   identity ≤ 8e-15 every kept year; vintage overlap 2000–2009 agrees to
+   0.019. **Two data-forced amendments, logged in the spec:** the LR-WIOD
+   world leg is downgraded (its SEA has no labor variables → W2 world
+   window = 1995–2014; deep history rides on the US century arc), and
+   ICIO stays parked (data zips 403 all scriptable clients; manual
+   vendored download = five clicks, decided before the gate read or not
+   at all). SEA13's 2010–11 excluded at 24% labor coverage, flagged.
+   Outputs `lambda/data/lambda_world_family_b.csv` +
+   `lambda/figures/lambda_world_family_b.png` — **UNREAD** (gate read =
+   unit 6).
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -142,20 +159,24 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       published TR trusted over the failed 2-digit reconstruction
       (report-only); SIC machine set 43–58 with the +instruments (62)
       variant.
+- [ ] Unit 4's delegated calls: LR-WIOD downgrade accepted as data-forced
+      (W2 world window = 1995–2014) rather than adding a non-WIOD labor
+      layer for 1965–1995; ICIO parked behind the manual download with the
+      decision deadline at the gate read; SEA13 2010–11 excluded at 24%
+      coverage; ROW carried as a {0, mean} band; zero-GO sectors dropped
+      with mass reported; the 2013↔2016 vintage overlap as report-only.
 
 ## Next actions (priority order)
 
-1. **λ unit 4 — Family B pull:** WIOD SEA (compensation AND hours) + ICIO
-   (route proven, unit 1); world λ̂, world H_rel; domestic/foreign
-   decomposition.
-2. **λ unit 5 — US hours + rent layer:** BEA–BLS integrated-accounts hours
+1. **λ unit 5 — US hours + rent layer:** BEA–BLS integrated-accounts hours
    → H_rel for W3/W1b; A&R §3.3 published values + Stansbury–Summers
    series probed; w̄_rel and the rent-purged variant.
-3. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
+2. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
    two legs); memo with the pass / fail / ambiguous call; PLAN.md updated
    either way. No book work that depends on the hypothesis proceeds past a
-   fail or an unresolved ambiguous.
-4. Then per spec: delivery (P1 §10 subsection + companion note).
+   fail or an unresolved ambiguous. (Stella: the ICIO manual download —
+   five clicks — extends the world window to 2022 if done before this.)
+3. Then per spec: delivery (P1 §10 subsection + companion note).
 
 ## File map
 

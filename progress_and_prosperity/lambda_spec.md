@@ -217,10 +217,10 @@ industry rent series, probed at unit 5) — openICPSR walls stay excluded.
 | BEA historical benchmark make–use (SIC era: 1947, '58, '63, '67, '72, '77, '82, '87, '92) | 1947–1992 | PULLED (unit 3) — per-year packages from the historical-benchmarks page (URLs in `pull_century.py`); all nine parse; compensation split exists 1967+ only (pre-1967 dropped, not imputed; NIPA-bridge recovery queued) |
 | BEA GDP-by-Industry value-added components | 1947– | PULLED (unit 2) — cross-check members, report-only in v1 |
 | OECD ICIO, 2025 edition (rev. 2026-01) | 1995–2022; 81 areas × 50 activities | GREEN (unit 1, 2026-08-20) — direct zips on webfs-sti.oecd.org, URL set in `lambda_prior_art.md`; harness fetcher passes the host (ReadMe pulled), local curl/PowerShell 403 → fetcher route, manual vendored download as the large-file fallback |
-| OECD TiM (labor layer for ICIO) | ~1995– | NOT PROBED — landing recorded unit 1 (`oecd.org/en/data/datasets/trade-in-employment.html`); WIOD SEA is the probed-green labor pairing |
-| WIOD 2016 (+SEA) | 2000–2014 | REACHABLE (rug.nl/ggdc) — SEA presence known from the literature, confirm on release page at pull |
-| WIOD 2013 | 1995–2011 | REACHABLE — splice-check member |
-| WIOD long-run | 1965–2000 | REACHABLE — coarse-sector caveat above |
+| OECD TiM (labor layer for ICIO) | ~1995– | NOT PROBED — landing recorded unit 1; moot unless the ICIO manual download happens |
+| WIOD 2016 (+SEA: COMP, LAB, H_EMPE) | 2000–2014 | PULLED (unit 4) — Stata WIOTs via DataverseNL public GET; checks green |
+| WIOD 2013 (+SEA July-2014) | 1995–2011 (labor kept 1995–2009; 2010–11 excluded, 24% coverage) | PULLED (unit 4) — long-panel dta; vintage overlap vs 2016 ≤ 0.019 |
+| WIOD long-run | 1965–2000 | DOWNGRADED (unit 4) — its SEA has NO labor variables (GO/II/VA/EXP only, verified); no world λ̂ before 1995 from WIOD; member dropped |
 | BLS Employment Requirements Matrices (Family A hours cross-check) | ~1997–2023; nominal + chained-2017; domestic + total | DATED WALL — all ERM tables removed by BLS 2026-02-06 (value-added error), republication at the next EP release; revisit then (unit 1) |
 | BEA–BLS integrated industry accounts (hours by industry — the US H_rel leg) | 1997–2023 | NOT PROBED — unit 5 |
 | A&R 2026 §3.3 published values (rent level anchor + dissipation mechanism) | level anchor, ≈35% [19–44.5%] | IN HAND — QJE 141(2) / NBER WP w32536 published tables only; openICPSR replication excluded by the data rule |
@@ -293,3 +293,10 @@ plus extension, and the paper cites instead of rediscovering.
   the gate: W1b (1982→2023 spliced direction) joins PASS; 1947–1982
   reported as context with no sign requirement. Unit order becomes
   3 = century arc, 4 = Family B, 5 = hours + rent, 6 = gate read.
+- **2026-08-20, unit 4 (data-forced, pre-read).** The long-run WIOD's SEA
+  carries no labor variables, so the spec's "1965– via WIOD-LR" world leg is
+  DOWNGRADED: W2's world window = 1995–2014 (WIOD 2013 + 2016; SEA13 labor
+  kept 1995–2009, 2010–11 excluded at 24% coverage). Deep history rides on
+  the US century arc (unit 3, 1967–). ICIO's data zips 403 every scriptable
+  client — the 1995–2022 extension is parked behind a documented manual
+  download, decided before the gate read or not at all.
