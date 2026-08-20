@@ -15,7 +15,8 @@ are veto windows (defaults stand unless vetoed).
 
 ## Where things stand
 
-**Phase 0 — the gate — is IN PROGRESS.** Done on founding day:
+**Phase 0 — the gate — is READ and parked at STELLA'S BREAKPOINT** (item
+12 below; memo `lambda/READ_MEMO.md`; options A/B/C). Done on founding day:
 
 1. **Provenance ledger settled:** every s? row confirmed Stella and flipped;
    the legend records the confirmation date. The preface can now be written
@@ -136,6 +137,23 @@ are veto windows (defaults stand unless vetoed).
    none from share drift). ICIO↔WIOD16 overlap: 0.031 max over 10 years.
    W2's world window is back to **1995–2022** (with the labeled frozen
    tail and the 2006–10 gap). Files moved to the gitignored cache.
+12. **λ unit 6 DONE — THE GATE READ (2026-08-20). Verdict: AMBIGUOUS —
+   the pre-named λ̂↓/H_rel→ case, on the world quantity leg.** Full
+   accounting in `lambda/READ_MEMO.md`, produced by
+   `lambda/code/gate_read.py`. The unambiguous parts: US λ̂ FALLING (W3
+   100% of 6 members; W1b spliced 1982→2023 both members, both segments);
+   US H_rel FALLING; the S&S rent purge SURVIVES (US w̄_rel rose — the US
+   decline is not rent dissipation); world λ̂ FALLING (12/12 primary
+   members; ICIO frozen-tail supporting members agree). The one flat leg:
+   world H_rel (+0.096/decade median) — the diagnosis layers point at
+   cross-country composition (hours moved to low-wage suppliers; foreign
+   share of US machinery purchases 0.29→0.44), not rents; the criteria's
+   H-leg was built for the rent channel and did not anticipate the
+   relocation margin dominating the world hours aggregate. FAIL did not
+   fire and is not close on any member. **Per protocol: stop; Stella
+   decides** — (A) repair the world quantity leg (fixed-composition H)
+   and re-read; (B) judge a pass with a recorded amendment; (C) hold.
+   Downstream hypothesis-dependent book work waits on the decision.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -199,15 +217,24 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       SEA13's coarser ISIC3 map for 1995–99 (C26/C27 pool into 30t33);
       DPABR kept in final demand, INVNT excluded; the 2006–10 gap accepted
       pending the fifth zip; ICIO zips kept out of git via the cache.
+- [ ] Unit 6's delegated calls (the read's operationalization, stated in
+      `gate_read.py`): trend = OLS slope per member; FALLING = median < 0
+      AND ≥¾ members negative AND member-Δ band max < 0; W1b = spliced
+      members pooled with the annual series, within-segment directions
+      reported; world primary members = sourced-labor windows only, frozen
+      tail as supporting; the purge as a required US sub-check; diagnosis
+      layers reported, not gated.
 
 ## Next actions (priority order)
 
-1. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
-   two legs); memo with the pass / fail / ambiguous call; PLAN.md updated
-   either way. No book work that depends on the hypothesis proceeds past a
-   fail or an unresolved ambiguous. (Stella: the ICIO manual download —
-   five clicks — extends the world window to 2022 if done before this.)
-2. Then per spec: delivery (P1 §10 subsection + companion note).
+0. **BREAKPOINT (Stella):** the gate-read decision — A (repair the world
+   quantity leg: fixed-composition hours variant, one small unit, criteria
+   then apply unchanged), B (judge a pass on the current evidence, with
+   the composition-confound amendment recorded), or C (hold at ambiguous;
+   the gate stays closed). Nothing hypothesis-dependent proceeds first.
+1. Then per spec: delivery (P1 §10 subsection + companion note), written
+   to whatever the decided verdict is — the falsification reading stated
+   both ways, as committed.
 
 ## File map
 

@@ -30,6 +30,13 @@ raises rents, the LVT collects it back) narrates the LVT's rate path.
 - (us) **λ assembly**: spec, first pull, first read. BEA IO / OECD ICIO; labor
   content of machine production over time. This is falsifier #1 — if λ isn't
   falling, everything downstream gets rethought before a book exists.
+  — 2026-08-20: built (units 1–5b) and READ (unit 6). Verdict per the
+  pre-committed criteria: **AMBIGUOUS**, the pre-named λ̂↓/H_rel→ case,
+  confined to the world quantity leg (composition-confounded by offshoring;
+  λ̂ itself falls on every referee, every member, and survives rent
+  purging; FAIL did not fire and is not close). Memo:
+  `lambda/READ_MEMO.md`. **Stella's breakpoint**: repair the world H leg
+  and re-read (A) / judge a pass with amendment (B) / hold (C).
 - (S) **Education test post** (ch 15 material: the two collapses, the tutor as
   verifier, the broken junior rung) — while the conversation is warm.
 - (S) Move this doc into the new folder; confirm the s? rows in the appendix.
