@@ -132,6 +132,36 @@ coverage ≥ 0.84.
 
 Checks: `checks/check_family_b.py` — ALL GREEN (11) on 2026-08-20.
 
+## US hours + rent layer (unit 5, built 2026-08-20)
+
+Hours (H_rel for W3/W1b's NAICS segment): r_vec = TR·f from the unit-2
+verified construction; hours applied as a BLOCK-level row vector (28 blocks
+bridging BEA-71 ↔ ISIC-56; no re-inversion; bridge coverage of requirement
+mass = 1.0000 exactly, checked). Levels 2000–2014 from WIOD16 SEA USA
+H_EMPE; tails 1997–99 and 2015–23 extended per block by the BEA–BLS KLEMS
+hours index (2017=100), compensation-weighted within block — mechanical,
+continuous at the seams (max |yoy| 11.4%), labeled. H_rel = H × w̄_US
+(economy average hourly compensation from unit-2 levels / block hours —
+$19.4→$49.0/hr over the window, which pins the units). w̄_rel = λ̂/H_rel;
+the decomposition λ̂ = H_rel × w̄_rel is exact (2.2e-16). **W1b's H leg
+covers the NAICS segment (1997–2023) only** — no SIC-era hours at these
+levels; stated for the read.
+
+Rent layer (published values only): Stansbury–Summers BPEA 2020 replication
+(Brookings-hosted, public, no wall — a legitimate member): industry panel
+1987–2016 with implied labor rents; ρ_i = implabrents/compensation per
+industry, mapped by name onto BEA codes (machinery 1:1: Dur_machinery→333,
+Dur_computer→334, Dur_electrical→335, Computer_serv→5415/514; other
+manufacturing mapped; unmapped industries carry the corporate-business
+aggregate ratio). λ̂_purged = Σ(1−ρ_i)·v_w_i·r_vec_i, populated exactly
+1997–2016 (max purge 0.086). Machinery-direct ρ ∈ [0.104, 0.142];
+aggregate ρ ∈ [0.087, 0.123] — trends UNREAD. A&R 2026 §3.3 level anchor
+recorded for the read: rents ≈35% central [19–44.5%] on *automated jobs*
+(QJE 141(2); a displaced-job level, not an industry series — magnitude
+benchmark only).
+
+Checks: `checks/check_us_hours_rent.py` — ALL GREEN (9) on 2026-08-20.
+
 ## Read status
 
 **UNREAD.** The series and figure exist; the committed read criteria are

@@ -222,9 +222,9 @@ industry rent series, probed at unit 5) — openICPSR walls stay excluded.
 | WIOD 2013 (+SEA July-2014) | 1995–2011 (labor kept 1995–2009; 2010–11 excluded, 24% coverage) | PULLED (unit 4) — long-panel dta; vintage overlap vs 2016 ≤ 0.019 |
 | WIOD long-run | 1965–2000 | DOWNGRADED (unit 4) — its SEA has NO labor variables (GO/II/VA/EXP only, verified); no world λ̂ before 1995 from WIOD; member dropped |
 | BLS Employment Requirements Matrices (Family A hours cross-check) | ~1997–2023; nominal + chained-2017; domestic + total | DATED WALL — all ERM tables removed by BLS 2026-02-06 (value-added error), republication at the next EP release; revisit then (unit 1) |
-| BEA–BLS integrated industry accounts (hours by industry — the US H_rel leg) | 1997–2023 | NOT PROBED — unit 5 |
-| A&R 2026 §3.3 published values (rent level anchor + dissipation mechanism) | level anchor, ≈35% [19–44.5%] | IN HAND — QJE 141(2) / NBER WP w32536 published tables only; openICPSR replication excluded by the data rule |
-| Stansbury–Summers published industry rent series (rent time path) | ~1982–2016 | NOT PROBED — unit 5; published values only |
+| BEA–BLS integrated industry accounts (KLEMS) | 1997–2024 | PULLED (unit 5) — hours ship as a 2017=100 index (no levels); used for the block-level tail extension of WIOD SEA USA hours levels (2000–2014 core); labor compensation levels used as within-block weights |
+| A&R 2026 §3.3 published values (rent level anchor + dissipation mechanism) | level anchor, ≈35% [19–44.5%] | RECORDED (unit 5) — magnitude benchmark for the read; a displaced-job level, not an industry series |
+| Stansbury–Summers BPEA 2020 replication (industry rent panel) | 1987–2016, 51 industries incl. machinery 1:1 | PULLED (unit 5) — Brookings-hosted public zip (no wall); ρ = implied rents / compensation; purge built 1997–2016 |
 
 Walls policy: BEA's API key is free registration — v1 routes through
 no-registration downloads; if the key becomes necessary, that is an explicit

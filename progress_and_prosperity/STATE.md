@@ -114,6 +114,17 @@ are veto windows (defaults stand unless vetoed).
    Outputs `lambda/data/lambda_world_family_b.csv` +
    `lambda/figures/lambda_world_family_b.png` — **UNREAD** (gate read =
    unit 6).
+10. **λ unit 5 DONE — US hours + rent layer, checks ALL GREEN (9)**
+   (2026-08-20). H_rel for the US referee 1997–2023: block-level hours
+   (28 blocks, BEA-71↔ISIC-56, bridge coverage exactly 1.0) on the unit-2
+   requirements — WIOD SEA USA levels 2000–2014, KLEMS-index tails, seams
+   ≤ 11.4% yoy; decomposition λ̂ = H_rel × w̄_rel exact (2.2e-16); W1b's
+   H leg = NAICS segment only, stated. Rent layer: S&S BPEA replication
+   (Brookings-hosted public — machinery industries map 1:1) → industry
+   ρ = rents/compensation and λ̂_purged 1997–2016 (max purge 0.086);
+   A&R §3.3 level anchor recorded. Outputs
+   `lambda/data/lambda_us_hours_rent.csv` + figure — **UNREAD**. All
+   three referees and both legs now exist; unit 6 is the gate read.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -165,18 +176,22 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       decision deadline at the gate read; SEA13 2010–11 excluded at 24%
       coverage; ROW carried as a {0, mean} band; zero-GO sectors dropped
       with mass reported; the 2013↔2016 vintage overlap as report-only.
+- [ ] Unit 5's delegated calls: hours as a block-level row vector (28
+      blocks, no re-inversion) with WIOD-SEA levels + KLEMS-index tails
+      (labeled mechanical extension); S&S replication adopted as a member
+      (Brookings-hosted public zip — no wall, unlike openICPSR); ρ defined
+      as implied rents / compensation; unmapped industries carry the
+      aggregate ratio; W1b's H leg NAICS-segment-only; A&R stays a level
+      anchor, never an industry series.
 
 ## Next actions (priority order)
 
-1. **λ unit 5 — US hours + rent layer:** BEA–BLS integrated-accounts hours
-   → H_rel for W3/W1b; A&R §3.3 published values + Stansbury–Summers
-   series probed; w̄_rel and the rent-purged variant.
-2. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
+1. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
    two legs); memo with the pass / fail / ambiguous call; PLAN.md updated
    either way. No book work that depends on the hypothesis proceeds past a
    fail or an unresolved ambiguous. (Stella: the ICIO manual download —
    five clicks — extends the world window to 2022 if done before this.)
-3. Then per spec: delivery (P1 §10 subsection + companion note).
+2. Then per spec: delivery (P1 §10 subsection + companion note).
 
 ## File map
 
