@@ -18,10 +18,27 @@ def main():
     res = pd.read_csv(os.path.join(OUT, "lambda_world_family_b.csv"))
     w13 = res[res.release == "wiod13"].set_index("year")
     w16 = res[res.release == "wiod16"].set_index("year")
+    ic = res[res.release == "icio25"].set_index("year")
 
     check("C1 coverage: wiod13 1995–2011 (17y), wiod16 2000–2014 (15y)",
           len(w13) == 17 and len(w16) == 15
           and w13.index.min() == 1995 and w16.index.max() == 2014)
+
+    exp_icio = sorted(set(range(1995, 2023)) - set(range(2006, 2011)))
+    check("C11 icio25 coverage: 1995–2022 minus the 2006–2010 gap (zip not yet supplied)",
+          sorted(ic.index) == exp_icio, f"{len(ic)} years; gap 2006–2010 EXPECTED until the fifth zip arrives")
+
+    vint_ok = (all(ic.loc[y, "labor_vintage"] == "sea13" for y in ic.index if y <= 1999)
+               and all(ic.loc[y, "labor_vintage"] == "sea16" for y in ic.index if 2000 <= y <= 2014)
+               and all(ic.loc[y, "labor_vintage"] == "frozen2014" for y in ic.index if y >= 2015))
+    check("C12 icio25 labor-vintage flags correct (sea13 / sea16 / frozen2014)",
+          vint_ok, f"frozen years: {sorted(y for y in ic.index if y >= 2015)}")
+
+    tri = (ic["lam_narrow_world_comp_rowm"].dropna()
+           .align(w16["lam_narrow_world_comp_rowm"].dropna(), join="inner"))
+    tridev = float((tri[0] - tri[1]).abs().max()) if len(tri[0]) else np.nan
+    check("C13 icio25 ↔ wiod16 overlap recorded (report-only; editions differ)",
+          np.isfinite(tridev), f"max |icio−wiod16| {tridev:.3f} on world/comp/rowm, {len(tri[0])} overlap years")
 
     check("C2 exact global identity ≤ 1e-9 every year (closed world table)",
           bool((res["ident_err"] < 1e-9).all()),
@@ -34,7 +51,8 @@ def main():
     # per-release evaluation: each release has its own sector-set columns;
     # cross-release cells are structurally NaN, and thin-labor years are
     # excluded upstream (flagged) — both masked here, not failed on.
-    kept = res[~res["thin_labor_excluded"].fillna(False)]
+    thin_mask = res["thin_labor_excluded"].astype(str).eq("True")
+    kept = res[~thin_mask]
     lam_cols = [c for c in res.columns if c.startswith("lam_") and "US_" not in c]
     ok_range, lo, hi = True, np.inf, -np.inf
     for _, sub in kept.groupby("release"):
@@ -71,7 +89,7 @@ def main():
           dec_ok and all(0 < f < 1 for f in fshare),
           f"foreign-labor share of US machinery purchases: [{min(fshare):.2f}, {max(fshare):.2f}]")
 
-    excl = res[res["thin_labor_excluded"].fillna(False)]
+    excl = res[thin_mask]
     check("C6 labor coverage ≥ 60% for every kept year; thin years excluded and flagged",
           bool((kept["cover_share"] >= 0.6).all()),
           f"kept min {kept['cover_share'].min():.2f}; excluded: "

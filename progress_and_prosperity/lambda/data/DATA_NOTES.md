@@ -132,6 +132,25 @@ coverage ≥ 0.84.
 
 Checks: `checks/check_family_b.py` — ALL GREEN (11) on 2026-08-20.
 
+### ICIO extension (unit 5b, 2026-08-20 — Stella's manual download)
+
+The parked ICIO member came alive: Stella performed the five-click vendored
+download (the file host 403s every scriptable client). Supplied: four of
+five SML zips + annex + ReadMe — **2006-2010_SML.zip still missing** (gap
+flagged in checks; WIOD covers those years; drop the fifth zip into
+`lambda/data/cache/` any time and rerun `compute_icio.py`). Files moved to
+the gitignored cache — large binaries stay out of git history.
+
+`code/compute_icio.py`, same engine as unit 4: 2025-edition SML CSVs
+(~4,041 country-industries; GO = published OUT row, ratio-verified; FD
+excludes INVNT, keeps DPABR). Labor layer labeled per year
+(`labor_vintage`): 1995–99 SEA13 shares (ISIC3, coarser map — C26/C27 pool
+into 30t33), 2000–14 SEA16 (near-1:1), **2015–22 = shares frozen at 2014**
+— the structure-only member: all post-2014 movement comes from A, trade,
+and final demand, none from within-industry share drift; a transparent
+conservative assumption the gate read weights accordingly. Areas without
+SEA labor (incl. ROW) ride the {0, mean} band as before.
+
 ## US hours + rent layer (unit 5, built 2026-08-20)
 
 Hours (H_rel for W3/W1b's NAICS segment): r_vec = TR·f from the unit-2

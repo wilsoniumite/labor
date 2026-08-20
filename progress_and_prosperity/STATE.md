@@ -125,6 +125,17 @@ are veto windows (defaults stand unless vetoed).
    A&R §3.3 level anchor recorded. Outputs
    `lambda/data/lambda_us_hours_rent.csv` + figure — **UNREAD**. All
    three referees and both legs now exist; unit 6 is the gate read.
+11. **λ unit 5b DONE — ICIO extension live, checks ALL GREEN (14)**
+   (2026-08-20). Stella performed the five-click manual download; four of
+   five SML zips supplied (**2006-2010_SML.zip still missing** — gap
+   flagged in C11, WIOD covers it; drop it in `lambda/data/cache/` and
+   rerun `compute_icio.py` any time). 23 ICIO years built on the unit-4
+   engine: exact identity ≤ 5.7e-14; labor vintages labeled per year
+   (sea13 1995–99 / sea16 2000–14 / **frozen2014 2015–22** — the
+   structure-only member, all post-2014 movement from A + trade + demand,
+   none from share drift). ICIO↔WIOD16 overlap: 0.031 max over 10 years.
+   W2's world window is back to **1995–2022** (with the labeled frozen
+   tail and the 2006–10 gap). Files moved to the gitignored cache.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -183,6 +194,11 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       as implied rents / compensation; unmapped industries carry the
       aggregate ratio; W1b's H leg NAICS-segment-only; A&R stays a level
       anchor, never an industry series.
+- [ ] Unit 5b's delegated calls: frozen-2014 shares as the 2015–22 labor
+      layer (structure-only, labeled) rather than extrapolating shares;
+      SEA13's coarser ISIC3 map for 1995–99 (C26/C27 pool into 30t33);
+      DPABR kept in final demand, INVNT excluded; the 2006–10 gap accepted
+      pending the fifth zip; ICIO zips kept out of git via the cache.
 
 ## Next actions (priority order)
 
