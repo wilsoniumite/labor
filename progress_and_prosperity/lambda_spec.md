@@ -65,10 +65,19 @@ substituted for the primary):
   accounting can carry it. Splitting that residual into produced-capital
   services vs terminal rent is κ-assembly territory and is NOT attempted in
   v1; stated as such wherever the residual is shown.
-- Hours variant: total hours embodied per $1,000 of constant-quality
-  machinery final demand (where hours-by-industry exist). Descriptive only:
-  it inherits the hedonic deflator and falls partly by Moore's law; it is
-  not the falsifier and is labeled so.
+- Hours decomposition (amended 2026-08-20, pre-read; previously
+  "descriptive only"): λ̂ factors exactly as **λ̂ = H_rel × w̄_rel**, with
+  H_rel = (hours embodied per $1 of machinery final output) ×
+  (economy-wide average hourly compensation) — the labor content valued at
+  the average wage: dimensionless, hedonics-free, and immune to
+  machine-sector-specific wage rents — and w̄_rel = the embodied labor's
+  average hourly compensation relative to the economy-wide average, which
+  is where sector rents live. H_rel is the technical leg (recursive
+  automation proper); w̄_rel is the rent-sensitive leg, read against the
+  A&R 2026 anchors (rents ≈35% [19–44.5%] on automated jobs; dissipation
+  offsetting 60–90% — "Automation and Rent Dissipation," QJE 141(2)). A
+  constant-quality hours-per-unit variant stays descriptive and labeled
+  (hedonics).
 
 ## Families
 
@@ -80,7 +89,10 @@ GOS, taxes) 1947–. Import treatment is a grid axis: domestic-requirements
 coverage; carries the offshoring caveat below. The BLS
 employment-requirements matrices (direct + indirect jobs per $1M final
 demand) join as the hours cross-check when BLS republishes them (dated
-wall — sources table).
+wall — sources table). Hours layer for H_rel: the BEA–BLS integrated
+industry-level production accounts (hours by industry, 1997–2023;
+concordance bridge to the 71-industry summary level stated at build).
+Century-arc hours are best-effort and labeled.
 
 **Family B — world content (the falsifier's referee).** OECD ICIO 1995–2022
 (2025 edition, rev. Jan 2026; ~45 industries, 80 economies) paired with a
@@ -90,7 +102,9 @@ labor layer (OECD TiM or national accounts); WIOD 2016 release 2000–2014
 in imported intermediates: a US-only fall with a flat world series is
 relocation, not automation removing the wage bill. The domestic/foreign
 decomposition is a committed deliverable. Overlap windows (1995–2000,
-2000–2014) are splice checks.
+2000–2014) are splice checks. The WIOD socio-economic accounts carry hours
+by industry, so the world leg gets its H_rel decomposition from the same
+pairing that supplies compensation.
 
 **Family C — the operating margin.** The paper's λ includes operation and
 maintenance. IO resolution sees the operating sectors that are sectors —
@@ -117,34 +131,70 @@ BEA before- vs after-redefinitions where both are published; government
 machinery purchases in or out of f_M.
 
 ## Read criteria — committed before the pull
+## (amended 2026-08-20 after unit 2, PRE-READ: rent-robustness + long window)
 
-Windows: W1 = US 1947–2023 (century arc, benchmarks + splice); W2 = world
-1995–2022 (ICIO; 1965– via WIOD-LR); W3 = US annual 1997–2023.
+Windows: W1 = US 1947–2023 (century arc, benchmarks + splice; **in the
+gate**, not context only); W1b = US 1982→2023 (the automation-era spliced
+direction — 1982 is a SIC benchmark year and the era claim under test is
+"as automation deepens"); W2 = world 1995–2022 (ICIO; 1965– via WIOD-LR);
+W3 = US annual 1997–2023.
 
-- **PASS (the gate opens):** world λ̂ trending down over W2 and US λ̂ down
-  over W3 — trend sign negative for the median and for ≥¾ of grid members,
-  with the band not straddling zero over the window.
-- **FAIL (falsifier #1 bites):** world λ̂ flat or rising across the grid.
-  Then recursive automation is weak as measured, the wage stays inside the
-  substitute's price, and per PLAN the downstream program is rethought
-  before a book exists. This outcome is reported with the same care as a
-  pass.
-- **AMBIGUOUS:** bands straddle zero, or the US and world referees disagree
-  in sign → stop, report, Stella decides. No silent proceeding.
-- Timing honesty, committed now to prevent motivated reading later: the
-  read is about automation to date. The post-2023 AI wave is expected to be
-  barely visible in tables ending 2022–2023; absence of a recent kink is
-  not evidence in either direction.
+Two legs per referee wherever the data pairing exists: the value leg λ̂
+(compensation share — the coupling §11 names) and the quantity leg H_rel
+(hours embodied valued at the economy-average wage — rent-immune). The
+decomposition λ̂ = H_rel × w̄_rel is reported with every read.
 
-The gate read requires both referees (A and B). If ICIO stays blocked, the
-world referee runs on WIOD 2016 + WIOD-LR and says so.
+- **PASS (the gate opens):** λ̂ falling AND H_rel falling, on the world
+  referee (W2) and the US referee (W3 and W1b) — trend sign negative for
+  the median and ≥¾ of grid members, band not straddling zero. Both legs,
+  both referees: the decline must survive rent purging to count as
+  recursive automation.
+- **FAIL (falsifier #1 bites):** λ̂ AND H_rel flat or rising across the
+  grid on the world referee. Recursive automation is weak as measured, the
+  wage stays inside the substitute's price, and per PLAN the downstream
+  program is rethought before a book exists. Reported with the same care
+  as a pass.
+- **AMBIGUOUS — including the two mixed cases, interpretations pre-named
+  to prevent motivated reading later:**
+  - λ̂ falling, H_rel flat: the decline is on the price leg — a
+    rent-dissipation candidate (A&R 2026), not recursive automation. NOT a
+    pass.
+  - λ̂ flat, H_rel falling: rents are masking automation — the coupling is
+    real today but rent-sustained and dissipation-fragile (A&R's own
+    dynamic predicts the λ̂ fall arrives when the rents go). NOT a clean
+    fail.
+  - Plus the original triggers: bands straddling zero, or referees
+    disagreeing in sign.
+  Every ambiguous outcome: stop, report, Stella decides. No silent
+  proceeding.
+- 1947–1982 is reported as context with no sign requirement — machinery
+  labor content may legitimately rise mid-century; the claim under test is
+  the automation era.
+- Timing honesty, unchanged: the read is about automation to date; the
+  post-2023 AI wave is expected to be barely visible in tables ending
+  2022–2023; absence of a recent kink is not evidence in either direction.
+
+The gate read requires the century-spliced US referee (unit 3), the world
+referee (unit 4), and the hours + rent layer (unit 5). If ICIO stays
+blocked, the world referee runs on WIOD 2016 + WIOD-LR and says so. Rent
+anchors are published values only (A&R 2026 §3.3; Stansbury–Summers
+industry rent series, probed at unit 5) — openICPSR walls stay excluded.
 
 ## Honesty ledger (pre-registered)
 
 - Offshoring vs automation: the world series referees; a domestic-only fall
   never passes the gate alone.
-- Share vs hours: the share is the model object (kill condition); the hours
-  series is descriptive and hedonics-burdened; both labeled.
+- Share vs hours: the share is the model object (kill condition); the
+  H_rel × w̄_rel decomposition carries the diagnosis of which leg moves;
+  the constant-quality hours variant stays descriptive and
+  hedonics-burdened; all labeled.
+- Rent contamination of the compensation share (added 2026-08-20,
+  pre-read, on Stella's direction): wage rents ≈35% [19–44.5%] on
+  automated jobs with 60–90% dissipation offsets (A&R 2026) make the rent
+  channel first-order in both directions — dissipation mimics recursive
+  automation (false pass); rent swelling masks it (false fail). The
+  amended criteria require the quantity leg; the rent-purged variant uses
+  published values only.
 - Machine goods vs machine services: IO measures the production of machines
   and the listed operating sectors, not machine services directly; the
   user-cost bridge (Appendix C's δ, d) is stated, not estimated, in v1.
@@ -163,7 +213,8 @@ world referee runs on WIOD 2016 + WIOD-LR and says so.
 
 | Member | Coverage | Status |
 |---|---|---|
-| BEA IO accounts (benchmarks; annual supply–use; total/domestic requirements) | benchmarks 1947–2017; annual 1997–2023 | PULLED (unit 2) — static zips title-verified (`AllTablesIO.zip`, `AllTablesSUP.zip`, no registration); truststore/PowerShell routes; construction verified against the published IxC_TR (see `lambda/data/DATA_NOTES.md`) |
+| BEA IO accounts (annual make–use + SUT; total requirements) | annual 1997–2023 (+2017 detail) | PULLED (unit 2) — static zips title-verified (`AllTablesIO.zip`, `AllTablesSUP.zip`, no registration); truststore/PowerShell routes; construction verified against the published IxC_TR (see `lambda/data/DATA_NOTES.md`) |
+| BEA historical benchmark make–use (SIC era: 1947, '58, '63, '67, '72, '77, '82, '87, '92) | 1947–1992 | NOT PROBED — unit 3 opens with the probe; landing page lists "Historical Make-Use"; static-file names to discover |
 | BEA GDP-by-Industry value-added components | 1947– | PULLED (unit 2) — cross-check members, report-only in v1 |
 | OECD ICIO, 2025 edition (rev. 2026-01) | 1995–2022; 81 areas × 50 activities | GREEN (unit 1, 2026-08-20) — direct zips on webfs-sti.oecd.org, URL set in `lambda_prior_art.md`; harness fetcher passes the host (ReadMe pulled), local curl/PowerShell 403 → fetcher route, manual vendored download as the large-file fallback |
 | OECD TiM (labor layer for ICIO) | ~1995– | NOT PROBED — landing recorded unit 1 (`oecd.org/en/data/datasets/trade-in-employment.html`); WIOD SEA is the probed-green labor pairing |
@@ -171,6 +222,9 @@ world referee runs on WIOD 2016 + WIOD-LR and says so.
 | WIOD 2013 | 1995–2011 | REACHABLE — splice-check member |
 | WIOD long-run | 1965–2000 | REACHABLE — coarse-sector caveat above |
 | BLS Employment Requirements Matrices (Family A hours cross-check) | ~1997–2023; nominal + chained-2017; domestic + total | DATED WALL — all ERM tables removed by BLS 2026-02-06 (value-added error), republication at the next EP release; revisit then (unit 1) |
+| BEA–BLS integrated industry accounts (hours by industry — the US H_rel leg) | 1997–2023 | NOT PROBED — unit 5 |
+| A&R 2026 §3.3 published values (rent level anchor + dissipation mechanism) | level anchor, ≈35% [19–44.5%] | IN HAND — QJE 141(2) / NBER WP w32536 published tables only; openICPSR replication excluded by the data rule |
+| Stansbury–Summers published industry rent series (rent time path) | ~1982–2016 | NOT PROBED — unit 5; published values only |
 
 Walls policy: BEA's API key is free registration — v1 routes through
 no-registration downloads; if the key becomes necessary, that is an explicit
@@ -201,19 +255,41 @@ plus extension, and the paper cites instead of rediscovering.
    (default); the standalone short paper's title decided at drafting, not
    now.
 
-## Next units (one per session)
+## Next units (one per session; reordered by amendment 2026-08-20)
 
-1. Prior-art scan + ICIO route resolution (unblock or declare, with the
-   WIOD-only fallback armed).
-2. First pull, Family A modern leg: annual supply–use 1997–2023 + VA
-   components; narrow/medium/broad grid; first λ̂_US series; checks green.
-3. First pull, Family B: WIOD (and ICIO if unblocked) + SEA labor layer;
-   world λ̂ + domestic/foreign decomposition.
-4. **The gate read**: criteria above applied to both referees; memo with
-   the pass/fail/ambiguous call; PLAN.md updated either way.
-5. Century arc: benchmarks 1947–1997 spliced under the house rule; the
-   accounting-tier figure (US arc + world overlay, banded).
-6. Delivery, per PLAN's settled default (both venues): a results subsection
+1. Prior-art scan + ICIO route resolution — DONE 2026-08-20
+   (`lambda_prior_art.md`).
+2. Family A modern leg — DONE 2026-08-20 (checks ALL GREEN (11); series
+   UNREAD).
+3. **Century arc** (promoted into the gate): historical benchmark make–use
+   1947–1992 (SIC) probed and pulled; SIC↔NAICS machinery concordance;
+   splice onto 1997–2023 under the house rule; the accounting-tier long
+   figure. W1b joins the PASS test.
+4. **Family B:** WIOD SEA (compensation AND hours) + ICIO; world λ̂, world
+   H_rel, domestic/foreign decomposition.
+5. **US hours + rent layer:** BEA–BLS integrated-accounts hours → H_rel
+   for W3/W1b; A&R §3.3 published values + Stansbury–Summers series
+   probed; the w̄_rel series and the rent-purged variant.
+6. **THE GATE READ** on the amended criteria (three referees, two legs);
+   memo with the pass / fail / ambiguous call; PLAN.md updated either way.
+7. Delivery, per PLAN's settled default (both venues): a results subsection
    for P1's §10 revision plus the short companion note — built once, so the
    series is citable by people who reject the theory and the gate never
    waits on P1's revision cycle.
+
+## Amendment log (every amendment pre-read, dated)
+
+- **2026-08-20, after unit 2, before any read (Stella's direction).**
+  (1) *Rent robustness.* A&R 2026 ("Automation and Rent Dissipation," QJE
+  141(2)): wage rents ≈35% [19–44.5%] on automated jobs; dissipation
+  offsets 60–90% of automation's TFP gains; automation targets high-rent
+  tasks. Consequence: the compensation share alone cannot distinguish
+  recursive automation from rent dissipation (false pass) or rent swelling
+  (false fail). Added: the exact decomposition λ̂ = H_rel × w̄_rel; hours
+  members (BEA–BLS integrated accounts; WIOD SEA); rent anchors (A&R §3.3
+  published values; Stansbury–Summers series); PASS/FAIL now require both
+  legs; the two mixed cases pre-named as ambiguous with interpretations.
+  (2) *Long window.* The century arc promoted from later-unit context into
+  the gate: W1b (1982→2023 spliced direction) joins PASS; 1947–1982
+  reported as context with no sign requirement. Unit order becomes
+  3 = century arc, 4 = Family B, 5 = hours + rent, 6 = gate read.

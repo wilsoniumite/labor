@@ -68,6 +68,20 @@ are veto windows (defaults stand unless vetoed).
    the model's a < 1, empirically). Deferred axes recorded in
    `lambda/data/DATA_NOTES.md` (self-employment; import-matrix purge;
    before-redefinitions; 2017-detail/repair).
+7. **Course correction (Stella, 2026-08-20, before unit 3) — SPEC AMENDED
+   PRE-READ.** Two points, both accepted: (i) *rent wages* — A&R 2026
+   ("Automation and Rent Dissipation," QJE 141(2); rents ≈35% [19–44.5%]
+   on automated jobs, dissipation offsets 60–90%) means the compensation
+   share alone can false-pass (rent dissipation mimics recursive
+   automation) or false-fail (rent swelling masks it). The spec now
+   commits the exact decomposition **λ̂ = H_rel × w̄_rel** (hours leg
+   rent-immune; rent leg read against A&R + Stansbury–Summers published
+   values), and PASS/FAIL require both legs, with the two mixed cases
+   pre-named as ambiguous. (ii) *window too short* — the century arc is
+   promoted into the gate: W1b (1982→2023 spliced direction) joins PASS;
+   1947–1982 is context. Unit order is now 3 = century arc, 4 = Family B
+   (+SEA hours), 5 = US hours + rent layer, 6 = THE GATE READ. Amendment
+   log at the foot of `lambda_spec.md`.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -98,18 +112,32 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
       summary-level sets with 514 (the summary code, not 518) and repair
       only at 2017 detail; raw-zip cache .gitignored while the derived CSV
       is committed as the checks' input; the figure stays UNREAD until
-      unit 4.
+      the gate read.
+- [ ] The 2026-08-20 amendment's delegated calls (veto window before unit
+      3 builds on them): H_rel defined as hours embodied valued at the
+      economy-average wage (machine-sector rents isolated in w̄_rel,
+      economy-wide rent trends common-mode); 1982 as the automation-era
+      start for W1b; A&R §3.3 + Stansbury–Summers as the published-values
+      rent anchors; the two mixed-case interpretations as pre-named;
+      century arc's 1947–1982 as context with no sign requirement.
 
 ## Next actions (priority order)
 
-1. **λ unit 3 — Family B pull:** WIOD + ICIO (route proven, unit 1) + SEA
-   labor layer; world λ̂; domestic/foreign decomposition.
-2. **λ unit 4 — THE GATE READ:** criteria applied to both referees; memo
-   with the pass / fail / ambiguous call; PLAN.md updated either way. No
-   book work that depends on the hypothesis proceeds past a fail or an
-   unresolved ambiguous.
-3. Then per spec: century arc (benchmarks + splice) and delivery (P1 §10
-   subsection + companion note).
+1. **λ unit 3 — century arc (promoted into the gate):** probe + pull the
+   historical benchmark make–use tables 1947–1992 (SIC); SIC↔NAICS
+   machinery concordance; splice onto 1997–2023 under the house rule; the
+   accounting-tier long figure. W1b (1982→2023) joins the PASS test.
+2. **λ unit 4 — Family B pull:** WIOD SEA (compensation AND hours) + ICIO
+   (route proven, unit 1); world λ̂, world H_rel; domestic/foreign
+   decomposition.
+3. **λ unit 5 — US hours + rent layer:** BEA–BLS integrated-accounts hours
+   → H_rel for W3/W1b; A&R §3.3 published values + Stansbury–Summers
+   series probed; w̄_rel and the rent-purged variant.
+4. **λ unit 6 — THE GATE READ** on the amended criteria (three referees,
+   two legs); memo with the pass / fail / ambiguous call; PLAN.md updated
+   either way. No book work that depends on the hypothesis proceeds past a
+   fail or an unresolved ambiguous.
+5. Then per spec: delivery (P1 §10 subsection + companion note).
 
 ## File map
 
