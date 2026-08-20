@@ -629,6 +629,16 @@ untouched by that thread.
    λ>0 spine + the Appendix A fixed point (queued verification); the three
    §10 assemblies as data units (incidence slope; λ via input–output; the
    long record); optional register regeneration of the fork/κ figures.
+   — 2026-08-20, from the progress_and_prosperity thread: **the λ assembly
+   is BUILT and READ (gate: PASS)** and its delivery is ready-to-splice —
+   §10 block, Figure L, and the exact edit list (incl. the "three
+   assemblies → two" renumbering and the §11 kill-item status clause) at
+   `../progress_and_prosperity/lambda/p1_section10_draft.md`, with the
+   citable companion note beside it (`lambda/companion_note.md`). The
+   splice is a THIS-thread unit under this thread's discipline: snapshot →
+   splice → update any check/record asserting "three assemblies [spec'd,
+   unbuilt]" → `check_pinning.py` ALL GREEN → veto window. The long record
+   has its own thread; the incidence slope remains open.
 1. **Merge (scope PENDING Stella's decision — see the pending-decision block above):** the checked blocks either merge per their Integration notes, or the surgical-repair list goes into the paper and the blocks become paper three. The algebra pass itself is DONE (log entry 11); nothing blocks either path.
 2. **Second sketch — transition dynamics:** machine stock, land prices vs rents (capitalization, collateral), the κ-vs-enclosure race in real time.
 3. **C4 back-of-envelope** (doomed vintage): IPEDS completions by CIP × cost of attendance × exposure shares, banded. Field-level queue structure (NY Fed by-major) belongs to the same pass.

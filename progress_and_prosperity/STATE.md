@@ -166,6 +166,19 @@ IS OPEN** (items 12–13; memo `lambda/READ_MEMO.md`). Done on founding day:
    WIOD windows). All five gate conditions hold → **PASS. THE GATE IS
    OPEN.** Falsifier #1 does not bite. PLAN.md updated; downstream
    hypothesis-dependent work may proceed.
+14. **λ DELIVERY UNIT DONE (2026-08-20).** Built once, reported in both
+   venues per PLAN's settled default: (i) the paper-grade figures
+   (`lambda/figures/lambda_delivery_fig{1,2}.png` — the spine and the
+   diagnosis; accounting tier, banded, caveats in-caption; every prose
+   number computed by `make_delivery_figures.py`, nothing from memory);
+   (ii) the citable companion note (`lambda/companion_note.md` —
+   theory-independent, falsification stated both ways, 44 green checks
+   cited, reproduction section; working title vetoable); (iii) the
+   ready-to-splice P1 §10 block with the exact edit list
+   (`lambda/p1_section10_draft.md`) — the splice itself queued in
+   the-link-revision's STATE item 0 under THAT thread's discipline
+   (snapshot, checks, veto window). Cross-thread handoff recorded in both
+   STATE files. **Phase 0's (us) work is complete.**
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -239,14 +252,16 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
 
 ## Next actions (priority order)
 
-1. **λ delivery unit** (per spec, both venues): the results subsection for
-   P1's §10 revision + the short companion note — the series citable by
-   people who reject the theory; the falsification reading stated both
-   ways; figures at accounting tier, banded, with every caveat the memo
-   carries (frozen tail, splice step, 2006–10 gap, BEA caveat).
-2. Phase 0's remaining (S) item: the education test post. Phase 1 onward
+1. Phase 0's remaining (S) item: the education test post. Phase 1 onward
    per PLAN — the gate no longer blocks.
-3. Standing small items: the fifth ICIO zip (2006–10) when convenient;
+2. The P1 splice (a the-link-revision unit, queued in that thread's STATE
+   item 0): snapshot → splice `lambda/p1_section10_draft.md` → update the
+   "three assemblies" wording in checks/records → `check_pinning.py` ALL
+   GREEN → veto window.
+3. Companion note: Stella's read of `lambda/companion_note.md` (working
+   title vetoable; verify-quote pass on references at final drafting;
+   format upgrade to house HTML if it goes to SSRN).
+4. Standing small items: the fifth ICIO zip (2006–10) when convenient;
    BLS ERM revisit at the next EP release (hours cross-check).
 
 ## File map
