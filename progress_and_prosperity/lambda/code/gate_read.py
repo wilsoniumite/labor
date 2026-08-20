@@ -195,5 +195,46 @@ def main():
     print(f"\nTHE GATE READ: {verdict}")
     print("=" * 76)
 
+    # ---------- RE-READ (unit 6a): the repaired world quantity leg ----------
+    fp = os.path.join(OUT, "world_h_within_index.csv")
+    if not os.path.exists(fp):
+        print("\n[unit 6a repair not yet computed — re-read pending]")
+        return
+    idx = pd.read_csv(fp)
+    print("\n" + "=" * 76)
+    print("RE-READ (unit 6a) — repaired world quantity leg: WITHIN-COUNTRY hours")
+    print("index (chained Törnqvist + fixed-base Laspeyres), per the amendment")
+    print("committed before this number was computed.")
+    members, sup_members = {}, {}
+    for rel, y0, y1 in (("wiod13", 1995, 2009), ("wiod16", 2000, 2014), ("icio25", 1995, 2014)):
+        sub = idx[idx.release == rel].set_index("year")
+        srcd = sub[sub["vintage"] != "frozen2014"] if "vintage" in sub.columns and rel == "icio25" else sub
+        for form in ("tornqvist", "laspeyres"):
+            members[f"{rel}_{form}"] = srcd[f"H_within_{form}"]
+            if rel == "icio25":
+                sup_members[f"icio_full_{form}"] = sub[f"H_within_{form}"]
+    r_rep = leg(members, 1995, 2014)
+    print("\n[World H_within — PRIMARY (sourced windows), 6 members]")
+    show("W2 H_within", r_rep)
+    show("W2 H_within SUPPORTING (icio full incl. frozen tail)", leg(sup_members, 1995, 2022))
+    # relocation component, reported
+    for rel in ("wiod13", "wiod16", "icio25"):
+        sub = idx[idx.release == rel].set_index("year")
+        y0, y1 = sub.index.min(), sub.index.max()
+        print(f"  relocation (between) component {rel} {y0}–{y1}: "
+              f"raw {sub.loc[y1,'H_raw']:.3f} vs within-Törnqvist "
+              f"{sub.loc[y1,'H_within_tornqvist']:.3f} (base {y0} = 1)")
+
+    world_h_falling2 = r_rep is not None and r_rep["verdict"] == "FALLING"
+    print(f"\nRepaired leg: World H_within falling: {world_h_falling2}")
+    if us_lam_falling and us_h_falling and purge_ok and world_lam_falling and world_h_falling2:
+        final = "PASS"
+    elif (r_w2["verdict"] == "FLAT/RISING") and r_rep is not None and r_rep["verdict"] == "FLAT/RISING":
+        final = "FAIL"
+    else:
+        final = "AMBIGUOUS (repaired leg did not resolve — back to Stella)"
+    print(f"\nTHE GATE READ, FINAL (with the repaired leg): {final}")
+    print("=" * 76)
+
 if __name__ == "__main__":
     main()

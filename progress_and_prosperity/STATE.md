@@ -15,8 +15,8 @@ are veto windows (defaults stand unless vetoed).
 
 ## Where things stand
 
-**Phase 0 — the gate — is READ and parked at STELLA'S BREAKPOINT** (item
-12 below; memo `lambda/READ_MEMO.md`; options A/B/C). Done on founding day:
+**Phase 0 — the gate — is READ, REPAIRED, RE-READ: FINAL PASS. THE GATE
+IS OPEN** (items 12–13; memo `lambda/READ_MEMO.md`). Done on founding day:
 
 1. **Provenance ledger settled:** every s? row confirmed Stella and flipped;
    the legend records the confirmation date. The preface can now be written
@@ -154,6 +154,18 @@ are veto windows (defaults stand unless vetoed).
    decides** — (A) repair the world quantity leg (fixed-composition H)
    and re-read; (B) judge a pass with a recorded amendment; (C) hold.
    Downstream hypothesis-dependent book work waits on the decision.
+13. **λ unit 6a DONE — Stella chose Option A; repair computed and
+   RE-READ: FINAL PASS (2026-08-20).** The repair (within-country hours
+   index: chained Törnqvist + fixed-base Laspeyres over countries'
+   embodied hours, compensation-share weighted) was logged in the spec's
+   amendment section BEFORE its number was computed — the discipline
+   held. Result: FALLING on 100% of 6 primary members (−0.479/decade
+   median; band [−0.914, −0.592]); endpoints wiod13 0.520 by 2009,
+   wiod16 0.377 by 2014, icio 0.151 by 2022; the relocation components
+   confirm the diagnosed confound (raw fell far less than within in the
+   WIOD windows). All five gate conditions hold → **PASS. THE GATE IS
+   OPEN.** Falsifier #1 does not bite. PLAN.md updated; downstream
+   hypothesis-dependent work may proceed.
 
 **Phase 0 remainder:** the λ pull-and-read (next actions below); (S) the
 education test post while the conversation is warm; (us) P1 absorbing
@@ -227,14 +239,15 @@ revision as usual (that work lives in `../the-link-revision/`, not here).
 
 ## Next actions (priority order)
 
-0. **BREAKPOINT (Stella):** the gate-read decision — A (repair the world
-   quantity leg: fixed-composition hours variant, one small unit, criteria
-   then apply unchanged), B (judge a pass on the current evidence, with
-   the composition-confound amendment recorded), or C (hold at ambiguous;
-   the gate stays closed). Nothing hypothesis-dependent proceeds first.
-1. Then per spec: delivery (P1 §10 subsection + companion note), written
-   to whatever the decided verdict is — the falsification reading stated
-   both ways, as committed.
+1. **λ delivery unit** (per spec, both venues): the results subsection for
+   P1's §10 revision + the short companion note — the series citable by
+   people who reject the theory; the falsification reading stated both
+   ways; figures at accounting tier, banded, with every caveat the memo
+   carries (frozen tail, splice step, 2006–10 gap, BEA caveat).
+2. Phase 0's remaining (S) item: the education test post. Phase 1 onward
+   per PLAN — the gate no longer blocks.
+3. Standing small items: the fifth ICIO zip (2006–10) when convenient;
+   BLS ERM revisit at the next EP release (hours cross-check).
 
 ## File map
 

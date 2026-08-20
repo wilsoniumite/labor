@@ -1,10 +1,17 @@
-# THE GATE READ — λ assembly, unit 6 (2026-08-20)
+# THE GATE READ — λ assembly, unit 6 + 6a (2026-08-20)
 
-**Verdict, per the pre-committed criteria: AMBIGUOUS — the pre-named case
-"λ̂ falling, H_rel flat" fired on the world referee's quantity leg.**
-Per the protocol: stop, report, Stella decides. No silent proceeding.
-Every number below is produced by `code/gate_read.py` (deterministic; the
+**FINAL VERDICT: PASS.** The mechanical read (below, kept as the record)
+returned the pre-named ambiguous case on the world quantity leg; at the
+breakpoint Stella chose Option A — repair that leg and re-read — and the
+repair, committed to the spec before its number was computed, resolved it:
+the within-country hours index is FALLING on 100% of members. All five
+gate conditions hold. The addendum at the foot carries the re-read.
+Every number here is produced by `code/gate_read.py` (deterministic; the
 operationalization is stated in its header and vetoable).
+
+---
+
+## The original mechanical read (unit 6) — kept as the record
 
 ## The accounting
 
@@ -91,3 +98,43 @@ a classification break, stated; both spliced members and both within-
 segment directions agree in sign, so the splice does not carry the W1b
 conclusion. BEA's "should not be used as a time series" caveat rides with
 the SIC benchmark points.
+
+---
+
+## Addendum — the re-read (unit 6a): Option A executed
+
+**Breakpoint resolution (Stella, 2026-08-20): Option A** — repair the
+world quantity leg, criteria otherwise unchanged. The repair was specified
+and logged in the spec's amendment section BEFORE the number was computed:
+the world H leg becomes the **within-country hours index** — per release,
+the chained Törnqvist index of countries' embodied hours per $1 of world
+machinery final demand, weighted by embodied-compensation shares, with a
+fixed-base Laspeyres as the second grid member; covered countries only;
+the between-country (relocation) component reported, not gated.
+
+| Leg | Window | Members | Verdict | Median slope /decade | Share negative | Member-Δ band |
+|---|---|---|---|---|---|---|
+| **World H_within (primary, sourced)** | 1995–2014 | 6 | **FALLING** | −0.4792 | 100% | [−0.914, −0.592] |
+| World H_within (supporting: ICIO full incl. frozen tail) | 1995–2022 | 2 | FALLING | −0.3232 | 100% | [−0.875, −0.870] |
+
+Index endpoints (base = each release's first sourced year = 1): wiod13
+0.520 by 2009; wiod16 0.377 by 2014; icio25 0.151 by 2022. Relocation
+(between) components, reported: wiod13 raw 0.917 vs within 0.520; wiod16
+raw 0.485 vs within 0.377; icio25 raw 0.091 vs within 0.151 — in the WIOD
+windows the raw aggregate fell far less than the within-country index
+because relocation was ADDING low-wage hours on top of a collapsing
+technical requirement, which is precisely the confound the original read
+diagnosed and the repair removes.
+
+**Final verdict logic:** US λ̂ falling (W3 & W1b) ✓ · US H_rel falling ✓ ·
+rent purge survives ✓ · world λ̂ falling ✓ · world H_within falling ✓ —
+
+# **THE GATE READ, FINAL: PASS**
+
+Consequence, per PLAN: falsifier #1 does not bite — the labor content of
+machine production is falling, in value and in quantity, within countries
+and in the world aggregate, and the decline survives rent purging. The
+gate OPENS: downstream hypothesis-dependent book work may proceed, and the
+λ series moves to delivery (P1 §10 results subsection + the short
+companion note, both venues, stating the falsification reading both ways
+as committed).

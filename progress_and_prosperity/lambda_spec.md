@@ -300,3 +300,17 @@ plus extension, and the paper cites instead of rediscovering.
   the US century arc (unit 3, 1967–). ICIO's data zips 403 every scriptable
   client — the 1995–2022 extension is parked behind a documented manual
   download, decided before the gate read or not at all.
+- **2026-08-20, unit 6a (Stella's breakpoint decision: Option A —
+  committed BEFORE the repaired number is computed).** The gate read
+  returned the pre-named λ̂↓/H_rel→ case on the world quantity leg, with
+  the diagnosis layers showing a cross-country composition confound
+  (relocation of machinery hours to low-wage suppliers), not the rent
+  channel the leg was designed for. Repair, per Stella: the world H leg is
+  re-specified as the **within-country hours index** — per release, the
+  chained Törnqvist index of countries' embodied hours per $1 of world
+  machinery final demand, weighted by embodied-compensation shares
+  (Laspeyres at the release's first sourced year as the second grid
+  member; covered countries only; the between-country/relocation component
+  reported alongside, not gated). ICIO frozen-2014 years stay
+  supporting-only. All other legs and the verdict logic are unchanged; the
+  re-read applies the same FALLING rule to the repaired leg.
