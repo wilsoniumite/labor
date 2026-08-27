@@ -126,7 +126,7 @@ for phrase in ["honest", "honesty", "note that", "note now", "reading it as",
 # the references, and the back matter after Acknowledgements), every Greek
 # variable entity must sit inside <i>…</i>. Write new prose bare and run
 # code/italicize_math.py; this catches what slipped through.
-prose = body[:body.index("<h2>Acknowledgements</h2>")] if "<h2>Acknowledgements</h2>" in body else body
+prose = body[:body.index("<h2>Acknowledgements")] if "<h2>Acknowledgements" in body else body
 prose = re.sub(r"<div class=\"eq\">.*?</div>", " ", prose, flags=re.S)
 prose = re.sub(r"<div class=\"refs\">.*?</div>", " ", prose, flags=re.S)
 bare = []

@@ -199,4 +199,100 @@ ok("GxF: the gap grows as the K-hour gets dearer (d kappa_K / d(w_K/p_g) < 0)",
 ok("A: dw/drho > 0 on D>0 => w(n) inherits monotonicity of rho(x*(n))",
    sp.simplify(dw_drho*D**2 - ell*r*(1 - a)) == 0)
 
+# --------------------------------------------- Appendix D lemmas (2026-08-26)
+# D.2 the fraud bound: a false provenance claim is caught w.p. v and pays f;
+# a premium p is sustainable iff expected fake profit (1-v)p - v*f <= 0.
+v_, f_, p_ = sp.symbols("v f p", positive=True)
+bound = v_*f_/(1 - v_)
+ok("D.2: fraud bound solves the incentive condition exactly",
+   sp.simplify(sp.solve(sp.Eq((1 - v_)*p_, v_*f_), p_)[0] - bound) == 0)
+ok("D.2: bound rises in v and in f",
+   sp.simplify(sp.diff(bound, v_) - f_/(1 - v_)**2) == 0
+   and sp.simplify(sp.diff(bound, f_) - v_/(1 - v_)) == 0)
+ok("D.2: diverges as v -> 1, collapses as f -> 0 for every v < 1",
+   sp.limit(bound, v_, 1, '-') == sp.oo and sp.limit(bound, f_, 0, '+') == 0)
+
+# D.3 superstar concentration: a measure-zero top carries beta of
+# K-expenditure, the co-present remainder is uniform. Discrete stand-in:
+# one star among N workers, total expenditure 1; median/mean -> 1 - beta.
+Nw, beta_n = 100001, 0.6
+others = (1 - beta_n)/(Nw - 1)      # uniform non-star income
+mean_i = 1.0/Nw                     # mean unchanged: total/N
+ok("D.3: median = non-star income; median/mean -> (1-beta) as the top's measure -> 0",
+   abs(others/mean_i - (1 - beta_n)*Nw/(Nw - 1)) < 1e-12
+   and abs(others/mean_i - (1 - beta_n)) < 1e-4)
+
+# ------------------------------ Appendix A: joint-system instantiation
+# Sloped regime with r endogenous. Config: rho(x) = 1 + 4x (gamma_L = 1),
+# a=0.5, lam=0.1, ell=0.2, land T=10, unit labor N=1, Cobb-Douglas land
+# share sigma=0.3, exit s0=1, h_e=0.5, s_d=0.2; numeraire p_g = 1. Given
+# x*, free entry + the margin + the unit-cost condition pin (w, c, r); Y
+# comes from labor clearing; land clearing is one residual in x*. Verified:
+# exactly one sign change on the grid (a unique crossing), the land market
+# clears at the root, goods clearing follows (the Walras cross-check of the
+# accounting), viability holds, and w > s(q) so full participation is
+# consistent with the posited equilibrium.
+aJ, lamJ, ellJ, TJ, sigJ, NJ = 0.5, 0.1, 0.2, 10.0, 0.3, 1.0
+s0J, heJ, sdJ = 1.0, 0.5, 0.2
+
+def joint_state(xs):
+    rho_x = 1 + 4*xs
+    den = 1 - aJ - lamJ*rho_x
+    Irho = xs + 2*xs*xs                      # integral of rho on [0, xs]
+    cJ = 1.0/(rho_x*(1 - xs) + Irho)         # unit cost of the good = 1
+    wJ = rho_x*cJ                            # the margin
+    rJ = cJ*den/ellJ                         # free entry
+    Y = NJ/((1 - xs) + lamJ*Irho/(1 - aJ))   # labor clearing at N
+    X = Y*Irho/(1 - aJ)                      # gross machine services
+    land = ellJ*X + sigJ*(wJ*NJ + rJ*TJ)/rJ  # machine + housing demand
+    return land - TJ, wJ, cJ, rJ, Y, X, den
+
+grid = [i/1000.0 for i in range(1, 990)]
+signs = [joint_state(x)[0] > 0 for x in grid]
+flips = sum(1 for k in range(1, len(grid)) if signs[k] != signs[k - 1])
+ok("A-joint: land residual has exactly one sign change on the x* grid", flips == 1)
+lo, hi = 0.001, 0.989
+for _ in range(80):
+    mid = (lo + hi)/2
+    if (joint_state(lo)[0] > 0) == (joint_state(mid)[0] > 0):
+        lo = mid
+    else:
+        hi = mid
+residJ, wJ, cJ, rJ, YJ, XJ, denJ = joint_state((lo + hi)/2)
+ok("A-joint: land market clears at the root", abs(residJ) < 1e-9)
+ok("A-joint: viability 1 - a - lam*rho(x*) > 0 at the root", denJ > 0)
+ok("A-joint: goods market clears by Walras at the root",
+   abs(YJ - (1 - sigJ)*(wJ*NJ + rJ*TJ)) < 1e-8)
+ok("A-joint: full participation consistent (w > s(q), q = r at p_g = 1)",
+   wJ > max(s0J - rJ*heJ, sdJ))
+
+# ----------------------------- the λ>0 user-cost forms (2026-08-27)
+# One unit of machine stock costs P = a·c + λ·w + ℓ·r to build; services
+# price by user cost c = s·P where s is the carrying factor — s = 1+δ for
+# one-period building under time preference alone, s = δ+d with wear.
+# With the margin w = ρ*·c the closed form is c = s·ℓr/(1 − s(a+λρ*)),
+# viability s(a+λρ*) < 1 — the λ>0 generalization of Appendix A's two
+# displays, previously deliberately unstated because unchecked.
+delta_, d_w, s_c = sp.symbols("delta d_wear s_carry", positive=True)
+uc = sp.solve([sp.Eq(w, c*rho), sp.Eq(c, s_c*(a*c + lam*w + ell*r))],
+              [w, c], dict=True)
+assert len(uc) == 1
+c_uc = sp.simplify(uc[0][c])
+c_uc_form = s_c*ell*r/(1 - s_c*(a + lam*rho))
+ok("A-usercost: closed form c = s·ℓr/(1 − s(a+λρ*)) for carrying factor s",
+   sp.simplify(c_uc - c_uc_form) == 0)
+ok("A-usercost: w = ρ*·c at the solution",
+   sp.simplify(sp.simplify(uc[0][w]) - rho*c_uc_form) == 0)
+ok("A-usercost: λ→0 recovers both stated λ=0 displays (s=1+δ and s=δ+d)",
+   sp.simplify(c_uc.subs([(lam, 0), (s_c, 1+delta_)])
+               - ell*r*(1+delta_)/(1 - a*(1+delta_))) == 0
+   and sp.simplify(c_uc.subs([(lam, 0), (s_c, delta_+d_w)])
+                   - ell*r*(delta_+d_w)/(1 - a*(delta_+d_w))) == 0)
+ok("A-usercost: s = 1 recovers the static closure c = ℓr/(1−a−λρ*)",
+   sp.simplify(c_uc.subs(s_c, 1) - ell*r/(1 - a - lam*rho)) == 0)
+D_uc = 1 - s_c*(a + lam*rho)
+ok("A-usercost: dc/ds = ℓr/D² > 0 and dc/dλ = s²ρℓr/D² > 0 on the viable set",
+   sp.simplify(sp.diff(c_uc_form, s_c) - ell*r/D_uc**2) == 0
+   and sp.simplify(sp.diff(c_uc_form, lam) - s_c**2*rho*ell*r/D_uc**2) == 0)
+
 print(f"\nALL GREEN ({len(GREEN)} checks)")

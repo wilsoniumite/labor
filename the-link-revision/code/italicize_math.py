@@ -16,7 +16,10 @@ PAPER = os.path.join(HERE, "..", "paper", "pinning.html")
 html = open(PAPER, encoding="utf-8").read()
 
 START = html.index('<div class="abstract">')
-END = html.index('<h2>Acknowledgements</h2>')
+# Acknowledgements sections removed from the paper 2026-08-26 (text preserved
+# outside the repo); fall back to </body> so the scan still ends cleanly.
+_ack = html.find('<h2>Acknowledgements')
+END = _ack if _ack != -1 else html.index('</body>')
 head, region, tail = html[:START], html[START:END], html[END:]
 
 GREEK = ("alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|micro|nu|"

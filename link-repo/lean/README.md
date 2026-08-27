@@ -1,7 +1,9 @@
-# Lean statements — the corner-regime spine
+# Lean statements — the corner-regime spine and the λ>0 extension
 
 **Status: builds clean — 0 errors, 0 `sorry`, 0 warnings.** Lean 4.33.0, mathlib
-pinned to tag `v4.33.0`. All 66 declarations are machine-checked.
+pinned to tag `v4.33.0`. All 119 declarations across the two modules are
+machine-checked: 66 in the corner spine (`TheLink.lean`), 53 in the pinning
+extension (`Pinning.lean`, 2026-08-27).
 
 ```bash
 cd link-repo/lean && lake exe cache get && lake build
@@ -9,6 +11,16 @@ cd link-repo/lean && lake exe cache get && lake build
 
 First run downloads ~5-8GB of mathlib oleans into `.lake/` (gitignored). If
 `lean` isn't on your PATH, elan puts it at `~/.elan/bin/`.
+
+**Corporate-network notes (SEB laptop, 2026-08-27):** elan's own downloader
+fails behind the proxy (`CRYPT_E_NO_REVOCATION_CHECK` — the CRL endpoints are
+blocked, and schannel curl requires revocation by default). Working setup:
+`ssl-no-revoke` in `~/.curlrc` and `%APPDATA%/_curlrc` (lake and the mathlib
+cache tool shell out to curl, which then works); the toolchain side-loaded —
+download `lean-4.33.0-windows.zip` from the lean4 GitHub releases, extract,
+then `elan toolchain link "leanprover/lean4:v4.33.0" <dir>` so elan never
+needs the network; and `XDG_CACHE_HOME=C:/Users/<user>/.cache` so the cache
+tool avoids the unwritable roaming drive `J:`.
 
 One caveat no proof assistant removes: these statements are a *translation* of
 the paper. Lean checks the derivations, not the translation. A mistranscribed
@@ -68,8 +80,22 @@ Two that run the other way and **strengthen** the paper:
 
 ## Scope
 
-Propositions 3, 4, 5, 6(i), 7(i)–(ii), 8, 9(ii)–(iii), 10, 13(ii) — the chain
-from "machines make machines" to "redistribution without deadweight".
+`TheLink.lean` (old-draft numbering): Propositions 3, 4, 5, 6(i), 7(i)–(ii),
+8, 9(ii)–(iii), 10, 13(ii) — the chain from "machines make machines" to
+"redistribution without deadweight".
+
+`Pinning.lean` (pinning-paper numbering, 2026-08-27): Proposition 2 — the
+λ>0 replacement closure, uniqueness, and both comparative statics, with a
+bridge theorem meeting `Corner` at λ = 0; Proposition 4(i)–(ii) with λ —
+the 1/L̄ wage, the (1 − a − λρ̄)/(ℓρ̄L̄) display, both divergence margins
+(ρ̄ → 0 and ℓ → 0), both automation statics, and the substitution bound;
+the λ>0 user-cost closures for both carrying factors (1+δ and δ+d), sympy
+first per the house rule; Lemmas D.2 (fraud bound: the iff, both statics,
+the v → 1 divergence, the f = 0 collapse) and D.3 (superstar concentration
+via its finite-star-mass family — mean invariance, the ε < β ordering, the
+median mass, and the ε → 0 ratio limit); and the CES dial's three-case
+share limit (Appendix B's General-η display). Its manifest findings
+(P1–P5) are at the foot of the file.
 
 Omitted, deliberately:
 
@@ -93,5 +119,8 @@ lean/
   lakefile.toml       mathlib pinned to v4.33.0
   lean-toolchain      leanprover/lean4:v4.33.0
   Link.lean           root module
-  Link/TheLink.lean   the statements, proofs, and the manifest
+  Link/TheLink.lean   the corner spine: statements, proofs, and its manifest
+  Link/Pinning.lean   the λ>0 extension: Prop 2, Prop 4(i)-(ii) with λ,
+                      user-cost closures, Lemmas D.2/D.3, the CES dial,
+                      and its manifest (P1-P5)
 ```

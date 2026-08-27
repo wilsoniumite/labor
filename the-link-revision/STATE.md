@@ -2,9 +2,16 @@
 
 **Project:** revision of *The Link: Wages, Machines, and What Remains* (Stella Wilson, working draft Aug 2026; the blog post "A New-ish Theory of Economics" at wilsoniumite.com links the PDF — this folder sits next to the papers folder).
 **Collaboration:** extended, multi-session; working format, sequencing, and drafting decisions delegated to Claude. Direct critique preferred over validation.
-**State as of:** 2026-08-19.
+**State as of:** 2026-08-26.
 
 ## Where things stand
+
+**2026-08-26: APPENDICES RESTRUCTURED A–I → A–D** (log 28): I and H cut,
+B compressed to a §11 paragraph, C folded into A, E folded into B (the old
+D); reletter D→B, F→C, G→D; Lemmas D.2/D.3 added and A's joint-system
+existence rescoped with a numerical instantiation. Johan's front-matter
+pass is ported (log 25); the Overleaf copy is stale pending a wholesale
+replace.
 
 **2026-08-13: THE REWRITE IS EXECUTED.** `paper/pinning.html` is now the full
 restructured paper — "Pinning the Wage to Scarcity and Technology" — built
@@ -237,6 +244,486 @@ text); sweep found zero further instances; ALL GREEN.
       arithmetic (1−t)cρ̄ + t·cρ̄ (self-verifying where words would be
       assertion). Section-level: nothing cuttable — §2 argues the novelty,
       §9 is her framing, §6 is the payoff. lint re-run ALL GREEN.
+
+## Session log (2026-08-26) — SEB TALK PREP
+
+25. **Talk thread opened; SEB chosen as the room** (her "SEB probably",
+    after an ideas turn). Design on record in chat: fork-first inversion —
+    open on Fig 3, close on Fig 4, ring on q; ~12 slides, one equation
+    (the recipe), ~20 min; the econ-seminar variant parked. HER NEW
+    OBSERVATION, recorded: land-tax capitalization lands on LEVERED owners
+    and their lenders — banks as the transition's candidate main loser;
+    frozen-market risk (negative-equity lock-in); "it all depends on LTV
+    ratios." Claude's sharpenings for the talk's bank slide and the
+    sequel: capitalization is announcement-dated under credibility (a
+    gradual ramp shrinks the PV hit, it does not spread it); loss ordering
+    equity first, banks past the default barrier; Sweden specifics (full
+    recourse → double-trigger losses and worse lock-in; covered-bond
+    cover-pool LTV eligibility as a no-default pain channel; 85% LTV cap
+    2010 + amortization requirements 2016/2018 = fifteen years of
+    macropru already shrinking the exposed cohort; national property tax
+    abolished 2008; the 1990s crisis and the 2022–23 property-company
+    squeeze as the room's memory); grandfathering/increment-only protects
+    balance sheets at one-for-one cost to κ's numerator; the model-honest
+    sentence: the welfare pair is a flow theorem — the stock revaluation
+    is a transfer, not deadweight, but nominal contracts written against
+    the untaxed rent stream make the transition financially real. MAPS TO
+    the existing queue: next-actions item 2 (transition dynamics:
+    "capitalization, collateral") and parked second-paper critique (4)
+    (political economy of taxing the surviving asset class) — her
+    observation supplies those items' mechanism; not opened uninvited.
+    **`docs/talk_data_briefing.md` CREATED** (her "the data behind them is
+    one of the areas I understand the least"): construction + ranked
+    caveats + likely-question answers for the three data figures, built
+    from the link-repo scripts (deflator_fork.py, feasibility_kappa.py,
+    four_way.py, lambda_compute2.py) and DATA_NOTES. Two computed defenses
+    now on record: the fork RATIO is wage-series-invariant (the wage
+    cancels between the legs — 4.8 is pure CPI-shelter/CPI-durables
+    drift), and ×3.3 of the ×4.8 accrues after the 1983 CPI
+    rental-equivalence seam (durables leg since 1995 +169%, shelter +7%).
+    **JOHAN'S PASS IS TeX-ONLY — PORT PENDING; do not regenerate or
+    replace main.tex before porting his diff into pinning.html.** Slips
+    flagged to her (flag-not-fix, his hand): abstract "nearly five times
+    the durables" (durables leg is ~4×; 4.8 is the two-leg ratio —
+    slide-critical number); §1 roadmap "surveys what how current theory
+    tries to pin the wag"; §2.1 "requiers"; §1 "Sections 9–10 applies".
+    The log-23 dangling possessive (§10 "Proposition 4's in the rawest")
+    remains in place, pre-existing.
+
+26. **The Swedish fork delivered** (her go: "let's look at the swedish
+    data", with "even more of a for dummies breakdown over the graph").
+    `code/swedish_fork.py` → `data/swedish_fork.csv` +
+    `figures/fig_swedish_fork.png`; full record appended to
+    `data/DATA_NOTES.md` as DATA ITEM FOUR. Primary source SCB PXWeb API,
+    six tables, titles verified at pull time (the FRED page-title rule
+    transplanted); sanity anchors all OK; published-value gate (2022 KPI
+    inflation 0.084 ≈ published 8.4%) OK; the long wage member (manual
+    workers, mining+manufacturing, pay for time worked, 1952–2025) passed
+    the OVERLAP GATE — SLP9a07/SLP11a ratio 1.0000 in all six overlap
+    years, one series across a publication seam, NOT a splice. RESULTS
+    (1980=100, through 2025): paycheck ×6.5, durables (SCB special
+    aggregate VV) ×1.3, rents (04.1) ×7.4; fork **5.67× vs rents, 4.26×
+    vs broad housing 04** — the U.S. 4.8× reproduced on Swedish data
+    under a different housing regime. Timing parallel: both countries'
+    rent-leg fall is pre-1995; post-1995 fork growth is the durables leg
+    in both. Caveats recorded (use-value rent regulation → 5.67 is a
+    lower bound; 04 carries owner interest costs → CPIF-04 member strips
+    it; hedonics, extreme for the ×276 ICT member — off the chart by
+    design). `docs/talk_data_briefing.md` gained §0 "The fork graph,
+    from zero" (the for-dummies walk-through: paycheck ×12, durables
+    prices ×3.2, rents ×15 since 1964; the wage-cancels point; the
+    NOT-saying list) and §1b (the Swedish fork). NOT committed (none
+    requested). Candidate talk move: U.S. and Swedish fork charts side
+    by side, one slide.
+
+## Session log (2026-08-26) — JOHAN'S PASS PORTED; APPENDIX DECISIONS; SSRN
+
+25. **Johan's Overleaf pass + Stella's v2 fixes ported to canonical** (his
+    pass pasted for diff-reading; her v2 = his pass + four fixes: abstract
+    "the wage" restored, "nearly five times" → "four times", George rehomed
+    — "a re-derivation of George (1879)" now closes the contribution ¶ and
+    "Our contribution is the closure" stays out (ADDENDUM 6's construction,
+    flagged pre-port, her acceptance), roadmap "what how ... wag" and
+    "requiers" fixed; her ruling: "otherwise I agree with all his changes";
+    ACKNOWLEDGEMENTS DELETION CONFIRMED DELIBERATE — her text preserved
+    off-repo for a blog post or later book). PORT: script + snapshot
+    pinning_pre_johanport.html + word-diff johan_port.diff.html at session
+    scratchpad; 18 replacements exactly-once + both Acknowledgements
+    sections deleted. His edits, all front matter: abstract equations
+    glossed words-first; intro ¶1 ("Suppose...", "examines that
+    mechanism"); substitute ¶ future-tensed; chain displays relabeled
+    (wage supply → / wage demand →, tails "labor demand/supply side",
+    chain-2 tail "rents on non-produced inputs"); interval ¶ gains
+    opportunity-cost appositives; limit ¶ "the extreme scenario", "(a point
+    proved by Caselli and Manning (2019))", "falls to near zero";
+    contribution ¶ fused; roadmap rewritten; §2.1 dash-sentence split in
+    three; §3 "quietly" cut. RIDING TOOL FIXES: converter's author block
+    carries his real email (Johan.Bage@hhs.se, placeholder retired);
+    italicize_math.py END anchor falls back to </body> (lint's cuts
+    already had fallbacks; h2 now 22). Pipeline ALL GREEN post-port:
+    italicize +0, lint, census, check_pinning 37, converter (13,060 tokens
+    both sides, zero hunks). REGENERATED main.tex ≡ her v2 except ONE
+    print-identical token: abstract "4.8" (plain) vs her "$4.8$" — the old
+    "4.8&times;" rode into math on the &times; entity; the bare number has
+    no signal. Accepted deviation. Zip rebuilt. Overleaf SYNC NOTE: for
+    once her copy ≡ the regenerated file (mod that token) — no wholesale
+    replace needed until the next regeneration. SLIPS RIDING IN THE
+    ACCEPTED SET, flagged, left verbatim per protocol: "Sections 9–10
+    applies" (agreement — reads as a miss, one-word fix "apply" offered);
+    intro "falls to near zero" vs abstract "falls without bound" (same
+    object, two phrasings); BrE "analyses"/"analysed" in an AmE paper;
+    abstract glosses ("replacement costs" for the ac term collides with
+    replacement cost = c; "raw materials" for ℓr).
+
+26. **Appendix restructure DECIDED, not executed (a later unit, her
+    explicit scoping).** Her calls on the triage: (i) Appendix I CUT — her
+    "too much"; Claude's standing counter-offer, pending her word: keep
+    the 3–4 dated ours-only predictions (fork slope, AI-sites balance
+    sheet, exit/coresidence, incidence drift) as one §12 paragraph — the
+    by-construction and consistent-with entries (P1–P3 AR2026; P5–P6
+    K–N/Rognlie) go without loss; either way the in-body pointers rehome
+    (§1's falsify sentence, §9's, App E's "Prediction 8"). (ii) Appendix B
+    CUT AS APPENDIX → a short main-text paragraph/note (AR2026's results;
+    must keep the effective schedule ρ/µ + the self-liquidation/
+    quantity-vs-price point §11 leans on; Figs 5–6 go — two of seven).
+    (iii) Appendix F is HERS — in progress in another session; hands off
+    here. (iv) Agreed from Claude's list: H cut (salvage: offshoring-as-
+    second-rental → §2.3 footnote; border-splits-the-bases → one F.5
+    sentence); C folds into A's machines block; E folds into D (log-16's
+    renumbering objection obsolete — content-keyed \refs make reordering
+    free). EXTRA-WORK RULING (her question, Claude's answer accepted-
+    pending-her-read): pay debts on keeps — A's joint-system existence
+    (tighten or scope; Lean λ>0 stays the formal backstop), G's fraud
+    bound v·f/(1−v) + superstar median as mini-lemmas (cheap, P12 leans on
+    the first), F.5's deadweight-index derivation inside her F unit;
+    retract-and-fold instead of working on E ("estimate of η" softens to
+    sign-reading on the fold); I's and B's polish items die with their
+    cuts; λ>0 Lean stays queued, gates nothing.
+
+27. **SSRN: revise the existing upload, don't resubmit** (her question;
+    recommendation given): a revision keeps the abstract ID/URL (the
+    blog's link keeps resolving), the accumulated download record, and the
+    ORIGINAL first-posted date — her public priority stamp on the idea;
+    title/abstract/authors all changeable in a revision, Johan added as
+    author (he needs an SSRN account); brief re-review per revision, so
+    revise ONCE when the current wave lands (this port + appendix
+    restructure + her F work), not per pass. A fresh page would zero the
+    history and leave two records competing against the draftline's own
+    declaration that the long draft is replaced.
+
+28. **Appendix restructure EXECUTED, both HTML and LaTeX** (her go:
+    "Let's do the appendix changes and work now"). Appendices A–I → A–D;
+    one unit: script, 59 exactly-once-asserted operations + boundary-
+    asserted deletions; snapshot pinning_pre_appendix.html + word-diff
+    appendix_restructure.diff.html at session scratchpad. THE MOVES:
+    - **I CUT clean** (her call; the fold-back offer — 3–4 dated ours-only
+      predictions as one §12 ¶ — offered twice, not taken, still open).
+      §1's falsify sentence and §9's pointer absorbed into their §12
+      clauses ("closes with the empirical standard the account should be
+      held to"; "and states what would count against it").
+    - **B CUT to one §11 paragraph**: effective schedule w ≤ c·ρ(x)/µ(x)
+      inline, targeting + the 70th–95th percentile clause credited AR2026,
+      self-liquidation ("finances its own replacement"), quantity-form
+      list, punctuated-adoption close. §2.3 → "Section 11 states that
+      result in this notation"; §2.4 wedge-machinery clause cut; §3 "set
+      aside until Section 11". Figures 5–6 (strata, ushape) RETIRED
+      (7 → 5; files remain in figures/, dropped from latex/ + zip).
+    - **H CUT**: offshoring-as-second-rental salvaged as one §2.3
+      sentence; the border-splits-the-bases point PARKED for her F
+      session (text in the parked-inputs block below); w_f/ρ_f retired
+      (census DEAD list).
+    - **C FOLDED into A** (machines block + new "Durability, time
+      preference, horizon." ¶, text carried verbatim — same-paper
+      consolidation); §4/§10 pointers retargeted; converter SPECIAL 0
+      expectation 2→1 (the two matrix statements merged).
+    - **E FOLDED into new B** as a closing "General η." ¶, eq:ces-share
+      carried verbatim; the "promoted to an estimate of η" claim SOFTENED
+      per the extra-work ruling ("the climbing shelter share ... is the
+      η < 1 signature"; §7's pointer now "reads the elasticity's sign off
+      the shelter shares") — the estimator itself is long-record work.
+    - **RELETTER** D→B (Prop B.1), F→C (h3s C.1–C.5), G→D (Prop D.1);
+      every in-prose literal re-pointed site-specifically; the script's
+      own final sweep caught one missed site (§5's second F.4 mention)
+      and one collateral (the I-cut swallowed the References h2 —
+      restored verbatim). A's configuration table → 5 rows; notation
+      footnote updated (µ now §11-local; η context B/D; λ_C, λ_R of C).
+    - **THE DEBT WORK** (the extra-work ruling executed): (i) A's
+      joint-system existence RESCOPED from "follows from continuity on
+      the compact viable set" to three named instruments — the crossing
+      at given r, the flat-limit closed form, and a NUMERICAL
+      INSTANTIATION of the joint sloped system now in check_pinning
+      (ρ(x) = 1+4x, a=.5, λ=.1, ℓ=.2, T=10, σ=.3, N=1, numeraire p_g=1:
+      land residual has exactly one sign change on the x* grid, clears at
+      the root x*≈0.87, the Walras goods cross-check closes, viability
+      and w > s(q) verified); the general fixed point is stated as NOT
+      claimed and rides with the queued Lean extension. (ii) NEW Lemma
+      D.2 (the fraud bound v·f/(1−v): incentive derivation, statics,
+      limits — sympy-checked) and Lemma D.3 (superstar concentration:
+      measure-zero top ⇒ median = (1−β)·mean, assumption stated —
+      numeric-checked); the anchors ¶ split around them. The two formerly
+      bare formulas are now proved.
+    - **GATES all green post-unit**: italicize +0 (new prose shipped
+      pre-wrapped per convention), lint (17 h2), census, check_pinning 46
+      (37 + 9 new), converter 93 PASS (letters ABCD; theorem sequence
+      1–5 + cor + A.1, B.1, D.1, D.2, D.3; figures 5; displays 10;
+      predictions 0; refs 56, none orphaned; word fidelity 12,060 tokens
+      both sides, zero hunks). Zip rebuilt (5 figures). Body 13,626 →
+      12,493 words; main text 5,286 → 5,324.
+    - **OVERLEAF NOW STALE**: replace main.tex wholesale with the
+      regenerated file (or re-upload the fresh zip — it also drops the
+      two retired figure files).
+    - **FOR HER VOICE PASS** (new Claude prose, drafted in the paper's
+      register, hers to re-voice): the §11 wedge ¶; the §2.3 border
+      sentence; the two §12-absorbing clauses (§1 roadmap, §9); A's
+      rescoped existence passage; Lemmas D.2/D.3 statements and proofs;
+      new B's "General η." opener.
+
+    **PARKED INPUTS FOR HER F SESSION** (from this unit's rulings):
+    (a) the H-salvage sentence for C.5, ready to splice: "Rents accrue to
+    the producing jurisdiction's land, so a consuming country's spending
+    resolves partly into foreign site rents — out of reach of its land
+    tax, within reach of a destination-based consumption tax." (b) the
+    C.5 deadweight-index debt: λ_C(1−κ)² is quoted (0.32) but underived
+    in the paper — two displayed lines from a named quadratic-deadweight
+    assumption, with a check to ride in check_pinning.
+
+29. **Stella's v3 ported + the Johan-facing diff built.** Her v3 (Overleaf,
+    on the restructured base — wholesale replace confirmed by the diff
+    size): 15 paragraph edits, all voice/trim, ported as 18 replacements
+    (script + snapshot pinning_pre_v3port at session scratchpad). Her
+    edits: the "empirical standard" framing OUT at both ends (§1 roadmap
+    clause + the §12 closing pair "Both halves are measurable. That is
+    the standard..." — the paper now ends on the question); §2.2 opener
+    sentence cut; §2.3 modeling-bet clause re-voiced WITH a defense
+    ("...a modelling assumption we make based on our reading of history
+    and recent U.S. measures" — log-23 flag iv thereby addressed) and the
+    border sentence re-voiced ("Cross border trade is treated similarly...
+    a second machine rental with a different cost composition"); §2.4
+    "focuses instead on the common base"; §2.7 trims ("a share is not a
+    wage" clause out; "refers to as"/"describes"); §3 bookkeeping sentence
+    OUT (the family's last instance); §4 "a compounding the scalar closure
+    makes visible" out; §5 "the proposition names" out + exit-caveat
+    reword; §9 dating clause out; §10 THE DANGLING POSSESSIVE FIXED by her
+    ("This is Proposition 4, the wage in..." — log-23 flag i RESOLVED);
+    §10 κ-ceiling MEASURED NUMBERS CUT (median 1.26, 13/32 — data item
+    two's only in-paper citation; caveat sentence survives; FLAGGED as
+    deliberate-or-overshoot); §10 head "Three assemblies, open." →
+    "Three possible interpretations of existing measures"; §12 "changes
+    the policy conclusion".
+    PORT EXCEPTIONS, hers to veto (precedented): "traide" → "trade"
+    (typo class, log-24); "US" → "U.S." (log-23 normalization). VERBATIM
+    SLIPS flagged, not touched: "modelling" (BrE, paper is AmE); the
+    assemblies head lost its period; "Offshoring is however still only a
+    temporary condition, once..." (comma splice, log-23 class).
+    Pipeline ALL GREEN post-port (italicize +0; lint 77; census; checks
+    46; converter incl. word fidelity). REGENERATED main.tex ≡ v3 except
+    exactly the two flagged tokens — so her Overleaf copy needs only
+    those two words changed (or a wholesale replace / fresh zip). Zip
+    rebuilt. JOHAN DIFF delivered for her to send:
+    pinning_diff_for_johan_2026-08-26.html (his pass → current canonical;
+    98 regions; plain-language summary preamble at top).
+    NOTE for the pending λ splice: §10's assemblies head is retitled —
+    the splice edit list's "three assemblies → two" language must adapt
+    to "possible interpretations", and its register touches are moot.
+    NEXT (discussed, her go pending): the Lean extension, proposed order
+    — (1) the λ>0 spine (Props 2 + 4(ii)); (2) the λ>0 user-cost durable
+    form (sympy first, then Lean — lets A's durability ¶ finally state
+    it); (3) quick wins: Lemmas D.2/D.3 + the CES-share limits; (4) the
+    Appendix A joint fixed point, staged (given-r crossing, then IVT on
+    the land residual for the configuration class the numeric check
+    instantiates); (5) regenerate the assumption manifest to the new
+    letters. (1)–(3) before the SSRN revision; project lives at
+    link-repo/lean — verify the mathlib pin builds before writing.
+
+## Session log (2026-08-27) — THE LEAN EXTENSION
+
+30. **The λ>0 Lean extension DELIVERED** (her go on the proposed order;
+    items 1–3 + the user-cost debt done, item 4 — the Appendix A joint
+    fixed point — deliberately still queued, so the paper's "rides with
+    the queued Lean extension" stays accurate).
+    - TOOLCHAIN BRING-UP on this machine (none existed; the corner spine
+      had been built elsewhere): elan 4.2.4 installed; its own downloader
+      fails on the SEB network (CRYPT_E_NO_REVOCATION_CHECK — CRL
+      endpoints blocked), so the pinned lean-4.33.0-windows toolchain was
+      side-loaded via `elan toolchain link`; `ssl-no-revoke` written to
+      ~/.curlrc and %APPDATA%/_curlrc (MACHINE CONFIG CHANGE, flagged:
+      lake + the mathlib cache tool shell out to curl); XDG_CACHE_HOME
+      pointed at C:/Users/.../.cache (the roaming J: drive is
+      unwritable). Full recipe recorded in link-repo/lean/README.md.
+      mathlib cache (8,690 files) fetched; **the corner spine reverified
+      on this machine: 8,708 jobs, builds clean.**
+    - SYMPY FIRST (house rule): check_pinning gains the A-usercost block
+      (+5, 51 ALL GREEN) — the λ>0 user-cost closed form
+      c = s·ℓr/(1 − s(a+λρ*)) for carrying factor s (s = 1+δ building,
+      s = δ+d wear), λ→0 recovering both stated displays, s = 1 the
+      static closure, statics signed.
+    - NEW `link-repo/lean/Link/Pinning.lean` — 53 declarations, builds
+      clean (0 errors, 0 warnings, 0 sorry; 119 total across the two
+      modules): Prop 2 (closure satisfies margin + free entry,
+      uniqueness, both statics two-point signed, c-invariance to ρ* at
+      λ = 0); the corner BRIDGE (at λ = 0 the closure IS Corner.c,
+      stated against TheLink's own structure, plus the λ→0 Tendsto);
+      Prop 4(i) with λ (1/L̄, the recipe's labor cancelling too) and
+      4(ii) in full (display, both statics, BOTH divergence margins
+      ρ̄→0 and ℓ→0, the substitution bound); the user-cost closures
+      (general carrying factor + both recoveries); Lemma D.2 (iff,
+      statics, v→1 divergence, f = 0 collapse); Lemma D.3 via its
+      finite-star-mass family (mean invariance, ε < β ordering, median
+      mass, ε→0 ratio limit); the CES dial's three-case share limit.
+      MANIFEST P1–P5 at the file's foot; the sharpest: P1 (the user-cost
+      convergence s(a+λρ*) < 1 is strictly stronger than every earlier
+      condition), P4 (D.3's "top" formally requires ε < β — stars
+      scarcer than their take — a hypothesis the prose leaves implicit).
+    - PAPER: Appendix A's durability paragraph now STATES the λ>0
+      user-cost forms (the "deliberately not stated because unchecked"
+      withholding retired — new Claude prose, hers to voice); the
+      verification footnote upgraded to the exact new Lean scope, with
+      the A fixed point explicitly still queued. Pipeline ALL GREEN
+      (italicize +0, lint, census, 51 checks, converter); zip rebuilt.
+      OVERLEAF STALE AGAIN: wholesale replace (or the fresh zip).
+    - QUEUED (the remaining Lean item): the Appendix A joint fixed
+      point, staged — (a) the given-r crossing (Lemma A.1 with the
+      recursion), (b) IVT on the land residual for the configuration
+      class the numeric check instantiates. SSRN timing: items 1–3
+      landed, so the verification note is revision-ready.
+
+    ADDENDUM (same day, her register note: "make the lean commentary a bit
+    more timeless and less sounding like it's in progress work... 'zero
+    unproven steps' sounds like bragging"): the verification footnote
+    REWRITTEN timeless — present-tense statements of what is ("is also
+    stated and proved in Lean 4 (with the mathlib library)"), the
+    sorry/declaration-count vocabulary OUT, the honest caveat IN ("its
+    statements are a translation of the paper's: the proofs are
+    machine-checked, the translation is not" — the lean README's caveat,
+    now in the paper), and the unclaimed fixed point stated as a scope
+    fact ("is outside the formalization, as stated there"); Appendix A's
+    "rides with the queued Lean extension" clause CUT (the not-claimed
+    sentence stands alone). Script asserts no "queued"/"sorry"/"zero
+    unproven"/count vocabulary survives anywhere in the paper. RULE SAVED
+    to memory (timeless-verification-register): back matter states what
+    is; status and counts live in STATE/README, never the paper. Pipeline
+    ALL GREEN; zip rebuilt; the Overleaf-update diff regenerated (now 19
+    regions: the four earlier groups plus this rewrite).
+
+## Session log (2026-08-21) — THE LATEX EXPORT + CO-AUTHOR
+
+22. **Overleaf-ready LaTeX version built; Johan Båge (Stockholm School of
+    Economics) added as co-author** (her ask; mid-session direction: "change
+    the style perhaps to fit orthodox macro papers more"). MECHANIZED per
+    house discipline: `code/html_to_latex.py` parses `paper/pinning.html`
+    and emits `latex/main.tex` + `latex/figures/` (7 figs copied unchanged)
+    + `latex/README.md`; zip for Overleaf upload at
+    `pinning_latex_overleaf.zip`. **pinning.html stays canonical** — edit
+    there, re-run the converter (idempotent; ALL GREEN gate). Verification
+    BUILT IN: word-sequence fidelity HTML↔TeX (13,667 tokens each side, zero
+    diff hunks; prop headers/figure labels/section numbers normalized out),
+    numbering assertions (12 sections, appendices A–I, Props 1–5 +
+    corollary* + A.1/B.1/B.2/D.1/G.1 via counterwithin, Figures 1–7, 11
+    displays, 2 tables, 13 predictions, 5 kill items, 56 refs), env/brace/$
+    balance, no stray non-ascii. Style: orthodox macro WP — 12pt,
+    onehalfspacing, amsthm plain (italic statements), numbered equations
+    (the four schematic word-chain displays deliberately unnumbered),
+    booktabs, caption labelfont=bf, references small/single-spaced hanging
+    (formatted entries carried VERBATIM, no BibTeX — a .bib conversion
+    would risk the live-verified entries; commission separately if wanted).
+    In-text citations remain literal text (no \cite): cross-refs in prose
+    were already literal, and auto-numbering is asserted to coincide.
+    CO-AUTHOR DECISIONS, all flagged in main.tex comments + README:
+    (i) order: WILSON FIRST, Båge second — her call, same day (initially
+    shipped alphabetical; swapped on her "can I be first author?"); Overleaf
+    compile CONFIRMED by her before the swap; (ii) his email = "[email
+    pending]" placeholder;
+    (iii) title-page disclaimer pluralized + SSE added (HTML draftline is
+    single-author — the ONE wording change made); (iv) NOT touched, flagged:
+    §1 disclosure "the author's", AI-use note ("the author's" ×2, "Errors
+    remain the author's"), first-person Acknowledgements — provenance
+    content, hers to revise with Johan. JEL/keywords: commented suggestions
+    only. NOT compiled locally (no TeX on this machine) — Overleaf compiles
+    on upload; structural checks stand in. NOT INCLUDED by design: the
+    pending λ §10 splice (progress_and_prosperity delivery) — splice into
+    pinning.html first, then re-run the converter; the export follows the
+    HTML wherever it goes. Also noted for the HTML, not fixed here: bare
+    roman "z" in "r(z)"/"parcels z" (App A/D) escaped the italicizer —
+    candidate one-line fix at the source.
+
+23. **Stella's voice pass ported to canonical + LaTeX cross-references
+    mechanized** (her TeX edits, made in the Overleaf copy, pasted into
+    session; her stated intent: she is changing the voice herself now;
+    Claude's original preserved in git history at her direction).
+    PORT — 43 replacements, exactly-once asserted (script + pre-state
+    snapshot + word-diff voice_pass.diff.html, 60 regions, at session
+    scratchpad):
+    - §1 DISCLOSURE PARAGRAPH DELETED by her (the §1 crown "the capability
+      priced in this paper is the capability that drafted it" goes with
+      it; the back-matter AI-use note still carries the disclosure);
+      contribution ¶ now ends at "the pair that survives the limit"
+      (architectural-claim sentence cut); limit ¶ "What remains is a
+      simple set of constraints"; fork sentence spelled out ("forks by
+      the composition of goods and labor used in production").
+    - §11 RESTRUCTURED by her: "What would falsify this" → "Possible
+      stabilizers"; the FIVE-ITEM KILL LIST DELETED (with it went the
+      reinstatement bet's defense — the task-birth clause now appears
+      nowhere; flag iv below); stabilizer ¶ opens "Three possible
+      stabilizers are granted as preserving real wages if ρ tends to ρ̄,
+      however none of them exist without deadweight."
+    - Crowns/meta removed by her: §8 "Both halves of that sentence are
+      theorems"; §9 "correctly described" → "one configuration of our
+      model"; §6 "The two movements are one movement..."; §2.2 "not an
+      outside criticism"; the "bookkeeping" family out ×3 (§3's
+      "general-equilibrium bookkeeping" kept by her); §10 bold heads
+      de-verbed ("The fork.", "The floor's coverage.", "The fiscal
+      exposure.", "Three assemblies, open."); hedges softened ("mostly
+      machine-made / mostly land-priced", "a set of classification
+      variants", "very plausibly", "hard to measure at the scale of every
+      good and policy system"); "violently" RESTORED (reverses the
+      register pass's decorative cut, her hand); ~15 further word-level
+      choices, all ported verbatim.
+    - STALE-POINTER REPAIRS (Claude, riding): intro roadmap → "Section 11
+      weighs the possible stabilizers; ... What would falsify the account
+      is registered in Appendix I." + "welfare completion" → "fiscal
+      completion" (log-15 label unification, missed instance); §2.3
+      "modeling bet defended ... in Section 11" → "a modeling bet;
+      Section 12 states the empirical condition it turns on"; §5 "Section
+      11 lists the test" + §9 "Section 11 states what would count against
+      it" → Appendix I; App E falsification entry → "Appendix I
+      (Prediction 8)" — first in-body Prediction-number citation.
+    - Style normalizations of her text, hers to veto: "US measurements in
+      section 10" → "U.S. measurements in Section 10".
+    CROSS-REFERENCES (her ask: "add references so that if we restructure
+    the tags change"): `code/html_to_latex.py` now emits a \label on every
+    numbered object — sections, subsections, appendices, theorems, figures,
+    the 7 numbered displays, all 13 register items — with content-keyed
+    names (sec:ceiling, app:race, prop:fork, fig:kappa, eq:closure,
+    pred:exit), and REWRITES every literal in-prose mention to \ref
+    (88 refs), so reordering in LaTeX renumbers everything. New gates:
+    unknown heading title FAILS (HEAD_LABELS must learn retitles);
+    leftover-literal sweep must find zero; every \ref must resolve to a
+    defined \label; the word-fidelity check resolves each \ref back to its
+    printed number. Converter ALL GREEN (13,231 tokens both sides, zero
+    hunks; kill-item assertion 5 → 0). Post-port: italicize +2 wraps, lint
+    ALL GREEN, census clean, check_pinning 37 ALL GREEN. Zip rebuilt
+    (`pinning_latex_overleaf.zip`; README documents the label scheme).
+    NOT PORTED, deliberate: author order — her Overleaf copy is PRE-SWAP
+    (Båge first); the regenerated main.tex keeps WILSON FIRST per her
+    recorded call; she should replace the Overleaf main.tex WHOLESALE
+    rather than merge. FLAGS for her: (i) §10 "This is Proposition 4's in
+    the rawest public series available" — dangling possessive left
+    verbatim (the deleted noun was "bookkeeping"); (ii) §5 "the empirical
+    debate of search and matching is changed significantly on this
+    object's level" — reads as a slip, left verbatim; (iii) §11 comma
+    splice ("...ρ̄, however none...") left verbatim; (iv) the reinstatement
+    bet now has NO defense in the paper — one §12 sentence could restore
+    the task-birth clause if she wants it back. NOTE for the pending λ
+    splice: its edit list includes a "§11 kill-item status clause" — moot
+    now; land the λ status inside §10's assembly text instead.
+
+24. **Voice pass, second batch ported (back matter)** (her Overleaf edits,
+    pasted same day; five edits, all behind the references). PORT (5
+    replacements, exactly-once asserted; snapshot pinning_pre_voiceport2 +
+    word-diff voice_pass2.diff.html at session scratchpad):
+    - AI-USE NOTE trimmed by her: "under a strict rule against substitution
+      or approximation, with every series validated before use" CUT (the
+      rule itself still stands in the Standing rules and the data note's
+      "all defensible variants" sentence — only the AI-note mention went);
+      "The subject matter makes the disclosure doubly obligatory." CUT —
+      the last "doubly obligatory" disclosure framing is now out of the
+      paper (its §1 twin went in log 23).
+    - ACKNOWLEDGEMENTS SPLIT PER AUTHOR: h2 → "Acknowledgements, S.
+      Wilson"; NEW EMPTY SECTION "Acknowledgements, J. Båge" appended as
+      a placeholder awaiting his text. Her ¶1 edits: "have MOSTLY been
+      reading", "the nature of IMPORTANT ideas" (was "true"). NEW thanks
+      ¶: Helmuth Cremer (J. Public Economic Theory — for not dismissing
+      the early submission) and Sverrir Thorvaldsson (her SEB manager).
+      ONE TYPO FIXED, flagged for veto: "continuos" → "continuous".
+    - TOOLING RIDING FIXES for the retitle: converter's h2 branch now
+      takes any "Acknowledgements…" title verbatim (\section*, generated
+      NOTE comment retired — she has revisited); lint's italic-sentinel
+      cut and italicize_math.py's END marker now prefix-match
+      "<h2>Acknowledgements". Pipeline ALL GREEN post-port: italicize +0,
+      lint (24 h2), census, check_pinning 37, converter (13,289 tokens
+      both sides, zero hunks). Zip rebuilt. Standing reminder: her
+      Overleaf copy remains pre-swap and pre-\ref — replace main.tex
+      wholesale, do not merge.
 
 ## Session log (2026-08-19) — THE SYMBOLS PASS
 
@@ -626,7 +1113,9 @@ untouched by that thread.
 0. **The rewrite's veto window (Stella):** read `paper/pinning.html`; the
    first call is length — accept the ~5k lean main text or commission the
    expansion pass back toward the brief's ~9k. Then: Lean extension to the
-   λ>0 spine + the Appendix A fixed point (queued verification); the three
+   λ>0 spine + the Appendix A fixed point (queued verification — 2026-08-27:
+   the λ>0 spine, user-cost forms, D.2/D.3, and the CES dial are DONE, log
+   30; the Appendix A fixed point is the one Lean item still open); the three
    §10 assemblies as data units (incidence slope; λ via input–output; the
    long record); optional register regeneration of the fork/κ figures.
    — 2026-08-20, from the progress_and_prosperity thread: **the λ assembly
@@ -638,7 +1127,10 @@ untouched by that thread.
    splice is a THIS-thread unit under this thread's discipline: snapshot →
    splice → update any check/record asserting "three assemblies [spec'd,
    unbuilt]" → `check_pinning.py` ALL GREEN → veto window. The long record
-   has its own thread; the incidence slope remains open.
+   has its own thread; the incidence slope remains open. (2026-08-21: the
+   edit list's "§11 kill-item status clause" is MOOT — the kill list was
+   deleted in Stella's voice pass, log 23; land the λ status in §10's
+   assembly text, and re-run `code/html_to_latex.py` after the splice.)
 1. **Merge (scope PENDING Stella's decision — see the pending-decision block above):** the checked blocks either merge per their Integration notes, or the surgical-repair list goes into the paper and the blocks become paper three. The algebra pass itself is DONE (log entry 11); nothing blocks either path.
 2. **Second sketch — transition dynamics:** machine stock, land prices vs rents (capitalization, collateral), the κ-vs-enclosure race in real time.
 3. **C4 back-of-envelope** (doomed vintage): IPEDS completions by CIP × cost of attendance × exposure shares, banded. Field-level queue structure (NY Fed by-major) belongs to the same pass.
