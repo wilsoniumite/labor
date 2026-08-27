@@ -11,6 +11,10 @@ line — verify as you read, and flag anything that does not match.
 
 ---
 
+> **Notation (2026-08-27):** the paper now uses its v2 symbols — γ(x) for the
+> schedule, b for the land coefficient, ρ for the interest rate; the full map
+> is `docs/notation_map.md`. Other papers' symbols below remain their own.
+
 ## Tier 1 — the paper does not stand without these
 
 ### 1. Caselli & Manning (2019), "Robot Arithmetic: New Technology and Wages," *AER: Insights* 1(1): 1–12 **[read in full this session]**
@@ -65,8 +69,8 @@ says so. If this citation is wrong the paper has no starting point.
   task production, **Assumption 1** (γ(i) strictly increasing — our relabeling
   assumption, same object).
 - **p. 1496, eq. (5) and eq. (6). This is the one.** eq. (5) is the unit cost
-  `min{R, W/γ(i)}`; **eq. (6) is `W/R = γ(Ĩ)`** — literally our `w = c·ρ(x*)`,
-  with their γ(i) playing our ρ(x) (capital productivity normalized to 1). Then
+  `min{R, W/γ(i)}`; **eq. (6) is `W/R = γ(Ĩ)`** — literally our `w = c·γ(x*)`,
+  with their γ(i) playing our γ(x) (capital productivity normalized to 1; the v2 rename makes the correspondence nominal). Then
   `I* = min{I, Ĩ}` on pp. 1496–1497: the distinction between the
   technologically-feasible and the cost-minimizing threshold.
 - pp. 1500–1501, **Proposition 2** (comparative statics: automation ↓ W/R, new
@@ -174,7 +178,7 @@ term with a constant exogenous share `(1−α)`, so the rent share cannot migrat
 it is a parameter, set to 0.10 in their simulation. And their wage floor is
 `ρ + δ`, a preference parameter, exactly as §2.6 says ("accumulated capital").
 Our claim is different in kind: the fixed factor sits inside the **machine's own
-cost recursion**, so `r/p_g` is endogenous and **divergent** (Prop 4(ii)), and the
+cost recursion**, so `r/p` is endogenous and **divergent** (Prop 4(ii)), and the
 wage resolves into rent rather than into the discount rate. That is a sharper
 line than "differing in where the collapse ends," and it deserves more than a
 clause — probably its own short paragraph in §2.6.
@@ -183,7 +187,7 @@ clause — probably its own short paragraph in §2.6.
 
 ### 6. Sraffa (1960), *Production of Commodities by Means of Commodities*; Leontief (1936), *REStat* 18(3): 105–125 **[pointer]**
 
-**Why:** `c = ac + λw + ℓr` is theirs. §4 says so. Without this the closure has no
+**Why:** `c = ac + λw + br` is theirs. §4 says so. Without this the closure has no
 lineage and looks invented.
 
 **Read (Sraffa, short book, read the chapters not the whole thing):**

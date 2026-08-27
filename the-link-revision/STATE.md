@@ -6,6 +6,16 @@
 
 ## Where things stand
 
+**2026-08-27: THE V2 REWRITE IS OPEN; PHASE 1 (NOTATION) EXECUTED AND
+COMMITTED** (log 31). The v2 brief (capital is time: ρ waiting + J build
+lags) is frozen at `docs/rewrite_brief_pinning_v2.md` with her delivery
+amendments; the paper, checks, lint, census, italicizer, converter, figures,
+LaTeX, zip, and the Lean translation tables all carry the v2 notation
+(`docs/notation_map.md`). Her plan: notation commit first (done), then the
+dynamics rewrite on her go. OVERLEAF IS STALE: wholesale replace (or the
+fresh zip). Two new-prose sites await her voice (the rewritten Notation
+footnote; the ρ first-use clause in A's durability paragraph).
+
 **2026-08-26: APPENDICES RESTRUCTURED A–I → A–D** (log 28): I and H cut,
 B compressed to a §11 paragraph, C folded into A, E folded into B (the old
 D); reletter D→B, F→C, G→D; Lemmas D.2/D.3 added and A's joint-system
@@ -514,6 +524,80 @@ text); sweep found zero further instances; ALL GREEN.
     instantiates); (5) regenerate the assumption manifest to the new
     letters. (1)–(3) before the SSRN revision; project lives at
     link-repo/lean — verify the mathlib pin builds before writing.
+
+## Session log (2026-08-27, later) — V2 PHASE 1: THE NOTATION PASS
+
+31. **The v2 rewrite opened; the notation commit executed** (her go, after
+    Claude's review of the v2 brief from her other session: "two more
+    versions. The first is just notation changes... we do all that and
+    commit. Then, I'll let you do the rewrite for dynamics." Her sequencing
+    rulings: the λ splice and Swedish-fork fold-in do NOT go first; SSRN
+    does not wait; Overleaf was up to date at the start).
+    - **The wave commit first** (5c4855a): the uncommitted 08-26/27 work
+      (Johan+v3 ports, appendix restructure, LaTeX pipeline, Swedish fork,
+      SEB briefing, λ>0 Lean extension) landed as its own commit so the
+      notation diff stays symbols-only. Other threads' untracked folders
+      left untouched.
+    - **The brief FROZEN** at `docs/rewrite_brief_pinning_v2.md` (verbatim,
+      with her delivery amendments in the header and dated repo-state notes
+      inline: the λ series is BUILT not open; the Swedish fork is the
+      cross-country item's first leg; lint is the authority over §8's
+      checklist; STATE.md is the changelog, no CHANGELOG.md).
+    - **`docs/notation_map.md` WRITTEN** — the authority for this pass, the
+      Lean translation, and the Phase-2 appendix table. Key content: the
+      rename CHAIN (s_d→s̲, σ→α, η→σ/σ_H, τ→τ_R, t→τ_w, ρ→γ, δ→ρ, d→δ,
+      u→d, then chain-free ℓ→b, K→H, k→|H|, k_s→n_s, λ_C/λ_R→φ_C/φ_G,
+      β→ψ, p_g→p, n→N_a, §10 vectors bolded) in reverse-topological order;
+      s̲ as combining-low-line (parallel to γ̄'s macron); 𝟙 DEFERRED to
+      Phase 2 (I collides with investment only when I_t exists); the b·r
+      display convention (three display sites write b·r matching the
+      recursion display's own middots; prose keeps compound italics br,
+      like rT/aX — the one glyph change beyond pure renames).
+    - **THE PASS**: scripted, count-asserted per family (105 ρ→γ; 36 ℓ→b;
+      39 K→H; 18+2 p_g; 14 δ→ρ; 11 τ; 8+1 s_d; 8+14 η; 16 σ; 7 u; 6 wear-d;
+      5 t; 5 β; 5+3 λ_C/λ_R; 3 n; 2 k_s; 6 k; stale-scan zero), snapshot +
+      word-diff at session scratchpad (282 regions, reviewed one-by-one:
+      all symbol tokens or the two flagged edits). TWO NEW-PROSE SITES,
+      hers to voice: the Notation footnote REWRITTEN (drops the ρ̂ and
+      η-context clauses, which die with the rename; adds interest-is-ρ-
+      rent-is-r, the DMP-b homonym note forced by ℓ→b, and H-vs-T_H);
+      A's durability ¶ gains "(the interest rate, distinct from the rent
+      r)" at ρ's first use.
+    - **TOOLING**: census_symbols REWRITTEN to the v2 inventory + 16 DEAD
+      families (every v1 form hard-fails on return); lint's Greek sentinel
+      gains α/φ/ψ; italicize_math updated (BLANKET +b +H, dividend-d
+      patterns, s̲ pre-wrap, COMPOUNDS +bX +br) and HARDENED against
+      masked-entity adjacency — the new blanket H wrapped "H&eacute;mous"
+      on first run (the Hémous catch); guard added, re-run +0 twice;
+      check_pinning INTERNALS renamed (sympy names now v2: gamma, b,
+      alpha, sigma, tau_R, rho/delta, psi, Habs/w_H/n_s), 51 ALL GREEN;
+      converter gains α/ψ in GREEK, U+0332→\underline in COMBINING, the
+      merged SPECIAL (S10's matrix display now bold in HTML, expected 2),
+      eq:rho→eq:gamma label key, and a Latin-adjacency SPACE GUARD in both
+      math-run emitters (v2's Latin b would otherwise fuse into TeX runs
+      like "br"/"pY"/"rbX" and break word fidelity; math mode ignores the
+      space). Word fidelity 11,995 tokens both sides, zero hunks.
+    - **FIGURES 1–2 REGENERATED** with γ(x) axes (fig_model_schematics.py,
+      fig_eras.py; the retired strata/ushape scripts relabeled in passing).
+      FLAG for her: Figure 1's annotation pixels still say "labor too
+      dear" — pre-existing wording from before the poetic-register ban
+      (the caption was cooled in log 20, the pixels never were); left
+      as-is in a symbols-only pass, one-word fix available.
+    - **LaTeX regenerated, zip rebuilt** (same member list). Lean:
+      Pinning.lean gains the v2 translation table in its header + manifest
+      P1/P2/P4 symbol updates (identifiers stay internal; docstrings noted
+      as v1-era); lean/README.md scope section now v2; `lake build` re-run
+      as the gate on the comment edits. reading_guide.md: our-side symbols
+      updated (their γ(i) is now nominally our γ(x)), head note added;
+      talk_data_briefing.md: φ_C/φ_G with a one-line note; DATA_NOTES
+      untouched (its σ is the education-race elasticity, a different
+      object).
+    - **DEFERRED, hers**: the λ §10 splice (splice-ready draft unchanged;
+      its edit list must be re-read against v2 symbols when it lands);
+      the Swedish fork's entry into the paper; SSRN timing; the Figure-1
+      "dear" pixels; 𝟙 at Phase 2.
+    - **OVERLEAF STALE** after this pass: wholesale replace with the
+      regenerated main.tex or upload the fresh zip.
 
 ## Session log (2026-08-27) — THE LEAN EXTENSION
 
@@ -1164,7 +1248,9 @@ the-link-revision/
 ├── README.md
 ├── STATE.md                          ← you are here; start here next session
 ├── docs/
-│   └── rewrite_brief_pinning.md      the frozen rewrite brief (2026-08-13)
+│   ├── rewrite_brief_pinning.md      the frozen v1 rewrite brief (2026-08-13)
+│   ├── rewrite_brief_pinning_v2.md   the frozen v2 brief (2026-08-27) + her amendments
+│   └── notation_map.md               v1 → v2 symbol map (Phase 1, 2026-08-27)
 ├── paper/
 │   ├── pinning.html                  THE PAPER (rewritten in full 2026-08-13)
 │   └── snapshots/

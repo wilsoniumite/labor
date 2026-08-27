@@ -84,18 +84,21 @@ Two that run the other way and **strengthen** the paper:
 8, 9(ii)–(iii), 10, 13(ii) — the chain from "machines make machines" to
 "redistribution without deadweight".
 
-`Pinning.lean` (pinning-paper numbering, 2026-08-27): Proposition 2 — the
-λ>0 replacement closure, uniqueness, and both comparative statics, with a
-bridge theorem meeting `Corner` at λ = 0; Proposition 4(i)–(ii) with λ —
-the 1/L̄ wage, the (1 − a − λρ̄)/(ℓρ̄L̄) display, both divergence margins
-(ρ̄ → 0 and ℓ → 0), both automation statics, and the substitution bound;
-the λ>0 user-cost closures for both carrying factors (1+δ and δ+d), sympy
-first per the house rule; Lemmas D.2 (fraud bound: the iff, both statics,
-the v → 1 divergence, the f = 0 collapse) and D.3 (superstar concentration
-via its finite-star-mass family — mean invariance, the ε < β ordering, the
-median mass, and the ε → 0 ratio limit); and the CES dial's three-case
-share limit (Appendix B's General-η display). Its manifest findings
-(P1–P5) are at the foot of the file.
+`Pinning.lean` (pinning-paper numbering; paper symbols below are the v2
+notation of 2026-08-27, `the-link-revision/docs/notation_map.md` — Lean
+identifiers keep their internal v1-era names, and the module head carries
+the translation table): Proposition 2 — the λ>0 replacement closure,
+uniqueness, and both comparative statics, with a bridge theorem meeting
+`Corner` at λ = 0; Proposition 4(i)–(ii) with λ — the 1/L̄ wage, the
+(1 − a − λγ̄)/(bγ̄L̄) display, both divergence margins (γ̄ → 0 and b → 0),
+both automation statics, and the substitution bound; the λ>0 user-cost
+closures for both carrying factors (1+ρ and ρ+δ), sympy first per the
+house rule; Lemmas D.2 (fraud bound: the iff, both statics, the v → 1
+divergence, the f = 0 collapse) and D.3 (superstar concentration via its
+finite-star-mass family — mean invariance, the ε < ψ ordering, the median
+mass, and the ε → 0 ratio limit); and the CES dial's three-case share
+limit (Appendix B's General-σ display). Its manifest findings (P1–P5) are
+at the foot of the file.
 
 Omitted, deliberately:
 

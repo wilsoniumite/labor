@@ -131,7 +131,8 @@ prose = re.sub(r"<div class=\"eq\">.*?</div>", " ", prose, flags=re.S)
 prose = re.sub(r"<div class=\"refs\">.*?</div>", " ", prose, flags=re.S)
 bare = []
 for ent in ["&rho;", "&lambda;", "&gamma;", "&sigma;", "&eta;", "&kappa;",
-            "&micro;", "&tau;", "&delta;", "&epsilon;", "&omega;", "&beta;"]:
+            "&micro;", "&tau;", "&delta;", "&epsilon;", "&omega;", "&beta;",
+            "&alpha;", "&phi;", "&psi;"]:
     for m in re.finditer(re.escape(ent), prose):
         if prose[max(0, m.start()-3):m.start()] != "<i>":
             bare.append(f"{ent}@{m.start()}")

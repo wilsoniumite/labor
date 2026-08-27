@@ -30,7 +30,7 @@ ax.annotate("the level at the marginal task falls,\nand the slope falls with it"
             xy=(0.84, 0.45), fontsize=10, color="#8b2020", ha="center")
 
 ax.set_xlabel("tasks x")
-ax.set_ylabel("relative human productivity ρ(x)")
+ax.set_ylabel("relative human productivity γ(x)")
 ax.set_xlim(-0.02, 1.04)
 ax.set_ylim(0, 8.6)
 ax.grid(alpha=0.25, lw=0.5)

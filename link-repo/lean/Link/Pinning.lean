@@ -5,26 +5,36 @@ STATUS: see README for the build line. Extends `Link/TheLink.lean` (the λ=0
 corner spine) to the pinning paper's generalization: labor still inside the
 machine recipe.
 
-SCOPE, in the pinning paper's numbering:
+NOTATION: the paper adopted its v2 symbols on 2026-08-27
+(`the-link-revision/docs/notation_map.md`). Lean identifiers keep their
+internal names; the translation is: Lean `rho`/`ρ` = the paper's schedule γ
+(γ*, γ̄), `ell`/`ℓ` = the land coefficient b, `eta` = the CES elasticities
+σ (goods vs land) and σ_H (H-content), `beta` = the broadcast fraction ψ,
+`delta`/`d` in the carrying factors = the paper's ρ (interest) and δ (wear),
+`sigma` = the land weight α, `K`/`k` = the human-essential set H and |H|,
+`w_K` = w_H, `s_d` = s̲, `pg` = p. Docstrings below predate the rename and
+read in v1 symbols; this table is the bridge.
+
+SCOPE, in the pinning paper's numbering (v2 symbols):
   * Proposition 2 (replacement closure): the solved system, uniqueness on the
     viable set, and the comparative statics the text states in words — both
-    prices rise in λ and in ρ*, and `c` moves with ρ* exactly when λ > 0.
+    prices rise in λ and in γ*, and `c` moves with γ* exactly when λ > 0.
   * The bridge: at λ = 0 the closure is the corner rental of `TheLink` —
     stated against `Corner` itself, not a lookalike.
   * Proposition 4(i)–(ii) with λ: the wage in goods is 1/L̄ (machine quality
     still cancels); the relative price of non-produced services is
-    (1 − a − λρ̄)/(ℓρ̄L̄), falling in both automation margins, diverging as
-    ρ̄ → 0, and bounded under machine-for-land substitution in the recipe.
+    (1 − a − λγ̄)/(bγ̄L̄), falling in both automation margins, diverging as
+    γ̄ → 0, and bounded under machine-for-land substitution in the recipe.
   * The λ>0 user-cost form (Appendix A's durability paragraph): for carrying
-    factor s — s = 1+δ one-period building, s = δ+d wear — the recursion
-    closes at c = s·ℓr/(1 − s(a+λρ*)). First sympy-checked in
+    factor s — s = 1+ρ one-period building, s = ρ+δ wear — the recursion
+    closes at c = s·br/(1 − s(a+λγ*)). First sympy-checked in
     `the-link-revision/checks/check_pinning.py` (house rule), stated here
     with its convergence condition in the open.
   * Lemma D.2 (the fraud bound) and Lemma D.3 (superstar concentration).
-  * The CES dial of Appendix B's General-η display (the paper's three-case
+  * The CES dial of Appendix B's General-σ display (the paper's three-case
     share limit).
 
-Prop 4(iii) is regime-free given `pg` and `r` and is already covered by
+Prop 4(iii) is regime-free given `p` and `r` and is already covered by
 `Corner.prop4_iii_decomp` / `prop4_iii_collapse`; nothing changes with λ.
 
 PURPOSE, as in `TheLink.lean`: the assumption manifest, not re-certification
@@ -560,15 +570,15 @@ end Link
 What writing the λ>0 statements down surfaced, beyond `TheLink.lean`'s nine.
 
 P1. **Viability is one condition, and it is the strongest one in play.**
-    `a + λρ* < 1` implies `a < 1` (`a_lt_one`) but not conversely; the
-    user-cost reading needs `s(a + λρ*) < 1`, strictly stronger again for
+    `a + λγ* < 1` implies `a < 1` (`a_lt_one`) but not conversely; the
+    user-cost reading needs `s(a + λγ*) < 1`, strictly stronger again for
     `s > 1`, and implying neither the static viability alone nor the
-    corner's `a(δ+d) < 1` in isolation. The paper's durability paragraph now
+    corner's `a(ρ+δ) < 1` (v2 symbols) in isolation. The paper's durability paragraph now
     states the λ>0 form; it should carry this condition and nothing weaker
     (`usercost_closed_form`).
 
 P2. **The comparative statics need viability at the upper comparison point
-    only.** `w_strictMono_in_lam` consumes `a + lam₂·ρ < 1` and derives the
+    only.** `w_strictMono_in_lam` consumes `a + lam₂·γ < 1` and derives the
     lower point's viability from it. The paper's "on the viable set" is
     correct but does not say which endpoint binds.
 
@@ -580,9 +590,9 @@ P3. **Prop 4(i) is λ-free all the way down.** The wage in machine-made goods
 
 P4. **Lemma D.3's "measure-zero top" hides an ordering hypothesis.** For the
     star income to sit above the base income the star mass must run below
-    the star expenditure share, `ε < β` (`lemD3_top_is_top_iff`) — stars
+    the star expenditure share, `ε < ψ` (`lemD3_top_is_top_iff`) — stars
     scarcer than their take. The prose says "concentrates on top
-    performers"; the formal content of "top" is exactly `ε < β`. And the
+    performers"; the formal content of "top" is exactly `ε < ψ`. And the
     mean-invariance is bookkeeping (`lemD3_mean_invariant`), not
     distribution theory — the lemma's force is entirely in the median's
     location, which is where the paper puts it.

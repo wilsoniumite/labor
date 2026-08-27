@@ -27,7 +27,7 @@ GREEK = ("alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|mic
 COMBINING = r"(?:&#77[012];)*"   # macron / tilde / circumflex riders
 
 # blanket single Latin letters that are never English words in this body
-BLANKET = list("cfjknqrtuvwxKNPRTXY")
+BLANKET = list("bcfjknqrtuvwxHKNPRTXY")
 
 A_PATTERNS = [  # 'a' is the article; only these are the coefficient
     ("a units of machine services", "<i>a</i> units of machine services"),
@@ -37,19 +37,19 @@ A_PATTERNS = [  # 'a' is the article; only these are the coefficient
     ("a + &lambda;", "<i>a</i> + &lambda;"),
     ("content a, plus", "content <i>a</i>, plus"),
     ("as a varies", "as <i>a</i> varies"),
-    ("a(1+&delta;)", "<i>a</i>(1+&delta;)"),
-    ("a(&delta;+d)", "<i>a</i>(&delta;+d)"),
+    ("a(1+&rho;)", "<i>a</i>(1+&rho;)"),
+    ("a(&rho;+&delta;)", "<i>a</i>(&rho;+&delta;)"),
     ("1 &minus; a", "1 &minus; <i>a</i>"),
     ("(1&minus;a)", "(1&minus;<i>a</i>)"),
 ]
-D_PATTERNS = [  # 'd' appears as the (a)-(d) list labels; only these are the wear rate
-    ("wear at rate d,", "wear at rate <i>d</i>,"),
-    ("(&delta;+d)", "(&delta;+<i>d</i>)"),
-    ("durability (&delta;, d)", "durability (&delta;, <i>d</i>)"),
-    ("wear d)", "wear <i>d</i>)"),
+D_PATTERNS = [  # 'd' appears as the (a)-(d) list labels; only these are the
+    # dividend (v2 notation; the wear rate is now the Greek delta, auto-wrapped)
+    ("transfer d =", "transfer <i>d</i> ="),
+    ("dividend d", "dividend <i>d</i>"),
+    ("floor is s&#818; + d", "floor is s&#818; + <i>d</i>"),
 ]
-COMPOUNDS = r"\b(dx|dz|ac|rT|qT|aX)\b"
-SUB_BASES = set("ghmpsqrwkxTPK")  # trailing letter before <sub> (p_g, h_e, m_w, ...)
+COMPOUNDS = r"\b(dx|dz|ac|rT|qT|aX|bX|br)\b"
+SUB_BASES = set("ghmpsqrwnxTPHN")  # trailing letter before <sub> (h_e, m_w, n_s, T_H, N_a, ...)
 
 def transform_text(text, next_token):
     # 0. curated 'a'/'d' first, on pristine text
@@ -59,8 +59,9 @@ def transform_text(text, next_token):
     text = text.replace("(I&minus;", "(<i>I</i>&minus;")
     # 1. lowercase Greek entities (with combining riders) -> italic
     text = re.sub(rf"(&(?:{GREEK});{COMBINING})", r"<i>\1</i>", text)
-    # 2. L-bar and letter compounds
+    # 2. L-bar, s-underbar, and letter compounds
     text = text.replace("L&#772;", "<i>L&#772;</i>")
+    text = text.replace("s&#818;", "<i>s&#818;</i>")
     text = re.sub(COMPOUNDS, r"<i>\1</i>", text)
     # 3. mask: list labels, entities, and everything already wrapped
     stash = []
@@ -70,9 +71,11 @@ def transform_text(text, next_token):
     text = re.sub(r"(?<=\s)\([abcd]\)(?=\s)", mask, text)           # list labels
     text = re.sub(r"<i>.*?</i>", mask, text)                        # wrapped already
     text = re.sub(r"&[a-zA-Z][a-zA-Z0-9]*;|&#\d+;", mask, text)     # entities
-    # 4. blanket letters
+    # 4. blanket letters (guarded against masked-entity adjacency: the mask
+    # placeholder creates a word boundary, so bare H in "H&eacute;mous" would
+    # otherwise match \bH\b — the 2026-08-27 Hémous catch)
     for L in BLANKET:
-        text = re.sub(rf"\b{L}\b", f"<i>{L}</i>", text)
+        text = re.sub(rf"(?<!\x00)\b{L}\b(?!\x00)", f"<i>{L}</i>", text)
     text = re.sub(r"(?<!')\bs\b", "<i>s</i>", text)                 # skip possessives
     # 5. trailing subscript base (p_g, h_e, g_s, m_w ... on node boundary)
     if next_token.startswith("<sub"):

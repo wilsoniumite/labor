@@ -24,19 +24,19 @@ wc = 2.0
 xstar = (1.5 / 4.5) ** (1 / 1.6)
 
 fig, ax = plt.subplots(figsize=(8.6, 4.6), dpi=150)
-ax.plot(x, rho, color=NAVY, lw=2.6, label="relative human productivity ρ(x)")
+ax.plot(x, rho, color=NAVY, lw=2.6, label="relative human productivity γ(x)")
 ax.axhline(wc, color=RED, lw=1.6, ls="--")
 ax.axvline(xstar, color="#666666", lw=1.0, ls=":")
 ax.fill_between(x, 0, rho, where=x <= xstar, color=GRAY, alpha=0.35)
 ax.fill_between(x, 0, rho, where=x >= xstar, color=BLUE, alpha=0.18)
 ax.annotate("w/c", xy=(0.025, wc + 0.12), color=RED, fontsize=10.5)
 ax.annotate("x*", xy=(xstar + 0.008, 0.18), color="#444444", fontsize=10.5)
-ax.annotate("machines hold [0, x*):\nρ(x) < w/c — labor too dear",
+ax.annotate("machines hold [0, x*):\nγ(x) < w/c — labor too dear",
             xy=(0.245, 0.16), ha="center", fontsize=9.5, color="#555555")
-ax.annotate("labor holds [x*, 1]:\nρ(x) > w/c — the human hour\nreplaces more machine service",
+ax.annotate("labor holds [x*, 1]:\nγ(x) > w/c — the human hour\nreplaces more machine service",
             xy=(0.795, 0.95), ha="center", fontsize=9.5, color=NAVY)
-ax.set_xlabel("tasks x, relabeled so ρ increases")
-ax.set_ylabel("relative human productivity ρ(x)")
+ax.set_xlabel("tasks x, relabeled so γ increases")
+ax.set_ylabel("relative human productivity γ(x)")
 ax.set_xlim(0, 1.0); ax.set_ylim(0, 5.2)
 ax.grid(alpha=0.25, lw=0.5)
 ax.spines[["top", "right"]].set_visible(False)
@@ -45,8 +45,8 @@ fig.savefig("figures/fig_schedule.png", bbox_inches="tight")
 print("wrote figures/fig_schedule.png")
 
 # ------------------------------------------------------------------ strata
-# Running-example dollars (main §3 + App B): c=$10, ρ(x*)=4 → w=$40; the
-# wedged task pays µ·w=$50 at µ=1.25; s=$25; terminal parity c·ρ̄=18.
+# Running-example dollars (main §3 + App B): c=$10, γ(x*)=4 → w=$40; the
+# wedged task pays µ·w=$50 at µ=1.25; s=$25; terminal parity c·γ̄=18.
 fig, ax = plt.subplots(figsize=(8.6, 4.8), dpi=150)
 stages = ["steep schedule,\nwedged task", "wedge rent gone\n(targeted adoption)",
           "schedule flattens\n(premium erodes)", "parity below s:\nrational exit"]
@@ -56,13 +56,13 @@ premium = [15, 15, 3, 0]
 wedge = [10, 0, 0, 0]
 ax.bar(pos[:3], floor[:3], 0.52, color=GRAY, label="exit floor s")
 ax.bar(pos[:3], premium[:3], 0.52, bottom=floor[:3], color=BLUE,
-       label="task premium c·ρ̃(x*) − s")
+       label="task premium c·γ̃(x*) − s")
 ax.bar(pos[:1], wedge[:1], 0.52, bottom=[floor[0] + premium[0]], color=RED,
        label="wedge rent (µ−1)·w")
 ax.bar(pos[3:], [25], 0.52, facecolor="none", edgecolor="#555555",
        hatch="//", lw=1.2, label="outside option (the exit life)")
 ax.axhline(18, color=RED, lw=1.3, ls=":")
-ax.annotate("machine parity c·ρ̄ = 10 × 1.8 = 18 < s = 25",
+ax.annotate("machine parity c·γ̄ = 10 × 1.8 = 18 < s = 25",
             xy=(1.62, 18), xytext=(1.32, 33.5), fontsize=9.5, color=RED,
             arrowprops=dict(arrowstyle="->", color=RED, lw=1.0))
 ax.set_xticks(pos); ax.set_xticklabels(stages, fontsize=9.5)

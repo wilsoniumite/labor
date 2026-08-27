@@ -55,16 +55,13 @@ def _ph(n):
 
 
 SPECIALS = [
-    # one occurrence since the 2026-08-26 fold of Appendix C into A merged
-    # the two matrix-recursion statements into one
+    # two occurrences since the 2026-08-27 notation pass bolded Section 10's
+    # matrix display to match Appendix A (v2 map: bold produced-price and
+    # rent vectors everywhere)
     ('<b>c</b> = <b>Ac</b> + <b>&Lambda;</b><i>w</i> + <b>Br</b>',
-     r'$\mathbf{c} = \mathbf{A}\mathbf{c} + \boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r}$', 1),
+     r'$\mathbf{c} = \mathbf{A}\mathbf{c} + \boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r}$', 2),
     ('<b>c</b> = (<i>I</i>&minus;<b>A</b>)<sup>&minus;1</sup>(<b>&Lambda;</b><i>w</i> + <b>Br</b>)',
      r'$\mathbf{c} = (I-\mathbf{A})^{-1}(\boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r})$', 1),
-    # Section 10 writes the same matrix recursion with bare Ac/Br (an HTML styling
-    # gap: the italicizer skips two-letter words); rendered bold to match App C.
-    ('<i>c</i> = Ac + &Lambda;<i>w</i> + Br',
-     r'$\mathbf{c} = \mathbf{A}\mathbf{c} + \boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r}$', 1),
 ]
 
 
@@ -138,6 +135,7 @@ GREEK = {
     '\u03b7': r'\eta', '\u00b5': r'\mu', '\u03bc': r'\mu', '\u03c4': r'\tau',
     '\u03ba': r'\kappa', '\u03c9': r'\omega', '\u03b2': r'\beta', '\u03b5': r'\varepsilon',
     '\u03b8': r'\theta', '\u03b4': r'\delta', '\u03c6': r'\varphi',
+    '\u03b1': r'\alpha', '\u03c8': r'\psi',
     '\u0394': r'\Delta', '\u039b': r'\Lambda',
 }
 ELL = '\u2113'
@@ -153,7 +151,8 @@ BRIDGEMAP = {                 # connective symbols valid inside a run
 }
 OPSET = set('=+*/<>') | {'\u2212', '\u00b7'}
 BRIDGECH = set('()[]{}=+/,.|') | set('0123456789') | set(BRIDGEMAP)
-COMBINING = {'\u0304': r'\bar', '\u0303': r'\tilde', '\u0302': r'\hat'}
+COMBINING = {'\u0304': r'\bar', '\u0303': r'\tilde', '\u0302': r'\hat',
+             '\u0332': r'\underline'}
 SUP2 = '\u00b2'
 QED = '\u220e'
 EMSP = '\u2003'
@@ -401,6 +400,12 @@ def emit_run(run_toks):
         else:
             flush_scripts()
             if k in ATOMK:
+                # space between adjacent Latin atoms: math mode ignores it,
+                # and it keeps the word-fidelity tokenization letter-exact
+                # (v2's Latin b would otherwise fuse into runs like "br")
+                if (out and re.search(r'[A-Za-z]$', out[-1])
+                        and re.match(r'[A-Za-z]', v)):
+                    out.append(' ')
                 out.append(v + ' ' if v.startswith('\\') and v[-1].isalpha() else v)
             elif k == 'bridge':
                 out.append(bridge_latex(v))
@@ -638,6 +643,10 @@ def render_eq(node):
                     out.append(r'\textit{' + ''.join(words) + '}')
                     i = j - 1
             elif k in ATOMK:
+                # same Latin-adjacency space as the prose emitter (fidelity)
+                if (out and re.search(r'[A-Za-z]$', out[-1])
+                        and re.match(r'[A-Za-z]', v)):
+                    out.append(' ')
                 out.append(v + ' ' if v.startswith('\\') and v[-1].isalpha() else v)
             elif k == 'sp':
                 out.append(' ')
@@ -722,7 +731,7 @@ THEOREM_LABELS = {              # keyed on the number the HTML header declares
 }
 FIG_LABELS = ['fig:schedule', 'fig:eras', 'fig:fork', 'fig:kappa',
               'fig:fourway']   # parallel to FIG_EXPECT
-EQNUM_LABELS = ['eq:rho', 'eq:recursion', 'eq:closure', 'eq:lambda-zero',
+EQNUM_LABELS = ['eq:gamma', 'eq:recursion', 'eq:closure', 'eq:lambda-zero',
                 'eq:exit', 'eq:fork-price', 'eq:ces-share']  # numbered displays, in order
 PRED_LABELS = ['pred:compression', 'pred:protection', 'pred:negative-sum',
                'pred:traps', 'pred:labor-share', 'pred:land-share',

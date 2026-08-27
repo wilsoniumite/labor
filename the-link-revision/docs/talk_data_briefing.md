@@ -237,7 +237,9 @@ members × six rent members = 12-member grid; median + min–max band.
 
 ---
 
-## 3. The financing split (Figure 7 — `four_way.py`) and λ_C, λ_R
+## 3. The financing split (Figure 7 — `four_way.py`) and φ_C, φ_G
+
+(Paper symbols are v2 as of 2026-08-27: the wage-linkage shares are now φ_C and φ_G — `docs/notation_map.md`.)
 
 **What the chart literally is.** NIPA income-side bookkeeping of what
 finances U.S. consumption **outside the owner loop** (i.e. excluding
@@ -260,8 +262,8 @@ earmarking {pooled, earmarked}, financing order {3 rules}, deficit
 attribution {3 rules}. A fixed-point step makes the sales-tax linkage
 consistent with the wage-financed consumption share it feeds.
 
-**The two ledger numbers.** λ_C = **0.72 [0.66–0.81]** (2025): wage-linked
-share of consumption financing. λ_R = **0.68** (2025): wage-linked share of
+**The two ledger numbers.** φ_C = **0.72 [0.66–0.81]** (2025): wage-linked
+share of consumption financing. φ_G = **0.68** (2025): wage-linked share of
 tax revenue. Same machinery (`lambda_compute2.py`), same grids.
 
 **The one sentence to repeat under questioning.** This is **pro-rata
