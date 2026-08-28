@@ -35,6 +35,25 @@ to the symbol tokens and the three notation-hygiene edits listed at the foot.
 | participant count (Lemma A.1) | n | N_a | `<i>n</i>` → `<i>N</i><sub><i>a</i></sub>` | 3 |
 | produced-price / rent vectors | c, r (§10 plain) | bold **c**, **r** everywhere | §10 display bolded to match App A | 1 |
 
+## Amendment 1b (2026-08-28, her call): the starred margin abbreviation dies
+
+| object | v1b | v2b | HTML literal | sites |
+|---|---|---|---|---|
+| schedule at the margin | γ* | γ(x*) | `<i>&gamma;</i>*` → `<i>&gamma;</i>(<i>x</i>*)`; bare `&gamma;*` → `&gamma;(x*)` in .eq displays | 29 |
+
+γ* was a pure single-referent abbreviation and the paper already ran both
+forms (29 starred vs 14 spelled) — definitions-earn-reuse retires it. The
+Prop-2 defining clause ("with γ* = γ(x*)") is deleted, not renamed. γ̄ (the
+flat schedule level) and x* are untouched. Census: live row updated, DEAD
+guard added. DRAFTING RULES fixed the same day (not renames — none of
+these symbols are in the paper yet): π debuts at §8.0 as the transition's
+object of study, never in the §§1–7 spine; Q stays §8-local; W_K is not
+christened unless §9.2 reuses it; the operating recipe stays BARE
+(a, λ, b) against the marked build recipe (a_I, λ_I, b_I) — recipes are
+named by the activity they feed and the service recipe is the default
+(her call, 2026-08-28, after the λ-brand/measurement-continuity
+argument).
+
 ## Rename order (chains — do not reorder)
 
 The map contains two chains; each step frees the symbol the next step uses.

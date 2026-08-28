@@ -2,19 +2,56 @@
 
 **Project:** revision of *The Link: Wages, Machines, and What Remains* (Stella Wilson, working draft Aug 2026; the blog post "A New-ish Theory of Economics" at wilsoniumite.com links the PDF — this folder sits next to the papers folder).
 **Collaboration:** extended, multi-session; working format, sequencing, and drafting decisions delegated to Claude. Direct critique preferred over validation.
-**State as of:** 2026-08-26.
+**State as of:** 2026-08-28.
 
 ## Where things stand
 
-**2026-08-27: THE V2 REWRITE IS OPEN; PHASE 1 (NOTATION) EXECUTED AND
-COMMITTED** (log 31). The v2 brief (capital is time: ρ waiting + J build
-lags) is frozen at `docs/rewrite_brief_pinning_v2.md` with her delivery
-amendments; the paper, checks, lint, census, italicizer, converter, figures,
-LaTeX, zip, and the Lean translation tables all carry the v2 notation
-(`docs/notation_map.md`). Her plan: notation commit first (done), then the
-dynamics rewrite on her go. OVERLEAF IS STALE: wholesale replace (or the
-fresh zip). Two new-prose sites await her voice (the rewritten Notation
-footnote; the ρ first-use clause in A's durability paragraph).
+**2026-08-28: THE CAPITAL-DYNAMICS ENGINE IS BUILT AND ALL GREEN (log 33;
+VETO WINDOW THERE).** Log 32's pre-drafting mechanization executed in
+full, no prose touched: u_K DERIVED from free-entry PV algebra, the
+steady-state EQUIVALENCE LEMMA machine-checked both ways (flat symbolic;
+sloped instantiated, build→0 reproducing check_pinning's root to 1e-9),
+all four Phase-3 technical cautions resolved and pinned, T4's entry-margin
+algebra checked early. `code/dynamics/` solver validated against the exact
+b_I = 0 closed form (2.5e-11) before touching anything else; then T1
+windfall VERIFIED (with a refinement: steady-state Q is (1+ρ)^{J−1}, not
+1 — the gestation float), T2 waterfall VERIFIED (strict J-order; the
+pre-J_c window split is a sunk transfer the model does not determine),
+T3 speed×lag VERIFIED (monotone in both), and T5 decided by the numerics:
+PARTIALLY SUPPORTED and SPLIT BY SHOCK TYPE — frontier extension (the
+Korinek–Suh cap) drops the goods wage at release and then PINS it (CM on
+the capped stretch, no dip-and-recover), while efficiency deepening
+RAISES it on impact; the land-unit wage falls under both. Four §8 figures
+regenerate from one entry point. 53 + 51 checks + lint (now with the
+claim-status-tag family) ALL GREEN; `pinning.html` byte-identical. Phase
+2/3 DRAFTING IS UNBLOCKED; the brief amendments the checks forced (the
+Inc_t convention, the Q benchmark, T5's wording) sit in log 33's veto
+list.
+
+**2026-08-27 (evening): PHASE 2+3 AUTHORIZED; THE STRUCTURE DECISION IS
+MADE — READ LOG 32 BEFORE DRAFTING.** Her go: "Let's do the dynamic rewrite
+now," to be executed in a NEW session; her structure question (static
+storyline + dynamics after? dynamics alongside each section? all-dynamic
+from scratch?) is answered in log 32 with the full section table, phase
+cut-lines, voice map, and Phase-3 technical cautions. The one-line answer:
+**one dynamic environment declared once in Appendix A; the main text
+through the fork written as its steady state in pure coefficient notation;
+all transition machinery and results consolidated in one §8 block, hinged
+by a machine-checked steady-state equivalence lemma.** OVERLEAF STATUS
+CHANGED: her copy is now a DELIBERATE discussion fork for Johan (the
+notation change is being socialized there; she calls it a no-brainer) —
+the wholesale-replace discipline is SUSPENDED; canonical remains
+pinning.html; her/Johan edits arrive by paste as before. Should the Johan
+discussion ever demand it, the rename is mechanically reversible via
+`docs/notation_map.md`.
+
+**2026-08-27: PHASE 1 (NOTATION) EXECUTED AND COMMITTED** (log 31). The v2
+brief (capital is time: ρ waiting + J build lags) is frozen at
+`docs/rewrite_brief_pinning_v2.md` with her delivery amendments; the paper,
+checks, lint, census, italicizer, converter, figures, LaTeX, zip, and the
+Lean translation tables all carry the v2 notation (`docs/notation_map.md`).
+Two new-prose sites await her voice (the rewritten Notation footnote; the
+ρ first-use clause in A's durability paragraph).
 
 **2026-08-26: APPENDICES RESTRUCTURED A–I → A–D** (log 28): I and H cut,
 B compressed to a §11 paragraph, C folded into A, E folded into B (the old
@@ -254,6 +291,202 @@ text); sweep found zero further instances; ALL GREEN.
       arithmetic (1−t)cρ̄ + t·cρ̄ (self-verifying where words would be
       assertion). Section-level: nothing cuttable — §2 argues the novelty,
       §9 is her framing, §6 is the payoff. lint re-run ALL GREEN.
+
+## Session log (2026-08-28, continued) — PHASE 1b: γ* RETIRED; DRAFTING RULES
+
+34. **Notation micro-wave 1b executed and committed alone** (her calls after
+    the elegance walkthrough): γ* → γ(x*) at all 29 sites (the paper ran
+    both forms, 29 starred vs 14 spelled — definitions-earn-reuse); the
+    Prop-2 defining clause ("with γ* = γ(x*)") deleted, not renamed; γ̄ and
+    x* untouched; census live-row updated + DEAD guard added; map amended
+    (notation_map.md §1b). DRAFTING RULES recorded there, zero renames
+    needed (none of these symbols are in the paper yet): π debuts at §8.0
+    (the transition's protagonist, never in the §§1–7 spine — free entry
+    is words there); Q §8-local; W_K not christened unless §9.2 reuses it;
+    the operating recipe stays BARE (a, λ, b) vs the marked build recipe
+    (a_I, λ_I, b_I) — her call, keeping the λ brand and the λ̂
+    input–output continuity. Her framing paragraph (two recipes, stock
+    price vs flow rental, u_K the converter, the ρ = 0 corner) is adopted
+    as the seed of §4–§5's exposition, with the corrections from this
+    session's review (J is the build lag, not a unit; the lathe is the
+    a_I·c term; land is J = ∞). Overleaf: she pastes the notation-only
+    export before the dynamic draft lands.
+
+## Session log (2026-08-28) — V2 DYNAMICS PREP: THE CAPITAL-DYNAMICS ENGINE
+
+33. **Log 32's pre-drafting mechanization executed in full** (her go:
+    "let's work on the capital dynamics"; one unit, checks before code,
+    code before any drafting; `pinning.html` untouched). NEW FILES:
+    `checks/check_dynamics.py` (53 checks, ALL GREEN; writes
+    `checks/dynamics_ss_targets.json` — the solver's gate targets),
+    `code/dynamics/model.py` / `solve.py` / `figures.py`,
+    `code/dynamics/results_dynamics.json` (the verdict record),
+    `figures/fig_dyn_{windfall,waterfall,speedlag,sloped}.png`, and the
+    claim-status-tag lint family in `lint_pinning.py` (every T1–T5
+    citation must carry "numerically verified" / "conjecture" / "theorem"
+    / "proposition" in the same paragraph; fixture self-test; vacuous
+    until §8 exists). `check_pinning.py` (51) and lint stay ALL GREEN.
+
+    **The memo's gate, passed pre-drafting:**
+    - u_K = (ρ+δ)(1+ρ)^{J−1} DERIVED from the free-entry PV condition
+      (checks U1–U6), timing pinned once: build paid at start of t, first
+      service in t+J undepreciated, wear after; the (ρ+δ)(1+ρ)^J misread
+      is checked to DIFFER (the off-by-one bites, caution iv). Corners:
+      J = 1 gives ρ+δ; J = 1, δ = 1 gives 1+ρ — Appendix A's two λ=0
+      carrying factors are u_K corners (R5), so the v2 dynamics nest the
+      2026-08-27 user-cost forms exactly.
+    - The recursion c = ac + λw + br + u_K·p_K reproduces the brief's
+      θ_c, θ_w displays exactly (R1–R3); v1 nests at zero build recipe
+      (R4); the price block's determinant IS the viability denominator
+      (R6). Statics S1–S6, including a new one: at λ = 0 the cross-effect
+      survives through the build recipe alone (dθ_c/dγ*|λ=0 ∝ u_K λ_I).
+    - **The equivalence lemma, both directions** (the anti-staple hinge):
+      flat case fully symbolic (E1–E3 — constant sequences ⇔ the §4
+      recursion + a closed-form quantity block, Walras closing as an
+      identity in all parameters); sloped case instantiated on the
+      A-joint config extended with the build recipe (EJ1–EJ7), and the
+      build→0 limit reproduces check_pinning's A-joint root to 1e-9
+      (EJ7). Uniqueness claimed and checked ON THE VIABLE SET — the build
+      recipe shrinks it (Den > 0 dies at x ≈ 0.658, was 1.0).
+    - **Caution (i) RESOLVED, and it amends brief §3.5:** convention
+      pinned as builds 100%-externally financed at world ρ. Free entry
+      (zero NPV) then makes SS household machine cash IDENTICALLY zero
+      (L3), so the memo's "domestic + debt" and foreign equity COINCIDE
+      at rest: SS Inc = wN_a + rT (NOT the brief's wN + rT + πK — gross
+      rentals in income do not close), and goods clearing carries an
+      explicit NX = πK − p_K·I. Walras then closes identically (E3, EJ4).
+      Off steady state the convention only decides who books π-surprises
+      on pre-shock vintages: M_t = (π_t − π̄_old)·S_t to households
+      (domestic, the solver default per the memo) or abroad (foreign,
+      a switch).
+    - Caution (ii): the named condition falls out exactly — r > 0 ⟺
+      (1−α)T > bX + b_I·I (V1). Caution (iii): the interior conditions
+      are REAL and the region is NARROW — E4b maps it (canonical flat
+      dials now T = 3.8; at T = 10 the same dials give m > 1, E5); the
+      solver checks interiority/participation every period and reports.
+    - **The interest identity in ledger form** (L1–L4): SS machine cash =
+      ρ·W_K with machine wealth W_K = installed PV + work-in-progress at
+      compounded cost = p_K·K[(1+ρ)^{J−1} + δ((1+ρ)^{J−1}−1)/ρ]; equals
+      ρ·p_K·K exactly at J = 1 (the brief's §3.1 line is the J = 1
+      corner); the excess is the gestation float, now named.
+    - **T4's algebra landed early** (the memo wanted it early in Phase
+      3): an anticipated rental tax on new capacity scales u_K by
+      1/(1−τ_K) and raises θ_c (entry distorted); a one-time levy on
+      stock in place enters no entry condition (sunk); τ_R appears in no
+      production price (T4a–c).
+    - **T1's b_I = 0 flat transition is now CLOSED FORM, symbolic**
+      (T1a–T1d): the old pipeline holds K at K_old and w is γ̄-invariant,
+      so land clearing does not move — the rent is FROZEN for exactly J
+      periods, then jumps to its new level; π is a rectangle; Q_0 has a
+      closed form. REFINEMENT the check forced: steady-state Q is
+      (1+ρ)^{J−1}, NOT 1 (installed capacity carries the gestation
+      float; Hayashi's Q = 1 is the J = 1 corner) — the windfall
+      statement is Q_0 above THAT benchmark, and Q_0 − (1+ρ)^{J−1} =
+      (1−qq^J)·b·(r_new − r_old)/((ρ+δ)p_K).
+
+    **The engine.** `model.py`: environment, closed-form flat SS, sloped
+    root, and the HARD GATE (both SS reproduce the check targets to 1e-9;
+    build→0 reproduces an inline restatement of check_pinning's static
+    system). `solve.py`: damped fixed point on the investment path with
+    the entry complementarity I_t ≥ 0 ⊥ p_K,t ≥ PV_t(π); period objects
+    are exact closed forms (flat split linear; the sloped margin is a
+    quadratic root, capped-linear under a frontier cap). VALIDATION
+    LADDER enforced in run order: the exact b_I = 0 closed form
+    reproduced to 2.5e-11, horizon insensitivity 4e-14, Q_0 vs the T1c
+    closed form — only then the sloped case. `figures.py` regenerates
+    all four §8 figures from one entry point.
+
+    **Experiment verdicts (statuses per brief §3.6; nothing promoted
+    beyond its label):**
+    - **T1 windfall — VERIFIED** (flat, J = 3, γ̄ 3→2.8, T = 3.8,
+      domestic convention): Q_0 = 1.2091 vs benchmark 1.1025; w/p
+      constant (CM on the path); windfall PV 0.083 against land gain PV
+      3.80 — land takes ≈98% of the released value. HONESTY ITEM: the
+      land-unit wage is NOT step-monotone — the investment surge's own
+      land demand (b_I·I_0) plus, under the domestic convention, the
+      windfall income FRONT-LOAD the rent at release, and delivery
+      cycles ripple it (ripples pinned to 9 digits across solver
+      tolerances: equilibrium dynamics, not noise). The claims that hold
+      and are checked: the land claim drops at release, sits below its
+      old value at EVERY date, settles at the lower steady state.
+      Drafting must say "envelope", not "every step".
+    - **T2 waterfall — VERIFIED** (two inputs, J = 1 vs 5, T = 2.0,
+      γ̄ 3→2.8): composite output is FROZEN at the long input's old
+      capacity until t = J_p, so each input's rental is entry-pinned
+      from t = J_j on (free-entry quasi-difference) — excess can survive
+      only over an input's own remaining build window. Measured: the
+      J = 1 input's excess dies at t = 0, the J = 5 input's at t = 4,
+      rent settled by t = 10. THEORY NOTE (new, checked): rentals in
+      t < J_c are a PURE TRANSFER among sunk owners — allocations and r
+      are invariant to the split, which the model does not determine
+      (reported at SS user-cost shares, convention stated).
+    - **T3 speed × lag — VERIFIED**: windfall PV monotone in shock speed
+      and in J across the full 3×3 grid (J ∈ {1,2,4} × {1,4,12}-period
+      phase-ins); fast/J=4 is ×23 slow/J=1 (0.0727 vs 0.0032).
+    - **T5 sloped wage path — the conjecture BIFURCATES BY SHOCK TYPE**
+      (run at T = 4.0; the T = 10 gate config leaves land so abundant
+      that a real frontier shock exits the land-binding regime — no
+      clearing root; recorded): under FRONTIER EXTENSION (the
+      Korinek–Suh scenario, γ_new = min(γ_old, cap), cap 2.8 vs old
+      margin ≈3.04) the goods wage FALLS at release (−2.8%) and the cap
+      then PINS it — c is constant on the capped stretch, so the
+      buildout sweeps tasks at a constant margin (CM there): NO
+      dip-and-recover phase; the land claim falls with the buildout,
+      below old at every date (7.46 → 7.02 → 5.13). Under EFFICIENCY
+      DEEPENING (γ_new = 0.85·γ_old) the impact sign REVERSES: the
+      goods wage RISES at release (existing capacity stretches further
+      when already-automated tasks cheapen). VERDICT AS RECORDED:
+      "PARTIALLY SUPPORTED under frontier extension … REVERSED under
+      efficiency deepening." The §8.4/§11 payoff: WHICH shock the AI
+      buildout is decides the sign of the release-day wage move; the
+      land-unit wage falls under both. T5 keeps its conjecture label
+      until drafting quotes the honest verdict.
+
+    FOLLOW-UP (same day, notation/framing conversation): (a) drafting
+    rules agreed from her questions — π debuts at §8.0 (the spine through
+    §7 writes u_K·p_K directly and says free entry in words); Q stays
+    §8-local; W_K goes unnamed unless §9.2 reuses it; the three-layer
+    recipe stack (build → operating → task technology) kept verbally
+    distinct in §4. (b) THE DURABILITY LINE added and checked (U4b, 54
+    GREEN): u = (ρ+δ)(1+ρ)^{J−1} prices every produced object's
+    flow-to-stock ratio by its (J, δ) coordinates — consumables are the
+    (J=0, δ=1) corner with u = 1 (price = rental), circulating capital
+    (1,1) gives 1+ρ, machines general (J, δ), land the unproducible
+    J = ∞ limit; candidate §4/§5 display, serves her "c equation for any
+    good" instinct. (c) PENDING HER CALLS: γ* → γ(x*) unification (Claude
+    rec: yes; 29 vs 14 sites already split) and recipe-subscript symmetry
+    (Claude rec: keep operating bare, build marked λ_I).
+
+## Verify-list — 2026-08-28: the capital-dynamics engine (veto window)
+
+- [ ] **Convention amendment to brief §3.5 (caution i):** SS household
+      income is wN_a + rT with NX = πK − p_K·I in goods clearing (the
+      brief's Inc with gross πK does not close; check E3). Domestic
+      convention books transition π-surprises to households (default);
+      foreign is a switch. Approve or redirect before Phase 2's App A
+      prose states it.
+- [ ] **The Q benchmark refinement (T1d):** brief §3.6(1)'s "Q_0 > 1"
+      becomes "Q_0 > (1+ρ)^{J−1}" — steady-state Q carries the gestation
+      float. Propagates to §8.3's windfall wording.
+- [ ] **T5's bifurcation framing:** frontier-extension vs
+      efficiency-deepening as the §8.4 organizing contrast (and the one
+      §11 sentence citing it). The conjecture's original wording ("falls
+      on impact, rises as capacity arrives") is not what the numerics
+      show at these dials — the cap PINS the wage after the release-day
+      drop. Her call on the framing.
+- [ ] **The rent-frontload sentence (T1):** drafting must state the
+      non-monotonicity honestly (investment-surge land demand + windfall
+      income front-load r; delivery-cycle ripples; "below old at every
+      date" is the theorem-shaped claim, not step-monotone descent).
+- [ ] **T2's indeterminacy note:** the pre-J_c window split is a sunk
+      transfer the model does not pin — flag stays in the §8.3 text.
+- [ ] **Dial choices as the paper's worked dynamic instances:** flat
+      T = 3.8 (γ̄ 3→2.8, J = 3), waterfall T = 2.0 (J = 1 vs 5), sloped
+      T5 at T = 4.0 with cap 2.8 / mult 0.85. All interior-verified;
+      swap freely, the machinery re-verifies.
+- [ ] **The lint tag lexicon** ("numerically verified" / "conjecture" /
+      "theorem" / "proposition", paragraph grain): adjust at drafting
+      time if her label style differs; the family self-tests either way.
 
 ## Session log (2026-08-26) — SEB TALK PREP
 
@@ -524,6 +757,179 @@ text); sweep found zero further instances; ALL GREEN.
     instantiates); (5) regenerate the assumption manifest to the new
     letters. (1)–(3) before the SSRN revision; project lives at
     link-repo/lean — verify the mathlib pin builds before writing.
+
+## Session log (2026-08-27, evening) — THE V2 STRUCTURE DECISION
+
+32. **Phase 2+3 authorized; the structure memo for the dynamics session**
+    (her message: Overleaf updated as a deliberate Johan-discussion copy —
+    "a bit separate so I can discuss with Johan, though I think the
+    notation change is a no brainer"; "Let's do the dynamic rewrite now";
+    her structure question verbatim: "Do we want a non dynamic storyline
+    and add the dynamics after, or alongside each existing section? Or
+    should we scrap the non dynamic core and build it all as dynamic from
+    the beginning?"; execution in a new session, thoughts to STATE).
+    PROCESS: a five-lens panel was run (hostile macro referee, reader arc,
+    execution risk, a devil's advocate briefed FOR all-dynamic, field
+    precedent) and converged unanimously — including the advocate — on
+    the hybrid below. What follows is the synthesis and is the governing
+    structure for Phases 2–3; it AMENDS the brief's §4 table where noted.
+
+    **THE DECISION — dynamic ontology, steady-state exposition, one
+    transition act.** Not (a) static-plus-appended-dynamics, not (b)
+    interleaved, not (c) all-dynamic-from-scratch. Instead:
+    - **Appendix A declares ONE dynamic environment** (timing, capacity
+      stocks K_t, build lags J_j, perfect foresight), extending the
+      existing configuration table with a horizon switch (steady state vs
+      sequence) and a capability switch (flat vs sloped). This is v1's
+      one-environment architecture doing exactly what it was built for.
+    - **The main text through the fork is that environment at rest**, in
+      pure coefficient notation — no time subscripts, no stocks, no Q
+      before §8. One declaring sentence early ("the environment is dynamic
+      throughout; until §8 we read it at rest") is the whole forward
+      apparatus.
+    - **DIRECTION OF DEPENDENCE (the rule that keeps both halves honest):**
+      the spine's propositions are stated and proved on self-contained
+      fixed-point objects (the recursion c = ac + λw + br + u_K·p_K and
+      its solution), NEVER as "the steady state of §8's system" — that
+      would import the sloped case's existence gap into the Lean-verified
+      core. §8 then EARNS the identification with a machine-checked
+      **steady-state equivalence lemma** (the §4–§5 recursion is the
+      steady state of the sequence economy; sympy at minimum). The lemma
+      is the anti-staple device: one model read at two horizons, with the
+      existence question quarantined where it belongs.
+    - Why not the alternatives, in one line each: (b) puts a Lean-proved
+      claim and a solver number in every section — the claims boundary
+      (theorem / numerically verified / conjecture) stops being visible in
+      the table of contents, every section needs re-voicing, and T5's
+      death would mean surgery in six places; (c) makes the closure and
+      fork corollaries of a system with no existence proof, strands the
+      sympy/Lean asset, torches her voiced prose wholesale, and leaves NO
+      shippable paper if the sloped solver stalls. Even the panel's
+      C-advocate conceded C's conditions fail and kept only C's ontology —
+      which the hybrid adopts at the environment layer.
+
+    **THE AMENDED SECTION TABLE** (changes from the brief's §4 table
+    flagged; content jobs otherwise per the brief):
+    - §1 intro — announce the architecture in ONE paragraph ("one dynamic
+      economy; the paper characterizes its steady state with proofs, then
+      its transition, numerically") — the stapled-papers judgment forms on
+      page one. Consider explicit Part labels (Part I: at rest; Part II:
+      in motion) to make the claims boundary typographic — HER CALL.
+    - §2 survey (trim by a third per the brief; voiced prose survives).
+    - §3 tasks and the margin (survives Phase 1's notation; light touch).
+    - §4 the recursion: coefficients, waiting, and building. AMENDED: §4
+      absorbs the steady-state half of the brief's §5 — the build recipe
+      (a_I, λ_I, b_I), J, and u_K = (ρ+δ)(1+ρ)^{J−1} DERIVED from
+      free-entry PV algebra as a Jorgenson-style user cost with gestation
+      (not asserted), then θ_c, θ_w, the interest identity,
+      horizon-terminality as a parameter (input j is terminal over
+      horizon h iff J_j > h; land is J = ∞). The brief's §5 as tabled put
+      THE DYNAMIC MODEL between the recursion and the floor with its
+      results three sections away — every lens independently flagged that
+      orphan gap; the transition system moves to §8. (§4 may split into
+      §4/§5 for length — "the recursion" and "build time in steady
+      state" — but BOTH stay coefficient-only.)
+    - §5/§6 the floor (participation with both lives priced; h_w, θ_e;
+      enclosure as rigidity; funding source) and §6/§7 the fork as
+      coefficient ratios (θ_w/θ_j; the θ gradient ideas→location; land as
+      J = ∞ the classifier). Panel option, NOT forced: coefficients →
+      fork → floor order (fork as Part I's climax) — her call; default
+      keeps the brief's floor-then-fork, which matches v1's voiced flow.
+    - §8 THE TRANSITION (one act, ordered for clean amputation):
+      8.0 the model in motion — sequence equilibrium definition, MIT
+      shock, THE EQUIVALENCE LEMMA immediately; 8.1 flat case — the
+      difference equation, existence/uniqueness stated as a THEOREM if
+      the closed form exists (if the flat transition is trivial, that IS
+      CM-on-the-path, say so per the brief's risk note); 8.2 solver
+      validated against the flat closed form (residuals,
+      horizon-insensitivity; details App E) BEFORE it touches the sloped
+      case — the only solver evidence a hostile referee accepts absent an
+      existence theorem; 8.3 T1 windfall, T2 waterfall, T3 speed×lag,
+      each labeled "numerically verified"; 8.4 T5 sloped-case wage path,
+      OWN subsection, labeled conjecture, kill-criteria pre-stated in the
+      text (Korinek–Suh scenario framing).
+    - §9 fiscal, split: 9.1 the steady-state pair (Prop 5 on the
+      coefficient footing, d = τ_R R/N; ships in Phase 2, voiced prose
+      survives); 9.2 the fiscal-horizon theorem T4 (Phase 3) — state it
+      on quasi-rent valuation identities for stock in place so its proof
+      NEVER needs the sloped path; Auerbach–Kotlikoff/Judd old-vs-new
+      capital is the precedent shelf it sits on.
+    - §10 measurement: every measured moment binds to steady-state
+      coefficients only — no measurement claim leans on transition
+      numerics. Phase 2 ships v1's numbers relabeled to coefficient
+      language; multi-leg recompute stays Phase 4.
+    - §11 AI: Phase 2 states the J-ordering as model structure (ideas
+      θ = 0; datacenters reproducible; land permanent); the dated
+      buildout predictions enter in Phase 3 citing T2/T5 by label. T5
+      appears in EXACTLY two sites (8.4 + one §11 sentence) so demotion
+      is a two-edit change.
+    - History-as-three-parameterizations rides in §8 (three (speed, J, λ)
+      configurations = three transition experiments) or stays a §7
+      subsection — drafting call. Stabilizers → §9 subsection per brief.
+    - Appendices: A one environment + extended configuration table
+      (sequence rows land in Phase 3 without touching spine prose); B
+      land-only closure with interest; C fiscal transition (Phase 3); D
+      human-essential (survives); E numerical methods + solver
+      credibility (Phase 3; the one named address for the existence/
+      accuracy questions); F data + the one-page notation table.
+
+    **PHASE CUT-LINES (the standalone guard, made structural):**
+    - Phase 2 ships: §§1–7 (spine, coefficient-only) + §9.1 + §§10–12 +
+      App A (environment stated in full, steady-state claims only) +
+      B/D/F. Everything in it sympy/Lean-grade. This is a complete paper.
+    - Phase 3 adds: §8, §9.2, App C/E, the configuration table's sequence
+      rows, intro re-weighting. SEQUENCE T4 EARLY in Phase 3: it is
+      free-entry PV algebra, plausibly sympy/Lean-checkable without the
+      solver — the one dynamic theorem that survives a numerics stall.
+      A partial Phase-3 landing (flat works, sloped fails) ships by
+      cutting 8.4 and demoting one §11 sentence.
+    - Voice map: redraft concentrates in §4(/§5) and §8 (+9.2) — all-new
+      content, Claude-drafts for her passes; §2 (trim), §3, floor, fork
+      skeleton, 9.1, §10, §11, App B/D carry her voiced v1 prose with
+      one-clause reframes ("in the steady state of Appendix A's
+      economy..."). Under (b) or (c) every section would have been
+      reopened — this map is most of why the hybrid won.
+
+    **MECHANIZATION TO ADD (house discipline, new session):** extend
+    lint_pinning with a claim-status-tag family — every transition result
+    must carry its label (numerically verified / conjecture) at every
+    in-text citation site, hard-fail otherwise (the ADDENDUM-7 lesson
+    applied to epistemic labels); the equivalence lemma and the u_K
+    derivation get sympy checks BEFORE drafting (house rule); dynamics
+    code lands in code/dynamics/ (model.py / solve.py / figures.py per
+    the brief §6), with the steady-state convergence check against
+    check_pinning's values as a hard gate.
+
+    **PHASE-3 TECHNICAL CAUTIONS (from the review conversation, pin at
+    model-write time, not debug time):**
+    (i) The income accounting must close: brief §3.1 states capital
+    income ρ·p_K·K (net) while §3.5's Inc_t carries π_t K_t (gross =
+    net + depreciation + build-period interest); under
+    investment-financed-abroad, WHO owns the stock decides whether πK
+    reaches household income gross or net of debt service. Pin the
+    ownership/financing convention first (suggest: domestically owned,
+    debt-financed at world ρ, household capital income πK − ρ·Debt) and
+    let the interest identity fall out — else goods clearing fails in a
+    way that masquerades as a solver bug.
+    (ii) Land-clearing viability is a named condition:
+    (1−α)T > bX_t + b_I I_t — transition paths can violate it
+    transiently while both endpoint steady states satisfy it.
+    (iii) The flat case's pinned c_t requires interior labor use along
+    the whole path — make the employment condition part of T1's
+    statement.
+    (iv) The u_K exponent (1+ρ)^{J−1} embeds three timing conventions
+    (build paid at start; first service at t+J; wear post-install) — the
+    off-by-one is the classic error; sympy derives it from the PV
+    condition, never asserts.
+
+    **OPEN, HERS (raise before the relevant phase):** Part labels
+    typography (§1); floor/fork order; the three-taxes boundary BEFORE
+    §9.2 is written (the horizon theorem is native to this paper as a
+    J-statement; three-taxes keeps taxonomy/convergence/ceiling/dial —
+    cite, don't duplicate; also harmonize φ_C/φ_G here vs φ_w/φ_r
+    there); title (brief: keep, or "...Scarcity, Technology, and Time");
+    the λ §10 splice timing; 𝟙 lands with Phase 2's App A matrix form
+    (per the notation map).
 
 ## Session log (2026-08-27, later) — V2 PHASE 1: THE NOTATION PASS
 
@@ -1194,6 +1600,14 @@ untouched by that thread.
 
 ## Next actions (priority order)
 
+0-pre. **(2026-08-28) Phase 2 drafting is UNBLOCKED** — log 32's
+   pre-drafting gate is passed (log 33): u_K and the equivalence lemma are
+   checked, the conventions pinned, the engine validated, the §8 results
+   verdict-stamped, the claim-status lint live. Next unit per the memo's
+   cut-lines: Phase 2 (§§1–7 spine on the coefficient footing + 9.1 +
+   10–12 + App A/B/D/F), Claude-drafts for her voice passes; log 33's
+   veto list rides along (Inc_t convention, Q benchmark, T5 framing).
+
 0. **The rewrite's veto window (Stella):** read `paper/pinning.html`; the
    first call is length — accept the ~5k lean main text or commission the
    expansion pass back toward the brief's ~9k. Then: Lean extension to the
@@ -1260,8 +1674,11 @@ the-link-revision/
 │   ├── fig_deflator_fork.png         carried byte-identical from link-repo
 │   └── fig_kappa.png                 carried byte-identical from link-repo
 ├── checks/
-│   ├── check_pinning.py              the λ-recursion spine + ρ-form G.1, 35 checks
-│   ├── lint_pinning.py               mechanical sweeps over pinning.html
+│   ├── check_pinning.py              the λ-recursion spine + user-cost forms, 51 checks
+│   ├── check_dynamics.py             v2 dynamics: u_K, equivalence lemma, ledger,
+│   │                                 T1 closed form, T4 algebra — 53 checks (2026-08-28)
+│   ├── dynamics_ss_targets.json      solver gate targets (written by check_dynamics)
+│   ├── lint_pinning.py               mechanical sweeps + claim-status-tag family
 │   ├── census_symbols.py             defined-symbol census (symbols-earn-their-ink rule)
 │   ├── check_split.py                A0-DR, A1-FP, A2-POOL (Block A)
 │   ├── check_mirror.py               B1-OCC, B2-COV amended (Block B)
@@ -1289,8 +1706,15 @@ the-link-revision/
 ├── kappa_ceiling.csv               the ceiling grid, 32 members (data item two)
 │   ├── hud_fy25_fmrs.xlsx            vendored raw FMR county file (validated)
 └── code/
+    ├── dynamics/                     the v2 transition engine (2026-08-28)
+    │   ├── model.py                  environment, both steady states, the HARD GATE
+    │   ├── solve.py                  validation ladder + T1/T2/T3/T5 experiments
+    │   ├── figures.py                one entry point regenerates the four §8 figures
+    │   └── results_dynamics.json     verdict record (written by solve.run_all)
     ├── word_diff_report.py           word-level HTML diff for prose files (her diff-reading workflow)
     ├── fig_eras.py                   regenerates the de-coined era schematic
     ├── pull_premium_race.py          self-contained, idempotent pull + build (pass one)
     └── premium_pass_two.py           composition adjustment + race decomposition (no downloads)
 ```
+(figures/ additionally carries fig_dyn_windfall / _waterfall / _speedlag /
+_sloped .png, all regenerated by `code/dynamics/figures.py`.)

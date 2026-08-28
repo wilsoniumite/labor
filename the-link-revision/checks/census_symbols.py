@@ -57,7 +57,7 @@ SYMBOLS = {
     "s(q) (exit value, S5)":            [r"s\(q\)"],
     "L_bar (S7)":                       [r"L&#772;"],
     "gamma_bar (S7)":                   [r"&gamma;&#772;"],
-    "gamma* (S3)":                      [r"&gamma;\*"],
+    "gamma(x*) (S3)":                   [r"&gamma;</i>\(<i>x</i>\*\)", r"&gamma;\(x\*\)"],
     "x* (S3)":                          [r"x\*"],
     "gamma_L (S3)":                     [r"&gamma;<sub>L</sub>"],
     "gamma_M (S3)":                     [r"&gamma;<sub>M</sub>"],
@@ -86,6 +86,7 @@ SYMBOLS = {
     "DEAD lam_C / lam_R (v1 shares)":   [r"&lambda;<sub>C</sub>", r"&lambda;<sub>R</sub>"],
     "DEAD bare tau (v1 rent tax)":      [r"&tau;(?!<sub>)"],
     "DEAD schedule rho (v1)":           [r"&rho;\*", r"&rho;&#772;", r"&rho;\(x"],
+    "DEAD gamma-star (retired 2026-08-28)": [r"&gamma;</i>\*", r"&gamma;\*"],
     "DEAD rho-hat (A-R collision note)": [r"&rho;&#770;", r"&gamma;&#770;"],
     "DEAD K set / k / k_s / w_K (v1)":  [r"(?<![A-Za-z])K(?![A-Za-z])(?!TH)", r"\bK-", r"measure k\b", r"k<sub>s</sub>", r"w<sub>K</sub>"],
 }
