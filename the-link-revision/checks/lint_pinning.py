@@ -139,5 +139,31 @@ for ent in ["&rho;", "&lambda;", "&gamma;", "&sigma;", "&eta;", "&kappa;",
 check("italic variables: no bare Greek entity in prose", len(bare) == 0,
       "; ".join(bare[:6]) + ("..." if len(bare) > 6 else ""))
 
+# claim-status tags (v2 dynamics; structure memo, STATE log 32): every
+# in-text citation of a transition result T1–T5 must carry an epistemic
+# label in the same paragraph — "numerically verified" (T1–T3 experiment
+# results), "conjecture" (T5 until promoted), or "theorem"/"proposition"
+# (proof-grade: T1's b_I = 0 closed form, T4's entry-margin algebra).
+# Hard-fail otherwise. Vacuous until Phase 3 drafts §8; the fixture
+# self-test keeps the family honest meanwhile.
+STATUS_LABELS = ("numerically verified", "conjecture", "theorem", "proposition")
+
+def status_tag_violations(text):
+    out = []
+    for i, para in enumerate(re.split(r"</p>|</li>|</figcaption>", text)):
+        plain = re.sub(r"<[^>]+>", " ", para)
+        for m in re.finditer(r"\bT([1-5])\b", plain):
+            if not any(lbl in plain.lower() for lbl in STATUS_LABELS):
+                out.append(f"T{m.group(1)}@para{i}")
+    return out
+
+check("claim-status self-test: labeled fixture passes, bare fixture fails",
+      status_tag_violations("<p>T1 (numerically verified) decays.</p>") == []
+      and status_tag_violations("<p>T5 says the wage dips.</p>") != [])
+scope_tags = re.sub(r"<div class=\"refs\">.*?</div>", " ", html, flags=re.S)
+viol_tags = status_tag_violations(scope_tags)
+check("claim-status tags: every T1–T5 citation carries its epistemic label",
+      len(viol_tags) == 0, "; ".join(viol_tags[:6]))
+
 print(f"\n{'ALL GREEN' if not fails else 'FAILURES: ' + str(len(fails))}")
 sys.exit(1 if fails else 0)
