@@ -1,0 +1,5 @@
+specification,predictors,rmse_pp,use
+pce_dpi+loan,pce_dpi + loan_pce,0.996844918467727,WEAK extension outside 2000–2023 only; observed sharp floor replaces fitted values inside strong window.
+saving+loan,saving_pce + loan_pce,0.9494417840417536,WEAK extension outside 2000–2023 only; observed sharp floor replaces fitted values inside strong window.
+pce_dpi+netlend,pce_dpi + netlend_pce,1.0788848306455912,WEAK extension outside 2000–2023 only; observed sharp floor replaces fitted values inside strong window.
+saving+loan+netlend,saving_pce + loan_pce + netlend_pce,0.9498817534632127,WEAK extension outside 2000–2023 only; observed sharp floor replaces fitted values inside strong window.

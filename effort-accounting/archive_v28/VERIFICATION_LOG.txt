@@ -1,0 +1,11 @@
+RUN 01a_build_C27_from_archived_bea_snapshot.py
+RUN 01b_build_C28_and_C1.py
+RUN 02_build_DQ_longrun.py
+RUN 03_build_S1_from_owner_stock_snapshot.py
+RUN 04_build_DF_final.py
+RUN 05_build_DFQ_synthesis.py
+PASS C28 max abs numeric error 3.637978807091713e-12
+PASS DQ max abs numeric error 0.0
+PASS S1 max abs numeric error 0.0
+PASS DF19 max abs numeric error 0.0
+PASS DF21 max abs numeric error 0.0

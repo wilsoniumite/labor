@@ -1,0 +1,7 @@
+figure,primary_data,strong_window,weak_window,claim_strength
+Fig. 3,Existing manuscript Figure 3; AHETPI + durables CPI + shelter CPI,1964–2024,,Strong descriptive
+C1,graph_C28_broad_product_families_1950_2025.csv,1950–2025,,Strong accounting identity
+D-Q,LR_Q1_fullchain_factor_content_strong_weak_1950_2025.csv,1997–2023,1950–1996; 2024–2025,Strong modern benchmark + weak extension
+S1,graph_D2_owner_occupied_land_residual_1945_2025.csv,1950–2025,,Strong stock residual; not rent
+D-F,Uploaded BEA summary-file.csv + joint PCE/DPI deciles + current NIPA controls,2004–2023 annual source profiles/rank/timing,1950–2003; 2024–2025; plus source-incidence assumptions within modern panel,Partial identification
+D-F/Q,D-F final + D-Q final,Overlap strongest 2004–2023,Outer years,"Synthesis, not additive decomposition"

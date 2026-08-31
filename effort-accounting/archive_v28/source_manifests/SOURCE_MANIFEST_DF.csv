@@ -1,0 +1,5 @@
+source,role,url
+BEA Distribution of Personal Income landing page,Confirms national full dataset and joint saving data availability/current windows,https://www.bea.gov/data/special-topics/distribution-of-personal-income
+FRED/BEA A061RC1A027NBEA,Annual total domestic contributions for government social insurance,https://fred.stlouisfed.org/data/A061RC1A027NBEA
+FRED/BEA B039RC1A027NBEA,Annual employer contributions for government social insurance included in employee compensation,https://fred.stlouisfed.org/data/B039RC1A027NBEA
+FRED/BEA W055RC1A027NBEA,Annual personal current taxes,https://fred.stlouisfed.org/data/W055RC1A027NBEA

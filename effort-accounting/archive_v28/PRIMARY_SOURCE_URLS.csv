@@ -1,0 +1,7 @@
+object,url,role
+C1 current BEA Table 2.3.5,https://apps.bea.gov/national/Release/XLS/Underlying/Section2All_xls.xlsx,1959–2025 leaf values
+C1 historical BEA snapshot,https://github.com/us-bea/reproducibility-toward-data-asset/blob/main/data/bea/Section2All_xls.xlsx,1950–1958 leaf values
+D-Q BEA working paper,https://www.bea.gov/sites/default/files/papers/bea-wp2026-01.pdf,1997–2023 full-chain factor benchmark / Figure 9
+S1 owner real estate,https://fred.stlouisfed.org/series/BOGZ1FL155035013A,Owner-occupied real-estate market value
+S1 residential structures,https://fred.stlouisfed.org/series/BOGZ1LM155012665A,Residential structures current-cost basis
+D-F national distribution,https://apps.bea.gov/data/special-topics/distribution-of-personal-income/national/summary-file.csv,Annual DPI-ranked source profiles

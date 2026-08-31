@@ -1,0 +1,6 @@
+output,depends_on,script
+C1 figure,BEA leaf snapshot -> C27 -> C28,"01a, 01b"
+D-Q figure,C28 + BEA WP Figure-9 digitized annual benchmark,02
+S1 figure,Owner real-estate + residential-structures annual snapshots,03
+D-F figure,BEA summary-file + legal resources + joint PCE/DPI + DF9/DF10 + national deductions,04
+D-F/Q figure,D-F + D-Q,05

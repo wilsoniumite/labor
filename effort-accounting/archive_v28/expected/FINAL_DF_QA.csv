@@ -1,0 +1,6 @@
+check,result,detail
+"Uploaded file contains annual DPI-ranked profiles for all needed components, 2004–2023",PASS,All 9 required concepts have 10 decile observations in every year.
+Reconstructed personal/self-employed social contributions nonnegative by decile,PASS,A061×contribution-profile minus B039×compensation-profile is nonnegative in all modern panel cells.
+Uploaded DPI distribution agrees with joint PCE/DPI DPI distribution,PASS,Maximum decile-share difference 2004–2023 = 0.40 pp.
+Fixed-2018 source-profile calibration materially biased the old panel,NO,Mean absolute central revision 0.13 pp; maximum 0.50 pp.
+D-F central estimate treated as identified causal financing,NO,Personal-tax source incidence and within-decile spending-source allocation remain visibly partially identified.

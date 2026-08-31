@@ -1,0 +1,4 @@
+scenario,general_revenue_tax_financed_share,wage_exposure_of_tax_financed_general_revenue,wage_exposure_of_beneficiary_premiums_and_benefit_taxes,interpretation
+weak_low,0.5,0.45,0.4,Conservative weak scenario: substantial deficit/asset funding and low wage exposure of general taxes.
+weak_central,0.75,0.68,0.6,Central accounting convention. The 0.68 tax-wage exposure is used only as a benchmark; it is not asserted constant historically.
+weak_high,1.0,0.8,0.8,High wage-exposure scenario: general-revenue transfers treated as fully current-tax financed and tax/premium funding heavily wage-exposed.
