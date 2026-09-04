@@ -1,6 +1,6 @@
 # P1 §10 delivery draft — "The recipe's labor content, measured."
 
-*Ready-to-splice block for `the-link-revision/paper/pinning.html`, drafted
+*Ready-to-splice block for `pinning/paper/main.tex` (was the-link-revision/paper/pinning.html), drafted
 2026-08-20 by the λ delivery unit. The splice itself belongs to a
 the-link-revision session under that thread's discipline: snapshot first,
 splice, update the affected checks, run `checks/check_pinning.py`, veto

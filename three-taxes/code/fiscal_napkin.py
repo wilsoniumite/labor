@@ -1,6 +1,6 @@
 # fiscal_napkin.py — the practical-design arithmetic for the Three Taxes thread
 # (design memo 2026-09-02). Four cells: (A) live NIPA/Z.1 aggregates through
-# link-repo's own FRED machinery (shared cache, sanity gates); (B) the VAT as a
+# the paper's own FRED machinery (pinning/code) (shared cache, sanity gates); (B) the VAT as a
 # residual; (C) the 60/40 use-split schedule over an automation path, under two
 # saving closures; (D) the LVT announcement shock: land at risk, mortgage
 # collateral, phase-in and grandfathering price paths. Outputs to ../data/.
@@ -14,12 +14,13 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)                      # three-taxes/
 OUTER = os.path.dirname(ROOT)                     # laborformal/
-LINKREPO = os.path.join(OUTER, "link-repo")
+LINKREPO = os.path.join(OUTER, "pinning")   # the paper folder holds the FRED machinery (was link-repo)
 DATA = os.path.join(ROOT, "data")
 os.makedirs(DATA, exist_ok=True)
-os.chdir(LINKREPO)                                # pull_fred's cache/ is link-repo/cache
+os.chdir(ROOT)
 sys.path.insert(0, os.path.join(LINKREPO, "code"))
 from lambda_compute2 import pull_fred, annualize                                   # noqa: E402
+import lambda_compute2 as _lc; _lc.CACHE = os.path.join(ROOT, "cache"); os.makedirs(_lc.CACHE, exist_ok=True)  # this thread's own FRED cache  # noqa: E402
 from feasibility_kappa import fetch_all, land_series, GRID_BUNDLE, CPI_BASE_YEAR   # noqa: E402
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 

@@ -23,7 +23,7 @@ rule: bands everywhere).
 
 Disambiguation, once: λ here is the machine-recipe labor coefficient of
 `c = ac + λw + ℓr` (pinning §4). It is not λ_C/λ_R of
-`link-repo/code/lambda_compute2.py` (wage-linkage of consumption financing
+`pinning/code/lambda_compute2.py` (wage-linkage of consumption financing
 and tax revenue — Appendix F objects that share the letter). Code and data
 for this assembly live under `progress_and_prosperity/lambda/` to keep the
 namespaces apart.

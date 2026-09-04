@@ -1,8 +1,8 @@
 # check_three_taxes.py — algebra + numeric checks for the three-taxes sketch
 # ("Three Taxes", thread founded 2026-08-27 from the circular-flow conversation).
 #
-# Everything here is NEW relative to the-link-revision/checks/ and
-# link-repo/checks/: the resolution shares phi_w/phi_r derived from the
+# Everything here is NEW relative to pinning/checks/ and
+# pinning/checks/corner/: the resolution shares phi_w/phi_r derived from the
 # closure, the tier-2 leg decomposition and its corner equivalence, the
 # convergence of the deadweight index on both factors, the circular-flow
 # fixed point and its kappa discipline, the grandfathering dial, the

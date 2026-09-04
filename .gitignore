@@ -1,4 +1,5 @@
 venv
 __pycache__/
 *.pyc
+.lake/
 progress_and_prosperity/lambda/data/cache/

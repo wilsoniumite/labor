@@ -15,11 +15,12 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 OUTER = os.path.dirname(ROOT)
-LINKREPO = os.path.join(OUTER, "link-repo")
+LINKREPO = os.path.join(OUTER, "pinning")   # the paper folder holds the FRED machinery (was link-repo)
 DATA = os.path.join(ROOT, "data")
-os.chdir(LINKREPO)
+os.chdir(ROOT)
 sys.path.insert(0, os.path.join(LINKREPO, "code"))
 from lambda_compute2 import pull_fred, annualize   # noqa: E402
+import lambda_compute2 as _lc; _lc.CACHE = os.path.join(ROOT, "cache"); os.makedirs(_lc.CACHE, exist_ok=True)  # this thread's own FRED cache  # noqa: E402
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # ---------------- (A) the replacement floor ----------------

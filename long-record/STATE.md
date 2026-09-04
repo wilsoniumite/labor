@@ -2,8 +2,8 @@
 
 **Project:** The Long Record — fitting the model's three-configuration reading
 of the seven-century wage record (working title *One Schedule, Seven
-Centuries*). Spun out of `../the-link-revision/` on 2026-08-17; the paper
-(`../the-link-revision/paper/pinning.html`) is untouched by this thread.
+Centuries*). Spun out of the revision thread (now `../dynamics/`) on 2026-08-17; the paper
+(now `../pinning/paper/main.tex`) is untouched by this thread.
 **Collaboration:** same contract as the parent thread — working format,
 sequencing, and drafting delegated to Claude; direct critique preferred;
 Stella's standing rules apply in full (see spec §4.7).

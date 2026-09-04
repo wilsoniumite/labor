@@ -278,7 +278,7 @@ Pigouvian nuances deferred ("later"). Read against v5
 
 ## Cross-thread map
 
-- P1 (`the-link-revision/paper/pinning.html`): stays untouched — App C
+- P1 (now `../pinning/paper/main.tex`): stays untouched — App C
   is the seed and remains the paper's own statement.
 - P2/P5 (`progress_and_prosperity/PLAN.md` §The papers): overlapping
   reservations listed above; this thread must not silently absorb them.

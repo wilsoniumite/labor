@@ -47,7 +47,7 @@ os.makedirs(DATA, exist_ok=True)
 os.makedirs(FIGS, exist_ok=True)
 
 # house FRED machinery, cache redirected to companion/cache
-sys.path.insert(0, os.path.normpath(os.path.join(HERE, "..", "..", "link-repo", "code")))
+sys.path.insert(0, os.path.normpath(os.path.join(HERE, "..", "..", "pinning", "code")))
 import lambda_compute2 as lc  # noqa: E402
 lc.CACHE = CACHE
 
