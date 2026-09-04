@@ -14,8 +14,10 @@ paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus f
 paper/figures/      the six figures, one script each (table below)
 code/               figure scripts and the FRED-based measurement scripts
 data/               built results and vendored inputs
-cache/              the FRED pulls the measurement scripts read (August 2026 vintage);
-                    delete a file to re-pull that series live
+cache/              the FRED pulls the measurement scripts read (August 2026 vintage;
+                    A2013C1A027NBEA, ASLCTAX and W054RC1A027NBEA first cached 2026-09-04
+                    and reproducing the tracked results exactly); delete a file to
+                    re-pull that series live
 checks/             sympy and numerical checks; checks/corner/ is the lambda = 0 corner
                     spine inherited from the long draft (its own numbering; map below)
 lean/               Lean 4 statements and proofs (mathlib v4.33.0); see lean/README.md
