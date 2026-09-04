@@ -88,7 +88,19 @@ SYMBOLS = {
     "DEAD schedule rho (v1)":           [r"&rho;\*", r"&rho;&#772;", r"&rho;\(x"],
     "DEAD gamma-star (retired 2026-08-28)": [r"&gamma;</i>\*", r"&gamma;\*"],
     "DEAD rho-hat (A-R collision note)": [r"&rho;&#770;", r"&gamma;&#770;"],
-    "DEAD K set / k / k_s / w_K (v1)":  [r"(?<![A-Za-z])K(?![A-Za-z])(?!TH)", r"\bK-", r"measure k\b", r"k<sub>s</sub>", r"w<sub>K</sub>"],
+    # v1's human-essential K is dead as a SET; the letter returned 2026-08-28
+    # as the machine stock (notation map: "frees K for the machine stock"),
+    # so only the k-forms stay banned.
+    "DEAD k / k_s / w_K (v1 K-set forms)": [r"measure k\b", r"k<sub>s</sub>", r"w<sub>K</sub>"],
+    # ---- v2 dynamics symbols (2026-08-28), informational counts
+    "u_K / p_K (user cost, build price, S4-5)": [r"u<sub><i>K</i></sub>", r"p<sub><i>K</i></sub>", r"u<sub>K</sub>", r"p<sub>K</sub>"],
+    "J (build lag, S4-5)":              [r"<i>J</i>"],
+    "theta family (total coefficients)": [r"&theta;"],
+    "pi (net rental, S8 only)":         [r"&pi;"],
+    "K_t / I_t (stocks and builds, S8)": [r"K<sub><i>t</i></sub>", r"I<sub><i>t</i></sub>"],
+    "Q (Hayashi's average Q, S8)":      [r"<i>Q</i>"],
+    "h_w (working-life land, S6)":      [r"h<sub><i>w</i></sub>", r"h<sub>w</sub>"],
+    "identity matrix (App A)":          [r"&#120793;"],
 }
 
 print(f"{'symbol':<38} {'hits':>4}   lines")

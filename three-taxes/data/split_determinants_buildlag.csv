@@ -1,0 +1,37 @@
+g,J,v,delta,kind,inv_share,pipeline_stock_over_Y
+0.02,0,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.225,0.0
+0.02,0,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.42,0.0
+0.02,0,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.27,0.0
+0.02,2,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.234,0.468
+0.02,2,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.437,0.874
+0.02,2,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.281,0.562
+0.02,5,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.248,1.242
+0.02,5,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.464,2.319
+0.02,5,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.298,1.491
+0.02,10,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.274,2.743
+0.02,10,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.512,5.12
+0.02,10,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.329,3.291
+0.05,0,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.315,0.0
+0.05,0,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.78,0.0
+0.05,0,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.3,0.0
+0.05,2,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.347,0.695
+0.05,2,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.86,1.72
+0.05,2,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.331,0.661
+0.05,5,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.402,2.01
+0.05,5,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",0.995,4.977
+0.05,5,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.383,1.914
+0.05,10,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.513,5.131
+0.05,10,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",1.271,12.705
+0.05,10,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.489,4.887
+0.08,0,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.405,0.0
+0.08,0,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",1.14,0.0
+0.08,0,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.33,0.0
+0.08,2,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.472,0.945
+0.08,2,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",1.33,2.659
+0.08,2,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.385,0.77
+0.08,5,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.595,2.975
+0.08,5,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",1.675,8.375
+0.08,5,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.485,2.424
+0.08,10,3.0,0.055,"economy-wide (v=3, delta=5.5%)",0.874,8.744
+0.08,10,12.0,0.015,"structures-heavy conversion (v=12, delta=1.5%)",2.461,24.612
+0.08,10,1.0,0.25,"short-lived IT/AI capital (v=1, delta=25%)",0.712,7.124

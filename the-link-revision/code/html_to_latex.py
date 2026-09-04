@@ -60,8 +60,8 @@ SPECIALS = [
     # rent vectors everywhere)
     ('<b>c</b> = <b>Ac</b> + <b>&Lambda;</b><i>w</i> + <b>Br</b>',
      r'$\mathbf{c} = \mathbf{A}\mathbf{c} + \boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r}$', 2),
-    ('<b>c</b> = (<i>I</i>&minus;<b>A</b>)<sup>&minus;1</sup>(<b>&Lambda;</b><i>w</i> + <b>Br</b>)',
-     r'$\mathbf{c} = (I-\mathbf{A})^{-1}(\boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r})$', 1),
+    ('<b>c</b> = (&#120793;&minus;<b>A</b>)<sup>&minus;1</sup>(<b>&Lambda;</b><i>w</i> + <b>Br</b>)',
+     r'$\mathbf{c} = (\mathbbm{1}-\mathbf{A})^{-1}(\boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r})$', 1),
 ]
 
 
@@ -135,7 +135,7 @@ GREEK = {
     '\u03b7': r'\eta', '\u00b5': r'\mu', '\u03bc': r'\mu', '\u03c4': r'\tau',
     '\u03ba': r'\kappa', '\u03c9': r'\omega', '\u03b2': r'\beta', '\u03b5': r'\varepsilon',
     '\u03b8': r'\theta', '\u03b4': r'\delta', '\u03c6': r'\varphi',
-    '\u03b1': r'\alpha', '\u03c8': r'\psi',
+    '\u03b1': r'\alpha', '\u03c8': r'\psi', '\u03c0': r'\pi',
     '\u0394': r'\Delta', '\u039b': r'\Lambda',
 }
 ELL = '\u2113'
@@ -144,6 +144,8 @@ ATOMSYM = {                   # standalone symbols that anchor a math run
     '\u2202': r'\partial', '\u222b': r'\int', '\u2205': r'\emptyset', '\u2261': r'\equiv',
     '\u2264': r'\le', '\u2265': r'\ge', '\u2208': r'\in',
     ELL: r'\ell', '\u03a3': r'\sum', '\u0394': r'\Delta',
+    '\u221e': r'\infty', '\u22a5': r'\perp', '\U0001d7d9': r'\mathbbm{1}',
+    '\u2026': r'\dots',
 }
 BRIDGEMAP = {                 # connective symbols valid inside a run
     '\u2212': '-', '\u00b7': r'\cdot ',
@@ -677,9 +679,11 @@ def render_eq(node):
 
 THEOREM_SEQ = []
 EQ_COUNT = 0
-FIG_EXPECT = ['fig_schedule.png', 'fig_eras.png', 'fig_deflator_fork.png', 'fig_kappa.png',
-              'fig_fourway.png']   # strata/ushape retired with Appendix B (2026-08-26)
-TABLE_SPECS = [r'l p{8.6cm}', r'p{6.4cm} l p{4.6cm}']
+FIG_EXPECT = ['fig_schedule.png', 'fig_eras.png', 'fig_deflator_fork.png',
+              'fig_kappa.png', 'fig_fourway.png', 'fig_dyn_windfall.png',
+              'fig_dyn_waterfall.png', 'fig_dyn_speedlag.png', 'fig_dyn_sloped.png']   # strata/ushape retired with Appendix B (2026-08-26)
+TABLE_SPECS = [r'l p{8.6cm}', r'p{6.4cm} l p{4.6cm}',
+               r'l p{9.6cm}']   # third: the Appendix F notation table
 
 # ---- cross-reference label tables (stable under reordering) ----
 HEAD_LABELS = {
@@ -692,9 +696,16 @@ HEAD_LABELS = {
     'The interval, closed': 'sec:interval',
     'The flat-capability limit: the real-wage fork': 'sec:limit',
     'The fiscal completion: rent tax and uniform dividend': 'sec:fiscal',
+    'The fiscal completion: rent tax, uniform dividend, and the horizon': 'sec:fiscal',
     'History as three configurations of one schedule': 'sec:history',
+    'History as three transitions of one schedule': 'sec:history',
+    'Build time and the wage of waiting': 'sec:buildtime',
+    'The model in motion: windfalls, waterfalls, and the buildout': 'sec:motion',
+    'Implications for artificial intelligence': 'sec:ai',
+    'Conclusion': 'sec:conclusion',
     'Measurement': 'sec:measurement',
     'Possible stabilizers': 'sec:stabilizers',
+    'Stabilizers as quantity protections': 'sec:stabilizers',
     'Implications for artificial intelligence, and conclusion': 'sec:ai',
     # appendices
     'The environment and assignment equilibrium': 'app:environment',
@@ -704,6 +715,11 @@ HEAD_LABELS = {
     'CES consumption': 'app:ces',
     'The fiscal system in the sloped regime': 'app:fiscal',
     'Human-essential tasks': 'app:human',
+    'Numerical methods and solver credibility': 'app:numerics',
+    'The model in motion': 'app:motion',
+    'The sequence economy': 'app:sequence-economy',
+    'The steady-state equivalence': 'app:equivalence',
+    'Notation': 'app:notation',
     'The open economy': 'app:open',
     'Prediction register': 'app:register',
     # subsections (h3 title after the number)
@@ -719,10 +735,21 @@ HEAD_LABELS = {
     'Feasibility: the coverage ratio': 'app:coverage',
     'The race with enclosure': 'app:race',
     'The mix on the way down': 'app:mix',
+    'Transition bases': 'app:transition-bases',
+    'The sequence economy and the equivalence': 'sec:sequence',
+    'The flat transition in closed form': 'sec:flat-closed',
+    'The solver, validated before use': 'sec:solver-validated',
+    'Windfall, waterfall, and speed times lag': 'sec:experiments',
+    'The sloped path: which shock moves the wage': 'sec:sloped-path',
+    'The steady-state pair': 'sec:fiscal-pair',
+    'The fiscal horizon': 'sec:fiscal-horizon',
 }
 THEOREM_LABELS = {              # keyed on the number the HTML header declares
+    # 2026-08-28 (later): dynamics to Appendix E; mains are 1-6 with the
+    # interest identity demoted to prose; E.1/E.2 are the appendix results
     '1': 'prop:margin', '2': 'prop:replacement', '3': 'prop:exit',
-    '4': 'prop:fork', '5': 'prop:welfare',
+    '4': 'prop:fork', '5': 'prop:welfare', '6': 'prop:horizon',
+    'E.1': 'prop:equivalence', 'E.2': 'prop:frozen-rent',
     # 2026-08-26 restructure: landonly is now B, human-essential is now D
     # (wedges' lem:effective/prop:targeting retired with Appendix B's cut);
     # D.2/D.3 are the new fraud-bound and superstar lemmas.
@@ -730,9 +757,12 @@ THEOREM_LABELS = {              # keyed on the number the HTML header declares
     'D.1': 'prop:baumol', 'D.2': 'lem:fraud', 'D.3': 'lem:superstar',
 }
 FIG_LABELS = ['fig:schedule', 'fig:eras', 'fig:fork', 'fig:kappa',
-              'fig:fourway']   # parallel to FIG_EXPECT
-EQNUM_LABELS = ['eq:gamma', 'eq:recursion', 'eq:closure', 'eq:lambda-zero',
-                'eq:exit', 'eq:fork-price', 'eq:ces-share']  # numbered displays, in order
+              'fig:fourway', 'fig:dyn-windfall', 'fig:dyn-waterfall',
+              'fig:dyn-speedlag', 'fig:dyn-sloped']   # parallel to FIG_EXPECT
+EQNUM_LABELS = ['eq:gamma', 'eq:recursion', 'eq:build-price', 'eq:recursion-uK',
+                'eq:closure', 'eq:lambda-zero', 'eq:user-cost',
+                'eq:exit', 'eq:fork-price', 'eq:ces-share',
+                'eq:net-rental']  # numbered displays, in order (E holds the last)
 PRED_LABELS = ['pred:compression', 'pred:protection', 'pred:negative-sum',
                'pred:traps', 'pred:labor-share', 'pred:land-share',
                'pred:ai-sites', 'pred:fork', 'pred:scissors', 'pred:incidence',
@@ -924,6 +954,7 @@ PREAMBLE = r'''% ============================================================
 \usepackage{setspace}
 \onehalfspacing
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{bbm}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -1109,23 +1140,26 @@ def main():
 
     # ---------------- verification ----------------
     # appendix restructure 2026-08-26 (STATE log 26): A-I -> A-D. B cut to a
-    # S11 paragraph, C folded into A, E folded into B (old D), H and I cut;
-    # old G (now D) gains Lemmas D.2/D.3.
-    check(in_appendix and section_no == 4, f'appendix count = {section_no}')
-    check(appendix_letters == list('ABCD'), f'appendix letters {appendix_letters}')
+    # v2 dynamics 2026-08-28: E (numerical methods) and F (notation) added;
+    # interest identity is Prop 3, equivalence 6, frozen rent 7, welfare 8,
+    # horizon 9; the fork's corollary rides after Prop 5.
+    check(in_appendix and section_no == 6, f'appendix count = {section_no}')
+    check(appendix_letters == list('ABCDEF'), f'appendix letters {appendix_letters}')
     expected = [('proposition', '1'), ('proposition', '2'), ('proposition', '3'),
                 ('proposition', '4'), ('corollary', None), ('proposition', '5'),
+                ('proposition', '6'),
                 ('lemma', 'A.1'), ('proposition', 'B.1'),
-                ('proposition', 'D.1'), ('lemma', 'D.2'), ('lemma', 'D.3')]
+                ('proposition', 'D.1'), ('lemma', 'D.2'), ('lemma', 'D.3'),
+                ('proposition', 'E.1'), ('proposition', 'E.2')]
     check(THEOREM_SEQ == expected, f'theorem sequence {THEOREM_SEQ}')
-    check(fig_no == 5, f'figures: {fig_no}')
-    check(EQ_COUNT == 10, f'display equations: {EQ_COUNT}')
-    check(table_no == 2, f'tables: {table_no}')
+    check(fig_no == 9, f'figures: {fig_no}')
+    check(EQ_COUNT == 14, f'display equations: {EQ_COUNT}')
+    check(table_no == 3, f'tables: {table_no}')
     # the prediction register was cut in the 2026-08-26 restructure
     check(pred_items == 0, f'predictions: {pred_items}')
     # the S11 kill list was removed in Stella's 2026-08-21 voice pass
     check(kill_items == 0, f'kill-list items: {kill_items}')
-    check(ref_count == 56, f'reference entries: {ref_count}')
+    check(ref_count == 58, f'reference entries: {ref_count}')
     check(_EQNUM_USED == len(EQNUM_LABELS), f'equation labels used: {_EQNUM_USED}')
     refs_used = set(re.findall(r'\\ref\{([^}]*)\}', tex))
     labels_def = set(re.findall(r'\\label\{([^}]*)\}', tex))
@@ -1235,6 +1269,7 @@ def tex_words(tex):
     body = re.sub(r'\\rule\{[^}]*\}\{[^}]*\}', ' ', body)
     body = re.sub(r'\\\\(\[[0-9.]+pt\])?', ' ', body)
     body = re.sub(r'\\mathrm\{[^}]*\}', ' ', body)    # subscript words (dropped both sides)
+    body = body.replace(r'\mathbbm{1}', ' ')          # 𝟙 (dropped on the HTML side too)
     body = re.sub(r'[_^]\{[^{}]*\}', ' ', body)       # scripts are dropped on both sides
     body = re.sub(r'[_^][A-Za-z0-9*]', ' ', body)
     body = re.sub(r'\\begin\{\w+\*?\}(\[([^\]]*)\])?',

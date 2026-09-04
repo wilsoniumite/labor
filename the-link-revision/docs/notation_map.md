@@ -54,6 +54,11 @@ named by the activity they feed and the service recipe is the default
 (her call, 2026-08-28, after the λ-brand/measurement-continuity
 argument).
 
+Added 2026-08-30 (from her re-voicing of the §1 time paragraph): NO
+symbol debuts in the introduction — §1 argues in words; J and J = ∞
+were evicted ("one number per input", "classically the input with
+infinite lag"). A symbol shown before it can work is decoration.
+
 ## Rename order (chains — do not reorder)
 
 The map contains two chains; each step frees the symbol the next step uses.

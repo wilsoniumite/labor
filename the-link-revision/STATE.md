@@ -2,9 +2,180 @@
 
 **Project:** revision of *The Link: Wages, Machines, and What Remains* (Stella Wilson, working draft Aug 2026; the blog post "A New-ish Theory of Economics" at wilsoniumite.com links the PDF — this folder sits next to the papers folder).
 **Collaboration:** extended, multi-session; working format, sequencing, and drafting decisions delegated to Claude. Direct critique preferred over validation.
-**State as of:** 2026-08-28.
+**State as of:** 2026-08-30.
 
 ## Where things stand
+
+**2026-09-03: HER v5 IS THE PAPER (log 52). ALIGN ON THE NAME v5.** Her
+`Downloads/v5 (2).tex` — her own read-through after the wall, terminology,
+and duplication rounds; she is "quite happy with it" — is frozen verbatim as
+`latex/v5_baseline_2026-09-03.tex` and is the WORKING FILE `latex/v5.tex`.
+It equals the duplication candidate plus five edits of hers (log 52). The
+v6 lineage (`v6_walls.tex`, the three `v6_*_candidate.tex`) is SUPERSEDED,
+kept on disk. Lint green bar the Overleaf-only effort figure. Flagged for
+her one-word decisions (log 52): a LaTeX quote slip in §1 (''terminal''
+opens with '' not ``), "The extreme cases makes", and three older
+lowercase-after-period sites. Nothing pending from Claude's side; the next
+unit is whatever she sends. Route unchanged: freeze, exactly-once port,
+diff + reading view, never re-voice, flag slips.
+
+**2026-09-02 (last): STEP 5 — §1 TERM INTRODUCTIONS MOVED OUT (log 50).**
+The audit's five §1 insertions are now one quoted clause each or gone; the
+definitions live in §3 (task margin, replacement value, the recursion
+named, the terminal/land terminology merged after eq:recursion), §5
+(participation floor after eq:exit), and §7 (terminal-input intensity).
+`latex/v6_walls.tex` is the file for her duplication/tightening audit.
+
+**2026-09-02 (late night): STEP 4 — THE TERMINOLOGY AUDIT AS RULED (log 49).**
+`latex/v6_walls.tex` now carries the audit's 67 mechanical items plus the
+ceiling cut and four named floors; enclosure, commons, her §8 heading kept;
+§9 retitled "Distribution at the limit". Her next move: a ChatGPT
+duplication/tightening audit of this v6 (known self-duplications listed in
+log 49). Same route when it lands: freeze, exactly-once port, diff + reading
+view, never re-voice, flag slips.
+
+**2026-09-02 (night): STEP 3 — THE CHATGPT SHEET AS RULED (log 47; VETO
+WINDOW THERE).** Her ruling on the sheet (log 46): all accepted except the
+pushbacks, "machine-contestable" kept. `latex/v6_walls.tex` carries it;
+Figures 1, 2, 4 regenerated with the sheet's labels; new
+`code/reading_view.py` gives her every changed paragraph as clean prose
+(`docs/reading_view_v6_2026-09-02.html`). Figures 3, 5, 6 label changes
+pending in effort-accounting / link-repo. A WHOLE-PAPER VOICE MD IS
+EXPECTED NEXT from her: freeze verbatim, exactly-once port, diff + reading
+view, never re-voice, flag slips.
+
+**2026-09-02 (evening): STEP 2 — THE WALL IN PROSE (log 45; VETO WINDOW
+THERE).** On her call, §6 gains two intuitive paragraphs (no maths) on what
+sets the wage at the wall and how other people supply the substitute the
+machine cannot; six one-clause pointers to §6 at every wall site. Her ChatGPT
+package sent: `latex/v6_walls.tex`, `docs/drafted_prose_2026-09-02.md`,
+`docs/figure_text_2026-09-02.md`, the cumulative and step diffs. Edits
+return by paste; port verbatim, flag slips, never re-voice.
+
+**2026-09-02 (later): HER GO ON THE WALL — v6 EXECUTED (log 44; VETO WINDOW
+BELOW: every drafted sentence is hers to voice, and she is running the
+figure text through ChatGPT).** Her latest tex arrived as
+`Downloads/v5 (1).tex` — NOT previously in the repo (the closest copy was
+the 2026-09-01 voice edit; hers carries ~30 later voice regions, last
+session's κ-figure regions, and three lines from today: Prop 5 retitled
+"Redistribution at the limit", §8 retitled "...of the model", the AI-use
+note naming Claude Fable 5 and ChatGPT 5.6 Sol). Frozen verbatim as
+`latex/v5_baseline_2026-09-02.tex`. The working paper file is now
+`latex/v6_walls.tex` = that baseline + 13 exactly-once-asserted edits
+(word-diff for her read: `docs/diff_v5_to_v6_walls.html`, 20 regions):
+(1) Figure 1 redrawn on the industrial template — steep schedule, then the
+set H closed to machines as a wall (`code/fig_model_schematics.py`,
+`figures/fig_schedule.png`, copied to `latex/figures/`; strata/ushape
+byte-identical), with §3 introducing H in words and the caption naming
+it; (2) Figure 2 replaced by `figures/fig_eras_workers.png`
+(`code/fig_eras_workers.py`): four eras drawn twice, a young entrant with
+no training and a worker with years of training or experience — her
+framing, no innate capability anywhere — with the margin dotted per era;
+§8 retitled "four configurations", opening sentence, caption, and one
+two-worker sentence pair per era paragraph (entrant = farm servant / mill
+hand or hand-loom weaver / young clerk, cashier, assembler; trained =
+craftsman after apprenticeship / millwright, engineer, clerk / developer,
+physician, engineer); (3) her deliverables: the full tex, and
+`docs/figure_text_2026-09-02.md` — every caption and every label, legend
+entry, and annotation of all six figures, for the ChatGPT voice pass.
+Structural lint (`checks/lint_tex_structure.py`, new) green except the
+expected note that `fig_consumption_financing_and_human_effort.png` exists
+only in her Overleaf. `fig_eras.png` is no longer referenced (kept). Still
+no local compile: Overleaf is the first compile; she uploads the two new
+PNGs alongside the paste.
+
+**2026-09-02: FIGURE 2 (THE ERA SCHEDULES) REVIEWED — CANDIDATE REDRAW ON
+DISK, HER CALL (log 42; nothing in the paper, `fig_eras.png`, or the TeX
+touched).** Her question: can the pre-industrial schedule be drawn, and are
+the three curves right given physical automation, cognitive automation that
+needed more developers, and the record. Findings: (1) the pre-industrial
+case IS drawable with the paper's own object — Appendix A's set H, closed
+to machines, covering nearly every task: a sliver (mills, draft animals)
+then a wall; the margin sits at the wall, task-side labor demand is
+perfectly inelastic there, and the wage is set on the other side, the land
+floor s(q) (Prop 3; long-record R1). So "off-chart" was right and
+"compressed" (§8) / "flat configuration" (§2) is the wrong word: the
+pre-industrial schedule is the VERTICAL case, the AI limit the FLAT case —
+opposite labor-demand elasticities, both pinning the wage to land (floor,
+then recursion c ∝ r). (2) `fig_eras.py`'s curves CROSS (computing 0.9 >
+industrial 0.3 at x = 0; AI above both below x ≈ 0.41): in rank space with
+machines never losing capability each era's curve must lie weakly below the
+last and its wall further right (task creation can break it only at the
+top) — the current picture says machines got worse at their best tasks.
+(3) No era has a wall, though §8 says engines were "useless at cognitive
+tasks" and ALM's non-routine tasks stayed closed. (4) The margin is not
+marked, and flatness matters only AT x* (Lemma A.1). (5) "More developers"
+is λ (and reinstatement at the wall), not a γ-object — the text has both,
+the chart cannot show λ; the panel draft carries it as a line per era.
+Candidate: `code/fig_eras_v2_draft.py` → `figures/fig_eras_v2_draft.png`
+(one panel, four nested curves with walls and margins) and
+`fig_eras_v2_draft_panels.png` (2×2, one era each, w/c line and x* as in
+Figure 1, λ line). If adopted: port into `fig_eras.py`, recaption (four
+configurations; "compressed" → the wall), and touch §2's "flat
+configuration" clause — one unit, her voice.
+
+**2026-09-01 (fork/rent session): THE κ FIGURE GAINS ITS MEASUREMENT SPLIT
+IN v5 (VETO WINDOW — two drafted sentences and one dropped caption sentence,
+hers to voice or reject).** Her Downloads `v5.tex` (the working copy) edited
+in place, three regions, word-diff given in chat: `fig:kappa` now draws
+`latex/figures/fig_kappa_measurement.png` — the published 12-member grid
+with its two rent measurements as separate medians (valuation dashed,
+rent-bill red; legend in her approved plain register) — built by
+`code/fig_kappa_measurement.py` (2025 anchors GREEN: med 0.326 / rent-bill
+0.326 / valuation 0.303; `fig_kappa.png` untouched). The caption now carries
+the full source block (HNOREMV, BOGZ1LM155012665Q, GS10 +150bp,
+DHSGRC1A027NBEA × 0.30/0.50, Orshansky/CPI denominator, subsets-not-new-
+series note); its "band width is substantially the capitalization-rate
+spread" sentence is DROPPED (at the 2025 endpoint the band edges are
+rent-bill members — the split now shows the structure instead); the
+post-1995/2020 caveat sentence kept verbatim. §9's coverage paragraph gains
+two drafted sentences on the two routes. She uploads the new PNG to Overleaf
+alongside the paste.
+
+**2026-09-01: THE V5 DRAFT IS EXECUTED ON THE NEW BASELINE (logs 39–40;
+VETO WINDOW AT LOG 40 — with her and ChatGPT for voice, edits return by
+paste).** Her go, two scopes, both landed in
+`latex/v5_land_intensity.tex` (baseline frozen alongside as
+`latex/v4_accounting_revised_baseline_2026-09-01.tex`; her read:
+`docs/diff_v4_to_v5_land_intensity.html`, 70 regions): (1) every
+scarce-factor-free-good site reframed around LAND INTENSITY with ideas
+the sole exact exception — Prop fork gains part (iv) (the b_lo/b_hi
+composites, eq:composites + eq:fan, crossover at r/w = L̄/b), backed by
+`checks/check_fan.py` (27 GREEN: algebra incl. the interest-augmented
+closures, plus the §9 data anchors); (2) the financing-vs-production
+detail moved verbatim to NEW Appendix E (app:effort), §9 keeping a
+five-line summary. §9's fork paragraph now carries the food leg
+(+13% vs +277%/−21%, 1964 window) and an energy-exclusion sentence.
+NOT included, deferred: the floor funding-dichotomy prose and the
+quasi-exit clause (log 39's recommendation — one word away). No local
+TeX compile exists on this machine; Overleaf is the first compile
+(structural lint clean: refs/labels, environments, $ parity, braces).
+The pinning.html-canonical discipline remains SUSPENDED for this
+lineage: v5 is the working paper file, her call how it flows back.
+
+**2026-08-30: HER VOICE CALIBRATION LANDED — the §1 time paragraph is
+hers, and all Claude-drafted v2 prose is normalized to it (log 37; still
+UNCOMMITTED, her veto).** Her rewrite of "What does time add?" ported
+verbatim ("whilst" kept per her ruling); the lesson codified (no symbol
+debuts in §1 — notation_map drafting rule; "dials" banned outright —
+lint register family) and applied across ~30 sites in §§1–9, 11 and App
+A/C/E: performance constructions flattened, braided periods broken,
+rhetorical em-dashes demoted (211 → 179, 9.5/1k), γ̄ and q evicted from
+§2. One correctness catch: §1 "two questions" → "three". Word-diff for
+her read: `docs/diff_voicepass_2026-08-30.html` (146 regions after the
+log-38 rulebook sweep). All batteries green; her voiced text untouched.
+
+**2026-08-28 (later): THE DYNAMIC DRAFT IS EXECUTED — pinning.html is the
+v2 paper (log 35; VETO WINDOW THERE, uncommitted pending her read).**
+Phases 2–3 landed in one pass on the standing engine: §5 build time, §8
+in motion (equivalence, frozen rent, the verified experiments with their
+labels, history as three transitions), §9.2 the fiscal horizon, the
+participation fix, the new-task condition, App A's sequence economy, App
+E/F. Props renumbered 1–9 (map in log 35), figures 1–9, LaTeX export ALL
+GREEN with word fidelity. Phase 1b (γ* → γ(x*)) and the dynamics engine
+are committed; her Overleaf notation-only paste source is
+`latex/main_phase1b_notation_only.tex`. Voiced-sentence repairs are
+enumerated in the veto list — nothing was re-voiced silently.
 
 **2026-08-28: THE CAPITAL-DYNAMICS ENGINE IS BUILT AND ALL GREEN (log 33;
 VETO WINDOW THERE).** Log 32's pre-drafting mechanization executed in
@@ -22,7 +193,7 @@ PARTIALLY SUPPORTED and SPLIT BY SHOCK TYPE — frontier extension (the
 Korinek–Suh cap) drops the goods wage at release and then PINS it (CM on
 the capped stretch, no dip-and-recover), while efficiency deepening
 RAISES it on impact; the land-unit wage falls under both. Four §8 figures
-regenerate from one entry point. 53 + 51 checks + lint (now with the
+regenerate from one entry point. 54 + 51 checks + lint (now with the
 claim-status-tag family) ALL GREEN; `pinning.html` byte-identical. Phase
 2/3 DRAFTING IS UNBLOCKED; the brief amendments the checks forced (the
 Inc_t convention, the Q benchmark, T5's wording) sit in log 33's veto
@@ -292,6 +463,945 @@ text); sweep found zero further instances; ALL GREEN.
       assertion). Section-level: nothing cuttable — §2 argues the novelty,
       §9 is her framing, §6 is the payoff. lint re-run ALL GREEN.
 
+## Session log (2026-09-03, later) — HER v5: THE CANDIDATE ADOPTED, HER EDITS, ALIGNMENT
+
+52. **`Downloads/v5 (2).tex` arrived** (99,213 bytes, 13,906 words, 969
+    lines): she read the whole paper and made her own changes; she calls
+    it v5 and asked to align on that name. Frozen verbatim
+    (`latex/v5_baseline_2026-09-03.tex`) and installed as the working file
+    `latex/v5.tex`. Against the duplication candidate it differs in 12
+    lines only — she TOOK THE CANDIDATE WHOLE, including the four items I
+    had pushed back on (§12 "remains near one-third"; the shortened §1
+    cost-parity sentence; the compressed roadmap; the §3 Measurement
+    pointer with its "evidence, not an estimate of λ" caveat) — her call,
+    recorded, not relitigated. Her five own edits (record diff
+    `docs/diff_candidate_to_v5_2026-09-03.html`, 9 regions; reading view
+    `docs/reading_view_her_v5_edits_2026-09-03.html`; full record vs v6
+    `docs/diff_v6_to_v5_2026-09-03.html`, 129 regions): (1) §1 "What prices
+    the substitute?" — the terminal clause folded into the last sentence
+    ("...and such ''terminal'' rents account for an increasing share of
+    the replacement price"), the "Section 3 makes the distinction precise"
+    pointer dropped; (2) §1 outside-option paragraph — the floor clause
+    folded ("...falls in the consumption units relevant to participation
+    toward a ``participation floor,'' and its lower bound, the ``dependency
+    floor''."), the bundle-cost clause dropped; (3) §1 extreme case: "The
+    extreme cases makes"; (4) §12 closing sentence ADDED after the
+    remaining empirical question: "Although it requires a significant
+    re-framing of the last 70 years of world economic history, we consider
+    the answer to be obvious."; (5) AI-use note: "Claude (Anthropic) and
+    ChatGPT (OpenAI)", "parts of the formalization". No newline at end of
+    file (harmless). FLAGS, hers to decide, untouched: (a) ''terminal''
+    opens with two apostrophes where LaTeX wants two backticks — will
+    render as closing quotes on both sides; (b) "The extreme cases makes"
+    (was "case makes"); (c) three older lowercase-after-period sites: §5
+    "nothing of anything. so its", §5 "someone else's housing. in the
+    modern economy", data note "for the ceiling grid. financing splits";
+    (d) register note only: the new §12 sentence calls the answer to the
+    just-posed empirical question obvious — her voice, her claim. Figure
+    files referenced are the six in `latex/figures/` plus her Overleaf
+    effort figure; figure-text md regenerated against v5
+    (`docs/figure_text_2026-09-03.md`). Memory pointer updated (working
+    file = `latex/v5.tex`). Pending in other threads, unchanged: Figures 3,
+    5, 6 in-figure label regeneration (effort-accounting, link-repo).
+
+## Session log (2026-09-03) — THE DUPLICATION REVIEW, AS DIFFS
+
+51. **Her third ChatGPT file** (`Downloads/v5_temp_duplication_review.md`,
+    reviewing v6 saved as v5_temp.tex): 29 items on repeated claims,
+    definitions, numbers, captions, and cross-references; estimates 500–750
+    words and 25–35 pointers removable. Built
+    `latex/v6_duplication_candidate.tex` = v6 + its copy-ready and
+    mechanical cuts (50 applications; skipped only item 21's "keeps a
+    column" sentence, not quoted in full): the three lean captions (Figs
+    1, 2, 5); the §3 post-proof restatement; §1's cost-parity sentence
+    shortened; §10's fork opening de-duplicated from the abstract; the
+    repeated temporary-terminal examples; the Measurement pointer inside
+    the recursive-automation definition; §6's automation paragraph opening
+    compressed; my §6 historical preview cut; §5's opening compressed and
+    its equation-level restatement cut; §7's empirical ordering cut (it
+    duplicated the sentence before it); App C's payroll opening; the
+    coverage values out of App C and softened in §12 (the review's
+    "remains near one-third"); App E's common-window paragraph cut to its
+    inference, its mapping paragraph and §12's last paragraph compressed;
+    App B's identity sentence to one formulation; §1's synthesis paragraph
+    to one sentence and its roadmap to the review's five-line version; §2's
+    contribution paragraph to one sentence; six §2 pointers; §3/§6/§7/§8/
+    §10/§12 pointer cuts (nine); Figure 3's first caption sentence; App A's
+    ten inline pointers (the configuration table stays); App C/E small
+    fixes incl. the "benchmark-data BEA benchmark" tautology my step-4
+    replace-all created. Result: 14,727 → 13,954 words; \ref uses 130 → 79.
+    Lint green bar the Overleaf-only figure. Diffs
+    `docs/diff_v6_to_duplication_candidate.html` (122 regions),
+    `docs/diff_v5_to_duplication_candidate.html` (299); reading view vs v6
+    `docs/reading_view_duplication_candidate.html` (45 windows). Working
+    file UNTOUCHED. OPINION (chat): the review is right about the
+    self-duplicating captions (mine and the two ChatGPT files' own
+    inserts), the §6 preview, the appendix duplicates, and the inline
+    appendix pointers; PUSHBACKS — §12's coverage numbers are the timing
+    argument, not a restatement (keep 0.05 → one-third); §1's cost-parity
+    sentence is hers and the review itself calls the layering acceptable;
+    her roadmap should stay and the embedded §1 pointers go instead; the
+    §3 Measurement-pointer cut loses the "evidence about the recursion, not
+    an estimate of λ" caveat (App E keeps a weaker form); everything that
+    rewrites her voiced paragraphs (§1 synthesis, §2 contribution, §5
+    opening, §10 fork opening, §12 last paragraph) is her call.
+
+## Session log (2026-09-02, late night, last) — §1 TERM INTRODUCTIONS OUT: v6 step 5
+
+50. **Her call: too many term introductions in §1.** Per term, MOVE / QUOTE
+    / KEEP, thirteen exactly-once edits (snapshot session-side; step diff
+    `docs/diff_v6_step5_intro_terms.html`, 35 regions; cumulative and
+    reading view regenerated — 70 windows, 8 this step). A1 task margin +
+    replacement value: MOVED to §3 (replacement value named at the
+    $w \le c\gamma(x)$ line; "task-assignment margin, or task margin" at
+    the threshold sentence); §1's opening keeps A&R's "task margin" as
+    plain words. A2 terminology paragraph: MOVED into §3's existing
+    terminal sentence after eq:recursion, merged (horizon definition,
+    produced bottlenecks temporary, land as representative, $r$, pure vs
+    site rent) with the recursion named there ("machine-sector cost
+    recursion, below simply the recursion"); §1 keeps one quoted clause
+    (``terminal'', land stands for the class, §3 makes it precise). A3
+    task/recursive automation: QUOTED inside the existing sentence, the
+    separate sentence cut (defined in §3's "Two margins of automation").
+    A4: the insert cut; ``machine-dominance limit'' quoted at its first
+    mention, ``flat-capability regime'' at the section pointer; the
+    terminal-input-intensity generalization MOVED to §7's land-intensity
+    definition; the fork keeps its one plain mention in the closures
+    paragraph. A5: QUOTED in one clause (``participation floor'',
+    ``dependency floor'', the bundle cost as a different object); the
+    participation-floor definition MOVED to §5 after eq:exit. Also the one
+    "keep" the step-4 rename missed ("yields a keep $s_0$") → gross exit
+    value. Lint green bar the Overleaf-only figure. FLAGGED, her text,
+    untouched: §5 "dependent on access to someone else's housing. in the
+    modern economy, most often a parent's spare room." — lowercase after a
+    period. NEXT: her ChatGPT duplication/tightening audit of this v6.
+
+## Session log (2026-09-02, late night, later) — THE AUDIT AS RULED: v6 step 4
+
+49. **Her ruling on the terminology audit:** symbols in §1 are fine "so long
+    as the maths doesn't overwhelm"; cut "ceiling"; leave enclosure (and
+    commons, unmentioned, so kept); take "Distribution at the limit". So
+    the candidate (log 48, all 67 mechanical items) BECAME v6, plus five
+    per-site edits: the one demand-side "ceiling" in §6 → "replacement
+    value" (the four coverage-sense ceilings stay); four unqualified
+    floors named — §2 → participation floor, §5's $\underline{s}$ →
+    dependency floor, App C → participation floor, App D → participation
+    floor and "the cost of the subsistence bundle" — her §8 heading "the
+    floor binds" untouched. Snapshot session-side; step diff
+    `docs/diff_v6_step4_terminology.html` (118 regions); cumulative
+    `docs/diff_v5_to_v6_walls.html` regenerated (213); reading view
+    `docs/reading_view_v6_2026-09-02.html` regenerated (70 windows, 61 this
+    step); figure-text md regenerated (captions carry the audit's inserts).
+    Lint green bar the Overleaf-only figure. NOT done (unruled, per-site,
+    one session if wanted): the task-margin/assignment-margin and
+    replacement-cost/price/value consolidations, flat-limit naming, the
+    glossary box, the abstract's "terminal-input intensity" edit.
+    NEXT FROM HER: a ChatGPT duplication/tightening audit of this v6. Known
+    self-duplications the two ChatGPT files introduced, flagged in chat for
+    that audit: §1's extreme-case paragraph now ends by naming the flat
+    schedule and machine-dominance limit twice (its own last sentence plus
+    the audit's A4 insert); §1's A1 task-margin definition restates §3's
+    first paragraph; Figure 1's caption says the wall is closed-task
+    shorthand twice (sheet sentence + audit insert); Figure 3's caption
+    opens with two definitional sentences; §6's second paragraph and §8's
+    opening both say the worker-type comparison is interpretive.
+
+## Session log (2026-09-02, late night) — THE TERMINOLOGY AUDIT, AS DIFFS
+
+48. **Her second ChatGPT file arrived**
+    (`Downloads/v6_walls_terminology_audit.md`): not a voice file but a
+    78-item terminology audit (keep / keep-clarify / consolidate / replace),
+    with copy-ready §1 insertions, caption inserts, and a proposed glossary.
+    She asked for reasonable diffs, windows, and an opinion. Built
+    `latex/v6_terminology_candidate.tex` = v6_walls + the audit's
+    MECHANICAL and COPY-READY items (67 applications): the five §1
+    insertions (task margin + replacement value; the Terminology paragraph
+    with the recursion named; task vs recursive automation; regime, limit,
+    fork; participation floor), and the renames human-essential →
+    human-required, terminal factor → terminal input, exit value → outside
+    option, source-supported window → benchmark-data window, weak(er)
+    extension → model-based extension, non-produced content → direct land
+    content, hours content → solo-hours content, all-task → final-good
+    numeraire, capability schedule → relative-productivity schedule, the
+    keep → gross/net exit value, scarcity rent → rental price, rent-funded/
+    natural/full/subsistence floor → subsistence transfer/bundle wording,
+    fiscal completion/pair → distribution at the limit / policy pair, the
+    three App C subsection titles, two proposition titles, the corollary
+    title, and the one-off phrases (terminal claimant, terminal constraint,
+    dissipation is migration, hollowness/credence, durable core, wage of
+    waiting, effort account, labor-/scarcity-/wage-linked, co-present
+    remainder, owner loop) plus six caption inserts. NOT applied (per-site
+    judgment, in the opinion): ceiling, commons, enclosure, "the floor"
+    unqualified, the task-margin/assignment-margin and replacement-cost/
+    price/value consolidations, flat-limit naming, the glossary. Diffs
+    `docs/diff_v6_to_terminology_candidate.html` (112 regions),
+    `docs/diff_v5_to_terminology_candidate.html` (208); reading view vs v6
+    `docs/reading_view_terminology_candidate.html` (56 windows). Lint green
+    bar the Overleaf-only figure. Working file untouched; nothing adopted.
+    OPINION (chat): the diagnosis is right (too many names per object; the
+    terminal ⊃ non-produced ⊃ land hierarchy is sound and matches App A's
+    horizon sentence); the §1 insertion sequence VIOLATES her own drafting
+    rule (no symbol debuts in §1 — notation_map 2026-08-30) and should land
+    at first formal use with §1 in words; keep the floor/ceiling pair,
+    commons (defined in Prop 3), enclosure (§2/Prop 3 are hers), fiscal
+    completion (her title); accept the one-off removals, the empirical
+    window renames (cross-thread cost noted), human-required, the App C
+    titles; glossary her call; the abstract touches are hers to rule.
+
+## Session log (2026-09-02, night, later) — THE SHEET AS RULED: v6 step 3
+
+47. **Her ruling: "your pushbacks accepted, but keep machine contestable."**
+    Fifteen exactly-once edits on `latex/v6_walls.tex` (snapshot session-
+    side; step diff `docs/diff_v6_step3_editorial.html`, 162 regions;
+    cumulative `docs/diff_v5_to_v6_walls.html` regenerated, 100 regions).
+    Applied from the sheet: App A table rows + opening (1.1); the §3
+    closed-set passage (1.2 + 2.2) WITH the H-empty clause restored at its
+    end; the §2 clause (2.1); §6's two paragraphs (2.3, 2.4) under the
+    sheet's headings ("What sets the wage when the margin reaches the
+    closed set"; "Worker heterogeneity and skill premia") WITH one restored
+    sentence each (the pre-industrial reading; training as a produced part
+    of a person, conditional on open entry); §8 opening — HER first
+    sentence kept, the sheet's two hedging sentences replace mine; the
+    post-industrial AI sentence made conditional ("If it reaches the
+    trained worker's wall as well..."); all six captions (Figure 3 in the
+    sheet's 1950 = 100 variant PLUS a base-invariant 4.8× sentence of mine).
+    NOT applied, per the accepted pushbacks: 2.6–2.8's rewrites of the
+    history paragraphs (vignettes and her sentences stay; her heading
+    "Post-industrial as a possible flattening" stays). Figures 1, 2, 4
+    regenerated with the sheet's labels (sentence case, mathtext, short;
+    `mathtext.fontset` dejavuserif; strata/ushape byte-identical; kappa
+    anchors green) and copied to `latex/figures/`. NEW TOOL
+    `code/reading_view.py` → `docs/reading_view_v6_2026-09-02.html`: every
+    changed paragraph vs her baseline as clean prose, the replaced text
+    under the fold, this step's windows red-bordered (17 windows, 14 this
+    step) — her ask, to reread without splicing diff colours. Figure-text
+    md regenerated. Lint green bar the Overleaf-only effort figure.
+    PENDING in other threads (label tables in the sheet, §§5, 7, 8): Figure
+    3's fan script and Figure 5's full-band script (effort-accounting; D-F/
+    D-Q → labor-origin financing / full-chain human effort; the "members
+    and seams" note; "land-priced" → land intensity), Figure 6 (link-repo
+    make_figs Fig 5: sentence case, "Transfers: wage taxes" etc.). SHE
+    FLAGGED: a whole-paper voice-change md is coming; it rides the same
+    route (freeze her file verbatim, exactly-once port, diff + reading
+    view; never re-voice; flag slips).
+
+## Verify-list — step 3 (veto window, HERS)
+
+- [ ] The sheet-adopted paragraphs (§3, §6, App A opening, six captions)
+      are ChatGPT-voiced; they will meet her whole-paper voice pass like
+      everything else.
+- [ ] "machine-contestable" now lives in §3 (×3), §6 (×2), the App A
+      table, and the Figure 1–2 captions; census-worthy if pinning.html
+      ever takes it.
+- [ ] Figure 3 caption: the added sentence "Over 1964--2024 the ratio ...
+      reaches 4.8×, a ratio that does not depend on the index base" is
+      mine (the sheet had no ratio sentence); §10's 1964-window numbers
+      untouched.
+- [ ] §8 opening: her sentence kept verbatim (with "four"); the sheet's
+      "used to organize ... schematic" re-voicing of it NOT taken.
+- [ ] Figures 3, 5, 6 still carry their old in-figure labels until their
+      threads regenerate them; the figure-text md lists the current labels.
+
+## Session log (2026-09-02, night) — THE CHATGPT EDITORIAL SHEET, AS DIFFS
+
+46. **Her ChatGPT change sheet arrived** (`Downloads/v6_walls_editorial_changes.md`,
+    a recommendations document, not a patched file). She asked for a diff
+    against v6, a diff against v5, and an assessment. Built
+    `latex/v6_editorial_candidate.tex` = v6_walls + every copy-ready TeX
+    item of the sheet (17: the App A table rows and opening; the §3
+    closed-set passage; the §2 clause; both §6 paragraphs; the four §8
+    passages; the six captions, Figure 3 in the sheet's 1950 = 100 variant
+    with no endpoint-ratio sentence). In-figure label tables NOT applied
+    (not TeX; regeneration units, three of them in other threads). Working
+    file `v6_walls.tex` UNTOUCHED; nothing adopted. Diffs:
+    `docs/diff_v6_to_editorial_candidate.html`,
+    `docs/diff_v5_to_editorial_candidate.html`. Lint green bar the
+    Overleaf-only effort figure; refs 127 → 121 (the six pointer clauses
+    go with the sheet's rewrites).
+    ASSESSMENT (delivered in chat): ACCEPT the model-consistency items 1.1
+    and 1.2 (the interior-margin vs boundary-case distinction is exactly
+    the reading of logs 42–45; the App A restriction/table fix closes the
+    H-scope inconsistency I had left at "no tasks closed by preference or
+    law") — with two cautions: "machine-contestable" is a new coined term
+    the sheet uses a dozen times (definitions-earn-reuse: fine if she wants
+    it, but choose it; the plain form was "tasks machines can reach"), and
+    the §3 clause that §7's limit assumes H empty should survive somewhere
+    the §3 reader sees it. ACCEPT with restoration the §6 rewrites 2.3/2.4:
+    they are correct and keep "premium not level", but they strip the
+    intuition she asked for; restore one hedged sentence each (the
+    pre-machine reading; training as a produced part of a person "if
+    training is open to all"). REJECT-OR-HERS the §8 rewrites 2.6–2.8: they
+    delete every profession vignette she explicitly asked for, RE-VOICE HER
+    OWN SENTENCES ("wrote down" → "described", "ineffective at cognitive
+    ones" → "at many cognitive and skilled tasks", her heading
+    "Post-industrial as a possible flattening" → "Post-industrial: a
+    possible flattening"), and pull toward the hedged register her voice
+    pass has been moving away from — the sheet's "macro-working-paper
+    register" is a preference, not her instruction. The 1.3 dimensional
+    point (a wage flow "plus the years of training") is right and is a
+    figure-label fix. FIGURES: the label shortening for Figures 1–2 and the
+    terminology cleanup (D-F/D-Q → labor-origin financing / full-chain
+    human effort; "members and seams as in the 1950 fork variant" out;
+    "land-priced" → land intensity) are good and are regeneration units
+    (fig_model_schematics, fig_eras_workers here; effort-accounting's fan
+    and full-band scripts; link-repo's make_figs). Figure 3: the sheet's
+    caption/artwork mismatch is my earlier flag; its "do not retain 4.8×
+    without confirming" is over-cautious — the durables/shelter ratio over
+    1964–2024 is invariant to the index base (+277% vs −21% → 4.77), so
+    §10's 1964-window numbers stand under a 1950-base figure; the caption
+    is the thing to fix, and the 1950 variant is the artwork's. Figure 4:
+    the rewrite changes no fact and fixes a real comma splice; Figures 5–6:
+    facts identical, tighter. Her ruling item by item; the candidate exists
+    to be quarried, not adopted whole.
+
+## Session log (2026-09-02, evening) — THE WALL IN PROSE (v6 step 2)
+
+45. **Her call after the comparative-advantage exchange: an intuitive reading,
+    no maths, placed with the heterogeneity paragraph; pointers elsewhere.**
+    Six more exactly-once edits on `latex/v6_walls.tex` (pre-step snapshot
+    session-side; step diff `docs/diff_v6_step2_wall_prose.html`, cumulative
+    diff vs her baseline regenerated). E11 §6 (sec:interval) gains two
+    bold-lead paragraphs after "Heterogeneity": "What sets the wage at the
+    wall" (the ceiling is a machine price; on a closed task there is none;
+    interior margin → the machine still sets it; every task closed → a
+    scarcity price, hours against demand for what only they make, the
+    pre-machine case that settled to the floor) and "Other people supply
+    the substitute the machine cannot" (trained vs untrained ranked task by
+    task as labor vs machines; the cut sets the RATIO; comparative advantage
+    between people sets the premium, not the level; the level is whichever
+    base the machine leaves standing, the untrained worker's ceiling or the
+    floor; training is a produced part of a person bought with years, its
+    premium cost recovery in the long run, more only while trained hours are
+    short). Innate ability: silent by design, hers. E12–E16 one-clause
+    pointers to sec:interval at every wall site: §3's sentence, Figure 1
+    caption, Figure 2 caption ("a dot on the wall marks a wage no machine
+    sets"), §8 pre-industrial, §8 industrial. The model reading behind the
+    prose is in this log's items 42–44 and the chat of 2026-09-02 (the
+    chain: land by scarcity; machines at cost off land and labor; ceiling =
+    machine price × the person's schedule; the wall removes it; the other
+    person is the substitute; comparative advantage sets the ratio; the
+    level is a machine cost or the land floor). Deliverables for her
+    ChatGPT pass: `docs/drafted_prose_2026-09-02.md` (every drafted passage
+    with what it replaced, refs kept) + `docs/figure_text_2026-09-02.md`
+    (regenerated: captions carry the pointers). Lint green bar the
+    Overleaf-only effort figure.
+
+## Verify-list addendum — step 2 (veto window, HERS)
+
+- [ ] The two §6 paragraphs assert, in words, that comparative advantage
+      between people sets the premium and never the level, and that the
+      level is either the untrained worker's machine ceiling or the floor.
+      This is Lemma A.1's logic applied between persons; it is not
+      machine-checked as a proposition. If she wants it as a claim rather
+      than a reading, it is a new lemma (the between-person cut), one
+      session.
+- [ ] "the floor above is what it settled to" — the floor is priced in
+      §5 and discussed as one side of §6; "above" reads within §6.
+- [ ] Six pointer clauses; §8's computing paragraph deliberately carries
+      none (third mention).
+
+## Session log (2026-09-02, later) — THE WALL GOES IN: v6
+
+44. **Her go on all three parts, executed as one unit.** Baseline frozen
+    (`latex/v5_baseline_2026-09-02.tex`, byte-identical to her
+    `Downloads/v5 (1).tex`); edits applied by an exactly-once-asserted
+    script (scratchpad, transient; the diff HTML is the record) into
+    `latex/v6_walls.tex`. The thirteen edits: E1 §3 tasks paragraph — H
+    introduced words-first (γ_M = 0, unbounded γ, relabeled last, drawn as
+    a wall; labor holds H at any wage; the margin lies among reachable
+    tasks; the flat limit of §7 is the case H has emptied, App D keeps
+    it); E2 Figure 1 caption names H; E3 §2 "the flat configuration" →
+    "the configuration ... in which nearly every task is closed to
+    machines"; E4 §8 title three → four (HER fresh title, count only);
+    E5 §8 opening: four configurations, drawn twice, the schedule is a
+    person's (Section 6's heterogeneity paragraph, label sec:interval);
+    E6 includegraphics → fig_eras_workers.png + new caption; E7 pre-
+    industrial: "the schedule is compressed" → the margin at the wall for
+    entrant and master alike, plus the two-people sentence; E8 industrial:
+    the two-people sentences after "dispersed and steep"; E9 post-
+    industrial: the two-people sentences after the ALM/Autor–Dorn trace,
+    and one sentence after her λ sentence (AI reaches the trained worker's
+    wall; the premium decays as the trained stock stops being scarce);
+    E10 App A's restriction list "no reserved tasks" → "no tasks closed to
+    machines by preference or law" (the main text now carries H by
+    capability; §7's limit statements still assume H empty, which E1 says).
+    Design record for the figures is in the script headers; nesting is
+    asserted in `fig_eras_workers.py`. Sibling schematics regenerated by
+    `fig_model_schematics.py` came back byte-identical (git clean).
+
+## Verify-list — 2026-09-02: the wall (veto window, HERS)
+
+- [ ] **Every drafted sentence above is Claude's and hers to voice** — E1,
+      E2, E3, E5, E6b, E7a/b, E8, E9a/b, E10 — she is passing the figure
+      text through ChatGPT; the prose sentences should ride the same pass.
+- [ ] **Her count edit:** §8 title "three" → "four" touches a title she
+      retyped today. Revert on her word if she wants "three" (then the
+      pre-industrial panel needs a caption word instead).
+- [ ] **Suspected slip in HER text (untouched, flagged):** §5 "...adds
+      approximately nothing of anything. so its competitive price is
+      approximately zero." — the deleted clause left a period before a
+      lowercase "so"; one-word decision.
+- [ ] **Prop 1(iii)** still says exit "recovers the wage to s (possible
+      only where the schedule has slope)"; with H drawn, the at-the-wall
+      case (wage a residual after rent, no machine price) is only in §8's
+      prose. Left as is; a clause there is her call.
+- [ ] **Figure-text file** lists the effort figure's labels from
+      `effort-accounting/code/build_fullband_df_figures.py`; she should
+      confirm her Overleaf PNG is that render.
+- [ ] **Figure 3 is the FAN, not the old fork (her note, 2026-09-02):**
+      Overleaf's `fig_deflator_fork.png` is
+      `effort-accounting/figures/FIG3_realwage_fan_1950.png` from
+      `build_fig3_realwage_fan.py`, renamed. Mirrored into
+      `latex/figures/fig_deflator_fork.png` (the old 1964 two-series PNG is
+      in git HEAD; `figures/fig_deflator_fork.png` left alone). The
+      figure-text file regenerated with the fan's labels. FLAG, her call:
+      the fig:fork CAPTION still describes the old figure — "deflated by
+      the durables CPI and by the shelter CPI, 1964 = 100" — while the fan
+      shows four categories on a 1950 = 100 axis with the pre-1964 stretch
+      dashed. §10's numbers (4.8×, +277%/+13%/−21% over 1964–2024) are
+      1964-base statements and stay true as text, but the caption's base
+      year and series count no longer match the artwork. Untouched.
+- [ ] **Profession examples** are the paper's now-only history claims by
+      name (farm servant hired by the year; seven-year apprenticeship; mill
+      hand, hand-loom weaver; millwright, engineer, clerk; young clerk,
+      cashier, assembler; developer, physician, engineer) — all generic,
+      no dated fact asserted; swap freely.
+- [ ] **Old figure** `figures/fig_eras.png` and `code/fig_eras.py` kept on
+      disk, unreferenced; the three review drafts (`fig_eras_v2_draft*`,
+      `fig_types_draft`) likewise — delete on her word.
+
+## Session log (2026-09-02) — FIGURE 2 REVIEW: THE ERA SCHEDULES
+
+42. **Review only; candidate redraw on disk, unreferenced.** Model reading
+    behind the findings, for the record: the wall is App A's H (γ = ∞ there,
+    not App E's cap, which is a horizontal truncation γ = min(γ, cap) — a
+    different object); at the wall Prop 1(i)'s equality fails and the wage
+    is the zero-profit residual after rent, which mechanization of open
+    tasks RAISES while the margin stays at the wall (fewer labor hours per
+    unit) — the model's own account of the escape before the margin ever
+    moves onto a sloped stretch; Prop 1(iii)'s "possible only where the
+    schedule has slope" needs the H-case reading there. The v5 §8 industrial
+    paragraph already carries the corrected elasticity sentence ("employment
+    less responsive to a given wage change and the wage more responsive to
+    shifts in labor supply"); pinning.html still says "gained insulation" —
+    reconciles whenever v5 flows back. Draft curve parameters are
+    illustrative (walls at 0.06 / 0.40 / 0.62 / 0.94 of tasks; computing's
+    margin on a short plateau ≈ 0.95, AI's plateau ≈ 0.85 across half the
+    task list); nesting is asserted in the script. Legend wording of the
+    current figure, if kept: "simple end" → "routine end" (ALM's routine
+    tasks, not the lowest-paid ones — those stayed closed).
+
+43. **Her follow-up: person-specific schedules (developers).** Asked whether
+    the computing curve really shows the schedule differing by person, and
+    whether an untrainable or slow-to-train capability is a different shape.
+    Reading delivered (companion draft `code/fig_types_draft.py` →
+    `figures/fig_types_draft.png`, three panels, unreferenced): the model
+    already carries type-specific schedules (§6 "Heterogeneity", App A
+    "Heterogeneous workers"), γ_i = γ_L,i/γ_M with the machine side common.
+    An ordinary computing-era type has its margin on a plateau (pinned); a
+    developer type's specialty is closed to machines, its margin sits AT its
+    wall, and at its wage it loses every open task on cost, so w_D is a
+    scarcity price on the type — the pre-industrial configuration one person
+    at a time. Untrainable vs trainable is NOT a shape difference but the
+    type's supply side: untrainable = J_H = ∞, a terminal factor earning a
+    rent like land; trainable = a human build with lag J_H, the premium a
+    quasi-rent decaying over the lag (App E's ladder-of-lags logic on the
+    human side). Either way the premium survives only while the tasks stay
+    closed to MACHINES: untrainability blocks human entry, not machine
+    entry; under AI both types sit at c·γ̄. Her intuition on the current
+    curve is right: its flat-bottom/steep-top shape is the two-type envelope
+    — but App A's "upper envelope of type schedules" is exact only at a
+    common wage; in general the envelope is in cost units (γ_i divided by
+    w_i/c), a one-clause fix if the figure ever says "envelope".
+    CORRECTION, same session: her question is ALREADY formalized and
+    checked in the parked sketch blocks. `sketch/link-sketch-blocks-AB.md`
+    Block A: log γ_L,i(x) = log γ̄(x) + α(x)·θ_i + β(x)·q_i(x) — scalar
+    talent θ drawn once, practice stock q acquired at rate λ(θ) in
+    t(q) = q/λ(θ) years (Ben-Porath); Lemma A1: non-constant talent loading
+    α(x) makes the per-person schedule a TILT of the common one and sorting
+    positive assortative; Prop A2: pay = s + practice premium (cost
+    recovery at the marginal acquirer) + talent rent (Ricardian
+    differential) + wedge; Prop A3(iii): talent is non-produced per person
+    but no term of the machine recipe uses θ, so outside the closed set its
+    terminal demand is zero — "a transition rent on a permanent base",
+    the same conclusion as the draft's panel (c). `sketch/link-sketch-
+    blocks-B0-C-D.md` Block C, the education race: training lag
+    T_E(θ) = q_req/λ(θ), the cobweb (C1, lag-indexed amendment), the hump
+    (C2), overshoot and the queue (C3), the doomed vintage (C4). Checks
+    `checks/check_split.py` and `checks/check_race.py` green 2026-08-09.
+    So in her terms: "cannot be trained" = a task with talent loading α
+    and β ≈ 0; "years to train" = practice loading β with a long T_E; both
+    are the same two-loading schedule, not new theory. Nothing in
+    pinning.html carries θ or q today; the merge-or-next-paper decision on
+    the blocks is her PENDING call from 2026-08-09 (STATE §"PENDING
+    DECISION"). The draft figure's untrainable/trainable annotation is
+    Block A's split in words; if it ever enters the paper, it enters
+    through the blocks' notation, not the figure's.
+
+## Session log (2026-09-01, continued) — THE κ MEASUREMENT FIGURE IN V5
+
+41. **The coverage figure split by rent measurement, landed in her v5.tex**
+    (her ask, after a fork/rent-measures diagnostic session whose fork-side
+    variants live in effort-accounting). New artwork
+    `latex/figures/fig_kappa_measurement.png` + generator
+    `code/fig_kappa_measurement.py` (reads `link-repo/data/kappa_results.csv`;
+    2025 anchors med 0.326 / rent-bill 0.326 / valuation 0.303; style matches
+    `fig_kappa.png`, which is untouched). Her `Downloads/v5.tex` edited in
+    place (original snapshotted session-side; word-diff in chat), three
+    regions: (1) §9 coverage paragraph +2 sentences — the grid's two routes,
+    valuation swinging with rates and house prices, the rent bill touching no
+    valuation, the rise common to both — DRAFTED, hers to voice; (2) the
+    `\includegraphics` swap; (3) the caption gains the source block and loses
+    "band width is substantially the capitalization-rate spread" (untrue at
+    the endpoint, where the band edges are rent-bill members), keeping the
+    post-1995/2020 caveat verbatim. Motivation on record: land values are
+    capitalized forecasts (rate and expectation swings — measured this
+    session at 20.4%/yr yield vol vs 2.3%/yr rent-bill vol); the rent-bill
+    members never touch a valuation and carry the same trend, and the figure
+    now shows that rather than asserting it.
+
+## Session log (2026-08-28, continued) — THE READABILITY RESTRUCTURE (her call)
+
+36. **Dynamics demoted to Appendix E; the main text returns to the shape
+    she liked** (her decision after reading the draft, amending log 32's
+    panel structure: steady-state time stays in the text, sequence time
+    moves to the appendix, cited where it bites). Executed and ALL GREEN:
+    - **Abstract reverted to the original wholesale** with exactly her two
+      amendments: one added time sentence ("Machine production takes time
+      as well as inputs: build lags mark up replacement cost and decide
+      who holds the value automation releases while capacity catches up")
+      and "changes no work–exit choice, up to an income effect". Her
+      original recipe sentence kept verbatim (fix 3 skipped, her call).
+    - **Structure:** §§1–7 as before with §4 (build recipe) and §5 (build
+      time, COMPRESSED ~35%: corners to one sentence, the interest
+      identity DEMOTED from proposition to prose with W_K's formula and
+      ledger moved to Appendix A) in the text; the transition act is now
+      **Appendix E "The model in motion"** (E.1 sequence economy, E.2
+      equivalence + regimes, E.3 frozen rent, E.4 solver/methods merged
+      with the old numerical appendix, E.5 experiments, E.6 sloped path);
+      §8 is history again under its v1 title; §9 keeps 9.1/9.2 (horizon,
+      slimmed)/9.3; §7 gains one transition paragraph citing E (CM on the
+      path; the frozen-rent clock; the waterfall; the release-day
+      diagnostic); §6 gains one clock sentence. Main-text props are
+      **1–6** (margin, closure, exit, fork + corollary, welfare, horizon
+      — v1.5's numbering preserved for 1–5's objects except the closure's
+      new content), appendix results are **E.1/E.2**; figures **1–5 keep
+      their v1.5 identities** with the four dynamics figures as 6–9 in E.
+      Main text 13.1k → 11.4k crude tokens; appendices 5.4k → 7.1k.
+    - **Timeless pass:** version-tell sweep done (one legitimate "is now"
+      kept — the rent turning positive in Prop 3's proof) and a
+      **timeless-register lint family** added (bans "no longer",
+      "previously", "the original", "used to be", "this version",
+      "anymore"; "is now" deliberately exempt). Lint is 91 checks.
+    - Converter retaught (headings, prop sequence 1–6+corollary+letters+
+      E.1/E.2, figures in the restored order, 14 displays), export ALL
+      GREEN with word fidelity; census, check_pinning 51, check_dynamics
+      54, solver gate all green.
+    - **INCIDENT, recorded plainly:** mid-restructure I ran a reflexive
+      `git checkout -- paper/pinning.html` after a failed (non-writing)
+      script and DESTROYED the uncommitted dynamic draft. It was fully
+      recovered — the Browser pane still held the last-loaded DOM, which
+      served as the oracle, and the draft was reconstructed by replaying
+      this session's complete edit record against the committed phase-1b
+      base; every battery invariant (π sites, T-label counts, check
+      totals, converter expectations, word fidelity) matched the
+      pre-incident values before work resumed, and the recovered draft is
+      snapshotted at `paper/snapshots/pinning_dynamic_draft_recovered.html`.
+      Lesson banked in memory: never bare-checkout a file carrying
+      uncommitted work; snapshot before structural surgery (done:
+      pre-dynamics and recovered-draft snapshots both exist).
+    - Still open from log 35's veto list: the §2 one-third trim (still
+      not taken), title, AK/Judd references, the three-taxes boundary
+      blessing, the λ §10 splice. The next passes: density on §4–§5
+      against the cold-reader standard, then her voice pass via the
+      word-diff.
+
+## Session log (2026-09-01, continued) — THE VOICE EDIT RETURNS: THREE DIFFS
+
+42. **Her/ChatGPT voice edit received and frozen; slip-scanned CLEAN;
+    the three diffs she asked for are cut** (her ask: "one from v3.1
+    (also attached), one from v4, and one from your version"). Files
+    frozen: `latex/v5_land_intensity_voice_edit_2026-09-01.tex` (the
+    voice edit, ~13.9k words) and
+    `latex/v3.1_appendix_notationchanges_baseline.tex` (an earlier
+    export-lineage version she supplied, ~13.4k words, header still
+    carries the old pinning.html-canonical note).
+    - **Slip-scan verdict (voice-pass protocol applied to this
+      lineage): voice-only.** All 9 equation environments byte-
+      identical to v5; every anchored number preserved (69.6/65.8/
+      48.9/47.2, 4.8×, 13/277 percent, 0.33 with band, CPIUFDNS);
+      "$-21$ percent" re-expressed as "a decline of 21 percent";
+      the energy exclusion re-voiced ("We omit energy because world
+      oil prices dominate the series"); fig:labor-linkages stays in
+      §9; \lo/\hi macros and eq:composites/eq:fork-pair intact;
+      "free of non-produced" ×0; the two remaining "machine-made
+      goods" are the Role-3 sites (§1 relative-price sentence, App D
+      Baumol categories). Structural lint clean.
+    - **Diffs** (word_diff_report): `docs/diff_v31_to_voice_2026-09-01
+      .html` 720 regions; `docs/diff_v4_to_voice_2026-09-01.html` 71;
+      `docs/diff_v5_to_voice_2026-09-01.html` 137. Note the asymmetry:
+      v4→voice (71) < v5→voice (137) — the voice pass re-voiced much
+      of Claude-drafted v5 prose back toward the baseline register
+      while keeping v5's structure and maths; the intended division
+      of labor, visible in the counts.
+    - **Open: which file is now the working copy.** The voice edit is
+      presumably the live draft (its header comment is their rewrite);
+      on her word it becomes the base for the next unit and
+      check_fan/lint ride along unchanged.
+
+## Session log (2026-09-01, continued) — V5 ROUND 2: THE HYPOTHETICAL RETIRED
+
+41. **Her catch acted on: the zero-content good demoted from reference
+    class to contained boundary case; two more of her calls executed**
+    (her read of round 1: "we're trying to move away from talking about
+    them"; then "make those changes... keep calling the cpi fork a
+    fork... put the labor financing and production figure back into the
+    main text"). All in `latex/v5_land_intensity.tex`; diff regenerated
+    (66 regions, same file); lint clean; check_fan 27 GREEN unchanged.
+    - **Redone onto lo/hi:** abstract sentence (now "the real wage forks
+      by land intensity: nearly pinned... against the least
+      land-intensive categories, falling without bound against the
+      most"); §1 extreme-case paragraph (intensity-native, CM demoted to
+      one boundary-case parenthetical, ideas named only there); §6
+      discussion paragraph INVERTED (part (iv) leads as "the fork's
+      working form", CM contained in a two-sentence close); corollary
+      buys-clause REVERTED to v4; §3 ideas paragraph loses the
+      distance-from-ideas sentence (institutional-rents job kept).
+    - **Precision fixes:** Prop fork(i)'s subject renamed to the
+      numeraire ("the good made of tasks alone") — the three-class
+      distinction (CM's no-land-anywhere = ideas; the numeraire's
+      no-DIRECT-land, invariance exact; real lo goods, invariance
+      approximate) now consistent; the composites paragraph defines
+      non-produced content as land drawn DIRECTLY with the
+      machine-embodied-land sentence added (rides in the machine
+      rental, parity ties it to the wage — the "full chain" wording
+      that would have broken part (i)'s nesting is gone); eq:fan
+      relabeled eq:fork-pair (her fork-vocabulary ruling).
+    - **Her structural calls:** fig:labor-linkages moved BACK to §9
+      (cited from the compact paragraph; Appendix E keeps the account
+      detail, its figure sentence still resolves); the four-category
+      figure retitled "The deflator fork: ..." and re-rendered, gates
+      PASS (effort-accounting; internal filenames still say fan —
+      flagged there, rename on her word).
+    - Kept as the hypothetical's only homes: §2.6's CM sentence, §6's
+      concession close, the one clause inside part (iv). "free of
+      non-produced content" now ×0 in the file.
+
+40. **Both scopes executed in one unit** (her go: the land-intensity
+    reframe + the financing/production demotion; deliverables a tex and
+    a diff html for her and ChatGPT's voice pass, edits to return by
+    paste). Files: `latex/v5_land_intensity.tex` (working),
+    `latex/v4_accounting_revised_baseline_2026-09-01.tex` (frozen
+    verbatim copy of her Downloads file),
+    `docs/diff_v4_to_v5_land_intensity.html` (word_diff_report, 70
+    regions — NOTE for her read: the moved financing block shows as a
+    §9 strike-out plus an Appendix-E insertion; it is a verbatim move,
+    not a rewrite). Checks first: `checks/check_fan.py` 27 GREEN (F1
+    parity display closure-free; F2 ratio form; F3 r/w formula +
+    statics + divergence; F4 zero-content invariance incl. both
+    Appendix-A interest closures; F5 monotone fall/limit/crossover/
+    ordering; F6 nesting of fork(i)/(ii); D1 fan-CSV anchors 376.8/
+    113.2/78.6 and the +277/+13/−21 roundings).
+    - **The reframe, 12 sites:** header provenance comment; \lo/\hi
+      macros; abstract sentence (ideas-exception + intensity order —
+      EXPECTS her re-voice); §1 CM pair rewritten (premise census:
+      ideas exact, low-intensity manufactures close, everything else
+      ordered by intensity); §2.6 concession re-scoped ("at its
+      premise — met exactly by ideas alone — and prices how far each
+      category sits from it"); §3 ideas paragraph now names ideas the
+      one chain terminating in nothing scarce; §4 floor caveat sentence
+      → the exit bundle sits high in the intensity order (exited people
+      supply their own hours, not the ground); §6 gains the composites
+      paragraph (hours content / non-produced content / land intensity
+      defined in words, durables and shelter the measured counterparts)
+      + eq:composites + Prop fork(iv) + eq:fan + proof clause +
+      the reworked CM discussion paragraph; corollary buys-clause
+      scoped; §9 intro trimmed; §9 fork paragraph gains the food leg
+      and the energy-exclusion sentence; notation/data/verification
+      footnotes extended (lo/hi subscripts; CPIUFDNS; part (iv)
+      sympy-checked, outside Lean — timeless register kept).
+    - **The demotion:** §9's two dense account paragraphs, the
+      fig:labor-linkages figure, the common-window paragraph, and the
+      mapping-back paragraph (φ_C) moved VERBATIM to new Appendix E
+      "The financing and production accounts" (app:effort) with one
+      stitching sentence; §9 keeps a five-line summary (19pp gap;
+      no widening claim — the strong-window gap narrows 20.7 → 18.6).
+    - **Verify-list for her:** the abstract/§1 wording (accuracy-first
+      drafts, her voice expected); "land intensity" as a term (her own
+      phrase; used as a defined term ~15×, de-coining rule considered);
+      the energy-exclusion parenthetical (keep/cut); the food numbers
+      and their data-note/check anchoring; App E's stitching sentence;
+      fig:labor-linkages now appendix-side; \lo/\hi macros vs inline
+      \mathrm (Overleaf taste); NO local compile run (no TeX here) —
+      first compile is hers on Overleaf; floor funding-dichotomy prose
+      + quasi-exit clause DEFERRED by her two-scope framing.
+
+## Session log (2026-09-01) — THE FLOOR/FORK DISCUSSION (no drafting)
+
+39. **Her floor/fork intuition session; the hours+acres construction
+    agreed in principle, baseline switched** (her prompts: "understand it
+    better... a better, more intuitive mathematical way"; "such goods
+    [zero non-produced content] don't exist (except ideas), everything
+    requires some scarce inputs at the end of the day, the question is
+    how much"; then "use this draft as your baseline... walk me through
+    the new maths... I'd like to see food and energy deflator lines").
+    - **Her CM objection accepted as the theorem's shape:** the binary
+      (machine-made goods vs non-produced services) becomes a continuum.
+      Scratch-verified (17 sympy checks, scratchpad
+      `scratch_hours_acres.py`, would graduate to checks/ on adoption):
+      at cost parity any category with task content L̄_cat (solo
+      human-hours, machine-quality-invariant) and non-produced content
+      b_cat prices as p_cat = w·L̄_cat + r·b_cat — exact for ANY closure
+      of c (parity alone), recursion needed only to pin r/w =
+      (1−a−λγ̄)/(γ̄b). Real wage w/p_cat = 1/(L̄_cat + b_cat·(r/w));
+      b = 0 gives CM invariance jointly in (γ̄, λ, and any interest
+      factor); b > 0 forks when r/w crosses L̄_cat/b_cat — categories
+      fork in b/L̄ order. Nests the existing Prop fork (i) (numeraire =
+      the b = 0, L̄ instance) and App C.3's P_s = p·g_s + r·h_s (same
+      bilinear form). No dynamics needed: eternal content (b > 0) vs
+      horizon pinning (J_j > h, already an App A paragraph) disentangled.
+    - **HER RULINGS:** (i) baseline = `v4_accounting_revised (3).tex`
+      (Johan-side co-authored STATIC revision of the LaTeX export;
+      differences from pinning.html v2 noted: no build-time §5/§8
+      dynamics, no θ coefficients, no Prop exit(iv), props renumbered,
+      abstract carries 4.8× and κ 0.33); (ii) notation kept simple —
+      b_lo/b_hi (and p_lo/p_hi) for two named composites, general good
+      index avoided (sec:fiscal already uses j for terminal factors);
+      (iii) floor maths kept light since no downstream measurement uses
+      participation — funding-source dichotomy (wage-linked vs
+      rent-linked fallbacks) recommended as PROSE, s(q) and Prop exit
+      kept as-is (app:race reuses q_enc = (s_0−s̲)/h_e).
+    - **Fan empirics built** (effort-accounting item 11 + verify-list
+      unit 4): 2024 legs 1964=100 durables 376.8 > food 113.2 > energy
+      95.8 > shelter 78.6 — the predicted b/L̄ ordering; energy net-flat
+      with ±47% decade swings (her "overseas-sensitive" guess confirmed
+      with numbers). Her follow-up: output rebased 1950 = 100 with a
+      linear 1950–56 energy backcast (her call), 2024 legs 618.9 /
+      166.8 / 157.4 / 104.5; ratios base-free, gates unchanged.
+    - **Next unit on her go:** sec:limit insert (the pair display + fan
+      paragraph + crossover clause), floor prose additions (funding
+      dichotomy; the marginal-work/quasi-exit clause), CM rescope
+      touches (§2 sentence, abstract clause, post-Prop-fork discussion
+      paragraph), measurement §9 fan mention/figure decision; sympy
+      check graduation; Lean scope decision for the new part (flagged,
+      optional). Nothing drafted this session.
+
+## Session log (2026-08-30) — THE VOICE PASS (her lesson, applied)
+
+37. **Her §1 rewrite ported; the register change identified and
+    propagated across all Claude-drafted v2 prose** (her instruction:
+    "do the same sort of change on all your new work"). Uncommitted.
+    - She re-voiced "What does time add?"; ported verbatim. "whilst"
+      kept on her ruling (sits 1 against 30 "while"s — proof-stage
+      copyedit call is hers). The lesson as edit rules: plain statement
+      over constructed antithesis; short declaratives, examples strung
+      on commas; em-dashes only as appositive glosses; no coined
+      abstractions; no duplicated hooks; no symbol debuts before their
+      section; point at the tradition where it can carry the weight.
+    - Codified so it cannot regress: notation_map drafting rule (§1
+      argues in words, no symbol debuts) and the lint register ban
+      widened from "the dials" to any "dials".
+    - Applied (~30 edits; her voiced text untouched): §1 architecture
+      paragraph (J evicted, "where they bite" plainened), §2.2 (q
+      evicted), §2.3 (γ̄ evicted), §3 (duplicate "dynamic throughout"
+      opener cut), §4 ("not only produced; it is produced slowly"
+      flattened here as she flattened it in §1), §5 lead unbraided +
+      the land-classifier punchline flattened, §6 historical-signs
+      paragraph, §7 fork + path paragraphs (scare quotes dropped), §8
+      opener + the triple-hinged Engels' pause sentence broken into
+      four, §9.2 "precedent shelf" → precedent, §9.3 "turns punctuated"
+      → "arrives in steps", §11 dash hinges to sentences, App A, C.6
+      "stakes of the bridge" → "sizes the bridge", App E ("deserve
+      belief", "Acceptance is a ladder", "reported rather than hidden",
+      "belongs in the open", "The sentence version" all plainened;
+      Georgist/Piketty sentence unbraided; "dials" → "values", 7 sites).
+    - Correctness catch riding along: §1 said "two questions" above
+      three bold questions — now "three".
+    - Metrics: em-dashes 211 → 179 (11.2 → 9.5 per 1,000 words). Lint
+      91, census, converter with word fidelity ALL GREEN; main.tex
+      regenerated.
+    - Her read: `docs/diff_voicepass_2026-08-30.html` (word_diff_report,
+      95 changed regions) against base snapshot
+      `paper/snapshots/pinning_pre_voicepass_2026-08-30.html`.
+    - Deliberately NOT touched (hers, or reads as hers): the abstract
+      (its time hook stays — the §1 duplicate was the copy she cut),
+      §6's "the empirical debate of search and matching is changed
+      significantly on this object's level" (on the voiced-repairs
+      list), §9.3's "Three possible stabilizers … however" sentence,
+      all v1.5-voiced bodies.
+    - Still open: unchanged from log 36 (the §2 trim, title, AK/Judd
+      references, three-taxes blessing, λ splice); density pass on
+      §4–§5 remains next.
+
+38. **The rulebook sweep** (her prompt: read the other linter checks and
+    notes; apply what was missed). Sources re-read: lint's ban-family
+    comments, census's SYMBOLS-EARN-THEIR-INK header, v2 brief §8
+    (style and claims discipline), v1 brief's register rules
+    (SPEAK-AS-THE-AUTHOR / ASSERT-FORWARD / ONE-TEMPERATURE), review
+    synthesis. Thirteen violations found in Claude-drafted prose, all
+    fixed; her text untouched:
+    - **Symbols earn their ink:** `qq` (solver notation leaked into
+      Prop E.2(iii)) inlined as ((1−δ)/(1+ρ))^J; `S_t`/`π_old`
+      (single-use, E.1 convention sentence) reworked into words.
+    - **Define once:** E.1 stated the capacity law, the pay-at-start
+      timing, the net-rental definition, and the entry complementarity
+      TWICE (intro paragraph and clearing block) — deduplicated; the
+      u_K-exponent timing note now lives in the intro paragraph only.
+    - **Pseudo-cleft "What"-openers** (brief §8 checklist): four of
+      mine recast ("What moves is the rent" → "The rent moves
+      instead"; "What an owner holds…" → "On release day, an owner
+      holds…"; "What survives of the conjecture…" → "The conjecture's
+      land half survives…"; "What Section 4 called terminal…" →
+      "Section 4's informal classification becomes this parameter");
+      the nine survivors are hers/v1.5 (incl. the three §1 questions).
+    - **SPEAK AS THE AUTHOR:** "the moving parts are these" (stage
+      direction) cut; "The paper's limit statements" and "the paper's
+      architecture" possessives removed ("the paper's" now ×0 in body).
+    - **"X, not Y" over-density:** §3 double reduced (dropped "not the
+      margin to be shut" — the sentence's second half already says it);
+      §6 and §7 singles converted to "rather than"/"beyond…to".
+    - **Paragraph-final aphorism restating:** T1's closer ("The
+      windfall is real… the permanence belongs to the input no window
+      can deliver") deleted — the 0.08-vs-3.80 sentence already lands
+      it; the paragraph now ends on the numbers.
+    - **Em-dash ≤ one construction per paragraph:** my two offenders
+      fixed (T5 had three pairs → one; App A interest ledger two → 
+      zero); C.1's six are her voiced Speenhamland paragraph and stand.
+    - Mechanized: lint gains two soft metrics ('What'-opener count,
+      max per-paragraph em-dashes). Em-dashes 211 → 163 across both
+      passes (11.2 → 8.7 per 1k). Lint/census/converter ALL GREEN;
+      main.tex regenerated; diff refreshed to 146 regions.
+    - Flagged, kept, for her call: "Caselli–Manning is the case…" /
+      "Waiting is priced…; building is a lag" class content-antitheses
+      (the §1 lesson's keep-side); §9.2's closer ("the durable
+      instrument is the one the limit already selected") as a
+      candidate crown; θ_e stays (formula-bearing, rides the θ family
+      per census policy).
+
+## Session log (2026-08-28, continued) — PHASES 2–3 EXECUTED: THE DYNAMIC DRAFT
+
+35. **The dynamic rewrite executed in place, one session, checks green
+    end-to-end** (her go: "you do the draft of the dynamic version"; the
+    engine and all pre-drafting checks were already standing from log 33).
+    Snapshot of the replaced version:
+    `paper/snapshots/pinning_pre_dynamics_snapshot.html`. THE DRAFT IS
+    UNCOMMITTED pending her read — the veto window below is the gate.
+    All batteries green at close: lint (incl. claim-status tags on the
+    live T-sites), census (K returned as the machine stock; new-family
+    rows live; γ*-DEAD guard holds), check_pinning 51, check_dynamics 54,
+    solver gate PASS, LaTeX export ALL GREEN with word fidelity.
+    Structure landed per the log-32 memo, with two amendments the work
+    forced: (i) the §8 subsections are 8.1–8.6, not 8.0–8.5 (papers do
+    not number from .0; the converter's sequence check agrees); (ii) the
+    memo's Phase-2/3 cut-line moved one notch — the frozen-rent result
+    turned out closed-form provable (T1a–d), so §8.2 ships as a
+    PROPOSITION, not a numerical claim.
+    - **Section map (old → new):** §4 ceiling keeps its number and gains
+      the build recipe + the θ closure (Prop 2 restated); NEW §5 "Build
+      time and the wage of waiting" (u_K derived in words with the timing
+      conventions stated, corners at J=1/δ=1/ρ=0/δ=0, direct-vs-total
+      coefficients, horizon-terminality as the parameter with land J=∞,
+      Prop 3 = the interest identity with W_K in words and the
+      convention-freedom sentence); old §5 floor → §6 with Prop 4(iv)
+      added (both lives priced: h_w, the s₀-branch q-cancellation, the
+      funding-source trichotomy via θ_e) + the historical-signs
+      paragraph; old §6 interval → h3 6.1 unchanged; §7 fork gains the
+      coefficient-ratio paragraph (θ_w/θ_j, CM as proportionality, the
+      θ gradient ideas→location, J=∞ the classifier) and Prop 5(ii)'s
+      build-recipe clause; NEW §8 "The model in motion" (8.1 sequence
+      economy + Prop 6 equivalence; 8.2 Prop 7 frozen rent with the Q̄ =
+      (1+ρ)^{J−1} refinement; 8.3 solver validation; 8.4 T1–T3 with
+      figures 2–4, each labeled numerically verified, incl. the
+      envelope-not-step honesty sentence and T2's sunk-transfer
+      indeterminacy; 8.5 T5 with figure 5, the shock-type split verdict
+      verbatim-faithful to results_dynamics.json; 8.6 = old §9 history
+      ported verbatim with the (speed, J, λ) tie and the Engels'-pause
+      citation added); old §8 fiscal → §9 with h3 9.1 + NEW 9.2 (Prop 9,
+      the fiscal horizon: levy-on-stock-in-place clean, anticipated
+      rental tax scales u_K/(1−τ_K), input-j windows time-inconsistent,
+      land clean at every horizon; AK/Judd shelf) + 9.3 = old §11
+      stabilizers with the time-signature sentence; old §12 split into
+      §11 AI (dated J-ordered sequence, T2/T5 cited with labels, the
+      buildout falsifier added) and §12 conclusion (+ the third
+      empirical question); §3 gains the declaring sentence and the
+      NEW-TASK MARGIN block (support-collapse condition, N1/N2-checked,
+      Autor–Chin–Salomons–Seegmiller engaged) replacing §2.3's
+      shut-by-assumption clause; §1 gains the "What does time add?"
+      question, the architecture paragraph, and the rewritten roadmap;
+      abstract gains the build recipe, θ_w·r, and the frozen-rent/
+      waterfall sentence.
+    - **Numbering maps.** Props: margin 1, replacement 2 (restated),
+      interest 3 (new), exit 4 (was 3), fork 5 (was 4), equivalence 6
+      (new), frozen rent 7 (new), welfare 8 (was 5), horizon 9 (new);
+      appendix items unchanged. Figures: schedule 1, dyn windfall 2,
+      waterfall 3, speedlag 4, sloped 5, eras 6 (was 2), fork 7 (was 3),
+      κ 8 (was 4), fourway 9 (was 5). Appendices now A–F: A gains the
+      sequence-economy block (timing, clearing incl. the named
+      land-viability condition, income convention with the M_t switch,
+      regimes-and-existence honesty incl. the narrow interior region and
+      the operation-bound corner), the capitalized closures reframed as
+      u_K corners, 𝟙 replacing (I−A)⁻¹'s I, and the §8 row in the
+      configuration table; B gains the ρ>0 interest-flow note; C gains
+      C.6 transition bases; NEW E numerical methods + solver credibility
+      (tolerances in words); NEW F the notation table. Back-matter:
+      notation footnote extended (build-subscript reading, 𝟙, Q vs q);
+      verification footnote carries the dynamics discipline sentence and
+      the Lean boundary (transition paths outside the formalization),
+      timeless register kept.
+    - **Tooling that rode along:** `html_to_latex.py` learned the new
+      headings/labels/props/figures/tables, π/∞/⊥/…/𝟙 (bbm), the third
+      table spec, and the new expectation counts (12 numbered displays,
+      9 figures, 3 tables, 58 refs); the export is ALL GREEN with word
+      fidelity. Census: DEAD-K guard narrowed to the k-forms (K is the
+      stock now), v2-family rows added. Her Overleaf paste source for
+      the NOTATION-ONLY state is `latex/main_phase1b_notation_only.tex`
+      (extracted from the phase-1b export commit; delete after pasting)
+      — the on-disk `latex/main.tex` is already the dynamic draft.
+    - **Word budget:** same-method count main 8.3k → 13.1k, appendices
+      3.8k → 5.4k (crude token count incl. entities; the real-word main
+      text sits near the brief's ~9k target).
+
+## Verify-list — 2026-08-28: the dynamic draft (veto window, HER GATE)
+
+- [ ] **Voiced-sentence repairs to re-voice or bless** (each authorized by
+      the brief's own fix list, all flagged, none silent): the abstract's
+      recipe sentence and closure display (now θ_w·r) and "changes no
+      work–exit choice" → "moves no participation margin, up to an income
+      effect"; §2's "We do not offer…" fragment fixed; §2.2's walls
+      sentence rewritten ("we price both endpoints", q-invariance clause);
+      §2.3's offshoring comma splice fixed and the shut-margin clause
+      replaced by the §3 pointer; §2.6's Korinek–Suh and MRR sentences
+      extended; Prop 8(ii)'s "puts near zero" → "finds modest but not
+      zero, larger for secondary earners"; §4's viability-reading sentence
+      extended with the u_K clause; "Recursive automation lowers λ"
+      extended to λ_I; the worked-instance paragraph gains the build
+      extension; §8.6's industrial paragraph gains the Engels'-pause
+      clause. Everything else voiced carries verbatim.
+- [ ] **§2 trim NOT taken:** the brief says cut §2 by a third; I cut
+      almost nothing (her voice, her knife). Commission the trim or
+      strike the brief line.
+- [ ] **Title:** keep, or "…Scarcity, Technology, and Time" (brief leaves
+      it to the authors; abstract and §1 now carry enough time content to
+      justify either).
+- [ ] **Part labels (memo open item):** skipped by default; the §1
+      architecture paragraph does the work typographic labels would.
+- [ ] **The three-taxes boundary (memo says raise BEFORE 9.2):** 9.2 is
+      written to the memo's stated default — the horizon theorem as a
+      J-statement native here; no taxonomy/convergence/ceiling/dial
+      content, no cross-citation. Bless or redraw before any SSRN push.
+- [ ] **T5's framing in §8.5/§11** (the shock-type split and the
+      release-day diagnostic) — the conjecture's original wording is
+      reported as split, not silently replaced; her call it stays.
+- [ ] **§9.2's Auerbach–Kotlikoff/Judd shelf is UNCITED in the refs** —
+      the sentence names them without bibliography entries (deliberate,
+      pending her call on engaging that literature properly vs trimming
+      the sentence). Add entries or trim before export goes out.
+- [ ] **The λ §10 splice remains OPEN** (her sequencing call, unchanged);
+      §10 took only the coefficient-binding sentence.
+- [ ] Draft is UNCOMMITTED; on her pass: commit as the Phase-2/3 wave,
+      regenerate the zip, and cut the Johan packet (What changed / Why /
+      Where to look / Questions — the brief's §7 template).
+
 ## Session log (2026-08-28, continued) — PHASE 1b: γ* RETIRED; DRAFTING RULES
 
 34. **Notation micro-wave 1b executed and committed alone** (her calls after
@@ -317,7 +1427,7 @@ text); sweep found zero further instances; ALL GREEN.
 33. **Log 32's pre-drafting mechanization executed in full** (her go:
     "let's work on the capital dynamics"; one unit, checks before code,
     code before any drafting; `pinning.html` untouched). NEW FILES:
-    `checks/check_dynamics.py` (53 checks, ALL GREEN; writes
+    `checks/check_dynamics.py` (54 checks, ALL GREEN; writes
     `checks/dynamics_ss_targets.json` — the solver's gate targets),
     `code/dynamics/model.py` / `solve.py` / `figures.py`,
     `code/dynamics/results_dynamics.json` (the verdict record),

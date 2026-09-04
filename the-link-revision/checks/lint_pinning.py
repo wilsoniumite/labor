@@ -86,6 +86,14 @@ per_k = 1000 * dashes / max(words, 1)
 presup = re.findall(r"the [a-z&;#\- ]{1,40}(?:that|which) [a-z ]{1,30}(?:treats?|takes?|leaves?) ", plain)
 print(f"  info: em-dashes {dashes} (~{per_k:.1f} per 1,000 words); presuppose-pattern hits: {len(presup)}")
 
+# v2 brief §8 language checklist, mechanized as soft metrics (2026-08-30
+# sweep): "What"-opening sentences (pseudo-clefts read as mannered; the
+# survivors are her voiced ones) and the worst per-paragraph em-dash count
+# (rule: at most one dash construction per paragraph; a pair counts 2 here).
+what_opens = len(re.findall(r"[.!?]\s+What\s", plain))
+para_dash_max = max((p.count("&mdash;") for p in body.split("</p>")), default=0)
+print(f"  info: 'What'-opening sentences: {what_opens}; max em-dashes in one paragraph: {para_dash_max}")
+
 # speak-as-the-author soft metrics: authorial possessives should be rare
 # ("this paper" as plain subject is allowed; "the author" only in the
 # disclosure/AI-note/draftline).
@@ -109,7 +117,7 @@ for phrase in ["honest", "honesty", "note that", "note now", "reading it as",
                # "limit", "restriction".
                "extension block", "wedge block", "government block",
                "k block", "preference block", "machine block",
-               "blocks on", "blocks off", "full cast", "the dials",
+               "blocks on", "blocks off", "full cast", "dials",
                "turn on appendix", "switch on", "switched on",
                # poetic-register ban (2026-08-19, her 'floor dies' catch):
                # personified life-cycle verbs on model objects and ornate
@@ -138,6 +146,16 @@ for ent in ["&rho;", "&lambda;", "&gamma;", "&sigma;", "&eta;", "&kappa;",
             bare.append(f"{ent}@{m.start()}")
 check("italic variables: no bare Greek entity in prose", len(bare) == 0,
       "; ".join(bare[:6]) + ("..." if len(bare) > 6 else ""))
+
+# timeless register (2026-08-28, her rule): the paper describes what is,
+# never its own revision history. Ban the version-tell family in the body.
+# ("is now" is deliberately absent: within-model temporal uses are legitimate,
+# e.g. a rent turning positive when the commons closes.)
+for phrase in ["no longer", "previously", "the original ", " used to be",
+               "in an earlier version", "the old draft", "this version",
+               " anymore"]:
+    hits = html.count(phrase)
+    check(f"timeless register: '{phrase.strip()}' absent from body", hits == 0, f"{hits} hits")
 
 # claim-status tags (v2 dynamics; structure memo, STATE log 32): every
 # in-text citation of a transition result T1–T5 must carry an epistemic
