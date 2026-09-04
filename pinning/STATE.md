@@ -28,6 +28,16 @@ at tag `pre-cleanup-2026-09-04`.
   `lint_tex_structure` (six figures resolve), the eleven corner checks, effort
   reproduction (5) and consolidation (5), and `lake build` (8,709 jobs, both modules).
 
+- 2026-09-04, later: the journal's Word files exist. `paper/submission/manuscript_blind.docx`
+  is the full paper with an anonymized title page (no authors, affiliations, emails, or
+  disclaimer footnote; the repository address withheld; no author in the file properties),
+  and `paper/submission/title_page.docx` is the separate title page with the author
+  details. Both are built by `code/build_submission_docx.py` from `paper/main.tex` and
+  checked: every equation pandoc parses is a Word equation, six figures, two tables, all
+  cross-references resolved, no author name or address in the text, and the text equals
+  the source word for word outside equation rendering. Rebuild after any change to
+  main.tex.
+
 ## Open — her calls
 
 1. **Figure 5's file in Overleaf.** The paper references
@@ -54,6 +64,11 @@ at tag `pre-cleanup-2026-09-04`.
    figures still draw the frozen DF21.
 7. The URL in the paper points at the GitHub remote. The cleanup is committed locally
    only; push before submission, and update the URL if the repository is renamed.
+8. The Word files follow no journal template (Times New Roman 12 pt, one-and-a-half
+   spacing, A4, 2.5 cm margins; figure captions in Word's italic caption style; proofs
+   end with ∎). Once the journal's requirements are known, adjust `reference_docx` in
+   `code/build_submission_docx.py` and rebuild. The blind file keeps the AI-use note,
+   which names no author.
 
 ## Route
 

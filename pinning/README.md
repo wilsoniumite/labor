@@ -12,6 +12,8 @@ and the Lean 4 formalization.
 ```
 paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus figures/)
 paper/figures/      the six figures, one script each (table below)
+paper/submission/   the journal's Word files: the blind manuscript and the separate title
+                    page, built by code/build_submission_docx.py (section below)
 code/               figure scripts and the FRED-based measurement scripts
 data/               built results and vendored inputs
 cache/              the FRED pulls the measurement scripts read (August 2026 vintage;
@@ -50,6 +52,23 @@ The figures carry no in-image titles; the captions do.
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
 | Borrowing financed 19% of transfers in 2025, zero only in 1998–2000 | `data/four_way_split.csv` (`code/four_way.py`) |
 | The HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
+
+## Submission files
+
+`code/build_submission_docx.py` builds `paper/submission/manuscript_blind.docx`, the full
+paper with an anonymized title page (no authors, affiliations, emails, or disclaimer
+footnote; the repository address withheld for review; no author in the file properties),
+and `paper/submission/title_page.docx`, the separate title page with the author details.
+Every equation is a Word equation, the six figures are embedded, cross-references carry
+the numbers LaTeX prints, and theorem environments are written out with their numbers.
+Styling is Times New Roman 12 pt, one-and-a-half spacing, A4 with 2.5 cm margins; adjust
+`reference_docx` in the script for a journal template. The build needs the
+`pypandoc_binary` package in the venv (it bundles pandoc); rebuild after any change to
+`paper/main.tex`:
+
+```
+../venv/Scripts/python.exe code/build_submission_docx.py
+```
 
 ## Reproduce
 
