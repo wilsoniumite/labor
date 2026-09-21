@@ -13,7 +13,8 @@ and the Lean 4 formalization.
 paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus figures/)
 paper/figures/      the six figures, one script each (table below)
 paper/submission/   the journal's Word files: the blind manuscript and the separate title
-                    page, built by code/build_submission_docx.py (section below)
+                    page, built by code/build_submission_docx.py (section below), plus
+                    abstract.txt, the plain-text abstract for submission forms
 code/               figure scripts and the FRED-based measurement scripts
 data/               built results and vendored inputs
 cache/              the FRED pulls the measurement scripts read (August 2026 vintage;
@@ -25,7 +26,8 @@ checks/             sympy and numerical checks; checks/corner/ is the lambda = 0
 lean/               Lean 4 statements and proofs (mathlib v4.33.0); see lean/README.md
 effort/             Appendix E: the reproduction archive of the financing and production
                     accounts (archive_v28/, verbatim, read-only) and the repo-side pipeline
-docs/               the coverage-ratio measurement spec and the ceiling-grid note
+docs/               the coverage-ratio measurement spec, the ceiling-grid note, and the
+                    handoff note for the 2026-09-21 interior revision
 ```
 
 ## Figures
@@ -39,7 +41,9 @@ docs/               the coverage-ratio measurement spec and the ceiling-grid not
 | 5 Two labor linkages | `fig_consumption_financing_and_human_effort.png` | `effort/code/build_fullband_df_figures.py` | `effort/archive_v28/expected/` (DF21, LR_Q1) |
 | C.1 Composition of consumption financing | `fig_fourway.png` | `code/fig_fourway.py` | `data/four_way_split.csv` (built by `code/four_way.py`) |
 
-The figures carry no in-image titles; the captions do.
+The figures carry no in-image titles; the captions do. Figure 2 carries one line of
+in-image text above the panels ("Dots: illustrative wage ratios $w/c$"), which the
+caption also states.
 
 ## Numbers in the text
 
@@ -95,11 +99,15 @@ validated by identity checks and magnitude anchors before use; every contestable
 classification runs as a labeled grid, and the reported object is the median with its
 min–max band. The scripts stop rather than substitute when a source cannot be validated.
 
+The venv needs NumPy, Matplotlib, SymPy and SciPy (`checks/check_interior.py`), plus
+`python-calamine` for the ceiling grid and `pypandoc_binary` for the Word build.
+
 ## Checks
 
 ```
 ../venv/Scripts/python.exe checks/check_pinning.py               # 51 checks: the recursion, the replacement closure, statics, the fork, the welfare pair, the priced exit
-../venv/Scripts/python.exe checks/check_fan.py                   # the composite pricing display, Proposition 4(iv), the fork's data anchors
+../venv/Scripts/python.exe checks/check_fan.py                   # the composite pricing display, the flat-case parity, the fork's data anchors
+../venv/Scripts/python.exe checks/check_interior.py              # the interior revision: the exact category-price formula, the general bounds, the income identity, the worked equilibrium
 ../venv/Scripts/python.exe checks/lint_tex_structure.py paper/main.tex
 for f in checks/corner/*.py; do ../venv/Scripts/python.exe "$f"; done
 ../venv/Scripts/python.exe effort/checks/check_effort_reproduction.py   # rebuilds archive_v28 in a temp dir and compares to the frozen outputs
@@ -112,19 +120,20 @@ the paper:
 
 | File | Long-draft object | In the paper |
 |---|---|---|
-| `check_baseline_props.py` | the task margin, the recursion, the flat limit | Propositions 1, 2 and 4 at lambda = 0 |
-| `check_closure.py` | the land-only closure | Appendix B, Proposition B.1 |
-| `check_conditionality.py` | conditionality | Appendix C.1 |
-| `check_feasibility.py` | the coverage ratio | Appendix C.3 |
-| `check_enclosure.py` | the priced commons | Proposition 3 and Appendix C.4 |
-| `check_mix.py` | the mix frontier | Appendix C.5 |
-| `check_kset.py` | the Baumol fork, the fraud bound, superstars | Appendix D |
+| `check_baseline_props.py` | the task margin, the recursion, the flat limit | Propositions 1 and 2 at lambda = 0; the flat-case remark in Section 6 |
+| `check_closure.py` | the land-only closure | nothing: the interior revision of 2026-09-21 retired that appendix |
+| `check_conditionality.py` | conditionality | Appendix D.1 |
+| `check_feasibility.py` | the coverage ratio | Appendix D.3 |
+| `check_enclosure.py` | the priced commons | Proposition 3 and Appendix D.4 |
+| `check_mix.py` | the mix frontier | Appendix D.5 |
+| `check_kset.py` | the Baumol fork, the fraud bound, superstars | Appendix E |
 | `check_open.py` | the open economy | the trade remark in Section 2 |
-| `check_welfare.py` | the welfare pair | Proposition 5 |
+| `check_welfare.py` | the welfare pair | Proposition 6 |
 | `check_fortification.py` | wedge targeting and punctuated adoption | the stabilizers section |
-| `check_repairs.py` | existence and uniqueness; depreciation in the recursion | Lemma A.1 and Appendix A's durability paragraph |
+| `check_repairs.py` | existence and uniqueness; depreciation in the recursion | Appendix A's durability paragraph; the existence half is no longer a paper object, the interior revision having replaced the old Lemma A.1 with Appendix B's worked equilibrium (`check_interior.py`) |
 
 `lean/` states and proves the full-automation chain, the lambda > 0 closure and its
 comparative statics, the user-cost closures, the fraud and superstar lemmas, and the CES
 share limits; its README lists the exact scope, the assumption manifest, and what is
-deliberately left out.
+deliberately left out. The interior category-price results that Section 6 and Appendix B
+now carry are outside that scope; `checks/check_interior.py` is what backs them.
