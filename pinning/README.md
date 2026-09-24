@@ -12,6 +12,8 @@ and the Lean 4 formalization.
 ```
 paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus figures/)
 paper/figures/      the six figures, one script each (table below)
+paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23 — ahead of main.tex until
+                    its source is ported (STATE.md, Open 0)
 paper/submission/   the journal's Word files: the blind manuscript and the separate title
                     page, built by code/build_submission_docx.py (section below), plus
                     abstract.txt, the plain-text abstract for submission forms

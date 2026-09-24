@@ -6,7 +6,9 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-09-21 — the interior revision landed. The folder dates from the
+**State as of:** 2026-09-24 — the version posted to SSRN on 2026-09-23 is ahead of
+`paper/main.tex`; its PDF is in `paper/ssrn-7226858.pdf`, and the source port waits on her
+Overleaf export (Open 0). Before that, 2026-09-21: the interior revision landed. The folder dates from the
 2026-09-04 restructure; its history is `../dynamics/STATE.md` logs 1–52 (the revision
 thread, under its old name the-link-revision) and the former `effort-accounting/STATE.md`,
 both at tag `pre-cleanup-2026-09-04`.
@@ -49,6 +51,34 @@ both at tag `pre-cleanup-2026-09-04`.
   forms.
 
 ## Open — her calls
+
+0. **The SSRN version's source** (her go to bring it in, 2026-09-24). The posted PDF
+   (SSRN 7226858, compiled 2026-09-23 on Overleaf's TeX Live) is a revision beyond
+   anything on disk: `main.tex` is `v5_interior.tex`; her Overleaf edit of the same evening
+   (`Downloads/v5 (4).tex`, 17:50 — "Existing characterizations of the wage", "our model")
+   came next; the SSRN restructures further. What the PDF shows, for the port's word diff:
+   Section 3 becomes "The model: task assignment and the cost system" with 3.2 "The cost
+   recursion"; Section 5 "Replacement meets participation"; 6.1 "What an hour's wage buys";
+   2.7 "Empirical measures"; Section 11 "Artificial intelligence and conclusion"; Appendix A
+   in four parts (A.4 "Timing and institutional rents"); Appendix D holds the fiscal
+   transition. **Eight figures**: two new — Figure 2, the replacement closure (curves at fixed
+   full-chain labour in a machine-hour) and Figure 3, labour-market clearing in the Appendix B
+   economy — and the six here renumbered (the eras figure becomes 4, the composition of
+   consumption financing 8). **Appendix B's numerical instance changed** (same parameters):
+   x* ≃ 0.86315, v ≃ 0.54344, Y ≃ 7.88061, N_a ≃ 1.34338, against main.tex's 0.96791, 0.59841,
+   18.47540, 1.34285 — so `checks/check_interior.py` as it stands checks the superseded
+   instance. `../paths/checks/check_macro.py` (P1) already reproduces the SSRN's published
+   figures to five decimals from its own solver. **The data note names a new script**,
+   `check_cost_system.py` (network prices against truncated production rounds, factor-income
+   cancellation, feasible-method bounds, participation from utility), and a revised
+   `check_interior.py` (a linear production program with 2,048 task cells); neither is here.
+   The AI-use note again ends "the code and data are public" without the address — the
+   standing edit re-applies at the port. Still no Lean or sympy sentence (item 1).
+   **Needed from her:** Overleaf → Menu → Download → Source (the zip: `main.tex` and the
+   figures), and the bundle the two check scripts came in, if they came from the ChatGPT
+   side. The two new figures then get scripts here (the Route: no PNG is adopted in place of
+   a script); the labour-market-clearing figure can be built on the Appendix B solver that
+   `../paths/` already gates.
 
 1. **The paper no longer mentions the Lean formalization or the sympy batteries.**
    The revision replaced the back-matter verification note with one paragraph about
@@ -100,6 +130,15 @@ as they stood before the interior revision. They still pass, and the algebra the
 is still the paper's, but their mapping to section and appendix numbers moved: the
 README's corner table now carries the new pointers. `check_interior.py` is what backs
 Section 6 and Appendix B.
+
+## Log
+
+- **2026-09-24 — the SSRN version staged.** Her go ("you can bring the ssrn version in").
+  Only the PDF exists on disk (no newer TeX or bundle in Downloads, Desktop, Documents or
+  OneDrive), so the PDF is committed as `paper/ssrn-7226858.pdf` (SHA-256 a4dc7e87…) and the
+  differences it shows are recorded under Open 0; `main.tex` is untouched until her source
+  arrives, because a TeX rebuilt from a PDF would be a re-voicing and would then overwrite
+  her Overleaf copy.
 
 ## Route
 
