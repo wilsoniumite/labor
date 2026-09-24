@@ -211,6 +211,51 @@ check("C11 how fast care trains and hires (0.10 or 0.50 of the willing a quarter
       "with the build-out either way; Sweden's result moves with it (there it binds)",
       all(v[0] > 35 for v in sens.values()) and abs(sens[0.10][2] - sens[0.50][2]) > 1, sens)
 
+print("K — the financing limit (what pays for the build-out), stated as found")
+fin = json.load(open(os.path.join(ROOT, "results", "financing.json"), encoding="utf-8"))
+check("K1 the inputs are the measured ones: taxes on labour and the highest take (Austria), and the price of debt with and without "
+      "a central bank of one's own",
+      abs(cm.tax_max - fin["labour_taxes"]["oecd_highest"]["labour_taxes_pct_gdp"]) < 1e-9
+      and all(abs(regs[r].labour_tax - fin["labour_taxes"]["regions"][r]["labour_taxes_pct_gdp"]) < 1e-9 for r in gc.R)
+      and regs["EA"].debt_slope_crisis > regs["EA"].debt_slope > 10 > 1 > regs["US"].debt_slope,
+      {r: (regs[r].labour_tax, regs[r].debt_slope, regs[r].debt_slope_crisis) for r in gc.R})
+flat_price = {r: replace(g, eta=3 * g.eta, debt_slope=0.0, debt_slope_crisis=0.0) for r, g in regs.items()}
+nc = replace(cm, care_ceiling=100.0)
+a = gc.simulate(flat_price, {r: gc.CARE for r in gc.R}, gc.ai_shock(24), nc, 24, waves=ab)
+b = gc.simulate(flat_price, {r: gc.CARE_LEVY for r in gc.R}, gc.ai_shock(24), replace(nc, ai_levy=1e6), 24, waves=ab)
+d = max(float(np.abs(a[r][k] - b[r][k]).max()) for r in gc.R for k in ("y", "u", "care"))
+check("K2 the source changes only the limit, the drag and the price: with debt free and the levy unlimited, borrowing and the levy "
+      "give the same paths", d < 1e-9, f"largest difference {d:.1e}")
+fl = lambda rn, dial, fast=True: S[f"{rn} | {dial} | two waves, robotics in 2 years, care absorbs, financing limit" + (", three points a year" if fast else "")]["year6"]  # noqa: E731
+tx, lv, bo = fl("care financed by labour taxes", row3), fl("care financed by a levy on AI income", row3), fl("care financed by borrowing", row3)
+check("K3 taxes on labour lose room as displacement shrinks the wage base: the US room falls from over 10% of GDP to under 3 by "
+      "year 6; Sweden's, already near the top, runs out and its build-out stalls at least 1.5 points of employment short of the levy's",
+      tx["US"]["financing_room_start_pct_gdp"] > 10 and tx["US"]["financing_room_end_pct_gdp"] < 3 and tx["SE"]["financing_room_end_pct_gdp"] <= 0
+      and lv["SE"]["care_share_end"] - tx["SE"]["care_share_end"] >= 1.5,
+      f"US room {tx['US']['financing_room_start_pct_gdp']} -> {tx['US']['financing_room_end_pct_gdp']}; Sweden {tx['SE']['financing_room_start_pct_gdp']} -> "
+      f"{tx['SE']['financing_room_end_pct_gdp']}; Swedish care {tx['SE']['care_share_end']}% against {lv['SE']['care_share_end']}% with the levy")
+check("K4 a levy on AI income gains room as displacement grows, and in the US, the euro area and Sweden it never binds: the same "
+      "jobs as borrowing, with no debt",
+      all(lv[r]["financing_room_end_pct_gdp"] > lv[r]["financing_room_start_pct_gdp"] for r in ("US", "EA", "SE"))
+      and all(abs(lv[r]["unemployment_max"] - bo[r]["unemployment_max"]) < 0.05 for r in ("US", "EA", "SE"))
+      and all(lv[r]["debt_added_end_pct_gdp"] == 0 for r in gc.R),
+      {r: (lv[r]["financing_room_start_pct_gdp"], lv[r]["financing_room_end_pct_gdp"], lv[r]["unemployment_max"], bo[r]["unemployment_max"]) for r in ("US", "EA", "SE")})
+check("K5 taxing workers to pay for it costs jobs: financed by labour taxes, US year-6 unemployment is at least 3 points above the "
+      "levy's, and Sweden's at least 1",
+      tx["US"]["unemployment_max"] - lv["US"]["unemployment_max"] >= 3 and tx["SE"]["unemployment_max"] - lv["SE"]["unemployment_max"] >= 1,
+      {r: (tx[r]["unemployment_max"], lv[r]["unemployment_max"]) for r in gc.R})
+check("K6 the price of debt does not bind at a build-out's size: under 5 bp in every region, the euro area included, with at most "
+      "5% of GDP added over six years",
+      all(bo[r]["debt_premium_max_bp"] < 5 and bo[r]["debt_added_end_pct_gdp"] <= 5 for r in gc.R),
+      {r: (bo[r]["debt_premium_max_bp"], bo[r]["debt_added_end_pct_gdp"]) for r in gc.R})
+slow = fl("care financed by borrowing", row3, fast=False)
+check("K7 with a point a year the pace binds before any financing limit (US 39.1% with borrowing against 39.3% capped at Norway's "
+      "share); with three points a year, financing decides: the levy and borrowing take US unemployment to under 33%, taxes on "
+      "labour to above 35%",
+      abs(slow["US"]["unemployment_max"] - build_["US"]["unemployment_max"]) < 0.5 and lv["US"]["unemployment_max"] < 33 < 35 < tx["US"]["unemployment_max"],
+      f"a point a year {slow['US']['unemployment_max']} (capped {build_['US']['unemployment_max']}); three: levy {lv['US']['unemployment_max']}, "
+      f"borrowing {bo['US']['unemployment_max']}, labour taxes {tx['US']['unemployment_max']}")
+
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
 sys.exit(0 if n_ok == len(RESULTS) else 1)

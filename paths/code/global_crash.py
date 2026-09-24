@@ -38,6 +38,17 @@
 # build-out adds jobs: its care purchases are output, its workers earn care pay (service and care workers', ISCO 5),
 # its cost is net of the support it saves, and Okun's law applies to the rest of output.
 #
+# The financing limit (her call, 2026-09-24, after financing.py: the ceiling is financing, not need). The build-out is
+# paid for from one source, each with its own limit and its own drag on demand:
+#   borrowing       no limit on quantity; a price: the region's long rate rises with the debt the build-out and an
+#                   income guarantee add (measured: 15 bp per 10 points of net debt in the euro area, 30 when its banks
+#                   are under stress; under 1 bp with a central bank of one's own), passed to private borrowers' spreads;
+#   labour taxes    up to the highest take on labour income in the OECD (Austria, 27.9% of GDP), on a wage base that
+#                   displacement shrinks; the workers taxed spend half of what they pay (approximate);
+#   a levy on AI    a share of the pay the displaced lost, which now accrues to owners (the paper's shift from wages to
+#   income          capital); owners spend as the representative household does, so the levy costs no demand here.
+# What a source cannot cover is borrowed. Norway's share of employment becomes a marker, and a variant that keeps it.
+#
 # Each quarter, region r:
 #   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern)
 #   expectations pie = anchor pi* + (1 - anchor) pi_1
@@ -66,7 +77,7 @@
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/global_crash.py
 # Out: results/global_crash.json, figures/fig_global_crash.png, figures/fig_global_crash_validation.png,
-#      figures/fig_global_crash_waves.png, figures/fig_global_crash_care.png
+#      figures/fig_global_crash_waves.png, figures/fig_global_crash_care.png, figures/fig_global_crash_financing.png
 
 from __future__ import annotations
 
@@ -130,6 +141,10 @@ class Region:
     care_share: float = 0.0     # health and social work, % of employment
     care_trend: float = 0.0     # its growth, points of employment a year (2019-25), acyclical in an ordinary recession
     gate: dict = field(default_factory=lambda: {"cognitive": 1.0, "in_person": 1.0, "physical": 1.0})   # relative entry into care
+    # financing (financing.py): taxes on labour income today, % of GDP; the price of added debt, bp per 10 points
+    labour_tax: float = 0.0
+    debt_slope: float = 0.0
+    debt_slope_crisis: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -165,6 +180,11 @@ class Common:
     care_hire: float = 0.25     # share of the displaced willing to enter care (the gate) trained and hired a quarter: about a
                                 # year on average for entry-level care (approximate; 0.10 and 0.50 tested in the checks)
     care_labour_cost: float = 0.75   # pay's share of what care costs (approximate)
+    # financing the build-out
+    tax_max: float = 27.9       # the highest take on labour income in the OECD, % of GDP (Austria 2024, financing.py)
+    mpc_taxed: float = 0.5      # workers' spending per krona of extra tax (approximate; as supporters' in households.py)
+    ai_levy: float = 0.5        # share of the displaced's former pay, now owners' income, levied (approximate; a dial)
+    stress_crisis: float = 0.2  # bank capital lost above which the crisis price of debt applies
 
 
 @dataclass(frozen=True)
@@ -205,6 +225,7 @@ class Rules:
     # trigger points up, until care reaches the ceiling)
     care: str = "trend"
     care_pace: float = 1.0      # approximate: Sweden's municipal build-out of care in the 1970s-80s ran near a point a year
+    care_finance: str = "borrowing"   # "borrowing" | "labour taxes" | "ai levy"
 
 
 MODERN = Rules()
@@ -213,6 +234,8 @@ THIRTIES = Rules(name="1930s", policy="gold", anchor=0.2, pi_star=0.0, insured=F
 ERODED = Rules(name="rules erode under pressure", anchor=0.6, backstop=False, fiscal="austerity", tariff=20.0, tariff_q=3, care="cut")
 EXPANDED = Rules(name="rules expand under pressure", fiscal="guarantee", trigger=1.5)   # an income guarantee: the deficits branch
 CARE = Rules(name="rules expand into care", care="expand", trigger=1.5)                # today's rules plus a funded care build-out
+CARE_TAX = replace(CARE, name="care financed by labour taxes", care_finance="labour taxes")
+CARE_LEVY = replace(CARE, name="care financed by a levy on AI income", care_finance="ai levy")
 
 
 @dataclass
@@ -289,6 +312,17 @@ def displaced(o: dict, j: int, g: Region, w: dict) -> dict:
     return {q: struct[q] * f for q in GROUPS}
 
 
+def financing_room(o: dict, j: int, g: Region, rl: Rules, cm: Common) -> float:
+    """What the build-out's source can pay for at quarter j, % of GDP a year (unlimited when borrowing)."""
+    if rl.care_finance == "labour taxes":
+        # the highest take on a wage base the displaced have left (pay-weighted), less what labour already pays
+        return cm.tax_max * (1 - o["pay_weighted"][j] / 100) - g.labour_tax
+    if rl.care_finance == "ai levy":
+        lost = sum((o[s][j] + o[at][j] + o[ax][j]) * g.premium[q] for q, s, at, ax in ABSORBED)
+        return cm.ai_levy * cm.labour_share * lost
+    return float("inf")
+
+
 def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n: int = 24, active=None,
              waves: Waves = UNIFORM) -> dict:
     """regions: {code: Region}; rules: {code: Rules}; active: regions simulated (others held at zero gap)."""
@@ -297,7 +331,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
     out = {r: {k: np.zeros(n) for k in ("y", "u", "u_star", "pi", "P", "Pexp", "i", "k", "s", "D", "stress", "stim",
                                         "d_wealth", "d_capex", "d_unemp", "d_relief", "d_debt", "d_credit", "d_money",
                                         "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
-                                        "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care")} for r in names}
+                                        "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care",
+                                        "debt_extra", "premium", "d_fin", "room")} for r in names}
     W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
@@ -355,6 +390,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             if W[r] is not None:
                 o["care_cost"][k] = cm.labour_share * (W[r]["w_care"] * built / cm.care_labour_cost
                                                        - sum(o[ax][k - 1] * g.premium[q] * W[r]["rep"][q] for q, _, _, ax in ABSORBED))
+            # how the build-out is paid for: what a source cannot cover is borrowed
+            cost = max(o["care_cost"][k], 0.0)
+            room = financing_room(o, k - 1, g, rl, cm) if W[r] is not None else float("inf")
+            covered = min(cost, max(room, 0.0))
+            o["room"][k] = room
+            d_fin = -(cm.mpc_taxed - cm.mpc_rep) * covered if rl.care_finance == "labour taxes" else 0.0
+            o["d_fin"][k] = d_fin
             d_relief = (cm.mpc_b - cm.mpc_rep) * g.floating * g.hh_debt / 100 * (g.i0 - i)
             d_debt = -cm.debt_deflation * g.priv_debt / 100 * max(o["Pexp"][k - 1] / o["P"][k - 1] - 1, 0.0) * 100
             d_credit = -cm.a_s * o["s"][k - 1]
@@ -378,7 +420,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             elif rl.fiscal == "austerity" and unemp_up >= rl.trigger:
                 d_fiscal = -0.8 * min(0.5 * unemp_up / 5, 2.0)          # consolidation as deficits grow, up to 2% of GDP
             d_other = shock.demand.get(r, np.zeros(n))[k]
-            D = d_wealth + d_capex + d_unemp + d_relief + d_debt + d_credit + d_money + d_trade + d_fiscal + d_other + d_care
+            D = d_wealth + d_capex + d_unemp + d_relief + d_debt + d_credit + d_money + d_trade + d_fiscal + d_other + d_care + d_fin
             for key, v in (("d_wealth", d_wealth), ("d_capex", d_capex), ("d_unemp", d_unemp), ("d_relief", d_relief),
                            ("d_debt", d_debt), ("d_credit", d_credit), ("d_money", d_money), ("d_trade", d_trade), ("d_fiscal", d_fiscal),
                            ("d_care", d_care)):
@@ -425,7 +467,11 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 a_t = min(grow, potential)
                 a_x = 0.0
                 if rl.care == "expand" and unemp_up >= rl.trigger:
-                    a_x = max(min(rl.care_pace * DT, potential - a_t, cm.care_ceiling - o["care"][k]), 0.0)
+                    built = o["ax_cog"][k - 1] + o["ax_phys"][k - 1]
+                    per_point = cm.labour_share * (W[r]["w_care"] / cm.care_labour_cost
+                                                   - sum(weight[q] / pool * g.premium[q] * W[r]["rep"][q] for q, _, _, _ in ABSORBED)) if pool > 0 else 1.0
+                    afford = financing_room(o, k - 1, g, rl, cm) / per_point - built if per_point > 0 else float("inf")
+                    a_x = max(min(rl.care_pace * DT, potential - a_t, cm.care_ceiling - o["care"][k], afford), 0.0)
                 o["care"][k] += a_x
                 if pool > 0:
                     for q, s, at, ax in ABSORBED:
@@ -455,6 +501,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             s = cm.sigma * o["stress"][k] + mood
             if rl.backstop:
                 s = min(s, g.spread_cap)
+            # the price of the debt a guarantee and a borrowed build-out add, passed to private borrowers
+            cost = max(o["care_cost"][k], 0.0)
+            borrowed = o["deficit_extra"][k] + (cost if rl.care_finance == "borrowing" else max(cost - max(o["room"][k], 0.0), 0.0))
+            o["debt_extra"][k] = o["debt_extra"][k - 1] + borrowed * DT
+            slope = g.debt_slope_crisis if o["stress"][k] > cm.stress_crisis else g.debt_slope
+            o["premium"][k] = slope / 100 * o["debt_extra"][k] / 10
+            s += o["premium"][k]
             o["s"][k] = s
             o["stim"][k] = d_fiscal
     return out
@@ -480,7 +533,11 @@ def summary(out: dict, regions: dict, horizon_q: int | None = None) -> dict:
                   "absorbed_physical_share_end": round(float((o["at_phys"][n - 1] + o["ax_phys"][n - 1])
                                                              / max(o["at_cog"][n - 1] + o["at_phys"][n - 1] + o["ax_cog"][n - 1] + o["ax_phys"][n - 1], 1e-12)), 3),
                   "care_share_end": round(float(o["care"][n - 1]), 2),
-                  "care_cost_max_pct_gdp": round(float(o["care_cost"][:n].max()), 2)}
+                  "care_cost_max_pct_gdp": round(float(o["care_cost"][:n].max()), 2),
+                  "debt_added_end_pct_gdp": round(float(o["debt_extra"][n - 1]), 2),
+                  "debt_premium_max_bp": round(float(100 * o["premium"][:n].max()), 1),
+                  "financing_room_start_pct_gdp": None if not np.isfinite(o["room"][1]) else round(float(o["room"][1]), 2),
+                  "financing_room_end_pct_gdp": None if not np.isfinite(o["room"][n - 1]) else round(float(o["room"][n - 1]), 2)}
     w = {r: regions[r].size for r in out}
     tot = sum(w.values())
     nn = len(out["US"]["y"]) if horizon_q is None else horizon_q
@@ -513,11 +570,18 @@ def regions_today() -> dict:
     # far higher, Italy's and Spain's below average: about 1.5 weighted), Sweden (the unemployment fund's cap sits near
     # 0.85 of average pay, but most white-collar workers carry union income insurance above it for the first months:
     # 1.5), China (support too thin for a cap to matter)
+    fin = json.load(open(os.path.join(ROOT, "results", "financing.json"), encoding="utf-8"))
+    tax = {r: v["labour_taxes_pct_gdp"] for r, v in fin["labour_taxes"]["regions"].items()}
+    sl = fin["borrowing"]["slopes"]
+    own = sl["own central bank 2010-24"]["long_rate"]["bp_per_10_points_net_debt"]       # China: taken as own central bank
+    slope = {"US": (own, own), "SE": (own, own), "CN": (own, own),
+             "EA": (sl["euro area 2010-24"]["long_rate"]["bp_per_10_points_net_debt"], sl["euro area crisis 2010-13"]["long_rate"]["bp_per_10_points_net_debt"])}
     exj = json.load(open(os.path.join(ROOT, "results", "exposure.json"), encoding="utf-8"))
     ex, cr = exj["regions"], exj["care"]["regions"]
     caps = {"US": 0.9, "EA": 1.5, "SE": 1.5, "CN": 1.0}
     regs = {r: replace(g, groups=ex[r]["share"], premium=ex[r]["premium"], benefit_cap=caps[r], care_share=cr[r]["care_share_pct"],
-                       care_trend=cr[r]["care_trend_pts_a_year"], gate=cr[r]["gate"])
+                       care_trend=cr[r]["care_trend_pts_a_year"], gate=cr[r]["gate"], labour_tax=tax[r],
+                       debt_slope=slope[r][0], debt_slope_crisis=slope[r][1])
             for r, g in (("US", us), ("EA", ea), ("SE", sw), ("CN", cn))}
     return {**regs, "_notes": {"SE_okun_measured_on_growth_changes": sw_cyc["okun"], "SE_start": se}}
 
@@ -679,6 +743,12 @@ def scenarios(cm: Common, regions: dict) -> dict:
             simulate(open_gate, {r: CARE for r in R}, ai_shock(n), cm, n, waves=absorb)
         runs[("rules expand into care", dial, "two waves, robotics in 2 years, care absorbs, three points a year")] = \
             simulate(rg, fast, ai_shock(n), cm, n, waves=absorb)
+        # the financing limit in place of the ceiling: what pays for the build-out
+        for rl in (CARE, CARE_TAX, CARE_LEVY):
+            rn = "care financed by borrowing" if rl is CARE else rl.name
+            for pace, tag in ((1.0, ""), (3.0, ", three points a year")):
+                runs[(rn, dial, "two waves, robotics in 2 years, care absorbs, financing limit" + tag)] = \
+                    simulate(rg, {r: replace(rl, care_pace=pace) for r in R}, ai_shock(n), replace(cm, care_ceiling=100.0), n, waves=absorb)
     return runs
 
 
@@ -798,6 +868,34 @@ def figures(val, runs, regions):
     fig.text(0.01, 0.005, "global_crash.py, the bust with displacement and recessions triggering adoption (x3), robotics two years out. Care takes in the displaced "
              "within its pace, the gate (men enter care at a quarter of women's rate) and the ceiling (Norway's 20.1% of employment). ILOSTAT (exposure.py).", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_care.png"), dpi=120)
+    # the financing limit: the same row, a build-out of up to three points a year, no ceiling, three sources
+    fig, ax = plt.subplots(3, 4, figsize=(20, 11.5), layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0.025, 1, 0.975))
+    wl = "two waves, robotics in 2 years, care absorbs, financing limit, three points a year"
+    cases = [("modern rules", "two waves, robotics in 2 years, care absorbs", "no build-out (care at its trend)", "k", "-"),
+             ("care financed by borrowing", wl, "financed by borrowing", "C0", "-"),
+             ("care financed by labour taxes", wl, "financed by taxes on labour income", "C3", "--"),
+             ("care financed by a levy on AI income", wl, "financed by a levy on AI income", "C2", ":")]
+    for j, r in enumerate(R):
+        for rn, wl_, lab, c, st in cases:
+            o = runs[(rn, an, wl_)][r]
+            t = np.arange(len(o["y"])) * DT
+            ax[0, j].plot(t, o["u"], color=c, ls=st, label=lab)
+            ax[1, j].plot(t, o["care"], color=c, ls=st, label=lab)
+            if rn != "modern rules" and rn != "care financed by borrowing":
+                ax[2, j].plot(t[1:], o["room"][1:], color=c, ls=st, label=f"room: {lab.split('by ')[-1]}")
+            ax[2, j].plot(t[1:], o["care_cost"][1:], color=c, ls=st, lw=0.8, alpha=0.6) if rn != "modern rules" else None
+        ax[1, j].axhline(Common().care_ceiling, color="grey", lw=0.8, ls="--")
+        ax[2, j].axhline(0, color="grey", lw=0.8)
+        ax[0, j].set_title(f"{r}: unemployment, %"); ax[1, j].set_title(f"{r}: care, % of employment (Norway dashed)")
+        ax[2, j].set_title(f"{r}: room (thick) and cost (thin), % of GDP")
+    ax[0, 0].legend(fontsize=7.5); ax[2, 0].legend(fontsize=7.5)
+    for a in ax.flat:
+        a.set_xlabel("years from the bust")
+    fig.text(0.01, 0.005, "global_crash.py, the bust with displacement and recessions triggering adoption (x3), robotics two years out; a care build-out of up "
+             "to three points a year with no ceiling, limited by what pays for it. Taxes on labour up to Austria's take on a shrinking wage base; a levy on half "
+             "the pay the displaced lost; borrowing at the measured price of debt (financing.py).", fontsize=7.5)
+    fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_financing.png"), dpi=120)
 
 
 if __name__ == "__main__":

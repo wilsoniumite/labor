@@ -15,7 +15,8 @@
 #      without a central bank of one's own (the euro area) and in a crisis (2010-13)? Where does Norway stand?
 # Data: OECD health accounts (SHA, via the OECD's public SDMX API: expenditure by financing scheme and function, % of
 # GDP; the cached copy is trimmed to totals across provider and mode of provision), OECD Economic Outlook, ILOSTAT,
-# World Bank (GDP per capita PPP, population 65+), Statistics Norway. Cached under
+# World Bank (GDP per capita PPP, population 65+), Statistics Norway; for the crash model's financing limit, taxes on
+# labour income by region (OECD Global Revenue Statistics). Cached under
 # cache/oecd/, cache/ilo/, cache/worldbank/, cache/ssb_no/ (fetched with the Windows certificate store; see STATE.md).
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/financing.py
@@ -26,12 +27,16 @@ from __future__ import annotations
 import glob
 import json
 import os
+import sys
 
 import numpy as np
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+import exposure as ex  # noqa: E402
+
 C = os.path.join(ROOT, "cache")
 EURO = ("AUT", "BEL", "DEU", "ESP", "FIN", "FRA", "GRC", "IRL", "ITA", "NLD", "PRT", "SVK", "SVN", "EST", "LVA", "LTU", "LUX")
 NOT_COUNTRIES = ("EA17", "OECD", "CHN", "IND", "BRA", "IDN", "ZAF", "ARG", "BGR", "HRV", "ROU", "PER", "THA")
@@ -176,12 +181,40 @@ def borrowing() -> dict:
             "peers_2010_24_mean": avg.to_dict(orient="index"), "_w": w}
 
 
+REGIONS = {"US": ("USA",), "EA": ("DEU", "FRA", "ITA", "ESP", "NLD"), "SE": ("SWE",), "CN": ("CHN",)}
+OECD = ("AUS", "AUT", "BEL", "CAN", "CHE", "CHL", "COL", "CRI", "CZE", "DEU", "DNK", "ESP", "EST", "FIN", "FRA", "GBR", "GRC", "HUN",
+        "IRL", "ISL", "ISR", "ITA", "JPN", "KOR", "LTU", "LUX", "LVA", "MEX", "NLD", "NOR", "NZL", "POL", "PRT", "SVK", "SVN", "SWE", "TUR", "USA")
+
+
+def labour_taxes() -> dict:
+    """Taxes that fall on labour income, % of GDP (OECD Global Revenue Statistics, general government, latest year):
+    taxes on individuals' income (which include their capital income: an upper bound on the labour part), social
+    security contributions, payroll taxes. For the crash model's financing limit: how far each region's take could rise
+    before it reaches the highest in the OECD, on a wage base that displacement shrinks."""
+    r = pd.read_csv(os.path.join(C, "oecd", "revenue_by_tax_pct_gdp.csv"), low_memory=False)
+    r = r[r.CTRY_SPECIFIC_REVENUE == "_T"]
+    p = r.pivot_table(index=["REF_AREA", "TIME_PERIOD"], columns="STANDARD_REVENUE", values="OBS_VALUE").reset_index()
+    p = p.dropna(subset=["_T"]).sort_values("TIME_PERIOD").groupby("REF_AREA").last()
+    p["labour"] = p[["T_1100", "T_2000", "T_3000"]].fillna(0).sum(axis=1)
+    o = p.loc[[c for c in OECD if c in p.index]]
+    top = o.labour.idxmax()
+    out = {"oecd_highest": {"country": top, "labour_taxes_pct_gdp": round(float(o.labour.max()), 1), "year": int(o.loc[top, "TIME_PERIOD"])}, "regions": {}}
+    for reg, cs in REGIONS.items():
+        w = {c: sum(ex.shares(c)["employment"].values()) for c in cs}           # euro area: employment weights
+        tot = sum(w.values())
+        val = lambda col: sum(w[c] * float(p.loc[c, col]) for c in cs) / tot  # noqa: E731
+        out["regions"][reg] = {"labour_taxes_pct_gdp": round(val("labour"), 2), "all_taxes_pct_gdp": round(val("_T"), 2),
+                               "corporate_pct_gdp": round(val("T_1200"), 2), "year": int(max(p.loc[c, "TIME_PERIOD"] for c in cs))}
+    out["norway"] = {"labour_taxes_pct_gdp": round(float(p.loc["NOR", "labour"]), 1), "corporate_pct_gdp": round(float(p.loc["NOR", "T_1200"]), 1)}
+    return out
+
+
 def main():
     nor = norway()
     cs = cross_section(nor)
     bw = borrowing()
     out = {"cross_section": {k: v for k, v in cs.items() if not k.startswith("_")}, "norway": nor,
-           "borrowing": {k: v for k, v in bw.items() if not k.startswith("_")}}
+           "borrowing": {k: v for k, v in bw.items() if not k.startswith("_")}, "labour_taxes": labour_taxes()}
     json.dump(out, open(os.path.join(ROOT, "results", "financing.json"), "w", encoding="utf-8"), indent=1)
     print(json.dumps(out["cross_section"], indent=1))
     for y in ("2019", "2022", "2023", "2024", "2025"):

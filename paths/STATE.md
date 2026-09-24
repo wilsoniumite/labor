@@ -643,6 +643,33 @@ is right; in an extreme path the destination is what is wrong.
     labour income, which displacement shrinks), deficits (priced as above), or capital income routed to the state —
     Norway's fund, or its analogue for AI rents. The paper's mechanism, applied: care paid for out of wages shrinks
     with its own tax base exactly when displacement needs it to grow; care paid for out of capital income does not.
+- **The financing limit in the crash model** (her call, 2026-09-24: go ahead; `global_crash.py` with the rules'
+  `care_finance`, `financing.labour_taxes()`, `figures/fig_global_crash_financing.png`; checks K1-K7 in
+  `check_global_crash.py`, 38/38). Norway's share becomes a marker; the build-out is limited by what pays for it:
+  - **taxes on labour income**: up to the highest take in the OECD (Austria, 27.9% of GDP; measured, OECD Global
+    Revenue Statistics: the US 16.3, the euro area 24.3, Sweden 25.5, China 7.6), on a wage base displacement
+    shrinks; the workers taxed spend half of what they pay (approximate);
+  - **borrowing**: no quantity limit; the measured price of debt (the euro area 15 bp per 10 points, 30 when its banks
+    are under stress; under 1 bp with a central bank of one's own), passed to private borrowers' spreads;
+  - **a levy on AI income**: half the pay the displaced lost, now owners' income (a dial); owners spend like the
+    representative household, so the levy costs no demand here. What a source cannot cover is borrowed.
+  With the price of debt at zero every earlier run is reproduced exactly (62 runs); at the measured price 22 move by at
+  most 0.05 points of unemployment. Findings (the labour-depression row, robotics two years out, year 6):
+  - **At a point a year the pace binds first**: US unemployment 39.1% borrowed against 39.3% capped at Norway's
+    share — the sources barely differ, except that Sweden's labour-tax room runs out.
+  - **At three points a year financing decides**: the levy and borrowing take US unemployment to 31.7% (care at 26% of
+    employment); taxes on labour to 35.3%. **Taxes on labour lose room exactly as need grows**: the US room falls from
+    11.6% of GDP to 2.1 as the wage base shrinks; Sweden's, already near the top, from 2.4 to below zero — its
+    build-out stalls at 17.8% of employment against 19.6% with the levy (K3, K5).
+  - **The levy gains room as displacement grows** (the US from 0 to 6.7% of GDP) and never binds in the US, the euro
+    area or Sweden: the same jobs as borrowing, with no debt (K4).
+  - **The price of debt does not bind at a build-out's size**: under 5 bp everywhere, the euro area included, with at
+    most 4.9% of GDP added over six years (K6). What limits a care build-out is not the bond market but the base it
+    is taxed on.
+  - `[inferred]` The paper's mechanism, in public finance: a welfare state financed from wages shrinks with its own
+    base as income moves to owners; one financed from capital income — Norway's fund, or a levy on AI income — grows
+    with it. Caveats: the levy's share and the taxed workers' spending are approximate; existing public spending on the
+    shrinking base is held, not modelled; China's labour-tax room (20% of GDP on paper) is not a realistic limit.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -989,3 +1016,7 @@ the macro block lands.
     404), ILOSTAT for 37 OECD economies, the World Bank and Statistics Norway (10486, 11012, 09189); the IMF's API is
     closed to this machine. Norway put on mainland GDP, stated and shown both ways. No statsmodels in the venv: plain
     least squares with robust standard errors.
+24. **2026-09-24 — the financing limit.** Her call: go ahead. Added taxes on labour by region to `financing.py` (OECD Global
+    Revenue Statistics via SDMX), and the three sources with their limits, drag and price of debt to `global_crash.py`;
+    38/38. Verified before findings: with the price of debt at zero the 62 earlier runs are reproduced exactly; the
+    first draft counted no debt when borrowing paid for the build-out (fixed before any run was saved).

@@ -425,5 +425,42 @@
     "term": 1.11
    }
   }
+ },
+ "labour_taxes": {
+  "oecd_highest": {
+   "country": "AUT",
+   "labour_taxes_pct_gdp": 27.9,
+   "year": 2024
+  },
+  "regions": {
+   "US": {
+    "labour_taxes_pct_gdp": 16.32,
+    "all_taxes_pct_gdp": 25.62,
+    "corporate_pct_gdp": 2.24,
+    "year": 2024
+   },
+   "EA": {
+    "labour_taxes_pct_gdp": 24.25,
+    "all_taxes_pct_gdp": 39.99,
+    "corporate_pct_gdp": 2.59,
+    "year": 2024
+   },
+   "SE": {
+    "labour_taxes_pct_gdp": 25.54,
+    "all_taxes_pct_gdp": 41.44,
+    "corporate_pct_gdp": 3.86,
+    "year": 2024
+   },
+   "CN": {
+    "labour_taxes_pct_gdp": 7.62,
+    "all_taxes_pct_gdp": 19.51,
+    "corporate_pct_gdp": 3.03,
+    "year": 2024
+   }
+  },
+  "norway": {
+   "labour_taxes_pct_gdp": 19.5,
+   "corporate_pct_gdp": 9.8
+  }
  }
 }
