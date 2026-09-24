@@ -421,6 +421,29 @@ is right; in an extreme path the destination is what is wrong.
   - The stylised bank now carries the measured floor rule (`margin_comp` 1.0 from zero, replacing a
     guessed 0.5 from 0.5% — which happened to give the same margin at the model's -0.5% floor, so its
     levels do not move; the NII low in the owners'-saving path comes a quarter earlier, 13.25 years).
+- **Do deposits follow wages?** (her call, 2026-09-24, after credit: test the assumption that a bank's
+  household deposits are a wage franchise; `code/deposits_wages.py`, `results/deposits_wages.json`,
+  `figures/fig_deposits_wages.png`; checks `checks/check_deposits_wages.py`, 9/9). Public: Statistics Sweden's
+  financial accounts (household deposits, quarterly 1996-2026), household income by transaction and the sector
+  accounts, deposit rates; the Riksbank's policy rate. Questions fixed before fitting. Findings:
+  - **A year's deposit growth does not follow its wage growth** (slope 0.30, s.e. 0.53, R² 0.01); it does
+    follow disposable income growth (1.26, s.e. 0.50, R² 0.24).
+  - **Deposits accumulate saving**: about 0.35 of each krona households save lands in deposits (s.e. 0.10);
+    wage growth adds nothing measurable once saving is in (0.28, s.e. 0.38; a wage franchise implies ~0.8,
+    not rejected at 5% — the data are not sharp enough to refute it outright).
+  - **Against a wage franchise's sign**: relative to income, deposits are lower when wages are a larger share
+    of income (-2.2, s.e. 0.6, with a trend). The wage share moved only between 0.82 and 0.93, and the
+    obvious confound is age (pensioners hold deposits and receive transfers, not wages).
+  - **Rates move them**: deposits fell from 0.96 to 0.90 of disposable income through the 2022-24 hikes,
+    -2.8% per point of the cost of holding them (policy rate over the demand-deposit rate); over the whole
+    sample, with and without a trend, -0.5% to -13% per point — the trend and the fall in rates are not
+    separable, the hikes are the one clean episode.
+  - **Households receive about half the economy's non-wage income** (their own surplus and net property
+    income over the economy's net operating surplus and mixed income: 0.54 over 1996-2025, 0.63 since 2015).
+  - The export gains the model's real income and labour share, so household income can be built as wages
+    plus that share of non-wage income. In the model's automated worlds real income doubles by year 10
+    while the wage bill falls to 0.63-0.74: if households keep receiving half the non-wage income, their
+    income rises by about two-thirds — and with it, on this evidence, their deposits.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -707,3 +730,11 @@ the macro block lands.
     shops and flats are rented by people who work). A user should run both. One quirk, disclosed: the
     status quo's site price drifts to 0.85 by year 5 because the market starts with a 5% belief in the
     automated world and learns it away; comparisons against the status quo cancel it.
+16. **2026-09-24 — deposits against wages.** Her choice after credit: measure the deposit side the paper's
+    channel reaches. Statistics Sweden's household deposit volumes by type are not in the MFI tables' English
+    tree; the financial accounts carry them (transferable and other deposits, households S14), with nearly
+    all household deposits classed transferable, so the split by type is not usable — total household
+    deposits are the series. Built `code/deposits_wages.py` and `checks/check_deposits_wages.py` (9/9). The
+    export (`results/paths_for_banks.csv`) gains `income_real` and `labor_share`; earlier columns unchanged,
+    checked cell by cell. Findings above. A figure fix before the commit (overlapping titles, a caption over
+    an axis label); one heredoc edit that wrote literal line breaks into titles, fixed by hand.

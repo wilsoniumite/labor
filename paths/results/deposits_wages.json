@@ -1,0 +1,147 @@
+{
+ "sample": [
+  "1996Q1",
+  "2026Q2"
+ ],
+ "levels_sek_bn": {
+  "1996Q1": {
+   "deposits": 483.5,
+   "wages": 721.8,
+   "disposable": 885.2
+  },
+  "2002Q1": {
+   "deposits": 492.5,
+   "wages": 1006.7,
+   "disposable": 1108.0
+  },
+  "2022Q1": {
+   "deposits": 2483.6,
+   "wages": 2194.0,
+   "disposable": 2586.1
+  },
+  "2026Q2": {
+   "deposits": 2898.8,
+   "wages": 2659.8,
+   "disposable": 3182.0
+  }
+ },
+ "deposits_over_disposable": {
+  "1996Q1": 0.546,
+  "2002Q1": 0.444,
+  "2012Q1": 0.672,
+  "2022Q1": 0.96,
+  "2024Q2": 0.903,
+  "2026Q2": 0.911
+ },
+ "wage_share_of_disposable_range": [
+  0.815,
+  0.929
+ ],
+ "1_growth_on_wage_growth": {
+  "n": 118,
+  "r2": 0.01,
+  "const": 0.0471,
+  "wage growth": {
+   "coef": 0.2955,
+   "se": 0.5293
+  }
+ },
+ "1b_growth_on_income_growth": {
+  "n": 118,
+  "r2": 0.238,
+  "const": 0.0056,
+  "income growth": {
+   "coef": 1.2648,
+   "se": 0.4961
+  }
+ },
+ "2_stock_flow": {
+  "n": 118,
+  "r2": 0.478,
+  "const": 49.1389,
+  "saving": {
+   "coef": 0.3456,
+   "se": 0.0971
+  },
+  "wage change": {
+   "coef": 0.2756,
+   "se": 0.3782
+  },
+  "cost change": {
+   "coef": 6.5169,
+   "se": 14.7448
+  },
+  "wage_franchise_implies_wage_change_coef": 0.777,
+  "t_against_wage_franchise": -1.33
+ },
+ "3_wage_share_levels": {
+  "n": 122,
+  "r2": 0.929,
+  "const": -1.0671,
+  "log wage share": {
+   "coef": -2.1774,
+   "se": 0.5648
+  },
+  "cost": {
+   "coef": -0.0111,
+   "se": 0.0112
+  },
+  "trend": {
+   "coef": 0.0219,
+   "se": 0.0025
+  }
+ },
+ "3b_wage_share_no_trend": {
+  "n": 122,
+  "r2": 0.727,
+  "const": -1.0942,
+  "log wage share": {
+   "coef": -5.1734,
+   "se": 0.8343
+  },
+  "cost": {
+   "coef": -0.0845,
+   "se": 0.0197
+  }
+ },
+ "4_cost_no_trend": {
+  "n": 122,
+  "r2": 0.394,
+  "const": -0.2753,
+  "cost": {
+   "coef": -0.1335,
+   "se": 0.0274
+  }
+ },
+ "4b_cost_with_trend": {
+  "n": 122,
+  "r2": 0.891,
+  "const": -0.8382,
+  "cost": {
+   "coef": -0.0054,
+   "se": 0.0192
+  },
+  "trend": {
+   "coef": 0.0276,
+   "se": 0.002
+  }
+ },
+ "4c_hikes_2021Q4_2024Q2": {
+  "cost_pp": [
+   -0.08,
+   1.93
+  ],
+  "deposits_over_disposable": [
+   0.955,
+   0.903
+  ],
+  "semi_elasticity_per_pp": -0.0279
+ },
+ "5_nonwage_share_to_households": {
+  "mean_1996_2025": 0.536,
+  "mean_2015_2025": 0.631,
+  "min": 0.352,
+  "max": 0.731
+ },
+ "sources": "SCB FM0103 FirENS2010ofKv (S14: FA2200, FA2900, FA5100, FA5200, FA0100), NR0103 HusDispInkENS2010Kv (S14: D11, D4, D62, B6n, P31), FM5001C RantaT05; Riksbank SWEA SECBREPOEFF"
+}

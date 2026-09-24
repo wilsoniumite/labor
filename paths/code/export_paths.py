@@ -6,7 +6,9 @@
 # For a credit book, the pieces behind it and the property side, each 1 at t = 0: the real wage, the
 # share of the start's workers still employed, the real site rent, and the real price of a site as the
 # market values it (bank.house_price: its belief-weighted rents discounted at the real 10Y rate plus a
-# premium); the price level carries them to nominal.
+# premium); the price level carries them to nominal. And for a deposit book: the economy's real income (wages,
+# land rent and capital's interest; 1 at t = 0) and the labour share of it, so a user can build household
+# income as wages plus the share of non-wage income households receive (deposits_wages.py measures it).
 # A user applies the CHANGES from t = 0 to their own curve; the levels are the model's, not a market's.
 # Scenarios: the status quo; a pure tightening (+250 bp, announced at year 1 — bank_scenarios.py);
 # deep automation with deficits dominating (real rates rise) and with owners' saving dominating
@@ -56,7 +58,9 @@ def main():
         extra = {"real_wage": world["real_wage"] / world["real_wage"][0],
                  "employed": np.minimum(world["participation"] / world["participation"][0], 1.0),
                  "site_rent_real": world["Ps"][0] / world["Ps"], "site_price_real": house,
-                 "price_level": np.exp(pi / 100.0 * t)}
+                 "price_level": np.exp(pi / 100.0 * t),
+                 "income_real": (world["income"] / world["Ps"]) / (world["income"][0] / world["Ps"][0]),
+                 "labor_share": world["labor_share"]}
         for i, ti in enumerate(t):
             rows.append({"scenario": name, "t_years": round(float(ti), 4), "policy": round(float(pol[i]), 4),
                          **{lab: round(float(z[i, k]), 4) for k, lab in enumerate(LABELS)}, "wage_bill_real": round(float(wb[i]), 5),
