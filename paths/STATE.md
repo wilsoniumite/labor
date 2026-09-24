@@ -444,6 +444,29 @@ is right; in an extreme path the destination is what is wrong.
     plus that share of non-wage income. In the model's automated worlds real income doubles by year 10
     while the wage bill falls to 0.63-0.74: if households keep receiving half the non-wage income, their
     income rises by about two-thirds — and with it, on this evidence, their deposits.
+- **A demand gap** (her call, 2026-09-24: can the paper's world produce a recession, high inflation or deflation,
+  fast? `code/demand.py`, `results/demand.json`, `figures/fig_demand.png`; checks `checks/check_demand.py`, 13/13).
+  The macro block is at capacity every date with the central bank delivering r* + target at once, so it could not
+  say. The layer: a reduced-form IS curve, an expectations-augmented Phillips curve, a smoothed Taylor rule with the
+  -0.5% floor — and a central bank that learns r* with a lag (half-life 3 years; 1 and 8 as variants, the range the
+  forward-rate test measured). Okun and the Phillips slope measured on Swedish data 2002-2026: unemployment
+  -0.17 points per point of growth (s.e. 0.03); core inflation -0.78 per point of unemployment gap (s.e. 0.42 —
+  1.9 s.e., not sharp), so kappa 0.13 per point of output gap. The IS slope is the literature's (Laubach-Williams,
+  approximate; 0.05-0.15 run). Findings:
+  - **Policy errs in the direction of the branch**: too tight when owners' saving dominates (gap -1.4% at year
+    12.5, inflation 1.8%, the floor binding from year 14), too loose when deficits dominate (+0.6%, 2.1%). Slow
+    learning doubles it (-2.0 / +0.9), fast learning halves it.
+  - **The cycle stays normal-sized** on every run: even automation at twice the speed with 8-year learning keeps
+    the gap within 2.3% and headline inflation within 1.5-2.3%. The weirdness is structural, not cyclical:
+    participation 0.84 of the start by year 10 against a cyclical unemployment rise of 0.2 points; goods -15 to
+    -20% a year and housing +28-30% a year at the peak while the headline sits near 2%.
+  - **A 2009-size demand shock** (4% of capacity) takes today's Riksbank to the floor (room 2.25 points) and not
+    2008's (5.25): with the Riksbank's 2008 response strength and a weak anchor, the gap three years on is -0.9%
+    against -0.4%. A slower recovery, not a spiral.
+  - `[inferred]` A spiral — deflation feeding real rates at the floor — does not come out of a linear layer with
+    anchored expectations. It needs the channels this layer leaves out: debt deflation (fixed nominal debts
+    against falling money wages, which the macro block produces at the peak), credit crunches, confidence. Those
+    are the next things to add if the tail is the question.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -738,3 +761,10 @@ the macro block lands.
     export (`results/paths_for_banks.csv`) gains `income_real` and `labor_share`; earlier columns unchanged,
     checked cell by cell. Findings above. A figure fix before the commit (overlapping titles, a caption over
     an axis label); one heredoc edit that wrote literal line breaks into titles, fixed by hand.
+17. **2026-09-24 — a demand gap.** Her questions after the short-term note: what if inflation rises, or deflation;
+    fewer people with more income each; yields up, inflation up, stocks down — which weird scenario is likeliest?
+    My pushback (income shifting to high savers lowers total demand; the likeliest weirdness is a price split under
+    a calm headline; the model cannot make a recession) and her call to build it. Built `code/demand.py` (the
+    measured Swedish Okun and Phillips slopes; monthly periods added to `deposits_wages.scb_table`) and
+    `checks/check_demand.py` (13/13). A first version of the shock test started today's economy below neutral,
+    which is a stimulus, and so mixed room with stance; restated to vary only the room to the floor.

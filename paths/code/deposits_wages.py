@@ -72,7 +72,8 @@ def scb_table(table: str, query: dict, name: str) -> pd.DataFrame:
     for d in js["data"]:
         per, col = d["key"][-1], (d["key"][pos] if multi else name)
         v = d["values"][0]
-        rows.setdefault(pd.Period(per.replace("K", "Q"), "Q"), {})[col] = float(v) if v not in ("..", "", "-") else np.nan
+        p = pd.Period(per.replace("M", "-"), "M") if "M" in per else pd.Period(per.replace("K", "Q"), "Q")    # monthly or quarterly
+        rows.setdefault(p, {})[col] = float(v) if v not in ("..", "", "-") else np.nan
     return pd.DataFrame.from_dict(rows, orient="index").sort_index()
 
 
