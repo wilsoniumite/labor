@@ -16,7 +16,8 @@ their public counterparts are built here instead (US Treasuries; Swedish bills a
 openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
 sovereign spread built, checks 6/6, public monitor run; macro block built with calibration (a)
 and then (b) produced capital, checks 21/21; recognition as a mixture built, checks 10/10;
-reverse stress testing part 1 — the envelope over the dials — built, checks 11/11; next: her read,
+reverse stress testing part 1 — the envelope over the dials — built, checks 11/11; speed — markets
+at machine speed, with the digestion history of US Treasuries — built, checks 15/15; next: her read,
 then part 2 against an exposure profile on the bank side).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
@@ -36,7 +37,9 @@ references, not templates. What "extreme" can mean — different in kind, not on
    expectation at all);
 3. the front stops anchoring the curve — government bonds decouple from OIS, the term premium
    dominates, the interbank basis blows out;
-4. speed — repricing in days, volatility regimes beyond March 2026;
+4. speed — repricing in days, volatility regimes beyond March 2026; and her sharper version
+   (2026-09-24): markets run on cognitive labour at a human speed, and if AI comes to be trusted to
+   guide investment that bottleneck lifts — the recognition clock driven by the technology clock;
 5. correlations flip — rates up with unemployment up;
 6. feedback and thresholds — debt service to consumption to growth, house prices to collateral
    to lending, bank funding to basis: nothing moves, then everything flips at once.
@@ -284,6 +287,44 @@ is right; in an extreme path the destination is what is wrong.
   - Three artefacts found and fixed on the way (log 9): a destination window that ran off the
     path's end, a rate feedback that cycled quarter to quarter, and uniform ranges that made most
     draws mild automation.
+- **Speed: markets at machine speed** (her point, 2026-09-24; `code/recognition.py` extended —
+  capacity, trust, a shared error, digestion — `code/speed_scenarios.py`, `results/speed.json`,
+  `figures/fig_speed.png`; checks `checks/check_speed.py`, 15/15). Two channels, run separately, plus
+  a failure mode. Worlds on a weekly grid with the two bridges that decide direction ("deficits
+  dominate": the 10Y +81 bp through recognition; "owners' saving dominates": −119 bp).
+  - **More reading makes recognition earlier, not sharper.** Capacity c = c times as many independent
+    readings (L2: a learner with noise σ/√c). With trust following the economy's own automation, the
+    market recognises the new world while trust in AI is still 6–15% (F1): it wakes up from the data
+    before the AI it would use is trusted, and the speed-up barely bites. If finance adopts three
+    years ahead of the economy, ×100 moves the one-half date from year 3.6 to 1.6 (1% of the
+    labour-share fall done, not 5%); the 10%→90% window shrinks only from 61 to 33 weeks.
+  - **Faster digestion makes it abrupt.** The same lump of news (+4 log odds, before recognition)
+    moves the 10Y 0.6 bp in its first week if regime news is digested with a quarter's half-life, 10
+    at ×10, 40 at ×100 or instantly; the 3M moves about 1 bp because policy waits for meetings, so
+    the long end gaps alone — a twist, not a parallel shift. Within a month: 3, 35, 41 bp; the
+    saving-dominates world mirrors it (−50 bp in the week at machine speed).
+  - **Faster, and easier to fool.** If the market's AI readings share an error (0.5 pp of the 1 pp)
+    and it knows, capacity is capped at the shared error's precision (L4) and false dawns stay
+    near 2%; if it takes them for independent confirmation, false dawns in a status quo world rise
+    from under 1% today to 28% at ×10, 61% at ×30, 82% at ×100 — and the same market is right early
+    when the new world is real (one-half at 0.7 years at ×100).
+  - **The history, her second point** (`code/digestion_history.py`, `results/digestion_history.json`,
+    `figures/fig_digestion_history.png`; H1–H3). US Treasury yields since 1962: the 10Y's 21-day
+    variance ratio was 1.48 in 1962–81 and 1.26 in 1982–94 (news kept drifting in for weeks, z 2.8
+    and 2.2), 1.04 in 1995–2008 and 0.88 since 2009 (a little overshoot). The decline is gradual —
+    from 2.4–2.6 around 1970 through the screen-and-futures 1980s to 1.0 by the mid-1990s — so it
+    predates both the Fed's announcements (1994) and the internet, pointing at market technology and
+    structure (with staler early quotes and Fed opacity as stated confounds). In 1982–94 about three
+    quarters of a 10Y move came at once and the rest with a half-life of about two weeks. On that
+    measured rung the same lump of news moves the 10Y 31 bp in its first week (F2) — so for
+    quantified news the step from human to machine speed has largely happened already. What the
+    speed results rest on is the assumption that humans still digest *regime judgements* slowly;
+    daily yields cannot measure that, and it is the next thing to test.
+  - `[inferred]` **For a bank:** machine-speed markets move the risk from a late, large resolution
+    jump to an early, abrupt repricing of the long end while the policy rate waits — inside the
+    interval between a bank's hedging decisions (a monthly ALCO absorbs 35–41 bp in the scenario
+    where a human market would have shown 3) — and they add a new tail: correlated models producing
+    false dawns that reverse.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -348,6 +389,13 @@ is right; in an extreme path the destination is what is wrong.
     prior-weighted distance (needs views on each dial), or ranges narrowed by evidence as it
     arrives. The ranges are the thing to veto: a dial whose range is too wide inflates the tails;
     one too narrow hides a driver.
+18. **Speed as two channels and a failure mode**, on the learner rather than as a separate volatility
+    layer: capacity (how much is read: recognition earlier), digestion (how fast it is priced: news
+    gaps), and a shared error the market may not know it has. Trust follows the true world's own
+    automation by default (the reflexive reading of her point), with a lead for finance adopting
+    early. Today's digestion is measured for rate news (US 10Y, 1982–94 and since 1995) and assumed
+    for regime news (half-life a quarter; 0.1 and 0.5 shown). Alternatives: a stochastic volatility
+    layer on the curve; digestion measured on forward-rate forecast errors.
 
 ## Next
 
@@ -375,6 +423,11 @@ is right; in an extreme path the destination is what is wrong.
    more structure (how rentier and profit income is spent); alternative policy regimes (flexible
    target, currency defence, yield cap) — the lower bound is currently what bounds the fall side;
    speed as volatility; euro (the ECB's published AAA curve parameters) as a further cycle.
+8. ~~**Speed**~~ — **built 2026-09-24** (above). Open: **how slowly do markets digest regime
+   judgements?** — the assumption the abruptness result rests on. A public test: forward-rate
+   forecast errors (the 2010s priced hikes year after year that did not come; how long did it take
+   the forward curve to learn "lower for longer"?), and after 2022 the reverse. A proper post-FOMC
+   drift test needs surprise measures that are not on FRED.
 
 ## Siblings
 
@@ -474,3 +527,20 @@ the macro block lands.
    — the scale dials are now drawn in logs (median 0.77). Findings above; the headline for her:
    under this mechanism the rate move's sign is a question about owners' saving against deficits,
    while the wage and fiscal damage is robust.
+10. **2026-09-24 — speed, and its history.** Her point after reverse stress part 1: markets run on
+    cognitive labour at a human speed; AI trusted to guide investment could lift that bottleneck.
+    Built on the learner (`recognition.py`: capacity, trust following the technology with a lead,
+    a shared error with an aware/unaware market, digestion with a share and a half-life; `refine`
+    for a weekly grid; all defaults nest the committed model — `recognition.json` reproduced byte
+    for byte). The first run changed the framing: more capacity mostly makes recognition *earlier*,
+    and with trust following the economy the market wakes up before the AI is trusted; abruptness
+    comes from digestion — the old default (instant Bayes) had been an AI-speed market all along.
+    Mid-run her second point — internet adoption may have changed digestion before — became
+    `code/digestion_history.py` on FRED's daily Treasury yields: drift in the 10Y and 2Y before
+    the mid-1990s, none after, a little overshoot since 2009; the decline gradual, predating the
+    Fed's 1994 announcements. The measured 1980s rung was added to the speed ladder, and the
+    quarter-long half-life relabelled as the assumption for regime news it is. Also recorded: the
+    monthly GS10 series was tried and dropped (monthly averages build in autocorrelation), and an
+    event test on target-change days was inconclusive (31–99 events an era, the 3M bill as the
+    surprise). Checks 15/15 (first run 14/15: one exact-equality check tripped on rounding —
+    (σ/√7)² is not σ²/7 in floating point).
