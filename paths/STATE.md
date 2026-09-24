@@ -501,6 +501,36 @@ is right; in an extreme path the destination is what is wrong.
     support. The cap moves who bears the loss (the job loser rather than the supporter) more than it moves demand.
     **The tail is families plus rigid money wages**: gap -4.5% (2009-sized), inflation 1.3%, 3.5 years at the
     floor, a third of the lost wage covered by year 15 — the deepest run of all.
+- **Could it become a Great Depression, worldwide?** (her call, 2026-09-24: the single-country layers look soft on
+  unemployment; bring in the US, Europe and China; the big picture, not a bank; `code/global_crash.py`,
+  `results/global_crash.json`, `figures/fig_global_crash.png`, `figures/fig_global_crash_validation.png`; checks
+  `checks/check_global_crash.py`, 12/12). My pushback first: the paper's structural job loss is already Depression
+  scale (16% of jobs by year 10, 30-42% by 15); what was soft was the amplification — slow, supported, linear, with
+  banks and policy working. Built four regions (US, euro area, Sweden, China) with four amplifiers: recessions
+  trigger adoption (cyclical job loss turning permanent), bank capital and credit spreads (a money channel when
+  deposits are uninsured), trade and a shared risk mood, and rules that can change (policy, support, fiscal, deposit
+  insurance, backstop, tariffs, anchoring). **Validated first**, one parameter set: US 1929-33 with the 1930s' rules
+  (1933 output 0.72 of 1929 against 0.74; prices 0.72 against 0.75; unemployment 29.6 against 24.9) and 2008-10 with
+  today's (trough -5.1 against -6.3, unemployment peak 8.9 against 9.9); seven parameters by a global search on
+  those paths with measured shocks (stocks, exports, housebuilding). Known bias: it recovers from 2009 faster than
+  the US did — optimistic about duration. The fit makes interest rates a weak lever (a_r 0.03, the literature's low
+  end) and cannot separate debt deflation from the real-rate effect of expected deflation. Start values measured on
+  FRED/BIS (US unemployment 4.1%, policy 3.88%; ECB 2.5%; household debt 68/51/82/58% of GDP); the rest approximate,
+  stated. Findings (a dot-com-shaped bust of the AI build-out; year 4):
+  - **Today's rules, the bust alone**: a 2008-sized world recession (the four 6.4% below capacity; the US 8.8%).
+  - **With the paper's displacement and recessions triggering adoption**: a *labour* depression without an output
+    one — US unemployment 19-28% while US output stays 11-13% below capacity. The US leads (flexible firing, a thin
+    safety net, the largest AI exposure and wealth effect): +15 points of unemployment against +3-6 elsewhere.
+  - **When the rules erode** (austerity, no backstop, tariffs, looser anchoring): Great Depression scale — the four
+    22-29% below capacity, US unemployment 33-50%, US and Swedish banks' capital gone, euro-area and Chinese 60-90%.
+    The 1930s' rules on today's debts are worse again (the four 31-40%; Sweden with no bottom inside the model).
+  - **When the rules expand** (an income guarantee at 90% of lost labour income): output held within 4-9% of
+    capacity everywhere, at up to 4-6% of US GDP a year — but unemployment still 17-23% in the US: the guarantee holds
+    demand, not jobs. No inflation surge in four years; the gap stays negative.
+  - `[inferred]` What makes a Depression is not the shock but the rules' response, as in 1929-33: the same bust is a
+    2008 or a 1930 depending on backstops, austerity and trade. The AI-specific danger is the labour depression that
+    today's rules do not prevent — output recovers while jobs do not. Sweden's exposure is overstated here: the model
+    has no exchange rates, and the krona's fall is Sweden's historical cushion (leaving gold in 1931, 2008-09).
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -815,3 +845,12 @@ the macro block lands.
     carry a few people but not a mass exit — and variants without the cap, with rigid wages, with checks. Checks
     now 18/18; the tail check was first written claiming "longest at the floor" without testing it, fixed to test
     it. The figure's title strings broke once more on a heredoc escape, repaired in place.
+20. **2026-09-24 — a world crash model.** Her questions: unemployment looks soft; why not a Great Depression, when
+    pressure can change the rules; bring in the US, Europe (and China, insofar as possible); the big picture, not
+    SEB. Proposed the design with a validation gate (reproduce 1929-33 and 2008-09 with one parameter set) and built
+    `code/global_crash.py` and `checks/check_global_crash.py` (12/12). The first fit matched 1933's endpoints only and
+    the path was wrong (no 1930 collapse, a 2011 trough); refitted on the paths with measured shocks (stocks, exports,
+    housebuilding) and a global search. Fixes before findings: a fiscal cliff when stimulus ended (now tapered), the
+    structural drift buried in "as usual" (now its own dial), an income guarantee standing in for "expand" (it had
+    been a bigger temporary stimulus), and the 1930s' rules on today's debts running into a clamp (now reported at
+    four years with a no-bottom flag). Two check texts claimed more than they tested; fixed.
