@@ -401,6 +401,26 @@ is right; in an extreme path the destination is what is wrong.
     reverses; in the paper's world the link between rates and house prices breaks (land up with
     rates up, borrowers' incomes down), credit risk moves from the bank's books to households and to
     commercial property, and the pressure on the bank's earnings comes from the falling-rate branch.
+- **What Swedish banks did at the floor** (her call, 2026-09-24: test the assumption the bank-side
+  floor loss rests on; `code/floor_margins.py`, `results/floor_margins.json`,
+  `figures/fig_floor_margins.png`; checks `checks/check_floor_margins.py`, 7/7). Public: Statistics
+  Sweden's MFI interest-rate statistics (new and outstanding household mortgage rates by fixation;
+  bank deposit rates, households and corporates; corporate floating lending) and the Riksbank's policy
+  rate, STIBOR 3M (to 2020-07) and mortgage-bond yields, monthly 2005-2026. Findings:
+  - **Mortgage rates stopped falling at zero.** With policy at -0.50% (2016-18) new floating mortgages
+    cost 1.53%, against 1.48% with policy at 0% (2020-21): margins widened +1.03 per point below zero
+    (regression over 2015-21, one capital regime; contrast 1.11; over STIBOR 1.13). The confound — FI's
+    risk-weight floors of 2013-14 — sits before the window. **Corporate floating loans did pass negative
+    rates through** (margin 1.94 against 1.92). **Deposit rates stopped at zero**, not below (households
+    0.06%, corporates 0.007% at the lowest).
+  - **Deposits rise more slowly than they fall.** Household deposit rates passed on 0.49-0.57 of the
+    2022-23 hikes against 0.74-0.78 of the 2024-26 cuts (0.66-0.74 up against down), about two months
+    later; corporates 0.89-0.90.
+  - **Mortgage margins were squeezed on the way up and did not recover**: -0.13 per point over the
+    hikes (1.41 in 2021H2 -> 0.91 in 2023H2; 0.97 in 2026H1).
+  - The stylised bank now carries the measured floor rule (`margin_comp` 1.0 from zero, replacing a
+    guessed 0.5 from 0.5% — which happened to give the same margin at the model's -0.5% floor, so its
+    levels do not move; the NII low in the owners'-saving path comes a quarter earlier, 13.25 years).
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -666,3 +686,10 @@ the macro block lands.
     the pure tightening, deficits dominating, owners' saving dominating, and deficits dominating
     with slow regime digestion then AI adoption. A user lays the changes on their own curve. Nothing
     from the bank side is recorded here, by the wall.
+14. **2026-09-24 — the floor evidence.** Her choice of next step after the bank-side application:
+    test the floor behaviour its headline rests on, on public data. SCB's PxWeb API and the Riksbank's
+    SWEA API both reachable; STIBOR leaves SWEA in 2020-07 (publication moved), so margins are measured
+    over the policy rate, STIBOR as the cross-check. Built `code/floor_margins.py` and
+    `checks/check_floor_margins.py` (7/7 on first run). Findings above; the bank-side engine takes the
+    three measured rules (floor compensation, slower deposit rises, the up-side mortgage squeeze) as its
+    central case, internally. Figure: two titles clipped and a label collision fixed before the commit.

@@ -230,7 +230,7 @@
   "nii_max": 2.11,
   "nii_max_year": 0.0,
   "nii_min": 0.88,
-  "nii_min_year": 13.5,
+  "nii_min_year": 13.25,
   "deposit_spread_start_max": [
    0.98,
    0.98
@@ -272,7 +272,7 @@
   ],
   "result_max_year_min_year": [
    3.0,
-   13.5
+   13.25
   ]
  },
  "owners' saving dominates, office rents follow the wage bill": {
@@ -285,7 +285,7 @@
   "nii_max": 2.11,
   "nii_max_year": 0.0,
   "nii_min": 0.88,
-  "nii_min_year": 13.5,
+  "nii_min_year": 13.25,
   "deposit_spread_start_max": [
    0.98,
    0.98

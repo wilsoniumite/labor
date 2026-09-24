@@ -13,8 +13,8 @@
 #     — the effective pass-through (deposit beta) rises with both the level and the duration of rates.
 #   - Mortgages reprice with the bank's floating funding (policy rate + covered-bond spread) plus a
 #     margin, catching up with a lag: margins are squeezed while funding costs rise and widen while
-#     they fall. Near and below zero, where deposit rates are stuck, banks widen lending margins (as
-#     Swedish mortgage margins did when policy went negative in 2015–16) — `margin_comp`. Reserves at the central bank earn a share of the policy rate (a political dial).
+#     they fall. Below zero, where deposit rates are stuck, banks widen mortgage margins about one-for-one
+#     — measured on Sweden 2015-21 (floor_margins.py) — `margin_comp`. Reserves at the central bank earn a share of the policy rate (a political dial).
 #     Securities are a ladder bought at the 2Y yield. Corporate and commercial-property loans float.
 #   - House prices: the value of a unit of site — its expected real rent path, weighted by the market's
 #     belief in each world, discounted at the market's real 10Y rate plus a premium. In the paper's
@@ -54,8 +54,8 @@ class Bank:
     wholesale_spread: float = 0.80
     mortgage_margin: float = 1.30       # pp over covered funding, once passed through
     mortgage_lag: float = 0.25          # years: half-life of mortgage rates catching up with funding
-    margin_comp: float = 0.5            # pp of extra mortgage margin per pp the policy rate sits below margin_from
-    margin_from: float = 0.5            # % : below this, deposit rates are stuck at zero and lending margins widen
+    margin_comp: float = 1.0            # pp of extra mortgage margin per pp the policy rate sits below margin_from:
+    margin_from: float = 0.0            #   measured, Sweden 2015-21: +1.03 per point below zero (floor_margins.py)
     corporate_spread: float = 1.50
     cre_spread: float = 2.00
     reserve_pay: float = 1.00           # share of the policy rate paid on reserves

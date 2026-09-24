@@ -1,0 +1,120 @@
+{
+ "sources": "SCB FM5001C RantaT04N/RantaT05/RantaT01N; Riksbank SWEA SECBREPOEFF, SEDP3MSTIBORDELAYC, SEMB2YCACOMB, SEMB5YCACOMB",
+ "episodes": {
+  "positive, 2012-14": {
+   "policy": 0.97,
+   "mortgage_float_new_over_policy": 1.89,
+   "mortgage_float_stock_over_policy": 2.01,
+   "mortgage_1_5y_new_over_mb2y": 1.55,
+   "nfc_float_new_over_policy": 1.96,
+   "dep_hh_demand": 0.63,
+   "dep_hh_all": 1.0,
+   "dep_nfc_demand": 0.71,
+   "stibor_over_policy": 0.31
+  },
+  "negative, 2016-18": {
+   "policy": -0.5,
+   "mortgage_float_new_over_policy": 2.03,
+   "mortgage_float_stock_over_policy": 2.08,
+   "mortgage_1_5y_new_over_mb2y": 1.77,
+   "nfc_float_new_over_policy": 1.94,
+   "dep_hh_demand": 0.07,
+   "dep_hh_all": 0.08,
+   "dep_nfc_demand": 0.01,
+   "stibor_over_policy": 0.03
+  },
+  "zero, 2020-21": {
+   "policy": 0.0,
+   "mortgage_float_new_over_policy": 1.48,
+   "mortgage_float_stock_over_policy": 1.63,
+   "mortgage_1_5y_new_over_mb2y": 1.23,
+   "nfc_float_new_over_policy": 1.92,
+   "dep_hh_demand": 0.08,
+   "dep_hh_all": 0.1,
+   "dep_nfc_demand": 0.02,
+   "stibor_over_policy": 0.16
+  },
+  "hikes, 2022-23": {
+   "policy": 2.41,
+   "mortgage_float_new_over_policy": 1.18,
+   "mortgage_float_stock_over_policy": 1.09,
+   "mortgage_1_5y_new_over_mb2y": 0.45,
+   "nfc_float_new_over_policy": 2.06,
+   "dep_hh_demand": 1.07,
+   "dep_hh_all": 1.22,
+   "dep_nfc_demand": 1.13,
+   "stibor_over_policy": null
+  },
+  "cuts, 2024-26": {
+   "policy": 2.4,
+   "mortgage_float_new_over_policy": 0.85,
+   "mortgage_float_stock_over_policy": 0.97,
+   "mortgage_1_5y_new_over_mb2y": 0.6,
+   "nfc_float_new_over_policy": 1.98,
+   "dep_hh_demand": 0.84,
+   "dep_hh_all": 1.18,
+   "dep_nfc_demand": 1.23,
+   "stibor_over_policy": null
+  }
+ },
+ "floor": {
+  "contrast_margin_change_pp": 0.56,
+  "contrast_policy_change_pp": -0.5,
+  "contrast_per_point_below_zero": 1.11,
+  "regression_2015_2021_per_point_below_zero": 1.03,
+  "regression_se": 0.04,
+  "regression_margin_at_zero": 1.53,
+  "over_stibor_per_point_below_zero": 1.13,
+  "deposit_floor": {
+   "hh_demand_min": 0.06,
+   "hh_all_min": 0.06,
+   "nfc_demand_min": 0.007
+  }
+ },
+ "asymmetry": {
+  "dep_hh_demand_stock": {
+   "up_2022_23": 0.49,
+   "down_2024_26": 0.74,
+   "up_over_down": 0.66
+  },
+  "dep_hh_all_stock": {
+   "up_2022_23": 0.57,
+   "down_2024_26": 0.78,
+   "up_over_down": 0.74
+  },
+  "dep_nfc_demand_stock": {
+   "up_2022_23": 0.55,
+   "down_2024_26": 0.61,
+   "up_over_down": 0.89
+  },
+  "dep_nfc_all_stock": {
+   "up_2022_23": 0.6,
+   "down_2024_26": 0.67,
+   "up_over_down": 0.9
+  },
+  "mortgage_float_new": {
+   "up_2022_23": 0.86,
+   "down_2024_26": 0.93,
+   "up_over_down": 0.92
+  },
+  "lag_on_the_way_up": {
+   "dep_hh_all_stock": {
+    "months_to_half_of_its_rise": 11,
+    "policy_months_to_half": 9,
+    "lag_months": 2
+   },
+   "dep_hh_demand_stock": {
+    "months_to_half_of_its_rise": 11,
+    "policy_months_to_half": 9,
+    "lag_months": 2
+   }
+  },
+  "mortgage_margin_per_point": {
+   "up_2021_12_to_2023_12": -0.132,
+   "down_2024_04_to_2026_07": -0.07,
+   "level_2021H2": 1.41,
+   "level_2023H2": 0.91,
+   "level_2026H1": 0.97
+  }
+ }
+}
