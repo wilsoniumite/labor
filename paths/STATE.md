@@ -467,6 +467,30 @@ is right; in an extreme path the destination is what is wrong.
     anchored expectations. It needs the channels this layer leaves out: debt deflation (fixed nominal debts
     against falling money wages, which the macro block produces at the peak), credit crunches, confidence. Those
     are the next things to add if the tail is the question.
+- **Who carries the people who leave work** (her call, 2026-09-24: a surge in dependence — families, friends —
+  and emergency policy such as stimulus checks; central case today's Swedish state support; `code/households.py`,
+  `results/households.json`, `figures/fig_households.png`; checks `checks/check_households.py`, 11/11). The paper's
+  economy pools everything (one owning household gives every member a basket, working or not), so dependence was in
+  the model only in its frictionless form. The layer adds what pooling hides, as the extra spending of
+  budget-constrained groups fed into the demand layer: people who lose work (net wage replaced by public support —
+  0.65 the first year, 0.50 after, approximate — family and friends' share of the rest, then their own savings),
+  their supporters, borrowers' debt service on fixed money debts (floating on 76.8% of housing loans, measured), and
+  emergency checks. Measured start (Statistics Sweden): debt 1.74 x disposable income, mortgage margin 1.07.
+  Findings (the paper's deep-automation worlds; year 10 unless stated):
+  - **Today's Swedish state support absorbs the surge in dependence.** Constrained households take 0.35-0.4% of GDP
+    off demand when deficits dominate; without state support the job losers' drag alone is 1.1% at year 12 against
+    0.1%. Under state support, family and friends change almost nothing.
+  - **Floating-rate mortgages are a stabiliser that follows the branch.** Debt service goes from 10.2% of borrowers'
+    income to 12-13% when deficits dominate (rates up) and down to 5% when owners' saving does (rates to the
+    floor), so in the falling branch Swedish households cushion the downturn (gap -1.2% against -1.4% pooled).
+  - **Rigid money wages are the dangerous case, and the realistic one.** The macro block asks for money-wage cuts
+    of 10-15% a year at the peak; floored at zero, the adjustment lands on jobs (labour-demand elasticity 0.4):
+    27% of the start's employment out of work by year 10 against 16% (owners' saving), the gap -2.8% against -1.2%,
+    three years at the floor. Debt deflation does not bite there — rates fall and wages hold — unemployment does.
+  - **Emergency checks** (4% of household income for a year, triggered by unemployment) lift output about 0.3
+    points while paid and leave nothing after.
+  - Disclosed artefact: with flexible money wages falling 40%+, price-indexed benefits exceed the lost wages, so the
+    job losers' drag fades late in the owners'-saving run; the rigid-wage variant does not have it.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -768,3 +792,11 @@ the macro block lands.
     measured Swedish Okun and Phillips slopes; monthly periods added to `deposits_wages.scb_table`) and
     `checks/check_demand.py` (13/13). A first version of the shock test started today's economy below neutral,
     which is a stimulus, and so mixed room with stance; restated to vary only the room to the floor.
+18. **2026-09-24 — who carries the people who leave work.** Her question: is dependence in the model, and could
+    stimulus checks be modelled? It was, frictionless (the paper's pooled household). Built `code/households.py`
+    on the demand layer (which now takes a demand level from other layers, entering at once:
+    `gap_t = a1 gap_{t-1} - a_r (real-rate gap) + level_t - a1 level_{t-1}`) and `checks/check_households.py`
+    (11/11). Central case today's Swedish state support, her call; family-based support is the next variant. Bugs
+    caught before any finding: debts that could not grow with income (the status quo drifted); temporary spending
+    entered at a sixth of its size; a rigid-wage rule with elasticity 1 and no unwinding sent 70%+ out of work;
+    and three patch scripts whose first assertion failed silently left the file unchanged — edits made by hand.

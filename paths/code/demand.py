@@ -97,15 +97,18 @@ class Demand:
     elb: float = -0.5
 
 
-def run(mp: dict, dm: Demand = Demand(), shock: np.ndarray | None = None, i0: float | None = None) -> dict:
+def run(mp: dict, dm: Demand = Demand(), shock: np.ndarray | None = None, i0: float | None = None, extra=None) -> dict:
     """shock: an exogenous demand shock added to the gap each quarter (% of capacity) — a crash, a wealth or
     confidence shock. i0: the policy rate at the start (default: neutral, r*_0 + pi*); below neutral means the
-    economy starts with less room to the floor."""
+    economy starts with less room to the floor. extra: a function (k, state) -> a demand LEVEL (% of capacity) that
+    other layers compute from the state so far (households.py). Spending moves output at once: the gap less that
+    level follows the IS dynamics, i.e. gap_t = a1 gap_{t-1} - a_r (real-rate gap) + level_t - a1 level_{t-1}; a level
+    held for good moves the gap by its size before policy responds, a temporary one (a check) while it lasts."""
     t, dt = mp["t"], float(mp["t"][1] - mp["t"][0])
     rs, pis = mp["r_star"], float(mp["pi_star"])
     n = len(t)
     sh = np.zeros(n) if shock is None else np.asarray(shock, float)
-    rhat, i_, gap, pi, pie, rr = (np.zeros(n) for _ in range(6))
+    rhat, i_, gap, pi, pie, rr, lvl = (np.zeros(n) for _ in range(7))
     rhat[0], pi[0], pie[0] = rs[0], pis, pis
     i_[0] = max(rs[0] + pis if i0 is None else i0, dm.elb)
     w = 1.0 - 0.5 ** (dt / dm.h) if dm.h > 0 else 1.0
@@ -115,7 +118,8 @@ def run(mp: dict, dm: Demand = Demand(), shock: np.ndarray | None = None, i0: fl
         target = rhat[k] + pie[k] + dm.phi_pi * (pi[k - 1] - pis) + dm.phi_y * gap[k - 1]
         i_[k] = max(dm.elb, dm.smooth * i_[k - 1] + (1 - dm.smooth) * target)
         rr[k] = i_[k] - pie[k]
-        gap[k] = dm.a1 * gap[k - 1] - dm.a_r * (rr[k] - rs[k]) + sh[k]
+        lvl[k] = 0.0 if extra is None else extra(k, {"policy": i_, "gap": gap, "inflation": pi, "t": t})
+        gap[k] = dm.a1 * gap[k - 1] - dm.a_r * (rr[k] - rs[k]) + sh[k] + lvl[k] - dm.a1 * lvl[k - 1]
         pi[k] = pie[k] + dm.kappa * gap[k]
     rr[0] = i_[0] - pie[0]
     shift = pi - pis

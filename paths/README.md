@@ -35,12 +35,13 @@ from it is reproduced here.
 | `code/floor_margins.py` | What Swedish banks did at the floor and on the way up: mortgage margins below zero, deposit rates floored at zero, deposit pass-through up against down, the 2022-23 margin squeeze (Statistics Sweden, Riksbank). |
 | `code/deposits_wages.py` | Do Swedish household deposits follow wages? Deposit growth against wage and income growth, deposits against saving, the wage share and the cost of holding them; the share of non-wage income households receive (Statistics Sweden, Riksbank). |
 | `code/demand.py` | A demand gap for the macro block: output, unemployment and inflation when the central bank learns the neutral rate with a lag or meets the floor; Okun and Phillips slopes measured on Swedish data (Statistics Sweden). |
+| `code/households.py` | Who carries the people who leave work — the state, family and friends, their savings — and borrowers' debt service on fixed money debts, fed into the demand layer; emergency checks; rigid money wages. Swedish household debt, fixation and margins from Statistics Sweden. |
 | `code/export_paths.py` | The paths as a plain table for anyone to put their own book on: per scenario and quarter, the policy rate, zero rates 3M-10Y, the real wage bill, for a credit book the real wage, employment, the real site rent and site price, and the price level, and for a deposit book real income and the labour share (`results/paths_for_banks.csv`); apply the changes to your own curve. |
 | `code/reverse.py` | Reverse stress testing, part 1: the model's dials (technology path, bridges, capital premium, learning) over broad stated ranges; the run; rank correlations; the most plausible draw reaching a threshold. |
 | `code/reverse_envelope.py` | 4,000 Latin-hypercube draws: the envelope of curve and macro outcomes, what drives them, the most plausible routes to a ±100 bp 10Y move. |
 | `code/cycle.py` | A rate cycle driven through the three clocks: a lagged, stepwise central bank and a market that learns. |
 | `code/us_modes.py` | The public test: phases of the Fed's 2021–23 cycle and the last twelve months on FRED Treasury yields. |
-| `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py`, `checks/check_recognition.py`, `checks/check_reverse.py`, `checks/check_speed.py`, `checks/check_regime_digestion.py`, `checks/check_bank.py`, `checks/check_floor_margins.py`, `checks/check_deposits_wages.py`, `checks/check_demand.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures), recognition, the reverse stress machinery, speed, the digestion estimators and the forward-rate test, the stylised bank. They gate everything. |
+| `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py`, `checks/check_recognition.py`, `checks/check_reverse.py`, `checks/check_speed.py`, `checks/check_regime_digestion.py`, `checks/check_bank.py`, `checks/check_floor_margins.py`, `checks/check_deposits_wages.py`, `checks/check_demand.py`, `checks/check_households.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures), recognition, the reverse stress machinery, speed, the digestion estimators and the forward-rate test, the stylised bank. They gate everything. |
 | `results/`, `figures/` | Outputs of `code/`. |
 | `cache/` | The data vintages behind every number: FRED (pulled by `pinning/code/lambda_compute2.pull_fred`); under `cache/riksbank/`, the Riksbank's SWEA API; under `cache/fed/`, a trimmed vintage of the Fed Board's Gürkaynak–Sack–Wright curve; under `cache/spf/`, the Philadelphia Fed's survey files; under `cache/scb/`, Statistics Sweden's interest-rate tables. |
 
@@ -61,5 +62,6 @@ From this folder, with the repository's venv:
 ../venv/Scripts/python.exe checks/check_floor_margins.py
 ../venv/Scripts/python.exe checks/check_deposits_wages.py
 ../venv/Scripts/python.exe checks/check_demand.py
+../venv/Scripts/python.exe checks/check_households.py
 ../venv/Scripts/python.exe code/us_modes.py
 ```
