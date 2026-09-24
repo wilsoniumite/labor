@@ -11,9 +11,9 @@ below are a veto window for her one-word calls.
 **The wall:** this repository is public. Public data only (FRED, Statistics Sweden, the
 Riksbank, the ECB). The bank-side application lives in an internal repository; nothing from it
 is reproduced here, including the Swedish OIS measurements that motivated the curve layer —
-their public counterparts are built here instead (US now; Swedish government bonds next).
+their public counterparts are built here instead (US Treasuries; Swedish bills and bonds 1990–95 and 2021–26).
 **State as of:** 2026-09-24 (founded; curve layer built; checks 22/22; US test run; the
-openness principle adopted; next unit: Sweden 1990–95).
+openness principle adopted; Sweden 1990–95 measured; next unit: the swappable pieces).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -81,6 +81,29 @@ is right; in an extreme path the destination is what is wrong.
   the long end rose (~40 bp) and then the **timing mode re-armed in reverse**: phase D is a
   cuts-pricing hump with the front nearly still. The last twelve months are a pricing hump
   again, `tau` at 0.91.
+- **`code/se_1990s.py` — an extreme in the record: Sweden 1990–95** (Riksbank SWEA API, public;
+  `results/se_1990s.json`, `figures/fig_se_1990s.png`; bills and bonds as zero proxies):
+  - **E1 defending the krona, 8 → 18 Sep 1992** (marginal rate 16 → 500%): 1M bill +7,700 bp (to
+    99%), 3M +620, 12M +140, while 2Y −73 and 10Y −8. No supervisory shape comes close (best R²
+    0.34). On the crisis day the curve ran spike → plateau → lower (1M 99%, 3–12M 23–31%, 10Y
+    11.5%): the one-speed curve misses by 1,069 bp RMSE and the two-stage cascade by 296 bp with
+    parameters at their bounds, against 17 bp on calm 1991–92 days. `[inferred]` The market priced
+    a **mixture of regimes** — the defence holds (rates high for months) or fails (float, cuts) —
+    and no single smooth expected path can draw that.
+  - **E3–E4 the float (19 Nov 1992) and 1993:** the whole curve fell; over 1993 by 270–340 bp at
+    every maturity, **parallel down R² 0.99** — the only move of near-equal size at every maturity
+    in any episode measured so far (the whole-cycle moves fit a parallel shape but are front-heavy),
+    and it came after a regime break, when the anchor itself changed. `[inferred]` A
+    destination that can **jump**, not only drift.
+  - **E5 the fiscal bond crash, Jan → Sep 1994:** 5–10Y +450 bp with the policy rate −30 bp; of
+    the 10Y rise, **+259 bp was the widening of the spread over German yields** (116 → 375 bp).
+    The shape was ordinary (one-speed RMSE 16 bp); the extreme was size and source, and the curve
+    showed no visible destination (the two-stage fit ran to its bound, still rising at 10Y).
+    `[inferred]` An **anchor-failure** state: a sovereign spread over the common rate.
+  - **Whole, Jun 1992 → Jun 1995:** front −233 bp, 10Y +127; spread over Germany 171 → 407 bp;
+    the trade-weighted krona index +33.5% (the krona about a quarter weaker).
+  - **Speed, same public series, 1990–95 against 2021–26** (99th percentile of daily moves): 3M
+    **200 vs 17 bp** (12×), 2Y 52 vs 16, 10Y 40 vs 16; the largest single day at 3M 900 vs 51 bp.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -106,15 +129,20 @@ is right; in an extreme path the destination is what is wrong.
 
 ## Next
 
-1. **Measure an extreme first: Sweden 1990–95** (Riksbank API, public — the marginal rate
-   1987–94, Treasury bills from 1983, government bonds from 1985–87, STIBOR from 1987, German
-   yields for the spread). Three kinds of extreme in one record: the currency-defence spike of
-   September 1992, the float of November 1992 and the collapse after it, the fiscal bond crash of
-   1994. The question: which of the curve layer's pieces survive, and which swappable pieces are
-   missing.
-2. **The swappable pieces** it calls for, beside the curve layer: a destination that can ratchet;
-   policy regimes (does not deliver, currency defence, yield cap); an anchor-failure state
-   (sovereign spread over OIS and the interbank basis).
+1. ~~Measure an extreme first: Sweden 1990–95~~ — **done 2026-09-24**, above. What survives: the
+   identity (the curve as an average of expected policy) and the shapes of ordinary moves, even
+   at 1994's size. What is missing, each with its episode:
+2. **The swappable pieces**, now named by evidence:
+   a. **regime-mixture expectations** — the expected path as a probability-weighted mix over
+      policy regimes (defence holds / fails; delivers / abandons), which draws spike → plateau →
+      lower shapes no single path can (E1);
+   b. **a destination that can jump** as well as ratchet — a regime change moves the anchor at
+      once, and that is what produced the only parallel move (E4);
+   c. **an anchor-failure state** — a sovereign spread over the common rate, and the interbank
+      basis beside it (E5: +259 bp in eight months with policy flat);
+   d. **policy regimes** as alternatives to the rule — currency defence (E1), does not deliver,
+      yield cap;
+   e. **event-scale speed** — daily moves an order of magnitude beyond today's at the front.
 3. **The macro block** — the interior revision's Appendix B economy made dynamic: wage/rent
    ratio, participation, the two price levels (machine-made goods vs the scarce basket), the
    labor-tax base. It drives all of the above: the central bank's desired rate (its reaction to
@@ -149,3 +177,10 @@ the macro block lands.
    principle is recorded above; the plan reordered so an extreme episode is measured (Sweden
    1990–95, public Riksbank data, confirmed reachable back to 1983–87) before the swappable
    pieces are built. The thread's first commit carries both entries.
+3. **2026-09-24 — Sweden 1990–95, the first extreme.** `code/se_1990s.py` on the Riksbank's
+   public API (cached in `cache/riksbank/`; the 12M bill ends in 2010, so the API answers 204 for
+   the recent window and the script treats that as empty). Findings above: a regime mixture on
+   the crisis day that neither path family draws (one-speed 1,069 bp, two-stage 296 bp RMSE, calm
+   17 bp); the only parallel move came after the float, when the anchor changed; the 1994 crash
+   ordinary in shape and extreme in size, with +259 bp of it a spread over Germany; front-end
+   daily moves 12× today's. The plan's swappable pieces are now named by their episodes.

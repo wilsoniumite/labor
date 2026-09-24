@@ -1,0 +1,306 @@
+{
+ "source": "Riksbank SWEA API (public): SECBMARGEFF, SECBREPOEFF, SETB*, SEGVB*, DEGVB10Y, SEKTCW92",
+ "episodes": [
+  {
+   "key": "E1",
+   "name": "Defending the krona",
+   "sub": "8 \u2192 18 Sep 1992: marginal rate 16 \u2192 500%",
+   "from": "1992-09-08",
+   "to": "1992-09-18",
+   "policy_from": 16.0,
+   "policy_to": 500.0,
+   "dz_bp": [
+    7700.0,
+    620.0,
+    450.0,
+    140.0,
+    -73.0,
+    -49.0,
+    -42.0,
+    -8.0
+   ],
+   "closest_sot": "flattener",
+   "closest_r2": 0.343,
+   "sot_span_r2": 0.369,
+   "spread_de10_from_bp": 302.0,
+   "spread_de10_to_bp": 348.0,
+   "tcw_change_pct": 1.6,
+   "max_daily_1m_bp": 3900.0,
+   "max_daily_10y_bp": 58.0
+  },
+  {
+   "key": "E2",
+   "name": "The retreat",
+   "sub": "18 Sep \u2192 30 Oct 1992",
+   "from": "1992-09-18",
+   "to": "1992-10-30",
+   "policy_from": 500.0,
+   "policy_to": 12.5,
+   "dz_bp": [
+    -8640.0,
+    -1120.0,
+    -862.0,
+    -464.0,
+    -122.0,
+    -26.0,
+    -9.0,
+    -5.0
+   ],
+   "closest_sot": "short down",
+   "closest_r2": 0.402,
+   "sot_span_r2": 0.44,
+   "spread_de10_from_bp": 348.0,
+   "spread_de10_to_bp": 353.0,
+   "tcw_change_pct": 0.4,
+   "max_daily_1m_bp": 2400.0,
+   "max_daily_10y_bp": 83.0
+  },
+  {
+   "key": "E3",
+   "name": "The float",
+   "sub": "13 Nov \u2192 30 Dec 1992 (float 19 Nov)",
+   "from": "1992-11-13",
+   "to": "1992-12-30",
+   "policy_from": 11.5,
+   "policy_to": 11.0,
+   "dz_bp": [
+    -302.0,
+    -380.0,
+    -372.0,
+    -357.0,
+    -281.0,
+    -212.0,
+    -163.0,
+    -134.0
+   ],
+   "closest_sot": "short down",
+   "closest_r2": 0.94,
+   "sot_span_r2": 0.989,
+   "spread_de10_from_bp": 380.0,
+   "spread_de10_to_bp": 263.0,
+   "tcw_change_pct": 15.6,
+   "max_daily_1m_bp": 140.0,
+   "max_daily_10y_bp": 101.0
+  },
+  {
+   "key": "E4",
+   "name": "Collapse after the float",
+   "sub": "30 Dec 1992 \u2192 30 Dec 1993",
+   "from": "1992-12-30",
+   "to": "1993-12-30",
+   "policy_from": 11.0,
+   "policy_to": 7.75,
+   "dz_bp": [
+    -341.0,
+    -294.0,
+    -270.0,
+    -297.0,
+    -308.0,
+    -325.0,
+    -324.0,
+    -281.0
+   ],
+   "closest_sot": "parallel down",
+   "closest_r2": 0.995,
+   "sot_span_r2": 0.995,
+   "spread_de10_from_bp": 263.0,
+   "spread_de10_to_bp": 146.0,
+   "tcw_change_pct": 11.2,
+   "max_daily_1m_bp": 96.0,
+   "max_daily_10y_bp": 30.0
+  },
+  {
+   "key": "E5",
+   "name": "The fiscal bond crash",
+   "sub": "31 Jan \u2192 30 Sep 1994",
+   "from": "1994-01-31",
+   "to": "1994-09-30",
+   "policy_from": 7.5,
+   "policy_to": 7.2,
+   "dz_bp": [
+    59.0,
+    92.0,
+    163.0,
+    292.0,
+    356.0,
+    449.0,
+    458.0,
+    449.0
+   ],
+   "closest_sot": "parallel up",
+   "closest_r2": 0.778,
+   "sot_span_r2": 0.973,
+   "spread_de10_from_bp": 116.0,
+   "spread_de10_to_bp": 375.0,
+   "tcw_change_pct": 3.2,
+   "max_daily_1m_bp": 71.0,
+   "max_daily_10y_bp": 54.0
+  },
+  {
+   "key": "ALL",
+   "name": "Before the crisis to after the crash",
+   "sub": "30 Jun 1992 \u2192 30 Jun 1995",
+   "from": "1992-06-30",
+   "to": "1995-06-30",
+   "policy_from": 11.5,
+   "policy_to": 8.66,
+   "dz_bp": [
+    -233.0,
+    -228.0,
+    -219.0,
+    -177.0,
+    -99.0,
+    45.0,
+    82.0,
+    127.0
+   ],
+   "closest_sot": "reverse flattener (not an SOT shock)",
+   "closest_r2": 0.985,
+   "sot_span_r2": 0.997,
+   "spread_de10_from_bp": 171.0,
+   "spread_de10_to_bp": 407.0,
+   "tcw_change_pct": 33.5,
+   "max_daily_1m_bp": 3900.0,
+   "max_daily_10y_bp": 101.0
+  }
+ ],
+ "speed": {
+  "1990-95": {
+   "3M": {
+    "p99_abs_bp": 200.0,
+    "max_abs_bp": 900.0,
+    "max_monthly_vol_bp": 6423.0
+   },
+   "2Y": {
+    "p99_abs_bp": 52.0,
+    "max_abs_bp": 210.0,
+    "max_monthly_vol_bp": 1041.0
+   },
+   "10Y": {
+    "p99_abs_bp": 40.3,
+    "max_abs_bp": 101.0,
+    "max_monthly_vol_bp": 515.0
+   }
+  },
+  "2021-26": {
+   "3M": {
+    "p99_abs_bp": 17.1,
+    "max_abs_bp": 51.0,
+    "max_monthly_vol_bp": 275.0
+   },
+   "2Y": {
+    "p99_abs_bp": 16.1,
+    "max_abs_bp": 56.0,
+    "max_monthly_vol_bp": 205.0
+   },
+   "10Y": {
+    "p99_abs_bp": 15.6,
+    "max_abs_bp": 32.0,
+    "max_monthly_vol_bp": 172.0
+   }
+  }
+ },
+ "one_speed_fits": {
+  "calm_1991_92_median_rmse_bp": 17.2,
+  "1992-09-17": {
+   "r0_1m": 99.0,
+   "rbar": 8.97,
+   "k": 8.19,
+   "rmse_bp": 1069.1,
+   "curve": [
+    99.0,
+    31.0,
+    26.0,
+    23.0,
+    13.9,
+    12.4,
+    11.8,
+    11.5
+   ],
+   "cascade": {
+    "r0": 688.8,
+    "m0": -5.0,
+    "rbar": 12.14,
+    "k1": 83.12,
+    "k2": 6.43,
+    "rmse_bp": 295.9,
+    "at_bound": true
+   }
+  },
+  "1992-09-18": {
+   "r0_1m": 99.0,
+   "rbar": 7.29,
+   "k": 9.29,
+   "rmse_bp": 1218.0,
+   "curve": [
+    99.0,
+    24.0,
+    21.0,
+    17.0,
+    12.92,
+    11.51,
+    11.13,
+    10.92
+   ],
+   "cascade": {
+    "r0": 744.5,
+    "m0": -5.0,
+    "rbar": 11.43,
+    "k1": 89.43,
+    "k2": 2.61,
+    "rmse_bp": 343.3,
+    "at_bound": true
+   }
+  },
+  "1992-11-19": {
+   "r0_1m": 12.0,
+   "rbar": 9.84,
+   "k": 1.15,
+   "rmse_bp": 32.5,
+   "curve": [
+    12.0,
+    12.0,
+    12.0,
+    11.25,
+    10.1,
+    10.0,
+    10.2,
+    10.3
+   ],
+   "cascade": {
+    "r0": 11.5,
+    "m0": 14.53,
+    "rbar": 9.9,
+    "k1": 4.97,
+    "k2": 4.97,
+    "rmse_bp": 21.5,
+    "at_bound": false
+   }
+  },
+  "1994-09-30": {
+   "r0_1m": 7.48,
+   "rbar": 11.48,
+   "k": 1.37,
+   "rmse_bp": 16.1,
+   "curve": [
+    7.48,
+    7.92,
+    8.53,
+    9.56,
+    10.08,
+    10.71,
+    11.03,
+    11.34
+   ],
+   "cascade": {
+    "r0": 7.1,
+    "m0": 10.71,
+    "rbar": 27.63,
+    "k1": 2.48,
+    "k2": 0.01,
+    "rmse_bp": 7.8,
+    "at_bound": true
+   }
+  }
+ }
+}
