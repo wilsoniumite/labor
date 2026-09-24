@@ -14,7 +14,7 @@ is reproduced here, including the Swedish OIS measurements that motivated the cu
 their public counterparts are built here instead (US Treasuries; Swedish bills and bonds 1990–95 and 2021–26).
 **State as of:** 2026-09-24 (founded; curve layer built; checks 22/22; US test run; the
 openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
-next unit: the remaining swappable pieces).
+sovereign spread built, checks 6/6, public monitor run; next: policy regimes or the macro block).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -136,6 +136,30 @@ is right; in an extreme path the destination is what is wrong.
   toward a higher-rate world (capex, fiscal strain) and a lower-rate world (wage-financed demand
   shrinking); two worlds behind one calm curve with ±112 bp at 2Y and ±186 bp at 10Y waiting; where
   recognition bites for different hazards.
+- **`code/sovereign.py` — the anchor-failure state** (checks `checks/check_sovereign.py`, 6/6).
+  A government's curve is the common curve plus a spread; the spread is the average expected
+  loss rate (default intensity × loss) plus a convenience term, the loss path reusing the curve
+  layer's cascade and fiscal regimes reusing `regimes.py`. It never moves the common curve, so
+  the six supervisory rate shocks cannot see it (N3). A crunch expected to pass humps or inverts
+  the spread curve; a slow erosion of the tax base slopes it up (N4). Recognising a fiscal regime
+  moves spreads from the back, like recognition on the common curve (N5). A safe haven losing its
+  convenience value moves the whole government curve in parallel with no default risk at all
+  (N6).
+- **`code/sovereign_monitor.py` — is the anchor failing now?** (Riksbank SWEA API, public;
+  `results/sovereign_monitor.json`, `figures/fig_sovereign_monitor.png`; spreads over the German
+  benchmark of the same maturity, latest 2026-09-23):
+  - **France +110 bp at 10Y — its widest since at least 2019, set on the latest day**; +34 bp in
+    three months, +29 in twelve, with the 10Y widening 15 bp more than the 5Y: widening from the
+    back, the erosion shape. The Netherlands (+7, −9 over twelve months) and Finland (+30, −8) are
+    tightening, so it is French, not euro-wide.
+  - Over other currencies (policy and currency included): Sweden −34 bp (through Germany; 25 bp
+    tighter on the year), the UK +182, the US +155 (+19).
+  - **Sweden 1994** over Germany: 5Y 114 → 359 bp, 10Y 116 → 375 bp. The one anchor failure in
+    the record lifted the whole spread curve nearly level (+245 and +259), not only its back.
+  - `[inferred]` The 2026 move sits on the common curve (timing: the US test here, `tau` 0.91); anchor failure so far is confined to one large sovereign and is
+    shaped like erosion, with no broad fiscal repricing in public spreads. **Falsifiers:** the
+    Netherlands and Finland widen with France; or the widening reaches the 5Y as much as the 10Y
+    (a crunch, not erosion).
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -163,6 +187,11 @@ is right; in an extreme path the destination is what is wrong.
    arrival date (the new world's path is a function of calendar time — simple, and exact for
    static mixtures; a switch-dated path is the alternative). The probabilities are the ones the
    curve prices, so they carry any premium for regime risk: belief and premium are not separated.
+10. **Sovereign spread as expected loss plus convenience**, the loss path a cascade (so fiscal
+    regimes mix, get recognised and resolve like rate regimes). Not yet in: the bank–sovereign
+    link (the interbank basis moving with the sovereign spread) — a loading to add when the bank
+    side needs it; and the spread over OIS itself, since public data gives spreads over Germany,
+    which for non-euro countries mix policy and currency with credit.
 
 ## Next
 
@@ -174,8 +203,8 @@ is right; in an extreme path the destination is what is wrong.
       evidence is the jump at resolution (E3), not the crisis-day shape (E1, corrected);
    b. **a destination that can jump** as well as ratchet — a regime change moves the anchor at
       once, and that is what produced the only parallel move (E4);
-   c. **an anchor-failure state** — a sovereign spread over the common rate, and the interbank
-      basis beside it (E5: +259 bp in eight months with policy flat);
+   c. ~~**an anchor-failure state**~~ — **built 2026-09-24** (`code/sovereign.py`, above; the
+      bank–sovereign link to the interbank basis still to add);
    d. **policy regimes** as alternatives to the rule — currency defence (E1), does not deliver,
       yield cap;
    e. **event-scale speed** — daily moves an order of magnitude beyond today's at the front.
@@ -232,3 +261,10 @@ the macro block lands.
    now records the 1M→3M forwards, the fit without 1M, and the float day. Commit e654d19's
    subject line ("a regime mixture no smooth path draws") carries the overreach; this entry is
    the record of the correction.
+5. **2026-09-24 — the sovereign spread.** Her go. Built `code/sovereign.py` (spread = average
+   expected loss + convenience; loss path a cascade; regimes reuse `regimes.py`),
+   `checks/check_sovereign.py` (6/6; one reported detail was scaled ×100 too high — the per-10-
+   points-of-p recognition move — and corrected before commit), `code/sovereign_monitor.py` on
+   the Riksbank API's government benchmarks 2019–2026 and 1993–95. Finding: France's 10Y spread
+   over Germany at +110 bp, its widest since at least 2019 on the latest day, widening from the
+   back; the Netherlands and Finland tightening; Sweden 1994's spread curve lifted nearly level.

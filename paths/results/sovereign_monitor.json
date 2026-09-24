@@ -1,0 +1,116 @@
+{
+ "source": "Riksbank SWEA API (public), government bond benchmarks",
+ "latest": "2026-09-23",
+ "spreads_over_germany": {
+  "France": {
+   "group": "euro",
+   "10Y": {
+    "now_bp": 110.0,
+    "chg_3m_bp": 34.0,
+    "chg_12m_bp": 29.0,
+    "max_since_2019_bp": 110.0,
+    "max_date": "2026-09-23"
+   },
+   "5Y": {
+    "now_bp": 67.0,
+    "chg_3m_bp": 24.0,
+    "chg_12m_bp": 14.0,
+    "max_since_2019_bp": 67.0,
+    "max_date": "2026-09-23"
+   },
+   "long_minus_short_widening_12m_bp": 15.0
+  },
+  "Netherlands": {
+   "group": "euro",
+   "10Y": {
+    "now_bp": 7.0,
+    "chg_3m_bp": -5.0,
+    "chg_12m_bp": -9.0,
+    "max_since_2019_bp": 58.0,
+    "max_date": "2023-07-25"
+   },
+   "5Y": {
+    "now_bp": 3.0,
+    "chg_3m_bp": -2.0,
+    "chg_12m_bp": -6.0,
+    "max_since_2019_bp": 50.0,
+    "max_date": "2024-03-27"
+   },
+   "long_minus_short_widening_12m_bp": -3.0
+  },
+  "Finland": {
+   "group": "euro",
+   "10Y": {
+    "now_bp": 30.0,
+    "chg_3m_bp": -5.0,
+    "chg_12m_bp": -8.0,
+    "max_since_2019_bp": 73.0,
+    "max_date": "2022-10-21"
+   }
+  },
+  "Sweden": {
+   "group": "other",
+   "10Y": {
+    "now_bp": -34.0,
+    "chg_3m_bp": -13.0,
+    "chg_12m_bp": -25.0,
+    "max_since_2019_bp": 101.0,
+    "max_date": "2022-05-11"
+   },
+   "5Y": {
+    "now_bp": -38.0,
+    "chg_3m_bp": -8.0,
+    "chg_12m_bp": -30.0,
+    "max_since_2019_bp": 119.0,
+    "max_date": "2022-05-11"
+   },
+   "long_minus_short_widening_12m_bp": 5.0
+  },
+  "UK": {
+   "group": "other",
+   "10Y": {
+    "now_bp": 182.0,
+    "chg_3m_bp": -2.0,
+    "chg_12m_bp": -12.0,
+    "max_since_2019_bp": 231.0,
+    "max_date": "2024-12-18"
+   },
+   "5Y": {
+    "now_bp": 158.0,
+    "chg_3m_bp": -9.0,
+    "chg_12m_bp": -21.0,
+    "max_since_2019_bp": 251.0,
+    "max_date": "2022-10-10"
+   },
+   "long_minus_short_widening_12m_bp": 9.0
+  },
+  "US": {
+   "group": "other",
+   "10Y": {
+    "now_bp": 155.0,
+    "chg_3m_bp": -3.0,
+    "chg_12m_bp": 19.0,
+    "max_since_2019_bp": 260.0,
+    "max_date": "2019-03-11"
+   },
+   "5Y": {
+    "now_bp": 159.0,
+    "chg_3m_bp": -4.0,
+    "chg_12m_bp": 25.0,
+    "max_since_2019_bp": 293.0,
+    "max_date": "2019-01-25"
+   },
+   "long_minus_short_widening_12m_bp": -6.0
+  }
+ },
+ "sweden_1994": {
+  "5Y_from_to_bp": [
+   114,
+   359
+  ],
+  "10Y_from_to_bp": [
+   116,
+   375
+  ]
+ }
+}
