@@ -14,8 +14,9 @@ is reproduced here, including the Swedish OIS measurements that motivated the cu
 their public counterparts are built here instead (US Treasuries; Swedish bills and bonds 1990–95 and 2021–26).
 **State as of:** 2026-09-24 (founded; curve layer built; checks 22/22; US test run; the
 openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
-sovereign spread built, checks 6/6, public monitor run; macro block built, checks 14/14;
-next: (b) produced capital with an interest cost).
+sovereign spread built, checks 6/6, public monitor run; macro block built with calibration (a)
+and then (b) produced capital, checks 21/21; next: policy regimes, recognition as a mixture,
+reverse stress testing).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -199,6 +200,30 @@ is right; in an extreme path the destination is what is wrong.
     thesis produced by the mechanism rather than assumed; the wage-tax share of revenue falls from
     0.78 toward 0.2 and debt climbs (fast: to ~124% of income by year 15). A mandate that leaves
     out shelter would want about −8% while goods deflate (B5); delivery stops at the lower bound.
+- **(b) Produced capital with an interest cost** (her call, 2026-09-24; checks A1–A7 in
+  `checks/check_macro.py`, now 21/21; `results/capital_feedback.json`,
+  `figures/fig_capital_feedback.png`). Machines as a stock at the paper's Appendix A.4 user cost —
+  a service unit costs (required return + depreciation) × a machine's build cost — so interest on
+  machine capital becomes a third income; at return 0 and depreciation 1 the core is Appendix B
+  exactly (A3). Calibration (b): 5.75% required return (0.75% real + a 5% premium), 8%
+  depreciation, the same four targets hit exactly; the machine chains' 0.40 splits into **land
+  0.23 and interest 0.17**, with an implied capital stock of 2.98× income (public fixed
+  capital-to-GDP is about 3; housing structures sit inside this model's machine stock, since its
+  space is pure site). Findings:
+  - **Under deep automation capital does not capture the gains; the fixed site does.** Along the
+    medium path the interest share falls 0.17 → 0.08 and machine-chain land 0.23 → 0.13, while the
+    housing site rises 0.13 → **0.73** of income and labour falls to 0.07. Produced capital
+    cheapens with the technology; the non-produced input is what the income runs to — the
+    paper's claim, now with capital separated rather than assumed away.
+  - **Rates feed back, weakly.** A higher required return makes machines dearer: +100 bp moves
+    0.05 pp of tasks back to people and raises labour's share 0.48 pp at the start (A5); a
+    sustained +200 bp slows automation at every date, raises labour's share by up to 1.6 pp, and
+    delays the medium path by about four weeks (A6). Monetary policy has little leverage over the
+    automation margin itself.
+  - **The loop.** With the return following the economy's own real rate, automation lags while the
+    build-out holds rates up and runs ahead once they fall (correlation −1.00; +0.16 pp of tasks by
+    year 15, A7): in the down-phase, cheaper capital speeds automation, owners' income rises, and the
+    neutral rate falls further — a small self-reinforcing turn.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -244,6 +269,11 @@ is right; in an extreme path the destination is what is wrong.
     (and extreme on fast paths). Alternative mandates: goods-only (built, B5), flexible targets
     that let the basket undershoot, currency defence, a yield cap. An effective lower bound of
     −0.5% applies to delivery, not to the desired rate.
+15. **Capital (b) at Appendix A.4's user cost**: required return = the real rate + a 5% premium,
+    depreciation 8%; the capital-output ratio an outcome (2.98), not a target, because the
+    labour-share target already fixes the machine services' share of spending and the user cost
+    then fixes the stock. With the premium set, the return follows the economy's real rate with a
+    one-step lag (quasi-static, no simultaneity).
 
 ## Next
 
@@ -261,11 +291,7 @@ is right; in an extreme path the destination is what is wrong.
       yield cap;
    e. **event-scale speed** — daily moves an order of magnitude beyond today's at the front.
 3. ~~**The macro block**~~ — **built 2026-09-24** (above), with the calibration of her call (a).
-4. **(b) Produced capital with an interest cost** — her call, next: the paper's Appendix A.4 user
-   cost (a machine's service priced at interest plus depreciation times its build cost) splits the
-   machine chains' 0.40 into capital income and scarcity rent, and makes the curve feed back into
-   the economy: a higher real rate makes machines dearer and slows automation. Nests Appendix B
-   at interest 0, depreciation 1.
+4. ~~**(b) Produced capital with an interest cost**~~ — **built 2026-09-24** (above).
 5. **Then:** alternative policy regimes (flexible target, currency defence, yield cap); the
    recognition clock as a regime mixture driven by the macro path (the market's probability of the
    new world rising as the labour share falls); reverse stress testing over the bridges' dials;
@@ -336,3 +362,11 @@ the macro block lands.
    (replaced by the pace of tasks moving to machines); policy started off the 25 bp grid. Built
    `code/macro.py`, `checks/check_macro.py` (14/14; first run 13/14 — a check that compared the
    whole curve rather than its expected-path part with the policy rate), `code/macro_scenarios.py`.
+7. **2026-09-24 — (b), produced capital.** Her call after (a). Built Appendix A.4's user cost into
+   the core (nesting Appendix B at return 0, depreciation 1 — the old battery stayed green through
+   the change), `CAPITAL_BASE`, the rate feedback in `macro_path` (sequential when the return follows
+   r*), checks A1–A7, `capital_figure()` in `code/macro_scenarios.py`. A fifth target (capital at
+   1.5× income) turned out inconsistent with the other four — the labour-share target fixes the
+   machine services' share and the user cost then fixes the stock at ~3× — so it became an outcome,
+   compared with public fixed capital (~3). Findings above: the site, not capital, takes the gains;
+   rates feed back weakly; a small loop in the down-phase.

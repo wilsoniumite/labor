@@ -105,6 +105,59 @@ check("B5 a mandate that leaves out shelter sets a lower desired rate while good
       np.mean(goods["desired"][8:40]) < np.mean(mp["desired"][8:40]),
       f"mean years 2-10: headline {np.mean(mp['desired'][8:40]):.2f}%, goods-only {np.mean(goods['desired'][8:40]):.2f}%")
 
+print("A — produced capital with an interest cost (Appendix A.4)")
+errs = {"user_cost": [], "income": [], "land": [], "nesting": []}
+n_ok = 0
+while n_ok < 60:
+    e = m.Economy(N=rng.uniform(1, 5), T=rng.uniform(2, 20), h=rng.uniform(0.1, 2), a=rng.uniform(0.05, 0.5),
+                  b=rng.uniform(0.1, 1), lam=rng.uniform(0, 0.1), g0=rng.uniform(0.01, 0.5), g1=rng.uniform(0.2, 1.5),
+                  k=rng.uniform(0.5, 6), chi_max=rng.uniform(0.5, 3), rho=rng.uniform(0, 0.12), delta=rng.uniform(0.03, 1))
+    try:
+        s = m.solve(e)
+    except (ValueError, AssertionError):
+        continue
+    n_ok += 1
+    Vm = e.a * s["pm"] + e.lam * s["v"] + e.b
+    errs["user_cost"].append(abs(s["pm"] - (e.rho + e.delta) * Vm) / s["pm"])
+    errs["income"].append(abs(s["Y"] * s["Ps"] - (s["v"] * s["n"] + e.T + e.rho * s["Vm"] * s["K"])) / s["income"])
+    errs["land"].append(abs(e.h * s["Y"] + e.b * e.delta * s["K"] - e.T) / e.T)
+    flow = replace(e, rho=0.0, delta=1.0)
+    g = flow.gamma(0.6)
+    errs["nesting"].append(abs(m._parts(flow, 0.6)["pm"] - flow.b / (1 - flow.a - flow.lam * g)))
+check("A1 the machine price is the user cost: p_m = (rho + delta)(a p_m + lambda v + b), at 60 random economies",
+      max(errs["user_cost"]) < 1e-12, f"max rel err {max(errs['user_cost']):.1e}")
+check("A2 income adds interest on machine capital: Y Ps = v n + T + rho Vm K; and land clears: h Y + b delta K = T",
+      max(errs["income"]) < 1e-12 and max(errs["land"]) < 1e-12,
+      f"max rel err {max(errs['income']):.1e} / {max(errs['land']):.1e}")
+check("A3 at zero interest and full depreciation the core is Appendix B's flow benchmark exactly",
+      max(errs["nesting"]) < 1e-14 and max(dev.values()) < 5e-6)
+eb, sb, _, errb = m.calibrate(base=m.CAPITAL_BASE)
+split_b = m.income_split(eb, sb)
+check("A4 calibration (b): the four targets hit exactly; income splits into labour, the housing site, the machine chains' "
+      "land and interest; the implied capital stock is close to public fixed capital-to-GDP (about 3)",
+      errb < 1e-8 and abs(sum(split_b.values()) - 1) < 1e-12 and split_b["interest"] > 0.1 and 2.5 < sb["capital_output"] < 3.5,
+      " ".join(f"{k} {v:.3f}" for k, v in split_b.items()) + f"; capital/income {sb['capital_output']:.2f}")
+up = m.solve(replace(eb, rho=eb.rho + 0.01))
+check("A5 a higher required return makes machines dearer: fewer tasks automated, a higher wage-rent ratio and labour share",
+      up["x"] < sb["x"] and up["v"] > sb["v"] and up["labor_share"] > sb["labor_share"],
+      f"+100 bp: tasks automated {(up['x'] - sb['x']) * 100:+.2f} pp, labour share {(up['labor_share'] - sb['labor_share']) * 100:+.2f} pp")
+tech_b = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
+fixed = m.macro_path(eb, tech_b)
+follow = m.macro_path(eb, tech_b, m.Bridges(capital_premium=5.0))
+shock = m.macro_path(eb, tech_b, m.Bridges(capital_premium=5.0, rho_shift=2.0))
+dx_shock = (shock["x"] - follow["x"])[1:]
+check("A6 a sustained +200 bp on the required return slows automation at every date and raises labour's share",
+      np.all(dx_shock < 0) and np.all((shock["labor_share"] - follow["labor_share"])[1:] > 0),
+      f"tasks automated {dx_shock.min() * 100:+.2f} to {dx_shock.max() * 100:+.2f} pp; labour share up to "
+      f"{np.max(shock['labor_share'] - follow['labor_share']) * 100:+.2f} pp")
+gap = follow["x"] - fixed["x"]
+r_dev = follow["rho"] - fixed["rho"]
+mask = np.abs(r_dev) > 0.05
+check("A7 the loop: where the economy's real rate has risen the return follows it up and automation lags the fixed-return "
+      "path; where it has fallen, automation runs ahead",
+      np.corrcoef(r_dev[mask], gap[mask])[0, 1] < -0.5 and gap[-1] > 0,
+      f"correlation {np.corrcoef(r_dev[mask], gap[mask])[0, 1]:.2f}; by year 15 automation {gap[-1] * 100:+.2f} pp ahead")
+
 print("K — into the curve layer")
 states, sovs, pol = m.curve_path(mp)
 steps = np.diff(pol)

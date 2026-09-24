@@ -1,0 +1,30 @@
+{
+ "calibration_b": {
+  "T": 0.008682088763005606,
+  "h": 0.0010497847619132265,
+  "chi_max": 2.014933909728378,
+  "k": 5.164424786301001,
+  "rho": 0.0575,
+  "delta": 0.08,
+  "b": 0.4
+ },
+ "split_start": {
+  "labour": 0.47,
+  "housing site": 0.13,
+  "machine-chain land": 0.228,
+  "interest": 0.172
+ },
+ "split_year15": {
+  "labour": 0.065,
+  "housing site": 0.729,
+  "machine-chain land": 0.127,
+  "interest": 0.08
+ },
+ "capital_output_start": 2.98,
+ "shock_200bp": {
+  "max_labour_share_pp": 1.59,
+  "max_tasks_pp": -0.34,
+  "delay_at_year6_weeks": 3.9
+ },
+ "loop_year15_tasks_ahead_pp": 0.16
+}

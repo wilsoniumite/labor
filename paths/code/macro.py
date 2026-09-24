@@ -15,6 +15,12 @@
 # instance (N 4, T 10, h 1, a .3, b .4, lambda .05, gamma .2 + .8x, chi ~ U[0,1]) solves to
 # x* 0.86315, v 0.54344, Y 7.88061, n 1.34338 (checks/check_macro.py).
 #
+# CAPITAL (the paper's Appendix A.4). Machines as a stock priced at user cost: a service unit costs
+# (rho + delta) times a machine's build cost, so interest on machine capital becomes a third income. At
+# (rho, delta) = (0, 1) the core is Appendix B exactly; calibration (a) uses that, calibration (b) a 5.75%
+# required return and 8% depreciation. With Bridges.capital_premium set, the required return follows the
+# economy's own real rate, so rates feed back into automation.
+#
 # DYNAMICS. The technology clock moves capability (gamma scaled by eta: task automation) and the
 # labour embodied in machine services (lambda: recursive automation) along a path; each date is solved
 # as an equilibrium (quasi-static: no build lags, no adjustment costs — a stated simplification).
@@ -38,7 +44,7 @@ import numpy as np
 from scipy.optimize import brentq
 
 
-# ------------------------------------------------------------------ the structural core (Appendix B)
+# ------------------------------------------------------------------ the structural core (Appendix B, with A.4's capital)
 @dataclass(frozen=True)
 class Economy:
     N: float = 4.0
@@ -52,6 +58,8 @@ class Economy:
     k: float = 1.0
     eta: float = 1.0
     chi_max: float = 1.0     # work cost chi ~ U[0, chi_max]
+    rho: float = 0.0         # required return on machine capital (a year) — Appendix A.4's interest
+    delta: float = 1.0       # depreciation (a year). (rho, delta) = (0, 1) is Appendix B's flow benchmark exactly
 
     def gamma(self, x):
         return self.eta * (self.g0 + self.g1 * x ** self.k)
@@ -61,26 +69,35 @@ class Economy:
 
 
 def _parts(e: Economy, x):
+    """Prices and quantities at threshold x. Machines are a stock K, one service unit a year each; a new
+    machine costs Vm = a p_m + lambda v + b (machine services, hours, land), so the user cost is
+    p_m = (rho + delta) Vm (Appendix A.4) and, at the margin v = p_m gamma(x*),
+        Vm = b / (1 - (rho + delta)(a + lambda gamma)),   p_m = (rho + delta) Vm.
+    Replacement of delta K a year uses a delta K services, lambda delta K hours and b delta K land:
+        K = Y J / (1 - a delta),  Y = T / (h + b delta J / (1 - a delta)),  n = Y (1 - x) + lambda delta K.
+    Income: I = v n + T + rho Vm K (wages, land rent, interest). At (0, 1) all of this is Appendix B."""
     g, J = e.gamma(x), e.J(x)
-    den = 1.0 - e.a - e.lam * g
-    v = e.b * g / den
-    pm = e.b / den
+    cpt = e.rho + e.delta
+    den = 1.0 - cpt * (e.a + e.lam * g)
+    Vm = e.b / den
+    pm = cpt * Vm
+    v = g * pm
     p = v * (1.0 - x) + pm * J
     Ps = p + e.h
-    Y = e.T / (e.h + e.b * J / (1.0 - e.a))
-    X = Y * J / (1.0 - e.a)
+    Y = e.T / (e.h + e.b * e.delta * J / (1.0 - e.a * e.delta))
+    K = Y * J / (1.0 - e.a * e.delta)
     final_hours = Y * (1.0 - x)
-    machine_hours = e.lam * X
+    machine_hours = e.lam * e.delta * K
     nD = final_hours + machine_hours
     z = np.log1p(v / Ps)
     nS = e.N * min(max(z / e.chi_max, 0.0), 1.0)
-    return dict(x=x, gamma=g, J=J, v=v, pm=pm, p=p, Ps=Ps, Y=Y, X=X, final_hours=final_hours,
+    return dict(x=x, gamma=g, J=J, v=v, pm=pm, Vm=Vm, p=p, Ps=Ps, Y=Y, X=K, K=K, final_hours=final_hours,
                 machine_hours=machine_hours, nD=nD, nS=nS)
 
 
 def solve(e: Economy):
     """The interior equilibrium n_D(x*) = n_S(x*). Raises if Lemma B.1's conditions fail."""
-    assert 1.0 - e.a - e.lam * e.gamma(1.0) > 0, "machine-service cost undefined at x = 1"
+    assert 1.0 - (e.rho + e.delta) * (e.a + e.lam * e.gamma(1.0)) > 0, "machine-service cost undefined at x = 1"
     f = lambda x: _parts(e, x)["nD"] - _parts(e, x)["nS"]  # noqa: E731
     lo, hi = 1e-12, 1.0
     if f(lo) <= 0 or f(hi) >= 0:
@@ -88,10 +105,12 @@ def solve(e: Economy):
     x = brentq(f, lo, hi, xtol=1e-15)
     q = _parts(e, x)
     n = q["nD"]
-    income = q["v"] * n + e.T
+    interest = e.rho * q["Vm"] * q["K"]
+    income = q["v"] * n + e.T + interest
     q.update(n=n, participation=n / e.N, income=income, labor_share=q["v"] * n / income,
+             capital_share=interest / income, capital_output=q["Vm"] * q["K"] / income,
              real_wage=q["v"] / q["Ps"], goods_to_space=q["p"] / 1.0,
-             support_cost=e.N * q["Ps"], funded=e.T > e.N * q["Ps"])
+             support_cost=e.N * q["Ps"], funded=e.T + interest > e.N * q["Ps"])
     return q
 
 
@@ -133,14 +152,49 @@ class Bridges:
     debt0: float = 40.0             # % of income at the start
     mandate: str = "headline"       # "headline" | "goods" (a core measure excluding shelter)
     phi_pi: float = 1.5             # reaction to measured inflation off target under the goods mandate
+    capital_premium: float | None = None   # pp over the real neutral rate: the required return on machine capital.
+                                           # None: rho stays at the economy's own value (no feedback)
+    rho_shift: float = 0.0          # pp added to the required return (a sustained rate shock)
+
+
+def _deficit(br, e: Economy, q: dict):
+    """Deficit, % of income: spending plus the public share of dependants' baskets, less a wage tax and a
+    tax on non-wage income (land rent and interest)."""
+    interest = e.rho * q["Vm"] * q["K"]
+    revenue = br.tau_w * q["v"] * q["n"] + br.tau_r * (e.T + interest)
+    spending = br.gov_share * q["income"] + br.public_support * (e.N - q["n"]) * q["Ps"]
+    return (spending - revenue) / q["income"] * 100, br.tau_w * q["v"] * q["n"] / revenue
 
 
 def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: float = 15.0, dt: float = 0.25):
     """Quasi-static macro path: an equilibrium each date, then the bridges. Returns a dict of arrays;
-    rates and inflation in % a year, fiscal quantities in % of income."""
+    rates and inflation in % a year, fiscal quantities in % of income.
+    With br.capital_premium set, the required return on machine capital follows the economy's own real
+    rate — rho(t) = r*(t - dt) + premium (+ rho_shift) — so rates feed back into automation; the pace of
+    automation then uses backward differences, as it must when r* at t depends on the past."""
     t = np.arange(0.0, years + 1e-9, dt)
-    econ = [tech.at(ti, base) for ti in t]
-    sol = [solve(e) for e in econ]
+    feedback = br.capital_premium is not None
+    econ, sol, r_seq = [], [], []
+    if not feedback:
+        econ = [tech.at(ti, base) for ti in t]
+        if br.rho_shift:
+            econ = [replace(e, rho=e.rho + br.rho_shift / 100) for e in econ]
+        sol = [solve(e) for e in econ]
+    else:
+        r_prev = br.r0_star
+        nw0 = d0 = None
+        for i, ti in enumerate(t):
+            e = replace(tech.at(ti, base), rho=(r_prev + br.capital_premium + br.rho_shift) / 100)
+            q = solve(e)
+            econ.append(e); sol.append(q)
+            nonwage = (1.0 - q["labor_share"]) * 100
+            dfc, _ = _deficit(br, e, q)
+            if i == 0:
+                nw0, d0, pace = nonwage, dfc, 0.0
+            else:
+                pace = (q["x"] - sol[i - 1]["x"]) / dt * 100
+            r_prev = br.r0_star + br.alpha_capex * pace - br.alpha_rent * (nonwage - nw0) + br.alpha_fiscal * (dfc - d0)
+            r_seq.append(r_prev)
     get = lambda k: np.array([q[k] for q in sol])  # noqa: E731
     v, Ps, p, n, inc, X, Y, x = get("v"), get("Ps"), get("p"), get("n"), get("income"), get("X"), get("Y"), get("x")
     ls = get("labor_share")
@@ -150,17 +204,18 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
     pi_shelter = br.pi_star + grad(1.0 / Ps)
     pi_wage = br.pi_star + grad(v / Ps)
     # fiscal
-    dependants = base.N - n
-    revenue = br.tau_w * v * n + br.tau_r * base.T
-    spending = br.gov_share * inc + br.public_support * dependants * Ps
-    deficit = (spending - revenue) / inc * 100
-    wage_tax_share = br.tau_w * v * n / revenue
+    fis = [_deficit(br, e, q) for e, q in zip(econ, sol)]
+    deficit = np.array([f[0] for f in fis])
+    wage_tax_share = np.array([f[1] for f in fis])
     growth = br.pi_star + grad(Y)
     # neutral real rate
     automation_pace = np.gradient(x, t) * 100                    # pp of tasks moving to machines, a year
     nonwage_share = (1.0 - ls) * 100
-    r_star = (br.r0_star + br.alpha_capex * automation_pace - br.alpha_rent * (nonwage_share - nonwage_share[0])
-              + br.alpha_fiscal * (deficit - deficit[0]))
+    if feedback:
+        r_star = np.array(r_seq)
+    else:
+        r_star = (br.r0_star + br.alpha_capex * automation_pace - br.alpha_rent * (nonwage_share - nonwage_share[0])
+                  + br.alpha_fiscal * (deficit - deficit[0]))
     # debt and premia
     debt = np.empty_like(t)
     debt[0] = br.debt0
@@ -173,9 +228,11 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
     desired = r_star + br.pi_star
     if br.mandate == "goods":
         desired = desired + br.phi_pi * (pi_goods - br.pi_star)
-    return dict(t=t, eta=np.array([e.eta for e in econ]), lam=np.array([e.lam for e in econ]), x=x, v=v, Ps=Ps, p=p,
-                n=n, participation=get("participation"), income=inc, labor_share=ls, real_wage=get("real_wage"), X=X, Y=Y,
-                funded=get("funded"), pi_goods=pi_goods, pi_shelter=pi_shelter, pi_wage=pi_wage, deficit=deficit,
+    return dict(t=t, eta=np.array([e.eta for e in econ]), lam=np.array([e.lam for e in econ]),
+                rho=np.array([e.rho for e in econ]) * 100, x=x, v=v, Ps=Ps, p=p, n=n,
+                participation=get("participation"), income=inc, labor_share=ls, capital_share=get("capital_share"),
+                capital_output=get("capital_output"), real_wage=get("real_wage"), X=X, Y=Y, funded=get("funded"),
+                pi_goods=pi_goods, pi_shelter=pi_shelter, pi_wage=pi_wage, deficit=deficit,
                 wage_tax_share=wage_tax_share, debt=debt, r_star=r_star, tp=tp, loss_longrun=loss_longrun,
                 desired=desired, automation_pace=automation_pace, nonwage_share=nonwage_share, pi_star=br.pi_star)
 
@@ -261,7 +318,11 @@ def calibrate(targets=None, base: Economy = CALIBRATION_BASE):
 
 
 def income_split(e: Economy, q: dict):
-    """Shares of income: labour, the housing site, and the machine chains' land (scarce inputs plus, in
-    this benchmark, capital income - not separated)."""
+    """Shares of income: labour, the housing site, the machine chains' land, and interest on machine
+    capital. With (rho, delta) = (0, 1) — calibration (a) — interest is zero and the machine chains'
+    land also stands in for capital income; with capital (calibration (b)) the two are separate."""
     return {"labour": q["labor_share"], "housing_site": e.h * q["Y"] / q["income"],
-            "machine_chain_land_and_capital": e.b * q["X"] / q["income"]}
+            "machine_chain_land": e.b * e.delta * q["K"] / q["income"], "interest": q["capital_share"]}
+
+
+CAPITAL_BASE = replace(CALIBRATION_BASE, rho=0.0575, delta=0.08)   # (b): return 0.75% real + 5% premium; 8% depreciation

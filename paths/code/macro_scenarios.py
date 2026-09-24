@@ -32,6 +32,7 @@ SPEEDS = {"slow": m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=10, width=12),
           "fast": m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=3, width=2)}
 T = np.array([1 / 12, 0.25, 0.5, 1, 2, 3, 5, 7, 10, 20, 30])
 DATES = (0.0, 3.0, 6.0, 10.0)
+NL = chr(10)
 
 
 def main():
@@ -107,5 +108,65 @@ def figure(runs):
     p = os.path.join(ROOT, "figures", "fig_macro_scenarios.png"); fig.savefig(p, dpi=150, facecolor=SURF); print(p)
 
 
+def capital_figure():
+    """(b): the capital-split calibration along the medium path; what a sustained +200 bp on the required
+    return does; and the loop between the economy's real rate and automation."""
+    from dataclasses import replace  # noqa: F401
+    eb, sb, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+    tech = SPEEDS["medium"]
+    fixed = m.macro_path(eb, tech)
+    follow = m.macro_path(eb, tech, m.Bridges(capital_premium=5.0))
+    shock = m.macro_path(eb, tech, m.Bridges(capital_premium=5.0, rho_shift=2.0))
+    t = follow["t"]
+    x_mid = float(np.interp(6.0, t, follow["x"]))
+    delay_weeks = (float(np.interp(x_mid, shock["x"], t)) - 6.0) * 52
+    split = {"labour": follow["labor_share"], "housing site": eb.h * follow["Y"] / follow["income"],
+             "machine-chain land": eb.b * eb.delta * follow["X"] / follow["income"], "interest": follow["capital_share"]}
+    res = {"calibration_b": {k: float(getattr(eb, k)) for k in ("T", "h", "chi_max", "k", "rho", "delta", "b")},
+           "split_start": {k: round(float(v[0]), 3) for k, v in split.items()},
+           "split_year15": {k: round(float(v[-1]), 3) for k, v in split.items()},
+           "capital_output_start": round(float(sb["capital_output"]), 2),
+           "shock_200bp": {"max_labour_share_pp": round(float(np.max(shock["labor_share"] - follow["labor_share"]) * 100), 2),
+                           "max_tasks_pp": round(float(np.min(shock["x"] - follow["x"]) * 100), 2),
+                           "delay_at_year6_weeks": round(delay_weeks, 1)},
+           "loop_year15_tasks_ahead_pp": round(float((follow["x"] - fixed["x"])[-1] * 100), 2)}
+    json.dump(res, open(os.path.join(ROOT, "results", "capital_feedback.json"), "w", encoding="utf-8"), indent=1)
+    print("capital (b):", res["split_start"], "->", res["split_year15"], "| +200bp:", res["shock_200bp"], "| loop:", res["loop_year15_tasks_ahead_pp"])
+
+    C = {"labour": "#2a78d6", "housing site": "#1baf7a", "machine-chain land": "#eb6834", "interest": "#e87ba4",
+         "tasks": "#008300", "return": "#e87ba4"}
+    INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
+    fig, ax = plt.subplots(1, 3, figsize=(15, 4.6), facecolor=SURF)
+    for a in ax:
+        a.set_facecolor(SURF); a.grid(True, color=GRID, lw=0.8); a.set_axisbelow(True); a.set_xlabel("years")
+        for sp in ("top", "right"):
+            a.spines[sp].set_visible(False)
+    a = ax[0]
+    nudge = {"interest": 6, "labour": -6}                 # the two end values sit a point apart
+    for k, v in split.items():
+        a.plot(t, v * 100, color=C[k], lw=2)
+        a.annotate(k, (t[-1], v[-1] * 100), (4, nudge.get(k, 0)), textcoords="offset points", fontsize=8.5, color=INK, va="center")
+    a.set_xlim(0, 19); a.set_xticks([0, 5, 10, 15])
+    a.set_title("1. Who is paid, medium automation" + NL + "capital split out (b)"); a.set_ylabel("% of income")
+    a = ax[1]
+    a.plot(t, (shock["labor_share"] - follow["labor_share"]) * 100, color=C["labour"], lw=2, label="labour's share")
+    a.plot(t, (shock["x"] - follow["x"]) * 100, color=C["tasks"], lw=2, label="tasks done by machines")
+    a.axhline(0, color=INK2, lw=0.8)
+    a.set_title("2. A sustained +200 bp on the required return" + NL
+                + f"difference from no shock; delays automation ~{delay_weeks:.0f} weeks")
+    a.set_ylabel("percentage points"); a.legend(frameon=False, fontsize=8.5, labelcolor=INK)
+    a = ax[2]
+    a.plot(t, follow["rho"] - fixed["rho"], color=C["return"], lw=2, label="required return, vs fixed")
+    a.plot(t, (follow["x"] - fixed["x"]) * 100, color=C["tasks"], lw=2, label="tasks done by machines, vs fixed")
+    a.axhline(0, color=INK2, lw=0.8)
+    a.set_title("3. The loop: the return follows r*" + NL + "up in the build-out, down after")
+    a.set_ylabel("percentage points"); a.legend(frameon=False, fontsize=8.5, labelcolor=INK)
+    fig.text(0.01, 0.01, "Calibration (b): required return 5.75% (0.75% real + 5% premium), depreciation 8%; labour 0.47, employment 0.60, 3 baskets per person, "
+             "site 13%; capital/income 2.98 (implied). Illustrative bridge defaults.", fontsize=8, color=INK2)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    p = os.path.join(ROOT, "figures", "fig_capital_feedback.png"); fig.savefig(p, dpi=150, facecolor=SURF); print(p)
+
+
 if __name__ == "__main__":
     main()
+    capital_figure()

@@ -23,8 +23,8 @@ from it is reproduced here.
 | `code/sovereign.py` | The anchor-failure state: a government curve as the common curve plus a sovereign spread (average expected loss plus convenience); fiscal regimes via `regimes.py`. |
 | `code/sovereign_monitor.py` | Public sovereign spreads over Germany, 2019–2026 (euro area as the pure sovereign part), and Sweden 1994 at 5Y and 10Y. |
 | `code/se_1990s.py` | Sweden 1990–95 from the Riksbank's public API: the 1992 defence, the float, the 1994 fiscal crash, speed against today. |
-| `code/macro.py` | The macro block: the paper's Appendix B (SSRN version) along a technology clock, calibrated to public targets, with bridges to the curve layer (nominal, fiscal, neutral rate, policy, premia). |
-| `code/macro_scenarios.py` | Deep automation at three speeds, run through to curves. |
+| `code/macro.py` | The macro block: the paper's Appendix B (SSRN version) along a technology clock, calibrated to public targets, with bridges to the curve layer (nominal, fiscal, neutral rate, policy, premia); produced capital at Appendix A.4's user cost, so rates feed back into automation. |
+| `code/macro_scenarios.py` | Deep automation at three speeds, run through to curves; with capital split out (b), who is paid, what a sustained rate shock does, and the loop between rates and automation. |
 | `code/cycle.py` | A rate cycle driven through the three clocks: a lagged, stepwise central bank and a market that learns. |
 | `code/us_modes.py` | The public test: phases of the Fed's 2021–23 cycle and the last twelve months on FRED Treasury yields. |
 | `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures). They gate everything. |
