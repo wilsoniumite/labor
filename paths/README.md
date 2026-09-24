@@ -29,13 +29,14 @@ from it is reproduced here.
 | `code/recognition_scenarios.py` | When the market wakes up, what the curve does, the jump still waiting, and a false dawn. |
 | `code/speed_scenarios.py` | Markets at machine speed: capacity (recognition earlier), digestion (news gaps; the front waits for policy meetings), and a shared error that fools an unaware market. |
 | `code/digestion_history.py` | Has digestion speed changed before? Variance ratios of US Treasury yield changes 1962–2026 by era, and the partial-digestion fit behind the speed ladder. |
+| `code/regime_digestion.py` | How slowly are regime judgements digested? Coibion–Gorodnichenko tests on survey (SPF) and market (Gürkaynak–Sack–Wright, net of Kim–Wright) forecasts, the long-run anchors, and the model's catch-up when AI is adopted. |
 | `code/reverse.py` | Reverse stress testing, part 1: the model's dials (technology path, bridges, capital premium, learning) over broad stated ranges; the run; rank correlations; the most plausible draw reaching a threshold. |
 | `code/reverse_envelope.py` | 4,000 Latin-hypercube draws: the envelope of curve and macro outcomes, what drives them, the most plausible routes to a ±100 bp 10Y move. |
 | `code/cycle.py` | A rate cycle driven through the three clocks: a lagged, stepwise central bank and a market that learns. |
 | `code/us_modes.py` | The public test: phases of the Fed's 2021–23 cycle and the last twelve months on FRED Treasury yields. |
-| `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py`, `checks/check_recognition.py`, `checks/check_reverse.py`, `checks/check_speed.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures), recognition, the reverse stress machinery, speed and the digestion estimators. They gate everything. |
+| `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py`, `checks/check_recognition.py`, `checks/check_reverse.py`, `checks/check_speed.py`, `checks/check_regime_digestion.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures), recognition, the reverse stress machinery, speed, the digestion estimators and the forward-rate test. They gate everything. |
 | `results/`, `figures/` | Outputs of `code/`. |
-| `cache/` | The data vintages behind every number: FRED (pulled by `pinning/code/lambda_compute2.pull_fred`) and, under `cache/riksbank/`, the Riksbank's SWEA API. |
+| `cache/` | The data vintages behind every number: FRED (pulled by `pinning/code/lambda_compute2.pull_fred`); under `cache/riksbank/`, the Riksbank's SWEA API; under `cache/fed/`, a trimmed vintage of the Fed Board's Gürkaynak–Sack–Wright curve; under `cache/spf/`, the Philadelphia Fed's survey files. |
 
 ## Running
 
@@ -49,5 +50,6 @@ From this folder, with the repository's venv:
 ../venv/Scripts/python.exe checks/check_recognition.py
 ../venv/Scripts/python.exe checks/check_reverse.py
 ../venv/Scripts/python.exe checks/check_speed.py
+../venv/Scripts/python.exe checks/check_regime_digestion.py
 ../venv/Scripts/python.exe code/us_modes.py
 ```

@@ -1,0 +1,317 @@
+{
+ "sources": {
+  "GSW": "Federal Reserve Board, feds200628 (staff research data), trimmed vintage in cache/fed",
+  "SPF": "Philadelphia Fed Survey of Professional Forecasters, median TBILL and BILL10 (cache/spf)",
+  "FRED": "TB3MS; THREEFYTP1-10 (Kim-Wright term premia)"
+ },
+ "layer1_next_year": {
+  "survey": {
+   "1981-2026": {
+    "1q ahead": {
+     "b": 0.2,
+     "se": 0.14,
+     "n": 179,
+     "half_life_months": 1.1
+    },
+    "2q ahead": {
+     "b": 0.41,
+     "se": 0.14,
+     "n": 178,
+     "half_life_months": 1.7
+    },
+    "3q ahead": {
+     "b": 0.71,
+     "se": 0.22,
+     "n": 177,
+     "half_life_months": 2.4
+    }
+   },
+   "1981-1994": {
+    "1q ahead": {
+     "b": 0.11,
+     "se": 0.2,
+     "n": 53,
+     "half_life_months": 0.9
+    },
+    "2q ahead": {
+     "b": 0.22,
+     "se": 0.18,
+     "n": 53,
+     "half_life_months": 1.2
+    },
+    "3q ahead": {
+     "b": 0.38,
+     "se": 0.33,
+     "n": 53,
+     "half_life_months": 1.6
+    }
+   },
+   "1995-2007": {
+    "1q ahead": {
+     "b": 0.32,
+     "se": 0.16,
+     "n": 52,
+     "half_life_months": 1.5
+    },
+    "2q ahead": {
+     "b": 0.54,
+     "se": 0.19,
+     "n": 52,
+     "half_life_months": 2.0
+    },
+    "3q ahead": {
+     "b": 0.81,
+     "se": 0.22,
+     "n": 52,
+     "half_life_months": 2.6
+    }
+   },
+   "2008-2026": {
+    "1q ahead": {
+     "b": 0.36,
+     "se": 0.13,
+     "n": 74,
+     "half_life_months": 1.6
+    },
+    "2q ahead": {
+     "b": 0.66,
+     "se": 0.23,
+     "n": 73,
+     "half_life_months": 2.3
+    },
+    "3q ahead": {
+     "b": 0.98,
+     "se": 0.27,
+     "n": 72,
+     "half_life_months": 3.0
+    }
+   }
+  },
+  "market_kw": {
+   "1990-2025": {
+    "1y ahead": {
+     "b": 0.37,
+     "se": 0.14,
+     "n": 417,
+     "half_life_months": 6.4
+    },
+    "2y ahead": {
+     "b": -0.03,
+     "se": 0.29,
+     "n": 405,
+     "half_life_months": null
+    },
+    "4y ahead": {
+     "b": -0.67,
+     "se": 0.49,
+     "n": 381,
+     "half_life_months": null
+    }
+   },
+   "1990-2007": {
+    "1y ahead": {
+     "b": 0.17,
+     "se": 0.18,
+     "n": 204,
+     "half_life_months": 4.3
+    },
+    "2y ahead": {
+     "b": -0.67,
+     "se": 0.26,
+     "n": 204,
+     "half_life_months": null
+    },
+    "4y ahead": {
+     "b": -1.64,
+     "se": 0.55,
+     "n": 204,
+     "half_life_months": null
+    }
+   },
+   "2008-2025": {
+    "1y ahead": {
+     "b": 0.59,
+     "se": 0.12,
+     "n": 213,
+     "half_life_months": 8.4
+    },
+    "2y ahead": {
+     "b": 0.51,
+     "se": 0.29,
+     "n": 201,
+     "half_life_months": 7.7
+    },
+    "4y ahead": {
+     "b": 0.17,
+     "se": 0.54,
+     "n": 177,
+     "half_life_months": 4.4
+    }
+   }
+  },
+  "market_raw": {
+   "1972-2025": {
+    "1y ahead": {
+     "b": 0.17,
+     "se": 0.14,
+     "n": 645,
+     "half_life_months": 4.3
+    },
+    "2y ahead": {
+     "b": -0.12,
+     "se": 0.19,
+     "n": 633,
+     "half_life_months": null
+    },
+    "4y ahead": {
+     "b": -0.19,
+     "se": 0.21,
+     "n": 609,
+     "half_life_months": null
+    }
+   },
+   "1972-1994": {
+    "1y ahead": {
+     "b": 0.11,
+     "se": 0.19,
+     "n": 276,
+     "half_life_months": 3.6
+    },
+    "2y ahead": {
+     "b": -0.14,
+     "se": 0.21,
+     "n": 276,
+     "half_life_months": null
+    },
+    "4y ahead": {
+     "b": -0.12,
+     "se": 0.17,
+     "n": 276,
+     "half_life_months": null
+    }
+   },
+   "1995-2025": {
+    "1y ahead": {
+     "b": 0.3,
+     "se": 0.14,
+     "n": 369,
+     "half_life_months": 5.6
+    },
+    "2y ahead": {
+     "b": -0.07,
+     "se": 0.3,
+     "n": 357,
+     "half_life_months": null
+    },
+    "4y ahead": {
+     "b": -0.4,
+     "se": 0.29,
+     "n": 333,
+     "half_life_months": null
+    }
+   }
+  }
+ },
+ "layer2_regime_anchor": {
+  "gain_fits": {
+   "survey 10-year bill average": {
+    "1992-2026": {
+     "gain_per_year": 0.067,
+     "half_life_years": 10.0,
+     "rmse": 0.51
+    },
+    "1992-2007": {
+     "gain_per_year": 0.097,
+     "half_life_years": 6.8,
+     "rmse": 0.47
+    },
+    "2008-2021": {
+     "gain_per_year": 0.068,
+     "half_life_years": 9.9,
+     "rmse": 0.44
+    },
+    "2021-2026": {
+     "gain_per_year": 0.218,
+     "half_life_years": 2.8,
+     "rmse": 0.63
+    }
+   },
+   "market 1y rate 9y ahead, net of KW": {
+    "1990-2025": {
+     "gain_per_year": 0.061,
+     "half_life_years": 11.0,
+     "rmse": 0.64
+    },
+    "1990-2007": {
+     "gain_per_year": 0.139,
+     "half_life_years": 4.6,
+     "rmse": 0.5
+    },
+    "2008-2021": {
+     "gain_per_year": 0.059,
+     "half_life_years": 11.3,
+     "rmse": 0.2
+    },
+    "2021-2025": {
+     "gain_per_year": 0.266,
+     "half_life_years": 2.2,
+     "rmse": 1.07
+    }
+   }
+  },
+  "survey_anchor_record": {
+   "surveys": "1992-2016 (realized 10-year averages overlap: about 2.5 independent decades)",
+   "too_high_share": 0.96,
+   "mean_error_pp": -1.78,
+   "rmse_pp": {
+    "survey anchor": 2.04,
+    "no change (last year's rate)": 1.81,
+    "trailing 5-year average": 1.83
+   }
+  }
+ },
+ "layer3_model_catch_up": {
+  "instant (the evidence)": {
+   "p_0.5": 3.296039677444493,
+   "max_10Y_move_in_a_month_bp": 9.4,
+   "max_10Y_move_in_a_quarter_bp": 27.8,
+   "10Y_move_years_4.5_to_5.5_bp": 17.3
+  },
+  "human regime digestion 1y": {
+   "p_0.5": 4.2115693695878935,
+   "max_10Y_move_in_a_month_bp": 3.8,
+   "max_10Y_move_in_a_quarter_bp": 11.3,
+   "10Y_move_years_4.5_to_5.5_bp": 34.6
+  },
+  "human regime digestion 1y, AI adopted around year 5 (x30)": {
+   "p_0.5": 4.049433254688924,
+   "max_10Y_move_in_a_month_bp": 7.0,
+   "max_10Y_move_in_a_quarter_bp": 20.6,
+   "10Y_move_years_4.5_to_5.5_bp": 39.5
+  },
+  "human regime digestion 3y": {
+   "p_0.5": 6.030364769822887,
+   "max_10Y_move_in_a_month_bp": 2.2,
+   "max_10Y_move_in_a_quarter_bp": 6.4,
+   "10Y_move_years_4.5_to_5.5_bp": 22.0
+  },
+  "human regime digestion 3y, AI adopted around year 5 (x30)": {
+   "p_0.5": 4.608681039605752,
+   "max_10Y_move_in_a_month_bp": 8.4,
+   "max_10Y_move_in_a_quarter_bp": 25.1,
+   "10Y_move_years_4.5_to_5.5_bp": 74.0
+  },
+  "human regime digestion 5y": {
+   "p_0.5": 7.875033245378223,
+   "max_10Y_move_in_a_month_bp": 1.8,
+   "max_10Y_move_in_a_quarter_bp": 5.0,
+   "10Y_move_years_4.5_to_5.5_bp": 15.5
+  },
+  "human regime digestion 5y, AI adopted around year 5 (x30)": {
+   "p_0.5": 4.828386316437566,
+   "max_10Y_move_in_a_month_bp": 8.1,
+   "max_10Y_move_in_a_quarter_bp": 24.8,
+   "10Y_move_years_4.5_to_5.5_bp": 78.6
+  }
+ }
+}

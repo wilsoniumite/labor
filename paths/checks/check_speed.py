@@ -71,13 +71,14 @@ _, lo_aw0 = rc.learn(oq, nq, replace(base, trust=1.0, capacity_end=10.0), return
 check("L5 unaware of the shared error, the market over-updates (larger steps); with no shared error the two coincide",
       np.all(np.diff(lo_un) >= np.diff(lo_aw) - 1e-12) and lo_un[-1] > lo_aw[-1] and np.array_equal(lo_un0, lo_aw0))
 h, f, dj, tj = 0.1, 0.6, 3.0, 2.0
-_, lo_d = rc.learn(ow, ow, replace(base, digest=h, digest_share=f, jumps=((tj, dj),)), return_logodds=True)
+p_d = rc.learn(ow, ow, replace(base, digest=h, digest_share=f, jumps=((tj, dj),)))
 j = int(np.nonzero(tw >= tj)[0][0])
 k = np.arange(len(tw) - j) + 1
-expect = logit(0.05) + (1 - f) * dj + f * dj * (1 - 0.5 ** (k * (1 / 52) / h))
-check("L6 digestion: news is priced (1 - share) at once and the rest with the stated half-life, exactly",
-      np.max(np.abs(lo_d[j:] - expect)) < 1e-9 and np.allclose(lo_d[:j], logit(0.05)),
-      f"in the week of the news {1 - f + f * (1 - 0.5 ** (1 / 52 / h)):.2f} of it; after one half-life {1 - f + f / 2:.2f}")
+p1 = 1 / (1 + np.exp(-(logit(0.05) + dj)))
+expect = 0.05 + (p1 - 0.05) * ((1 - f) + f * (1 - 0.5 ** (k * (1 / 52) / h)))
+check("L6 digestion acts on the belief: news is priced (1 - share) at once and the rest with the stated half-life, exactly",
+      np.max(np.abs(p_d[j:] - expect)) < 1e-12 and np.allclose(p_d[:j], 0.05),
+      f"in the week of the news {1 - f + f * (1 - 0.5 ** (1 / 52 / h)):.2f} of the move; after one half-life {1 - f + f / 2:.2f}")
 tr_old = rc.trust_path(ow, nw, replace(base, truth="old"))
 tr_new = rc.trust_path(ow, nw, replace(base, trust_lead=2.0))
 prog = (nw["eta"][0] - nw["eta"]) / (nw["eta"][0] - nw["eta"][-1])

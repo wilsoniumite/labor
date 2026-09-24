@@ -23,9 +23,12 @@
 # weighs its readings correctly; one that is not treats them all as independent and over-updates —
 # faster, and more easily fooled.
 # Capacity also sets how fast evidence is digested into prices: today's market closes the gap between
-# its belief and the evidence with half-life `digest` (years; 0 = at once, the pure Bayesian learner),
-# and that half-life shortens in proportion to capacity; `digest_share` is the part of each change
-# digested that way (the rest is priced at once). More reading makes recognition earlier; faster
+# its belief and the belief the evidence supports with half-life `digest` (years; 0 = at once, the pure
+# Bayesian learner), and that half-life shortens in proportion to capacity; `digest_share` is the part
+# of each change digested that way (the rest is priced at once). Digestion acts on the probability —
+# a level, like a forecast, since the market's expected rate is linear in it — which is what the
+# evidence measures (yield changes, survey and forward revisions, long-run anchors); in log odds, a
+# sliver of overwhelming evidence would already mean certainty. More reading makes recognition earlier; faster
 # digestion makes it abrupt — news that a human market prices over weeks gaps in days. (US Treasuries
 # measured this once already for rate news: in 1982–94 about a quarter of each 10Y move came over the
 # following weeks, half-life about two weeks; since 1995 none — code/digestion_history.py.)
@@ -104,7 +107,8 @@ def learn(old: dict, new: dict, lr: Learning = Learning(), return_logodds: bool 
     truth = s_new if lr.truth == "new" else s_old
     cap = capacity_path(old, new, lr)
     rng = np.random.default_rng(lr.seed) if lr.seed is not None else None
-    lo = lo_s = np.log(lr.p0 / (1.0 - lr.p0))                    # the evidence's log odds; its slow-digested part
+    lo = np.log(lr.p0 / (1.0 - lr.p0))                           # the evidence's log odds
+    p_s = lr.p0                                                  # the slowly digested belief (a level, like a forecast)
     out = np.empty_like(t)
     los = np.empty_like(t)
     for i, ti in enumerate(t):
@@ -124,10 +128,13 @@ def learn(old: dict, new: dict, lr: Learning = Learning(), return_logodds: bool 
                 if t[i - 1] < when <= ti:
                     lo += d
             if lr.digest > 0.0:
-                lo_s += (lo - lo_s) * (1.0 - 0.5 ** ((ti - t[i - 1]) * cap[i] / lr.digest))
-        lo_m = lo if lr.digest == 0.0 else (1.0 - lr.digest_share) * lo + lr.digest_share * lo_s
-        los[i] = lo_m
-        out[i] = expit(lo_m)
+                p_s += (expit(lo) - p_s) * (1.0 - 0.5 ** ((ti - t[i - 1]) * cap[i] / lr.digest))
+        if lr.digest == 0.0:
+            los[i], out[i] = lo, expit(lo)
+        else:
+            out[i] = (1.0 - lr.digest_share) * expit(lo) + lr.digest_share * p_s
+            with np.errstate(divide="ignore"):
+                los[i] = np.log(out[i]) - np.log1p(-out[i])        # +inf once the belief is exactly 1
     return (out, los) if return_logodds else out
 
 

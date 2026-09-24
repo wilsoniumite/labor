@@ -17,8 +17,9 @@ openness principle adopted; Sweden 1990–95 measured; regime mixtures built, ch
 sovereign spread built, checks 6/6, public monitor run; macro block built with calibration (a)
 and then (b) produced capital, checks 21/21; recognition as a mixture built, checks 10/10;
 reverse stress testing part 1 — the envelope over the dials — built, checks 11/11; speed — markets
-at machine speed, with the digestion history of US Treasuries — built, checks 15/15; next: her read,
-then part 2 against an exposure profile on the bank side).
+at machine speed, with the digestion history of US Treasuries — built, checks 15/15; the forward-rate
+test of regime digestion built, checks 9/9; next: her read, then part 2 against an exposure profile on
+the bank side).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -297,12 +298,13 @@ is right; in an extreme path the destination is what is wrong.
     market recognises the new world while trust in AI is still 6–15% (F1): it wakes up from the data
     before the AI it would use is trusted, and the speed-up barely bites. If finance adopts three
     years ahead of the economy, ×100 moves the one-half date from year 3.6 to 1.6 (1% of the
-    labour-share fall done, not 5%); the 10%→90% window shrinks only from 61 to 33 weeks.
+    labour-share fall done, not 5%); the 10%→90% window shrinks only from 77 to 33 weeks.
   - **Faster digestion makes it abrupt.** The same lump of news (+4 log odds, before recognition)
-    moves the 10Y 0.6 bp in its first week if regime news is digested with a quarter's half-life, 10
+    moves the 10Y 2 bp in its first week if regime news is digested with a quarter's half-life, 16
     at ×10, 40 at ×100 or instantly; the 3M moves about 1 bp because policy waits for meetings, so
-    the long end gaps alone — a twist, not a parallel shift. Within a month: 3, 35, 41 bp; the
-    saving-dominates world mirrors it (−50 bp in the week at machine speed).
+    the long end gaps alone — a twist, not a parallel shift. Within a month: 8, 36, 41 bp; the
+    saving-dominates world mirrors it (−50 bp in the week at machine speed). (Numbers after the
+    correction of log 11: digestion acts on the belief, not its log odds.)
   - **Faster, and easier to fool.** If the market's AI readings share an error (0.5 pp of the 1 pp)
     and it knows, capacity is capped at the shared error's precision (L4) and false dawns stay
     near 2%; if it takes them for independent confirmation, false dawns in a status quo world rise
@@ -316,15 +318,48 @@ is right; in an extreme path the destination is what is wrong.
     predates both the Fed's announcements (1994) and the internet, pointing at market technology and
     structure (with staler early quotes and Fed opacity as stated confounds). In 1982–94 about three
     quarters of a 10Y move came at once and the rest with a half-life of about two weeks. On that
-    measured rung the same lump of news moves the 10Y 31 bp in its first week (F2) — so for
+    measured rung the same lump of news moves the 10Y 33 bp in its first week (F2) — so for
     quantified news the step from human to machine speed has largely happened already. What the
     speed results rest on is the assumption that humans still digest *regime judgements* slowly;
-    daily yields cannot measure that, and it is the next thing to test.
+    daily yields cannot measure that — the forward-rate test below does.
   - `[inferred]` **For a bank:** machine-speed markets move the risk from a late, large resolution
     jump to an early, abrupt repricing of the long end while the policy rate waits — inside the
-    interval between a bank's hedging decisions (a monthly ALCO absorbs 35–41 bp in the scenario
-    where a human market would have shown 3) — and they add a new tail: correlated models producing
+    interval between a bank's hedging decisions (a monthly ALCO absorbs 36–41 bp in the scenario
+    where a human market would have shown 8) — and they add a new tail: correlated models producing
     false dawns that reverse.
+- **The forward-rate test: how slowly are regime judgements digested?** (her go, 2026-09-24;
+  `code/regime_digestion.py`, `results/regime_digestion.json`, `figures/fig_regime_digestion.png`;
+  checks `checks/check_regime_digestion.py`, 9/9). Public sources: the Fed Board's
+  Gürkaynak–Sack–Wright zero curve (a trimmed vintage in `cache/fed/`), the Philadelphia Fed's
+  Survey of Professional Forecasters (`cache/spf/`), Kim–Wright term premia and the 3-month bill
+  (FRED). The test at the first layer is Coibion–Gorodnichenko's: forecast error on forecast
+  revision, whose slope b gives the share of news not yet absorbed, b/(1 + b), and so a half-life
+  (E2 checks the mapping on a simulated sticky-information forecaster). Findings — three layers,
+  three speeds:
+  - **Prices of quantified news: days** (above: none left since 1995; two weeks for a quarter of each
+    10Y move in 1982–94).
+  - **Expectations of the next year: months.** Survey forecasts of the bill rate under-react —
+    half-life 1.1, 1.7, 2.4 months at 1, 2, 3 quarters ahead (F1; slopes +0.41 and +0.71, se 0.14
+    and 0.22) — and market forwards a year ahead, net of term premia, likewise (+0.37, se 0.14:
+    half-life about 6 months; +0.59 since 2008). Surveyed forecasters show no sign of speeding up
+    across eras (+0.38, +0.81, +0.98 three quarters ahead; F3): prices got faster, the people did
+    not — her bottleneck, located.
+  - **Regime anchors: years.** The survey's expected 10-year bill average and the market's expected
+    rate 9–10 years ahead (net of Kim–Wright) move toward realized rates with half-lives of 7–11 years
+    before 2021 and 2–3 years since (F4). The survey anchor was too high in 96% of surveys 1992–2016
+    (overlapping decades: about 2.5 independent ones), by 1.8 pp on average, and did worse than
+    assuming no change (RMSE 2.0 against 1.8 pp; F5) — so its slowness is not only prudence. At
+    longer market horizons (2–4 years) the slopes are unstable and turn negative before 2008,
+    the term premium being the usual suspect; not relied on.
+  - **What it means in the model** (layer 3; F6): if people digest regime news with a half-life of
+    3 years — inside the measured range — while AI digests it in weeks, adopting AI can itself
+    reprice the curve. Deficits dominate, AI adopted around year 5 (×30): the 10Y rises 74 bp in the
+    adoption year, against 22 without AI and 17 in the evidence itself — a catch-up to what the data
+    had long said, with no news that year. With a 5-year half-life: 79 against 16.
+  - `[inferred]` **Reading:** the quarter-long half-life assumed in the speed scenarios was the
+    fast end; the anchors say years. The human bottleneck sits in judgement about regimes, which is
+    exactly where this risk lives — so the speed-up that matters is still to come, and it can arrive
+    as a repricing driven by the market's tools rather than by news.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -393,9 +428,11 @@ is right; in an extreme path the destination is what is wrong.
     layer: capacity (how much is read: recognition earlier), digestion (how fast it is priced: news
     gaps), and a shared error the market may not know it has. Trust follows the true world's own
     automation by default (the reflexive reading of her point), with a lead for finance adopting
-    early. Today's digestion is measured for rate news (US 10Y, 1982–94 and since 1995) and assumed
-    for regime news (half-life a quarter; 0.1 and 0.5 shown). Alternatives: a stochastic volatility
-    layer on the curve; digestion measured on forward-rate forecast errors.
+    early. Today's digestion is measured for rate news (US 10Y, 1982–94 and since 1995); for regime
+    news the speed scenarios assume a quarter (0.1 and 0.5 shown) and the forward-rate test measures
+    years (anchors) — the scenarios' assumption is the fast end. Digestion acts on the belief (a
+    level, like the forecasts and prices it is measured on), not on its log odds. Alternative: a
+    stochastic volatility layer on the curve.
 
 ## Next
 
@@ -423,11 +460,10 @@ is right; in an extreme path the destination is what is wrong.
    more structure (how rentier and profit income is spent); alternative policy regimes (flexible
    target, currency defence, yield cap) — the lower bound is currently what bounds the fall side;
    speed as volatility; euro (the ECB's published AAA curve parameters) as a further cycle.
-8. ~~**Speed**~~ — **built 2026-09-24** (above). Open: **how slowly do markets digest regime
-   judgements?** — the assumption the abruptness result rests on. A public test: forward-rate
-   forecast errors (the 2010s priced hikes year after year that did not come; how long did it take
-   the forward curve to learn "lower for longer"?), and after 2022 the reverse. A proper post-FOMC
-   drift test needs surprise measures that are not on FRED.
+8. ~~**Speed**~~ — **built 2026-09-24** (above), and ~~**the forward-rate test**~~ — **built
+   2026-09-24** (above): regime judgements digest over years. Open: a proper post-FOMC drift test
+   needs surprise measures not on FRED; Swedish counterparts (Riksbank forward guidance against
+   realized policy, Prospera surveys) if the public data allow.
 
 ## Siblings
 
@@ -544,3 +580,15 @@ the macro block lands.
     event test on target-change days was inconclusive (31–99 events an era, the 3M bill as the
     surprise). Checks 15/15 (first run 14/15: one exact-equality check tripped on rounding —
     (σ/√7)² is not σ²/7 in floating point).
+11. **2026-09-24 — the forward-rate test, and a correction.** Her go. The Fed Board's site failed
+    certificate verification from Python behind the corporate proxy; verification was not turned
+    off — the file was fetched through PowerShell (the Windows certificate store) and a trimmed
+    vintage cached. statsmodels is not in the venv; the Newey–West regression is written out and
+    checked against White's errors (E1). The correction: digestion first acted on the log odds,
+    where a sliver of overwhelming evidence already means certainty — a 5-year half-life barely
+    delayed recognition (5.0 against 3.3 years). Everything the evidence measures is a level
+    (yields, forecasts, anchors) and the market's expected rate is linear in the belief, so
+    digestion now acts on the belief; the committed recognition results are unchanged (they do not
+    digest), the speed numbers above are restated (the first week's move under human digestion 0.6
+    → 2 bp, the ladder 2 / 16 / 33 / 40 / 40 bp), check L6 restated. Findings above. The
+    constant-gain check (E3) first failed on a residual tolerance tighter than the optimiser's own.
