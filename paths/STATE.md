@@ -531,6 +531,53 @@ is right; in an extreme path the destination is what is wrong.
     2008 or a 1930 depending on backstops, austerity and trade. The AI-specific danger is the labour depression that
     today's rules do not prevent — output recovers while jobs do not. Sweden's exposure is overstated here: the model
     has no exchange rates, and the krona's fall is Sweden's historical cushion (leaving gold in 1931, 2008-09).
+- **Two waves, and Baumol concentration** (her calls, 2026-09-24: robotics is a year or two out at least; most job
+  growth is going to women — care and other labour-intensive work, Baumol concentration? `code/exposure.py`,
+  `code/baumol.py`, the split in `code/global_crash.py`; `results/exposure.json`, `results/baumol.json`,
+  `figures/fig_baumol.png`, `figures/fig_global_crash_waves.png`; checks `checks/check_exposure.py` 17/17 and
+  `checks/check_global_crash.py` 20/20). Measured (ILOSTAT): cognitive work (ISCO 1-4) is 61% of US employment, 56%
+  of the euro area's, 65% of Sweden's, 20% of China's; physical work (6-9) 70% of China's; cognitive work pays 1.14-1.22
+  times the average. **Recessions cut physical work 2-3 times as fast as the whole** (US 2007-10: physical -11%,
+  cognitive -3%; Spain and Sweden the same shape), so before robotics only 37% of a US recession's job loss is in work
+  AI can take (6% of China's). In the crash model the drift and the adoption in recessions act only on work that can
+  be automated at the time; the displaced carry their group's pay, support capped near average pay (approximate).
+  The split nests the uniform case exactly (M4), and the fit and the earlier rows are unchanged. Findings (today's
+  rules, year 4):
+  - **The robotics lag holds the labour depression back; it does not prevent it.** US unemployment in the
+    labour-depression row: 28% uniform, 26/24/21% with robotics 1/2/3 years out; by year 6 the physical wave arrives
+    in a weak economy (46% with a 2-year lag, above the uniform case's year 4).
+  - **The first wave costs more per job**: output falls 0.70 points per point of US unemployment with robotics 3
+    years out against 0.56 uniform — fewer people out of work, each losing 1.2 times the average pay with support
+    capped. Holds with no discretionary fiscal response (W5).
+  - **China waits for robotics** (its exposure is physical); the US, Sweden and the euro area take the first wave.
+  - A model artefact, stated: the fiscal response starts when unemployment is 2 points up, so a split that raises
+    unemployment more slowly delays it — China's output looks slightly worse with the lag for that reason alone, and
+    the US has a small first-year dip; without the trigger both go the expected way (W5).
+- **Baumol concentration, measured** (`code/baumol.py`; stated as found):
+  - **US payrolls, Aug 2024 - Aug 2026: health care and social assistance added 1,342k of 1,318k net jobs (102%); the
+    rest of the economy shrank; women took 76%.** The last 12 months: 91% and 82%. Care is 15% of payrolls; its share
+    of growth in each expansion since 1991 was 14-34%. Jobs outside care shrank over 12 months while the headline grew
+    for 14 months (June 2025 - July 2026); since 1990 that had lasted 1-3 months, at recession onsets (2001, 2008)
+    and in jobless recoveries (1992, 2003, 2010).
+  - **Germany likewise** (health and social work 74% of net employment growth 2022-25, manufacturing -282k); the
+    Netherlands 35%; **Sweden not**: care flat at 14.9% of employment 2019-25 — yet women took 98% of Sweden's net
+    growth 2022-25 (men's employment flat). France, Italy and Spain grew in hospitality, not care.
+  - Care is 72-81% women everywhere measured; it pays below the average in Sweden, Germany, France and the
+    Netherlands (0.83-0.87), and US education and health hourly pay has slipped from 1.01 of all private pay (2010)
+    to 0.97. It absorbs jobs, not pay.
+  - It is paid for mostly by the state: Medicare and Medicaid benefits come to 64% of US consumer spending on health
+    care (the employers are private: 7% public); Swedish and most euro-area care is tax-financed. It grew 5% through
+    2008-10 while payrolls fell 6% and fell 11% in 2020 (the in-person shock); US state and local government shed 726k
+    jobs in 2008-13 (austerity on the public side).
+  - Baumol's premise in prices, US: health care's price doubled against goods since 1990 and its spending share rose
+    13.3% to 17.0%; 1990-2008 is consistent with the paper's sigma_H < 1 branch (implied 0.25), but since 2008 the
+    share rose while its price fell against all consumer prices — the recent concentration is volume (ageing,
+    coverage), not the price-driven concentration of the proposition.
+  - `[inferred]` The paper's "aggregate rescue, median collapse" on the employment side is visible now in the US:
+    jobs are concentrating in the human-required set, three-quarters women, at below-average and slipping relative
+    pay, financed publicly. For a crash, what holds employment up in an ordinary recession is a fiscal decision: under
+    today's rules care kept hiring through 2008-10; under eroding rules it is what austerity cuts. And the displaced
+    (cognitive now, physical later; the physical wave mostly men) are not the people care has been hiring.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -854,3 +901,13 @@ the macro block lands.
     structural drift buried in "as usual" (now its own dial), an income guarantee standing in for "expand" (it had
     been a bigger temporary stimulus), and the 1930s' rules on today's debts running into a clamp (now reported at
     four years with a no-bottom flag). Two check texts claimed more than they tested; fixed.
+21. **2026-09-24 — two waves, and Baumol concentration.** Her call: go ahead with the two-wave split; mid-build, her
+    question on job growth going to women and labour-intensive sectors. Built `code/exposure.py` (ILOSTAT occupations,
+    pay and recession behaviour; China from the ILO's modelled estimates) and the split in `global_crash.py`, and for
+    her question `code/baumol.py` (US payrolls to Aug 2026, labour force surveys to 2025, BEA prices and spending,
+    ILOSTAT earnings) with `checks/check_exposure.py` (17/17); `check_global_crash.py` 20/20. The ILO API needs the
+    Windows certificate store here; its files are cached under `cache/ilo/`. A check caught round-off leaking
+    physical displacement before robotics (fixed: the physical share is computed directly); the waves figure showed
+    the fiscal trigger's timing moving China's output the wrong way (stated, tested without it: W5). Watcher: the
+    second-wave and care-only tripwires, replayed on 1990-2026 (separate repository). Not done: the Swedish household
+    layer's displaced still earn the average wage (the first wave's premium would deepen its losses).

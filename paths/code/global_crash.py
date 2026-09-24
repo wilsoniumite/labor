@@ -15,6 +15,15 @@
 # Plus debt deflation (fixed money debts against a price level falling below the one the debts were written for) and
 # the relief floating-rate borrowers get when rates fall.
 #
+# Two waves (her call, 2026-09-24: robotics is a year or two out at least). By default every job is exposed from the
+# start at average pay (the uniform case, as fitted). With the split (Waves), work is grouped by occupation
+# (exposure.py, ILOSTAT): cognitive (ISCO 1-4) exposed now; physical (6-9) only once robotics arrives, after a lag;
+# in-person services (5) in neither. The drift and the adoption in recessions act only on work that can be automated
+# at the time: recessions cut physical work two to three times as fast as the whole (US 2007-10), so before robotics
+# most of a recession's job loss is rehired rather than automated. The displaced carry their group's pay (cognitive
+# work pays 1.1-1.2 times the average) and support capped near average pay; spending, bank losses and an income
+# guarantee weigh each group's unemployed by that, normalised so a recession's usual mix weighs what the fit assumed.
+#
 # Each quarter, region r:
 #   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern)
 #   expectations pie = anchor pi* + (1 - anchor) pi_1
@@ -98,6 +107,10 @@ class Region:
     spread_cap: float           # the most a backstop lets credit spreads widen, points
     eta: float                  # share of cyclical unemployment turning structural each quarter (AI available)
     drift: float                # structural displacement, points of unemployment a year (the paper's slow channel)
+    # the two-wave split (exposure.py); unused in the uniform case
+    groups: dict = field(default_factory=lambda: {"cognitive": 1 / 3, "in_person": 1 / 3, "physical": 1 / 3})   # employment shares
+    premium: dict = field(default_factory=lambda: {"cognitive": 1.0, "in_person": 1.0, "physical": 1.0})       # pay against the average
+    benefit_cap: float = 99.0   # pay (x the average) above which unemployment support stops rising (approximate)
 
 
 @dataclass(frozen=True)
@@ -126,6 +139,20 @@ class Common:
     money: float = 8.0          # demand level per unit of capital lost when deposits are uninsured (bank runs)
     debt_deflation: float = 0.15   # demand level per unit of (expected / actual price level - 1) x private debt
     kappa_1930: float = 0.5     # the 1930s Phillips slope (flexible prices and wages)
+    # each group's employment change in a recession over all employment's (US 2007-10, exposure.py)
+    beta: dict = field(default_factory=lambda: {"cognitive": 0.58, "in_person": 0.27, "physical": 2.34})
+
+
+@dataclass(frozen=True)
+class Waves:
+    """Which work AI can take, and when. split=False is the uniform case: every job exposed from the start."""
+    split: bool = False
+    robot_lag: float = 2.0      # years until robotics can take physical work
+    robot_ramp: float = 1.0     # years over which it arrives in full
+
+
+UNIFORM = Waves()
+GROUPS = ("cognitive", "in_person", "physical")
 
 
 @dataclass(frozen=True)
@@ -181,13 +208,54 @@ def pulse(total_pct_loans: float, start: int, quarters: int, n: int) -> np.ndarr
 
 
 # ------------------------------------------------------------------ the simulation
-def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n: int = 24, active=None) -> dict:
+def wave_weights(g: Region, rl: Rules, cm: Common, waves: Waves) -> dict | None:
+    """Under the split: a recession's usual job-loss mix by group, and each group's weight per point of unemployment
+    for spending (lost net pay), bank losses (debt, taken proportional to pay) and an income guarantee (pay) — relative
+    to that mix, so a recession's usual unemployment weighs what the fit assumed. None in the uniform case."""
+    if not waves.split:
+        return None
+    rep = g.replacement if rl.support else 0.0
+    z = sum(g.groups[q] * cm.beta[q] for q in GROUPS)
+    mix = {q: g.groups[q] * cm.beta[q] / z for q in GROUPS}
+    rep_q = {q: rep * min(1.0, g.benefit_cap / g.premium[q]) for q in GROUPS}
+    net = {q: g.premium[q] * (1 - rep_q[q]) for q in GROUPS}
+    net_mix = sum(mix[q] * net[q] for q in GROUPS)
+    pay_mix = sum(mix[q] * g.premium[q] for q in GROUPS)
+    return {"mix": mix, "rep": rep_q, "spend": {q: net[q] / net_mix * (1 - rep) for q in GROUPS},
+            "pay": {q: g.premium[q] / pay_mix for q in GROUPS}}
+
+
+def robots(k: int, waves: Waves) -> float:
+    """The share of physical work robotics can take at quarter k (1 in the uniform case)."""
+    if not waves.split:
+        return 1.0
+    t = k * DT
+    if waves.robot_ramp <= 0:
+        return float(t >= waves.robot_lag)
+    return min(max((t - waves.robot_lag) / waves.robot_ramp, 0.0), 1.0)
+
+
+def displaced(o: dict, j: int, g: Region, w: dict) -> dict:
+    """Points of unemployment above the start at quarter j, by group: the structural additions by wave, plus the
+    cyclical part in a recession's usual mix."""
+    struct = {"cognitive": o["s_cog"][j], "in_person": 0.0, "physical": o["s_phys"][j]}
+    cy = o["u"][j] - o["u_star"][j]
+    if cy >= 0:
+        return {q: struct[q] + w["mix"][q] * cy for q in GROUPS}
+    st = sum(struct.values())
+    f = max(o["u"][j] - g.u0, 0.0) / st if st > 1e-12 else 0.0
+    return {q: struct[q] * f for q in GROUPS}
+
+
+def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n: int = 24, active=None,
+             waves: Waves = UNIFORM) -> dict:
     """regions: {code: Region}; rules: {code: Rules}; active: regions simulated (others held at zero gap)."""
     active = active or list(regions)
     names = list(regions)
     out = {r: {k: np.zeros(n) for k in ("y", "u", "u_star", "pi", "P", "Pexp", "i", "k", "s", "D", "stress", "stim",
                                         "d_wealth", "d_capex", "d_unemp", "d_relief", "d_debt", "d_credit", "d_money",
-                                        "d_trade", "d_fiscal", "loss", "deficit_extra")} for r in names}
+                                        "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted")} for r in names}
+    W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
         o = out[r]
@@ -227,7 +295,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             d_wealth = -cm.wealth_mpc * g.equity_wealth * eq * 100
             d_capex = -g.ai_capex * cx
             rep = g.replacement if rl.support else 0.0
-            d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * max(o["u"][k - 1] - g.u0, 0.0) * (1 - rep)
+            if W[r] is None:
+                d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * max(o["u"][k - 1] - g.u0, 0.0) * (1 - rep)
+                owed = max(o["u"][k - 1] - g.u0, 0.0) * max(rl.guarantee - rep, 0.0)
+            else:
+                du = displaced(o, k - 1, g, W[r])
+                d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * sum(du[q] * W[r]["spend"][q] for q in GROUPS)
+                owed = sum(du[q] * W[r]["pay"][q] * max(rl.guarantee - W[r]["rep"][q], 0.0) for q in GROUPS)
             d_relief = (cm.mpc_b - cm.mpc_rep) * g.floating * g.hh_debt / 100 * (g.i0 - i)
             d_debt = -cm.debt_deflation * g.priv_debt / 100 * max(o["Pexp"][k - 1] / o["P"][k - 1] - 1, 0.0) * 100
             d_credit = -cm.a_s * o["s"][k - 1]
@@ -246,8 +320,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 d_fiscal = 0.8 * g.stimulus * min(1.0, (fiscal_left[r] + 4) / 4)       # full for the programme, tapered over a year
                 fiscal_left[r] -= 1
             elif rl.fiscal == "guarantee" and unemp_up >= rl.trigger:
-                d_fiscal = (cm.mpc_u - cm.mpc_rep) * cm.labour_share * max(unemp_up, 0.0) * max(rl.guarantee - rep, 0.0)
-                o["deficit_extra"][k] = cm.labour_share * max(unemp_up, 0.0) * max(rl.guarantee - rep, 0.0)
+                d_fiscal = (cm.mpc_u - cm.mpc_rep) * cm.labour_share * owed
+                o["deficit_extra"][k] = cm.labour_share * owed
             elif rl.fiscal == "austerity" and unemp_up >= rl.trigger:
                 d_fiscal = -0.8 * min(0.5 * unemp_up / 5, 2.0)          # consolidation as deficits grow, up to 2% of GDP
             d_other = shock.demand.get(r, np.zeros(n))[k]
@@ -264,12 +338,35 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             o["pi"][k] = pi
             o["P"][k] = o["P"][k - 1] * (1 + pi / 100 * DT)
             o["Pexp"][k] = o["Pexp"][k - 1] * (1 + pis / 100 * DT)
-            # unemployment
-            o["u_star"][k] = min(o["u_star"][k - 1] + g.eta * max(o["u"][k - 1] - o["u_star"][k - 1], 0.0) + g.drift * DT, 45.0)
+            # unemployment: the drift and adoption in recessions act only on work that can be automated at the time
+            ap = robots(k, waves)
+            if W[r] is None:
+                m_drift = m_eta = 1.0
+            else:
+                sh, mix = g.groups, W[r]["mix"]
+                m_drift = (sh["cognitive"] + sh["physical"] * ap) / (sh["cognitive"] + sh["physical"])
+                m_eta = (mix["cognitive"] + mix["physical"] * ap) / (mix["cognitive"] + mix["physical"])
+            add_eta = g.eta * m_eta * max(o["u"][k - 1] - o["u_star"][k - 1], 0.0)
+            add_drift = g.drift * m_drift * DT
+            o["u_star"][k] = min(o["u_star"][k - 1] + add_eta + add_drift, 45.0)
+            o["s_cog"][k], o["s_phys"][k] = o["s_cog"][k - 1], o["s_phys"][k - 1]
+            if W[r] is not None and add_eta + add_drift > 0:
+                inc = o["u_star"][k] - o["u_star"][k - 1]            # after the cap
+                p_eta = mix["physical"] * ap / (mix["cognitive"] + mix["physical"] * ap)
+                p_drift = sh["physical"] * ap / (sh["cognitive"] + sh["physical"] * ap)
+                dp = inc * (add_eta * p_eta + add_drift * p_drift) / (add_eta + add_drift)
+                o["s_cog"][k] += inc - dp
+                o["s_phys"][k] += dp
             target = max(o["u_star"][k] - g.okun * y, 1.5)
             o["u"][k] = min(o["u"][k - 1] + g.speed * (target - o["u"][k - 1]), 50.0)
+            if W[r] is None:
+                debt_up = max(o["u"][k] - g.u0, 0.0)
+            else:
+                du = displaced(o, k, g, W[r])
+                debt_up = sum(du[q] * W[r]["pay"][q] for q in GROUPS)     # debts taken proportional to pay
+            o["pay_weighted"][k] = debt_up
             # banks
-            loss = cm.loss_base + cm.loss_u * max(o["u"][k] - g.u0, 0.0) + cm.loss_y * max(-y, 0.0) + shock.losses.get(r, np.zeros(n))[k]
+            loss = cm.loss_base + cm.loss_u * debt_up + cm.loss_y * max(-y, 0.0) + shock.losses.get(r, np.zeros(n))[k]
             o["loss"][k] = loss
             kk = o["k"][k - 1] - (loss - cm.loss_base) * g.loans / 100 * DT
             if rl.backstop:
@@ -294,7 +391,11 @@ def summary(out: dict, regions: dict, horizon_q: int | None = None) -> dict:
                   "price_level_end": round(float(o["P"][n - 1]), 3), "bank_capital_lost_max": round(float(o["stress"][:n].max()), 3),
                   "spread_max": round(float(o["s"][:n].max()), 2), "quarters_at_floor": int(sum(o["i"][:n] <= regions[r].floor + 1e-9)),
                   "policy_min": round(float(o["i"][:n].min()), 2), "no_bottom": bool(o["y"][:n].min() <= -59.99),
-                  "guarantee_cost_max_pct_gdp": round(float(o["deficit_extra"][:n].max()), 2)}
+                  "guarantee_cost_max_pct_gdp": round(float(o["deficit_extra"][:n].max()), 2),
+                  "unemployment_max_quarter": int(np.argmax(o["u"][:n])),
+                  "unemployment_year2": round(float(o["u"][min(8, n - 1)]), 2),
+                  "displaced_cognitive_end": round(float(o["s_cog"][n - 1]), 2), "displaced_physical_end": round(float(o["s_phys"][n - 1]), 2),
+                  "pay_weighted_rise_max": round(float(o["pay_weighted"][:n].max()), 2)}
     w = {r: regions[r].size for r in out}
     tot = sum(w.values())
     nn = len(out["US"]["y"]) if horizon_q is None else horizon_q
@@ -322,7 +423,16 @@ def regions_today() -> dict:
                 se["floating_share"], 1.4, 0.4, 15.0, 130.0, 0.50, {"US": 0.09, "EA": 0.40, "CN": 0.04, "RoW": 0.47}, 2.0, 3.0, 0.03, 0.6)
     cn = Region("CN", 0.30, 5.2, 1.4, yoy(cn_cpi, 12), 0.0, 0.25, 0.3, 0.15, last("QCNHAM770A"), last("QCNPAM770A"),
                 0.8, 0.3, 1.0, 20.0, 180.0, 0.19, {"US": 0.15, "EA": 0.15, "SE": 0.005, "RoW": 0.695}, 3.0, 1.5, 0.04, 0.8)
-    return {"US": us, "EA": ea, "SE": sw, "CN": cn, "_notes": {"SE_okun_measured_on_growth_changes": sw_cyc["okun"], "SE_start": se}}
+    # the two-wave split: occupations and pay measured (exposure.py); where support stops rising, approximate — the US
+    # (half of pay up to state maxima, near 0.9 of average pay), the euro area (Germany's ceiling near 1.8, France's
+    # far higher, Italy's and Spain's below average: about 1.5 weighted), Sweden (the unemployment fund's cap sits near
+    # 0.85 of average pay, but most white-collar workers carry union income insurance above it for the first months:
+    # 1.5), China (support too thin for a cap to matter)
+    ex = json.load(open(os.path.join(ROOT, "results", "exposure.json"), encoding="utf-8"))["regions"]
+    caps = {"US": 0.9, "EA": 1.5, "SE": 1.5, "CN": 1.0}
+    regs = {r: replace(g, groups=ex[r]["share"], premium=ex[r]["premium"], benefit_cap=caps[r])
+            for r, g in (("US", us), ("EA", ea), ("SE", sw), ("CN", cn))}
+    return {**regs, "_notes": {"SE_okun_measured_on_growth_changes": sw_cyc["okun"], "SE_start": se}}
 
 
 def us_1929(cm_okun: float) -> Region:
@@ -460,10 +570,12 @@ def scenarios(cm: Common, regions: dict) -> dict:
     rules_set = (("modern rules", MODERN), ("rules erode under pressure", ERODED), ("rules expand under pressure", EXPANDED),
                  ("the 1930s' rules", replace(THIRTIES, tariff=20.0, pi_star=2.0)))
     dials = (("bust only", 0.0, 1.0), ("bust + displacement", 1.0, 1.0), ("bust + displacement, recessions trigger adoption x3", 1.0, 3.0))
+    waves = [("", UNIFORM)] + [(f"two waves, robotics in {lag} years", Waves(split=True, robot_lag=float(lag))) for lag in (1, 2, 3)]
     for rules_name, rl in rules_set:
         for dial, drift_mult, eta_mult in dials:
             rg = {r: replace(g, eta=g.eta * eta_mult, drift=g.drift * drift_mult) for r, g in regs.items()}
-            runs[(rules_name, dial)] = simulate(rg, {r: rl for r in R}, ai_shock(n), cm, n)
+            for wl, wv in waves:
+                runs[(rules_name, dial, wl)] = simulate(rg, {r: rl for r in R}, ai_shock(n), cm, n, waves=wv)
     return runs
 
 
@@ -476,18 +588,20 @@ def main():
     runs = scenarios(cm, regions)
     out = {"validation": {k: v for k, v in val.items() if k != "runs"}, "common": cm.__dict__,
            "regions": {r: {k: v for k, v in g.__dict__.items()} for r, g in regions.items()}, "notes": notes, "scenarios": {}}
-    for (rn, an), o in runs.items():
-        out["scenarios"][f"{rn} | {an}"] = {"year4": summary(o, regions, 16), "year6": summary(o, regions)}
+    for (rn, an, wl), o in runs.items():
+        out["scenarios"][f"{rn} | {an}" + (f" | {wl}" if wl else "")] = {"year4": summary(o, regions, 16), "year6": summary(o, regions)}
     json.dump(out, open(os.path.join(ROOT, "results", "global_crash.json"), "w", encoding="utf-8"), indent=1, default=str)
     print(json.dumps(out["validation"], indent=1))
     for k, v in out["scenarios"].items():
         print(k)
-        v = v["year4"]
-        for r in R:
-            x = v[r]
-            print(f"   {r}: gap min {x['gap_min']} (q{x['gap_min_quarter']})  u max {x['unemployment_max']} (u* end {x['structural_unemployment_end']})  "
-                  f"infl {x['inflation_min']}..{x['inflation_max']}  P end {x['price_level_end']}  capital lost {x['bank_capital_lost_max']}  spread {x['spread_max']}  floor q {x['quarters_at_floor']}  guarantee {x['guarantee_cost_max_pct_gdp']}  {'NO BOTTOM' if x['no_bottom'] else ''}")
-        print("   four-weighted gap min", v["four_weighted_gap_min"])
+        for h in ("year4", "year6"):
+            x6 = v[h]
+            for r in R:
+                x = x6[r]
+                print(f"   {h} {r}: gap min {x['gap_min']} (q{x['gap_min_quarter']})  u max {x['unemployment_max']} (q{x['unemployment_max_quarter']}; yr2 {x['unemployment_year2']}; "
+                      f"u* end {x['structural_unemployment_end']} = cog {x['displaced_cognitive_end']} + phys {x['displaced_physical_end']})  "
+                      f"infl {x['inflation_min']}..{x['inflation_max']}  capital lost {x['bank_capital_lost_max']}  guarantee {x['guarantee_cost_max_pct_gdp']}  {'NO BOTTOM' if x['no_bottom'] else ''}")
+            print(f"   {h} four-weighted gap min", x6["four_weighted_gap_min"])
     figures(val, runs, regions)
 
 
@@ -524,7 +638,7 @@ def figures(val, runs, regions):
              ("rules expand under pressure", "bust + displacement", ":"), ("rules erode under pressure", "bust + displacement", "-.")]
     for j, r in enumerate(R):
         for (rn, an, st) in cases:
-            o = runs[(rn, an)][r]
+            o = runs[(rn, an, "")][r]
             t = np.arange(len(o["y"])) * DT
             ax[0, j].plot(t, o["y"], ls=st, label=f"{rn}, {an}")
             ax[1, j].plot(t, o["u"], ls=st, label=f"{rn}, {an}")
@@ -535,6 +649,26 @@ def figures(val, runs, regions):
         a.set_xlabel("years from the bust")
     fig.text(0.01, 0.005, "global_crash.py: a dot-com-shaped bust of the AI build-out in four regions linked by trade and a shared risk mood; amplifiers fitted on 1929-33 and 2007-09.", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash.png"), dpi=120)
+    # the two waves: today's rules, displacement and recessions triggering adoption (the labour-depression row)
+    fig, ax = plt.subplots(2, 4, figsize=(20, 8.6), layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
+    rn, an = "modern rules", "bust + displacement, recessions trigger adoption x3"
+    cases = [("", "every job exposed from the start", "k", "-")] + [(f"two waves, robotics in {L} years", f"two waves, robotics in {L} years", c, s)
+                                                                  for L, c, s in ((1, "C0", "--"), (2, "C1", "-"), (3, "C2", ":"))]
+    for j, r in enumerate(R):
+        for wl, lab, c, st in cases:
+            o = runs[(rn, an, wl)][r]
+            t = np.arange(len(o["y"])) * DT
+            ax[0, j].plot(t, o["u"], color=c, ls=st, label=lab)
+            ax[1, j].plot(t, o["y"], color=c, ls=st, label=lab)
+        ax[0, j].set_title(f"{r}: unemployment, %"); ax[1, j].set_title(f"{r}: output against capacity, %")
+        ax[1, j].axhline(0, color="grey", lw=0.8)
+    ax[0, 0].legend(fontsize=7.5)
+    for a in ax.flat:
+        a.set_xlabel("years from the bust")
+    fig.text(0.01, 0.005, "global_crash.py, today's rules, the bust with displacement and recessions triggering adoption (x3). Two waves: cognitive work "
+             "(ISCO 1-4) exposed now, physical work (6-9) once robotics arrives; in-person services (5) in neither. Occupations and pay: ILOSTAT (exposure.py).", fontsize=7.5)
+    fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_waves.png"), dpi=120)
 
 
 if __name__ == "__main__":

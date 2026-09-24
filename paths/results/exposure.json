@@ -1,0 +1,171 @@
+{
+ "regions": {
+  "US": {
+   "countries": [
+    "USA"
+   ],
+   "employment_thousands": 170186,
+   "share": {
+    "cognitive": 0.6086,
+    "in_person": 0.1464,
+    "physical": 0.245
+   },
+   "premium": {
+    "cognitive": 1.222,
+    "in_person": 0.581,
+    "physical": 0.701
+   },
+   "premium_years": [
+    2025
+   ],
+   "recession_loss_share": {
+    "cognitive": 0.3655,
+    "in_person": 0.0409,
+    "physical": 0.5936
+   }
+  },
+  "EA": {
+   "countries": [
+    "DEU",
+    "FRA",
+    "ITA",
+    "ESP",
+    "NLD"
+   ],
+   "employment_thousands": 127313,
+   "share": {
+    "cognitive": 0.5649,
+    "in_person": 0.1619,
+    "physical": 0.2733
+   },
+   "premium": {
+    "cognitive": 1.224,
+    "in_person": 0.657,
+    "physical": 0.752
+   },
+   "premium_years": [
+    2022,
+    2025
+   ],
+   "recession_loss_share": {
+    "cognitive": 0.3241,
+    "in_person": 0.0432,
+    "physical": 0.6326
+   }
+  },
+  "SE": {
+   "countries": [
+    "SWE"
+   ],
+   "employment_thousands": 5235,
+   "share": {
+    "cognitive": 0.6457,
+    "in_person": 0.1628,
+    "physical": 0.1916
+   },
+   "premium": {
+    "cognitive": 1.136,
+    "in_person": 0.72,
+    "physical": 0.794
+   },
+   "premium_years": [
+    2025
+   ],
+   "recession_loss_share": {
+    "cognitive": 0.4321,
+    "in_person": 0.0507,
+    "physical": 0.5172
+   }
+  },
+  "CN": {
+   "countries": [
+    "CHN"
+   ],
+   "employment_thousands": 737575,
+   "share": {
+    "cognitive": 0.1979,
+    "in_person": 0.0985,
+    "physical": 0.7036
+   },
+   "premium": {
+    "cognitive": 1.194,
+    "in_person": 0.653,
+    "physical": 0.749
+   },
+   "premium_years": [],
+   "premium_note": "no occupational earnings in ILOSTAT: the mean of the other regions' premia",
+   "recession_loss_share": {
+    "cognitive": 0.0642,
+    "in_person": 0.0149,
+    "physical": 0.9209
+   }
+  }
+ },
+ "cyclicality": {
+  "USA": {
+   "window": "2007-2010",
+   "scheme": "ISCO08",
+   "all_employment_change_pct": -4.78,
+   "cognitive": {
+    "share_at_start": 0.558,
+    "change_pct": -2.79,
+    "beta": 0.58
+   },
+   "in_person": {
+    "share_at_start": 0.174,
+    "change_pct": -1.28,
+    "beta": 0.27
+   },
+   "physical": {
+    "share_at_start": 0.269,
+    "change_pct": -11.18,
+    "beta": 2.34
+   }
+  },
+  "ESP": {
+   "window": "2007-2010",
+   "scheme": "ISCO88",
+   "all_employment_change_pct": -9.11,
+   "cognitive": {
+    "share_at_start": 0.423,
+    "change_pct": -3.94,
+    "beta": 0.43
+   },
+   "in_person": {
+    "share_at_start": 0.152,
+    "change_pct": 3.62,
+    "beta": -0.4
+   },
+   "physical": {
+    "share_at_start": 0.426,
+    "change_pct": -18.78,
+    "beta": 2.06
+   }
+  },
+  "SWE": {
+   "window": "2008-2010",
+   "scheme": "ISCO88",
+   "all_employment_change_pct": -1.49,
+   "cognitive": {
+    "share_at_start": 0.535,
+    "change_pct": 0.29,
+    "beta": -0.19
+   },
+   "in_person": {
+    "share_at_start": 0.188,
+    "change_pct": -2.24,
+    "beta": 1.51
+   },
+   "physical": {
+    "share_at_start": 0.277,
+    "change_pct": -4.42,
+    "beta": 2.97
+   }
+  }
+ },
+ "beta_used": {
+  "cognitive": 0.58,
+  "in_person": 0.27,
+  "physical": 2.34
+ }
+}

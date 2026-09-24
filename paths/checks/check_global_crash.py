@@ -62,6 +62,28 @@ check("M2 trade carries a US slump abroad: every other region's gap falls, Swede
 o = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24)
 check("M3 under the backstop, spreads stay under each region's cap and capital above the recapitalisation floor",
       all(o[r]["s"].max() <= regs[r].spread_cap + 1e-9 and o[r]["k"].min() >= gc.MODERN.capital_floor * regs[r].bank_capital - 1e-9 for r in gc.R))
+flat = {r: replace(g, groups=g.groups, premium={q: 1.0 for q in gc.GROUPS}, benefit_cap=99.0) for r, g in regs.items()}
+now = gc.Waves(split=True, robot_lag=0.0, robot_ramp=0.0)
+worst = {r: replace(g, eta=3 * g.eta) for r, g in flat.items()}
+diffs = []
+for rl in (gc.MODERN, gc.EXPANDED, gc.ERODED):
+    a = gc.simulate(worst, {r: rl for r in gc.R}, gc.ai_shock(24), cm, 24)
+    b = gc.simulate(worst, {r: rl for r in gc.R}, gc.ai_shock(24), cm, 24, waves=now)
+    diffs.append(max(float(np.abs(a[r][k] - b[r][k]).max()) for r in gc.R for k in ("y", "u", "u_star", "k", "deficit_extra")))
+check("M4 the split nests the uniform case: every group paid the average, support uncapped and robotics from the start reproduce "
+      "the uniform runs exactly (today's, expanding and eroding rules)", max(diffs) < 1e-9, f"largest difference {max(diffs):.1e}")
+lag3 = gc.Waves(split=True, robot_lag=3.0)
+o = gc.simulate({r: replace(g, eta=3 * g.eta) for r, g in regs.items()}, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24, waves=lag3)
+before = int(3.0 / gc.DT)
+check("M5 before robotics arrives, nobody in physical work is displaced; after it, they are",
+      all(o[r]["s_phys"][:before + 1].max() == 0 and o[r]["s_phys"][-1] > 0 for r in gc.R),
+      {r: (float(o[r]["s_phys"][before]), round(float(o[r]["s_phys"][-1]), 2)) for r in gc.R})
+w = {r: gc.wave_weights(regs[r], gc.MODERN, cm, lag3) for r in gc.R}
+check("M6 a recession's usual mix of job losers weighs what the fit assumed (lost net pay per point = 1 - replacement); a "
+      "displaced cognitive worker weighs more",
+      all(abs(sum(w[r]["mix"][q] * w[r]["spend"][q] for q in gc.GROUPS) - (1 - regs[r].replacement)) < 1e-9
+          and w[r]["spend"]["cognitive"] > 1 - regs[r].replacement for r in gc.R),
+      {r: {q: round(w[r]["spend"][q] / (1 - regs[r].replacement), 2) for q in gc.GROUPS} for r in gc.R})
 
 print("F — the findings (year 4, stated as found)")
 y4 = lambda k: S[k]["year4"]  # noqa: E731
@@ -85,6 +107,40 @@ check("F5 the 1930s' rules on today's economy are worse still than eroded rules"
 md = y4("modern rules | bust + displacement")
 check("F6 the US leads: the largest unemployment rise of the four under today's rules",
       max(gc.R, key=lambda r: md[r]["unemployment_max"] - regs[r].u0) == "US", {r: round(md[r]["unemployment_max"] - regs[r].u0, 1) for r in gc.R})
+
+print("W — two waves (cognitive now, physical once robotics arrives), stated as found")
+row = "modern rules | bust + displacement, recessions trigger adoption x3"
+wv = lambda L, h="year4": S[f"{row} | two waves, robotics in {L} years"][h]  # noqa: E731
+u4 = [lab["US"]["unemployment_max"]] + [wv(L)["US"]["unemployment_max"] for L in (1, 2, 3)]
+check("W1 the robotics lag holds the labour depression back: US year-4 unemployment falls with every year of lag, and with "
+      "robotics three years out it is at least 5 points below the uniform case",
+      all(a >= b for a, b in zip(u4, u4[1:])) and u4[0] - u4[3] >= 5, f"uniform, 1, 2, 3 years: {u4}")
+check("W2 it delays, it does not prevent: with robotics two years out, US unemployment by year 6 is above the uniform case's "
+      "at year 4, in this row and with displacement alone",
+      wv(2, "year6")["US"]["unemployment_max"] > lab["US"]["unemployment_max"]
+      and S["modern rules | bust + displacement | two waves, robotics in 2 years"]["year6"]["US"]["unemployment_max"] > md["US"]["unemployment_max"],
+      f"{wv(2, 'year6')['US']['unemployment_max']} against {lab['US']['unemployment_max']}; displacement alone "
+      f"{S['modern rules | bust + displacement | two waves, robotics in 2 years']['year6']['US']['unemployment_max']} against {md['US']['unemployment_max']}")
+per = lambda x: x["US"]["gap_min"] / (x["US"]["unemployment_max"] - regs["US"].u0)  # noqa: E731
+check("W3 the first wave costs more per job: with robotics three years out, US output falls further per point of unemployment "
+      "than in the uniform case (the displaced earn 1.2 times the average, with support capped)",
+      per(wv(3)) < per(lab), f"{per(wv(3)):.3f} against {per(lab):.3f} points of output per point of unemployment")
+cn = [lab["CN"]["unemployment_max"], wv(3)["CN"]["unemployment_max"]]
+check("W4 China waits for robotics: with robotics three years out, its year-4 unemployment is at least 1 point below the uniform "
+      "case and its displaced are mostly in physical work once robotics arrives",
+      cn[0] - cn[1] >= 1 and wv(3, "year6")["CN"]["displaced_physical_end"] > wv(3, "year6")["CN"]["displaced_cognitive_end"],
+      f"{cn}; year 6 displaced cognitive {wv(3, 'year6')['CN']['displaced_cognitive_end']}, physical {wv(3, 'year6')['CN']['displaced_physical_end']}")
+# the fiscal response starts when unemployment is 2 points up, so a split that raises unemployment more slowly also
+# delays the stimulus (China's output is a little worse with the lag in the rows above, for that reason alone)
+nofisc = {r: replace(gc.MODERN, fiscal="none") for r in gc.R}
+rg3 = {r: replace(g, eta=3 * g.eta) for r, g in regs.items()}
+a = gc.summary(gc.simulate(rg3, nofisc, gc.ai_shock(24), cm, 24), regs, 16)
+b = gc.summary(gc.simulate(rg3, nofisc, gc.ai_shock(24), cm, 24, waves=lag3), regs, 16)
+check("W5 not the fiscal trigger's timing: with no discretionary fiscal response, the lag still cuts US unemployment, the first "
+      "wave still costs more output per point of it, and China's output is better with the lag, not worse",
+      b["US"]["unemployment_max"] < a["US"]["unemployment_max"] and per(b) < per(a) and b["CN"]["gap_min"] > a["CN"]["gap_min"],
+      f"US unemployment {a['US']['unemployment_max']} -> {b['US']['unemployment_max']}; per point {per(a):.3f} -> {per(b):.3f}; "
+      f"China gap {a['CN']['gap_min']} -> {b['CN']['gap_min']}")
 
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")

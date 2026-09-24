@@ -1,0 +1,705 @@
+{
+ "us_payrolls": {
+  "latest": "2026-08",
+  "level": {
+   "payrolls_thousands": 159075,
+   "health_and_social_share_pct": 15.0,
+   "women_share_pct": 50.1
+  },
+  "windows": {
+   "12 months": {
+    "from": "2025-08",
+    "to": "2026-08",
+    "net_thousands": 603,
+    "health_and_social_thousands": 546,
+    "health_and_social_pct_of_net": 90.5,
+    "women_thousands": 495,
+    "women_pct_of_net": 82.1,
+    "outside_health_and_social_thousands": 57,
+    "outside_health_social_education_state_local_thousands": 34,
+    "by_supersector_thousands": {
+     "USEHS": 539,
+     "USPBS": 152,
+     "USLAH": 131,
+     "USCONS": 120,
+     "USTPU": 35,
+     "USSERV": 27,
+     "MANEMP": 23,
+     "USMINE": 2,
+     "USFIRE": -99,
+     "USINFO": -115,
+     "USGOVT": -212
+    }
+   },
+   "24 months": {
+    "from": "2024-08",
+    "to": "2026-08",
+    "net_thousands": 1318,
+    "health_and_social_thousands": 1342,
+    "health_and_social_pct_of_net": 101.8,
+    "women_thousands": 999,
+    "women_pct_of_net": 75.8,
+    "outside_health_and_social_thousands": -24,
+    "outside_health_social_education_state_local_thousands": -308,
+    "by_supersector_thousands": {
+     "USEHS": 1401,
+     "USLAH": 255,
+     "USCONS": 123,
+     "USSERV": 78,
+     "USMINE": -11,
+     "USPBS": -17,
+     "USTPU": -24,
+     "USFIRE": -76,
+     "USGOVT": -113,
+     "MANEMP": -134,
+     "USINFO": -164
+    }
+   },
+   "36 months": {
+    "from": "2023-08",
+    "to": "2026-08",
+    "net_thousands": 2814,
+    "health_and_social_thousands": 2252,
+    "health_and_social_pct_of_net": 80.0,
+    "women_thousands": 1863,
+    "women_pct_of_net": 66.2,
+    "outside_health_and_social_thousands": 562,
+    "outside_health_social_education_state_local_thousands": -304,
+    "by_supersector_thousands": {
+     "USEHS": 2430,
+     "USGOVT": 416,
+     "USLAH": 350,
+     "USCONS": 317,
+     "USSERV": 161,
+     "USTPU": -21,
+     "USMINE": -32,
+     "USFIRE": -107,
+     "MANEMP": -223,
+     "USINFO": -236,
+     "USPBS": -241
+    }
+   },
+   "since 2022": {
+    "from": "2022-01",
+    "to": "2026-08",
+    "net_thousands": 9069,
+    "health_and_social_thousands": 3768,
+    "health_and_social_pct_of_net": 41.6,
+    "women_thousands": 5139,
+    "women_pct_of_net": 56.7,
+    "outside_health_and_social_thousands": 5300,
+    "outside_health_social_education_state_local_thousands": 3485,
+    "by_supersector_thousands": {
+     "USEHS": 4105,
+     "USLAH": 1672,
+     "USGOVT": 1274,
+     "USCONS": 764,
+     "USTPU": 460,
+     "USSERV": 432,
+     "USPBS": 344,
+     "USFIRE": 152,
+     "MANEMP": 74,
+     "USMINE": 31,
+     "USINFO": -239
+    }
+   },
+   "since the pre-pandemic peak": {
+    "from": "2019-12",
+    "to": "2026-08",
+    "net_thousands": 7281,
+    "health_and_social_thousands": 3253,
+    "health_and_social_pct_of_net": 44.7,
+    "women_thousands": 3716,
+    "women_pct_of_net": 51.0,
+    "outside_health_and_social_thousands": 4028,
+    "outside_health_social_education_state_local_thousands": 2975,
+    "by_supersector_thousands": {
+     "USEHS": 3546,
+     "USPBS": 1060,
+     "USTPU": 1020,
+     "USCONS": 832,
+     "USGOVT": 597,
+     "USFIRE": 264,
+     "USLAH": 196,
+     "USSERV": 118,
+     "USMINE": -84,
+     "MANEMP": -122,
+     "USINFO": -146
+    }
+   }
+  },
+  "recessions": {
+   "2001": {
+    "payrolls_pct": -1.2,
+    "health_and_social_pct": 2.6,
+    "state_and_local_pct": 2.1,
+    "women_pct": -0.4,
+    "men_pct": -2.0
+   },
+   "2008-10": {
+    "payrolls_pct": -6.3,
+    "health_and_social_pct": 4.9,
+    "state_and_local_pct": -0.1,
+    "women_pct": -3.9,
+    "men_pct": -8.6
+   },
+   "2020": {
+    "payrolls_pct": -14.4,
+    "health_and_social_pct": -11.0,
+    "state_and_local_pct": -4.8,
+    "women_pct": -15.7,
+    "men_pct": -13.0
+   }
+  },
+  "austerity_2008_13": {
+   "window": "2008-08 to 2013-02",
+   "state_and_local_thousands": -726,
+   "state_and_local_pct": -3.7
+  },
+  "expansions": {
+   "1991-03 to 2001-03": {
+    "health_and_social_pct_of_net": 14.3,
+    "health_and_social_share_at_start_pct": 8.9
+   },
+   "2001-11 to 2007-12": {
+    "health_and_social_pct_of_net": 33.9,
+    "health_and_social_share_at_start_pct": 10.3
+   },
+   "2010-02 to 2020-02": {
+    "health_and_social_pct_of_net": 17.9,
+    "health_and_social_share_at_start_pct": 12.9
+   },
+   "2020-04 to 2026-08": {
+    "health_and_social_pct_of_net": 19.0,
+    "health_and_social_share_at_start_pct": 14.2
+   }
+  }
+ },
+ "labour_force_surveys": {
+  "US": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 5955,
+    "women_pct_of_net": 47.9,
+    "health_and_social_pct_of_net": 32.6,
+    "care_and_teaching_pct_of_net": 36.7,
+    "in_person_services_pct_of_net": -10.6,
+    "cognitive_services_pct_of_net": 37.7,
+    "manufacturing_thousands": -775,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 14.1,
+     "2025": 14.8
+    },
+    "health_and_social_women_pct": 77.4,
+    "largest_gains": {
+     "Q": 1943,
+     "H": 1006,
+     "M": 958
+    },
+    "largest_losses": {
+     "I": -583,
+     "C": -775
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 5202,
+    "women_pct_of_net": 54.6,
+    "health_and_social_pct_of_net": 41.1,
+    "care_and_teaching_pct_of_net": 52.1,
+    "in_person_services_pct_of_net": 4.8,
+    "cognitive_services_pct_of_net": 21.6,
+    "manufacturing_thousands": -65,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 13.9,
+     "2025": 14.8
+    },
+    "health_and_social_women_pct": 77.4,
+    "largest_gains": {
+     "Q": 2137,
+     "M": 738,
+     "P": 576
+    },
+    "largest_losses": {
+     "H": -96,
+     "L": -113
+    }
+   }
+  },
+  "SE": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 197,
+    "women_pct_of_net": 49.5,
+    "health_and_social_pct_of_net": 16.0,
+    "care_and_teaching_pct_of_net": 4.6,
+    "in_person_services_pct_of_net": -8.5,
+    "cognitive_services_pct_of_net": 98.9,
+    "manufacturing_thousands": -14,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 14.9,
+     "2025": 14.9
+    },
+    "health_and_social_women_pct": 76.4,
+    "largest_gains": {
+     "M": 130,
+     "O": 73,
+     "J": 48
+    },
+    "largest_losses": {
+     "P": -22,
+     "G": -50
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 72,
+    "women_pct_of_net": 98.0,
+    "health_and_social_pct_of_net": 45.2,
+    "care_and_teaching_pct_of_net": 24.3,
+    "in_person_services_pct_of_net": 5.8,
+    "cognitive_services_pct_of_net": 40.1,
+    "manufacturing_thousands": 8,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 14.5,
+     "2025": 14.9
+    },
+    "health_and_social_women_pct": 76.4,
+    "largest_gains": {
+     "M": 43,
+     "H": 41,
+     "Q": 32
+    },
+    "largest_losses": {
+     "X": -15,
+     "P": -15
+    }
+   }
+  },
+  "EA5": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 6749,
+    "women_pct_of_net": 55.0,
+    "health_and_social_pct_of_net": 21.8,
+    "care_and_teaching_pct_of_net": 33.9,
+    "in_person_services_pct_of_net": 13.1,
+    "cognitive_services_pct_of_net": 31.8,
+    "manufacturing_thousands": -97,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 12.0,
+     "2025": 12.5
+    },
+    "health_and_social_women_pct": 77.3,
+    "largest_gains": {
+     "Q": 1469,
+     "J": 1028,
+     "M": 970
+    },
+    "largest_losses": {
+     "A": -140,
+     "T": -404
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 4786,
+    "women_pct_of_net": 52.8,
+    "health_and_social_pct_of_net": 20.0,
+    "care_and_teaching_pct_of_net": 30.2,
+    "in_person_services_pct_of_net": 15.2,
+    "cognitive_services_pct_of_net": 19.5,
+    "manufacturing_thousands": 84,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 12.2,
+     "2025": 12.5
+    },
+    "health_and_social_women_pct": 77.3,
+    "largest_gains": {
+     "Q": 958,
+     "I": 912,
+     "M": 592
+    },
+    "largest_losses": {
+     "S": -204,
+     "A": -218
+    }
+   }
+  },
+  "DEU": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 161,
+    "women_pct_of_net": 157.5,
+    "health_and_social_pct_of_net": 441.1,
+    "care_and_teaching_pct_of_net": 480.6,
+    "in_person_services_pct_of_net": -23.5,
+    "cognitive_services_pct_of_net": 194.0,
+    "manufacturing_thousands": -391,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 13.3,
+     "2025": 14.9
+    },
+    "health_and_social_women_pct": 76.4,
+    "largest_gains": {
+     "Q": 712,
+     "J": 330,
+     "L": 180
+    },
+    "largest_losses": {
+     "C": -391,
+     "G": -511
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 791,
+    "women_pct_of_net": 59.5,
+    "health_and_social_pct_of_net": 73.5,
+    "care_and_teaching_pct_of_net": 89.9,
+    "in_person_services_pct_of_net": 9.7,
+    "cognitive_services_pct_of_net": 18.4,
+    "manufacturing_thousands": -282,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 13.8,
+     "2025": 14.9
+    },
+    "health_and_social_women_pct": 76.4,
+    "largest_gains": {
+     "Q": 582,
+     "I": 276,
+     "P": 130
+    },
+    "largest_losses": {
+     "S": -188,
+     "C": -282
+    }
+   }
+  },
+  "FRA": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 2250,
+    "women_pct_of_net": 52.4,
+    "health_and_social_pct_of_net": -2.0,
+    "care_and_teaching_pct_of_net": 9.3,
+    "in_person_services_pct_of_net": 20.9,
+    "cognitive_services_pct_of_net": 31.4,
+    "manufacturing_thousands": 32,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 14.6,
+     "2025": 13.3
+    },
+    "health_and_social_women_pct": 79.6,
+    "largest_gains": {
+     "G": 428,
+     "M": 381,
+     "I": 330
+    },
+    "largest_losses": {
+     "T": -70,
+     "O": -145
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 987,
+    "women_pct_of_net": 46.4,
+    "health_and_social_pct_of_net": -6.0,
+    "care_and_teaching_pct_of_net": 8.3,
+    "in_person_services_pct_of_net": 13.5,
+    "cognitive_services_pct_of_net": 34.2,
+    "manufacturing_thousands": 120,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 14.0,
+     "2025": 13.3
+    },
+    "health_and_social_women_pct": 79.6,
+    "largest_gains": {
+     "I": 206,
+     "M": 153,
+     "P": 141
+    },
+    "largest_losses": {
+     "X": -64,
+     "S": -94
+    }
+   }
+  },
+  "ITA": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 981,
+    "women_pct_of_net": 49.9,
+    "health_and_social_pct_of_net": 9.0,
+    "care_and_teaching_pct_of_net": 22.3,
+    "in_person_services_pct_of_net": 13.5,
+    "cognitive_services_pct_of_net": 16.7,
+    "manufacturing_thousands": 28,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 8.3,
+     "2025": 8.3
+    },
+    "health_and_social_women_pct": 72.4,
+    "largest_gains": {
+     "F": 359,
+     "I": 165,
+     "P": 130
+    },
+    "largest_losses": {
+     "A": -62,
+     "T": -181
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 1018,
+    "women_pct_of_net": 50.8,
+    "health_and_social_pct_of_net": 11.3,
+    "care_and_teaching_pct_of_net": 21.8,
+    "in_person_services_pct_of_net": 22.0,
+    "cognitive_services_pct_of_net": 11.1,
+    "manufacturing_thousands": 57,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 8.2,
+     "2025": 8.3
+    },
+    "health_and_social_women_pct": 72.4,
+    "largest_gains": {
+     "I": 217,
+     "G": 165,
+     "F": 132
+    },
+    "largest_losses": {
+     "A": -40,
+     "T": -107
+    }
+   }
+  },
+  "ESP": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 2442,
+    "women_pct_of_net": 53.9,
+    "health_and_social_pct_of_net": 16.0,
+    "care_and_teaching_pct_of_net": 24.3,
+    "in_person_services_pct_of_net": 5.6,
+    "cognitive_services_pct_of_net": 23.4,
+    "manufacturing_thousands": 246,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 8.6,
+     "2025": 9.4
+    },
+    "health_and_social_women_pct": 77.8,
+    "largest_gains": {
+     "Q": 391,
+     "M": 291,
+     "H": 267
+    },
+    "largest_losses": {
+     "T": -48,
+     "A": -50
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 1674,
+    "women_pct_of_net": 54.8,
+    "health_and_social_pct_of_net": 12.5,
+    "care_and_teaching_pct_of_net": 18.0,
+    "in_person_services_pct_of_net": 14.6,
+    "cognitive_services_pct_of_net": 16.9,
+    "manufacturing_thousands": 206,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 9.2,
+     "2025": 9.4
+    },
+    "health_and_social_women_pct": 77.8,
+    "largest_gains": {
+     "G": 218,
+     "Q": 210,
+     "C": 206
+    },
+    "largest_losses": {
+     "K": -6,
+     "A": -61
+    }
+   }
+  },
+  "NLD": {
+   "2019-2025": {
+    "window": "2019-2025",
+    "net_thousands": 914,
+    "women_pct_of_net": 51.7,
+    "health_and_social_pct_of_net": 35.5,
+    "care_and_teaching_pct_of_net": 53.3,
+    "in_person_services_pct_of_net": 20.1,
+    "cognitive_services_pct_of_net": 42.9,
+    "manufacturing_thousands": -11,
+    "health_and_social_share_of_employment_pct": {
+     "2019": 15.5,
+     "2025": 17.3
+    },
+    "health_and_social_women_pct": 80.8,
+    "largest_gains": {
+     "Q": 324,
+     "M": 255,
+     "O": 226
+    },
+    "largest_losses": {
+     "N": -40,
+     "X": -669
+    }
+   },
+   "2022-2025": {
+    "window": "2022-2025",
+    "net_thousands": 316,
+    "women_pct_of_net": 51.1,
+    "health_and_social_pct_of_net": 34.8,
+    "care_and_teaching_pct_of_net": 41.2,
+    "in_person_services_pct_of_net": 15.9,
+    "cognitive_services_pct_of_net": 17.0,
+    "manufacturing_thousands": -16,
+    "health_and_social_share_of_employment_pct": {
+     "2022": 16.8,
+     "2025": 17.3
+    },
+    "health_and_social_women_pct": 80.8,
+    "largest_gains": {
+     "O": 123,
+     "Q": 110,
+     "M": 66
+    },
+    "largest_losses": {
+     "N": -28,
+     "G": -65
+    }
+   }
+  }
+ },
+ "china": {
+  "health_and_social_share_2025_pct": 2.3,
+  "education_share_2025_pct": 4.2,
+  "net_2019_2025_thousands": -11270,
+  "agriculture_2019_2025_thousands": -25246,
+  "health_and_social_2019_2025_thousands": 1350
+ },
+ "premise_us": {
+  "by_year": {
+   "1990": {
+    "health_care_share_of_consumer_spending_pct": 13.29,
+    "price_vs_goods_1990_1": 1.0,
+    "price_vs_all_consumer_prices_1990_1": 1.0
+   },
+   "2000": {
+    "health_care_share_of_consumer_spending_pct": 13.57,
+    "price_vs_goods_1990_1": 1.347,
+    "price_vs_all_consumer_prices_1990_1": 1.186
+   },
+   "2008": {
+    "health_care_share_of_consumer_spending_pct": 15.48,
+    "price_vs_goods_1990_1": 1.613,
+    "price_vs_all_consumer_prices_1990_1": 1.268
+   },
+   "2019": {
+    "health_care_share_of_consumer_spending_pct": 17.12,
+    "price_vs_goods_1990_1": 1.953,
+    "price_vs_all_consumer_prices_1990_1": 1.309
+   },
+   "2026": {
+    "health_care_share_of_consumer_spending_pct": 17.04,
+    "price_vs_goods_1990_1": 1.973,
+    "price_vs_all_consumer_prices_1990_1": 1.24
+   }
+  },
+  "implied_sigma": {
+   "1990-2008": {
+    "relative_price_log_points": 23.8,
+    "share_odds_log_points": 17.8,
+    "implied_sigma": 0.25
+   },
+   "2008-2026": {
+    "relative_price_log_points": -2.3,
+    "share_odds_log_points": 11.5,
+    "implied_sigma": 6.02
+   },
+   "1990-2026": {
+    "relative_price_log_points": 21.5,
+    "share_odds_log_points": 29.3,
+    "implied_sigma": -0.36
+   }
+  }
+ },
+ "pay": {
+  "health_and_social_by_country": {
+   "USA": {
+    "year": 2025,
+    "health_and_social_vs_average": 0.98,
+    "education_vs_average": 0.89,
+    "finance_vs_average": 1.53
+   },
+   "SWE": {
+    "year": 2025,
+    "health_and_social_vs_average": 0.84,
+    "education_vs_average": 0.86,
+    "finance_vs_average": 1.46
+   },
+   "DEU": {
+    "year": 2022,
+    "health_and_social_vs_average": 0.83,
+    "education_vs_average": 0.99,
+    "finance_vs_average": 1.32
+   },
+   "FRA": {
+    "year": 2025,
+    "health_and_social_vs_average": 0.87,
+    "education_vs_average": 0.94,
+    "finance_vs_average": 1.59
+   },
+   "ITA": {
+    "year": 2025,
+    "health_and_social_vs_average": 0.99,
+    "education_vs_average": 0.92,
+    "finance_vs_average": 1.66
+   },
+   "ESP": {
+    "year": 2025,
+    "health_and_social_vs_average": 1.08,
+    "education_vs_average": 1.13,
+    "finance_vs_average": 1.6
+   },
+   "NLD": {
+    "year": 2025,
+    "health_and_social_vs_average": 0.85,
+    "education_vs_average": 0.98,
+    "finance_vs_average": 1.64
+   }
+  },
+  "us_education_and_health_vs_private_hourly": {
+   "2007": 0.994,
+   "2010": 1.008,
+   "2015": 1.009,
+   "2019": 0.987,
+   "2023": 0.984,
+   "2026": 0.968
+  }
+ },
+ "who_pays": {
+  "us_medicare_medicaid_vs_health_care_spending": 0.64,
+  "quarter": "2026-04",
+  "public_employer_share": {
+   "USA": {
+    "year": 2025,
+    "P": 0.61,
+    "Q": 0.07,
+    "TOTAL": 0.13
+   },
+   "FRA": {
+    "year": 2024,
+    "P": 0.8,
+    "Q": 0.34,
+    "TOTAL": 0.2
+   }
+  }
+ }
+}
