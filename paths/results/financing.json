@@ -10,9 +10,9 @@
     "t": 10.8
    },
    "pub_health": {
-    "r2": 0.41,
+    "r2": 0.37,
     "slope": 1.15,
-    "t": 4.2
+    "t": 3.7
    },
    "tot_health": {
     "r2": 0.24,
@@ -37,9 +37,9 @@
     "t": 6.5
    },
    "pub_health": {
-    "r2": 0.28,
-    "slope": 0.8,
-    "t": 3.1
+    "r2": 0.23,
+    "slope": 0.76,
+    "t": 2.9
    },
    "tot_health": {
     "r2": 0.15,
@@ -107,10 +107,10 @@
     }
    }
   },
-  "norway_mainland_factor": {
-   "ltc_year": 2022,
-   "gdp_over_mainland": 1.536,
-   "mainland_over_gdp_2024": 0.779
+  "norway_gdp_over_mainland": {
+   "long-term care, 2022": 1.536,
+   "health, 2025": 1.253,
+   "income, 2024": 1.284
   },
   "highest_public_ltc_pct_gdp": {
    "NOR": 3.71,

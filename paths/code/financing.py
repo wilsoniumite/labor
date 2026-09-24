@@ -118,14 +118,15 @@ def cross_section(nor: dict) -> dict:
     last_year = lambda col: ha[col].dropna().reset_index().groupby("REF_AREA").TIME_PERIOD.last()  # noqa: E731
     D = pd.DataFrame({"care": care_shares(), "pub_ltc": last(("HF1", "LTC_TOT")), "pub_health": last(("HF1", "_T")),
                       "tot_health": last(("_T", "_T")), "gdp_pc": world_bank("NY.GDP.PCAP.PP.KD"), "old65": world_bank("SP.POP.65UP.TO.ZS")}).dropna()
-    ltc_year = int(last_year(("HF1", "LTC_TOT"))["NOR"])
-    ratio = nor[str(ltc_year)]["gdp"] / nor[str(ltc_year)]["mainland_gdp"]            # Norway: GDP over mainland GDP
-    wb_year = 2024
-    ratio_pc = nor[str(wb_year)]["mainland_gdp"] / nor[str(wb_year)]["gdp"]
+    # Norway on mainland GDP, each figure with its own year's ratio of GDP to mainland GDP
+    ratio = lambda y: nor[str(y)]["gdp"] / nor[str(y)]["mainland_gdp"]  # noqa: E731
+    ltc_year, health_year = int(last_year(("HF1", "LTC_TOT"))["NOR"]), int(last_year(("HF1", "_T"))["NOR"])
+    wb = json.load(open(os.path.join(C, "worldbank", "NY.GDP.PCAP.PP.KD.json"), encoding="utf-8"))[1]
+    wb_year = max(int(r["date"]) for r in wb if r["countryiso3code"] == "NOR" and r["value"] is not None)
     Dm = D.copy()
-    Dm.loc["NOR", "pub_ltc"] *= ratio
-    Dm.loc["NOR", "pub_health"] *= ratio
-    Dm.loc["NOR", "gdp_pc"] *= ratio_pc
+    Dm.loc["NOR", "pub_ltc"] *= ratio(ltc_year)
+    Dm.loc["NOR", "pub_health"] *= ratio(health_year)
+    Dm.loc["NOR", "gdp_pc"] /= ratio(wb_year)
     single, single_rich = {}, {}
     for v in ("pub_ltc", "pub_health", "tot_health", "gdp_pc", "old65"):
         for tag, df, store in (("all", Dm, single), ("rich", Dm[Dm.gdp_pc > 45000], single_rich)):
@@ -143,7 +144,8 @@ def cross_section(nor: dict) -> dict:
     top = Dm.sort_values("pub_ltc", ascending=False).head(6)
     return {"countries": len(D), "rich_countries": int((Dm.gdp_pc > 45000).sum()), "rich_threshold_gdp_pc_ppp": 45000,
             "single": single, "single_rich": single_rich, "joint": joint,
-            "norway_mainland_factor": {"ltc_year": ltc_year, "gdp_over_mainland": round(ratio, 3), "mainland_over_gdp_2024": round(ratio_pc, 3)},
+            "norway_gdp_over_mainland": {"long-term care, " + str(ltc_year): round(ratio(ltc_year), 3), "health, " + str(health_year): round(ratio(health_year), 3),
+                                          "income, " + str(wb_year): round(ratio(wb_year), 3)},
             "highest_public_ltc_pct_gdp": {k: round(float(v), 2) for k, v in top.pub_ltc.items()},
             "_D": D, "_Dm": Dm}
 
