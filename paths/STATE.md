@@ -534,8 +534,9 @@ is right; in an extreme path the destination is what is wrong.
 - **Two waves, and Baumol concentration** (her calls, 2026-09-24: robotics is a year or two out at least; most job
   growth is going to women — care and other labour-intensive work, Baumol concentration? `code/exposure.py`,
   `code/baumol.py`, the split in `code/global_crash.py`; `results/exposure.json`, `results/baumol.json`,
-  `figures/fig_baumol.png`, `figures/fig_global_crash_waves.png`; checks `checks/check_exposure.py` 17/17 and
-  `checks/check_global_crash.py` 20/20). Measured (ILOSTAT): cognitive work (ISCO 1-4) is 61% of US employment, 56%
+  `figures/fig_baumol.png`, `figures/fig_global_crash_waves.png`; checks `checks/check_exposure.py` (20/20 with the
+  care measures) and `checks/check_global_crash.py` (31/31 with the absorber)). Measured (ILOSTAT): cognitive work
+  (ISCO 1-4) is 61% of US employment, 56%
   of the euro area's, 65% of Sweden's, 20% of China's; physical work (6-9) 70% of China's; cognitive work pays 1.14-1.22
   times the average. **Recessions cut physical work 2-3 times as fast as the whole** (US 2007-10: physical -11%,
   cognitive -3%; Spain and Sweden the same shape), so before robotics only 37% of a US recession's job loss is in work
@@ -578,6 +579,39 @@ is right; in an extreme path the destination is what is wrong.
     pay, financed publicly. For a crash, what holds employment up in an ordinary recession is a fiscal decision: under
     today's rules care kept hiring through 2008-10; under eroding rules it is what austerity cuts. And the displaced
     (cognitive now, physical later; the physical wave mostly men) are not the people care has been hiring.
+- **Care as the absorber** (her calls, 2026-09-24: build it; "there must be a limit to how much care can absorb";
+  `global_crash.py` with `Waves(absorb=True)` and the rules' `care` setting, `exposure.care()`,
+  `figures/fig_global_crash_care.png`; checks C1-C11 in `check_global_crash.py`, E7-E9 in `check_exposure.py`).
+  The displaced (robotics two years out) can move into health and social work within three limits, each measured
+  where it can be:
+  - **the ceiling**: care, trend and build-out together, never past the largest share any rich economy employs
+    today — Norway's 20.1% of employment (Denmark 18.7, Netherlands 17.3, Finland 16.8; the US and Sweden 15, the
+    euro area 12.5). Room: about 5 points of employment in the US and Sweden, 7.6 in the euro area;
+  - **the gate**: men work in care at a quarter of women's rate in every region (US 0.26, Sweden 0.28), so the
+    displaced move at 0.65 (cognitive work, half women) and 0.41-0.45 (physical, a fifth women) of a woman's rate;
+  - **the pace**: care's own trend (0.2 points of employment a year in the US and euro area, 0.1 in Sweden), and a
+    funded build-out of up to a point a year under "rules expand into care" (approximate: Sweden's municipal build-out
+    in the 1970s-80s); a quarter of the willing trained and hired each quarter (approximate; 0.10-0.50 tested).
+  Findings (year 6, the labour-depression row unless stated):
+  - **Care's trend jobs exist anyway**: the displaced who take them take them from people who would have entered
+    work — US unemployment 46.4% to 46.0%, output no better (C4).
+  - **A funded build-out works, until the ceiling**: US unemployment 46.4% to 39.3% at 1.2% of GDP a year, US care
+    at Norway's share by year 5.5. Three points a year gains under a point more (38.6%); without the ceiling, 31.7%
+    (care at 26% of employment). In the US **the ceiling is the limit** (C5, C6).
+  - **It cannot rescue the labour depression**: 20.8 points of US employment are still displaced at year 6 against
+    5.3 of room (C7). With displacement alone it nearly can in Sweden (17.2% to 14.2%, care at 18%): there the gate
+    and training bind, not the ceiling (C8, C11).
+  - **Care buys jobs, the guarantee buys demand**: per point of GDP a year the build-out takes 5.9 points off US
+    unemployment against the income guarantee's 2.1, but the guarantee holds output at -7% against -17% (C9).
+    Eroding rules end it: care takes in nobody (C10). The physical wave is under-represented among those care takes
+    in (US: 26% of the absorbed against 50% of the displaced) (C3).
+  - Her observation, open: **Norway has its fund.** `[inferred]` The ceiling is then a limit of financing more than of
+    need: Norway pays for part of its public spending from the fund's return — capital income, not wages — which is
+    the paper's mechanism in small (a rent financing human-required work; Proposition "Baumol concentration" (iii)).
+    First look (E9): across 15 rich economies care's share rises with the public sector's share of employment
+    (correlation 0.61), but employer type is not financing (Dutch care is private and publicly paid; Swedish public
+    employment is high and its care share middling). If financing sets the ceiling, then a fund or tax on the owners'
+    AI income could raise it — within need and the gate, which money does not move.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -911,3 +945,10 @@ the macro block lands.
     the fiscal trigger's timing moving China's output the wrong way (stated, tested without it: W5). Watcher: the
     second-wave and care-only tripwires, replayed on 1990-2026 (separate repository). Not done: the Swedish household
     layer's displaced still earn the average wage (the first wave's premium would deepen its losses).
+22. **2026-09-24 — care as the absorber.** Her call: build it; mid-build, "there must be a limit to how much care can
+    absorb", then "Norway also has their sovereign wealth fund". Added the ceiling (Norway's share, ILOSTAT for 18 rich
+    economies), the gate (women's shares by occupation, men's propensity for care) and the pace to `exposure.py` and
+    the absorber to `global_crash.py`; 31/31 and 20/20. Caught before findings: a quick comparison run on the rounded
+    fitted parameters looked as if earlier rows had moved (they had not: all 48 identical with equal parameters); care's
+    trend kept growing after the build-out hit the ceiling (fixed: one care level for both); and with a slow hiring
+    rate (0.10) the unmeasured rate, not the measured limits, decided the result (set to 0.25, tested at 0.10 and 0.50).

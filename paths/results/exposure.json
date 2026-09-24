@@ -167,5 +167,168 @@
   "cognitive": 0.58,
   "in_person": 0.27,
   "physical": 2.34
+ },
+ "care": {
+  "ceiling_pct": 20.1,
+  "ceiling_country": "NOR",
+  "by_country": {
+   "NOR": {
+    "year": 2025,
+    "care_share_pct": 20.1,
+    "public_employer_share_pct": 32.2
+   },
+   "DNK": {
+    "year": 2025,
+    "care_share_pct": 18.7,
+    "public_employer_share_pct": 30.2
+   },
+   "FIN": {
+    "year": 2025,
+    "care_share_pct": 16.8,
+    "public_employer_share_pct": 24.9
+   },
+   "BEL": {
+    "year": 2025,
+    "care_share_pct": 15.0,
+    "public_employer_share_pct": 21.1
+   },
+   "GBR": {
+    "year": 2025,
+    "care_share_pct": 14.2,
+    "public_employer_share_pct": 23.9
+   },
+   "CHE": {
+    "year": 2025,
+    "care_share_pct": 15.5,
+    "public_employer_share_pct": 16.4
+   },
+   "AUS": {
+    "year": 2025,
+    "care_share_pct": 16.2,
+    "public_employer_share_pct": 28.9
+   },
+   "JPN": {
+    "year": 2023,
+    "care_share_pct": 13.5,
+    "public_employer_share_pct": 7.8
+   },
+   "AUT": {
+    "year": 2025,
+    "care_share_pct": 11.4,
+    "public_employer_share_pct": 8.4
+   },
+   "IRL": {
+    "year": 2025,
+    "care_share_pct": 13.7,
+    "public_employer_share_pct": 22.0
+   },
+   "ISL": {
+    "year": 2025,
+    "care_share_pct": 12.7
+   },
+   "SWE": {
+    "year": 2025,
+    "care_share_pct": 14.9,
+    "public_employer_share_pct": 29.3
+   },
+   "USA": {
+    "year": 2025,
+    "care_share_pct": 14.8,
+    "public_employer_share_pct": 13.4
+   },
+   "DEU": {
+    "year": 2025,
+    "care_share_pct": 14.9
+   },
+   "FRA": {
+    "year": 2025,
+    "care_share_pct": 13.3,
+    "public_employer_share_pct": 20.2
+   },
+   "ITA": {
+    "year": 2025,
+    "care_share_pct": 8.3
+   },
+   "ESP": {
+    "year": 2025,
+    "care_share_pct": 9.4,
+    "public_employer_share_pct": 16.0
+   },
+   "NLD": {
+    "year": 2025,
+    "care_share_pct": 17.3,
+    "public_employer_share_pct": 13.4
+   }
+  },
+  "care_vs_public_employment": {
+   "countries": 15,
+   "correlation": 0.61
+  },
+  "regions": {
+   "US": {
+    "care_share_pct": 14.8,
+    "care_trend_pts_a_year": 0.198,
+    "women_share": {
+     "cognitive": 0.535,
+     "in_person": 0.553,
+     "physical": 0.202
+    },
+    "men_vs_women_in_care": 0.26,
+    "gate": {
+     "cognitive": 0.656,
+     "in_person": 0.669,
+     "physical": 0.41
+    },
+    "headroom_pts": 5.3
+   },
+   "EA": {
+    "care_share_pct": 12.53,
+    "care_trend_pts_a_year": 0.191,
+    "women_share": {
+     "cognitive": 0.517,
+     "in_person": 0.619,
+     "physical": 0.255
+    },
+    "men_vs_women_in_care": 0.255,
+    "gate": {
+     "cognitive": 0.64,
+     "in_person": 0.716,
+     "physical": 0.445
+    },
+    "headroom_pts": 7.57
+   },
+   "SE": {
+    "care_share_pct": 14.9,
+    "care_trend_pts_a_year": 0.099,
+    "women_share": {
+     "cognitive": 0.513,
+     "in_person": 0.644,
+     "physical": 0.204
+    },
+    "men_vs_women_in_care": 0.281,
+    "gate": {
+     "cognitive": 0.65,
+     "in_person": 0.744,
+     "physical": 0.428
+    },
+    "headroom_pts": 5.2
+   },
+   "CN": {
+    "care_share_pct": 2.3,
+    "care_trend_pts_a_year": 0.03,
+    "women_share": {
+     "cognitive": 0.501,
+     "in_person": 0.581,
+     "physical": 0.427
+    },
+    "men_vs_women_in_care": 0.208,
+    "gate": {
+     "cognitive": 0.605,
+     "in_person": 0.668,
+     "physical": 0.546
+    },
+    "headroom_pts": 17.8
+   }
+  }
  }
 }

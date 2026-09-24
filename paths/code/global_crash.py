@@ -24,6 +24,20 @@
 # work pays 1.1-1.2 times the average) and support capped near average pay; spending, bank losses and an income
 # guarantee weigh each group's unemployed by that, normalised so a recession's usual mix weighs what the fit assumed.
 #
+# Care as the absorber (her calls, 2026-09-24: care as the absorber; "there must be a limit to how much care can
+# absorb"). Under the split, the displaced can move into health and social work (exposure.care), within three limits:
+#   the pace     care's own trend growth (2019-25, acyclical through 2008-10), and under the rules "expand into care"
+#                a funded build-out of up to a point of employment a year (approximate: Sweden's municipal build-out
+#                of care in the 1970s-80s); eroding and 1930s rules hire none of the displaced;
+#   the gate     who moves: displaced women as fast as care can train and hire them, men at their measured propensity
+#                to work in care against women's (a quarter of it); so the physical wave, mostly men, moves slowest;
+#   the ceiling  care, trend and build-out together, never past the largest share any rich economy employs today
+#                (Norway, 20.1% of employment; the US and Sweden stand at 15%).
+# Care's trend jobs exist anyway: a displaced worker who takes one takes it from someone who would have entered work,
+# so unemployment falls but spending does not (the displaced lose their support, the other person the job). A funded
+# build-out adds jobs: its care purchases are output, its workers earn care pay (service and care workers', ISCO 5),
+# its cost is net of the support it saves, and Okun's law applies to the rest of output.
+#
 # Each quarter, region r:
 #   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern)
 #   expectations pie = anchor pi* + (1 - anchor) pi_1
@@ -51,7 +65,8 @@
 # marked approximate in REGIONS.
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/global_crash.py
-# Out: results/global_crash.json, figures/fig_global_crash.png, figures/fig_global_crash_validation.png
+# Out: results/global_crash.json, figures/fig_global_crash.png, figures/fig_global_crash_validation.png,
+#      figures/fig_global_crash_waves.png, figures/fig_global_crash_care.png
 
 from __future__ import annotations
 
@@ -111,6 +126,10 @@ class Region:
     groups: dict = field(default_factory=lambda: {"cognitive": 1 / 3, "in_person": 1 / 3, "physical": 1 / 3})   # employment shares
     premium: dict = field(default_factory=lambda: {"cognitive": 1.0, "in_person": 1.0, "physical": 1.0})       # pay against the average
     benefit_cap: float = 99.0   # pay (x the average) above which unemployment support stops rising (approximate)
+    # care as the absorber (exposure.care): share of employment, its pace of growth, and who can move into it
+    care_share: float = 0.0     # health and social work, % of employment
+    care_trend: float = 0.0     # its growth, points of employment a year (2019-25), acyclical in an ordinary recession
+    gate: dict = field(default_factory=lambda: {"cognitive": 1.0, "in_person": 1.0, "physical": 1.0})   # relative entry into care
 
 
 @dataclass(frozen=True)
@@ -141,6 +160,11 @@ class Common:
     kappa_1930: float = 0.5     # the 1930s Phillips slope (flexible prices and wages)
     # each group's employment change in a recession over all employment's (US 2007-10, exposure.py)
     beta: dict = field(default_factory=lambda: {"cognitive": 0.58, "in_person": 0.27, "physical": 2.34})
+    # care as the absorber
+    care_ceiling: float = 20.1  # the most care any rich economy employs today, % of employment (Norway 2025, exposure.care)
+    care_hire: float = 0.25     # share of the displaced willing to enter care (the gate) trained and hired a quarter: about a
+                                # year on average for entry-level care (approximate; 0.10 and 0.50 tested in the checks)
+    care_labour_cost: float = 0.75   # pay's share of what care costs (approximate)
 
 
 @dataclass(frozen=True)
@@ -149,6 +173,7 @@ class Waves:
     split: bool = False
     robot_lag: float = 2.0      # years until robotics can take physical work
     robot_ramp: float = 1.0     # years over which it arrives in full
+    absorb: bool = False        # care takes in the displaced (under the split; how much is the rules' care setting)
 
 
 UNIFORM = Waves()
@@ -174,13 +199,20 @@ class Rules:
     tariff: float = 0.0         # points of tariff everyone raises on everyone
     tariff_q: int = 2           # quarter the tariffs arrive
     kappa_1930s: bool = False
+    # care: "trend" (keeps hiring at its pace, as through 2008-10 — the jobs exist anyway, so the displaced take them
+    # from people who would have entered work), "cut" (no hiring from the displaced; austerity is in fiscal), "expand"
+    # (the state funds new care jobs on top, at up to care_pace points of employment a year, once unemployment is
+    # trigger points up, until care reaches the ceiling)
+    care: str = "trend"
+    care_pace: float = 1.0      # approximate: Sweden's municipal build-out of care in the 1970s-80s ran near a point a year
 
 
 MODERN = Rules()
 THIRTIES = Rules(name="1930s", policy="gold", anchor=0.2, pi_star=0.0, insured=False, backstop=False, support=False,
-                 fiscal="austerity", tariff=15.0, tariff_q=3, kappa_1930s=True)
-ERODED = Rules(name="rules erode under pressure", anchor=0.6, backstop=False, fiscal="austerity", tariff=20.0, tariff_q=3)
+                 fiscal="austerity", tariff=15.0, tariff_q=3, kappa_1930s=True, care="cut")
+ERODED = Rules(name="rules erode under pressure", anchor=0.6, backstop=False, fiscal="austerity", tariff=20.0, tariff_q=3, care="cut")
 EXPANDED = Rules(name="rules expand under pressure", fiscal="guarantee", trigger=1.5)   # an income guarantee: the deficits branch
+CARE = Rules(name="rules expand into care", care="expand", trigger=1.5)                # today's rules plus a funded care build-out
 
 
 @dataclass
@@ -221,8 +253,18 @@ def wave_weights(g: Region, rl: Rules, cm: Common, waves: Waves) -> dict | None:
     net = {q: g.premium[q] * (1 - rep_q[q]) for q in GROUPS}
     net_mix = sum(mix[q] * net[q] for q in GROUPS)
     pay_mix = sum(mix[q] * g.premium[q] for q in GROUPS)
+    w_care = g.premium["in_person"]          # what the displaced earn in care: service and care workers' pay (ISCO 5)
     return {"mix": mix, "rep": rep_q, "spend": {q: net[q] / net_mix * (1 - rep) for q in GROUPS},
-            "pay": {q: g.premium[q] / pay_mix for q in GROUPS}}
+            "pay": {q: g.premium[q] / pay_mix for q in GROUPS}, "w_care": w_care,
+            # in care's existing jobs: the displaced's pay gap plus the care pay of the person who would have been
+            # hired instead, and who stays out of work — their whole previous pay, with no support
+            "spend_trend": {q: g.premium[q] / net_mix * (1 - rep) for q in GROUPS},
+            # in newly funded care jobs: the pay gap only
+            "spend_care": {q: max(g.premium[q] - w_care, 0.0) / net_mix * (1 - rep) for q in GROUPS},
+            "pay_care": {q: max(g.premium[q] - w_care, 0.0) / pay_mix for q in GROUPS}}
+
+
+ABSORBED = (("cognitive", "s_cog", "at_cog", "ax_cog"), ("physical", "s_phys", "at_phys", "ax_phys"))
 
 
 def robots(k: int, waves: Waves) -> float:
@@ -254,7 +296,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
     names = list(regions)
     out = {r: {k: np.zeros(n) for k in ("y", "u", "u_star", "pi", "P", "Pexp", "i", "k", "s", "D", "stress", "stim",
                                         "d_wealth", "d_capex", "d_unemp", "d_relief", "d_debt", "d_credit", "d_money",
-                                        "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted")} for r in names}
+                                        "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
+                                        "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care")} for r in names}
     W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
@@ -265,6 +308,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
         o["i"][0] = g.i0
         o["k"][0] = g.bank_capital
         o["s"][0] = 0.0
+        o["care"][0] = g.care_share
     fiscal_left = {r: 0 for r in names}
     fiscal_on = {r: False for r in names}
     for k in range(1, n):
@@ -273,6 +317,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             g, rl, o = regions[r], rules[r], out[r]
             if r not in active:
                 o["u"][k], o["u_star"][k], o["pi"][k], o["i"][k], o["k"][k] = g.u0, g.u0, g.pi0, g.i0, g.bank_capital
+                o["care"][k] = g.care_share
                 o["P"][k] = o["P"][k - 1] * (1 + g.pi0 / 100 * DT)
                 o["Pexp"][k] = o["P"][k]
                 continue
@@ -300,8 +345,16 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 owed = max(o["u"][k - 1] - g.u0, 0.0) * max(rl.guarantee - rep, 0.0)
             else:
                 du = displaced(o, k - 1, g, W[r])
-                d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * sum(du[q] * W[r]["spend"][q] for q in GROUPS)
+                lost = sum(du[q] * W[r]["spend"][q] for q in GROUPS)
+                lost += sum(o[at][k - 1] * W[r]["spend_trend"][q] + o[ax][k - 1] * W[r]["spend_care"][q] for q, _, at, ax in ABSORBED)
+                d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * lost
                 owed = sum(du[q] * W[r]["pay"][q] * max(rl.guarantee - W[r]["rep"][q], 0.0) for q in GROUPS)
+            # a funded care build-out buys care: its pay and other costs are output (its jobs are counted directly below)
+            built = o["ax_cog"][k - 1] + o["ax_phys"][k - 1]
+            d_care = cm.labour_share * W[r]["w_care"] * built / cm.care_labour_cost if W[r] is not None else 0.0
+            if W[r] is not None:
+                o["care_cost"][k] = cm.labour_share * (W[r]["w_care"] * built / cm.care_labour_cost
+                                                       - sum(o[ax][k - 1] * g.premium[q] * W[r]["rep"][q] for q, _, _, ax in ABSORBED))
             d_relief = (cm.mpc_b - cm.mpc_rep) * g.floating * g.hh_debt / 100 * (g.i0 - i)
             d_debt = -cm.debt_deflation * g.priv_debt / 100 * max(o["Pexp"][k - 1] / o["P"][k - 1] - 1, 0.0) * 100
             d_credit = -cm.a_s * o["s"][k - 1]
@@ -325,9 +378,10 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             elif rl.fiscal == "austerity" and unemp_up >= rl.trigger:
                 d_fiscal = -0.8 * min(0.5 * unemp_up / 5, 2.0)          # consolidation as deficits grow, up to 2% of GDP
             d_other = shock.demand.get(r, np.zeros(n))[k]
-            D = d_wealth + d_capex + d_unemp + d_relief + d_debt + d_credit + d_money + d_trade + d_fiscal + d_other
+            D = d_wealth + d_capex + d_unemp + d_relief + d_debt + d_credit + d_money + d_trade + d_fiscal + d_other + d_care
             for key, v in (("d_wealth", d_wealth), ("d_capex", d_capex), ("d_unemp", d_unemp), ("d_relief", d_relief),
-                           ("d_debt", d_debt), ("d_credit", d_credit), ("d_money", d_money), ("d_trade", d_trade), ("d_fiscal", d_fiscal)):
+                           ("d_debt", d_debt), ("d_credit", d_credit), ("d_money", d_money), ("d_trade", d_trade), ("d_fiscal", d_fiscal),
+                           ("d_care", d_care)):
                 o[key][k] = v
             o["D"][k] = D
             y = cm.a1 * o["y"][k - 1] - cm.a_r * rgap + D - cm.a1 * o["D"][k - 1]
@@ -357,13 +411,38 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 dp = inc * (add_eta * p_eta + add_drift * p_drift) / (add_eta + add_drift)
                 o["s_cog"][k] += inc - dp
                 o["s_phys"][k] += dp
-            target = max(o["u_star"][k] - g.okun * y, 1.5)
+            # care takes in the displaced: at its trend pace (jobs that exist anyway) unless the rules cut it, plus a
+            # funded build-out under "expand"; limited by the pace, by who moves (the gate), and by the ceiling
+            for _, _, at, ax in ABSORBED:
+                o[at][k], o[ax][k] = o[at][k - 1], o[ax][k - 1]
+            # care's level (% of employment): its trend and any build-out, together never past the ceiling
+            grow = 0.0 if rl.care == "cut" else min(g.care_trend * DT, max(cm.care_ceiling - o["care"][k - 1], 0.0))
+            o["care"][k] = o["care"][k - 1] + grow
+            if W[r] is not None and waves.absorb and rl.care != "cut":
+                weight = {q: o[s][k] * g.gate[q] for q, s, _, _ in ABSORBED}
+                pool = sum(weight.values())
+                potential = cm.care_hire * pool
+                a_t = min(grow, potential)
+                a_x = 0.0
+                if rl.care == "expand" and unemp_up >= rl.trigger:
+                    a_x = max(min(rl.care_pace * DT, potential - a_t, cm.care_ceiling - o["care"][k]), 0.0)
+                o["care"][k] += a_x
+                if pool > 0:
+                    for q, s, at, ax in ABSORBED:
+                        f = weight[q] / pool
+                        o[s][k] -= (a_t + a_x) * f
+                        o[at][k] += a_t * f
+                        o[ax][k] += a_x * f
+                    o["u_star"][k] -= a_t + a_x
+            # Okun's law for the rest of output: the build-out's own jobs are counted directly
+            target = max(o["u_star"][k] - g.okun * (y - d_care), 1.5)
             o["u"][k] = min(o["u"][k - 1] + g.speed * (target - o["u"][k - 1]), 50.0)
             if W[r] is None:
                 debt_up = max(o["u"][k] - g.u0, 0.0)
             else:
                 du = displaced(o, k, g, W[r])
                 debt_up = sum(du[q] * W[r]["pay"][q] for q in GROUPS)     # debts taken proportional to pay
+                debt_up += sum((o[at][k] + o[ax][k]) * W[r]["pay_care"][q] for q, _, at, ax in ABSORBED)
             o["pay_weighted"][k] = debt_up
             # banks
             loss = cm.loss_base + cm.loss_u * debt_up + cm.loss_y * max(-y, 0.0) + shock.losses.get(r, np.zeros(n))[k]
@@ -395,7 +474,13 @@ def summary(out: dict, regions: dict, horizon_q: int | None = None) -> dict:
                   "unemployment_max_quarter": int(np.argmax(o["u"][:n])),
                   "unemployment_year2": round(float(o["u"][min(8, n - 1)]), 2),
                   "displaced_cognitive_end": round(float(o["s_cog"][n - 1]), 2), "displaced_physical_end": round(float(o["s_phys"][n - 1]), 2),
-                  "pay_weighted_rise_max": round(float(o["pay_weighted"][:n].max()), 2)}
+                  "pay_weighted_rise_max": round(float(o["pay_weighted"][:n].max()), 2),
+                  "absorbed_into_existing_care_jobs_end": round(float(o["at_cog"][n - 1] + o["at_phys"][n - 1]), 2),
+                  "absorbed_into_new_care_jobs_end": round(float(o["ax_cog"][n - 1] + o["ax_phys"][n - 1]), 2),
+                  "absorbed_physical_share_end": round(float((o["at_phys"][n - 1] + o["ax_phys"][n - 1])
+                                                             / max(o["at_cog"][n - 1] + o["at_phys"][n - 1] + o["ax_cog"][n - 1] + o["ax_phys"][n - 1], 1e-12)), 3),
+                  "care_share_end": round(float(o["care"][n - 1]), 2),
+                  "care_cost_max_pct_gdp": round(float(o["care_cost"][:n].max()), 2)}
     w = {r: regions[r].size for r in out}
     tot = sum(w.values())
     nn = len(out["US"]["y"]) if horizon_q is None else horizon_q
@@ -428,9 +513,11 @@ def regions_today() -> dict:
     # far higher, Italy's and Spain's below average: about 1.5 weighted), Sweden (the unemployment fund's cap sits near
     # 0.85 of average pay, but most white-collar workers carry union income insurance above it for the first months:
     # 1.5), China (support too thin for a cap to matter)
-    ex = json.load(open(os.path.join(ROOT, "results", "exposure.json"), encoding="utf-8"))["regions"]
+    exj = json.load(open(os.path.join(ROOT, "results", "exposure.json"), encoding="utf-8"))
+    ex, cr = exj["regions"], exj["care"]["regions"]
     caps = {"US": 0.9, "EA": 1.5, "SE": 1.5, "CN": 1.0}
-    regs = {r: replace(g, groups=ex[r]["share"], premium=ex[r]["premium"], benefit_cap=caps[r])
+    regs = {r: replace(g, groups=ex[r]["share"], premium=ex[r]["premium"], benefit_cap=caps[r], care_share=cr[r]["care_share_pct"],
+                       care_trend=cr[r]["care_trend_pts_a_year"], gate=cr[r]["gate"])
             for r, g in (("US", us), ("EA", ea), ("SE", sw), ("CN", cn))}
     return {**regs, "_notes": {"SE_okun_measured_on_growth_changes": sw_cyc["okun"], "SE_start": se}}
 
@@ -576,6 +663,22 @@ def scenarios(cm: Common, regions: dict) -> dict:
             rg = {r: replace(g, eta=g.eta * eta_mult, drift=g.drift * drift_mult) for r, g in regs.items()}
             for wl, wv in waves:
                 runs[(rules_name, dial, wl)] = simulate(rg, {r: rl for r in R}, ai_shock(n), cm, n, waves=wv)
+    # care as the absorber: robotics two years out; how much care takes in is the rules' care setting (today's and the
+    # guarantee's: its trend pace; eroding and 1930s rules: none; "expand into care": a funded build-out on top)
+    absorb = Waves(split=True, robot_lag=2.0, absorb=True)
+    wl = "two waves, robotics in 2 years, care absorbs"
+    for dial, drift_mult, eta_mult in dials[1:]:
+        rg = {r: replace(g, eta=g.eta * eta_mult, drift=g.drift * drift_mult) for r, g in regs.items()}
+        for rules_name, rl in rules_set[:3] + (("rules expand into care", CARE),):
+            runs[(rules_name, dial, wl)] = simulate(rg, {r: rl for r in R}, ai_shock(n), cm, n, waves=absorb)
+        fast = {r: replace(CARE, care_pace=3.0) for r in R}
+        runs[("rules expand into care", dial, "two waves, robotics in 2 years, care absorbs, three points a year, no ceiling")] = \
+            simulate(rg, fast, ai_shock(n), replace(cm, care_ceiling=100.0), n, waves=absorb)
+        open_gate = {r: replace(g, gate={q: 1.0 for q in GROUPS}) for r, g in rg.items()}
+        runs[("rules expand into care", dial, "two waves, robotics in 2 years, care absorbs, men enter care as women do")] = \
+            simulate(open_gate, {r: CARE for r in R}, ai_shock(n), cm, n, waves=absorb)
+        runs[("rules expand into care", dial, "two waves, robotics in 2 years, care absorbs, three points a year")] = \
+            simulate(rg, fast, ai_shock(n), cm, n, waves=absorb)
     return runs
 
 
@@ -600,7 +703,9 @@ def main():
                 x = x6[r]
                 print(f"   {h} {r}: gap min {x['gap_min']} (q{x['gap_min_quarter']})  u max {x['unemployment_max']} (q{x['unemployment_max_quarter']}; yr2 {x['unemployment_year2']}; "
                       f"u* end {x['structural_unemployment_end']} = cog {x['displaced_cognitive_end']} + phys {x['displaced_physical_end']})  "
-                      f"infl {x['inflation_min']}..{x['inflation_max']}  capital lost {x['bank_capital_lost_max']}  guarantee {x['guarantee_cost_max_pct_gdp']}  {'NO BOTTOM' if x['no_bottom'] else ''}")
+                      f"infl {x['inflation_min']}..{x['inflation_max']}  capital lost {x['bank_capital_lost_max']}  guarantee {x['guarantee_cost_max_pct_gdp']}  "
+                      f"care absorbed {x['absorbed_into_existing_care_jobs_end']}+{x['absorbed_into_new_care_jobs_end']} (physical {x['absorbed_physical_share_end']}), "
+                      f"care {x['care_share_end']}%, cost {x['care_cost_max_pct_gdp']}  {'NO BOTTOM' if x['no_bottom'] else ''}")
             print(f"   {h} four-weighted gap min", x6["four_weighted_gap_min"])
     figures(val, runs, regions)
 
@@ -669,6 +774,30 @@ def figures(val, runs, regions):
     fig.text(0.01, 0.005, "global_crash.py, today's rules, the bust with displacement and recessions triggering adoption (x3). Two waves: cognitive work "
              "(ISCO 1-4) exposed now, physical work (6-9) once robotics arrives; in-person services (5) in neither. Occupations and pay: ILOSTAT (exposure.py).", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_waves.png"), dpi=120)
+    # care as the absorber: the same row, robotics two years out
+    fig, ax = plt.subplots(2, 4, figsize=(20, 8.6), layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
+    an = "bust + displacement, recessions trigger adoption x3"
+    w2 = "two waves, robotics in 2 years"
+    cases = [("modern rules", w2, "no absorber", "k", "-"),
+             ("modern rules", w2 + ", care absorbs", "care at its trend pace (jobs that exist anyway)", "C0", "--"),
+             ("rules expand into care", w2 + ", care absorbs", "a funded care build-out, a point a year, to the ceiling", "C3", "-"),
+             ("rules expand into care", w2 + ", care absorbs, three points a year, no ceiling", "three points a year, no ceiling", "C3", ":"),
+             ("rules expand under pressure", w2 + ", care absorbs", "an income guarantee (care at its trend pace)", "C2", "-.")]
+    for j, r in enumerate(R):
+        for rn, wl, lab, c, st in cases:
+            o = runs[(rn, an, wl)][r]
+            t = np.arange(len(o["y"])) * DT
+            ax[0, j].plot(t, o["u"], color=c, ls=st, label=lab)
+            ax[1, j].plot(t, o["care"], color=c, ls=st, label=lab)
+        ax[1, j].axhline(Common().care_ceiling, color="grey", lw=0.8, ls="--")
+        ax[0, j].set_title(f"{r}: unemployment, %"); ax[1, j].set_title(f"{r}: health and social work, % of employment (ceiling dashed)")
+    ax[0, 0].legend(fontsize=7.5)
+    for a in ax.flat:
+        a.set_xlabel("years from the bust")
+    fig.text(0.01, 0.005, "global_crash.py, the bust with displacement and recessions triggering adoption (x3), robotics two years out. Care takes in the displaced "
+             "within its pace, the gate (men enter care at a quarter of women's rate) and the ceiling (Norway's 20.1% of employment). ILOSTAT (exposure.py).", fontsize=7.5)
+    fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_care.png"), dpi=120)
 
 
 if __name__ == "__main__":

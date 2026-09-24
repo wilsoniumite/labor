@@ -142,6 +142,75 @@ check("W5 not the fiscal trigger's timing: with no discretionary fiscal response
       f"US unemployment {a['US']['unemployment_max']} -> {b['US']['unemployment_max']}; per point {per(a):.3f} -> {per(b):.3f}; "
       f"China gap {a['CN']['gap_min']} -> {b['CN']['gap_min']}")
 
+print("C — care as the absorber (robotics two years out), stated as found")
+ab = gc.Waves(split=True, robot_lag=2.0, absorb=True)
+nab = gc.Waves(split=True, robot_lag=2.0)
+diffs = []
+for rl in (gc.ERODED, replace(gc.MODERN, care="cut")):
+    a = gc.simulate(rg3, {r: rl for r in gc.R}, gc.ai_shock(24), cm, 24, waves=nab)
+    b = gc.simulate(rg3, {r: rl for r in gc.R}, gc.ai_shock(24), cm, 24, waves=ab)
+    diffs.append(max(float(np.abs(a[r][k] - b[r][k]).max()) for r in gc.R for k in ("y", "u", "u_star", "k")))
+check("C1 the absorber nests the split: when the rules hire none of the displaced into care, the runs are the split's exactly",
+      max(diffs) < 1e-9, f"largest difference {max(diffs):.1e}")
+runs_c = {lab: gc.simulate(rg3, {r: rl for r in gc.R}, gc.ai_shock(24), c, 24, waves=ab) for lab, rl, c in
+          (("build", gc.CARE, cm), ("fast", replace(gc.CARE, care_pace=3.0), cm), ("fast, no ceiling", replace(gc.CARE, care_pace=3.0), replace(cm, care_ceiling=100.0)),
+           ("trend", gc.MODERN, cm))}
+check("C2 care never passes the ceiling (Norway's 20.1% of employment), trend and build-out together",
+      all(runs_c[k][r]["care"].max() <= cm.care_ceiling + 1e-9 for k in ("build", "fast", "trend") for r in gc.R),
+      {r: round(float(runs_c["fast"][r]["care"].max()), 2) for r in gc.R})
+o = runs_c["build"]
+phys_pool = {r: float((o[r]["s_phys"][-1] + o[r]["at_phys"][-1] + o[r]["ax_phys"][-1])
+                      / (o[r]["s_cog"][-1] + o[r]["s_phys"][-1] + o[r]["at_cog"][-1] + o[r]["at_phys"][-1] + o[r]["ax_cog"][-1] + o[r]["ax_phys"][-1])) for r in gc.R}
+phys_abs = {r: float((o[r]["at_phys"][-1] + o[r]["ax_phys"][-1]) / (o[r]["at_cog"][-1] + o[r]["at_phys"][-1] + o[r]["ax_cog"][-1] + o[r]["ax_phys"][-1])) for r in gc.R}
+check("C3 the gate: the physical wave, mostly men, is under-represented among those care takes in",
+      all(phys_abs[r] < phys_pool[r] for r in gc.R), {r: (round(phys_abs[r], 2), round(phys_pool[r], 2)) for r in gc.R})
+y6 = lambda rn, dial, wl: S[f"{rn} | {dial} | two waves, robotics in 2 years{wl}"]["year6"]  # noqa: E731
+row3 = "bust + displacement, recessions trigger adoption x3"
+row1 = "bust + displacement"
+none_, trend_, build_ = y6("modern rules", row3, ""), y6("modern rules", row3, ", care absorbs"), y6("rules expand into care", row3, ", care absorbs")
+check("C4 care's trend jobs exist anyway: taking them lowers US unemployment a little but does not raise output (the displaced "
+      "take them from people who would have entered work)",
+      trend_["US"]["unemployment_max"] < none_["US"]["unemployment_max"] and trend_["US"]["gap_min"] <= none_["US"]["gap_min"],
+      f"unemployment {none_['US']['unemployment_max']} -> {trend_['US']['unemployment_max']}; gap {none_['US']['gap_min']} -> {trend_['US']['gap_min']}")
+check("C5 a funded build-out, a point of employment a year: in the labour-depression row, US year-6 unemployment at least 5 points "
+      "lower, at no more than 1.5% of GDP a year, with US care at the ceiling",
+      none_["US"]["unemployment_max"] - build_["US"]["unemployment_max"] >= 5 and build_["US"]["care_cost_max_pct_gdp"] <= 1.5
+      and build_["US"]["care_share_end"] >= cm.care_ceiling - 0.05,
+      f"{none_['US']['unemployment_max']} -> {build_['US']['unemployment_max']}; cost {build_['US']['care_cost_max_pct_gdp']}% of GDP; care {build_['US']['care_share_end']}%")
+fast_, open_ = y6("rules expand into care", row3, ", care absorbs, three points a year"), y6("rules expand into care", row3, ", care absorbs, three points a year, no ceiling")
+check("C6 in the US the ceiling is the limit, not the pace: three points a year gains under a point by year 6; without the "
+      "ceiling it gains more than five",
+      build_["US"]["unemployment_max"] - fast_["US"]["unemployment_max"] < 1 and fast_["US"]["unemployment_max"] - open_["US"]["unemployment_max"] > 5,
+      f"a point a year {build_['US']['unemployment_max']}, three {fast_['US']['unemployment_max']}, three without the ceiling {open_['US']['unemployment_max']} (care {open_['US']['care_share_end']}%)")
+struct = build_["US"]["displaced_cognitive_end"] + build_["US"]["displaced_physical_end"]
+room = cm.care_ceiling - regs["US"].care_share
+check("C7 care cannot rescue the labour depression: the US displaced still out of work at year 6 are several times the room care had "
+      "(Norway's share less today's), and US unemployment stays above 30% even without a ceiling",
+      struct >= 3 * room and open_["US"]["unemployment_max"] > 30, f"still displaced {struct:.1f} points against room {room:.1f}")
+se1, se0 = y6("rules expand into care", row1, ", care absorbs")["SE"], y6("modern rules", row1, "")["SE"]
+check("C8 Sweden, displacement alone: the build-out takes year-6 unemployment down at least 2.5 points and care stays under the "
+      "ceiling — there the gate and the pace of training bind, not the ceiling",
+      se0["unemployment_max"] - se1["unemployment_max"] >= 2.5 and se1["care_share_end"] < cm.care_ceiling - 1,
+      f"{se0['unemployment_max']} -> {se1['unemployment_max']}; care {se1['care_share_end']}%")
+g_ = y6("rules expand under pressure", row3, "")
+per_c = (none_["US"]["unemployment_max"] - build_["US"]["unemployment_max"]) / build_["US"]["care_cost_max_pct_gdp"]
+per_g = (none_["US"]["unemployment_max"] - g_["US"]["unemployment_max"]) / g_["US"]["guarantee_cost_max_pct_gdp"]
+check("C9 care buys jobs, the guarantee buys demand: per point of GDP a year, the build-out takes more off US unemployment than "
+      "the income guarantee, but the guarantee holds output far closer to capacity",
+      per_c > per_g and g_["US"]["gap_min"] > build_["US"]["gap_min"] + 5,
+      f"points of unemployment per % of GDP: care {per_c:.1f}, guarantee {per_g:.1f}; gap: care {build_['US']['gap_min']}, guarantee {g_['US']['gap_min']}")
+er_ = y6("rules erode under pressure", row3, ", care absorbs")
+check("C10 when the rules erode, care takes in nobody and stops growing",
+      all(er_[r]["absorbed_into_existing_care_jobs_end"] + er_[r]["absorbed_into_new_care_jobs_end"] == 0
+          and abs(er_[r]["care_share_end"] - regs[r].care_share) < 1e-6 for r in gc.R), {r: er_[r]["care_share_end"] for r in gc.R})
+sens = {}
+for h in (0.10, 0.50):
+    o = gc.summary(gc.simulate(rg3, {r: gc.CARE for r in gc.R}, gc.ai_shock(24), replace(cm, care_hire=h), 24, waves=ab), regs)
+    sens[h] = (o["US"]["unemployment_max"], o["US"]["care_share_end"], o["SE"]["unemployment_max"])
+check("C11 how fast care trains and hires (0.10 or 0.50 of the willing a quarter, against 0.25): US unemployment stays above 35% "
+      "with the build-out either way; Sweden's result moves with it (there it binds)",
+      all(v[0] > 35 for v in sens.values()) and abs(sens[0.10][2] - sens[0.50][2]) > 1, sens)
+
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
 sys.exit(0 if n_ok == len(RESULTS) else 1)

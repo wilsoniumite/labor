@@ -49,6 +49,20 @@ check("E5 before robotics, the automatable share of a recession's job loss: unde
 check("E6 the crash model's recession betas are the measured US ones",
       all(abs(gc.Common().beta[g] - E["beta_used"][g]) < 0.005 for g in gc.GROUPS), E["beta_used"])
 
+K = E["care"]
+check("E7 the ceiling: the largest care share any rich economy measured employs is Norway's, above every region's today, and it "
+      "is the crash model's",
+      K["ceiling_country"] == "NOR" and all(K["regions"][r]["care_share_pct"] < K["ceiling_pct"] for r in K["regions"])
+      and abs(gc.Common().care_ceiling - K["ceiling_pct"]) < 1e-9,
+      f"{K['ceiling_pct']}% ({K['ceiling_country']}); room {({r: v['headroom_pts'] for r, v in K['regions'].items()})}")
+check("E8 the gate: in every region men work in care at a fifth to a third of women's rate, so displaced physical workers "
+      "(mostly men) enter more slowly than cognitive ones",
+      all(0.2 <= K["regions"][r]["men_vs_women_in_care"] <= 0.34 and K["regions"][r]["gate"]["physical"] < K["regions"][r]["gate"]["cognitive"] for r in K["regions"]),
+      {r: (v["men_vs_women_in_care"], v["gate"]["cognitive"], v["gate"]["physical"]) for r, v in K["regions"].items()})
+check("E9 need or financing? Care's share rises with the public sector's share of employment across rich economies — a first "
+      "look only (employer type is not financing: the Netherlands runs care privately with public money)",
+      K["care_vs_public_employment"]["correlation"] > 0.4 and K["care_vs_public_employment"]["countries"] >= 12, K["care_vs_public_employment"])
+
 print("B — Baumol concentration, stated as found")
 U = B["us_payrolls"]
 w24, w12 = U["windows"]["24 months"], U["windows"]["12 months"]
