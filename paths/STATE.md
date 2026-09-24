@@ -18,8 +18,8 @@ sovereign spread built, checks 6/6, public monitor run; macro block built with c
 and then (b) produced capital, checks 21/21; recognition as a mixture built, checks 10/10;
 reverse stress testing part 1 — the envelope over the dials — built, checks 11/11; speed — markets
 at machine speed, with the digestion history of US Treasuries — built, checks 15/15; the forward-rate
-test of regime digestion built, checks 9/9; next: her read, then part 2 against an exposure profile on
-the bank side).
+test of regime digestion built, checks 9/9; a stylised bank on the paths built, checks 12/12; next: her
+read, then part 2 — the bank's own balance sheet on these behaviours, on the internal side).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -360,6 +360,47 @@ is right; in an extreme path the destination is what is wrong.
     fast end; the anchors say years. The human bottleneck sits in judgement about regimes, which is
     exactly where this risk lives — so the speed-up that matters is still to come, and it can arrive
     as a repricing driven by the market's tools rather than by news.
+- **A stylised bank on the paths** (her question, 2026-09-24: real rate rises lift NII first —
+  floating mortgages, cash at the central bank — then tightening lowers house and asset prices, then
+  the interest income flows back into assets; `code/bank.py`, `code/bank_scenarios.py`,
+  `results/bank.json`, `figures/fig_bank.png`; checks `checks/check_bank.py`, 12/12). An
+  illustrative round-number Nordic-style balance sheet — not any bank's — with named behaviours:
+  deposits (transaction accounts at zero, savings accounts catching up, migration between them),
+  mortgage margins that lag funding and widen near the floor, reserves paid a share of the policy
+  rate, a securities ladder, house prices as the belief-weighted expected site rent capitalised at
+  the real 10Y plus a premium, wage-earning borrowers (debt-to-income and loan-to-value spread
+  lognormally), commercial property (interest cover, refinancing over three years, rents following
+  the site or the wage bill). Four paths. Findings:
+  - **A pure tightening** (+250 bp, announced at year 1, held two years, reversed): NII up 0.77 pp of
+    assets at the peak (2.14 → 2.91%), nearly all of it the deposit spread; the windfall decays
+    while rates are held (pass-through 0.24 at the peak, 0.42 a year later); mortgage margins
+    squeezed on the way up (0.46 → 0.25 pp of assets) and fattened on the way down; after the cycle
+    NII dips below its start as savings rates lag down. House prices −18% at the announcement and
+    back as the hike passes — the recovery rides the rate path back down. Borrowers over the
+    debt-service line 8% → 15%; property loans below 1.5x cover 10% → 25%; losses peak at year 3.75,
+    after NII's peak at 3.0 (F1). Her first half, confirmed, with the windfall located: deposits,
+    not mortgages; reserves earn the policy rate, so "cash at the central bank" is the deposit spread
+    on the money behind it.
+  - **The paper's world with real rates rising** (deficits dominate): NII rises gradually with the
+    build-out (2.11 → 2.63%), but house prices do not fall — they rise about 3x in real terms within
+    two years of recognition, the site's expected rents outweighing the higher discount rate —
+    while the real wage falls 43% and 30% of borrowers have stopped working by year 15 (14% over the
+    debt-service line). Mortgage losses stay near zero because loan-to-value falls to 0.12: the
+    collateral boom protects the bank, not the borrowers (F2). The mortgage book's risk moves to
+    households (forced sales at high prices), and the buyers become owners, not wage earners.
+  - **Commercial property hangs on one assumption** (F3): rents following the site, cover improves;
+    following the wage bill (offices need workers — the model's single land market cannot say
+    which), 92% of the book is below 1.5x by year 15 and losses reach 0.33% of assets a year.
+  - **Her second half — the income flowing back — is the bank's worst path** (F4): owners' saving
+    pulls rates to the floor, NII falls from 2.11 to 0.88% of assets even with lending margins
+    widening, and house prices rise about 17x in real terms. The recycling lifts asset prices by
+    pulling rates down, and that is what compresses the bank's margin.
+  - Also found: in the status quo a 5% prior on the new world is worth 15% of house value; as the
+    market learns the world is not changing, house prices fall 15%.
+  - `[inferred]` **For the bank:** a tightening's NII gain is a deposit windfall that decays and
+    reverses; in the paper's world the link between rates and house prices breaks (land up with
+    rates up, borrowers' incomes down), credit risk moves from the bank's books to households and to
+    commercial property, and the pressure on the bank's earnings comes from the falling-rate branch.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -433,6 +474,13 @@ is right; in an extreme path the destination is what is wrong.
     years (anchors) — the scenarios' assumption is the fast end. Digestion acts on the belief (a
     level, like the forecasts and prices it is measured on), not on its log odds. Alternative: a
     stochastic volatility layer on the curve.
+19. **The bank block is illustrative and static in size**: a round-number balance sheet, shares held
+    fixed (no deposit outflows, no change in lending volumes, no costs, taxes or capital), behaviours
+    named with stated defaults (deposit migration and lag; mortgage-margin lag and widening near the
+    floor; reserve pay; house prices as capitalised site rent, discount rate floored at 1% real;
+    lognormal borrowers and property companies; stylised default and loss mappings). The bank's own
+    balance sheet and behaviours go on the internal side. Next candidates here: volumes (lending
+    falls with affordability, deposits move), the buyer base shifting to owners, capital.
 
 ## Next
 
@@ -460,6 +508,10 @@ is right; in an extreme path the destination is what is wrong.
    more structure (how rentier and profit income is spent); alternative policy regimes (flexible
    target, currency defence, yield cap) — the lower bound is currently what bounds the fall side;
    speed as volatility; euro (the ECB's published AAA curve parameters) as a further cycle.
+9. ~~**A stylised bank**~~ — **built 2026-09-24** (above). Then: part 2 on the internal side — the
+   bank's own balance sheet and behaviours on these paths (the pairings to test: the deposit windfall
+   decaying; the long end gapping between ALCO decisions; commercial property on the wage-bill
+   assumption; the falling-rate branch).
 8. ~~**Speed**~~ — **built 2026-09-24** (above), and ~~**the forward-rate test**~~ — **built
    2026-09-24** (above): regime judgements digest over years. Open: a proper post-FOMC drift test
    needs surprise measures not on FRED; Swedish counterparts (Riksbank forward guidance against
@@ -592,3 +644,17 @@ the macro block lands.
     digest), the speed numbers above are restated (the first week's move under human digestion 0.6
     → 2 bp, the ladder 2 / 16 / 33 / 40 / 40 bp), check L6 restated. Findings above. The
     constant-gain check (E3) first failed on a residual tolerance tighter than the optimiser's own.
+12. **2026-09-24 — a stylised bank.** Her question (NII up first, then tightening lowers house and
+    asset prices, then the interest income flows back into assets), answered in text first — the
+    windfall is the deposit spread, not the mortgage book; reserves are not money taken out of
+    lending; the recycling lifts prices by pulling rates down (indebted demand); in the paper's world
+    rates and wages move against each other — then built. Bugs caught before any finding: zero rates
+    passed in basis points where the bank reads percent (NII 44% of assets); a single average
+    loan-to-value made loss given default always zero (now a lognormal spread, closed form, checked
+    against Monte Carlo); the deposit book began off its settled mix, drifting even in the status quo;
+    a pure tightening known from the start put the price fall before the start (now a surprise at
+    year 1); the figure's loop asked for a variant that did not exist. First calibration of deposits
+    passed 75–80% of a rise through; recalibrated toward Sweden's 2023 experience (about 0.4–0.5 a
+    year on). Checks 12/12 after two restatements: the house-price integral now exact per interval
+    (it had been a right-endpoint sum, 0.2% off), and the refinancing check stated at the grid's
+    ramp.
