@@ -151,6 +151,41 @@ def cascade_fit(row):
             "at_bound": bool(q[1] <= -4.99 or q[2] >= 39.9 or np.exp(q[4]) <= 0.0101)}
 
 
+def front_consistency(df, days=("1992-09-16", "1992-09-17", "1992-09-18", "1992-09-21")):
+    """The 1M-to-3M forward implied by the bills. An expected policy path cannot make it negative, so a
+    negative value flags the 1M quote as outside what any path (or mixture of paths) can price."""
+    out = {}
+    for d in days:
+        r = df.loc[d]
+        out[d] = round(float((0.25 * r["SETB3MBENCH"] - r["SETB1MBENCHC"] / 12) / (0.25 - 1 / 12)), 1)
+    return out
+
+
+def cascade_fit_without_1m(row):
+    t = np.array([t for _, t, _ in TENORS])[1:]; y = np.array([row[s] for s, _, _ in TENORS])[1:]
+    best = None
+    for r00 in (30.0, 100.0, 300.0):
+        for k10 in (5.0, 20.0, 60.0):
+            f = lambda q: cv.zero(t, cv.CurveState(r0=q[0], m0=q[1], rbar=q[2], k1=np.exp(q[3]), k2=np.exp(q[4]))) - y  # noqa: E731
+            r = least_squares(f, x0=[r00, 20.0, 11.0, np.log(k10), np.log(0.5)],
+                              bounds=([0, -5, -5, np.log(0.02), np.log(0.01)], [1000, 100, 40, np.log(500), np.log(20)]))
+            if best is None or r.cost < best.cost:
+                best = r
+    q = best.x
+    return {"r0": round(float(q[0]), 1), "m0": round(float(q[1]), 1), "rbar": round(float(q[2]), 1),
+            "k1": round(float(np.exp(q[3])), 2), "k2": round(float(np.exp(q[4])), 2),
+            "rmse_bp": round(float(np.sqrt(np.mean(best.fun ** 2)) * 100), 1)}
+
+
+def float_day(df, d="1992-11-19"):
+    """The one-day move on the day the krona floated, by maturity (bp), and the policy rate that day."""
+    cols = [s for s, _, _ in TENORS]
+    i = df.index.get_loc(pd.Timestamp(d))
+    move = (df[cols].iloc[i] - df[cols].iloc[i - 1]) * 100
+    return {"date": d, "policy_before": float(df["policy"].iloc[i - 1]), "policy_on": float(df["policy"].iloc[i]),
+            "move_bp": {l: round(float(move[s]), 0) for s, _, l in TENORS}}
+
+
 def main():
     old, new = panel("1990s"), panel("now")
     full = old.dropna(subset=[s for s, _, _ in TENORS])
@@ -188,8 +223,16 @@ def main():
             print(f"      two-stage: r0 {c['r0']}, m0 {c['m0']}, rbar {c['rbar']}, k1 {c['k1']}, k2 {c['k2']}, "
                   f"RMSE {c['rmse_bp']} bp" + ("  (a parameter at its bound)" if c["at_bound"] else ""))
 
+    fc = front_consistency(old)
+    ex1m = {d: cascade_fit_without_1m(full.loc[d]) for d in ("1992-09-17", "1992-09-18")}
+    fl = float_day(old)
+    print()
+    print("== the crisis-day 1M quote: implied 1M->3M forward (%)", fc)
+    print("   two-stage fit without the 1M point:", ex1m)
+    print("== the float, one day:", fl)
     out = {"source": "Riksbank SWEA API (public): SECBMARGEFF, SECBREPOEFF, SETB*, SEGVB*, DEGVB10Y, SEKTCW92",
-           "episodes": rows, "speed": sp, "one_speed_fits": fits}
+           "episodes": rows, "speed": sp, "one_speed_fits": fits, "front_1m_to_3m_forward_pct": fc,
+           "two_stage_fit_without_1m": ex1m, "float_day": fl}
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     json.dump(out, open(os.path.join(ROOT, "results", "se_1990s.json"), "w", encoding="utf-8"), indent=1)
     figure(old, rows, sp)

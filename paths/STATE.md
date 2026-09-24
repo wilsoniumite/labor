@@ -13,7 +13,8 @@ Riksbank, the ECB). The bank-side application lives in an internal repository; n
 is reproduced here, including the Swedish OIS measurements that motivated the curve layer —
 their public counterparts are built here instead (US Treasuries; Swedish bills and bonds 1990–95 and 2021–26).
 **State as of:** 2026-09-24 (founded; curve layer built; checks 22/22; US test run; the
-openness principle adopted; Sweden 1990–95 measured; next unit: the swappable pieces).
+openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
+next unit: the remaining swappable pieces).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -87,9 +88,17 @@ is right; in an extreme path the destination is what is wrong.
     99%), 3M +620, 12M +140, while 2Y −73 and 10Y −8. No supervisory shape comes close (best R²
     0.34). On the crisis day the curve ran spike → plateau → lower (1M 99%, 3–12M 23–31%, 10Y
     11.5%): the one-speed curve misses by 1,069 bp RMSE and the two-stage cascade by 296 bp with
-    parameters at their bounds, against 17 bp on calm 1991–92 days. `[inferred]` The market priced
-    a **mixture of regimes** — the defence holds (rates high for months) or fails (float, cuts) —
-    and no single smooth expected path can draw that.
+    parameters at their bounds, against 17 bp on calm 1991–92 days. **Corrected (log 4):** the
+    first reading here — "the market priced a mixture of regimes that no single smooth path can
+    draw" — overreached. The 1M bill on 17–18 Sep implies a 1M→3M forward of −3.0% and −13.5%,
+    which no expected path of a non-negative policy rate can produce, mixture or not: that quote
+    sits outside what averaging can price (a disorderly 1M bill market). Without it, the two-stage
+    cascade fits the 18th to 25 bp and the 17th to 111 bp, pricing the defence at 23–34% for a few
+    months and ~10% beyond. The day's curve does not by itself require a mixture; the evidence for
+    one is the jump at resolution (E3).
+  - **E3 the float, one day (19 Nov 1992):** 1M −140, 3M −170, 12M −160, **2Y −210, 5Y −178, 10Y
+    −101 bp** with the policy rate unchanged (11.5%; raised to 12.5% the next day) — the largest
+    one-day moves of 1990–95 at both 2Y and 10Y. The regime resolved and the whole curve jumped.
   - **E3–E4 the float (19 Nov 1992) and 1993:** the whole curve fell; over 1993 by 270–340 bp at
     every maturity, **parallel down R² 0.99** — the only move of near-equal size at every maturity
     in any episode measured so far (the whole-cycle moves fit a parallel shape but are front-heavy),
@@ -104,6 +113,29 @@ is right; in an extreme path the destination is what is wrong.
     the trade-weighted krona index +33.5% (the krona about a quarter weaker).
   - **Speed, same public series, 1990–95 against 2021–26** (99th percentile of daily moves): 3M
     **200 vs 17 bp** (12×), 2Y 52 vs 16, 10Y 40 vs 16; the largest single day at 3M 900 vs 51 bp.
+- **`code/regimes.py` — expectations as a mixture of regimes** (checks `checks/check_regimes.py`,
+  12/12). The curve the market shows is an average over worlds: each regime carries its own
+  expected policy path and term premium (a `CurveState`), weighted per horizon — *static* (the
+  regime is decided, only unknown: weights `π_j`) or *arrival* (a status quo holds until a new
+  regime arrives, with eventual probability `p` and hazard `h`: `w_new(s) = p (1 − e^{−hs})`).
+  Two events then move the curve with no policy move at all:
+  - **recognition** — the market's `p` rises. The move is `(1/T) ∫ (1 − e^{−hs}) (f_new − f_old) ds`
+    per unit of `p` (S2, N4): ~0 at the front and growing along the curve when the new world
+    differs in destination (N5); the hazard sets how far out it bites (N6: the 2Y's share of the
+    30Y move is 0.09, 0.24, 0.33 at `h` = 0.2, 1, 5 a year). Waking up moves the back of the curve
+    first;
+  - **resolution** — uncertainty ends and the curve jumps to one world's own curve:
+    `(1 − π_B)(z_B − z_A)` for two static regimes (S3). Resolution to a **re-anchored** world is
+    exactly parallel at every maturity (N7); to a world that differs only in timing it is a hump
+    (N8). This is the mechanism behind E3 and E4: the one near-equal move in the record came when
+    the anchor changed;
+  - and a corollary for risk: two distant worlds can show an ordinary curve — 50/50 on 1% and 5%
+    is flat at 3% with ±200 bp waiting in either resolution (N9). The curve alone does not show
+    the size of the move it is hiding.
+  `code/regimes_demo.py` (`figures/fig_regimes_demo.png`, **stylised, not calibrated**): recognition
+  toward a higher-rate world (capex, fiscal strain) and a lower-rate world (wage-financed demand
+  shrinking); two worlds behind one calm curve with ±112 bp at 2Y and ±186 bp at 10Y waiting; where
+  recognition bites for different hazards.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -126,6 +158,11 @@ is right; in an extreme path the destination is what is wrong.
 7. **`tau` is the bridge statistic** between model and data (its floor and the delay reading are
    checks N7–N7b).
 8. **Public validation on US Treasuries first**; Swedish government bonds and euro curves next.
+9. **Regime mixtures: two weightings** (static; arrival with eventual probability `p` and hazard
+   `h`), regimes as full `CurveState`s, a regime's curve applying from now rather than from its
+   arrival date (the new world's path is a function of calendar time — simple, and exact for
+   static mixtures; a switch-dated path is the alternative). The probabilities are the ones the
+   curve prices, so they carry any premium for regime risk: belief and premium are not separated.
 
 ## Next
 
@@ -133,9 +170,8 @@ is right; in an extreme path the destination is what is wrong.
    identity (the curve as an average of expected policy) and the shapes of ordinary moves, even
    at 1994's size. What is missing, each with its episode:
 2. **The swappable pieces**, now named by evidence:
-   a. **regime-mixture expectations** — the expected path as a probability-weighted mix over
-      policy regimes (defence holds / fails; delivers / abandons), which draws spike → plateau →
-      lower shapes no single path can (E1);
+   a. ~~**regime-mixture expectations**~~ — **built 2026-09-24** (`code/regimes.py`, above). Its
+      evidence is the jump at resolution (E3), not the crisis-day shape (E1, corrected);
    b. **a destination that can jump** as well as ratchet — a regime change moves the anchor at
       once, and that is what produced the only parallel move (E4);
    c. **an anchor-failure state** — a sovereign spread over the common rate, and the interbank
@@ -184,3 +220,15 @@ the macro block lands.
    17 bp); the only parallel move came after the float, when the anchor changed; the 1994 crash
    ordinary in shape and extreme in size, with +259 bp of it a spread over Germany; front-end
    daily moves 12× today's. The plan's swappable pieces are now named by their episodes.
+4. **2026-09-24 — regime mixtures, and a correction.** Her go on the mixed-regime piece. Before
+   building, the 1992 evidence was rechecked and found overstated: the crisis-day 1M bill implies a
+   negative 1M→3M forward, which no expected path can price, so the day's misfit came largely from
+   that quote; without it the two-stage cascade fits (25 and 111 bp). The float day (19 Nov 1992:
+   the curve down 100–210 bp in one day with policy unchanged, the period's largest daily moves at
+   2Y and 10Y) is the evidence the piece rests on instead. Built `code/regimes.py` (static and
+   arrival mixtures; recognition and resolution; closed forms where static, Gauss–Legendre where
+   not), `checks/check_regimes.py` (12/12; first run 11/12 — the timing-only resolution hump was
+   checked at 1M instead of in its limits), `code/regimes_demo.py` (stylised). `code/se_1990s.py`
+   now records the 1M→3M forwards, the fit without 1M, and the float day. Commit e654d19's
+   subject line ("a regime mixture no smooth path draws") carries the overreach; this entry is
+   the record of the correction.
