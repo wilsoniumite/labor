@@ -15,7 +15,8 @@
 # probability-weighted desired rate, delivered by the curve layer's stepwise rule; the policy rate is
 # common to both worlds' curves (it is observed). A world's curve at date t, as if that world were
 # known: policy now; a cycle target at that world's desired rate a year ahead; a destination at that
-# world's average neutral rate over the next ten years plus the target inflation; its term premium.
+# world's average neutral rate over the next ten years plus the target inflation (past the end of the
+# simulated path its last value holds — simulate beyond the dates you report); its term premium.
 # Resolution — the truth revealed — jumps the curve to the true world's curve: (1 - p)(z_new - z_old).
 
 from __future__ import annotations
@@ -66,8 +67,8 @@ def learn(old: dict, new: dict, lr: Learning = Learning(), return_logodds: bool 
 def _world_state(mp: dict, i: int, r0: float, delay: float, rule: cv.PolicyRule, horizon: float = 10.0,
                  k2: float = 0.3, elb: float = -0.5):
     t = mp["t"]
-    ahead = (t >= t[i]) & (t <= t[i] + horizon)
-    rbar = float(np.mean(mp["r_star"][ahead])) + mp["pi_star"]
+    ahead = np.linspace(t[i], t[i] + horizon, 81)          # a full window always; past the path's end, its last value holds
+    rbar = max(float(np.mean(np.interp(ahead, t, mp["r_star"]))) + mp["pi_star"], elb)   # expectations respect the lower bound
     m0 = max(float(np.interp(t[i] + 1.0, t, mp["desired"])), elb)
     return cv.CurveState(r0=r0, m0=m0, rbar=rbar, k1=rule.implied_speed(), k2=k2, tp=float(mp["tp"][i]), delay=delay)
 

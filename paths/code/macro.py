@@ -155,6 +155,7 @@ class Bridges:
     capital_premium: float | None = None   # pp over the real neutral rate: the required return on machine capital.
                                            # None: rho stays at the economy's own value (no feedback)
     rho_shift: float = 0.0          # pp added to the required return (a sustained rate shock)
+    rho_halflife: float = 1.0       # years: the required return follows r* with partial adjustment (0: at once, last quarter's r*)
 
 
 def _deficit(br, e: Economy, q: dict):
@@ -170,7 +171,9 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
     """Quasi-static macro path: an equilibrium each date, then the bridges. Returns a dict of arrays;
     rates and inflation in % a year, fiscal quantities in % of income.
     With br.capital_premium set, the required return on machine capital follows the economy's own real
-    rate — rho(t) = r*(t - dt) + premium (+ rho_shift) — so rates feed back into automation; the pace of
+    rate — rho(t) = rbar(t - dt) + premium (+ rho_shift), rbar following r* with half-life rho_halflife —
+    so rates feed back into automation. (Following last quarter's r* at once can cycle: near full
+    automation a small change in rho moves x a lot, the quarterly pace swings and r* with it.) The pace of
     automation then uses backward differences, as it must when r* at t depends on the past."""
     t = np.arange(0.0, years + 1e-9, dt)
     feedback = br.capital_premium is not None
@@ -181,10 +184,12 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
             econ = [replace(e, rho=e.rho + br.rho_shift / 100) for e in econ]
         sol = [solve(e) for e in econ]
     else:
-        r_prev = br.r0_star
+        r_prev = r_req = br.r0_star
+        w = 1.0 - 0.5 ** (dt / br.rho_halflife) if br.rho_halflife > 0 else 1.0
         nw0 = d0 = None
         for i, ti in enumerate(t):
-            e = replace(tech.at(ti, base), rho=(r_prev + br.capital_premium + br.rho_shift) / 100)
+            r_req += w * (r_prev - r_req)
+            e = replace(tech.at(ti, base), rho=max(r_req + br.capital_premium + br.rho_shift, 0.0) / 100)   # a required return is not negative
             q = solve(e)
             econ.append(e); sol.append(q)
             nonwage = (1.0 - q["labor_share"]) * 100
@@ -266,7 +271,7 @@ def curve_path(mp: dict, rec: Recognition = Recognition(), rule=None):
             r = max(rule.decide(r, max(float(np.interp(next_meet, t, desired)), rec.elb)), rec.elb)
             next_meet += 1.0 / M
         if i > 0:
-            target = float(mp["r_star"][i] + mp["pi_star"])
+            target = max(float(mp["r_star"][i] + mp["pi_star"]), rec.elb)      # expectations respect the lower bound
             dest += (target - dest) * (1.0 - 0.5 ** ((ti - t[i - 1]) / rec.h_dest))
         states.append(cv.CurveState(r0=r, m0=max(float(desired[i]), rec.elb), rbar=dest, k1=rule.implied_speed(), k2=rec.k2,
                                     tp=float(mp["tp"][i]), delay=next_meet - ti))

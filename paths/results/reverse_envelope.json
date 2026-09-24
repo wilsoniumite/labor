@@ -1,0 +1,325 @@
+{
+ "draws": 4000,
+ "solved": 4000,
+ "ranges": {
+  "eta_end": [
+   0.02,
+   0.5
+  ],
+  "width": [
+   1.0,
+   12.0
+  ],
+  "t_mid": [
+   2.0,
+   8.0
+  ],
+  "alpha_capex": [
+   0.0,
+   1.0
+  ],
+  "alpha_rent": [
+   0.0,
+   0.2
+  ],
+  "alpha_fiscal": [
+   0.0,
+   0.4
+  ],
+  "tp_per_debt": [
+   0.0,
+   0.05
+  ],
+  "debt_threshold": [
+   40.0,
+   90.0
+  ],
+  "public_support": [
+   0.1,
+   0.6
+  ],
+  "capital_premium": [
+   3.0,
+   7.0
+  ],
+  "sigma": [
+   0.5,
+   4.0
+  ],
+  "p0": [
+   0.01,
+   0.3
+  ]
+ },
+ "envelope": {
+  "recog_2Y": {
+   "p5": -93.79,
+   "p50": 7.59,
+   "p95": 160.3,
+   "min": -276.03,
+   "max": 631.4
+  },
+  "recog_10Y": {
+   "p5": -191.46,
+   "p50": -23.26,
+   "p95": 128.47,
+   "min": -300.6,
+   "max": 492.65
+  },
+  "recog_30Y": {
+   "p5": -247.53,
+   "p50": -38.85,
+   "p95": 120.5,
+   "min": -320.41,
+   "max": 403.29
+  },
+  "ten_year_3M": {
+   "p5": -325.0,
+   "p50": -76.48,
+   "p95": 148.03,
+   "min": -327.73,
+   "max": 399.71
+  },
+  "ten_year_2Y": {
+   "p5": -323.94,
+   "p50": -95.38,
+   "p95": 142.72,
+   "min": -332.59,
+   "max": 391.49
+  },
+  "ten_year_10Y": {
+   "p5": -321.71,
+   "p50": -107.04,
+   "p95": 147.46,
+   "min": -327.69,
+   "max": 407.06
+  },
+  "max_up_10Y": {
+   "p5": 0.0,
+   "p50": 0.0,
+   "p95": 215.0,
+   "min": 0.0,
+   "max": 608.01
+  },
+  "max_down_10Y": {
+   "p5": -323.87,
+   "p50": -124.33,
+   "p95": 0.0,
+   "min": -329.22,
+   "max": 0.0
+  },
+  "max_jump_10Y": {
+   "p5": 7.44,
+   "p50": 46.85,
+   "p95": 176.85,
+   "min": 0.39,
+   "max": 475.88
+  },
+  "c50": {
+   "p5": 1.12,
+   "p50": 3.04,
+   "p95": 6.37,
+   "min": 0.51,
+   "max": 8.31
+  },
+  "debt_max": {
+   "p5": 40.0,
+   "p50": 75.22,
+   "p95": 123.8,
+   "min": 40.0,
+   "max": 201.75
+  },
+  "real_wage_min_rel": {
+   "p5": 0.34,
+   "p50": 0.77,
+   "p95": 1.0,
+   "min": 0.21,
+   "max": 1.0
+  },
+  "shelter_infl_max": {
+   "p5": 9.96,
+   "p50": 22.26,
+   "p95": 77.75,
+   "min": 5.88,
+   "max": 153.89
+  },
+  "policy_min": {
+   "p5": -0.5,
+   "p50": 1.5,
+   "p95": 2.75,
+   "min": -0.5,
+   "max": 2.75
+  },
+  "policy_max": {
+   "p5": 2.75,
+   "p50": 3.0,
+   "p95": 5.75,
+   "min": 2.75,
+   "max": 11.25
+  }
+ },
+ "drivers_rank_corr": {
+  "recog_10Y": {
+   "eta_end": 0.01,
+   "width": 0.02,
+   "t_mid": -0.0,
+   "alpha_capex": 0.28,
+   "alpha_rent": -0.83,
+   "alpha_fiscal": 0.32,
+   "tp_per_debt": 0.03,
+   "debt_threshold": 0.0,
+   "public_support": -0.1,
+   "capital_premium": 0.04,
+   "sigma": -0.11,
+   "p0": 0.01
+  },
+  "max_up_10Y": {
+   "eta_end": -0.09,
+   "width": -0.11,
+   "t_mid": -0.02,
+   "alpha_capex": 0.19,
+   "alpha_rent": -0.69,
+   "alpha_fiscal": 0.27,
+   "tp_per_debt": 0.07,
+   "debt_threshold": -0.05,
+   "public_support": -0.03,
+   "capital_premium": 0.01,
+   "sigma": -0.02,
+   "p0": -0.02
+  },
+  "max_down_10Y": {
+   "eta_end": 0.17,
+   "width": 0.04,
+   "t_mid": -0.03,
+   "alpha_capex": -0.0,
+   "alpha_rent": -0.84,
+   "alpha_fiscal": 0.34,
+   "tp_per_debt": 0.04,
+   "debt_threshold": -0.02,
+   "public_support": -0.04,
+   "capital_premium": 0.03,
+   "sigma": -0.02,
+   "p0": 0.01
+  },
+  "ten_year_2Y": {
+   "eta_end": 0.11,
+   "width": 0.11,
+   "t_mid": 0.08,
+   "alpha_capex": 0.07,
+   "alpha_rent": -0.85,
+   "alpha_fiscal": 0.35,
+   "tp_per_debt": 0.03,
+   "debt_threshold": -0.0,
+   "public_support": -0.08,
+   "capital_premium": 0.03,
+   "sigma": -0.02,
+   "p0": -0.01
+  },
+  "debt_max": {
+   "eta_end": -0.43,
+   "width": -0.37,
+   "t_mid": -0.36,
+   "alpha_capex": -0.0,
+   "alpha_rent": -0.11,
+   "alpha_fiscal": 0.06,
+   "tp_per_debt": 0.02,
+   "debt_threshold": 0.01,
+   "public_support": 0.62,
+   "capital_premium": -0.12,
+   "sigma": -0.0,
+   "p0": 0.01
+  },
+  "real_wage_min_rel": {
+   "eta_end": 0.94,
+   "width": 0.16,
+   "t_mid": 0.04,
+   "alpha_capex": 0.01,
+   "alpha_rent": -0.18,
+   "alpha_fiscal": 0.1,
+   "tp_per_debt": -0.01,
+   "debt_threshold": -0.02,
+   "public_support": -0.0,
+   "capital_premium": 0.1,
+   "sigma": 0.01,
+   "p0": 0.01
+  }
+ },
+ "picks": {
+  "most plausible +100 bp 10Y": {
+   "distance": 0.608,
+   "value": 100.7,
+   "dials_moved_default_to_draw": {
+    "alpha_capex": [
+     0.25,
+     0.435
+    ],
+    "alpha_fiscal": [
+     0.1,
+     0.18
+    ],
+    "tp_per_debt": [
+     0.02,
+     0.003
+    ],
+    "public_support": [
+     0.3,
+     0.191
+    ],
+    "capital_premium": [
+     5.0,
+     6.152
+    ],
+    "sigma": [
+     1.0,
+     0.705
+    ]
+   }
+  },
+  "most plausible -100 bp 10Y": {
+   "distance": 0.541,
+   "value": -151.8,
+   "dials_moved_default_to_draw": {
+    "t_mid": [
+     6.0,
+     7.524
+    ],
+    "alpha_capex": [
+     0.25,
+     0.433
+    ],
+    "capital_premium": [
+     5.0,
+     3.523
+    ]
+   }
+  },
+  "most plausible +50 bp 10Y in the recognition window": {
+   "distance": 0.511,
+   "value": 70.8,
+   "dials_moved_default_to_draw": {
+    "width": [
+     6.0,
+     3.589
+    ],
+    "t_mid": [
+     6.0,
+     7.021
+    ],
+    "tp_per_debt": [
+     0.02,
+     0.007
+    ],
+    "public_support": [
+     0.3,
+     0.21
+    ]
+   }
+  },
+  "largest 10Y rise": {
+   "value": 608.0
+  },
+  "largest 10Y fall": {
+   "value": -329.2
+  }
+ }
+}

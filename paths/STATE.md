@@ -16,7 +16,8 @@ their public counterparts are built here instead (US Treasuries; Swedish bills a
 openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
 sovereign spread built, checks 6/6, public monitor run; macro block built with calibration (a)
 and then (b) produced capital, checks 21/21; recognition as a mixture built, checks 10/10;
-next: reverse stress testing).
+reverse stress testing part 1 — the envelope over the dials — built, checks 11/11; next: her read,
+then part 2 against an exposure profile on the bank side).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -221,8 +222,8 @@ is right; in an extreme path the destination is what is wrong.
     delays the medium path by about four weeks (A6). Monetary policy has little leverage over the
     automation margin itself.
   - **The loop.** With the return following the economy's own real rate, automation lags while the
-    build-out holds rates up and runs ahead once they fall (correlation −1.00; +0.16 pp of tasks by
-    year 15, A7): in the down-phase, cheaper capital speeds automation, owners' income rises, and the
+    build-out holds rates up and runs ahead once they fall (correlation −1.00; +0.14 pp of tasks by
+    year 15, A7; the return adjusts to r* with a one-year half-life, decision 15): in the down-phase, cheaper capital speeds automation, owners' income rises, and the
     neutral rate falls further — a small self-reinforcing turn.
 - **`code/recognition.py` — the recognition clock as a mixture** (her call, 2026-09-24; checks
   `checks/check_recognition.py`, 10/10; `code/recognition_scenarios.py`, `results/recognition.json`,
@@ -234,7 +235,7 @@ is right; in an extreme path the destination is what is wrong.
   (M3), and revealing the truth jumps the curve by (1 − p)(z_new − z_old) (M2). Narrative shocks
   move the odds with no data (L5). Findings, default bridges:
   - **Late in the data, then fast.** With 1 pp noise and a 5% prior the market goes from 10% to
-    90% between years 2.4 and 3.6 — when about 3% of the eventual labour-share fall has happened
+    90% between years 2.3 and 3.6 — when about 3% of the eventual labour-share fall has happened
     (S1). Over 500 noise draws the one-half date is 2.6 / 3.2 / 3.8 years (10/50/90%); noise alone
     persuades the market of a new world that is not coming in 3.4% of draws.
   - **The curve barely moves.** Across the recognition window: 3M +2, 2Y +5, 10Y −11, 30Y −20 bp —
@@ -247,6 +248,42 @@ is right; in an extreme path the destination is what is wrong.
     this risk;** the large moves are in the real economy — wages, labour's share, the fiscal base —
     which is where a bank's credit and income risk sits. How big the curve moves are hinges on the
     bridge coefficients (behaviour, not structure): the question the reverse stress test asks.
+- **`code/reverse.py` — reverse stress testing, part 1: the envelope over the dials** (checks
+  `checks/check_reverse.py`, 11/11; `code/reverse_envelope.py`, `results/reverse_envelope.json`,
+  `figures/fig_reverse_envelope.png`). Twelve dials — the technology path (depth, width,
+  midpoint), the bridges (build-out, owners' saving, deficits → r*; term premium per debt, debt
+  threshold, public support), the capital premium, and the market's learning (noise, prior) —
+  drawn 4,000 times by Latin hypercube over broad stated ranges (`RANGES`; scale dials in logs);
+  each draw runs the two-world recognition model on calibration (b). All 4,000 solve. Findings:
+  - **The sign of the curve's move is not pinned by the mechanism; two bridges decide it.** The
+    10Y over ten years: −322 / −107 / +147 bp (5/50/95%); across the recognition window −191 /
+    −23 / +128. In 54% of draws the 10Y never rises above its start; in 24% it never falls below
+    it. Owners' saving drives every curve outcome (rank correlation −0.83 to −0.85), deficits
+    push the other way (+0.32 to +0.35), the build-out adds (+0.28 in the recognition window). From
+    the defaults, owners' saving at 0.02 rather than 0.15 is +35 against −322 bp; deficits at 0
+    rather than 0.3 are −174 against +112 (R3).
+  - **The technology path decides the real economy, not the curve.** Automation depth drives the
+    real wage's low point (+0.94) and, with the path's speed and timing, the debt peak; public
+    support drives debt (+0.62). Their correlations with the curve outcomes are at most 0.17. The
+    learning dials set when the market wakes up, not how far the curve moves (|ρ| ≤ 0.11).
+  - **Neither direction is far from the defaults.** The most plausible draw (nearest the defaults
+    in the unit cube) reaching +100 bp at some point: build-out 0.25 → 0.44, deficits 0.10 → 0.18,
+    premium 5 → 6.2 (+101 bp). Reaching −100 bp: a later midpoint (6 → 7.5), build-out 0.43,
+    premium 3.5 (−152 bp; the default dials already reach −91). A +50 bp move inside the
+    recognition window: faster, later automation with less public support (+71 bp).
+  - **The tails are asymmetric by assumption, not by mechanism.** Expectations stop at the −0.5%
+    lower bound: policy reaches it in about a fifth of draws, and the fall side piles up near
+    −325 bp (the floor plus the term premium). The rise side has no ceiling: +608 bp at the
+    largest, with policy up to 11.25%.
+  - `[inferred]` **For a bank:** a rate stress for this risk has to be two-sided, because the
+    mechanism fixes the real-economy damage (wages, labour's share, the tax base) far more firmly
+    than the sign of the rate move — which rides on how owners' income is spent and how the state
+    finances the transition. The largest curve moves come with fiscal strain (debt above the
+    threshold) or a saving glut at the floor, and that pairing — not the rate level — is what to
+    put against the balance sheet in part 2.
+  - Three artefacts found and fixed on the way (log 9): a destination window that ran off the
+    path's end, a rate feedback that cycled quarter to quarter, and uniform ranges that made most
+    draws mild automation.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -296,12 +333,21 @@ is right; in an extreme path the destination is what is wrong.
     depreciation 8%; the capital-output ratio an outcome (2.98), not a target, because the
     labour-share target already fixes the machine services' share of spending and the user cost
     then fixes the stock. With the premium set, the return follows the economy's real rate with a
-    one-step lag (quasi-static, no simultaneity).
+    one-step lag (quasi-static, no simultaneity) and partial adjustment, half-life one year
+    (`Bridges.rho_halflife`): following last quarter's r* at once can cycle near full automation
+    (check R6).
 16. **Recognition: Bayesian learning on one signal** (labour's share, Gaussian noise, a correctly
     specified alternative world) — the fastest honest learner; realistic learning is slower
     (autocorrelated noise, a vaguer alternative, inattention), so the recognition dates are a lower
     bound on lateness. The central bank shares the market's belief. Each world's curve uses its own
-    ten-year average neutral rate as the destination.
+    ten-year average neutral rate as the destination (a full window: past the simulated path's end
+    its last value holds, so runs simulate ten years beyond the dates they report).
+17. **Reverse stress, part 1: broad stated ranges, not a prior.** Uniform draws (logs for the scale
+    dials: automation depth, noise, prior), Latin hypercube, and "most plausible" as the Euclidean
+    distance to the defaults in the unit cube — every dial weighted equally. Alternatives: a
+    prior-weighted distance (needs views on each dial), or ranges narrowed by evidence as it
+    arrives. The ranges are the thing to veto: a dial whose range is too wide inflates the tails;
+    one too narrow hides a driver.
 
 ## Next
 
@@ -321,10 +367,14 @@ is right; in an extreme path the destination is what is wrong.
 3. ~~**The macro block**~~ — **built 2026-09-24** (above), with the calibration of her call (a).
 4. ~~**(b) Produced capital with an interest cost**~~ — **built 2026-09-24** (above).
 5. ~~**The recognition clock as a mixture**~~ — **built 2026-09-24** (above).
-6. **Then:** reverse stress testing over the bridges' dials and the technology path, against an
-   exposure profile the bank side supplies privately (public: an illustrative profile); alternative
-   policy regimes (flexible target, currency defence, yield cap); speed as volatility; euro (the
-   ECB's published AAA curve parameters) as a further cycle.
+6. ~~**Reverse stress testing, part 1**~~ — **built 2026-09-24** (above): the envelope, the
+   drivers, the most plausible routes to ±100 bp.
+7. **Then:** part 2 — the same draws against an exposure profile the bank side supplies privately
+   (the pairing to test: large curve moves with fiscal strain or with the floor, and the real
+   wage's fall); the owners'-saving bridge, now the one that matters most, deserves evidence before
+   more structure (how rentier and profit income is spent); alternative policy regimes (flexible
+   target, currency defence, yield cap) — the lower bound is currently what bounds the fall side;
+   speed as volatility; euro (the ECB's published AAA curve parameters) as a further cycle.
 
 ## Siblings
 
@@ -406,3 +456,21 @@ the macro block lands.
    one, so `learn()` now returns the log odds too), `code/recognition_scenarios.py`. Findings above;
    the headline for her: recognition comes early relative to the real change and fast, and under
    the default bridges it barely moves the curve — which points the next unit at the bridges.
+9. **2026-09-24 — reverse stress testing, part 1.** Continuing while she was away. Built
+   `code/reverse.py` (the dials, the sampler, the run, rank correlation, nearest breach),
+   `code/reverse_envelope.py`, `checks/check_reverse.py` (11/11 on first run). Four problems found
+   on the way, each fixed before the numbers above: (i) a first run had a −1,387 bp tail — the
+   destination followed r* below the lower bound — so the destination is floored at −0.5% in both
+   `recognition.py` and `macro.curve_path`, and the required return at zero (a few draws had broken
+   the solver); (ii) the world's ten-year average neutral rate ran off the end of the 15-year path,
+   jumping the curve in the last quarters — now a full window with the last value held, and the
+   reverse runs simulate ten years beyond what they report (R2: the default run moves under 1 bp);
+   (iii) the rate feedback cycled quarter to quarter in about 5% of draws (49 of 1,000; up to 65
+   reversals) — near full automation a small change in the required return moves the automation
+   margin a lot — now partial adjustment with a one-year half-life (R6); the committed recognition
+   and capital numbers moved by at most 0.3 bp and 0.02 years (the loop's +0.16 pp is now +0.14,
+   recognition starts at 2.3 rather than 2.4 years); (iv) uniform ranges in levels put the default
+   automation depth at the edge of its range and made most draws mild (median real-wage low 0.97)
+   — the scale dials are now drawn in logs (median 0.77). Findings above; the headline for her:
+   under this mechanism the rate move's sign is a question about owners' saving against deficits,
+   while the wage and fiscal damage is robust.
