@@ -693,3 +693,17 @@ the macro block lands.
     `checks/check_floor_margins.py` (7/7 on first run). Findings above; the bank-side engine takes the
     three measured rules (floor compensation, slower deposit rises, the up-side mortgage squeeze) as its
     central case, internally. Figure: two titles clipped and a label collision fixed before the commit.
+15. **2026-09-24 — the export carries the credit side.** Her call: credit, next. A bank's credit book needs
+    more than rates and the wage bill, so `results/paths_for_banks.csv` gains, per scenario and quarter,
+    each 1 at the start: the real wage, the share of the start's workers still employed, the real site
+    rent, the real price of a site as the market values it (`bank.house_price`: belief-weighted rents
+    discounted at the real 10Y plus a premium) and the price level. The existing columns are unchanged
+    (checked cell by cell). What the new columns say, before any bank: **in the model's own world
+    collateral is not where the risk is** — the site takes automation's gains, so the real site price is
+    ×3.0 by year 10 when deficits dominate and ×17 when owners' saving dominates (rates at the floor, the
+    discount rate at its 1% guard), while the wage bill falls to 0.74 and 0.63 and employment to 0.89
+    and 0.84. A bank's credit loss therefore turns on a question the model's single land market cannot
+    answer: whether property income and values follow the site (the model) or the wage bill (offices,
+    shops and flats are rented by people who work). A user should run both. One quirk, disclosed: the
+    status quo's site price drifts to 0.85 by year 5 because the market starts with a 5% belief in the
+    automated world and learns it away; comparisons against the status quo cancel it.
