@@ -15,8 +15,8 @@ their public counterparts are built here instead (US Treasuries; Swedish bills a
 **State as of:** 2026-09-24 (founded; curve layer built; checks 22/22; US test run; the
 openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
 sovereign spread built, checks 6/6, public monitor run; macro block built with calibration (a)
-and then (b) produced capital, checks 21/21; next: policy regimes, recognition as a mixture,
-reverse stress testing).
+and then (b) produced capital, checks 21/21; recognition as a mixture built, checks 10/10;
+next: reverse stress testing).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -224,6 +224,29 @@ is right; in an extreme path the destination is what is wrong.
     build-out holds rates up and runs ahead once they fall (correlation −1.00; +0.16 pp of tasks by
     year 15, A7): in the down-phase, cheaper capital speeds automation, owners' income rises, and the
     neutral rate falls further — a small self-reinforcing turn.
+- **`code/recognition.py` — the recognition clock as a mixture** (her call, 2026-09-24; checks
+  `checks/check_recognition.py`, 10/10; `code/recognition_scenarios.py`, `results/recognition.json`,
+  `figures/fig_recognition.png`). Two worlds, each a full macro path on calibration (b) with the
+  return following r*: the status quo and medium deep automation. The market watches labour's
+  share each quarter with noise and updates the odds of the new world by Bayes' rule (L2: the
+  noiseless log odds are exactly logit(p0) + Σ(s_new − s_old)²/2σ²); its curve is the
+  probability-weighted mix of the two worlds' curves (M1), the central bank learns alongside it
+  (M3), and revealing the truth jumps the curve by (1 − p)(z_new − z_old) (M2). Narrative shocks
+  move the odds with no data (L5). Findings, default bridges:
+  - **Late in the data, then fast.** With 1 pp noise and a 5% prior the market goes from 10% to
+    90% between years 2.4 and 3.6 — when about 3% of the eventual labour-share fall has happened
+    (S1). Over 500 noise draws the one-half date is 2.6 / 3.2 / 3.8 years (10/50/90%); noise alone
+    persuades the market of a new world that is not coming in 3.4% of draws.
+  - **The curve barely moves.** Across the recognition window: 3M +2, 2Y +5, 10Y −11, 30Y −20 bp —
+    a mild flattening with the long end down, because the new world's average neutral rate over
+    the next decade is lower (the build-out and the owners' saving roughly offset; the fiscal term
+    premium comes only after debt passes its threshold). The jump waiting at any date is at most
+    ~11 bp. A narrative shock takes belief to ~0.49 overnight, moves the 10Y ~1 bp, and fades within
+    about a year and a half when the data do not confirm it.
+  - `[inferred]` **Under these coefficients the risk-free curve is a poor early-warning signal for
+    this risk;** the large moves are in the real economy — wages, labour's share, the fiscal base —
+    which is where a bank's credit and income risk sits. How big the curve moves are hinges on the
+    bridge coefficients (behaviour, not structure): the question the reverse stress test asks.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -274,6 +297,11 @@ is right; in an extreme path the destination is what is wrong.
     labour-share target already fixes the machine services' share of spending and the user cost
     then fixes the stock. With the premium set, the return follows the economy's real rate with a
     one-step lag (quasi-static, no simultaneity).
+16. **Recognition: Bayesian learning on one signal** (labour's share, Gaussian noise, a correctly
+    specified alternative world) — the fastest honest learner; realistic learning is slower
+    (autocorrelated noise, a vaguer alternative, inattention), so the recognition dates are a lower
+    bound on lateness. The central bank shares the market's belief. Each world's curve uses its own
+    ten-year average neutral rate as the destination.
 
 ## Next
 
@@ -292,10 +320,11 @@ is right; in an extreme path the destination is what is wrong.
    e. **event-scale speed** — daily moves an order of magnitude beyond today's at the front.
 3. ~~**The macro block**~~ — **built 2026-09-24** (above), with the calibration of her call (a).
 4. ~~**(b) Produced capital with an interest cost**~~ — **built 2026-09-24** (above).
-5. **Then:** alternative policy regimes (flexible target, currency defence, yield cap); the
-   recognition clock as a regime mixture driven by the macro path (the market's probability of the
-   new world rising as the labour share falls); reverse stress testing over the bridges' dials;
-   speed as volatility; euro (the ECB's published AAA curve parameters) as a further cycle.
+5. ~~**The recognition clock as a mixture**~~ — **built 2026-09-24** (above).
+6. **Then:** reverse stress testing over the bridges' dials and the technology path, against an
+   exposure profile the bank side supplies privately (public: an illustrative profile); alternative
+   policy regimes (flexible target, currency defence, yield cap); speed as volatility; euro (the
+   ECB's published AAA curve parameters) as a further cycle.
 
 ## Siblings
 
@@ -370,3 +399,10 @@ the macro block lands.
    machine services' share and the user cost then fixes the stock at ~3× — so it became an outcome,
    compared with public fixed capital (~3). Findings above: the site, not capital, takes the gains;
    rates feed back weakly; a small loop in the down-phase.
+8. **2026-09-24 — recognition as a mixture.** Her go before going to lunch ("keep going without
+   me for a while"). Built `code/recognition.py` (two worlds, Bayesian learning with narrative
+   jumps, the market curve as a static mixture, a common policy rate), `checks/check_recognition.py`
+   (10/10; first run 9/10 — L2 compared log odds recovered from probabilities that had rounded to
+   one, so `learn()` now returns the log odds too), `code/recognition_scenarios.py`. Findings above;
+   the headline for her: recognition comes early relative to the real change and fast, and under
+   the default bridges it barely moves the curve — which points the next unit at the bridges.

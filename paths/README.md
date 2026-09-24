@@ -25,9 +25,11 @@ from it is reproduced here.
 | `code/se_1990s.py` | Sweden 1990–95 from the Riksbank's public API: the 1992 defence, the float, the 1994 fiscal crash, speed against today. |
 | `code/macro.py` | The macro block: the paper's Appendix B (SSRN version) along a technology clock, calibrated to public targets, with bridges to the curve layer (nominal, fiscal, neutral rate, policy, premia); produced capital at Appendix A.4's user cost, so rates feed back into automation. |
 | `code/macro_scenarios.py` | Deep automation at three speeds, run through to curves; with capital split out (b), who is paid, what a sustained rate shock does, and the loop between rates and automation. |
+| `code/recognition.py` | The recognition clock as a mixture: two worlds, Bayesian learning from noisy labour-share data (plus narrative shocks), the market curve as the probability-weighted mix, a common policy rate. |
+| `code/recognition_scenarios.py` | When the market wakes up, what the curve does, the jump still waiting, and a false dawn. |
 | `code/cycle.py` | A rate cycle driven through the three clocks: a lagged, stepwise central bank and a market that learns. |
 | `code/us_modes.py` | The public test: phases of the Fed's 2021–23 cycle and the last twelve months on FRED Treasury yields. |
-| `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures). They gate everything. |
+| `checks/check_curve.py`, `checks/check_regimes.py`, `checks/check_sovereign.py`, `checks/check_macro.py`, `checks/check_recognition.py` | The batteries: sympy identities, the code against the algebra, the stylised cycle, the regime mixtures, the sovereign spread, the macro block (gated on the paper's published Appendix B figures), recognition. They gate everything. |
 | `results/`, `figures/` | Outputs of `code/`. |
 | `cache/` | The data vintages behind every number: FRED (pulled by `pinning/code/lambda_compute2.pull_fred`) and, under `cache/riksbank/`, the Riksbank's SWEA API. |
 
@@ -40,5 +42,6 @@ From this folder, with the repository's venv:
 ../venv/Scripts/python.exe checks/check_regimes.py
 ../venv/Scripts/python.exe checks/check_sovereign.py
 ../venv/Scripts/python.exe checks/check_macro.py
+../venv/Scripts/python.exe checks/check_recognition.py
 ../venv/Scripts/python.exe code/us_modes.py
 ```
