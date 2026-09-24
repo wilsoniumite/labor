@@ -14,7 +14,8 @@ is reproduced here, including the Swedish OIS measurements that motivated the cu
 their public counterparts are built here instead (US Treasuries; Swedish bills and bonds 1990–95 and 2021–26).
 **State as of:** 2026-09-24 (founded; curve layer built; checks 22/22; US test run; the
 openness principle adopted; Sweden 1990–95 measured; regime mixtures built, checks 12/12;
-sovereign spread built, checks 6/6, public monitor run; next: policy regimes or the macro block).
+sovereign spread built, checks 6/6, public monitor run; macro block built, checks 14/14;
+next: (b) produced capital with an interest cost).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -160,6 +161,44 @@ is right; in an extreme path the destination is what is wrong.
     shaped like erosion, with no broad fiscal repricing in public spreads. **Falsifiers:** the
     Netherlands and Finland widen with France; or the widening reaches the 5Y as much as the 10Y
     (a crunch, not erosion).
+- **`code/macro.py` — the macro block** (checks `checks/check_macro.py`, 14/14).
+  - **Structure: the paper's Appendix B, SSRN version of 2026-09-23** — the basket priced into
+    participation, space scaling with output. ⚠ The repository's `pinning/` copy (main.tex of
+    2026-09-21 and `checks/check_interior.py`) carries an older, different Appendix B (it solves to
+    x 0.968, v 0.598, Y 18.5); the SSRN text cites a `check_interior.py` that is not in the
+    repository. The macro block reproduces every SSRN figure to five decimals (P1: x* 0.86315, v
+    0.54344, Y 7.88061, n 1.34338, final-task hours 1.07846, machine hours 0.26492, support 5.44630)
+    and the paper's automation sequence (P2).
+  - **Dynamics: quasi-static.** A technology clock (logistic in time) moves capability `eta` (task
+    automation) and the labour in a machine-service hour `lambda` (recursive automation); each
+    date is an equilibrium — no build lags, no adjustment costs.
+  - **Calibration of the normal case** (her call (a), 2026-09-24): labour share 0.47 (the paper's
+    full-chain human-effort share, Figure 7), employment 0.60, 3 support baskets of output per
+    person (the basket as a subsistence bundle), the site 13% of the basket (the land part of a
+    third-of-spending shelter, at the paper's 30–50% land shares). Exact fit with machines up to
+    50× better than people on the easiest task (`g0` 0.02) and a convex schedule (`k` 4.83). Why
+    the first targets failed: in a two-factor economy every krona not paid to hours is land rent,
+    and Appendix B's space is pure site — a 33% shelter share makes a third of income site rent
+    before any machine. **What the benchmark cannot separate:** the machine chains' land, 0.40 of
+    income, also stands in for capital income (depreciation, interest, profits). Next unit (b)
+    splits it.
+  - **Bridges** (behaviour; named illustrative defaults, not estimates): nominal — the basket held
+    on its target, so goods, shelter and wages inflate at the target plus their real change
+    against it; fiscal — wage and non-wage taxes, spending, a public share of dependants' support;
+    neutral rate — up with the pace of tasks moving to machines, down as income shifts to owners
+    who save more, up with deficits; policy — the desired rate delivered by the curve layer's
+    stepwise rule, with an effective lower bound; premia — term premium and sovereign loss from
+    debt above thresholds.
+  - **Deep automation at three speeds** (`code/macro_scenarios.py`, `figures/fig_macro_scenarios.png`;
+    capability 1 → 0.04): labour's share falls at the technology clock's speed (fast: 0.47 → 0.05
+    within six years); **the real wage in baskets first rises, then falls** (a peak near 2.43, then
+    1.2) — cheaper goods before site rent dominates the basket, the paper's two bounds in turn;
+    the fork is sharp — at medium speed shelter inflation peaks near +29% a year and goods near
+    −17% with the basket on target (the strict headline mandate's extreme); **the neutral rate goes
+    up, then down** (fast: 0.76 → 1.97 → −0.30%), the up-now-down-later path of the bank-side
+    thesis produced by the mechanism rather than assumed; the wage-tax share of revenue falls from
+    0.78 toward 0.2 and debt climbs (fast: to ~124% of income by year 15). A mandate that leaves
+    out shelter would want about −8% while goods deflate (B5); delivery stops at the lower bound.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -192,6 +231,19 @@ is right; in an extreme path the destination is what is wrong.
     link (the interbank basis moving with the sovereign spread) — a loading to add when the bank
     side needs it; and the spread over OIS itself, since public data gives spreads over Germany,
     which for non-euro countries mix policy and currency with credit.
+11. **The macro block's core is the SSRN Appendix B, solved quasi-statically** along a logistic
+    technology clock. Alternative: build lags and a capital stock (the old `dynamics/` engine's
+    ground) — the (b) unit adds the capital stock through the paper's own Appendix A.4 user cost.
+12. **Calibration (her call (a)):** four public targets hit exactly by `T`, `h`, `chi_max` and the
+    schedule's convexity `k`, with `g0` set to 0.02; machine-chain land labelled as scarce inputs
+    plus capital income, undivided, until (b).
+13. **Bridges are reduced forms with named coefficients** — the fiscal rule, the neutral-rate
+    channels, the premia. They are the behaviour the openness principle makes swappable, and the
+    dials a reverse stress test will turn; none is an estimate.
+14. **The nominal anchor is a basket held exactly on target**, which makes the fork's size visible
+    (and extreme on fast paths). Alternative mandates: goods-only (built, B5), flexible targets
+    that let the basket undershoot, currency defence, a yield cap. An effective lower bound of
+    −0.5% applies to delivery, not to the desired rate.
 
 ## Next
 
@@ -208,14 +260,16 @@ is right; in an extreme path the destination is what is wrong.
    d. **policy regimes** as alternatives to the rule — currency defence (E1), does not deliver,
       yield cap;
    e. **event-scale speed** — daily moves an order of magnitude beyond today's at the front.
-3. **The macro block** — the interior revision's Appendix B economy made dynamic: wage/rent
-   ratio, participation, the two price levels (machine-made goods vs the scarce basket), the
-   labor-tax base. It drives all of the above: the central bank's desired rate (its reaction to
-   the two prices and to unemployment), the destination (pushed up by capex demand and fiscal
-   strain, down by weak wage-financed demand), the term premium (fiscal capacity). Its drivers
-   are explored beyond the historical envelope by reverse stress testing.
-4. **Speed as volatility** — the regime-switching layer. **Euro** (the ECB's published AAA curve
-   parameters) as a further cycle.
+3. ~~**The macro block**~~ — **built 2026-09-24** (above), with the calibration of her call (a).
+4. **(b) Produced capital with an interest cost** — her call, next: the paper's Appendix A.4 user
+   cost (a machine's service priced at interest plus depreciation times its build cost) splits the
+   machine chains' 0.40 into capital income and scarcity rent, and makes the curve feed back into
+   the economy: a higher real rate makes machines dearer and slows automation. Nests Appendix B
+   at interest 0, depreciation 1.
+5. **Then:** alternative policy regimes (flexible target, currency defence, yield cap); the
+   recognition clock as a regime mixture driven by the macro path (the market's probability of the
+   new world rising as the labour share falls); reverse stress testing over the bridges' dials;
+   speed as volatility; euro (the ECB's published AAA curve parameters) as a further cycle.
 
 ## Siblings
 
@@ -268,3 +322,17 @@ the macro block lands.
    the Riksbank API's government benchmarks 2019–2026 and 1993–95. Finding: France's 10Y spread
    over Germany at +110 bp, its widest since at least 2019 on the latest day, widening from the
    back; the Netherlands and Finland tightening; Sweden 1994's spread curve lifted nearly level.
+6. **2026-09-24 — the macro block, calibration (a).** Her go. Found first that the repository's
+   `pinning/` Appendix B is older than the SSRN version she sent (different formulation, different
+   numbers; the SSRN's `check_interior.py` is not in the repository) — built on the SSRN version,
+   gated on its published figures. Calibration: the four first targets (labour 0.47, employment
+   0.60, 3 baskets a person, shelter a third of the basket) are jointly infeasible in the two-factor
+   benchmark — she asked why; answered with the accounting (non-wage income is all land rent;
+   Appendix B's space is pure site) and three options; her call: (a) now — the site part of shelter
+   (13%) as the target, machines up to 50x better on the easiest task, a convex schedule, the
+   machine chains' 0.40 labelled as scarce inputs plus capital income — then (b). Bugs caught on
+   the way: the owners'-saving channel entered r* with the wrong sign (fixed before any check ran);
+   the investment proxy first used machine-service quantity, which falls as machines improve
+   (replaced by the pace of tasks moving to machines); policy started off the 25 bp grid. Built
+   `code/macro.py`, `checks/check_macro.py` (14/14; first run 13/14 — a check that compared the
+   whole curve rather than its expected-path part with the policy rate), `code/macro_scenarios.py`.
