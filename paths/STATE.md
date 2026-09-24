@@ -799,4 +799,4 @@ the macro block lands.
     (11/11). Central case today's Swedish state support, her call; family-based support is the next variant. Bugs
     caught before any finding: debts that could not grow with income (the status quo drifted); temporary spending
     entered at a sixth of its size; a rigid-wage rule with elasticity 1 and no unwinding sent 70%+ out of work;
-    and three patch scripts whose first assertion failed silently left the file unchanged — edits made by hand.
+    and patch scripts that stopped at a text they could not match left the file unchanged — caught, redone by hand.
