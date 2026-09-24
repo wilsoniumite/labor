@@ -1,0 +1,429 @@
+{
+ "cross_section": {
+  "countries": 34,
+  "rich_countries": 25,
+  "rich_threshold_gdp_pc_ppp": 45000,
+  "single": {
+   "pub_ltc": {
+    "r2": 0.66,
+    "slope": 3.52,
+    "t": 10.8
+   },
+   "pub_health": {
+    "r2": 0.41,
+    "slope": 1.15,
+    "t": 4.2
+   },
+   "tot_health": {
+    "r2": 0.24,
+    "slope": 0.9,
+    "t": 3.4
+   },
+   "gdp_pc": {
+    "r2": 0.46,
+    "slope": 7.37,
+    "t": 4.0
+   },
+   "old65": {
+    "r2": 0.04,
+    "slope": 0.21,
+    "t": 1.4
+   }
+  },
+  "single_rich": {
+   "pub_ltc": {
+    "r2": 0.64,
+    "slope": 3.34,
+    "t": 6.5
+   },
+   "pub_health": {
+    "r2": 0.28,
+    "slope": 0.8,
+    "t": 3.1
+   },
+   "tot_health": {
+    "r2": 0.15,
+    "slope": 0.58,
+    "t": 2.7
+   },
+   "gdp_pc": {
+    "r2": 0.14,
+    "slope": 5.01,
+    "t": 1.4
+   },
+   "old65": {
+    "r2": 0.0,
+    "slope": -0.01,
+    "t": -0.1
+   }
+  },
+  "joint": {
+   "GDP": {
+    "public_ltc": {
+     "slope": 2.72,
+     "t": 5.4
+    },
+    "log_gdp_pc": {
+     "slope": 4.6,
+     "t": 2.9
+    },
+    "old65": {
+     "slope": 0.05,
+     "t": 0.5
+    },
+    "r2": 0.77,
+    "residual": {
+     "NOR": 3.22,
+     "DNK": 1.38,
+     "SWE": -2.94,
+     "FIN": 0.74,
+     "NLD": 0.58,
+     "USA": 2.83,
+     "DEU": 0.98
+    }
+   },
+   "Norway on mainland GDP": {
+    "public_ltc": {
+     "slope": 2.73,
+     "t": 6.3
+    },
+    "log_gdp_pc": {
+     "slope": 4.23,
+     "t": 2.7
+    },
+    "old65": {
+     "slope": 0.05,
+     "t": 0.6
+    },
+    "r2": 0.79,
+    "residual": {
+     "NOR": 1.02,
+     "DNK": 1.52,
+     "SWE": -2.85,
+     "FIN": 0.77,
+     "NLD": 0.73,
+     "USA": 3.06,
+     "DEU": 1.08
+    }
+   }
+  },
+  "norway_mainland_factor": {
+   "ltc_year": 2022,
+   "gdp_over_mainland": 1.536,
+   "mainland_over_gdp_2024": 0.779
+  },
+  "highest_public_ltc_pct_gdp": {
+   "NOR": 3.71,
+   "SWE": 3.43,
+   "DNK": 3.04,
+   "FIN": 2.9,
+   "NLD": 2.83,
+   "BEL": 2.14
+  }
+ },
+ "norway": {
+  "2010": {
+   "petroleum_cash_flow": 276.0,
+   "net_transfer_to_fund": 166.6,
+   "fund_to_budget": 109.4,
+   "gdp": 2660.2,
+   "mainland_gdp": 2125.5,
+   "fund_to_budget_pct_mainland_gdp": 5.14
+  },
+  "2011": {
+   "petroleum_cash_flow": 350.8,
+   "net_transfer_to_fund": 266.6,
+   "fund_to_budget": 84.2,
+   "gdp": 2874.4,
+   "mainland_gdp": 2216.3,
+   "fund_to_budget_pct_mainland_gdp": 3.8
+  },
+  "2012": {
+   "petroleum_cash_flow": 395.5,
+   "net_transfer_to_fund": 290.9,
+   "fund_to_budget": 104.6,
+   "gdp": 3054.7,
+   "mainland_gdp": 2358.4,
+   "fund_to_budget_pct_mainland_gdp": 4.43
+  },
+  "2013": {
+   "petroleum_cash_flow": 345.2,
+   "net_transfer_to_fund": 227.8,
+   "fund_to_budget": 117.3,
+   "gdp": 3173.3,
+   "mainland_gdp": 2493.2,
+   "fund_to_budget_pct_mainland_gdp": 4.71
+  },
+  "2014": {
+   "petroleum_cash_flow": 311.7,
+   "net_transfer_to_fund": 155.5,
+   "fund_to_budget": 156.2,
+   "gdp": 3250.6,
+   "mainland_gdp": 2613.7,
+   "fund_to_budget_pct_mainland_gdp": 5.97
+  },
+  "2015": {
+   "petroleum_cash_flow": 218.3,
+   "net_transfer_to_fund": 32.2,
+   "fund_to_budget": 186.1,
+   "gdp": 3231.1,
+   "mainland_gdp": 2707.0,
+   "fund_to_budget_pct_mainland_gdp": 6.87,
+   "public_health_and_ltc_nok_bn": 287.4,
+   "public_health_and_ltc_pct_mainland_gdp": 10.62,
+   "fund_to_budget_vs_public_health_and_ltc": 0.65
+  },
+  "2016": {
+   "petroleum_cash_flow": 124.8,
+   "net_transfer_to_fund": -87.7,
+   "fund_to_budget": 212.5,
+   "gdp": 3219.6,
+   "mainland_gdp": 2787.9,
+   "fund_to_budget_pct_mainland_gdp": 7.62,
+   "public_health_and_ltc_nok_bn": 298.4,
+   "public_health_and_ltc_pct_mainland_gdp": 10.7,
+   "fund_to_budget_vs_public_health_and_ltc": 0.71
+  },
+  "2017": {
+   "petroleum_cash_flow": 167.8,
+   "net_transfer_to_fund": -63.5,
+   "fund_to_budget": 231.4,
+   "gdp": 3438.3,
+   "mainland_gdp": 2904.1,
+   "fund_to_budget_pct_mainland_gdp": 7.97,
+   "public_health_and_ltc_nok_bn": 308.2,
+   "public_health_and_ltc_pct_mainland_gdp": 10.61,
+   "fund_to_budget_vs_public_health_and_ltc": 0.75
+  },
+  "2018": {
+   "petroleum_cash_flow": 251.0,
+   "net_transfer_to_fund": 25.4,
+   "fund_to_budget": 225.5,
+   "gdp": 3696.9,
+   "mainland_gdp": 3041.3,
+   "fund_to_budget_pct_mainland_gdp": 7.42,
+   "public_health_and_ltc_nok_bn": 324.9,
+   "public_health_and_ltc_pct_mainland_gdp": 10.68,
+   "fund_to_budget_vs_public_health_and_ltc": 0.69
+  },
+  "2019": {
+   "petroleum_cash_flow": 256.9,
+   "net_transfer_to_fund": 28.4,
+   "fund_to_budget": 228.6,
+   "gdp": 3733.4,
+   "mainland_gdp": 3193.8,
+   "fund_to_budget_pct_mainland_gdp": 7.16,
+   "public_health_and_ltc_nok_bn": 342.2,
+   "public_health_and_ltc_pct_mainland_gdp": 10.71,
+   "fund_to_budget_vs_public_health_and_ltc": 0.67
+  },
+  "2020": {
+   "petroleum_cash_flow": 106.8,
+   "net_transfer_to_fund": -310.6,
+   "fund_to_budget": 417.4,
+   "gdp": 3599.2,
+   "mainland_gdp": 3197.8,
+   "fund_to_budget_pct_mainland_gdp": 13.05,
+   "public_health_and_ltc_nok_bn": 359.2,
+   "public_health_and_ltc_pct_mainland_gdp": 11.23,
+   "fund_to_budget_vs_public_health_and_ltc": 1.16
+  },
+  "2021": {
+   "petroleum_cash_flow": 287.5,
+   "net_transfer_to_fund": -102.6,
+   "fund_to_budget": 390.1,
+   "gdp": 4480.5,
+   "mainland_gdp": 3458.1,
+   "fund_to_budget_pct_mainland_gdp": 11.28,
+   "public_health_and_ltc_nok_bn": 385.1,
+   "public_health_and_ltc_pct_mainland_gdp": 11.14,
+   "fund_to_budget_vs_public_health_and_ltc": 1.01
+  },
+  "2022": {
+   "petroleum_cash_flow": 1285.2,
+   "net_transfer_to_fund": 975.3,
+   "fund_to_budget": 309.9,
+   "gdp": 5935.0,
+   "mainland_gdp": 3864.9,
+   "fund_to_budget_pct_mainland_gdp": 8.02,
+   "public_health_and_ltc_nok_bn": 410.7,
+   "public_health_and_ltc_pct_mainland_gdp": 10.63,
+   "fund_to_budget_vs_public_health_and_ltc": 0.75
+  },
+  "2023": {
+   "petroleum_cash_flow": 978.1,
+   "net_transfer_to_fund": 691.8,
+   "fund_to_budget": 286.2,
+   "gdp": 5304.9,
+   "mainland_gdp": 4021.6,
+   "fund_to_budget_pct_mainland_gdp": 7.12,
+   "public_health_and_ltc_nok_bn": 408.6,
+   "public_health_and_ltc_pct_mainland_gdp": 10.16,
+   "fund_to_budget_vs_public_health_and_ltc": 0.7
+  },
+  "2024": {
+   "petroleum_cash_flow": 702.2,
+   "net_transfer_to_fund": 355.7,
+   "fund_to_budget": 346.5,
+   "gdp": 5382.4,
+   "mainland_gdp": 4191.8,
+   "fund_to_budget_pct_mainland_gdp": 8.26,
+   "public_health_and_ltc_nok_bn": 428.7,
+   "public_health_and_ltc_pct_mainland_gdp": 10.23,
+   "fund_to_budget_vs_public_health_and_ltc": 0.81
+  },
+  "2025": {
+   "petroleum_cash_flow": 664.0,
+   "net_transfer_to_fund": 183.8,
+   "fund_to_budget": 480.2,
+   "gdp": 5511.3,
+   "mainland_gdp": 4397.7,
+   "fund_to_budget_pct_mainland_gdp": 10.92,
+   "public_health_and_ltc_nok_bn": 440.8,
+   "public_health_and_ltc_pct_mainland_gdp": 10.02,
+   "fund_to_budget_vs_public_health_and_ltc": 1.09
+  }
+ },
+ "borrowing": {
+  "slopes": {
+   "OECD 2010-24": {
+    "long_rate": {
+     "bp_per_10_points_net_debt": 4.6,
+     "observations": 449,
+     "countries": 30
+    },
+    "long_less_short": {
+     "bp_per_10_points_net_debt": 7.0,
+     "observations": 449,
+     "countries": 30
+    }
+   },
+   "own central bank 2010-24": {
+    "long_rate": {
+     "bp_per_10_points_net_debt": 0.9,
+     "observations": 209,
+     "countries": 14
+    },
+    "long_less_short": {
+     "bp_per_10_points_net_debt": 1.8,
+     "observations": 209,
+     "countries": 14
+    }
+   },
+   "euro area 2010-24": {
+    "long_rate": {
+     "bp_per_10_points_net_debt": 14.8,
+     "observations": 240,
+     "countries": 16
+    },
+    "long_less_short": {
+     "bp_per_10_points_net_debt": 14.9,
+     "observations": 240,
+     "countries": 16
+    }
+   },
+   "euro area crisis 2010-13": {
+    "long_rate": {
+     "bp_per_10_points_net_debt": 29.8,
+     "observations": 64,
+     "countries": 16
+    },
+    "long_less_short": {
+     "bp_per_10_points_net_debt": 30.4,
+     "observations": 64,
+     "countries": 16
+    }
+   },
+   "euro area calm 2015-19": {
+    "long_rate": {
+     "bp_per_10_points_net_debt": 16.6,
+     "observations": 80,
+     "countries": 16
+    },
+    "long_less_short": {
+     "bp_per_10_points_net_debt": 16.6,
+     "observations": 80,
+     "countries": 16
+    }
+   }
+  },
+  "norway_net_financial_liabilities_pct_gdp": {
+   "2008": -121.7,
+   "2009": -150.7,
+   "2010": -159.5,
+   "2011": -154.9,
+   "2012": -164.2,
+   "2013": -200.5,
+   "2014": -240.0,
+   "2015": -274.0,
+   "2016": -279.4,
+   "2017": -295.2,
+   "2018": -268.5,
+   "2019": -315.1,
+   "2020": -349.3,
+   "2021": -327.1,
+   "2022": -253.5,
+   "2023": -343.9
+  },
+  "norway_gross_liabilities_pct_gdp": {
+   "2008": 53.6,
+   "2009": 47.7,
+   "2010": 48.0,
+   "2011": 33.7,
+   "2012": 35.0,
+   "2013": 35.4,
+   "2014": 33.9,
+   "2015": 39.0,
+   "2016": 42.9,
+   "2017": 43.0,
+   "2018": 43.8,
+   "2019": 44.8,
+   "2020": 51.2,
+   "2021": 46.3,
+   "2022": 40.7,
+   "2023": 49.1
+  },
+  "peers_2010_24_mean": {
+   "CHE": {
+    "GNFLQ": -5.05,
+    "GGFLQ": 42.85,
+    "term": 0.58
+   },
+   "DEU": {
+    "GNFLQ": 36.72,
+    "GGFLQ": 76.07,
+    "term": 0.49
+   },
+   "DNK": {
+    "GNFLQ": -3.65,
+    "GGFLQ": 55.14,
+    "term": 0.54
+   },
+   "ITA": {
+    "GNFLQ": 122.61,
+    "GGFLQ": 149.55,
+    "term": 2.46
+   },
+   "JPN": {
+    "GNFLQ": 113.56,
+    "GGFLQ": 212.5,
+    "term": 0.26
+   },
+   "NOR": {
+    "GNFLQ": -258.92,
+    "GGFLQ": 41.92,
+    "term": 0.31
+   },
+   "SWE": {
+    "GNFLQ": -31.42,
+    "GGFLQ": 50.73,
+    "term": 0.41
+   },
+   "USA": {
+    "GNFLQ": 83.25,
+    "GGFLQ": 110.94,
+    "term": 1.11
+   }
+  }
+ }
+}

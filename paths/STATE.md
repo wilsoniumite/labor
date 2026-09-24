@@ -612,6 +612,37 @@ is right; in an extreme path the destination is what is wrong.
     (correlation 0.61), but employer type is not financing (Dutch care is private and publicly paid; Swedish public
     employment is high and its care share middling). If financing sets the ceiling, then a fund or tax on the owners'
     AI income could raise it — within need and the gate, which money does not move.
+- **Is care's ceiling need or financing?** (her calls, 2026-09-24: test the financing link; "Norway also has their
+  sovereign wealth fund"; "even if they don't draw from the fund, the fund's existence may lower their borrowing
+  costs"; `code/financing.py`, `results/financing.json`, `figures/fig_financing.png`; `checks/check_financing.py`
+  10/10). Three questions, stated before fitting; data from the OECD health accounts and Economic Outlook, ILOSTAT,
+  the World Bank and Statistics Norway. Stated as found:
+  - **Financing, not need.** Across 34 OECD economies (Norway on mainland GDP), public spending on long-term care
+    goes with care's share of jobs (R² 0.66; 0.64 among the 25 richest); income less (0.46; 0.14 among the rich);
+    need — the share aged 65 and over — not at all (0.04; 0.00). Together: public long-term care t 6.3, income t 2.7,
+    age t 0.6, R² 0.79. Caveat, stated: spending and employment are partly the same thing (the spending pays the care
+    workers), so the fit is partly an identity; what the test establishes is the negative — two economies of the same
+    age employ very different amounts of care, and the difference is what the public purse commits (Japan, the oldest,
+    13.5% of jobs in care; Norway, younger than the OECD average, 20.1%).
+  - **Norway commits the most**: public long-term care 3.7% of mainland GDP, the highest in the OECD (Sweden 3.4,
+    Denmark 3.0); on mainland GDP it sits on the line (+1.0 point; on total GDP, which oil and gas inflate, it looked
+    3.2 points above). Sweden sits below it (-2.9: much spending, fewer care jobs).
+  - **The spending channel**: the fund's transfer into the state budget (the state's net petroleum cash flow less its
+    net transfer to the fund) was 7-11% of mainland GDP in 2019-25 — two-thirds of Norway's whole public health and
+    long-term care bill or more every year, above all of it in 2020, 2021 and 2025 (2025 health spending provisional).
+    Money is fungible: the fund finances the budget, not care as such; the point is its size. **In a crisis the fund
+    pays**: the transfer jumped to 13% of mainland GDP in 2020, the highest since 2010.
+  - **Her balance-sheet channel**: across the OECD in 2010-24 (year effects), a government's long rate rises 4.6 bp
+    per 10 points of net debt; without a central bank of its own (the euro area) 15 bp, 30 bp in the 2010-13 crisis
+    against 17 bp in calm 2015-19; with its own central bank under 1 bp. Norway is a net creditor of 1.5-3.5 times
+    GDP every year since 2012 while still borrowing (gross liabilities 35-51% of GDP). `[inferred]` So the fund's
+    value is not cheaper borrowing in calm years — every AAA state borrows at about the same — but that the price of
+    debt cannot bind in a crisis, which is what turns a bust into austerity in the crash model's eroding row.
+  - `[inferred]` What this means for the crash model: the ceiling (Norway's 20.1%) is the most care any society has
+    financed, not the most anyone needs. What finances care in a bust is the wage base (taxes and contributions on
+    labour income, which displacement shrinks), deficits (priced as above), or capital income routed to the state —
+    Norway's fund, or its analogue for AI rents. The paper's mechanism, applied: care paid for out of wages shrinks
+    with its own tax base exactly when displacement needs it to grow; care paid for out of capital income does not.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -952,3 +983,9 @@ the macro block lands.
     fitted parameters looked as if earlier rows had moved (they had not: all 48 identical with equal parameters); care's
     trend kept growing after the build-out hit the ceiling (fixed: one care level for both); and with a slow hiring
     rate (0.10) the unmeasured rate, not the measured limits, decided the result (set to 0.25, tested at 0.10 and 0.50).
+23. **2026-09-24 — is the ceiling need or financing?** Her calls: test the financing link; Norway's fund; the fund's
+    effect on borrowing costs. Built `code/financing.py` and `checks/check_financing.py` (10/10) on the OECD's health
+    accounts and Economic Outlook (public SDMX API; the health accounts sit at version 1.1, the default key returned
+    404), ILOSTAT for 37 OECD economies, the World Bank and Statistics Norway (10486, 11012, 09189); the IMF's API is
+    closed to this machine. Norway put on mainland GDP, stated and shown both ways. No statsmodels in the venv: plain
+    least squares with robust standard errors.
