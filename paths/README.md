@@ -32,6 +32,7 @@ from it is reproduced here.
 | `code/regime_digestion.py` | How slowly are regime judgements digested? Coibion–Gorodnichenko tests on survey (SPF) and market (Gürkaynak–Sack–Wright, net of Kim–Wright) forecasts, the long-run anchors, and the model's catch-up when AI is adopted. |
 | `code/bank.py` | A stylised bank on the paths (illustrative balance sheet, not any bank's): deposits that migrate and catch up, mortgage margins that lag, reserves, a securities ladder, house prices as capitalised site rent, wage-earning borrowers, commercial property. |
 | `code/bank_scenarios.py` | The bank on four paths — status quo, a pure tightening, and the paper's world with real rates rising or falling: where NII comes from, houses against wages, borrowers, commercial property, NII less credit losses. |
+| `code/export_paths.py` | The paths as a plain table for anyone to put their own book on: per scenario and quarter, the policy rate, zero rates 3M-10Y and the real wage bill (`results/paths_for_banks.csv`); apply the changes to your own curve. |
 | `code/reverse.py` | Reverse stress testing, part 1: the model's dials (technology path, bridges, capital premium, learning) over broad stated ranges; the run; rank correlations; the most plausible draw reaching a threshold. |
 | `code/reverse_envelope.py` | 4,000 Latin-hypercube draws: the envelope of curve and macro outcomes, what drives them, the most plausible routes to a ±100 bp 10Y move. |
 | `code/cycle.py` | A rate cycle driven through the three clocks: a lagged, stepwise central bank and a market that learns. |

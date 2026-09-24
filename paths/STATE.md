@@ -658,3 +658,11 @@ the macro block lands.
     year on). Checks 12/12 after two restatements: the house-price integral now exact per interval
     (it had been a right-endpoint sum, 0.2% off), and the refinancing check stated at the grid's
     ramp.
+13. **2026-09-24 — the paths exported for banks.** Her call: part 2 — a bank's own balance sheet on
+    these paths — runs on the bank's internal side, from first principles on its raw data. What
+    crosses from here is only public: `code/export_paths.py` writes `results/paths_for_banks.csv` —
+    per scenario and quarter over 25 years, the policy rate, the market's zero rates (3M to 10Y) and
+    the true world's real wage bill (real wage x participation, 1 at the start), for the status quo,
+    the pure tightening, deficits dominating, owners' saving dominating, and deficits dominating
+    with slow regime digestion then AI adoption. A user lays the changes on their own curve. Nothing
+    from the bank side is recorded here, by the wall.
