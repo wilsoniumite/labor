@@ -94,6 +94,16 @@ class Support:
     check_size: float = 0.0             # % of household disposable income a year, paid while the check runs
     check_quarters: int = 4
     check_trigger: float = 3.0          # checks start when unemployment is this many points above the start
+    private_cap: float = 1.0            # most that family and friends can give, share of the net wages of those in work
+
+
+# A family-based regime: the state replaces less, family and friends cover half of the rest — but a network can carry a
+# few people, not a mass exit, so what it gives is capped at a share of the net wages of those still in work; and the
+# supporters include households with mortgages and little cash, so they cut their own spending by more of each krona.
+# The lean replacement rates (0.40, then 0.25) stand roughly where the leanest OECD systems do against Sweden's
+# (approximate); the half, the 10% cap and the 0.6 are assumptions — there is no Swedish measure of private support.
+FAMILY = dict(name="family-based support", replacement_first=0.40, replacement_later=0.25, private=0.5, private_cap=0.10,
+              mpc_supporter=0.6)
 
 
 def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
@@ -108,7 +118,7 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
     fl, marg = s0["floating_share"], s0["mortgage_margin"]
     rec = {k: np.zeros(n) for k in ("P", "W", "employed", "out_new", "loss", "public_new", "private", "draw", "buffer",
                                     "debt", "ds", "ds_ref", "income", "mort_rate", "check", "d_out", "d_sup", "d_debt",
-                                    "d_check", "level", "deposits", "extra_job_loss")}
+                                    "d_check", "level", "deposits", "extra_job_loss", "covered", "burden", "cap_binds")}
     rec["P"][0] = rec["W"][0] = rec["employed"][0] = 1.0
     rec["debt"][0] = s0["debt"]
     rec["income"][0] = s0["disposable"]
@@ -147,7 +157,7 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
         first = cohorts[max(0, k - int(round(1 / dt)) + 1): k + 1].sum()
         public = net0 * rec["P"][k] * (sp.replacement_first * min(first, out_new) + sp.replacement_later * max(out_new - first, 0.0))
         uncovered = max(lost_wage - public, 0.0)
-        private = sp.private * uncovered
+        private = min(sp.private * uncovered, sp.private_cap * net0 * rec["W"][k] * emp)   # a network's capacity is finite
         # savings: each new exit brings buffer_months of net wage; draw a share of the remaining loss while they last
         rec["buffer"][k] = rec["buffer"][k - 1] + cohorts[k] * net_w * sp.buffer_months / 12
         need = uncovered - private
@@ -182,6 +192,9 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
         rec["d_check"][k] = (sp.mpc_check - sp.mpc_rep) * check / gdp_k * 100
         rec["level"][k] = rec["d_out"][k] + rec["d_sup"][k] + rec["d_debt"][k] + rec["d_check"][k]
         rec["public_new"][k], rec["private"][k], rec["draw"][k], rec["loss"][k] = public, private, draw, loss
+        rec["covered"][k] = (public + private + draw) / lost_wage * 100 if lost_wage > 1e-9 else 100.0        # % of the lost net wage
+        rec["burden"][k] = private / (net0 * rec["W"][k] * emp) * 100                                         # % of supporters' net wages
+        rec["cap_binds"][k] = float(sp.private * uncovered > sp.private_cap * net0 * rec["W"][k] * emp + 1e-9)
         # deposits beyond what income alone would hold (deposits_wages.py): savings drawn down by people out of work,
         # plus the checks not spent (cumulative, SEK bn)
         rec["deposits"][k] = rec["deposits"][k - 1] - draw * dt + (1 - sp.mpc_check) * check * dt
@@ -210,7 +223,9 @@ def summary(r: dict, horizon: float = 15.0) -> dict:
                                   "demand_level": at(h["level"]), "from_job_losers": at(h["d_out"]), "from_supporters": at(h["d_sup"]),
                                   "from_debt": at(h["d_debt"]), "from_checks": at(h["d_check"]),
                                   "debt_service_pct_income": at(r["dsr"]), "debt_over_income": at(r["dti"]),
-                                  "deposits_drawn_or_added_pct": at(r["deposit_change_pct"]), "support_cost_pct_gdp": at(r["support_cost_pct_gdp"])}}
+                                  "deposits_drawn_or_added_pct": at(r["deposit_change_pct"]), "support_cost_pct_gdp": at(r["support_cost_pct_gdp"]),
+                                  "lost_wage_covered_pct": at(h["covered"]), "supporters_burden_pct": at(h["burden"])},
+            "years_network_cap_binds": round(float(h["cap_binds"][w].sum() * (t[1] - t[0])), 2)}
 
 
 def main():
@@ -223,7 +238,11 @@ def main():
                 "rigid money wages": replace(central, rigid_wages=True),
                 "emergency checks (4% of income for a year)": replace(central, check_size=4.0),
                 "rigid wages and checks": replace(central, rigid_wages=True, check_size=4.0),
-                "no private support": replace(central, private=0.0)}
+                "no private support": replace(central, private=0.0),
+                "family-based support": replace(central, **FAMILY),
+                "family-based, no cap on what networks give": replace(central, **(FAMILY | {"private_cap": 1.0})),
+                "family-based, rigid money wages": replace(central, **FAMILY, rigid_wages=True),
+                "family-based, with emergency checks": replace(central, **FAMILY, check_size=4.0)}
     out = {"sweden_start": s0, "support": central.__dict__, "scenarios": {}}
     runs = {}
     for name, mp in worlds.items():
@@ -248,8 +267,9 @@ def figure(runs):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     plt.rcParams["axes.titlesize"] = 10
-    fig, ax = plt.subplots(2, 3, figsize=(16, 8.6), layout="constrained")
+    fig, ax = plt.subplots(2, 4, figsize=(20, 8.8), layout="constrained")
     fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
+    FAM = "family-based support"
     for row, name in enumerate(("deficits dominate", "owners' saving dominates")):
         r = runs[(name, "central")]
         t, h = r["t"], r["households"]
@@ -257,25 +277,32 @@ def figure(runs):
         a = ax[row, 0]
         for key, lab, c in (("d_out", "people who lose work", "C3"), ("d_sup", "their supporters", "C1"), ("d_debt", "borrowers' debt service", "C0")):
             a.plot(t[w], h[key][w], color=c, lw=1.6, label=lab)
-        a.plot(t[w], h["level"][w], color="k", lw=2.0, label="total")
+        a.plot(t[w], h["level"][w], color="k", lw=2.0, label="total, state support")
+        a.plot(t[w], runs[(name, FAM)]["households"]["level"][w], color="k", lw=1.6, ls="--", label="total, family-based support")
         a.axhline(0, color="grey", lw=0.8)
-        a.set_title(f"{name}, today's Swedish state support:\nextra demand from constrained households, % of GDP"); a.legend(fontsize=7.5)
+        a.set_title(f"{name}:\nextra demand from constrained households, % of GDP"); a.legend(fontsize=7.5)
         a = ax[row, 1]
-        for vn, st in (("central", "-"), ("rigid money wages", "--"), ("emergency checks (4% of income for a year)", ":")):
-            a.plot(t[w], runs[(name, vn)]["gap"][w], ls=st, color="C2", label=vn)
+        for vn, c, st in (("central", "C2", "-"), (FAM, "C4", "-"), ("rigid money wages", "C2", "--"), ("family-based, rigid money wages", "C4", "--")):
+            a.plot(t[w], runs[(name, vn)]["gap"][w], ls=st, color=c, label={"central": "state support", "rigid money wages": "state support, rigid money wages"}.get(vn, vn))
         a.axhline(0, color="grey", lw=0.8)
-        a.set_title(f"{name}: output against capacity, %"); a.legend(fontsize=7.5)
+        a.set_title(f"{name}: output against capacity, %\nwho carries people out of work, and whether money wages can fall"); a.legend(fontsize=7.5)
         a = ax[row, 2]
-        a.plot(t[w], r["dsr"][w], color="C0", lw=1.6, label="debt service, % of income (flexible wages)")
-        a.plot(t[w], runs[(name, "rigid money wages")]["dsr"][w], color="C0", ls="--", lw=1.4, label="debt service, rigid wages")
+        for vn, c in (("central", "C2"), (FAM, "C4")):
+            hv = runs[(name, vn)]["households"]
+            a.plot(t[w], np.where(t[w] >= 7, hv["covered"][w], np.nan), color=c, lw=1.6, label=f"lost net wage covered, % ({ {'central': 'state'}.get(vn, 'family') })")
+            a.plot(t[w], hv["burden"][w] * 5, color=c, lw=1.2, ls=":", label=f"supporters' burden x5, % of their net wages ({ {'central': 'state'}.get(vn, 'family') })")
+        a.set_title(f"{name}: who carries it\n(the network's cap: 10% of supporters' net wages = 50 on this scale)"); a.legend(fontsize=7)
+        a = ax[row, 3]
+        a.plot(t[w], r["dsr"][w], color="C0", lw=1.6, label="debt service, % of borrowers' income (state)")
+        a.plot(t[w], runs[(name, FAM)]["dsr"][w], color="C0", ls="--", lw=1.4, label="debt service (family)")
         a.plot(t[w], r["unemployment_up_total"][w], color="C3", lw=1.6, label="out of work since the start, % of employment")
-        a.plot(t[w], runs[(name, "rigid money wages")]["unemployment_up_total"][w], color="C3", ls="--", lw=1.4, label="out of work, rigid wages")
+        a.plot(t[w], runs[(name, "rigid money wages")]["unemployment_up_total"][w], color="C3", ls="--", lw=1.4, label="out of work, rigid money wages")
         a.set_title(f"{name}: debt service and people out of work"); a.legend(fontsize=7.5)
     for a in ax.flat:
         a.set_xlabel("years")
-    fig.text(0.01, 0.005, "households.py on the demand layer and the macro block's worlds. Swedish household debt, fixation, margins, deposits and GDP from Statistics Sweden; replacement rates and spending shares approximate (see the header).", fontsize=7.5)
+    fig.text(0.01, 0.005, "households.py on the demand layer and the macro block's worlds. Swedish household debt, fixation, margins, deposits and GDP from Statistics Sweden; replacement rates, private support and spending shares approximate or assumed (see the header).", fontsize=7.5)
     os.makedirs(os.path.join(ROOT, "figures"), exist_ok=True)
-    fig.savefig(os.path.join(ROOT, "figures", "fig_households.png"), dpi=130)
+    fig.savefig(os.path.join(ROOT, "figures", "fig_households.png"), dpi=120)
 
 
 if __name__ == "__main__":

@@ -491,6 +491,16 @@ is right; in an extreme path the destination is what is wrong.
     points while paid and leave nothing after.
   - Disclosed artefact: with flexible money wages falling 40%+, price-indexed benefits exceed the lost wages, so the
     job losers' drag fades late in the owners'-saving run; the rigid-wage variant does not have it.
+  - **Family-based support** (her next call, same day; lean state support 0.40 then 0.25 of the net wage, family and
+    friends covering half the rest, capped at 10% of supporters' net wages, supporters spending 0.6 of a krona —
+    all assumed or approximate, no Swedish measure of private support; checks 18/18 with this block). Leaning on
+    families halves the state's bill (0.8 against 1.5% of GDP at year 12, deficits dominate) and costs demand:
+    the constrained households' drag rises from 0.4 to 0.9% of GDP; when owners' saving dominates the gap deepens
+    from -1.2 to -1.6% and the floor binds 1.75 years instead of 0.75. **Networks run out**: the cap binds for
+    2-3.5 years in the deep phase and only 70-75% of the lost wage is covered by year 15, against 92% under state
+    support. The cap moves who bears the loss (the job loser rather than the supporter) more than it moves demand.
+    **The tail is families plus rigid money wages**: gap -4.5% (2009-sized), inflation 1.3%, 3.5 years at the
+    floor, a third of the lost wage covered by year 15 — the deepest run of all.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -800,3 +810,8 @@ the macro block lands.
     caught before any finding: debts that could not grow with income (the status quo drifted); temporary spending
     entered at a sixth of its size; a rigid-wage rule with elasticity 1 and no unwinding sent 70%+ out of work;
     and patch scripts that stopped at a text they could not match left the file unchanged — caught, redone by hand.
+19. **2026-09-24 — family-based support.** Her call after the state-support central case. Added to `households.py`
+    as a regime (`FAMILY`) with a finite network capacity — the one feature beyond the dials, because a network can
+    carry a few people but not a mass exit — and variants without the cap, with rigid wages, with checks. Checks
+    now 18/18; the tail check was first written claiming "longest at the floor" without testing it, fixed to test
+    it. The figure's title strings broke once more on a heredoc escape, repaired in place.

@@ -82,6 +82,26 @@ np_ = S["deficits dominate | no private support"]["y5_y8_y10_y12_y15"]["demand_l
 check("F6 under today's Swedish state support, family and friends change little (the demand level within 0.05% of GDP without them)",
       abs(np_ - dd["demand_level"][2]) < 0.05, f"{np_} against {dd['demand_level'][2]}")
 
+print("G — family-based support against today's Swedish state support")
+for name in ("deficits dominate", "owners' saving dominates"):
+    st, fa = S[f"{name} | central"], S[f"{name} | family-based support"]
+    ys, yf = st["y5_y8_y10_y12_y15"], fa["y5_y8_y10_y12_y15"]
+    check(f"G1 {name}: leaning on families costs demand — a larger drag from constrained households at year 12 and a lower gap trough, for a smaller state bill",
+          yf["demand_level"][3] < ys["demand_level"][3] - 0.2 and fa["gap_min_max"][0] <= st["gap_min_max"][0] and yf["support_cost_pct_gdp"][3] < ys["support_cost_pct_gdp"][3],
+          f"drag {yf['demand_level'][3]} against {ys['demand_level'][3]}; state cost {yf['support_cost_pct_gdp'][3]} against {ys['support_cost_pct_gdp'][3]} % of GDP")
+    check(f"G2 {name}: networks run out — the cap on what family and friends give binds in the deep phase, and less of the lost wage is covered by year 15",
+          fa["years_network_cap_binds"] > 0 and yf["lost_wage_covered_pct"][4] < 80 and yf["supporters_burden_pct"][4] >= 9.99,
+          f"cap binds {fa['years_network_cap_binds']} years; covered {yf['lost_wage_covered_pct']}")
+    nc = S[f"{name} | family-based, no cap on what networks give"]["y5_y8_y10_y12_y15"]
+    check(f"G3 {name}: the cap moves who bears the loss more than it moves demand (the drag within 0.05% of GDP without it)",
+          abs(nc["demand_level"][4] - yf["demand_level"][4]) < 0.05 and nc["lost_wage_covered_pct"][4] > yf["lost_wage_covered_pct"][4],
+          f"drag {nc['demand_level'][4]} against {yf['demand_level'][4]}; covered {nc['lost_wage_covered_pct'][4]} against {yf['lost_wage_covered_pct'][4]}")
+tail = S["owners' saving dominates | family-based, rigid money wages"]
+check("G4 the tail is family-based support with rigid money wages: the deepest downturn of every run, 2009-sized, and the longest at the floor",
+      tail["gap_min_max"][0] == min(v["gap_min_max"][0] for k, v in S.items() if "gap_min_max" in v) and tail["gap_min_max"][0] < -4.0
+      and tail["years_at_floor"] == max(v["years_at_floor"] for k, v in S.items() if "years_at_floor" in v),
+      f"gap {tail['gap_min_max'][0]}, {tail['years_at_floor']} years at the floor")
+
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
 sys.exit(0 if n_ok == len(RESULTS) else 1)
