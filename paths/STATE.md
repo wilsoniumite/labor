@@ -702,6 +702,41 @@ is right; in an extreme path the destination is what is wrong.
     fires the triggers either way.
   - The synthesis page ("After the Wage") revised on her call (2026-09-25): people out of work in place of unemployment,
     output without work added as a finding, plain wording throughout (her rule for outside readers).
+  - **Corrected (log 27):** the 94% exit share is an endpoint measure from the employment peak, and the fall it measures
+    came in one month: prime-age participation held 83.0-84.0% from 2023 to May 2026 and fell 0.6 points in June 2026.
+    From other bases it is 0.59 (the 2024 average) or 0.18 (the 2023-24 average); on trends since 2024 participation is
+    not falling and the exit share is negative — the displaced, if any, show up as unemployment. The crash model still
+    carries 0.94 (decision 21).
+- **The pace against what has been seen** (her question, 2026-09-25: is the model calibrated to the participation, output
+  and hours changes already seen?; then her call to open it as a unit. `code/pace.py`, `results/pace.json`,
+  `figures/fig_pace.png`, `checks/check_pace.py` 8/8; no change to `global_crash.py`). Before this unit the US exit share
+  and the build-out were measured; the pace — `drift`, a point of the labour force a year — was the paper's, set by hand.
+  Stated as found (September 2024 to August 2026, prime-age rates; endpoints on 3-month averages, trends by least squares
+  with Newey-West errors):
+  - **The trends show little yet.** Non-employment +0.05 ± 0.09 points of the labour force a year since the peak (+0.10
+    ± 0.05 since January 2024); prime-age unemployment +0.17 ± 0.05 a year, significant; exits −0.11 ± 0.12 a year
+    (participation not falling). The endpoint from the peak (+0.68, of which 0.64 exits) rests on June 2026 (A1-A3).
+  - **The paper's pace runs far ahead of it.** Over the window the model at the paper's pace (today's rules, no bust,
+    robotics not arrived, care at its trend) raises US non-employment 2.3 points (1.0 exits, 1.3 unemployment; the gap
+    −1.6). The trend's upper bound allows 0.15 of the paper's pace, the endpoint 0.29, the trend itself none (A4). All of
+    the observed change is attributed to displacement, so each is an upper bound on AI's.
+  - **The bust carries the danger, not the pace seen so far.** At 0.15 of the paper's pace a dot-com-sized bust under
+    today's rules still takes US out of work to 16.2% (23.5% at the paper's pace), and to 46.7% when the rules erode
+    (50%); displacement without a bust to 6.8% (15.5%) (A5).
+  - **The spending loop is not identified here.** Across the paces the data allow, the model's gap accounts for a quarter
+    to just over half of the CBO gap's fall (−0.7, from an overheated +1.5); the rest may be that unwinding (A6). An
+    endpoint fit tried first matched the exits and the gap with 0.71 of the paper's pace and 43% of the lost-pay spending
+    cut left unoffset; dropped, since it rested on June 2026.
+  - **Two sensitivities (her questions).** Care hired 0.39 points of the labour force a year over the window, twice the
+    model's trend (0.20). Counting all of the excess as displaced people it took in — an upper bound, since care hires
+    mostly women and new entrants — raises the paces the data allow to 0.35 (the trend's upper bound) and 0.47 (the
+    endpoint): still under half the paper's. Counting all care hiring as non-employment would double count real jobs the
+    model already hires at its trend. The build-out's own jobs are too few to matter: all of construction's gain is 0.06
+    points of the labour force, and manufacturing lost 0.07 (A8).
+  - `[inferred]` The model's central runs describe what the paper's pace would do, not what has been seen. The data do not
+    refute the mechanism — the macro block's own paths hold participation up in the early years, while the real wage
+    rises first — they bound the pace so far. What would move the bound: participation staying down after June (two
+    more quarters), or non-employment's trend clearing two standard errors.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -782,6 +817,19 @@ is right; in an extreme path the destination is what is wrong.
     lognormal borrowers and property companies; stylised default and loss mappings). The bank's own
     balance sheet and behaviours go on the internal side. Next candidates here: volumes (lending
     falls with affordability, deposits move), the buyer base shifting to owners, capital.
+20. **The pace stays the paper's, a forward assumption, stated as such** (`pace.py`). The data since 2024 bound the pace
+    so far at 0.15 of it (0.29 on the fragile endpoint). Alternatives: the measured bound as central (the central runs
+    turn mild: a bust under today's rules takes 16% out of work); a pace that starts slow and rises on the macro block's
+    logistic clock (consistent with the data and the mechanism, at the cost of structure). Recommended: keep the paper's
+    pace central, quote the measured bound beside it wherever central numbers are quoted (the website too), and build the
+    logistic pace as the next unit if she wants the central runs anchored to what has been seen.
+21. **The exit share is not identified** (`pace.py`, A3). The crash model's 0.94 is the endpoint from the peak and rests
+    on June 2026; other bases give 0.59 and 0.18; trends give none. Proposed: 0.36, the measured 2000-03 episode (a
+    displacement shock inside a recession), with 0.94 and 0.12 as the range, until participation has stayed down two more
+    quarters. It moves the split between unemployment and exits and when unemployment-keyed triggers fire, not the share
+    out of work, which counts both. Alternative: keep 0.94, flagged.
+22. **The spending loop stays as fitted on 1929-33 and 2008-10** (`pace.py`, A6): the window cannot separate it from the
+    unwinding of an overheated start. No offset parameter added.
 
 ## Next
 
@@ -817,6 +865,9 @@ is right; in an extreme path the destination is what is wrong.
    2026-09-24** (above): regime judgements digest over years. Open: a proper post-FOMC drift test
    needs surprise measures not on FRED; Swedish counterparts (Riksbank forward guidance against
    realized policy, Prospera surveys) if the public data allow.
+10. **The pace, anchored** (decisions 20-21): a displacement pace that starts slow and rises on the macro block's
+    logistic clock, fitted to stay within what has been seen; the exit share rechecked after two more quarters of
+    participation data (and `decoupling.py`'s D6 restated on trends).
 
 ## Siblings
 
@@ -1068,3 +1119,12 @@ the macro block lands.
     from unemployment to non-employment and were restated as found. Watcher: the labour-share rule as first written fired
     14 times since 1990 (a long decline sets new lows often) and the participation rule missed today (a 12-month window
     on a 23-month slide); both redefined on the replay; participation kept out of crash.joint (it added a 2011 false alarm).
+27. **2026-09-25 — the pace against what has been seen.** Her question (is the model calibrated to the participation,
+    output and hours changes already seen?), then her call to open it as a unit. Built `code/pace.py` and
+    `checks/check_pace.py` (8/8); `check_global_crash.py` 43/43 and `check_decoupling.py` 6/6 unchanged; no change to the
+    model. Caught before findings: the first version fitted the pace to the exits at the window's endpoint (0.71 of the
+    paper's) and a spending offset to the gap (43%); its figure showed the endpoint resting on June 2026 (participation
+    −0.6 in a month after two flat years), so the unit was rebuilt on trends with robust errors and the offset dropped
+    (the parameter added to `global_crash.py` for it was reverted, unused). Check A6 first claimed the loop explains under
+    half of the gap's fall at the upper-bound pace; it is 55%, restated. Mid-unit, her questions on adjusting for care and
+    for the build-out's jobs: added as sensitivities (A8), not corrections. Corrects log 26's reading of the exit share.

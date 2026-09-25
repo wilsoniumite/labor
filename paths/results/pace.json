@@ -1,0 +1,261 @@
+{
+ "observed": {
+  "window": "2024-09 to 2026-08",
+  "years": 1.91,
+  "endpoints_from": {
+   "the peak (3-month average)": {
+    "non_employment_lf_pts": 0.68,
+    "exits_lf_pts": 0.64,
+    "exit_share": 0.94
+   },
+   "2024 average": {
+    "non_employment_lf_pts": 0.46,
+    "exits_lf_pts": 0.27,
+    "exit_share": 0.59
+   },
+   "2023-24 average": {
+    "non_employment_lf_pts": 0.44,
+    "exits_lf_pts": 0.08,
+    "exit_share": 0.18
+   }
+  },
+  "trends": {
+   "since the peak": {
+    "non_employment": {
+     "pts_a_year": 0.05,
+     "se": 0.085
+    },
+    "exits": {
+     "pts_a_year": -0.106,
+     "se": 0.124
+    },
+    "unemployment": {
+     "pts_a_year": 0.166,
+     "se": 0.046
+    },
+    "exit_share": -2.12
+   },
+   "since January 2024": {
+    "non_employment": {
+     "pts_a_year": 0.095,
+     "se": 0.054
+    },
+    "exits": {
+     "pts_a_year": -0.061,
+     "se": 0.089
+    },
+    "unemployment": {
+     "pts_a_year": 0.181,
+     "se": 0.039
+    },
+    "exit_share": -0.64
+   }
+  },
+  "prime_age_participation_range_2023_to_may_2026": [
+   83.0,
+   84.0
+  ],
+  "prime_age_participation_june_2026_change": -0.6,
+  "unemployment_rate_all_ages": [
+   4.1,
+   4.1
+  ],
+  "cbo_output_gap": {
+   "from": [
+    "2024-07",
+    1.52
+   ],
+   "to": [
+    "2026-04",
+    0.83
+   ]
+  }
+ },
+ "non_employment_targets_lf_pts": {
+  "trend": 0.1,
+  "trend + 2 s.e.": 0.42,
+  "endpoint": 0.68
+ },
+ "paces": {
+  "multiples_of_the_papers": {
+   "trend": 0.0,
+   "trend + 2 s.e.": 0.147,
+   "endpoint": 0.29
+  },
+  "us_drift_papers_pts_a_year": 1.0,
+  "note": "the multiple of the paper's pace at which the model's own US non-employment over the window (today's rules, no bust, robotics not arrived, care at its trend, the exit share as stored) matches each measure of the data; all of the observed change attributed to displacement, so each is an upper bound on AI's"
+ },
+ "window_model_at_the_papers_pace": {
+  "non_employment_lf_pts": 2.3,
+  "exits_lf_pts": 1.0,
+  "unemployment_change": 1.3,
+  "output_gap_change": -1.59
+ },
+ "window_model_at_each_pace": {
+  "trend": {
+   "non_employment_lf_pts": 0.15,
+   "exits_lf_pts": 0.01,
+   "unemployment_change": 0.15,
+   "output_gap_change": -0.18
+  },
+  "trend + 2 s.e.": {
+   "non_employment_lf_pts": 0.42,
+   "exits_lf_pts": 0.1,
+   "unemployment_change": 0.32,
+   "output_gap_change": -0.39
+  },
+  "endpoint": {
+   "non_employment_lf_pts": 0.68,
+   "exits_lf_pts": 0.2,
+   "unemployment_change": 0.48,
+   "output_gap_change": -0.6
+  }
+ },
+ "loop": {
+  "note": "not identifiable on this window: at the paces the trends allow, the model's own output gap barely moves, while the CBO gap fell from an overheated start; the fall is other forces"
+ },
+ "sensitivity": {
+  "care": {
+   "added_lf_pts": 0.74,
+   "added_lf_pts_a_year": 0.39,
+   "model_trend_pts_a_year": 0.198,
+   "above_trend_pts_a_year": 0.19,
+   "targets_with_above_trend_care_lf_pts": {
+    "trend": 0.46,
+    "trend + 2 s.e.": 0.79,
+    "endpoint": 1.05
+   },
+   "paces_with_above_trend_care": {
+    "trend": 0.17,
+    "trend + 2 s.e.": 0.348,
+    "endpoint": 0.472
+   },
+   "note": "an upper bound on what care hides: the hiring above its trend counted as displaced people it took in"
+  },
+  "build_out": {
+   "construction_added_lf_pts": 0.062,
+   "manufacturing_added_lf_pts": -0.071,
+   "note": "all of construction's gain counted as data centres (an upper bound); against manufacturing's change"
+  }
+ },
+ "rows": {
+  "papers_pace": {
+   "modern rules | bust + displacement": {
+    "us_out_of_work_peak": 23.5,
+    "us_unemployment_at_peak": 14.7,
+    "year4_us_gap_min": -9.38,
+    "year4_four_gap_min": -6.96
+   },
+   "rules expand under pressure | bust + displacement": {
+    "us_out_of_work_peak": 17.4,
+    "us_unemployment_at_peak": 9.9,
+    "year4_us_gap_min": -6.66,
+    "year4_four_gap_min": -5.68
+   },
+   "rules erode under pressure | bust + displacement": {
+    "us_out_of_work_peak": 50.0,
+    "us_unemployment_at_peak": 33.5,
+    "year4_us_gap_min": -29.14,
+    "year4_four_gap_min": -23.32
+   },
+   "modern rules | displacement without a bust": {
+    "us_out_of_work_peak": 15.5,
+    "us_unemployment_at_peak": 10.1,
+    "year4_us_gap_min": -2.58,
+    "year4_four_gap_min": -2.47
+   }
+  },
+  "pace: trend": {
+   "modern rules | bust + displacement": {
+    "us_out_of_work_peak": 14.9,
+    "us_unemployment_at_peak": 11.8,
+    "year4_us_gap_min": -7.48,
+    "year4_four_gap_min": -5.82
+   },
+   "rules expand under pressure | bust + displacement": {
+    "us_out_of_work_peak": 12.0,
+    "us_unemployment_at_peak": 9.2,
+    "year4_us_gap_min": -6.32,
+    "year4_four_gap_min": -5.28
+   },
+   "rules erode under pressure | bust + displacement": {
+    "us_out_of_work_peak": 45.0,
+    "us_unemployment_at_peak": 32.2,
+    "year4_us_gap_min": -23.6,
+    "year4_four_gap_min": -18.51
+   },
+   "modern rules | displacement without a bust": {
+    "us_out_of_work_peak": 4.7,
+    "us_unemployment_at_peak": 4.7,
+    "year4_us_gap_min": -0.32,
+    "year4_four_gap_min": -0.31
+   }
+  },
+  "pace: trend + 2 s.e.": {
+   "modern rules | bust + displacement": {
+    "us_out_of_work_peak": 16.2,
+    "us_unemployment_at_peak": 12.2,
+    "year4_us_gap_min": -7.82,
+    "year4_four_gap_min": -6.12
+   },
+   "rules expand under pressure | bust + displacement": {
+    "us_out_of_work_peak": 12.8,
+    "us_unemployment_at_peak": 9.4,
+    "year4_us_gap_min": -6.41,
+    "year4_four_gap_min": -5.43
+   },
+   "rules erode under pressure | bust + displacement": {
+    "us_out_of_work_peak": 46.7,
+    "us_unemployment_at_peak": 32.9,
+    "year4_us_gap_min": -24.74,
+    "year4_four_gap_min": -19.36
+   },
+   "modern rules | displacement without a bust": {
+    "us_out_of_work_peak": 6.8,
+    "us_unemployment_at_peak": 6.2,
+    "year4_us_gap_min": -1.18,
+    "year4_four_gap_min": -0.95
+   }
+  },
+  "pace: endpoint": {
+   "modern rules | bust + displacement": {
+    "us_out_of_work_peak": 17.5,
+    "us_unemployment_at_peak": 12.7,
+    "year4_us_gap_min": -8.13,
+    "year4_four_gap_min": -6.11
+   },
+   "rules expand under pressure | bust + displacement": {
+    "us_out_of_work_peak": 13.6,
+    "us_unemployment_at_peak": 9.5,
+    "year4_us_gap_min": -6.48,
+    "year4_four_gap_min": -5.53
+   },
+   "rules erode under pressure | bust + displacement": {
+    "us_out_of_work_peak": 48.3,
+    "us_unemployment_at_peak": 33.5,
+    "year4_us_gap_min": -25.84,
+    "year4_four_gap_min": -20.18
+   },
+   "modern rules | displacement without a bust": {
+    "us_out_of_work_peak": 7.1,
+    "us_unemployment_at_peak": 6.3,
+    "year4_us_gap_min": -2.01,
+    "year4_four_gap_min": -1.56
+   }
+  }
+ },
+ "reproduces_stored": {
+  "gap_min": [
+   -2.66,
+   -2.66
+  ],
+  "unemployment_max": [
+   6.35,
+   6.35
+  ],
+  "not_working_rise_max": [
+   6.18,
+   6.18
+  ]
+ }
+}
