@@ -1,0 +1,244 @@
+{
+ "output_and_work": {
+  "latest": "2026-04",
+  "four_quarters": {
+   "output_pct": 2.48,
+   "hours_pct": 0.23,
+   "output_per_hour_pct": 2.24
+  },
+  "windows": {
+   "2015-01 to 2019-10": {
+    "output_pct_a_year": 2.91,
+    "hours_pct_a_year": 1.33,
+    "output_per_hour_pct_a_year": 1.56,
+    "labour_share_change_pts": -0.1
+   },
+   "2019-10 to 2026-04": {
+    "output_pct_a_year": 2.51,
+    "hours_pct_a_year": 0.43,
+    "output_per_hour_pct_a_year": 2.06,
+    "labour_share_change_pts": -6.1
+   },
+   "2023-04 to 2026-04": {
+    "output_pct_a_year": 2.75,
+    "hours_pct_a_year": 0.23,
+    "output_per_hour_pct_a_year": 2.51,
+    "labour_share_change_pts": -3.3
+   }
+  },
+  "labour_share": {
+   "index_2017_100": 93.4,
+   "lowest_since": "1947-01",
+   "is_record_low": true,
+   "previous_record_low": 94.8,
+   "four_quarter_change": -3.3,
+   "larger_four_quarter_falls_since_1990": {
+    "2009-10": -5.1,
+    "2002-01": -4.9,
+    "2021-04": -3.8,
+    "2009-01": -3.7,
+    "2013-10": -3.6
+   }
+  }
+ },
+ "nowcast": {
+  "gdpnow_current_quarter": {
+   "quarter": "2026-07",
+   "pct_saar": 5.1
+  },
+  "gdp_growth_last_8_quarters_pct_saar": {
+   "2024-07": 3.3,
+   "2024-10": 1.9,
+   "2025-01": -0.6,
+   "2025-04": 3.8,
+   "2025-07": 4.4,
+   "2025-10": 0.5,
+   "2026-01": 2.1,
+   "2026-04": 1.5
+  },
+  "gdpnow_error": {
+   "quarters": 60,
+   "mean": -0.2,
+   "mean_abs": 1.36,
+   "mean_abs_excluding_2020": 1.23,
+   "largest_recent_miss": {
+    "2025-10": 3.7
+   }
+  }
+ },
+ "manufacturing": {
+  "latest": "2026-08",
+  "changes_pct": {
+   "12 months": {
+    "all manufacturing": 1.0,
+    "semiconductors": 12.4,
+    "computers and electronics": 8.7,
+    "electrical equipment": 5.5,
+    "electric power generation": 7.0,
+    "manufacturing jobs": 0.2
+   },
+   "24 months": {
+    "all manufacturing": 2.6,
+    "semiconductors": 27.8,
+    "computers and electronics": 15.8,
+    "electrical equipment": -0.3,
+    "electric power generation": 6.6,
+    "manufacturing jobs": -1.0
+   },
+   "since 2019-12": {
+    "all manufacturing": 0.1,
+    "semiconductors": 68.8,
+    "computers and electronics": 28.3,
+    "electrical equipment": 1.1,
+    "electric power generation": 11.3,
+    "manufacturing jobs": -1.0
+   }
+  }
+ },
+ "ai_build_out": {
+  "latest": "2026-04",
+  "pct_gdp_latest": {
+   "information processing equipment": 5.74,
+   "software": 2.51,
+   "power and communication structures": 0.54,
+   "less: imports of computers, peripherals and parts": -1.81,
+   "net": 6.98
+  },
+  "pct_gdp_by_year": {
+   "2015": {
+    "information processing equipment": 6.25,
+    "software": 1.73,
+    "power and communication structures": 0.66,
+    "less: imports of computers, peripherals and parts": -0.66,
+    "net": 7.99
+   },
+   "2016": {
+    "information processing equipment": 5.96,
+    "software": 1.85,
+    "power and communication structures": 0.66,
+    "less: imports of computers, peripherals and parts": -0.61,
+    "net": 7.86
+   },
+   "2017": {
+    "information processing equipment": 5.91,
+    "software": 1.95,
+    "power and communication structures": 0.58,
+    "less: imports of computers, peripherals and parts": -0.65,
+    "net": 7.79
+   },
+   "2018": {
+    "information processing equipment": 5.94,
+    "software": 2.05,
+    "power and communication structures": 0.57,
+    "less: imports of computers, peripherals and parts": -0.69,
+    "net": 7.88
+   },
+   "2019": {
+    "information processing equipment": 5.76,
+    "software": 2.08,
+    "power and communication structures": 0.61,
+    "less: imports of computers, peripherals and parts": -0.61,
+    "net": 7.85
+   },
+   "2020": {
+    "information processing equipment": 5.2,
+    "software": 2.24,
+    "power and communication structures": 0.63,
+    "less: imports of computers, peripherals and parts": -0.68,
+    "net": 7.39
+   },
+   "2021": {
+    "information processing equipment": 5.05,
+    "software": 2.25,
+    "power and communication structures": 0.56,
+    "less: imports of computers, peripherals and parts": -0.71,
+    "net": 7.14
+   },
+   "2022": {
+    "information processing equipment": 5.01,
+    "software": 2.31,
+    "power and communication structures": 0.52,
+    "less: imports of computers, peripherals and parts": -0.69,
+    "net": 7.15
+   },
+   "2023": {
+    "information processing equipment": 5.05,
+    "software": 2.32,
+    "power and communication structures": 0.58,
+    "less: imports of computers, peripherals and parts": -0.56,
+    "net": 7.39
+   },
+   "2024": {
+    "information processing equipment": 5.07,
+    "software": 2.37,
+    "power and communication structures": 0.56,
+    "less: imports of computers, peripherals and parts": -0.74,
+    "net": 7.25
+   },
+   "2025": {
+    "information processing equipment": 5.34,
+    "software": 2.45,
+    "power and communication structures": 0.55,
+    "less: imports of computers, peripherals and parts": -1.16,
+    "net": 7.18
+   },
+   "2026": {
+    "information processing equipment": 5.67,
+    "software": 2.51,
+    "power and communication structures": 0.54,
+    "less: imports of computers, peripherals and parts": -1.78,
+    "net": 6.94
+   }
+  },
+  "change_since_2022_pts": {
+   "information processing equipment": 0.73,
+   "software": 0.21,
+   "power and communication structures": 0.02,
+   "less: imports of computers, peripherals and parts": -1.12,
+   "net": -0.16
+  },
+  "trend_2015_22_pts_a_year": -0.127,
+  "net_above_2015_22_trend_pts": 0.34,
+  "net_above_2022_pts": -0.16,
+  "crash_model_assumed_pct_gdp": 1.5
+ },
+ "where_the_displaced_go": {
+  "prime_age_25_54": {
+   "since_the_employment_peak": {
+    "window": "2024-09 to 2026-08",
+    "employment_rate_change": -0.57,
+    "participation_change": -0.53,
+    "unemployment_change": 0.1,
+    "exit_share": 0.94
+   },
+   "2007-10 (recession)": {
+    "window": "2007-12 to 2010-06",
+    "employment_rate_change": -4.43,
+    "participation_change": -0.53,
+    "unemployment_change": 4.77,
+    "exit_share": 0.12
+   },
+   "2000-03 (recession and the China shock)": {
+    "window": "2000-12 to 2003-12",
+    "employment_rate_change": -2.57,
+    "participation_change": -0.93,
+    "unemployment_change": 1.93,
+    "exit_share": 0.36
+   }
+  },
+  "all_ages_24_months": {
+   "unemployment_rate": [
+    4.2,
+    4.1
+   ],
+   "participation": [
+    62.7,
+    61.6
+   ],
+   "employment_rate": [
+    60.0,
+    59.1
+   ]
+  }
+ }
+}

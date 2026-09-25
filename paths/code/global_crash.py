@@ -38,6 +38,14 @@
 # build-out adds jobs: its care purchases are output, its workers earn care pay (service and care workers', ISCO 5),
 # its cost is net of the support it saves, and Okun's law applies to the rest of output.
 #
+# The participation margin (her call, 2026-09-25, after decoupling.py): in the US the displaced have been leaving the
+# labour force rather than showing up as unemployed (94% of the prime-age fall in employment since its 2024 peak, against
+# 12% in 2007-10). A region's exit share of structural displacement (the drift and adoption in recessions) goes out of the
+# labour force; cyclical job loss stays unemployment, as measured in recessions. The exits lose the same income: spending,
+# bank losses and an income guarantee count everyone not working; measured unemployment and the fiscal triggers keyed to
+# it do not (a variant keys them to non-employment). The US AI build-out is measured too (decoupling.py: 0.3% of GDP net
+# of computer imports above its 2015-22 trend, against the 1.5% assumed before).
+#
 # The financing limit (her call, 2026-09-24, after financing.py: the ceiling is financing, not need). The build-out is
 # paid for from one source, each with its own limit and its own drag on demand:
 #   borrowing       no limit on quantity; a price: the region's long rate rises with the debt the build-out and an
@@ -145,6 +153,7 @@ class Region:
     labour_tax: float = 0.0
     debt_slope: float = 0.0
     debt_slope_crisis: float = 0.0
+    exit_share: float = 0.0     # share of structural displacement that leaves the labour force (decoupling.py; US measured)
 
 
 @dataclass(frozen=True)
@@ -226,6 +235,7 @@ class Rules:
     care: str = "trend"
     care_pace: float = 1.0      # approximate: Sweden's municipal build-out of care in the 1970s-80s ran near a point a year
     care_finance: str = "borrowing"   # "borrowing" | "labour taxes" | "ai levy"
+    trigger_on: str = "unemployment"  # what the fiscal triggers watch: "unemployment" | "non-employment" (incl. exits)
 
 
 MODERN = Rules()
@@ -308,7 +318,7 @@ def displaced(o: dict, j: int, g: Region, w: dict) -> dict:
     if cy >= 0:
         return {q: struct[q] + w["mix"][q] * cy for q in GROUPS}
     st = sum(struct.values())
-    f = max(o["u"][j] - g.u0, 0.0) / st if st > 1e-12 else 0.0
+    f = max(o["u"][j] - g.u0 + o["out"][j], 0.0) / st if st > 1e-12 else 0.0
     return {q: struct[q] * f for q in GROUPS}
 
 
@@ -332,7 +342,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                                         "d_wealth", "d_capex", "d_unemp", "d_relief", "d_debt", "d_credit", "d_money",
                                         "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
                                         "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care",
-                                        "debt_extra", "premium", "d_fin", "room")} for r in names}
+                                        "debt_extra", "premium", "d_fin", "room", "out")} for r in names}
     W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
@@ -376,8 +386,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             d_capex = -g.ai_capex * cx
             rep = g.replacement if rl.support else 0.0
             if W[r] is None:
-                d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * max(o["u"][k - 1] - g.u0, 0.0) * (1 - rep)
-                owed = max(o["u"][k - 1] - g.u0, 0.0) * max(rl.guarantee - rep, 0.0)
+                d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * max(o["u"][k - 1] - g.u0 + o["out"][k - 1], 0.0) * (1 - rep)
+                owed = max(o["u"][k - 1] - g.u0 + o["out"][k - 1], 0.0) * max(rl.guarantee - rep, 0.0)
             else:
                 du = displaced(o, k - 1, g, W[r])
                 lost = sum(du[q] * W[r]["spend"][q] for q in GROUPS)
@@ -407,7 +417,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             # a tariff point cuts exports about a point (short-run trade elasticity ~1); imports fall too, so only part
             # of it (tariff_net, uncertainty and broken supply chains) is lost to demand rather than switched home
             d_trade = g.exports * (cm.trade_elasticity * sum(g.trade[q] * partners[q] for q in g.trade) - cm.tariff_net * tariff)
-            unemp_up = o["u"][k - 1] - g.u0
+            unemp_up = o["u"][k - 1] - g.u0 + (o["out"][k - 1] if rl.trigger_on == "non-employment" else 0.0)
             if not fiscal_on[r] and unemp_up >= rl.trigger:
                 fiscal_on[r], fiscal_left[r] = True, rl.fiscal_quarters
             d_fiscal = 0.0
@@ -444,10 +454,14 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 m_eta = (mix["cognitive"] + mix["physical"] * ap) / (mix["cognitive"] + mix["physical"])
             add_eta = g.eta * m_eta * max(o["u"][k - 1] - o["u_star"][k - 1], 0.0)
             add_drift = g.drift * m_drift * DT
-            o["u_star"][k] = min(o["u_star"][k - 1] + add_eta + add_drift, 45.0)
+            # structural displacement: the exit share leaves the labour force, the rest stays unemployed
+            x = g.exit_share
+            add = min(add_eta + add_drift, max(45.0 - o["u_star"][k - 1] - o["out"][k - 1], 0.0))    # structural non-employment <= 45
+            o["u_star"][k] = o["u_star"][k - 1] + (1 - x) * add
+            o["out"][k] = o["out"][k - 1] + x * add
             o["s_cog"][k], o["s_phys"][k] = o["s_cog"][k - 1], o["s_phys"][k - 1]
             if W[r] is not None and add_eta + add_drift > 0:
-                inc = o["u_star"][k] - o["u_star"][k - 1]            # after the cap
+                inc = o["u_star"][k] - o["u_star"][k - 1] + o["out"][k] - o["out"][k - 1]     # after the cap
                 p_eta = mix["physical"] * ap / (mix["cognitive"] + mix["physical"] * ap)
                 p_drift = sh["physical"] * ap / (sh["cognitive"] + sh["physical"] * ap)
                 dp = inc * (add_eta * p_eta + add_drift * p_drift) / (add_eta + add_drift)
@@ -479,12 +493,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                         o[s][k] -= (a_t + a_x) * f
                         o[at][k] += a_t * f
                         o[ax][k] += a_x * f
-                    o["u_star"][k] -= a_t + a_x
+                    o["u_star"][k] -= (1 - x) * (a_t + a_x)
+                    o["out"][k] -= x * (a_t + a_x)
             # Okun's law for the rest of output: the build-out's own jobs are counted directly
             target = max(o["u_star"][k] - g.okun * (y - d_care), 1.5)
-            o["u"][k] = min(o["u"][k - 1] + g.speed * (target - o["u"][k - 1]), 50.0)
+            o["u"][k] = min(o["u"][k - 1] + g.speed * (target - o["u"][k - 1]), 50.0 - o["out"][k])
             if W[r] is None:
-                debt_up = max(o["u"][k] - g.u0, 0.0)
+                debt_up = max(o["u"][k] - g.u0 + o["out"][k], 0.0)
             else:
                 du = displaced(o, k, g, W[r])
                 debt_up = sum(du[q] * W[r]["pay"][q] for q in GROUPS)     # debts taken proportional to pay
@@ -535,6 +550,8 @@ def summary(out: dict, regions: dict, horizon_q: int | None = None) -> dict:
                   "care_share_end": round(float(o["care"][n - 1]), 2),
                   "care_cost_max_pct_gdp": round(float(o["care_cost"][:n].max()), 2),
                   "debt_added_end_pct_gdp": round(float(o["debt_extra"][n - 1]), 2),
+                  "out_of_labour_force_end": round(float(o["out"][n - 1]), 2),
+                  "not_working_rise_max": round(float((o["u"][:n] - regions[r].u0 + o["out"][:n]).max()), 2),
                   "debt_premium_max_bp": round(float(100 * o["premium"][:n].max()), 1),
                   "financing_room_start_pct_gdp": None if not np.isfinite(o["room"][1]) else round(float(o["room"][1]), 2),
                   "financing_room_end_pct_gdp": None if not np.isfinite(o["room"][n - 1]) else round(float(o["room"][n - 1]), 2)}
@@ -576,6 +593,11 @@ def regions_today() -> dict:
     own = sl["own central bank 2010-24"]["long_rate"]["bp_per_10_points_net_debt"]       # China: taken as own central bank
     slope = {"US": (own, own), "SE": (own, own), "CN": (own, own),
              "EA": (sl["euro area 2010-24"]["long_rate"]["bp_per_10_points_net_debt"], sl["euro area crisis 2010-13"]["long_rate"]["bp_per_10_points_net_debt"])}
+    # the US build-out and where its displaced go, measured (decoupling.py); the other regions' approximate, as stated
+    dec = json.load(open(os.path.join(ROOT, "results", "decoupling.json"), encoding="utf-8"))
+    us_capex = max(dec["ai_build_out"]["net_above_2015_22_trend_pts"], 0.0)
+    us_exit = min(max(dec["where_the_displaced_go"]["prime_age_25_54"]["since_the_employment_peak"]["exit_share"], 0.0), 1.0)
+    us = replace(us, ai_capex=us_capex, exit_share=us_exit)
     exj = json.load(open(os.path.join(ROOT, "results", "exposure.json"), encoding="utf-8"))
     ex, cr = exj["regions"], exj["care"]["regions"]
     caps = {"US": 0.9, "EA": 1.5, "SE": 1.5, "CN": 1.0}
@@ -727,6 +749,17 @@ def scenarios(cm: Common, regions: dict) -> dict:
             rg = {r: replace(g, eta=g.eta * eta_mult, drift=g.drift * drift_mult) for r, g in regs.items()}
             for wl, wv in waves:
                 runs[(rules_name, dial, wl)] = simulate(rg, {r: rl for r in R}, ai_shock(n), cm, n, waves=wv)
+    # the participation margin: fiscal triggers that watch non-employment (exits included) rather than unemployment
+    for dial, drift_mult, eta_mult in dials[1:]:
+        rg = {r: replace(g, eta=g.eta * eta_mult, drift=g.drift * drift_mult) for r, g in regs.items()}
+        for rules_name, rl in (("modern rules, triggers on non-employment", replace(MODERN, trigger_on="non-employment")),
+                               ("rules expand under pressure, triggers on non-employment", replace(EXPANDED, trigger_on="non-employment"))):
+            for wl, wv in waves[:1] + waves[2:3]:
+                runs[(rules_name, dial, wl)] = simulate(rg, {r: rl for r in R}, ai_shock(n), cm, n, waves=wv)
+    # displacement without a bust (where the US is): the paper's drift and adoption as usual, no AI crash
+    for rules_name, rl in (("modern rules", MODERN), ("modern rules, triggers on non-employment", replace(MODERN, trigger_on="non-employment")),
+                           ("rules expand under pressure", EXPANDED)):
+        runs[(rules_name, "displacement without a bust", "")] = simulate(regs, {r: rl for r in R}, Shock(), cm, n)
     # care as the absorber: robotics two years out; how much care takes in is the rules' care setting (today's and the
     # guarantee's: its trend pace; eroding and 1930s rules: none; "expand into care": a funded build-out on top)
     absorb = Waves(split=True, robot_lag=2.0, absorb=True)

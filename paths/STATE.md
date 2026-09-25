@@ -670,6 +670,37 @@ is right; in an extreme path the destination is what is wrong.
     base as income moves to owners; one financed from capital income — Norway's fund, or a levy on AI income — grows
     with it. Caveats: the levy's share and the taxed workers' spending are approximate; existing public spending on the
     shrinking base is held, not modelled; China's labour-tax room (20% of GDP on paper) is not a realistic limit.
+- **Output without work, measured; the crash model on the measured US** (her question, 2026-09-25: output and GDPNow
+  nowcasts rising while the US sheds labour — does it fit, is AI pushing manufacturing?; then her call on the three
+  changes. `code/decoupling.py`, `results/decoupling.json`, `figures/fig_decoupling.png`, `checks/check_decoupling.py`
+  6/6; the participation margin and the measured build-out in `global_crash.py`, 43/43; the watcher's tripwires in its
+  own repository). Stated as found:
+  - **The paper's mechanism in the national accounts**: since 2023Q2 US business output has grown 2.75% a year while
+    hours grew 0.23%; output per hour 2.5% a year against 1.6% in 2015-19. Labour's share of business output is at its
+    lowest since 1947 (93.4, 2017 = 100), down 3.3 points in a year — a fall that since 1990 only recessions and their
+    recoveries matched.
+  - **The nowcast**: GDPNow puts 2026Q3 at 5.1% a year; its final nowcasts have missed published growth by 1.2-1.4
+    points on average (3.7 in 2025Q4).
+  - **AI lifts a narrow slice of manufacturing**: since 2019 semiconductors +69%, computers +28%, power generation +11%;
+    all manufacturing +0.1%, manufacturing jobs -1%.
+  - **The build-out leaks abroad**: computer imports rose from 0.7% of GDP (2022) to 1.8%, more than investment in
+    information processing equipment (+0.7); net of them the build-out is 0.3% of GDP above its 2015-22 trend (below
+    its 2022 level) — the crash model had assumed 1.5%. Data-centre buildings are not in the measure (lower bound).
+  - **The displaced leave the labour force**: since the prime-age employment peak (September 2024) 94% of the fall in
+    the employment rate is participation (unemployment +0.1); 12% in 2007-10, 36% in 2000-03. Small changes: survey
+    noise is a few tenths.
+  - **In the crash model** (the US measured, the other regions as before): the US exit share takes structural
+    displacement out of the labour force; cyclical job loss stays unemployment. Measured unemployment then shows under
+    half of the jobs depression: in the worst row (robotics two years out) US unemployment reads 19.7% at year 6 while
+    23 more points have left the labour force (non-employment +38.6). The findings hold on non-employment: the
+    labour-depression row +21 points by year 4 (was unemployment +24) with output 11% below capacity; the care build-out
+    takes 7.4 points off (was 7.1); the robotics lag, the ceiling, the financing sources keep their order. The measured
+    build-out makes the US bust milder (bust alone: US output at worst -7.6% against -8.8%; the four -5.9% against
+    -6.4%): the imported servers' collapse lands abroad. **Displacement without a bust** (where the US is): fiscal
+    triggers keyed to unemployment fire late — year-4 output -2.7% against -1.0% keyed to non-employment; a temporary
+    stimulus then runs out (both near -7% by year 6) while an income guarantee holds -3.6%. In a bust the cyclical rise
+    fires the triggers either way.
+  - The synthesis page ("After the Wage") states the earlier, unemployment-based numbers; to be revised on her call.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -1025,3 +1056,14 @@ the macro block lands.
     (the danger; what is already visible; the way out and its limits), each with its evidence and one caveat, two
     charts drawn from the saved results, the reading marked `[inferred]`, what to watch, where the evidence is thin.
     Public data only; every number taken from results/global_crash.json, baumol.json, exposure.json, financing.json.
+26. **2026-09-25 — output without work.** Her question on rising output and GDPNow against labour shedding; then her call
+    on the three proposed changes (a participation margin, the build-out measured, two tripwires). Built
+    `code/decoupling.py` (FRED: BLS productivity and labour force, Federal Reserve industrial production, BEA investment
+    and imports, GDPNow; the FRED website's search found the import and structures series) and wired the measured US
+    build-out and exit share into `global_crash.py`. Verified before findings: with the exit share at zero and the old
+    build-out, all 74 earlier runs are reproduced; exits needed the same cap as unemployment (a first run put more than
+    the labour force out of work under eroding rules); a variant keying the fiscal triggers to non-employment changed
+    nothing in a bust, so the displacement-without-a-bust runs were added where it matters. Eleven findings checks moved
+    from unemployment to non-employment and were restated as found. Watcher: the labour-share rule as first written fired
+    14 times since 1990 (a long decline sets new lows often) and the participation rule missed today (a 12-month window
+    on a 23-month slide); both redefined on the replay; participation kept out of crash.joint (it added a 2011 false alarm).
