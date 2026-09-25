@@ -700,7 +700,8 @@ is right; in an extreme path the destination is what is wrong.
     triggers keyed to unemployment fire late — year-4 output -2.7% against -1.0% keyed to non-employment; a temporary
     stimulus then runs out (both near -7% by year 6) while an income guarantee holds -3.6%. In a bust the cyclical rise
     fires the triggers either way.
-  - The synthesis page ("After the Wage") states the earlier, unemployment-based numbers; to be revised on her call.
+  - The synthesis page ("After the Wage") revised on her call (2026-09-25): people out of work in place of unemployment,
+    output without work added as a finding, plain wording throughout (her rule for outside readers).
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
