@@ -51,7 +51,7 @@ sys.path.insert(0, HERE)
 import global_crash as gc  # noqa: E402
 
 N = 24
-START = "2026Q4"
+START = gc.START
 END_2028 = 8          # the quarter index of 2028Q4
 US_TARIFF = 25.0
 PIECES = ("bust", "pace", "adoption", "premium", "tariffs", "austerity", "care")

@@ -107,6 +107,7 @@ import lambda_compute2 as _lc  # noqa: E402
 _lc.CACHE = os.path.join(ROOT, "cache")
 DT = 0.25
 R = ("US", "EA", "SE", "CN")
+START = "2026Q4"    # quarter 0, the start: the regions are measured on the data to September 2026
 
 
 def fred(sid: str) -> pd.Series:
@@ -733,16 +734,17 @@ def fit(tg: dict):
 
 
 # ------------------------------------------------------------------ the AI crash
-def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0) -> Shock:
+def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: int = 0) -> Shock:
     """A dot-com-shaped bust of the AI build-out: equity down over four quarters (the periphery collapses, the core
     reprices), AI investment down 60%, losses on AI-related lending (private credit and its bank lenders). `speed`
-    shortens it: the falls over 4 / speed quarters, the losses over 8 / speed (1: as fitted)."""
+    shortens it: the falls over 4 / speed quarters, the losses over 8 / speed (1: as fitted). `delay` starts it that many
+    quarters later (0: in the first quarter after the start, as fitted); until then the build-out holds."""
     eq = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}
     ls = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}
     qf, ql = max(1, round(4 / speed)), max(2, round(8 / speed))
-    return Shock(equity={r: ramp(scale * v, 1, qf, n) for r, v in eq.items()},
-                 capex={r: ramp(scale * 0.6 * 100, 1, qf, n) / 100 for r in eq},
-                 losses={r: pulse(scale * v, 2, ql, n) for r, v in ls.items()})
+    return Shock(equity={r: ramp(scale * v, 1 + delay, qf, n) for r, v in eq.items()},
+                 capex={r: ramp(scale * 0.6 * 100, 1 + delay, qf, n) / 100 for r in eq},
+                 losses={r: pulse(scale * v, 2 + delay, ql, n) for r, v in ls.items()})
 
 
 def scenarios(cm: Common, regions: dict) -> dict:

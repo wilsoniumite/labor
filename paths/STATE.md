@@ -1185,3 +1185,8 @@ the macro block lands.
     8/8, `check_decoupling.py` 6/6, `check_financing.py` 10/10 unchanged. Caught before findings: the first run quoted one
     number for 2032 (46%) when it rests on the adoption lever, and a peak that is the horizon's last quarter (still
     rising); restated as a band with 2028Q4 beside it.
+29. **2026-09-25 — the start pinned, the bust movable.** Her call on the website's model page: dates from a start year,
+    the data before it, and the bubble bursting at different times. `global_crash.py` gained `START` (2026Q4, quarter 0:
+    the regions measured on data to September 2026; `case.py` now reads it) and `ai_shock(delay=...)`, the bust starting
+    that many quarters later with the build-out holding until then. Off by default: `check_global_crash.py` 43/43 and
+    `check_case.py` 11/11 unchanged.
