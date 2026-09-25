@@ -1020,3 +1020,8 @@ the macro block lands.
     Revenue Statistics via SDMX), and the three sources with their limits, drag and price of debt to `global_crash.py`;
     38/38. Verified before findings: with the price of debt at zero the 62 earlier runs are reproduced exactly; the
     first draft counted no debt when borrowing paid for the build-out (fixed before any run was saved).
+25. **2026-09-25 — the synthesis.** Her question: zoom out, what is all this pointing to; then her call to write it up.
+    Written as a private page for her to present ("After the Wage"; outside the repo): seven findings in three parts
+    (the danger; what is already visible; the way out and its limits), each with its evidence and one caveat, two
+    charts drawn from the saved results, the reading marked `[inferred]`, what to watch, where the evidence is thin.
+    Public data only; every number taken from results/global_crash.json, baumol.json, exposure.json, financing.json.
