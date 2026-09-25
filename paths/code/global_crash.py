@@ -235,6 +235,8 @@ class Rules:
     care: str = "trend"
     care_pace: float = 1.0      # approximate: Sweden's municipal build-out of care in the 1970s-80s ran near a point a year
     care_finance: str = "borrowing"   # "borrowing" | "labour taxes" | "ai levy"
+    care_cap: float | None = None     # the region's own ceiling for care, % of employment (None: the common ceiling);
+                                      # a financing limit reached before Norway's share (case.py: care capping out)
     trigger_on: str = "unemployment"  # what the fiscal triggers watch: "unemployment" | "non-employment" (incl. exits)
 
 
@@ -256,6 +258,10 @@ class Shock:
     capex: dict = field(default_factory=dict)
     losses: dict = field(default_factory=dict)
     demand: dict = field(default_factory=dict)       # other exogenous demand level, % of GDP
+    drift: dict = field(default_factory=dict)        # the displacement pace by quarter, points of the labour force a year,
+                                                     # in place of the region's constant drift (case.py: a pace that rises)
+    spread: dict = field(default_factory=dict)       # an exogenous premium on borrowing by quarter, points, passed to private
+                                                     # borrowers (case.py: deficit and sovereign worry)
 
 
 def ramp(total: float, start: int, quarters: int, n: int, hold: bool = True) -> np.ndarray:
@@ -453,7 +459,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 m_drift = (sh["cognitive"] + sh["physical"] * ap) / (sh["cognitive"] + sh["physical"])
                 m_eta = (mix["cognitive"] + mix["physical"] * ap) / (mix["cognitive"] + mix["physical"])
             add_eta = g.eta * m_eta * max(o["u"][k - 1] - o["u_star"][k - 1], 0.0)
-            add_drift = g.drift * m_drift * DT
+            add_drift = (shock.drift[r][k] if r in shock.drift else g.drift) * m_drift * DT
             # structural displacement: the exit share leaves the labour force, the rest stays unemployed
             x = g.exit_share
             add = min(add_eta + add_drift, max(45.0 - o["u_star"][k - 1] - o["out"][k - 1], 0.0))    # structural non-employment <= 45
@@ -472,7 +478,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             for _, _, at, ax in ABSORBED:
                 o[at][k], o[ax][k] = o[at][k - 1], o[ax][k - 1]
             # care's level (% of employment): its trend and any build-out, together never past the ceiling
-            grow = 0.0 if rl.care == "cut" else min(g.care_trend * DT, max(cm.care_ceiling - o["care"][k - 1], 0.0))
+            ceiling = cm.care_ceiling if rl.care_cap is None else rl.care_cap
+            grow = 0.0 if rl.care == "cut" else min(g.care_trend * DT, max(ceiling - o["care"][k - 1], 0.0))
             o["care"][k] = o["care"][k - 1] + grow
             if W[r] is not None and waves.absorb and rl.care != "cut":
                 weight = {q: o[s][k] * g.gate[q] for q, s, _, _ in ABSORBED}
@@ -485,7 +492,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                     per_point = cm.labour_share * (W[r]["w_care"] / cm.care_labour_cost
                                                    - sum(weight[q] / pool * g.premium[q] * W[r]["rep"][q] for q, _, _, _ in ABSORBED)) if pool > 0 else 1.0
                     afford = financing_room(o, k - 1, g, rl, cm) / per_point - built if per_point > 0 else float("inf")
-                    a_x = max(min(rl.care_pace * DT, potential - a_t, cm.care_ceiling - o["care"][k], afford), 0.0)
+                    a_x = max(min(rl.care_pace * DT, potential - a_t, ceiling - o["care"][k], afford), 0.0)
                 o["care"][k] += a_x
                 if pool > 0:
                     for q, s, at, ax in ABSORBED:
@@ -523,6 +530,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             slope = g.debt_slope_crisis if o["stress"][k] > cm.stress_crisis else g.debt_slope
             o["premium"][k] = slope / 100 * o["debt_extra"][k] / 10
             s += o["premium"][k]
+            if r in shock.spread:
+                s += shock.spread[r][k]
             o["s"][k] = s
             o["stim"][k] = d_fiscal
     return out
@@ -724,14 +733,16 @@ def fit(tg: dict):
 
 
 # ------------------------------------------------------------------ the AI crash
-def ai_shock(n: int, scale: float = 1.0) -> Shock:
+def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0) -> Shock:
     """A dot-com-shaped bust of the AI build-out: equity down over four quarters (the periphery collapses, the core
-    reprices), AI investment down 60%, losses on AI-related lending (private credit and its bank lenders)."""
+    reprices), AI investment down 60%, losses on AI-related lending (private credit and its bank lenders). `speed`
+    shortens it: the falls over 4 / speed quarters, the losses over 8 / speed (1: as fitted)."""
     eq = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}
     ls = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}
-    return Shock(equity={r: ramp(scale * v, 1, 4, n) for r, v in eq.items()},
-                 capex={r: ramp(scale * 0.6 * 100, 1, 4, n) / 100 for r in eq},
-                 losses={r: pulse(scale * v, 2, 8, n) for r, v in ls.items()})
+    qf, ql = max(1, round(4 / speed)), max(2, round(8 / speed))
+    return Shock(equity={r: ramp(scale * v, 1, qf, n) for r, v in eq.items()},
+                 capex={r: ramp(scale * 0.6 * 100, 1, qf, n) / 100 for r in eq},
+                 losses={r: pulse(scale * v, 2, ql, n) for r, v in ls.items()})
 
 
 def scenarios(cm: Common, regions: dict) -> dict:

@@ -737,6 +737,33 @@ is right; in an extreme path the destination is what is wrong.
     refute the mechanism — the macro block's own paths hold participation up in the early years, while the real wage
     rises first — they bound the pace so far. What would move the bound: participation staying down after June (two
     more quarters), or non-employment's trend clearing two standard errors.
+- **Her case: what we think is happening** (her call, 2026-09-25: pin down one case across the model, the watcher and the
+  website. `code/case.py`, `results/case.json`, `figures/fig_case.png`, `checks/check_case.py` 11/11). Her leanings:
+  deficit and sovereign worry; recession and failing consumption demand; a stock bust bigger and faster than dot-com;
+  care capping out as the absorber; reckless US tariffs, Europe more sensible but still austere; a process under way for
+  two to four years that accelerates as AI companies change behaviour. Four general additions to `global_crash.py`, each
+  off by default (the stored central run reproduced exactly, K1): a faster bust (`ai_shock` speed), a displacement pace
+  by quarter (`Shock.drift`), a premium on borrowing passed to private borrowers (`Shock.spread`), and a region's own care
+  ceiling (`Rules.care_cap`). The settings are decisions 23-27. Stated as found (quarter 1 = 2026Q4):
+  - **Through 2028 the case is well defined, and half as bad again as the model's central run.** US out of work 13.8-14.8%
+    at 2028Q4 against 9.2%; US output 11% below capacity, the four economies 8.5-8.7% (K7).
+  - **After 2028 it depends on one lever.** By 2032Q3 US out of work is 31.5% if firms automate the usual share of the
+    jobs they cut in the downturn and 46.2% if twice it, still rising at both ends; the four economies' output 12.8-15.6%
+    below capacity at worst. Both ends are a labour depression, not the Depression row (K7-K8).
+  - **What drives it depends on when.** By 2028Q4 the bust adds most (2.9 points of US out of work); by 2032Q3 adoption
+    (14.7). The premium on borrowing and the US tariffs add 4-5 points each by 2032Q3; European austerity and care capping
+    out under a point each to the US (0.9 and 0.5 to the euro area, 1.6 and 0.1 to Sweden) (K9-K10).
+  - **Her acceleration story is milder than the model's central assumption.** The central runs carry the paper's pace from
+    today; the case starts at the pace seen so far and reaches the paper's by 2029. Taking the case's pace back to the
+    central one adds 3.0 points of US out of work (K10).
+  - **What the case leaves out moves little.** A looser US anchor (fiscal dominance) deepens the bust's deflation (US
+    inflation's low −3.8% against −1.8%) and adds 1.1 points; tolerating 3% inflation as well is neutral. The euro area
+    neither cutting (Germany's spending offsetting the periphery) takes 0.4 points off its out of work, stimulating 0.8.
+    The exit share at 0.36 and triggers on non-employment change the total by under half a point (K11).
+  - `[inferred]` Care capping out matters little because care at its trend absorbs about a point of employment over six
+    years; what would matter is a funded build-out (about 5 points of US unemployment, above). The deficit worry works in
+    the model only as a price: it has no revenue side and no default, so the case says what a premium does to borrowers,
+    not whether one comes.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -830,6 +857,24 @@ is right; in an extreme path the destination is what is wrong.
     out of work, which counts both. Alternative: keep 0.94, flagged.
 22. **The spending loop stays as fitted on 1929-33 and 2008-10** (`pace.py`, A6): the window cannot separate it from the
     unwinding of an overheated start. No offset parameter added.
+23. **Her case's magnitudes are Claude's best guesses** (`case.py`; her leanings set the direction). A bust 1.5 times the
+    dot-com one over two quarters (US stocks −60%, AI investment −90%); the pace from the upper bound seen (0.15 of the
+    paper's) to the paper's, half-way by 2028Q3; care capped one year of trend above today's share; a premium on borrowing
+    of a point in the US and half a point in the euro area, over the first year. Alternatives: each piece's size is in the
+    attribution table (`piece_by_piece`), so any can be halved or doubled by reading across.
+24. **Adoption in the downturn is a range, and the case a band** (the usual share of the jobs cut is automated, or twice
+    it). It barely matters through 2028 (a point) and decides 2032 (15 points). Quoted as the band; the high end is her
+    full case. Alternative: a single central value (1.5x).
+25. **Deficit and sovereign worry enter as a premium only.** The model has no revenue side and no default. For the US the
+    reading is fiscal dominance, not default; a looser US anchor stays a sensitivity, since in the bust it deepens
+    deflation (decision 23's premium is what the case carries). The fiscal arithmetic (revenue base, interest on rollover)
+    is a separate unit (Next 11).
+26. **The euro area is one region: austerity, her call.** Germany spending while the periphery cuts cannot be split; the
+    model says it matters little (the euro area's out of work 0.4 points lower with no cuts). The US tariff is the model's
+    symmetric tariff: US exports face retaliation of 25 points; the others face 25 points on their exports to the US.
+27. **Energy, housing, Japan, Korea and Taiwan are watched, not modelled** (the watcher's wider rules, 2026-09-25). An oil
+    surge would tie central banks' hands in the bust; the model's inflation has no energy term. Proposed: add one only if
+    the oil rule and a bust fire together.
 
 ## Next
 
@@ -867,7 +912,11 @@ is right; in an extreme path the destination is what is wrong.
    realized policy, Prospera surveys) if the public data allow.
 10. **The pace, anchored** (decisions 20-21): a displacement pace that starts slow and rises on the macro block's
     logistic clock, fitted to stay within what has been seen; the exit share rechecked after two more quarters of
-    participation data (and `decoupling.py`'s D6 restated on trends).
+    participation data (and `decoupling.py`'s D6 restated on trends). Her case uses such a pace (a logistic from the bound
+    seen), set by hand rather than fitted to the macro block's clock.
+11. **Her case, onward** (decisions 23-27): the case on the website (a page stating it, with the watcher's signs for and
+    against each leaning); the US fiscal arithmetic (revenue with the wage base, interest as debt rolls over) so that
+    deficits are computed, not priced; the crash model's displacement on the dated clock.
 
 ## Siblings
 
@@ -1128,3 +1177,11 @@ the macro block lands.
     (the parameter added to `global_crash.py` for it was reverted, unused). Check A6 first claimed the loop explains under
     half of the gap's fall at the upper-bound pace; it is 55%, restated. Mid-unit, her questions on adjusting for care and
     for the build-out's jobs: added as sensitivities (A8), not corrections. Corrects log 26's reading of the exit share.
+28. **2026-09-25 — her case.** Her call: pin down a "this is what we think is happening" case across the model, the watcher
+    and the website, with her leanings; then, after Claude's critique (the US worry as fiscal dominance, Europe as one
+    region, adoption as the lever, energy and Japan missing), her call to watch energy, private credit, housing, Japan,
+    Korea and Taiwan (the watcher's wider rules) and to finish the case. Built `code/case.py` and `checks/check_case.py`
+    (11/11) and four additions to `global_crash.py`, each off by default; `check_global_crash.py` 43/43, `check_pace.py`
+    8/8, `check_decoupling.py` 6/6, `check_financing.py` 10/10 unchanged. Caught before findings: the first run quoted one
+    number for 2032 (46%) when it rests on the adoption lever, and a peak that is the horizon's last quarter (still
+    rising); restated as a band with 2028Q4 beside it.
