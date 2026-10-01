@@ -184,6 +184,24 @@ IS OPEN** (items 12–13; memo `lambda/READ_MEMO.md`). Done on founding day:
 education test post while the conversation is warm; (us) P1 absorbing
 revision as usual (that work lives in `../the-link-revision/`, not here).
 
+**Cross-thread, 2026-09-30 (paths):** `../paths/code/chains.py` extends the
+λ assembly to machine types (333, 334, 335, 511, 514, 5415, 532RL), an
+investment-weighted machinery + software set and the equipment + IPP +
+structures bundle that the paths model's calibration (c) reads. It reuses
+this thread's engine (`lambda/code/compute_family_a.py`) read-only; its gate
+reproduces the narrow / medium / broad series here to 1.7e-16 in every year
+1997–2023 (`../paths/checks/check_chains.py`, C1). No tracked file here
+changed; the gitignored `lambda/data/cache/` gained the BEA files its pull
+fetched. Found on the way, open here (not rerun):
+`data_notes/terminal_rent/build_measurement.py:134` (untracked; not in the
+public repository) builds its household land residual
+(`repo_hh_land_times_gs10_*`) as households-and-nonprofits real estate
+(HNOREMV) less households' residential structures alone (BOGZ1LM155012665Q),
+so about $4.3T of nonprofit property (2026Q2) counts as land; the matched
+numerator is households' own real estate (HOOREVLMHMV). The same pairing
+sits in pinning's `code/feasibility_kappa.py` — see `../pinning/STATE.md`,
+Open 10.
+
 ## Verify-list — 2026-08-20: the founding unit (veto window, current)
 
 - [ ] `lambda_spec.md`'s five open choices, defaults live unless vetoed:

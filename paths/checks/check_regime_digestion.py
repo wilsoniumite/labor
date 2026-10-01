@@ -1,5 +1,9 @@
 # check_regime_digestion.py — the forward-rate test: the estimators, the findings, the model's catch-up.
 #
+# Layer 3 (the model's catch-up) runs on calibration (c)'s central economy since her decision of 2026-09-30, with (b), the
+# pre-switch calibration, stored beside it; M1 rebuilds both and gates the comparator as the pre-switch run. Layers 1 and 2
+# are data (F1-F5) and do not depend on the calibration.
+#
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_regime_digestion.py
 # Exit status 0 only if every check passes.
 
@@ -16,6 +20,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "code"))
+import macro as m  # noqa: E402
 import regime_digestion as rd  # noqa: E402
 
 RESULTS = []
@@ -59,7 +64,8 @@ g_hat, rmse = rd.gain_fit(pd.Series(anc, index=yrs), real)
 check("E3 the constant-gain fit recovers a known gain", abs(g_hat - g_true) < 1e-3 and rmse < 1e-3, f"{g_hat:.4f}")
 
 print("F — the findings (stated as found; results/regime_digestion.json, rebuilt by code/regime_digestion.py)")
-R = json.load(open(os.path.join(ROOT, "results", "regime_digestion.json"), encoding="utf-8"))
+with open(os.path.join(ROOT, "results", "regime_digestion.json"), encoding="utf-8") as fh:
+    R = json.load(fh)
 sv = R["layer1_next_year"]["survey"]["1981-2026"]
 mk = R["layer1_next_year"]["market_kw"]["1990-2025"]["1y ahead"]
 check("F1 forecasters under-react to news about the next year: positive, significant CG slopes 2 and 3 quarters ahead",
@@ -85,7 +91,32 @@ check("F6 in the model, with people digesting regime news over 3 years, adopting
       cu[k1]["10Y_move_years_4.5_to_5.5_bp"] > 2 * max(cu[k0]["10Y_move_years_4.5_to_5.5_bp"], cu["instant (the evidence)"]["10Y_move_years_4.5_to_5.5_bp"]),
       f"adoption year: {cu[k1]['10Y_move_years_4.5_to_5.5_bp']:+.0f} bp with AI, {cu[k0]['10Y_move_years_4.5_to_5.5_bp']:+.0f} without, "
       f"{cu['instant (the evidence)']['10Y_move_years_4.5_to_5.5_bp']:+.0f} in the evidence")
+cb = R["layer3_model_catch_up_comparator_b"]
+hls = (1, 3, 5)
+ai = lambda d, h: d[f"human regime digestion {h}y, AI adopted around year 5 (x30)"]["10Y_move_years_4.5_to_5.5_bp"]  # noqa: E731
+check("F7 on the central the catch-up is larger than on (b), the pre-switch run, at every human half-life, and the new world "
+      "(deficits dominate) raises r* further, its required return staying inside the rate headroom",
+      all(ai(cu, h) > ai(cb, h) for h in hls) and cu["worlds"]["new_world_r_star_start_max_year15"][1] > cb["worlds"]["new_world_r_star_start_max_year15"][1]
+      and cu["worlds"]["new_world_required_return_rise_max_pp"] < cu["worlds"]["rate_headroom_pp"],
+      "adoption year with AI, half-life 1/3/5 years: " + " / ".join(f"{ai(cu, h):+.0f}" for h in hls) + " bp ((b) "
+      + " / ".join(f"{ai(cb, h):+.0f}" for h in hls) + f"); r* start/peak (to year 15)/year 15 {cu['worlds']['new_world_r_star_start_max_year15']} "
+      f"((b) {cb['worlds']['new_world_r_star_start_max_year15']}); required return up to {cu['worlds']['new_world_required_return_rise_max_pp']:+.2f} pp "
+      f"of headroom {cu['worlds']['rate_headroom_pp']:.2f}")
 
-n_ok = sum(ok for _, ok, _ in RESULTS)
-print(f"\n{n_ok}/{len(RESULTS)} checks passed")
-sys.exit(0 if n_ok == len(RESULTS) else 1)
+print("M — layer 3 on the central, (b) the comparator")
+ec, _ = m.central()
+eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+rt = lambda o: json.loads(json.dumps(o, default=str))  # noqa: E731
+same_objects = (m.feedback_bridges(eb, alpha_fiscal=0.25, alpha_rent=0.02) == m.Bridges(capital_premium=5.0, alpha_fiscal=0.25, alpha_rent=0.02)
+                and m.deep_tech(eb) == m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
+                and m.hold_tech(eb) == m.TechPath(eta_end=1.0, lam_end=eb.lam))
+check("M1 layer 3 as stored equals a rebuild on the central and on (b), and (b)'s runs use the pre-switch objects exactly "
+      "(Bridges(capital_premium=5.0, ...), TechPath(0.04, 0.01, 6, 6))",
+      rt(rd.layer3(ec)[0]) == cu and rt(rd.layer3(eb)[0]) == cb and same_objects
+      and R["layer3_calibration"]["tag"] == "c_central_lo",
+      f"central rho {ec.rho:.4f}, premium {m.capital_premium(ec):.2f} pp; (b) premium {m.capital_premium(eb):.2f} pp")
+
+fails = [n for n, ok, _ in RESULTS if not ok]
+print(f"\n{len(RESULTS) - len(fails)}/{len(RESULTS)} checks passed")
+print(f"ALL GREEN ({len(RESULTS)})" if not fails else "FAILURES: " + "; ".join(n.split(' ')[0] for n in fails))
+sys.exit(0 if not fails else 1)

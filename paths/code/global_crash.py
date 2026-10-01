@@ -57,12 +57,31 @@
 #   income          capital); owners spend as the representative household does, so the levy costs no demand here.
 # What a source cannot cover is borrowed. Norway's share of employment becomes a marker, and a variant that keeps it.
 #
+# The dating (decision 43, adopted 2026-10-01): quarter_label(k) — index 0 is the state measured on data to September 2026,
+# the end of 2026Q3 (START), so the first simulated quarter, index 1, where ai_shock's falls begin, is 2026Q4, and index 9
+# is 2028Q4. One dating. Before 2026-10-01 the labels ran one quarter late (log 29's START = 2026Q4 at index 0, case.py's
+# "quarter 1 = 2026Q4" since log 28); labels only: the dynamics never depended on them.
+#
+# The October bust (her request, 2026-09-30; october.py). Two additions, each off by default:
+#   energy term  decision 27's condition (as amended 2026-10-01: dated Brent at least 1.25 times its three-year average on a
+#                day a bust rule is active; off by default until then). An exogenous oil price by region (Shock.oil,
+#                quarterly averages; Shock.oil_before, the quarter before index 0). The model's pi is core inflation (the
+#                2007-10 fit targets core PCE); headline pi_h = pi + energy's share of spending x the pass-through of crude
+#                to consumer energy prices, this quarter and the next (energy_inflation; measured in october.py). The higher
+#                energy bill is a tax on consumers' other spending (Region.energy_income, approximate). Rules.react_to
+#                ("core" | "headline": hands tied) is what the policy rule reacts to, the last quarter's reading
+#                (annualised); "headline4" | "core4" read the average of the last four quarters instead (y/y-like; before
+#                the start, index 0's reading, which is measured y/y). Rules.expect_from is what expectations adapt to.
+#   spread0      Shock.spread0: a spread already present at the start (index 0), so it reaches spending in the first quarter.
+#
 # Each quarter, region r:
-#   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern)
+#   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern; pi_1 headline if
+#                react_to is "headline"; the four-quarter average of headline or core if "headline4" or "core4")
 #   expectations pie = anchor pi* + (1 - anchor) pi_1
 #   demand level D = wealth + capex + unemployed + rate relief + debt deflation + credit + money + trade + fiscal
+#                    (+ the energy bill, when the energy term is on)
 #   output gap   y = a1 y_1 - a_r (i - pie - r*) + D - a1 D_1
-#   inflation    pi = pie + kappa y + tariff pass-through
+#   inflation    pi = pie + kappa y + tariff pass-through (core); headline pi_h = pi + the energy term (= pi when off)
 #   unemployment u moves toward u* - okun y at a regional speed; u* ratchets up by eta x (u - u*) and the drift
 #   banks        capital falls by losses above normal (a base rate plus unemployment, the gap, and shock add-ons)
 #   spreads      s = s0 + sigma x (capital lost) + global mood, capped under a backstop
@@ -107,7 +126,20 @@ import lambda_compute2 as _lc  # noqa: E402
 _lc.CACHE = os.path.join(ROOT, "cache")
 DT = 0.25
 R = ("US", "EA", "SE", "CN")
-START = "2026Q4"    # quarter 0, the start: the regions are measured on the data to September 2026
+START = "2026Q3"    # index 0, the start: the regions as measured on data to September 2026 (the end of 2026Q3); index 1,
+                    # the first simulated quarter, is 2026Q4 (decision 43)
+
+
+def quarter_label(k: int) -> str:
+    """The calendar quarter of index k: index 0 is START, the quarter the start state is measured on, so index 1 — the
+    first simulated quarter, where ai_shock's falls begin — is 2026Q4, and index 9 is 2028Q4."""
+    return str(pd.Period(START, "Q") + int(k))
+
+
+def quarter_mid(k):
+    """The middle of index k's quarter, in years (for figures): 2026.625 for index 0 (2026Q3), 2026.875 for index 1."""
+    p = pd.Period(START, "Q")
+    return p.year + (p.quarter - 1) / 4 + 0.125 + np.asarray(k, float) / 4
 
 
 def fred(sid: str) -> pd.Series:
@@ -155,6 +187,14 @@ class Region:
     debt_slope: float = 0.0
     debt_slope_crisis: float = 0.0
     exit_share: float = 0.0     # share of structural displacement that leaves the labour force (decoupling.py; US measured)
+    # the energy term (october.py; used only when Shock.oil carries the region): energy's share of consumer spending, the
+    # pass-through of crude to consumer energy prices (this quarter, the next; measured), household consumption's share of
+    # GDP, spending lost per unit of a higher energy bill (approximate), and headline inflation at the start (None: pi0)
+    energy_weight: float = 0.0
+    energy_pass: tuple = (0.0, 0.0)
+    consumption_share: float = 0.0
+    energy_income: float = 0.0
+    pi_h0: float | None = None
 
 
 @dataclass(frozen=True)
@@ -239,6 +279,9 @@ class Rules:
     care_cap: float | None = None     # the region's own ceiling for care, % of employment (None: the common ceiling);
                                       # a financing limit reached before Norway's share (case.py: care capping out)
     trigger_on: str = "unemployment"  # what the fiscal triggers watch: "unemployment" | "non-employment" (incl. exits)
+    react_to: str = "core"            # what the policy rule reacts to: "core" (the model's pi) | "headline" (hands tied);
+                                      # "headline4" | "core4": the average of the last four quarters (y/y-like)
+    expect_from: str = "core"         # what expectations adapt to: "core" | "headline" (second-round effects)
 
 
 MODERN = Rules()
@@ -263,6 +306,10 @@ class Shock:
                                                      # in place of the region's constant drift (case.py: a pace that rises)
     spread: dict = field(default_factory=dict)       # an exogenous premium on borrowing by quarter, points, passed to private
                                                      # borrowers (case.py: deficit and sovereign worry)
+    spread0: dict = field(default_factory=dict)      # a spread already present at the start (index 0), points (october.py)
+    oil: dict = field(default_factory=dict)          # the energy term: the oil price by quarter, quarterly averages in the
+                                                     # region's currency, index 0 = the start's quarter (october.py)
+    oil_before: dict = field(default_factory=dict)   # the quarter before index 0 (for crude's change into it)
 
 
 def ramp(total: float, start: int, quarters: int, n: int, hold: bool = True) -> np.ndarray:
@@ -277,6 +324,28 @@ def pulse(total_pct_loans: float, start: int, quarters: int, n: int) -> np.ndarr
     x = np.zeros(n)
     x[start:start + quarters] = total_pct_loans / (quarters * DT)       # % of loans a year while it lasts
     return x
+
+
+def energy_inflation(oil, before: float, w, passthrough: tuple) -> np.ndarray:
+    """Headline minus core from crude oil, points a year, by quarter: energy's share of spending w times the pass-through of
+    crude's change (quarterly averages, annualised log %) to consumer energy prices, this quarter (b0) and the next (b1).
+    oil[j] is quarter j's price and `before` the quarter before index 0; w a number, or one per quarter (the share when the
+    change comes). Index 0 carries the change into it only (its own lag lies before the data)."""
+    g = 400 * np.diff(np.log(np.concatenate([[float(before)], np.asarray(oil, float)])))
+    w = np.broadcast_to(np.asarray(w, float), g.shape)
+    b0, b1 = passthrough
+    e = b0 * w * g
+    e[1:] += b1 * w[:-1] * g[:-1]
+    return e
+
+
+def energy_paths(oil, before: float, g: Region, n: int) -> tuple:
+    """The energy term for region g: headline minus core (points a year) and the rise in consumers' energy bill since the
+    start, % of GDP (consumption's share of GDP x energy's share of spending x consumer energy prices' log change)."""
+    e = energy_inflation(np.asarray(oil, float)[:n], before, g.energy_weight, g.energy_pass)
+    bill = np.zeros(n)
+    bill[1:] = g.consumption_share * np.cumsum(e[1:]) * DT
+    return e, bill
 
 
 # ------------------------------------------------------------------ the simulation
@@ -349,18 +418,26 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                                         "d_wealth", "d_capex", "d_unemp", "d_relief", "d_debt", "d_credit", "d_money",
                                         "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
                                         "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care",
-                                        "debt_extra", "premium", "d_fin", "room", "out")} for r in names}
+                                        "debt_extra", "premium", "d_fin", "room", "out",
+                                        "pi_h", "e_pi", "e_bill", "d_energy")} for r in names}
     W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
         o = out[r]
         o["u"][0] = o["u_star"][0] = g.u0
         o["pi"][0] = g.pi0
+        o["pi_h"][0] = g.pi0
         o["P"][0] = o["Pexp"][0] = 1.0
         o["i"][0] = g.i0
         o["k"][0] = g.bank_capital
         o["s"][0] = 0.0
         o["care"][0] = g.care_share
+        if r in shock.spread0:                      # a spread already present at the start
+            o["s"][0] = shock.spread0[r]
+        if r in shock.oil:                          # the energy term: headline minus core, and the energy bill
+            o["e_pi"][:], o["e_bill"][:] = energy_paths(shock.oil[r], shock.oil_before[r], g, n)
+            if g.pi_h0 is not None:
+                o["pi_h"][0] = g.pi_h0
     fiscal_left = {r: 0 for r in names}
     fiscal_on = {r: False for r in names}
     for k in range(1, n):
@@ -369,15 +446,21 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             g, rl, o = regions[r], rules[r], out[r]
             if r not in active:
                 o["u"][k], o["u_star"][k], o["pi"][k], o["i"][k], o["k"][k] = g.u0, g.u0, g.pi0, g.i0, g.bank_capital
+                o["pi_h"][k] = g.pi0
                 o["care"][k] = g.care_share
                 o["P"][k] = o["P"][k - 1] * (1 + g.pi0 / 100 * DT)
                 o["Pexp"][k] = o["P"][k]
                 continue
             pis = rl.pi_star
-            pie = rl.anchor * pis + (1 - rl.anchor) * o["pi"][k - 1]
-            # policy
+            pie = rl.anchor * pis + (1 - rl.anchor) * (o["pi_h"] if rl.expect_from == "headline" else o["pi"])[k - 1]
+            # policy (on core inflation, the model's pi; on headline when the rules say hands are tied)
             if rl.policy == "taylor":
-                target = cm.r_star + pie + cm.phi_pi * (o["pi"][k - 1] - pis) + cm.phi_y * o["y"][k - 1]
+                if rl.react_to in ("headline4", "core4"):   # four quarters' average; before the start, index 0's (y/y)
+                    src = o["pi_h"] if rl.react_to == "headline4" else o["pi"]
+                    seen = sum(src[max(j, 0)] for j in range(k - 4, k)) / 4
+                else:
+                    seen = (o["pi_h"] if rl.react_to == "headline" else o["pi"])[k - 1]
+                target = cm.r_star + pie + cm.phi_pi * (seen - pis) + cm.phi_y * o["y"][k - 1]
                 i = max(g.floor, cm.smooth * o["i"][k - 1] + (1 - cm.smooth) * target)
             else:                                   # gold: rates drift down only as far as the market takes them; no reflation
                 i = max(0.0, o["i"][k - 1] - 0.25 * max(o["i"][k - 1] - 1.0, 0.0))
@@ -438,6 +521,9 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 d_fiscal = -0.8 * min(0.5 * unemp_up / 5, 2.0)          # consolidation as deficits grow, up to 2% of GDP
             d_other = shock.demand.get(r, np.zeros(n))[k]
             D = d_wealth + d_capex + d_unemp + d_relief + d_debt + d_credit + d_money + d_trade + d_fiscal + d_other + d_care + d_fin
+            if r in shock.oil:                      # the energy bill: a tax on consumers' other spending
+                o["d_energy"][k] = -g.energy_income * o["e_bill"][k]
+                D += o["d_energy"][k]
             for key, v in (("d_wealth", d_wealth), ("d_capex", d_capex), ("d_unemp", d_unemp), ("d_relief", d_relief),
                            ("d_debt", d_debt), ("d_credit", d_credit), ("d_money", d_money), ("d_trade", d_trade), ("d_fiscal", d_fiscal),
                            ("d_care", d_care)):
@@ -449,6 +535,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             kap = cm.kappa_1930 if rl.kappa_1930s else cm.kappa
             pi = pie + kap * y + (0.03 * tariff if k == rl.tariff_q else 0.0) / DT
             o["pi"][k] = pi
+            o["pi_h"][k] = pi + o["e_pi"][k] if r in shock.oil else pi
             o["P"][k] = o["P"][k - 1] * (1 + pi / 100 * DT)
             o["Pexp"][k] = o["Pexp"][k - 1] * (1 + pis / 100 * DT)
             # unemployment: the drift and adoption in recessions act only on work that can be automated at the time

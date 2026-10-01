@@ -122,6 +122,26 @@ both at tag `pre-cleanup-2026-09-04`.
    end with ∎). Once the journal's requirements are known, adjust `reference_docx` in
    `code/build_submission_docx.py` and rebuild. The blind file keeps the AI-use note,
    which names no author.
+10. **The coverage figure's Z.1 land residual mixes sectors** (found in the paths
+    thread's feasibility study; levels verified on FRED 2026-09-30).
+    `code/feasibility_kappa.py` takes households-and-nonprofits real estate (HNOREMV,
+    $54.07T in 2026Q2) less households' residential structures alone (BOGZ1LM155012665Q,
+    $29.70T), so about $4.3T of nonprofit property counts as land: the residual is
+    $24.4T, where the matched numerator, households' own real estate (HOOREVLMHMV,
+    $49.79T), gives $20.1T, about 18% lower. Of the 2025 members only the four household
+    valuation members (`k_z1_hh_*`) are built on this residual, and they are overstated by
+    about a fifth; the rent-bill members (`k_flow_*`) are unaffected, and the economy-wide
+    valuation members (which include it too) are empty in 2025. So in Figure 4 the
+    README's 2025 median 0.33 [0.18–0.59] would fall to roughly 0.30, the band's low end
+    to about 0.15 and its top (a rent-bill member) not at all — an estimate, scaling
+    those members by the 2026Q2 ratio (20.1/24.4), not rerun. The same pairing sits in
+    `progress_and_prosperity/data_notes/terminal_rent/build_measurement.py:134`
+    (untracked; not in the public repository), as recorded in that thread's STATE.
+    Her call for the paper: switch the numerator and rebuild `data/kappa_results.csv`
+    and the figure, or keep it and say so.
+    → Decided 2026-10-01 (Claude, on her delegation; paths STATE decision 52): it stays
+    open for the paper's authors, and the repository's figures keep matching the
+    published paper, which a rebuild here would contradict.
 
 ## Note on the batteries
 

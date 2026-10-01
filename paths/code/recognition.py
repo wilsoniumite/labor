@@ -42,6 +42,20 @@
 # world's average neutral rate over the next ten years plus the target inflation (past the end of the
 # simulated path its last value holds — simulate beyond the dates you report); its term premium.
 # Resolution — the truth revealed — jumps the curve to the true world's curve: (1 - p)(z_new - z_old).
+#
+# CALIBRATION (her decision, 2026-09-30). worlds() runs on calibration (c)'s central economy, macro.central() — the open
+# (domp) reading, the low root in k — with the required return following r* from that economy's own rho
+# (macro.feedback_bridges) and deep automation relative to its own lambda (macro.deep_tech); (b) and (c)'s high root are
+# kept by name (calibration="b", "c_hi"), and capital=False stays the flow benchmark (a), which (c) has no analogue of. The
+# bridge coefficients were set on (b) and are not retuned. The market's signal stays solve's labor_share — all wages over
+# income, the machine chain's labour included (0.554 at (c)'s start, against labour_share_bea's 0.47, the consumption
+# chain only, which is (c)'s target; in (b) the two coincide to 0.001). The basis matters on (c): the machine chain's
+# labour is the part deep automation removes fastest, so the all-wages signal falls faster early and the market wakes up
+# earlier than on the Figure 7 basis (Learning(signal="labour_share_bea"); recognition_scenarios.py stores it as a
+# sensitivity). The central economy is read from results/calibration_c.json (BEA; code/calibration_c.py, gated by
+# checks/check_calibration_c.py) by macro.central().
+#
+# Gated by checks/check_recognition.py (and, through the runs built on it, check_speed, check_reverse, check_bank).
 
 from __future__ import annotations
 
@@ -187,12 +201,40 @@ def crossing(t, p, level):
     return float(t[i - 1] + (level - p[i - 1]) / (p[i] - p[i - 1]) * (t[i] - t[i - 1]))
 
 
-def worlds(years: float = 15.0, dt: float = 0.25, capital: bool = True, tech_new: m.TechPath | None = None):
-    """The two worlds on the calibrated economy — (b) with the return following r* by default: the status
-    quo (technology fixed) and a new world (medium deep automation by default)."""
-    e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE if capital else m.CALIBRATION_BASE)
-    br = m.Bridges(capital_premium=5.0) if capital else m.Bridges()
-    tech_new = tech_new or m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
-    old = m.macro_path(e, m.TechPath(eta_end=1.0, lam_end=e.lam), br, years, dt)
+CALIBRATIONS = ("c", "c_hi", "b", "a")
+
+
+def economy(calibration: str = "c"):
+    """(Economy, Bridges) for a two-world run on one calibration (see worlds)."""
+    if calibration in ("c", "c_hi"):
+        e, _ = m.central("hi" if calibration == "c_hi" else "lo")
+        return e, m.feedback_bridges(e)
+    if calibration == "b":
+        e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+        return e, m.feedback_bridges(e)                  # == Bridges(capital_premium=5.0), bit for bit
+    if calibration == "a":
+        e, _, _, _ = m.calibrate(base=m.CALIBRATION_BASE)
+        return e, m.Bridges()
+    raise ValueError(f"calibration {calibration!r}: one of {CALIBRATIONS}")
+
+
+def worlds(years: float = 15.0, dt: float = 0.25, capital: bool = True, tech_new: m.TechPath | None = None,
+           calibration: str | None = None):
+    """The two worlds — the status quo (technology held at the economy's own start, macro.hold_tech) and a new world
+    (medium deep automation relative to the economy's own start, macro.deep_tech, by default) — on one calibration:
+      "c"    (the default; her decision, 2026-09-30) calibration (c)'s central economy, macro.central("lo") — the open
+             (domp) reading, the low root in k — with the required return following r* from its own rho
+             (macro.feedback_bridges: premium rho x 100 - 0.75 = 6.80 pp);
+      "c_hi" its high root in k, the sensitivity, the same way;
+      "b"    calibration (b), the pre-switch default, kept as the comparator: bit-identical to the pre-switch worlds (the
+             helpers give (b)'s hard-coded Bridges(capital_premium=5.0) and TechPath(0.04, 0.01, 6, 6) exactly);
+      "a"    the flow benchmark (a) with a fixed return, no feedback — what capital=False has always meant. (c) has no flow
+             analogue (its measured machine chain needs A.4's capital), so capital=False stays the (a) comparator.
+    capital=False selects "a"; `calibration`, if given, overrides `capital`. Raises macro.NoEquilibrium if a date has no
+    land-scarce equilibrium (not at the default bridges on any calibration here)."""
+    calibration = calibration or ("c" if capital else "a")
+    e, br = economy(calibration)
+    tech_new = tech_new or m.deep_tech(e)
+    old = m.macro_path(e, m.hold_tech(e), br, years, dt)
     new = m.macro_path(e, tech_new, br, years, dt)
     return e, old, new

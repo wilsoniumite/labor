@@ -34,7 +34,21 @@
 # labour-demand elasticity for rigid wages 0.4 (the literature's range 0.25-0.5). Debts follow income up (new borrowing
 # keeps the debt-to-income ratio) and only amortise down: money debts are fixed, which is what debt deflation needs.
 #
-# Public data only. Run from paths/:  ../venv/Scripts/python.exe code/households.py
+# The worlds (her decision, 2026-09-30): calibration (c)'s central economy, macro.central() — the open (domp) reading, the
+# low root — through demand.world (bank_scenarios' bridges, set on (b), not retuned). The high root (the sensitivity) and
+# (b) (the comparator; bit-identical to the pre-switch runs) are stored beside it for the main variants.
+#
+# Two artefacts of this layer that (c)'s larger wage fall exposes, both disclosed and checked rather than changed:
+#   benefits — public support is the replacement rate on the START's real net wage, indexed to prices; with flexible
+#     money wages falling faster than prices (the real wage below the replacement rate: from about year 9 on (c)'s
+#     paths) it exceeds the wage lost and the job losers' drag is zero. The sensitivity benefit_base='exit' pays each
+#     cohort the replacement rate on its own real net wage when it left work (indexed to prices after), not a new default;
+#     it delays the artefact (the drag zero from year 14 rather than 9.25, deficits dominating), it does not remove it;
+#   rigid wages — job loss from rigidity is linear in the accumulated refused cut (elasticity x excess); with money
+#     wages that would fall 60-80%, it takes employment to the layer's floor (5% of the start's) from year 10.5.
+#
+# Public data only: Statistics Sweden (above); the economy from results/calibration_c.json (BEA; code/calibration_c.py).
+# Run from paths/:  ../venv/Scripts/python.exe code/households.py
 # Out: results/households.json, figures/fig_households.png
 
 from __future__ import annotations
@@ -95,6 +109,8 @@ class Support:
     check_quarters: int = 4
     check_trigger: float = 3.0          # checks start when unemployment is this many points above the start
     private_cap: float = 1.0            # most that family and friends can give, share of the net wages of those in work
+    benefit_base: str = "start"         # "start": the start's real net wage, indexed to prices (the layer's rule); "exit": each
+                                        # cohort's real net wage when it left work, indexed to prices after (a sensitivity)
 
 
 # A family-based regime: the state replaces less, family and friends cover half of the rest — but a network can carry a
@@ -155,7 +171,13 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
         net_w = net0 * rec["W"][k]                                   # a year's net wage bill if everyone still worked
         lost_wage = net_w * out_new
         first = cohorts[max(0, k - int(round(1 / dt)) + 1): k + 1].sum()
-        public = net0 * rec["P"][k] * (sp.replacement_first * min(first, out_new) + sp.replacement_later * max(out_new - first, 0.0))
+        if sp.benefit_base == "exit":                               # each cohort on its own real wage at exit (scaled to out_new)
+            c_, tot = cohorts[: k + 1], cohorts[: k + 1].sum()
+            rep = np.where(np.arange(k + 1) > k - int(round(1 / dt)), sp.replacement_first, sp.replacement_later)
+            wr = rec["W"][: k + 1] / rec["P"][: k + 1]
+            public = net0 * rec["P"][k] * float(np.sum(c_ * wr * rep)) * out_new / tot if tot > 1e-15 else 0.0
+        else:
+            public = net0 * rec["P"][k] * (sp.replacement_first * min(first, out_new) + sp.replacement_later * max(out_new - first, 0.0))
         uncovered = max(lost_wage - public, 0.0)
         private = min(sp.private * uncovered, sp.private_cap * net0 * rec["W"][k] * emp)   # a network's capacity is finite
         # savings: each new exit brings buffer_months of net wage; draw a share of the remaining loss while they last
@@ -228,11 +250,17 @@ def summary(r: dict, horizon: float = 15.0) -> dict:
             "years_network_cap_binds": round(float(h["cap_binds"][w].sum() * (t[1] - t[0])), 2)}
 
 
+COMPARED = ("central", "rigid money wages", "no private support", "family-based support", "family-based, rigid money wages")
+EXIT_COMPARED = ("central", "no private support", "family-based support", "family-based, no cap on what networks give")
+
+
 def main():
     s0 = sweden_start()
-    cyc = json.load(open(os.path.join(ROOT, "results", "demand.json"), encoding="utf-8"))["sweden_cycle"]
+    with open(os.path.join(ROOT, "results", "demand.json"), encoding="utf-8") as f:
+        cyc = json.load(f)["sweden_cycle"]
     dmp = dm.Demand(kappa=cyc["kappa_per_pp_output_gap"], okun=cyc["okun"])
-    worlds = {name: dm.world(br, truth) for name, (br, truth) in bs.SCEN.items()}
+    e, cal = bs.economy("lo")
+    worlds = {name: dm.world(br, truth, e=e) for name, (br, truth) in bs.SCEN.items()}
     central = Support()
     variants = {"central": central,
                 "rigid money wages": replace(central, rigid_wages=True),
@@ -243,7 +271,7 @@ def main():
                 "family-based, no cap on what networks give": replace(central, **(FAMILY | {"private_cap": 1.0})),
                 "family-based, rigid money wages": replace(central, **FAMILY, rigid_wages=True),
                 "family-based, with emergency checks": replace(central, **FAMILY, check_size=4.0)}
-    out = {"sweden_start": s0, "support": central.__dict__, "scenarios": {}}
+    out = {"sweden_start": s0, "support": central.__dict__, "calibration": cal, "scenarios": {}}
     runs = {}
     for name, mp in worlds.items():
         for vn, sp in variants.items():
@@ -251,7 +279,25 @@ def main():
             out["scenarios"][f"{name} | {vn}"] = summary(r)
             runs[(name, vn)] = r
         out["scenarios"][f"{name} | demand layer alone (full pooling)"] = dm.summary(dm.run(mp, dmp))
-    json.dump(out, open(os.path.join(ROOT, "results", "households.json"), "w", encoding="utf-8"), indent=1)
+    # benefits on each cohort's wage at exit (a sensitivity: the benefit artefact delayed, not removed), the two automated worlds
+    out["sensitivity: benefits on the wage at exit"] = {
+        "note": "benefit_base='exit': public support on each cohort's real net wage when it left work, indexed to prices after; "
+                "the layer's rule pays it on the start's real net wage. Not a new default.",
+        "scenarios": {f"{name} | {vn}": summary(run(worlds[name], dmp, replace(variants[vn], benefit_base="exit"), s0))
+                      for name in ("deficits dominate", "owners' saving dominates") for vn in EXIT_COMPARED}}
+    # the high root (the sensitivity) and (b) (the comparator): the two automated worlds, the main variants
+    for which, key in (("hi", "sensitivity: the high root"), ("b", "comparator: calibration (b)")):
+        e2, cal2 = bs.economy(which)
+        sc = {}
+        for name in ("deficits dominate", "owners' saving dominates"):
+            br, truth = bs.SCEN[name]
+            mp = dm.world(br, truth, e=e2)
+            for vn in COMPARED:
+                sc[f"{name} | {vn}"] = summary(run(mp, dmp, variants[vn], s0))
+            sc[f"{name} | demand layer alone (full pooling)"] = dm.summary(dm.run(mp, dmp))
+        out[key] = {"calibration": cal2, "scenarios": sc}
+    with open(os.path.join(ROOT, "results", "households.json"), "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1)
     print(json.dumps(s0, indent=1))
     for k, v in out["scenarios"].items():
         if "y5_y8_y10_y12_y15" in v and "demand_level" in v["y5_y8_y10_y12_y15"]:
@@ -268,7 +314,7 @@ def figure(runs):
     import matplotlib.pyplot as plt
     plt.rcParams["axes.titlesize"] = 10
     fig, ax = plt.subplots(2, 4, figsize=(20, 8.8), layout="constrained")
-    fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
+    fig.get_layout_engine().set(rect=(0, 0.045, 1, 0.955))   # room for the two-line footer
     FAM = "family-based support"
     for row, name in enumerate(("deficits dominate", "owners' saving dominates")):
         r = runs[(name, "central")]
@@ -300,7 +346,9 @@ def figure(runs):
         a.set_title(f"{name}: debt service and people out of work"); a.legend(fontsize=7.5)
     for a in ax.flat:
         a.set_xlabel("years")
-    fig.text(0.01, 0.005, "households.py on the demand layer and the macro block's worlds. Swedish household debt, fixation, margins, deposits and GDP from Statistics Sweden; replacement rates, private support and spending shares approximate or assumed (see the header).", fontsize=7.5)
+    fig.text(0.01, 0.004, "households.py on the demand layer and the macro block's worlds on calibration (c), the central (open reading, low root; bridges set on (b)). "
+             "Swedish household debt, fixation, margins, deposits and GDP from Statistics Sweden; replacement rates, private support and spending shares approximate or assumed.\n"
+             "Coverage above 100%: benefits on the start's real wage exceed the fallen wage; the flat 95%: rigid-wage job loss at the layer's 5% employment floor (both artefacts; see the header).", fontsize=7.5)
     os.makedirs(os.path.join(ROOT, "figures"), exist_ok=True)
     fig.savefig(os.path.join(ROOT, "figures", "fig_households.png"), dpi=120)
 

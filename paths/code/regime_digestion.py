@@ -18,6 +18,18 @@
 #      weeks, adopting AI can itself reprice the curve — a catch-up with no news at all.
 # Layer 0 — prices of quantified news, days since 1995 — is digestion_history.py.
 #
+# CALIBRATION of layer 3 (her decision, 2026-09-30): the two worlds run on calibration (c)'s central economy,
+# macro.central() — the open (domp) reading, the low root in k — with the required return following r* from its own rho
+# (macro.feedback_bridges) and deep automation relative to its own lambda (macro.deep_tech); the same runs on (b), the
+# pre-switch calibration, are stored beside them (layer3_model_catch_up_comparator_b, bit-identical to the pre-switch
+# layer 3: the helpers give (b)'s hard-coded objects exactly). The bridges ("deficits dominate": alpha_fiscal 0.25,
+# alpha_rent 0.02) were set on (b) and are not retuned. Layers 1 and 2 are data and do not depend on the calibration.
+#
+# Provenance (public): layers 1-2 — the Philadelphia Fed's Survey of Professional Forecasters (median levels, cache/spf/),
+# the Federal Reserve Board's Gürkaynak–Sack–Wright zero curve (a trimmed vintage, cache/fed/), Kim–Wright term premia
+# (THREEFYTP1-10) and the 3-month bill (TB3MS) from FRED (cache/); layer 3 — the economy from results/calibration_c.json (BEA;
+# code/calibration_c.py, gated by checks/check_calibration_c.py), read by macro.central(). Gated by
+# checks/check_regime_digestion.py.
 # Run from paths/:  ../venv/Scripts/python.exe code/regime_digestion.py
 # Out: results/regime_digestion.json, figures/fig_regime_digestion.png
 
@@ -174,10 +186,11 @@ def layer2(g, kw, ba):
 
 
 def layer3(e):
-    """The model's consequence: slow human regime digestion, then AI adoption."""
-    br = m.Bridges(capital_premium=5.0, alpha_fiscal=0.25, alpha_rent=0.02)
-    old = rc.refine(m.macro_path(e, m.TechPath(eta_end=1.0, lam_end=e.lam), br, 25.0, 0.25), 1 / 52)
-    new = rc.refine(m.macro_path(e, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25), 1 / 52)
+    """The model's consequence: slow human regime digestion, then AI adoption (deficits dominate; the return following
+    r* from the economy's own rho)."""
+    br = m.feedback_bridges(e, alpha_fiscal=0.25, alpha_rent=0.02)
+    old = rc.refine(m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25), 1 / 52)
+    new = rc.refine(m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25), 1 / 52)
     t = old["t"]
     T10 = np.array([10.0])
     base = rc.Learning(sigma=1.0, p0=0.05)
@@ -200,6 +213,10 @@ def layer3(e):
             out[key], paths[key] = row, (p, z)
     i0, i1 = int(np.searchsorted(t, 4.5)), int(np.searchsorted(t, 5.5))
     ev = paths["instant (the evidence)"][1]
+    out["worlds"] = {"new_world_r_star_start_max_year15": [round(float(new["r_star"][0]), 2), round(float(new["r_star"][w].max()), 2),
+                                                           round(float(new["r_star"][np.argmin(np.abs(t - 15.0))]), 2)],
+                     "new_world_required_return_rise_max_pp": round(float(new["rho"].max() - new["rho"][0]), 3),
+                     "rate_headroom_pp": round(float(m.rate_headroom(e)), 3)}
     out["instant (the evidence)"]["10Y_move_years_4.5_to_5.5_bp"] = round(float(ev[i1] - ev[i0]), 1)
     for hl in (1.0, 3.0, 5.0):
         k0 = f"human regime digestion {hl:g}y"
@@ -210,7 +227,8 @@ def layer3(e):
 
 
 def main():
-    e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+    e, info = m.central()
+    eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
     g, kw, sp = gsw_monthly(), kw_monthly(), spf("tbill")
     bq, ba = bill()
     out = {"sources": {"GSW": "Federal Reserve Board, feds200628 (staff research data), trimmed vintage in cache/fed",
@@ -218,14 +236,18 @@ def main():
                        "FRED": "TB3MS; THREEFYTP1-10 (Kim-Wright term premia)"}}
     out["layer1_next_year"], y, f = layer1(g, kw, sp, bq)
     out["layer2_regime_anchor"], b10, f9y, real10 = layer2(g, kw, ba)
+    out["layer3_calibration"] = {k: info[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}
     out["layer3_model_catch_up"], t, paths = layer3(e)
+    out["layer3_model_catch_up_comparator_b"], _, paths_b = layer3(eb)
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
-    json.dump(out, open(os.path.join(ROOT, "results", "regime_digestion.json"), "w", encoding="utf-8"), indent=1, default=str)
+    with open(os.path.join(ROOT, "results", "regime_digestion.json"), "w", encoding="utf-8") as fh:
+        json.dump(out, fh, indent=1, default=str)
     print(json.dumps(out, indent=1, default=str)[:6000])
-    figure(y, f, b10, f9y, real10, ba, out, t, paths)
+    print(json.dumps({k: out[k] for k in ("layer3_model_catch_up", "layer3_model_catch_up_comparator_b")}, indent=1, default=str))
+    figure(y, f, b10, f9y, real10, ba, out, t, paths, paths_b)
 
 
-def figure(y, f, b10, f9y, real10, ba, out, t, paths):
+def figure(y, f, b10, f9y, real10, ba, out, t, paths, paths_b):
     INK, INK2, GRID, SURF = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
     REAL, FWD, SURV, MKT = "#0b0b0b", "#6da7ec", "#eb6834", "#2a78d6"
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9.5, "axes.edgecolor": GRID,
@@ -292,15 +314,19 @@ def figure(y, f, b10, f9y, real10, ba, out, t, paths):
     for key, (col, ls, lab) in sty.items():
         p, z = paths[key]
         a.plot(t[w], z[w] - z[0], color=col, ls=ls, lw=2, label=lab)
+    zb = paths_b["human regime digestion 3y, AI adopted around year 5 (x30)"][1]
+    a.plot(t[w], zb[w] - zb[0], color="#e34948", ls=":", lw=1.4, label="the same on calibration (b), the pre-switch run")
     a.axvspan(4.5, 5.5, color=GRID, alpha=0.6, lw=0)
     a.text(4.55, a.get_ylim()[1] * 0.05 if a.get_ylim()[1] > 0 else 5, "adoption", fontsize=8, color=INK2)
     r3 = out["layer3_model_catch_up"]
     a.set_title("4. Adopting AI can itself reprice the curve" + NL
-                + f"10Y; adoption year +{r3['human regime digestion 3y, AI adopted around year 5 (x30)']['10Y_move_years_4.5_to_5.5_bp']:.0f} bp, "
-                  f"+{r3['human regime digestion 3y']['10Y_move_years_4.5_to_5.5_bp']:.0f} without AI, +{r3['instant (the evidence)']['10Y_move_years_4.5_to_5.5_bp']:.0f} in the evidence")
-    a.set_xlabel("years (deficits dominate)"); a.set_ylabel("bp from the start"); a.legend(frameon=False, fontsize=8.5, labelcolor=INK, loc="upper left")
+                + f"10Y; adoption year {r3['human regime digestion 3y, AI adopted around year 5 (x30)']['10Y_move_years_4.5_to_5.5_bp']:+.0f} bp, "
+                  f"{r3['human regime digestion 3y']['10Y_move_years_4.5_to_5.5_bp']:+.0f} without AI, {r3['instant (the evidence)']['10Y_move_years_4.5_to_5.5_bp']:+.0f} in the evidence")
+    a.set_xlabel("years (deficits dominate)"); a.set_ylabel("bp from the start"); a.legend(frameon=False, fontsize=8.5, labelcolor=INK, loc="best")
     fig.text(0.01, 0.005, "Coibion–Gorodnichenko slopes b -> share of news not yet absorbed per revision, b/(1+b) -> half-life. Anchors: constant-gain fits toward "
-             "realized bill rates (part of any slowness is prudence). Sources: FRB (GSW), Philadelphia Fed (SPF), FRED.", fontsize=8, color=INK2)
+             "realized bill rates (part of any slowness is prudence). Sources: FRB (GSW), Philadelphia Fed (SPF), FRED." + NL
+             + "Panel 4: the macro block on calibration (c)'s central economy (open reading, low root), the return following r*; bridges set on (b), not retuned.",
+             fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_regime_digestion.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
 

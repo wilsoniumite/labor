@@ -1,6 +1,14 @@
 # check_speed.py — markets at machine speed: the learner's capacity, trust, shared error and digestion;
 # the variance-ratio estimators behind the digestion history; and the findings, stated as found.
 #
+# The worlds run on calibration (c)'s central economy since her decision of 2026-09-30 (macro.central(), the return
+# following r* from its own rho, lambda to a fifth of its own start); W1 gates the (b) comparator as the pre-switch worlds
+# and results/speed.json's world readouts against a rebuild, W2 the whole of results/speed.json (about two minutes).
+# The market's signal is all wages over income (recognition.Learning's default), not the paper's Figure 7 basis; on (c) the
+# two differ (check_recognition S3), on (b) they coincide.
+# Thresholds set after seeing (c)'s numbers: F4's "more than a year earlier" (1.0) and "under half the rate headroom" (0.5)
+# (flagged here). F1's 0.2, F3's five times and 1%, L- and H-tolerances predate the switch.
+#
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_speed.py
 # Exit status 0 only if every check passes.
 
@@ -15,10 +23,13 @@ import numpy as np
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), "code"))
+import json  # noqa: E402
+
 import digestion_history as dh  # noqa: E402
 import macro as m  # noqa: E402
 import recognition as rc  # noqa: E402
 import regimes as rg  # noqa: E402
+import speed_scenarios as ss  # noqa: E402
 
 RESULTS = []
 
@@ -29,13 +40,13 @@ def check(name, ok, detail=""):
 
 
 logit = lambda p: np.log(p / (1 - p))  # noqa: E731
-e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+e, _ = m.central()
 
 
 def worlds(dt=0.25, **bridges):
-    br = m.Bridges(capital_premium=5.0, **bridges)
-    old = m.macro_path(e, m.TechPath(eta_end=1.0, lam_end=e.lam), br, 25.0, 0.25)
-    new = m.macro_path(e, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25)
+    br = m.feedback_bridges(e, **bridges)
+    old = m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25)
+    new = m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25)
     return (old, new) if dt == 0.25 else (rc.refine(old, dt), rc.refine(new, dt))
 
 
@@ -158,6 +169,44 @@ check("F3 fast and unaware of its shared error, the market sees false dawns far 
       fd[(False, 30)] > 5 * max(fd[(True, 30)], fd[(True, 1)], 0.01),
       f"150 draws: today {fd[(True, 1)]:.0%}, x30 aware {fd[(True, 30)]:.0%}, x30 unaware {fd[(False, 30)]:.0%}")
 
-n_ok = sum(ok for _, ok, _ in RESULTS)
-print(f"\n{n_ok}/{len(RESULTS)} checks passed")
-sys.exit(0 if n_ok == len(RESULTS) else 1)
+print("W — the worlds: the central, (b) the comparator (results/speed.json, rebuilt by code/speed_scenarios.py)")
+with open(os.path.join(os.path.dirname(HERE), "results", "speed.json"), encoding="utf-8") as fh:
+    SJ = json.load(fh)
+eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+arr = lambda d: {k: v for k, v in d.items() if isinstance(v, np.ndarray)}  # noqa: E731
+same = lambda a, b: arr(a).keys() == arr(b).keys() and all(np.array_equal(a[k], b[k]) for k in arr(a))  # noqa: E731
+pre_b = []
+for bkw in ss.SCEN.values():
+    br = m.Bridges(capital_premium=5.0, **bkw)
+    o0 = rc.refine(m.macro_path(eb, m.TechPath(eta_end=1.0, lam_end=eb.lam), br, 25.0, 0.25), ss.DT)
+    n0 = rc.refine(m.macro_path(eb, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25), ss.DT)
+    o1, n1 = ss.worlds(eb, **bkw)
+    pre_b.append(same(o0, o1) and same(n0, n1))
+Wc = {k: ss.worlds(e, **v) for k, v in ss.SCEN.items()}
+Wb = {k: ss.worlds(eb, **v) for k, v in ss.SCEN.items()}
+rt = lambda o: json.loads(json.dumps(o))  # noqa: E731
+wc, wb = rt(ss.world_readouts(e, Wc)), rt(ss.world_readouts(eb, Wb))
+check("W1 the (b) comparator's worlds are the pre-switch worlds array for array (Bridges(capital_premium=5.0, ...), TechPath(0.04, "
+      "0.01, 6, 6)); the stored world readouts equal a rebuild on the central and on (b)",
+      all(pre_b) and SJ["calibration"]["tag"] == "c_central_lo" and SJ["0_worlds"] == wc and SJ["comparator_b"]["0_worlds"] == wb,
+      "central: " + "; ".join(f"{k} window {v['window']}" for k, v in wc.items()))
+_, info_c = m.central()
+full_c, full_b = rt(ss.compute(e)[0]), rt(ss.compute(eb)[0])
+check("W2 results/speed.json equals a rebuild by code/speed_scenarios.py, block for block, on the central and on (b)",
+      {k: v for k, v in SJ.items() if k not in ("calibration", "comparator_b")} == full_c and SJ["comparator_b"] == full_b
+      and SJ["calibration"] == rt({k: info_c[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}),
+      "blocks: " + ", ".join(full_c))
+dd, ds = "deficits dominate", "owners' saving dominates"
+check("F4 the two bridge settings still decide the direction on the central, and the 10Y moves further through recognition than on (b) "
+      "both ways, in a window that opens more than a year earlier; no world's required return rises by half the rate headroom",
+      wc[dd]["10Y_through_recognition_bp"] > wb[dd]["10Y_through_recognition_bp"] > 0 > wb[ds]["10Y_through_recognition_bp"] > wc[ds]["10Y_through_recognition_bp"]
+      and all(wb[k]["window"][0] - wc[k]["window"][0] > 1.0 for k in (dd, ds))
+      and max(v["required_return_rise_max_pp"] for v in wc.values()) < 0.5 * SJ["calibration"]["headroom_pp"],
+      f"through recognition: deficits {wc[dd]['10Y_through_recognition_bp']:+.0f} bp ((b) {wb[dd]['10Y_through_recognition_bp']:+.0f}), saving "
+      f"{wc[ds]['10Y_through_recognition_bp']:+.0f} ((b) {wb[ds]['10Y_through_recognition_bp']:+.0f}); windows {wc[dd]['window']} ((b) {wb[dd]['window']}); "
+      f"required return up to {max(v['required_return_rise_max_pp'] for v in wc.values()):+.2f} pp of {SJ['calibration']['headroom_pp']:.2f}")
+
+fails = [n for n, ok, _ in RESULTS if not ok]
+print(f"\n{len(RESULTS) - len(fails)}/{len(RESULTS)} checks passed")
+print(f"ALL GREEN ({len(RESULTS)})" if not fails else "FAILURES: " + "; ".join(n.split(' ')[0] for n in fails))
+sys.exit(0 if not fails else 1)

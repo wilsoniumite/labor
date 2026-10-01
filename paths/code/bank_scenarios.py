@@ -7,6 +7,20 @@
 # borrowers and tenants live in the true world's macro path. Commercial rents follow the site (the
 # model's single land market) or, as the alternative, the wage bill.
 #
+# CALIBRATION (her decision, 2026-09-30): the worlds run on calibration (c)'s central economy, macro.central() — the open
+# (domp) reading, the low root in k — with the required return following r* from that economy's own rho
+# (macro.feedback_bridges: premium rho x 100 - 0.75 = 6.80 pp, not (b)'s 5.0) and deep automation relative to its own
+# lambda (macro.deep_tech: lambda to a fifth of its start, not (b)'s absolute 0.01). The bridge coefficients in SCEN
+# (alpha_fiscal, alpha_rent) and alpha_capex were set on (b) and are not retuned: r*, the policy rate and the curve are
+# readouts of (b)-tuned bridges on (c)'s economy. Also stored: the high root (the sensitivity) and (b) (the comparator,
+# bit-identical to the pre-switch runs: the helpers give (b)'s hard-coded objects exactly). No dial here moves the
+# required return; each world's largest rise in it is stored against the central's rate headroom (beyond it solve raises
+# NoEquilibrium) and checked. A readout, not a finding: the two automated branches with the new world's r* keyed to
+# investment spending instead of the pace of tasks (demand.py's r_star_invest_keyed, at the bridge's and the demand layer's
+# scale), because under (c) investment / income falls along the path.
+#
+# Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py, gated by
+# checks/check_calibration_c.py); the bank is illustrative (bank.Bank defaults), not any bank's.
 # Run from paths/:  ../venv/Scripts/python.exe code/bank_scenarios.py
 # Out: results/bank.json, figures/fig_bank.png
 
@@ -39,10 +53,28 @@ HORIZON = 15.0
 TIGHTEN = ((0.0, 2.75), (1.0, 2.75), (2.0, 5.25), (4.0, 5.25), (5.5, 2.75), (25.0, 2.75))   # (year, policy %)
 
 
+def economy(which: str = "lo"):
+    """(Economy, calibration record) for 'lo' (the central (c)), 'hi' (its high root, the sensitivity) or 'b' (the
+    pre-switch calibration, the comparator)."""
+    if which == "b":
+        e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+        return e, {"tag": "b", "root": "lo", "rho": e.rho, "capital_premium": m.capital_premium(e), "k": e.k,
+                   "headroom_pp": m.rate_headroom(e), "source": "macro.calibrate(base=macro.CAPITAL_BASE): the comparator "
+                   "(headroom 20.0 is rate_headroom's cap: at least 20 pp)"}
+    e, info = m.central(which)
+    return e, {k: info[k] for k in ("tag", "root", "rho", "capital_premium", "multiplier", "headroom_pp", "k", "x",
+                                    "participation", "labour_share_bea", "source")}
+
+
 def path(e, bridges, truth, lr=rc.Learning(sigma=1.0, p0=0.05)):
-    br = m.Bridges(capital_premium=5.0, **bridges)
-    old = m.macro_path(e, m.TechPath(eta_end=1.0, lam_end=e.lam), br, 25.0, 0.25)
-    new = m.macro_path(e, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25)
+    br = m.feedback_bridges(e, **bridges)
+    old = m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25)
+    new = m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25)
+    return market(old, new, truth, lr)
+
+
+def market(old, new, truth, lr=rc.Learning(sigma=1.0, p0=0.05)):
+    """The market on two worlds: its belief, policy rate and zero rates (2Y, 3Y, 10Y)."""
     p = rc.learn(old, new, replace(lr, truth=truth))
     mixes, _, _, pol = rc.market_curves(old, new, p)
     z = np.array([rg.zero(T, mx) for mx in mixes])                 # zero rates, %
@@ -84,9 +116,9 @@ def summary(t, r):
     }
 
 
-def main():
-    e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
-    out, runs = {"bank": "illustrative Nordic-style balance sheet (bank.Bank defaults); not any bank's"}, {}
+def bank_runs(e):
+    """The bank on the four paths (and the wage-bill variants) on economy e: (summaries, runs, required-return rise)."""
+    out, runs, rise = {}, {}, {}
     old, new, p, pol, zeros = path(e, {}, "old")
     t = old["t"]
     pol_t = np.interp(t, [a for a, _ in TIGHTEN], [b_ for _, b_ in TIGHTEN])
@@ -96,6 +128,7 @@ def main():
     for name, (bridges, truth) in SCEN.items():
         old, new, p, pol, zeros = path(e, bridges, truth)
         t = old["t"]
+        rise[name] = round(float(max(np.max(old["rho"]), np.max(new["rho"])) - old["rho"][0]), 4)   # pp, either world, 25 years
         for inc in ("site", "employment"):
             if name == "status quo" and inc == "employment":
                 continue
@@ -104,8 +137,57 @@ def main():
             key = name if inc == "site" else f"{name}, office rents follow the wage bill"
             runs[key] = (t, r, p)
             out[key] = summary(t, r)
+    return out, runs, rise
+
+
+IK_FIELDS = ("policy_start_peak_end", "nii_max", "nii_min", "nii_min_year", "house_real_y5_y10_y15", "dsr_mean_max",
+             "share_over_dsr_line_max", "cre_share_below_line_max", "result_start_max_min")
+
+
+def invest_keyed(e):
+    """A readout, not a finding: the two automated branches with the new world's r* (and so its desired rate and the
+    market's curve) keyed to investment spending instead of the pace of tasks (demand.r_star_invest_keyed, at the bridge's
+    and the demand layer's scale); the macro path, the term premium and the required return are left as solved."""
+    import demand as dmd   # local: demand imports this module
+    eb, _ = economy("b")
+    alphas = {"bridge scale": dmd.alpha_inv_bridge(eb)["alpha_inv"], "demand-layer scale": dmd.alpha_inv_is(dmd.Demand())}
+    out = {"note": "the bank on the new world's r* keyed to investment spending (demand.py's readout); the macro path, term premium "
+                   "and required return as solved; office rents follow the site", "alpha_inv": alphas}
+    for name in ("deficits dominate", "owners' saving dominates"):
+        bridges, truth = SCEN[name]
+        br = m.feedback_bridges(e, **bridges)
+        old = m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25)
+        new = m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25)
+        rec = {}
+        for k, a in (("task keyed (the bridge as set)", None), *((f"investment keyed, {k}", a) for k, a in alphas.items())):
+            nw = new
+            if a is not None:
+                alt = dmd.r_star_invest_keyed(new, e, br, a)
+                nw = dict(new, r_star=alt, desired=new["desired"] - new["r_star"] + alt)
+            o_, n_, p, pol, zeros = market(old, nw, truth)
+            r = bk.run(o_["t"], pol, zeros, p, o_, n_, truth=truth, b=bk.Bank())
+            sm = summary(o_["t"], r)
+            rec[k] = {f: sm[f] for f in IK_FIELDS} | {"z10_y5_y10_y15": [round(at(o_["t"], zeros["10Y"], y), 2) for y in (5, 10, 15)]}
+        out[name] = rec
+    return out
+
+
+def main():
+    e, cal = economy("lo")
+    out = {"bank": "illustrative Nordic-style balance sheet (bank.Bank defaults); not any bank's", "calibration": cal}
+    res, runs, rise = bank_runs(e)
+    out.update(res)
+    out["sensitivity: r* keyed to investment spending"] = invest_keyed(e)
+    out["required_return_rise_pp"] = {"note": "largest rise in the required return over 25 years (either world, pp), against the "
+                                              "central's rate headroom at the start (beyond it solve raises NoEquilibrium)",
+                                      "headroom_pp": cal["headroom_pp"], **rise}
+    for which, key in (("hi", "sensitivity: the high root"), ("b", "comparator: calibration (b)")):
+        e2, cal2 = economy(which)
+        res2, _, rise2 = bank_runs(e2)
+        out[key] = {"calibration": cal2, "required_return_rise_pp": rise2, **res2}
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
-    json.dump(out, open(os.path.join(ROOT, "results", "bank.json"), "w", encoding="utf-8"), indent=1)
+    with open(os.path.join(ROOT, "results", "bank.json"), "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1)
     for k, v in out.items():
         print(k, v)
     figure(runs)
@@ -136,7 +218,8 @@ def figure(runs):
         a.plot(t[w], r["policy"][w], color=COL[k], lw=2, label=f"{k}: policy")
         a.plot(t[w], r["rates"]["deposit_rate"][w], color=COL[k], lw=1.3, ls="--")
     a.set_title("1. The policy rate, and what depositors are paid (dashed)" + NL + "the market's curve through recognition")
-    a.set_ylabel("%"); a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="upper right")
+    a.set_ylim(bottom=a.get_ylim()[0] - 1.4)   # room under the lines for the legend
+    a.set_ylabel("%"); a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="lower left", ncol=2)
     # 2. NII decomposition, the pure tightening
     a = ax[0, 1]
     t, r, _ = runs["a pure tightening"]
@@ -157,7 +240,7 @@ def figure(runs):
         a.plot(t[w], (r["wage"] / np.exp(0.02 * t))[w] * r["employed"][w], color=COL[k], lw=1.3, ls="--")
     a.set_yscale("log")
     a.set_title("3. Houses and wages part ways" + NL + "real, start = 1; dashed: the start's wage bill")
-    a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="upper left")
+    a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="lower left")   # clear of the early rise
     # 4. borrowers
     a = ax[1, 0]
     for k in main_keys:
@@ -171,8 +254,8 @@ def figure(runs):
     for k in ("deficits dominate", "owners' saving dominates"):
         for suffix, ls in (("", "-"), (", office rents follow the wage bill", "--")):
             t, r, _ = runs[k + suffix]
-            a.plot(t[w], r["cre"]["share_below_line"][w] * 100, color=COL[k], lw=2, ls=ls,
-                   label=f"{k}" + (" (rents: wage bill)" if suffix else " (rents: site)"))
+            a.plot(t[w], r["cre"]["share_below_line"][w] * 100, color=COL[k], lw=2, ls=ls,   # short labels: the legend clears the curves
+                   label={"deficits dominate": "deficits", "owners' saving dominates": "owners' saving"}[k] + (", wage-bill rents" if suffix else ", site rents"))
     for k in ("status quo", "a pure tightening"):
         t, r, _ = runs[k]
         a.plot(t[w], r["cre"]["share_below_line"][w] * 100, color=COL[k], lw=2, label=k)
@@ -187,9 +270,11 @@ def figure(runs):
     t, r, _ = runs["deficits dominate, office rents follow the wage bill"]
     a.plot(t[w], r["result"][w], color=COL["deficits dominate"], lw=1.6, ls=":", label="deficits dominate, office rents follow wages")
     a.set_title("6. NII (dashed) and NII less credit losses (solid)" + NL + "% of assets a year, before costs")
-    a.set_ylabel("% of assets"); a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="lower left")
-    fig.text(0.01, 0.005, "Illustrative bank (bank.Bank): not any bank's balance sheet. Calibration (b); medium deep automation; market beliefs by Bayesian "
-             "learning; house prices = belief-weighted expected site rents at the real 10Y + 2.5 pp.", fontsize=8, color=INK2)
+    a.set_ylim(bottom=min(0.0, a.get_ylim()[0]))   # room under the lines for the legend
+    a.set_ylabel("% of assets"); a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="lower left", ncol=2)
+    fig.text(0.01, 0.005, "Illustrative bank (bank.Bank): not any bank's balance sheet. Calibration (c), the central (open reading, low root; "
+             "bridges set on (b)); medium deep automation; market beliefs by Bayesian learning; house prices = belief-weighted expected "
+             "site rents at the real 10Y + 2.5 pp.", fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_bank.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
 

@@ -1,7 +1,8 @@
 # export_paths.py — the model's rate paths as a plain table, for anyone to put their own book on.
 #
 # Per scenario, per quarter over 25 years: the policy rate and the market's zero rates at 3M, 1Y,
-# 2Y, 3Y, 5Y, 7Y and 10Y (%), in the model's own units (calibration (b), policy starting at 2.75%);
+# 2Y, 3Y, 5Y, 7Y and 10Y (%), in the model's own units (calibration (c)'s central economy — the open reading, the
+# low root, macro.central() — with the return following r* from its own rho; policy starting at 2.75%);
 # and the true world's real wage bill of the start's workers (real wage x participation, 1 at t = 0).
 # For a credit book, the pieces behind it and the property side, each 1 at t = 0: the real wage, the
 # share of the start's workers still employed, the real site rent, and the real price of a site as the
@@ -14,7 +15,13 @@
 # deep automation with deficits dominating (real rates rise) and with owners' saving dominating
 # (rates fall), market beliefs by Bayesian learning; and deficits dominating with people digesting
 # regime news over three years and AI adopted around year 5 (regime_digestion.py).
+# Since 2026-09-30 (her decision: the downstream modules run on (c)) the table carries a last column, `calibration`, the
+# economy's tag (c_central_lo); every earlier column keeps its name, order and meaning. `labor_share` stays the model's
+# traced share v n / income (wages of all hours, the machine chain's included: 0.554 at the start on (c), 0.47 on (b)); (c)'s
+# 0.47 target is the consumption chain's (Figure 7) share, macro.solve's labour_share_bea. The rates are readouts of
+# bridges set on (b) (bank_scenarios.py, demand.py's readout of r* keyed to investment spending).
 #
+# Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py); the market from recognition.py.
 # Run from paths/:  ../venv/Scripts/python.exe code/export_paths.py
 # Out: results/paths_for_banks.csv
 
@@ -46,8 +53,8 @@ def curves(old, new, p):
     return pol, z
 
 
-def main():
-    e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
+def build(e, tag: str) -> pd.DataFrame:
+    """The table on economy e, its `calibration` column set to tag."""
     rows = []
 
     def add(name, t, pol, z, world, old, new, p):
@@ -64,7 +71,7 @@ def main():
         for i, ti in enumerate(t):
             rows.append({"scenario": name, "t_years": round(float(ti), 4), "policy": round(float(pol[i]), 4),
                          **{lab: round(float(z[i, k]), 4) for k, lab in enumerate(LABELS)}, "wage_bill_real": round(float(wb[i]), 5),
-                         **{k: round(float(np.broadcast_to(v, t.shape)[i]), 5) for k, v in extra.items()}})
+                         **{k: round(float(np.broadcast_to(v, t.shape)[i]), 5) for k, v in extra.items()}, "calibration": tag})
 
     for name, (bridges, truth) in bs.SCEN.items():
         old, new, p, _, _ = bs.path(e, bridges, truth)
@@ -75,14 +82,19 @@ def main():
     pol_t = np.interp(t, [a for a, _ in bs.TIGHTEN], [b for _, b in bs.TIGHTEN])
     zz = bk.expectation_zeros(t, pol_t, maturities=TENORS, known_from=1.0)
     add("a pure tightening", t, pol_t, np.column_stack([zz[f"{T:g}Y"] for T in TENORS]), old, old, new, np.zeros_like(t))
-    br = m.Bridges(capital_premium=5.0, **bs.SCEN["deficits dominate"][0])
-    old = rc.refine(m.macro_path(e, m.TechPath(eta_end=1.0, lam_end=e.lam), br, 25.0, 0.25), 1 / 12)
-    new = rc.refine(m.macro_path(e, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25), 1 / 12)
+    br = m.feedback_bridges(e, **bs.SCEN["deficits dominate"][0])
+    old = rc.refine(m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25), 1 / 12)
+    new = rc.refine(m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25), 1 / 12)
     lr = rc.Learning(sigma=1.0, p0=0.05, digest=3.0, trust=(5.0, 1.0), capacity_end=30.0)
     p = rc.learn(old, new, lr)
     pol, z = curves(old, new, p)
     add("deficits dominate, slow digestion then AI adoption", old["t"], pol, z, new, old, new, p)
-    out = pd.DataFrame(rows)
+    return pd.DataFrame(rows)
+
+
+def main():
+    e, cal = bs.economy("lo")
+    out = build(e, cal["tag"])
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     out.to_csv(os.path.join(ROOT, "results", "paths_for_banks.csv"), index=False)
     print(out.groupby("scenario").agg(n=("t_years", "size"), policy_min=("policy", "min"), policy_max=("policy", "max"),

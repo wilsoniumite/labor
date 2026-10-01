@@ -1,7 +1,19 @@
-# check_bank.py — the stylised bank: accounting, behaviour, valuation, distributions; findings as found.
+# check_bank.py — the stylised bank: accounting, behaviour, valuation, distributions; findings as found; and the export
+# (results/paths_for_banks.csv) built on the same paths.
+#
+# Since 2026-09-30 (her decision) the paths run on calibration (c)'s central economy (macro.central(): the open reading,
+# the low root), with bridges set on (b) and not retuned. Findings F1-F4 were re-run on it and hold as stated; their
+# numbers moved (old -> new: paths/STATE.md, the switch entry, "The switch to (c)", and the stylised bank's entry below it,
+# each (c) number with (b)'s beside it); F5-F6 are new; R and X gate the switch, the sensitivity
+# runs and the export. Thresholds set after seeing (c)'s numbers: F5's 0.3, F6's 0.9, R4's one-half, R5's and X4's bands
+# (each is the found value with room, flagged here as set after seeing the data).
+# Restated after the switch's reviews: F5 is a central-root result (on the high root the share over the line stays at its
+# start, as on (b)) and says so; F6 states the high root's owners'-saving branch (most of the book, not all of it) and gates
+# it below the central's (its 0.5, "most", set after seeing the high root's 58%: flagged); X4 computes (b)'s year-10 numbers
+# from the (b) export it builds instead of quoting them.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_bank.py
-# Exit status 0 only if every check passes.
+# Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
 
 from __future__ import annotations
 
@@ -11,12 +23,18 @@ import sys
 from dataclasses import replace
 
 import numpy as np
+import pandas as pd
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "code"))
 import bank as bk  # noqa: E402
+import bank_scenarios as bs  # noqa: E402
+import export_paths as ex  # noqa: E402
+import macro as m  # noqa: E402
+import recognition as rc  # noqa: E402
+import regimes as rg  # noqa: E402
 
 RESULTS = []
 
@@ -80,9 +98,13 @@ check("V4 property companies' funding cost moves from the old to the new rate ov
       and abs(c["icr_mean"][i_post] - b.icr_mean * (2.0 + b.cre_spread) / (5.0 + b.cre_spread)) < 1e-9,
       f"funding {c['funding_rate'][i_pre]:.2f} -> {c['funding_rate'][i_mid]:.2f} halfway -> {c['funding_rate'][i_post]:.2f}")
 
-print("F — the findings (results/bank.json, rebuilt by code/bank_scenarios.py; stated as found)")
-R = json.load(open(os.path.join(ROOT, "results", "bank.json"), encoding="utf-8"))
+print("F — the findings (results/bank.json, rebuilt by code/bank_scenarios.py; calibration (c), the central; stated as found)")
+with open(os.path.join(ROOT, "results", "bank.json"), encoding="utf-8") as f:
+    R = json.load(f)
+HI, CB = R["sensitivity: the high root"], R["comparator: calibration (b)"]
 pt, dd, dw, os_ = R["a pure tightening"], R["deficits dominate"], R["deficits dominate, office rents follow the wage bill"], R["owners' saving dominates"]
+OSN, OSW = "owners' saving dominates", "owners' saving dominates, office rents follow the wage bill"
+ow, sq = R[OSW], R["status quo"]
 check("F1 a pure tightening: NII rises first, the deposit windfall decays while rates are held, house prices fall, then losses peak after NII",
       pt["nii_max"] > pt["nii_start"] + 0.5 and pt["deposit_beta_year_after"] > pt["deposit_beta_at_policy_extreme"]
       and pt["house_real_min_and_year"][0] < 0.9 and pt["losses_max_year"] > pt["nii_max_year"],
@@ -97,8 +119,145 @@ check("F3 commercial property hangs on one assumption: rents following the wage 
       dw["cre_share_below_line_max"] > 0.5 and dd["cre_share_below_line_max"] < 0.15,
       f"{dw['cre_share_below_line_max']:.0%} against {dd['cre_share_below_line_max']:.0%}")
 check("F4 the bank's worst path is the one where owners' saving pulls rates to the floor, not the one where they rise",
-      os_["nii_min"] < min(dd["nii_min"], pt["nii_min"]) - 0.5, f"NII low {os_['nii_min']} against {dd['nii_min']} and {pt['nii_min']}")
+      os_["nii_min"] < min(dd["nii_min"], pt["nii_min"]) - 0.5, f"NII low {os_['nii_min']} (year {os_['nii_min_year']}) against {dd['nii_min']} and {pt['nii_min']}")
+check("F5 [new on (c), central root only] the falling-rate branch squeezes borrowers too: money wages fall faster than mortgage rates, so "
+      "the share over the debt-service line rises from its start to 40% — on the central root only: on (c)'s high root it stays at its "
+      "start, as on (b)",
+      os_["share_over_dsr_line_max"] > 0.3 and sq["share_over_dsr_line_max"] < 0.1
+      and CB["owners' saving dominates"]["share_over_dsr_line_max"] == CB["status quo"]["share_over_dsr_line_max"]
+      and HI["owners' saving dominates"]["share_over_dsr_line_max"] == HI["status quo"]["share_over_dsr_line_max"],
+      f"{os_['share_over_dsr_line_max']:.1%} over the line at most against {sq['share_over_dsr_line_max']:.1%} at the start; debt service "
+      f"{os_['dsr_mean_max']:.3f} of income at most; (b) {CB[OSN]['share_over_dsr_line_max']:.1%}; "
+      f"high root {HI[OSN]['share_over_dsr_line_max']:.1%}")
+check("F6 [new on (c)] with office rents following the wage bill, commercial property breaks in both branches: the whole book below 1.5x "
+      "cover when owners' saving dominates too on the central root (10% on (b), whose wage bill fell more slowly than funding costs); "
+      "on the high root most of the book but not all of it (the share is root-dependent)",
+      ow["cre_share_below_line_max"] > 0.9 and dw["cre_share_below_line_max"] > 0.9
+      and CB["owners' saving dominates, office rents follow the wage bill"]["cre_share_below_line_max"] < 0.15
+      and 0.5 < HI[OSW]["cre_share_below_line_max"] < ow["cre_share_below_line_max"],
+      f"{ow['cre_share_below_line_max']:.0%} and {dw['cre_share_below_line_max']:.0%}; (b) "
+      f"{CB[OSW]['cre_share_below_line_max']:.0%}; high root "
+      f"{HI[OSW]['cre_share_below_line_max']:.0%}")
+
+print("R — the switch to (c), the sensitivities and the readouts")
+e, cal = bs.economy("lo")
+res, _, rise = bs.bank_runs(e)
+check("R1 results/bank.json's (c) runs equal a fresh rebuild on macro.central() (every summary; the calibration record and rate rises)",
+      all(R[k] == v for k, v in res.items()) and R["calibration"] == json.loads(json.dumps(cal))
+      and all(R["required_return_rise_pp"][k] == v for k, v in rise.items()), f"{len(res)} paths; {cal['tag']}, rho {cal['rho']:.6f}")
+
+
+def path_b_old(e_, bridges, truth, lr=rc.Learning(sigma=1.0, p0=0.05)):
+    """The pre-switch bank_scenarios.path, with (b)'s hard-coded objects."""
+    br = m.Bridges(capital_premium=5.0, **bridges)
+    old = m.macro_path(e_, m.TechPath(eta_end=1.0, lam_end=e_.lam), br, 25.0, 0.25)
+    new = m.macro_path(e_, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25)
+    p = rc.learn(old, new, replace(lr, truth=truth))
+    mixes, _, _, pol_ = rc.market_curves(old, new, p)
+    z = np.array([rg.zero(bs.T, mx) for mx in mixes])
+    return old, new, p, pol_, {"2Y": z[:, 0], "3Y": z[:, 1], "10Y": z[:, 2]}
+
+
+eb, _ = bs.economy("b")
+same = []
+for name, (bridges, truth) in bs.SCEN.items():
+    old, new, p, pol_, zeros = path_b_old(eb, bridges, truth)
+    for inc in ("site", "employment"):
+        if name == "status quo" and inc == "employment":
+            continue
+        key = name if inc == "site" else f"{name}, office rents follow the wage bill"
+        same.append(bs.summary(old["t"], bk.run(old["t"], pol_, zeros, p, old, new, truth=truth, b=bk.Bank(cre_income=inc))) == CB[key])
+check("R2 the (b) comparator is the pre-switch bank: rebuilt with (b)'s hard-coded Bridges(capital_premium=5.0) and TechPath(0.04, 0.01) it "
+      "equals the stored comparator summary for summary", all(same) and len(same) == 5, f"{sum(same)}/{len(same)} paths identical")
+check("R3 the pure tightening is the same on every calibration (its world is the status quo, steady on any economy)",
+      pt == HI["a pure tightening"] == CB["a pure tightening"], f"NII peak {pt['nii_max']} on (c), the high root and (b)")
+rr = R["required_return_rise_pp"]
+check("R4 no world's required return leaves the central's rate headroom (beyond it solve raises NoEquilibrium): the largest rise, deficits "
+      "dominating, uses under half of it",
+      max(rr[k] for k in bs.SCEN) < 0.5 * rr["headroom_pp"] and max(HI["required_return_rise_pp"].values()) < 0.5 * HI["calibration"]["headroom_pp"],
+      f"{rr['deficits dominate']:.2f} pp of {rr['headroom_pp']:.2f} (high root {HI['required_return_rise_pp']['deficits dominate']:.2f} of "
+      f"{HI['calibration']['headroom_pp']:.2f}; (b) {CB['required_return_rise_pp']['deficits dominate']:.2f})")
+IK = R["sensitivity: r* keyed to investment spending"]
+ikd, iko = IK["deficits dominate"], IK["owners' saving dominates"]
+TK, BS_, DS = "task keyed (the bridge as set)", "investment keyed, bridge scale", "investment keyed, demand-layer scale"
+check("R5 readout (the capex channel keyed to investment spending, not a finding): the task-keyed rows are the main runs; at the bridge's "
+      "scale deficits still lift rates (policy peak 5.25 against 5.75); at the demand layer's scale the deficits branch goes to the floor "
+      "and takes the owners'-saving branch's NII low — the two branches' split rests on the capex key",
+      all(ikd[TK][k] == dd[k] for k in bs.IK_FIELDS) and all(iko[TK][k] == os_[k] for k in bs.IK_FIELDS)
+      and 4.5 <= ikd[BS_]["policy_start_peak_end"][1] < ikd[TK]["policy_start_peak_end"][1]
+      and ikd[DS]["policy_start_peak_end"][2] == -0.5 and abs(ikd[DS]["nii_min"] - os_["nii_min"]) < 0.05
+      and iko[DS]["nii_min"] == os_["nii_min"],
+      f"deficits: policy peak {ikd[TK]['policy_start_peak_end'][1]} / {ikd[BS_]['policy_start_peak_end'][1]} / end "
+      f"{ikd[DS]['policy_start_peak_end'][2]}; NII low {ikd[TK]['nii_min']} / {ikd[BS_]['nii_min']} / {ikd[DS]['nii_min']}; "
+      f"10Y at year 10 {ikd[TK]['z10_y5_y10_y15'][1]} / {ikd[BS_]['z10_y5_y10_y15'][1]} / {ikd[DS]['z10_y5_y10_y15'][1]}")
+check("R6 sensitivity, the high root: F2-F4 hold there too (F5 does not: see F5)",
+      HI["deficits dominate"]["house_real_y5_y10_y15"][1] > 2 and HI["deficits dominate"]["wage_real_y5_y10_y15"][2] < 0.7
+      and HI["deficits dominate"]["share_over_dsr_line_max"] > 0.1 and HI["deficits dominate, office rents follow the wage bill"]["cre_share_below_line_max"] > 0.5
+      and HI["deficits dominate"]["cre_share_below_line_max"] < 0.15
+      and HI["owners' saving dominates"]["nii_min"] < min(HI["deficits dominate"]["nii_min"], pt["nii_min"]) - 0.5,
+      f"houses x{HI['deficits dominate']['house_real_y5_y10_y15'][1]}; real wage {HI['deficits dominate']['wage_real_y5_y10_y15'][2]}; "
+      f"{HI['deficits dominate']['share_over_dsr_line_max']:.0%} over the line; wage-bill offices "
+      f"{HI['deficits dominate, office rents follow the wage bill']['cre_share_below_line_max']:.0%}; NII low {HI[OSN]['nii_min']}")
+
+print("X — the export (results/paths_for_banks.csv, code/export_paths.py)")
+X = pd.read_csv(os.path.join(ROOT, "results", "paths_for_banks.csv"))
+COLS = ["scenario", "t_years", "policy", "z3M", "z1Y", "z2Y", "z3Y", "z5Y", "z7Y", "z10Y", "wage_bill_real", "real_wage", "employed",
+        "site_rent_real", "site_price_real", "price_level", "income_real", "labor_share"]
+n_sc = X.groupby("scenario").size().to_dict()
+check("X1 the export keeps its 18 columns, names and order, and adds one last column, the calibration's tag, on every row",
+      list(X.columns) == COLS + ["calibration"] and set(X["calibration"]) == {cal["tag"]} and len(X) == 705
+      and n_sc == {"status quo": 101, "a pure tightening": 101, "deficits dominate": 101, "owners' saving dominates": 101,
+                   "deficits dominate, slow digestion then AI adoption": 301},
+      f"{len(X.columns)} columns, last {X.columns[-1]!r} = {cal['tag']!r}; {len(X)} rows")
+Xc = ex.build(e, cal["tag"])
+check("X2 the export equals a fresh build on the central economy (every cell)", Xc.equals(X), f"{Xc.shape}")
+Xb = ex.build(eb, "b")
+ptc, ptb = Xc[Xc.scenario == "a pure tightening"].reset_index(drop=True), Xb[Xb.scenario == "a pure tightening"].reset_index(drop=True)
+differ = [k for k in COLS if not ptc[k].equals(ptb[k])]
+check("X3 the pure tightening's rows are calibration-free but for labor_share (the start's level: 0.554 on (c), 0.47 on (b))",
+      differ == ["labor_share"] and abs(ptc["labor_share"][0] - 0.55368) < 5e-6 and abs(ptb["labor_share"][0] - 0.47) < 5e-6, f"differ: {differ}")
+with open(os.path.join(ROOT, "results", "deposits_wages.json"), encoding="utf-8") as f:
+    hs = json.load(f)["5_nonwage_share_to_households"]
+
+
+def at(scen, col, y, df=X):
+    r_ = df[(df.scenario == scen) & (np.abs(df.t_years - y) < 1e-9)]
+    return float(r_[col].iloc[0])
+
+
+def hh_income(scen, y, share, df=X):
+    """Households' real income, start = 1: wages plus `share` of non-wage income (deposits_wages.py's measured share)."""
+    ls, ls0 = at(scen, "labor_share", y, df), at(scen, "labor_share", 0.0, df)
+    return at(scen, "income_real", y, df) * (ls + share * (1 - ls)) / (ls0 + share * (1 - ls0))
+
+
+DDn = "deficits dominate"
+v = {k: (at(DDn, k, 10.0), at(OSN, k, 10.0)) for k in ("site_price_real", "wage_bill_real", "employed", "income_real")}
+SH = ("mean_1996_2025", "mean_2015_2025")
+hi_ = [hh_income(sc_, 10.0, hs[s_]) for s_ in SH for sc_ in (DDn, OSN)]
+hib = [hh_income(sc_, 10.0, hs[s_], Xb) for s_ in SH for sc_ in (DDn, OSN)]
+vb = {k: (at(DDn, k, 10.0, Xb), at(OSN, k, 10.0, Xb)) for k in v}           # (b), from the (b) export built in X3
+check("X4 what the export says at year 10, deficits / owners' saving (restated as found on (c); (b)'s numbers, which STATE log 15-16 "
+      "quoted, are computed from the (b) export beside them): site prices x2.8 / x19 (x19 by year 5 already); the wage bill 0.30 / 0.18; "
+      "employment 0.63 / 0.51; real income x1.35 / x1.33 — every one but the owners'-saving site price below (b)'s — so households' income, "
+      "wages plus the measured share of non-wage income, is about flat (0.96-1.09 of the start) where on (b) it rose by half or more",
+      2.7 < v["site_price_real"][0] < 2.9 and 19.0 < v["site_price_real"][1] < 19.6 and at(OSN, "site_price_real", 5.0) > 18.5
+      and 0.28 < v["wage_bill_real"][0] < 0.32 and 0.16 < v["wage_bill_real"][1] < 0.19
+      and 0.61 < v["employed"][0] < 0.65 and 0.49 < v["employed"][1] < 0.53
+      and 1.3 < v["income_real"][1] < v["income_real"][0] < 1.4 and all(0.95 < x < 1.10 for x in hi_) and all(x > 1.45 for x in hib)
+      and 0.80 < at("status quo", "site_price_real", 5.0) < 0.83
+      and all(v[k][j] < vb[k][j] for k in ("wage_bill_real", "employed", "income_real") for j in (0, 1)) and v["site_price_real"][0] < vb["site_price_real"][0]
+      and v["site_price_real"][1] > vb["site_price_real"][1],
+      f"site x{v['site_price_real'][0]:.2f} / x{v['site_price_real'][1]:.2f} ((b) x{vb['site_price_real'][0]:.2f} / x{vb['site_price_real'][1]:.2f}); "
+      f"wage bill {v['wage_bill_real'][0]:.3f} / {v['wage_bill_real'][1]:.3f} ((b) {vb['wage_bill_real'][0]:.3f} / {vb['wage_bill_real'][1]:.3f}); "
+      f"employed {v['employed'][0]:.3f} / {v['employed'][1]:.3f} ((b) {vb['employed'][0]:.3f} / {vb['employed'][1]:.3f}); income "
+      f"x{v['income_real'][0]:.3f} / x{v['income_real'][1]:.3f} ((b) x{vb['income_real'][0]:.3f} / x{vb['income_real'][1]:.3f}); households' "
+      f"income at share {hs[SH[0]]} {hi_[0]:.3f} / {hi_[1]:.3f} ((b) {hib[0]:.3f} / {hib[1]:.3f}), at {hs[SH[1]]} {hi_[2]:.3f} / {hi_[3]:.3f} "
+      f"((b) {hib[2]:.3f} / {hib[3]:.3f}); status quo site price {at('status quo', 'site_price_real', 5.0):.3f} at year 5 ((b) "
+      f"{at('status quo', 'site_price_real', 5.0, Xb):.3f})")
 
 n_ok = sum(ok for _, ok, _ in RESULTS)
+fails = [n for n, ok, _ in RESULTS if not ok]
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
+print(f"ALL GREEN ({len(RESULTS)})" if not fails else "FAILURES: " + "; ".join(n.split(" ")[0] for n in fails))
 sys.exit(0 if n_ok == len(RESULTS) else 1)

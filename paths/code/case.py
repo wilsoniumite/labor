@@ -5,23 +5,24 @@
 # from Europe; the process under way for two to four years, accelerating as AI companies behave differently. Where she left
 # it open, the settings are Claude's best guesses, each stated, and each a decision in STATE.md's veto window (23-27).
 #
-# The case, in the model's terms (today's measured regions, quarter 1 = 2026Q4, six years):
+# The case, in the model's terms (today's measured regions; one dating, gc.quarter_label: index 0 is the state measured
+# on data to September 2026, 2026Q3, and index 1, the first simulated quarter, 2026Q4; six years, to 2032Q3 at index 24):
 #   the bust        bigger and faster than the dot-com one: ai_shock at 1.5x (US stocks -60%, AI investment -90%, 1.5x the
 #                   losses on AI lending) over two quarters (dot-com: the S&P 500 -49% over some 30 months);
 #   the pace        displacement starts at the upper bound seen so far (pace.py: 0.15 of the paper's pace) and rises on a
-#                   logistic to the paper's pace, half the rise by 2028Q3 (AI companies consolidating and deploying: faster
-#                   than the macro block's clock, whose fits put its midpoint near 2031);
+#                   logistic to the paper's pace, half the rise by 2028Q2 (index 7; AI companies consolidating and
+#                   deploying: faster than the macro block's clock, whose fits put its midpoint near 2031);
 #   adoption        a range: firms automate the usual share of the jobs they cut in the downturn (the low end) or twice
 #                   it (the high end, the case as quoted); the model's largest single lever, so the case is a band;
 #   robotics        two years out (her call, 2026-09-24);
 #   care            caps out: every region's own ceiling one year of trend above today's share (a financing limit reached
 #                   well before Norway's);
-#   the US          tariffs of 25 points from the second quarter, read as the model's symmetric tariff (US exports face
-#                   retaliation of that size); today's fiscal response, rescues and benefits; deficit worry as a premium
-#                   on borrowing, rising a point over the first year and held (another move the size of the ten-year term
-#                   premium's rise since 2019) and passed to private borrowers. For the US the worry is fiscal dominance
-#                   (inflation, a central bank leaning on), not default; the model has no default, and a looser US
-#                   anchor is run as a sensitivity;
+#   the US          tariffs of 25 points from the second simulated quarter (2027Q1), read as the model's symmetric tariff
+#                   (US exports face retaliation of that size); today's fiscal response, rescues and benefits; deficit
+#                   worry as a premium on borrowing, rising a point over the first year and held (another move the size
+#                   of the ten-year term premium's rise since 2019) and passed to private borrowers. For the US the worry
+#                   is fiscal dominance (inflation, a central bank leaning on), not default; the model has no default,
+#                   and a looser US anchor is run as a sensitivity;
 #   Europe, Sweden  no tariffs of their own; the US's reach them through their exports to it (25 points times that share);
 #                   spending cuts as unemployment rises; rescues and benefits intact; the euro area carries half a point
 #                   of sovereign premium (France). The euro area is one region: Germany spending while the periphery cuts
@@ -50,9 +51,11 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import global_crash as gc  # noqa: E402
 
-N = 24
+N = 25                # 2026Q3 (index 0, the start) .. 2032Q3 (index 24): six years of simulated quarters
 START = gc.START
-END_2028 = 8          # the quarter index of 2028Q4
+END_2028 = 9          # the quarter index of 2028Q4 (gc.quarter_label(9))
+Q2032Q2 = N - 2       # 2032Q2, quoted where a run is at the model's cap by 2032Q3
+CAP = 50.0            # the model's ceiling on non-employment (u + out), %
 US_TARIFF = 25.0
 PIECES = ("bust", "pace", "adoption", "premium", "tariffs", "austerity", "care")
 
@@ -102,16 +105,17 @@ SENSITIVITIES = {
 }
 
 
-def build(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", sens: dict | None = None):
-    """The case, or the case with one piece (`drop`) taken back to the model's central setting, or with one sensitivity."""
+def build(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", sens: dict | None = None, n: int = N):
+    """The case, or the case with one piece (`drop`) taken back to the model's central setting, or with one sensitivity
+    (n quarters: the case's N; check K12 runs it at 24 too)."""
     central = {"bust": {"scale": 1.0, "speed": 1.0}, "adoption_multiple": 1.0}
     b = central["bust"] if drop == "bust" else st["bust"]
-    shock = gc.ai_shock(N, b["scale"], b["speed"])
+    shock = gc.ai_shock(n, b["scale"], b["speed"])
     pace = st["pace"]
     if drop != "pace":
-        shock.drift = {r: logistic_pace(regs[r].drift, pace["seen"], pace["mid_quarter"], pace["width_quarters"]) for r in gc.R}
+        shock.drift = {r: logistic_pace(regs[r].drift, pace["seen"], pace["mid_quarter"], pace["width_quarters"], n) for r in gc.R}
     if drop != "premium":
-        shock.spread = {r: ramp_to(v, st["premium_quarters"]) for r, v in st["premium"].items() if v}
+        shock.spread = {r: ramp_to(v, st["premium_quarters"], n) for r, v in st["premium"].items() if v}
     adopt = central["adoption_multiple"] if drop == "adoption" else st["adoption_multiple"][adoption]
     sens = sens or {}
     rg = {r: replace(g, eta=g.eta * adopt, **sens.get("regions", {}).get(r, {})) for r, g in regs.items()}
@@ -126,18 +130,18 @@ def build(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", s
             rl = replace(rl, care_cap=st["care_cap"][r])
         rules[r] = replace(rl, **sens.get("rules", {}).get(r, {}))
     waves = gc.Waves(split=True, robot_lag=st["robot_lag_years"], absorb=True)
-    return rg, gc.simulate(rg, rules, shock, cm, N, waves=waves)
+    return rg, gc.simulate(rg, rules, shock, cm, n, waves=waves)
 
 
-def reference(cm, regs):
+def reference(cm, regs, n: int = N):
     """The model's central run: today's policies, a dot-com-sized bust, the paper's pace, robotics in two years."""
-    return regs, gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(N), cm, N,
+    return regs, gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(n), cm, n,
                              waves=gc.Waves(split=True, robot_lag=2.0, absorb=True))
 
 
 def four(rg, o) -> np.ndarray:
     size = {r: rg[r].size for r in gc.R}
-    return np.array([sum(size[r] * o[r]["y"][k] for r in gc.R) / sum(size.values()) for k in range(N)])
+    return np.array([sum(size[r] * o[r]["y"][k] for r in gc.R) / sum(size.values()) for k in range(len(o["US"]["y"]))])
 
 
 def read(rg, o) -> dict:
@@ -151,6 +155,8 @@ def read(rg, o) -> dict:
            "us_unemployment_at_peak": round(float(us["u"][k]), 1), "us_left_at_peak": round(float(us["out"][k]), 1),
            "us_out_of_work_end_2028": round(float(oow[END_2028]), 1),
            "us_output_end_2028": round(float(us["y"][END_2028]), 1),
+           "us_out_of_work_2032Q2": round(float(oow[Q2032Q2]), 1),
+           "us_at_the_models_cap_from": next((gc.quarter_label(j) for j in range(len(oow)) if oow[j] >= CAP - 1e-9), None),
            "still_rising_at_end": bool(oow[-1] > oow[-2]),
            "regions": {}}
     for r in gc.R:
@@ -190,6 +196,7 @@ def verdict(r: dict) -> str:
 
 def short(x: dict) -> dict:
     return {"us_out_of_work_end_2028": x["us_out_of_work_end_2028"], "us_out_of_work_peak": x["us_out_of_work_peak"],
+            "us_out_of_work_2032Q2": x["us_out_of_work_2032Q2"], "us_at_the_models_cap_from": x["us_at_the_models_cap_from"],
             "four_output_worst": x["four_output_worst"], "ea_out_of_work_peak": x["regions"]["EA"]["out_of_work_peak"],
             "se_out_of_work_peak": x["regions"]["SE"]["out_of_work_peak"],
             "us_inflation_min": x["regions"]["US"]["inflation_min"], "us_inflation_max": x["regions"]["US"]["inflation_max"]}
@@ -209,6 +216,7 @@ def run_all(cm, regs, st) -> dict:
         x = short(read(*build(cm, regs, st, d)))
         x.update({"adds_to_us_out_of_work": round(hi["us_out_of_work_peak"] - x["us_out_of_work_peak"], 1),
                   "adds_to_us_out_of_work_end_2028": round(hi["us_out_of_work_end_2028"] - x["us_out_of_work_end_2028"], 1),
+                  "adds_to_us_out_of_work_2032Q2": round(hi["us_out_of_work_2032Q2"] - x["us_out_of_work_2032Q2"], 1),
                   "adds_to_four_output": round(hi["four_output_worst"] - x["four_output_worst"], 1),
                   "adds_to_ea_out_of_work": round(hi["regions"]["EA"]["out_of_work_peak"] - x["ea_out_of_work_peak"], 1),
                   "adds_to_se_out_of_work": round(hi["regions"]["SE"]["out_of_work_peak"] - x["se_out_of_work_peak"], 1)})
@@ -217,13 +225,17 @@ def run_all(cm, regs, st) -> dict:
     for name, s in SENSITIVITIES.items():
         x = short(read(*build(cm, regs, st, sens=s)))
         x["change_in_us_out_of_work"] = round(x["us_out_of_work_peak"] - hi["us_out_of_work_peak"], 1)
+        x["change_in_us_out_of_work_2032Q2"] = round(x["us_out_of_work_2032Q2"] - hi["us_out_of_work_2032Q2"], 1)
         x["change_in_four_output"] = round(x["four_output_worst"] - hi["four_output_worst"], 1)
         x["change_in_ea_out_of_work"] = round(x["ea_out_of_work_peak"] - hi["regions"]["EA"]["out_of_work_peak"], 1)
         sens[name] = x
     return {"case": ends, "reference_central_run": ref,
             "piece_by_piece": {"note": "each row takes one piece of the case (at its high end) back to the model's central "
-                                       "setting; 'adds' is the case minus that run (what the piece adds)", **drops},
-            "sensitivities": {"note": "each changes one setting the case does not carry, on the case at its high end", **sens}}
+                                       "setting; 'adds' is the case minus that run (what the piece adds): at 2028Q4, at "
+                                       "2032Q2, and at the peak (2032Q3 while still rising; where the run is at the model's "
+                                       "50% cap there, its peak is a floor and 2032Q2 is the reading)", **drops},
+            "sensitivities": {"note": "each changes one setting the case does not carry, on the case at its high end; at the "
+                                      "peak and at 2032Q2 (the reading where the run is at the model's 50% cap by 2032Q3)", **sens}}
 
 
 def main():
@@ -231,7 +243,11 @@ def main():
     pace = json.load(open(os.path.join(ROOT, "results", "pace.json"), encoding="utf-8"))
     seen = pace["paces"]["multiples_of_the_papers"]["trend + 2 s.e."]
     st = settings(regs, seen)
-    res = {"start": START, "quarters": N, "settings": st, **run_all(cm, regs, st),
+    res = {"start": START, "quarters": N,
+           "dating": f"index 0 = {gc.quarter_label(0)}, the state measured on data to September 2026; index 1 = "
+                     f"{gc.quarter_label(1)}, the first simulated quarter; index {END_2028} = {gc.quarter_label(END_2028)}; "
+                     f"index {N - 1} = {gc.quarter_label(N - 1)} (decision 43)",
+           "settings": st, **run_all(cm, regs, st),
            "paths": {end: paths(*build(cm, regs, st, adoption=end)) for end in ("low", "high")}}
     res["paths"]["reference"] = paths(*reference(cm, regs))
     json.dump(res, open(os.path.join(ROOT, "results", "case.json"), "w", encoding="utf-8"), indent=1)
@@ -244,7 +260,7 @@ def figure(res):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     plt.rcParams["axes.titlesize"] = 10
-    t = 2026.75 + np.arange(N) / 4
+    t = gc.quarter_mid(np.arange(N))             # each quarter at its middle
     lo, hi, ref = res["paths"]["low"], res["paths"]["high"], res["paths"]["reference"]
     fig, ax = plt.subplots(1, 3, figsize=(15, 4.6), layout="constrained")
     fig.get_layout_engine().set(rect=(0, 0.06, 1, 0.94))
@@ -256,7 +272,7 @@ def figure(res):
             a.plot(t, hi[r][key], color=cols[r], label=r)
             a.plot(t, lo[r][key], color=cols[r], lw=0.8)
         a.plot(t, ref["US"][key], color="C0", ls=":", label="US, the model's central run")
-        a.axvline(2026.75 + END_2028 / 4, color="grey", lw=0.6, ls="--")
+        a.axvline(t[END_2028], color="grey", lw=0.6, ls="--")
         a.set_title(title); a.legend(fontsize=8)
     ax[1].axhline(0, color="grey", lw=0.8)
     a = ax[2]
@@ -266,7 +282,8 @@ def figure(res):
     fig.text(0.01, 0.01, "Her case: a bust 1.5x the dot-com size over two quarters; displacement rising from the pace seen so far to "
              "the paper's by 2029; care capping out; US tariffs 25 points; spending cuts in Europe and Sweden; a premium on "
              "borrowing (US +1 point, euro area +0.5).\nBands: firms automate the usual share of the jobs they cut in the "
-             "downturn (lower line) or twice it (upper line). Quarter 1 = 2026Q4; dashed line: 2028Q4.", fontsize=8)
+             "downturn (lower line) or twice it (upper line). Index 0 = 2026Q3, the start measured to September 2026; the "
+             "first simulated quarter is 2026Q4; dashed line: 2028Q4.", fontsize=8)
     p = os.path.join(ROOT, "figures", "fig_case.png"); fig.savefig(p, dpi=150); print(p)
 
 
