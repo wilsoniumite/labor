@@ -132,6 +132,31 @@ one data-suggested rescue failed on fresh countries; nothing is formally contrad
 (D2's p_opposite 0.064, the confirm half's rent x F +9.1) point the other way. What holds is standard: schooling is
 countercyclical. Everything after this point is post-look and exploratory.
 
+## The long run (opened 2026-10-08 on her call: "look further back ... to say 1950, even if data is imperfect")
+
+Post-look. The years before 1997, and the non-European OECD members in any year, are unseen in this study and can be
+a second, backward holdout. Blind scouting, a theory critic and a design critic ran first (`longrun/docs/`: coverage
+only, no values). What they found:
+- **Data.** Only the US reaches 1950 by sex and age: CPS 1948+, BEA tenant rent over goods 1929+, young adults at
+  home 1960/1967+. Across countries, participation by sex and five-year age (OECD `DF_LFS_INDIC`) starts US 1960,
+  FI/SE 1963, AU 1966, JP 1968, DE/IT 1970, ... : 8 countries by 1970, 13 by 1975, 21 by 1985. Rents relative to
+  prices: Jorda-Schularick-Taylor (rent yield x house prices / CPI) for 13 countries unbroken 1950-2020; the OECD
+  rent index for 10 countries from 1960, 18 by 1970. A goods-only CPI before about 1985 exists for few countries.
+  A predetermined floor measure: census microdata (IPUMS-International; registration needed: hers to do) from
+  1960-75 for about 15 countries; or a time-invariant family-organisation measure (Giuliano-Nunn, all OECD).
+- **Theory (the critic's headline).** Over 1950-1996 the model's D1 sign is regime-dependent (0, +, -, + as rents
+  rise relative to the floor thresholds), so a pooled 1950-1996 D1 is unsigned. The early, low-rent, rent-controlled
+  decades are years in which the model and the standard account agree. The discriminating content is within-country:
+  in high-floor countries the young's slope on rents should fall to <= 0 in the high-rent part of their own history
+  (a piecewise test by within-country rent tercile). And against life-cycle models WITH a below-market parental
+  room (Kaplan; Ermisch), the kink is not distinctive at all: only against models with no coresidence option.
+- **Design.** No internal holdout for the P tests (all unseen country-years); a matched-pair country split with the
+  US forced into the explore half for any new E; every splice a segment fixed effect, no ratio-linking; rent-control
+  robustness from a published coding; MDEs and forecast sheets published before the look.
+- **Waiting on her:** the scope (US-only from 1948, or the OECD panel from the 1960s-70s, or both), the floor
+  measure (IPUMS registration or the time-invariant measure), and whether the long-run distinctive test is the
+  regime-aware piecewise one.
+
 ## The split (frozen with the P tag)
 
 EXPLORE (16): BE BG CH EE FI FR HR HU IE IT LU LV MT PL PT SE.
