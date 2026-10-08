@@ -101,6 +101,37 @@ data before the second. A 2026-2028 rerun of the frozen code is the only test on
   Holm within the three. E-OCC2 is not frozen; it can run as exploratory on the 2026-2028 data. Check J4 now runs
   the three E in the synthetic look; checks 65/65.
 
+## The look (2026-10-08, `results/confirm_8623706.json`, commit c3f702b; B = 9999)
+
+One download of all 31 countries; the explore half's 61,000 cells identical to the explore download.
+
+**Model-level verdict: inconclusive.** Primary tests, full sample (31 countries, about 2009-2025):
+
+| Test | Estimate | One-sided p (predicted / opposite) | Verdict |
+|---|---|---|---|
+| D1 floor kink across countries (< 0) | +0.72 (se 4.96) | 0.56 / 0.44 | inconclusive |
+| D2 floor kink over time (< 0) | +3.93 (se 2.54) | 0.94 / 0.064 | inconclusive |
+| C-1 coresidence on rents (> 0) | -3.38 (se 4.39) | 0.77 / 0.23 | inconclusive |
+| C-2 young minus old on rents (> 0) | -0.05 (se 3.85) | 0.50 / 0.50 | inconclusive |
+| C-3 second earners (> 0, both legs) | W-M -3.51, W -3.37 | 0.94 / 0.066 | inconclusive |
+| C-4 entrants since 2023 (< 0) | -0.03 (se 0.11) | 0.38 / 0.62 | inconclusive |
+| C-5 aging and routine jobs (< 0) | -5.98 (se 13.4) | 0.33 / 0.67 | inconclusive |
+| C-6 school on prime-age unemployment (> 0) | +0.31 (se 0.11) | 0.005 / 0.995 | **supported** (LOO max p 0.012) |
+
+Confirm-half replication (labels for information): all inconclusive; C-6 +0.33, p 0.039.
+
+**E on the confirm half (Holm within three):**
+- **E-HF1** (the trend-dependent kink): +1.61 (se 1.96), p 0.83 — inconclusive; the explore half's -6.1 did not
+  replicate. No-verdict decomposition: rent x F +9.1 (two-sided p 0.033), the opposite of the kink.
+- **E-OCC1** (young hold clerical jobs): +0.26 (se 0.64), p 0.29 — inconclusive; did not replicate.
+- **E-SCH1** (enrolment on last year's prime-age unemployment): +0.52 (se 0.09), p 0.0016 — **supported**
+  (LOO max p 0.008, G* 4.4). Without 2008-2013 it is +0.03: it rests on the crisis years, as on the explore half.
+
+**Reading.** Over 2009-2025 the model's distinctive prediction finds no support in 31 European countries, and the
+one data-suggested rescue failed on fresh countries; nothing is formally contradicted, but the leanings
+(D2's p_opposite 0.064, the confirm half's rent x F +9.1) point the other way. What holds is standard: schooling is
+countercyclical. Everything after this point is post-look and exploratory.
+
 ## The split (frozen with the P tag)
 
 EXPLORE (16): BE BG CH EE FI FR HR HU IE IT LU LV MT PL PT SE.
