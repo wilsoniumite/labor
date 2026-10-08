@@ -1,0 +1,587 @@
+{
+ "written": "2026-10-08",
+ "protocol": "PROTOCOL.md sections 3 and 5",
+ "structure_endpoint": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/dataflow/ESTAT/<CODE>/latest?references=descendants&detail=referencepartial (dimensions and codes verified 2026-10-08, metadata only)",
+ "rule": "each query pins every dimension but freq and geo; geo is the half's countries minus 'absent' (or only 'only'); no time filter except 'since'",
+ "entries": [
+  {
+   "id": "act",
+   "dataset": "lfsa_argan",
+   "dimensions": [
+    "freq",
+    "unit",
+    "sex",
+    "age",
+    "citizen",
+    "geo"
+   ],
+   "filters": {
+    "unit": "PC",
+    "sex": [
+     "M",
+     "F"
+    ],
+    "age": [
+     "Y25-29",
+     "Y30-34",
+     "Y35-39",
+     "Y40-44",
+     "Y45-49",
+     "Y50-54",
+     "Y55-59",
+     "Y60-64"
+    ],
+    "citizen": [
+     "NAT",
+     "TOTAL"
+    ]
+   },
+   "use": "activity rates (C5): A2534, A5564, AW2554, AM2554 and their all-residents twins"
+  },
+  {
+   "id": "emp",
+   "dataset": "lfsa_ergan",
+   "dimensions": [
+    "freq",
+    "unit",
+    "sex",
+    "age",
+    "citizen",
+    "geo"
+   ],
+   "filters": {
+    "unit": "PC",
+    "sex": [
+     "M",
+     "F"
+    ],
+    "age": [
+     "Y20-24",
+     "Y25-29",
+     "Y30-34",
+     "Y35-39",
+     "Y40-44",
+     "Y45-49",
+     "Y50-54"
+    ],
+    "citizen": [
+     "NAT",
+     "TOTAL"
+    ]
+   },
+   "use": "employment rates (C5): E2024, E2554 and their all-residents twins"
+  },
+  {
+   "id": "une",
+   "dataset": "une_rt_a",
+   "dimensions": [
+    "freq",
+    "age",
+    "unit",
+    "sex",
+    "geo"
+   ],
+   "absent": [
+    "UK"
+   ],
+   "filters": {
+    "unit": "PC_ACT",
+    "sex": "T",
+    "age": [
+     "Y25-74",
+     "Y25-54",
+     "Y15-29"
+    ]
+   },
+   "use": "unemployment rates (C7): U, U2554, U1529"
+  },
+  {
+   "id": "une_lfs",
+   "dataset": "lfsa_urgan",
+   "dimensions": [
+    "freq",
+    "unit",
+    "sex",
+    "age",
+    "citizen",
+    "geo"
+   ],
+   "filters": {
+    "unit": "PC",
+    "sex": "T",
+    "age": [
+     "Y25-74",
+     "Y25-54",
+     "Y15-29"
+    ],
+    "citizen": "TOTAL"
+   },
+   "use": "unemployment rates, C7's fallback for a country une_rt_a does not cover"
+  },
+  {
+   "id": "hicp",
+   "dataset": "prc_hicp_aind",
+   "dimensions": [
+    "freq",
+    "unit",
+    "coicop",
+    "geo"
+   ],
+   "filters": {
+    "unit": "INX_A_AVG",
+    "coicop": [
+     "CP041",
+     "IGD_NNRG",
+     "CP00"
+    ]
+   },
+   "use": "q (C6) and the alternatives log(CP041/CP00), the HICP deflator of log(HPI/HICP)"
+  },
+  {
+   "id": "hpi",
+   "dataset": "prc_hpi_a",
+   "dimensions": [
+    "freq",
+    "purchase",
+    "unit",
+    "geo"
+   ],
+   "absent": [
+    "EL"
+   ],
+   "filters": {
+    "purchase": "TOTAL",
+    "unit": [
+     "I15_A_AVG",
+     "I25_A_AVG"
+    ]
+   },
+   "use": "house price index for the robustness q log(HPI/HICP)"
+  },
+  {
+   "id": "hpi_el",
+   "dataset": "tipsho20",
+   "dimensions": [
+    "freq",
+    "unit",
+    "geo"
+   ],
+   "only": [
+    "EL"
+   ],
+   "filters": {
+    "unit": "I15_A_AVG"
+   },
+   "use": "house price index of Greece (C6)"
+  },
+  {
+   "id": "comp",
+   "dataset": "nama_10_lp_ulc",
+   "dimensions": [
+    "freq",
+    "unit",
+    "na_item",
+    "geo"
+   ],
+   "filters": {
+    "na_item": "D1_SAL_PER",
+    "unit": "NAC"
+   },
+   "use": "compensation per employee for the robustness q log(CP041/compensation)"
+  },
+  {
+   "id": "cores",
+   "dataset": "ilc_lvps08",
+   "dimensions": [
+    "freq",
+    "age",
+    "sex",
+    "unit",
+    "geo"
+   ],
+   "filters": {
+    "age": "Y25-34",
+    "sex": "T",
+    "unit": "PC"
+   },
+   "use": "coresidence 25-34 (C-1 outcome) and F_c (C9)"
+  },
+  {
+   "id": "tenure",
+   "dataset": "ilc_lvps05",
+   "dimensions": [
+    "freq",
+    "tenure",
+    "sex",
+    "age",
+    "unit",
+    "geo"
+   ],
+   "filters": {
+    "tenure": "OWN_NL",
+    "sex": "T",
+    "age": "Y55-64",
+    "unit": "PC"
+   },
+   "use": "outright-owner share 55-64 (C-1 secondary)"
+  },
+  {
+   "id": "stud",
+   "dataset": "ilc_lvps09",
+   "dimensions": [
+    "freq",
+    "wstatus",
+    "age",
+    "unit",
+    "geo"
+   ],
+   "filters": {
+    "wstatus": "EDUC",
+    "age": "Y18-24",
+    "unit": "PC"
+   },
+   "use": "students 18-24 living with their parents (C-6 secondary)"
+  },
+  {
+   "id": "educ",
+   "dataset": "edat_lfse_19",
+   "dimensions": [
+    "freq",
+    "sex",
+    "age",
+    "wstatus",
+    "training",
+    "unit",
+    "geo"
+   ],
+   "filters": {
+    "sex": "T",
+    "age": "Y20-24",
+    "wstatus": "POP",
+    "training": "FE",
+    "unit": "PC"
+   },
+   "use": "share of 20-24 in formal education (C-6 outcome)"
+  },
+  {
+   "id": "occ",
+   "dataset": "lfsa_egais",
+   "dimensions": [
+    "freq",
+    "unit",
+    "sex",
+    "age",
+    "wstatus",
+    "isco08",
+    "geo"
+   ],
+   "filters": {
+    "unit": "THS_PER",
+    "sex": "T",
+    "age": [
+     "Y15-24",
+     "Y15-64"
+    ],
+    "wstatus": "EMP",
+    "isco08": [
+     "OC4",
+     "OC7",
+     "OC8",
+     "TOTAL"
+    ]
+   },
+   "use": "clerical exposure X_c at 15-24 (C-4); routine share change at 15-64 (C-5)"
+  },
+  {
+   "id": "pop",
+   "dataset": "demo_pjan",
+   "dimensions": [
+    "freq",
+    "unit",
+    "age",
+    "sex",
+    "geo"
+   ],
+   "since": 2011,
+   "filters": {
+    "unit": "NR",
+    "sex": "T",
+    "age": [
+     "Y13",
+     "Y14",
+     "Y15",
+     "Y16",
+     "Y17",
+     "Y18",
+     "Y19",
+     "Y20",
+     "Y21",
+     "Y22",
+     "Y23",
+     "Y24",
+     "Y25",
+     "Y26",
+     "Y27",
+     "Y28",
+     "Y29",
+     "Y30",
+     "Y31",
+     "Y32",
+     "Y33",
+     "Y34",
+     "Y35",
+     "Y36",
+     "Y37",
+     "Y38",
+     "Y39",
+     "Y40",
+     "Y41",
+     "Y42",
+     "Y43",
+     "Y44",
+     "Y45",
+     "Y46",
+     "Y47",
+     "Y48",
+     "Y49",
+     "Y50",
+     "Y51",
+     "Y52",
+     "Y53",
+     "Y54",
+     "Y55",
+     "Y56",
+     "Y57",
+     "Y58",
+     "Y59",
+     "Y60",
+     "Y61",
+     "Y62",
+     "Y63",
+     "Y64",
+     "Y65",
+     "Y66",
+     "Y67",
+     "Y68",
+     "Y69",
+     "Y70",
+     "Y71",
+     "Y72",
+     "Y73",
+     "Y74",
+     "Y75",
+     "Y76",
+     "Y77",
+     "Y78",
+     "Y79",
+     "Y80",
+     "Y81",
+     "Y82",
+     "Y83",
+     "Y84",
+     "Y85",
+     "Y86",
+     "Y87",
+     "Y88",
+     "Y89",
+     "Y90",
+     "Y91",
+     "Y92",
+     "Y93",
+     "Y94",
+     "Y95",
+     "Y96",
+     "Y97",
+     "Y98",
+     "Y99",
+     "Y_OPEN"
+    ]
+   },
+   "use": "2011 single-year population for predicted aging (C-5)"
+  }
+ ],
+ "variables": {
+  "A2534": {
+   "from": [
+    "act"
+   ],
+   "what": "activity rate 25-34, nationals: mean of M/F x 25-29, 30-34 (pp)"
+  },
+  "A5564": {
+   "from": [
+    "act"
+   ],
+   "what": "activity rate 55-64, nationals: mean of M/F x 55-59, 60-64"
+  },
+  "AW2554": {
+   "from": [
+    "act"
+   ],
+   "what": "activity rate of women 25-54, nationals: mean of the six five-year bands"
+  },
+  "AM2554": {
+   "from": [
+    "act"
+   ],
+   "what": "activity rate of men 25-54, nationals: mean of the six five-year bands"
+  },
+  "A2534_all": {
+   "from": [
+    "act"
+   ],
+   "what": "A2534, all residents (citizen TOTAL)"
+  },
+  "A5564_all": {
+   "from": [
+    "act"
+   ],
+   "what": "A5564, all residents"
+  },
+  "AW2554_all": {
+   "from": [
+    "act"
+   ],
+   "what": "AW2554, all residents"
+  },
+  "AM2554_all": {
+   "from": [
+    "act"
+   ],
+   "what": "AM2554, all residents"
+  },
+  "E2024": {
+   "from": [
+    "emp"
+   ],
+   "what": "employment rate 20-24, nationals: mean of M/F"
+  },
+  "E2554": {
+   "from": [
+    "emp"
+   ],
+   "what": "employment rate 25-54, nationals: mean of M/F x six bands"
+  },
+  "E2024_all": {
+   "from": [
+    "emp"
+   ],
+   "what": "E2024, all residents"
+  },
+  "E2554_all": {
+   "from": [
+    "emp"
+   ],
+   "what": "E2554, all residents"
+  },
+  "U": {
+   "from": [
+    "une",
+    "une_lfs"
+   ],
+   "what": "unemployment rate 25-74, both sexes (C7)"
+  },
+  "U2554": {
+   "from": [
+    "une",
+    "une_lfs"
+   ],
+   "what": "unemployment rate 25-54, both sexes"
+  },
+  "U1529": {
+   "from": [
+    "une",
+    "une_lfs"
+   ],
+   "what": "unemployment rate 15-29, both sexes"
+  },
+  "logq": {
+   "from": [
+    "hicp"
+   ],
+   "what": "log(CP041 / IGD_NNRG), year t"
+  },
+  "logq_l1": {
+   "from": [
+    "hicp"
+   ],
+   "what": "q of C6: log(CP041 / IGD_NNRG) of year t-1"
+  },
+  "logq_f1": {
+   "from": [
+    "hicp"
+   ],
+   "what": "the lead: log(CP041 / IGD_NNRG) of year t+1"
+  },
+  "logq_hpi_l1": {
+   "from": [
+    "hpi",
+    "hpi_el",
+    "hicp"
+   ],
+   "what": "log(HPI / CP00), t-1"
+  },
+  "logq_cp00_l1": {
+   "from": [
+    "hicp"
+   ],
+   "what": "log(CP041 / CP00), t-1"
+  },
+  "logq_comp_l1": {
+   "from": [
+    "hicp",
+    "comp"
+   ],
+   "what": "log(CP041 / compensation per employee), t-1"
+  },
+  "coresid2534": {
+   "from": [
+    "cores"
+   ],
+   "what": "share of 25-34 living with their parents, sex T (pp)"
+  },
+  "educ2024": {
+   "from": [
+    "educ"
+   ],
+   "what": "share of 20-24 in formal education (pp)"
+  }
+ },
+ "country_level": {
+  "F_raw": {
+   "from": [
+    "cores"
+   ],
+   "what": "C9 floor availability, raw (pp)"
+  },
+  "X_c": {
+   "from": [
+    "occ"
+   ],
+   "what": "C-4 clerical exposure at 15-24 (pp)"
+  },
+  "aging_pred": {
+   "from": [
+    "pop"
+   ],
+   "what": "C-5 predicted aging"
+  },
+  "routine_change": {
+   "from": [
+    "occ"
+   ],
+   "what": "C-5 change in routine share 2011-2019 (pp)"
+  },
+  "student_indep": {
+   "from": [
+    "stud"
+   ],
+   "what": "C-6 secondary: 1 - share of students 18-24 living with parents"
+  },
+  "owner_outright_5564": {
+   "from": [
+    "tenure"
+   ],
+   "what": "C-1 secondary: outright-owner share 55-64 (pp)"
+  }
+ }
+}

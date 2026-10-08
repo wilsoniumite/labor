@@ -1,0 +1,9 @@
+{
+ "seed": 1538901043471183927,
+ "countries": ["AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "EL", "ES", "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LT", "LU", "LV", "MT", "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK", "UK"],
+ "strata": {"Nordic": ["DK", "FI", "SE", "NO", "IS"], "Continental": ["AT", "BE", "CH", "DE", "FR", "LU", "NL"], "Anglo": ["IE", "UK"], "South": ["CY", "EL", "ES", "IT", "MT", "PT"], "CEE": ["BG", "CZ", "EE", "HR", "HU", "LT", "LV", "PL", "RO", "SI", "SK"]},
+ "population_2010": {"AT": 8351643, "BE": 10839905, "BG": 7421766, "CH": 7785806, "CY": 819140, "CZ": 10462088, "DE": 81802257, "DK": 5534738, "EE": 1333290, "EL": 11119289, "ES": 46486619, "FI": 5351427, "FR": 64658856, "HR": 4302847, "HU": 10014324, "IE": 4549428, "IS": 317630, "IT": 59690316, "LT": 3141976, "LU": 502066, "LV": 2120504, "MT": 414027, "NL": 16574989, "NO": 4858199, "PL": 38022869, "PT": 10573479, "RO": 20294683, "SE": 9340682, "SI": 2046976, "SK": 5390410, "UK": 62510197},
+ "pairs": [["SE", "DK"], ["FI", "NO"], ["DE", "FR"], ["NL", "BE"], ["AT", "CH"], ["UK", "IE"], ["IT", "ES"], ["EL", "PT"], ["CY", "MT"], ["PL", "RO"], ["CZ", "HU"], ["BG", "SK"], ["HR", "LT"], ["LV", "SI"]],
+ "explore": ["BE", "BG", "CH", "EE", "FI", "FR", "HR", "HU", "IE", "IT", "LU", "LV", "MT", "PL", "PT", "SE"],
+ "confirm": ["AT", "CY", "CZ", "DE", "DK", "EL", "ES", "IS", "LT", "NL", "NO", "RO", "SI", "SK", "UK"]
+}

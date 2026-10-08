@@ -19,6 +19,7 @@ Each folder is a self-contained thread whose `STATE.md` is the session entry poi
 |---|---|
 | `dynamics/` | The dynamic extension (capital as time: waiting and build lags): the v2 dynamic draft of the paper, its transition engine and checks, the HTML-to-LaTeX pipeline. |
 | `paths/` | The dynamic model built for risk: the mechanism as paths over time at speeds set by three clocks (technology, recognition, institutions). First layer: the yield curve (policy, cycle target, destination, speed, term premium, basis), its checks, and a public test on the Fed's 2021–23 cycle. Public data only. |
+| `participation/` | Participation in the model's terms (sex, age, retirement, schooling, youth): a pre-registered test of the outside option's floor kink on a European country panel, with an explore/confirm country split and a time holdout. Public data only. |
 | `three-taxes/` | The fiscal architecture as labor's share falls: the three-tier taxonomy, gate-tax to rent-tax convergence, the 100 percent ceiling, the practical design. Sequenced after the dynamics paper. |
 | `capability/` | Capability, education, experience: the talent/practice split, the machine mirror, task anatomy, the education race, the anatomy of wedges; the MORG premium-race data; the blind-coding stress test. |
 | `companion/` | The empirical schedule: the OEWS task panel on the occ1990dd classification, the w/c grid, the revealed-adoption envelope, wedges, the right tail. |
