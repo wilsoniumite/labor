@@ -92,10 +92,14 @@ data before the second. A 2026-2028 rerun of the frozen code is the only test on
 - **Plumbing fix before the E freeze** (section 7): `build.aging` returned NaN for HU (2011 open age group 85+),
   dropping it from C-5 silently; fixed, check G5b added, `results/specs_explore.json` rerun (C-5 now 16
   countries; C-5's explore p 0.23).
-- **E shortlist awaiting her call** (`explore/SYNTHESIS.md` section 8, draft code `explore/e_specs_draft.py`):
-  E-HF1 (D1 with country trends and the long window; varies D1), E-OCC1 (the young hold the clerical stretch),
-  E-SCH1 (enrolment on lagged prime-age unemployment; varies C-6). Optional: E-OCC2 as a no-verdict descriptive
-  for the 2026-2028 holdout.
+- **The E freeze** (her go-ahead, 2026-10-08): `code/e_specs.py` = `explore/e_specs_draft.py` with a new header.
+  The E-hypotheses are:
+  - E-HF1: D1 with country trends and the long window; varies D1;
+  - E-OCC1: the young hold the clerical stretch;
+  - E-SCH1: enrolment on lagged prime-age unemployment; varies C-6.
+
+  Holm within the three. E-OCC2 is not frozen; it can run as exploratory on the 2026-2028 data. Check J4 now runs
+  the three E in the synthetic look; checks 65/65.
 
 ## The split (frozen with the P tag)
 

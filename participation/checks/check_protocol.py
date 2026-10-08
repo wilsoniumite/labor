@@ -706,13 +706,16 @@ if ok:
     full, rep, prim = look["P_full_sample"], look["P_confirm_half_replication"], look["primary"]
     ok = (full["geos"] == sorted(es.COUNTRIES) and rep["geos"] == sorted(sim.SPLIT["confirm"])
           and full["F_standardisation"]["mean"] == rep["F_standardisation"]["mean"]
-          and "verdicts" in full and "labels_for_information" in rep and look["E_confirm_half"] is None
+          and "verdicts" in full and "labels_for_information" in rep
+          and set(look["E_confirm_half"]["tests"]) == {"E-HF1", "E-OCC1", "E-SCH1"}
+          and set(look["E_confirm_half"]["verdicts"]) == {"E-HF1", "E-OCC1", "E-SCH1"}
+          and all(set(r["geos_used"]) <= set(sim.SPLIT["confirm"]) for r in look["E_confirm_half"]["tests"].values())
           and prim["verdicts"] == full["verdicts"] and prim["full_sample_exploratory"] == []
           and all(v == "full sample" for v in prim["source"].values())
           and all(v == {"explore_cache": "absent"} for v in look["vintage_vs_explore"].values()))
 check("J4 a synthetic look (tags simulated): P on all 31 with verdicts (the primary, nothing deviated), P on the 15 "
-      "frozen confirm countries with the same F constants and labels for information only, no E (e_specs.py "
-      "absent), the vintage report", ok, f"{t.__name__ if t else ''} {msg[:120]}" if not ok
+      "frozen confirm countries with the same F constants and labels for information only, the three E on the "
+      "confirm countries only, with Holm labels, the vintage report", ok, f"{t.__name__ if t else ''} {msg[:120]}" if not ok
       else f"model verdict {look['primary']['model_verdict']}")
 if look is not None:
     mde = look["mde"]
