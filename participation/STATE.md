@@ -7,7 +7,7 @@ data, with something to test against).
 **Collaboration:** same contract as the sibling threads — drafting and sequencing delegated to Claude, checks
 gate absolutely, direct critique over validation; the design decisions below are a veto window for her calls.
 **The wall:** this repository is public. Public data only (Eurostat; OECD and ILO as named in the inventory).
-**State as of:** 2026-10-08 — protocol written, reviewed and amended; pipeline built, adversarially reviewed and
+**State as of:** 2026-10-08 (paused mid long-run drafting; see 'The long run') — protocol written, reviewed and amended; pipeline built, adversarially reviewed and
 validated on synthetic data, all checks green; committed but NOT yet frozen (the `participation-P-freeze` tag
 waits for her go-ahead); no outcome value downloaded (the fetch log holds one line: the 2010 population).
 
@@ -153,9 +153,16 @@ only, no values). What they found:
 - **Design.** No internal holdout for the P tests (all unseen country-years); a matched-pair country split with the
   US forced into the explore half for any new E; every splice a segment fixed effect, no ratio-linking; rent-control
   robustness from a published coding; MDEs and forecast sheets published before the look.
-- **Waiting on her:** the scope (US-only from 1948, or the OECD panel from the 1960s-70s, or both), the floor
-  measure (IPUMS registration or the time-invariant measure), and whether the long-run distinctive test is the
-  regime-aware piecewise one.
+- **Her decisions (2026-10-08):** scope BOTH (the OECD panel from the 1960s-70s as the test; the US from 1948 as a
+  deep study with no verdict of its own); the floor measure from IPUMS-International 1955-1975 census samples (she
+  is registering; the extract holds household-structure variables only, no labour/education/income/tenure, and
+  goes to `longrun/data/ipums/`, gitignored, read only by the guarded loader); the regime-aware within-country
+  test as the long-run distinctive test, pooled D1/D2 with no verdict.
+- **PAUSED here (her call, 2026-10-08).** On disk: `longrun/PROTOCOL.md` and `longrun/FORECASTS.md`, the FIRST
+  DRAFT, unrevised; `longrun/docs/protocol_review_draft1.md`, three reviewers' 34 findings on it, not yet worked
+  in. Next: revise the protocol from those findings; build the long-run pipeline (guarded loaders, split, segments
+  from documentation, the coverage-skeleton simulation, checks); show her the protocol; forecast sheets; tag
+  `participation-L-freeze`; then fetch (incl. her IPUMS extract). No long-run value has been downloaded.
 
 ## The split (frozen with the P tag)
 
