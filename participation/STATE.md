@@ -58,6 +58,19 @@ data before the second. A 2026-2028 rerun of the frozen code is the only test on
    UK; C-5's breaks reported plus a drop-them robustness run; C-6 without U_ct; D1's top quartile = 75th
    percentile; the robustness table; Holm over the whole family; the design half limited to the 31 countries.
 
+## Findings since the P freeze
+
+- **The frozen panels run from 2009, not 1997** (found 2026-10-08 from `years_used`, before exploring). C7's
+  `une_rt_a` (ages 25-74, 25-54, 15-29) starts in 2009 for 14 of the 16 explore countries (FR 2003, SE 2005), and
+  the pre-freeze amendment "one source per country, never spliced" keeps it for every country it covers. So every
+  test with U_ct (D1, D2, C-1 to C-4) and C-6 (U 25-54) runs on roughly 2009-2025, losing the 2000s housing boom
+  and bust. `lfsa_urgan`, the named fallback, starts 1995-2002. The code does what the frozen rule says, so this
+  is not a plumbing bug; changing it would be a deviation (section 7). Kept as frozen; the long-window versions
+  are candidates for E (tested on the confirm half, never changing a P verdict).
+- **The frozen tests on the explore half** (`results/specs_explore.json`, B = 9999): all eight inconclusive;
+  model-level inconclusive. Explore-half MDEs: D1 13.6 points of participation per unit of log q x sd(F), D2 7.0,
+  C-1 14.9, C-2 15.2, C-4 0.24, C-5 48, C-6 0.53. These are the pre-look MDEs the protocol asks for.
+
 ## The split (frozen with the P tag)
 
 EXPLORE (16): BE BG CH EE FI FR HR HU IE IT LU LV MT PL PT SE.
