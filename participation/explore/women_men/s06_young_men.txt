@@ -1,0 +1,28 @@
+changes 2005-08 -> 2022-25 (pp), 25-29 (activity: nationals; education/NEET/coresidence: all, X):
+     dAM2529  dEduc_M  dInacNEET_M  dCores_M  dAF2529  dEduc_F  dInacNEET_F  dCores_F
+geo                                                                                  
+BE      -5.9      4.4          2.0      12.2     -2.8      6.4         -1.6       9.8
+BG       0.5      0.8         -2.4       4.6      4.9      2.6         -7.1       6.5
+CH      -1.2      1.5          NaN       6.4      1.5      5.2         -2.7      14.6
+EE      -1.8      0.8          NaN     -12.2     17.5      0.1        -13.1      -7.4
+FI      -5.0      2.0          4.0      -2.3      1.9      6.5         -2.9      -0.6
+FR      -2.8      3.8          2.9      12.8      3.0      4.8         -2.5      11.0
+HR      -3.0      0.8          NaN       NaN     -2.1      1.6          0.8       NaN
+HU       2.4     -1.2         -2.3      -1.9     16.7     -2.7        -15.4      -3.4
+IE      -1.5      4.3          0.9      17.0      3.8      2.8         -4.1      25.7
+IT      -4.3      2.6          1.4       6.1      1.4      4.1         -3.8      10.6
+LU      -2.5     11.8          NaN      -0.6      5.2      NaN         -3.2       9.4
+LV      -1.1      0.2          1.5      -3.0      7.3     -3.2         -7.1      -3.3
+MT       NaN      NaN          NaN      -9.6      NaN      NaN        -19.9      -1.0
+PL       0.7     -6.4          0.2      15.2      5.3     -4.6         -4.7      17.3
+PT      -0.3     -0.2          0.5       2.9      4.4     -0.5         -3.0       5.5
+SE      -2.0      4.0          0.3       5.7      2.0      6.4         -2.2       4.4
+means: dAM2529       -1.84
+dEduc_M        1.95
+dInacNEET_M    0.82
+dCores_M       3.55
+dAF2529        4.67
+dEduc_F        2.10
+dInacNEET_F   -5.79
+dCores_F       6.60
+corr(dAM2529, dEduc_M) -0.50; corr(dAM2529, dInacNEET_M) -0.81; corr(dAM2529, dCores_M) -0.09

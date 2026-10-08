@@ -71,6 +71,32 @@ data before the second. A 2026-2028 rerun of the frozen code is the only test on
   model-level inconclusive. Explore-half MDEs: D1 13.6 points of participation per unit of log q x sd(F), D2 7.0,
   C-1 14.9, C-2 15.2, C-4 0.24, C-5 48, C-6 0.53. These are the pre-look MDEs the protocol asks for.
 
+- **The exploration** (`explore/SYNTHESIS.md`; per theme `explore/<theme>/findings.md`; vetting scripts in
+  `explore/_vet/`; about 293 specifications by five explorers plus several hundred vetting regressions). In one
+  line each:
+  - women's prime-age participation converged on men's everywhere (gap -14.8 → -5.2, 2005-2025): solid,
+    standard;
+  - older participation rose after 2009 (women 60-64 26 → 58), cohort replacement, no response to rents or
+    house prices;
+  - enrolment at 20-24 rises after high prime-age unemployment (lagged; crisis years);
+  - the young hold more clerical jobs (+2.1 points);
+  - nothing since 2023 for entrants;
+  - the floor kink has the model's sign only with country trends (D1 -6.1, p 0.028; +3.3 without) — suggestive
+    at most, and the goods leg of q carries as much as the rent leg.
+  - Design flaws the explore half shows in the frozen tests, reported, not fixed:
+    - D2's squared deviation is close to a quadratic time trend (IE supplies 61% of its variation);
+    - C-4 rests on CH (G* 1.8);
+    - the C-6 secondary's `ilc_lvps09` is the status mix of coresiding youth, not the share of students at home,
+      so that no-verdict secondary cannot be read as registered;
+    - CP041 is weak where rental markets are thin (BG, PL, HR, MT).
+- **Plumbing fix before the E freeze** (section 7): `build.aging` returned NaN for HU (2011 open age group 85+),
+  dropping it from C-5 silently; fixed, check G5b added, `results/specs_explore.json` rerun (C-5 now 16
+  countries; C-5's explore p 0.23).
+- **E shortlist awaiting her call** (`explore/SYNTHESIS.md` section 8, draft code `explore/e_specs_draft.py`):
+  E-HF1 (D1 with country trends and the long window; varies D1), E-OCC1 (the young hold the clerical stretch),
+  E-SCH1 (enrolment on lagged prime-age unemployment; varies C-6). Optional: E-OCC2 as a no-verdict descriptive
+  for the 2026-2028 holdout.
+
 ## The split (frozen with the P tag)
 
 EXPLORE (16): BE BG CH EE FI FR HR HU IE IT LU LV MT PL PT SE.

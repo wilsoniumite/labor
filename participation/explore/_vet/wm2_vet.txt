@@ -1,0 +1,40 @@
+base                                                    b=   0.231 se=  0.111 p=0.019 p_opp=0.981 n= 376 G=16 G*=11.1 mde=0.29 yrs=1997-2025
+base on q-sample, no q                                  b=   0.210 se=  0.116 p=0.028 p_opp=0.973 n= 342 G=16 G*=11.1 mde=0.30 yrs=1997-2025
+q-sample, q breaks, no q                                b=   0.114 se=  0.186 p=0.259 p_opp=0.741 n= 342 G=16 G*=10.3 mde=0.49 yrs=1997-2025
+no break dummies                                        b=   0.636 se=  0.188 p=0.002 p_opp=0.998 n= 376 G=16 G*=11.2 mde=0.49 yrs=1997-2025
+window (1997, 2008)                                     b=   0.417 se=  0.194 p=0.005 p_opp=0.995 n= 140 G=16 G*=6.0 mde=0.51 yrs=1997-2008
+window (2009, 2019)                                     b=   0.415 se=  0.171 p=0.005 p_opp=0.995 n= 176 G=16 G*=9.0 mde=0.45 yrs=2009-2019
+window (2009, 2025)                                     b=   0.400 se=  0.177 p=0.008 p_opp=0.992 n= 236 G=16 G*=9.1 mde=0.46 yrs=2009-2025
+window (2005, 2025)                                     b=   0.206 se=  0.116 p=0.033 p_opp=0.967 n= 298 G=16 G*=10.9 mde=0.30 yrs=2005-2025
+window (2000, 2025)                                     b=   0.215 se=  0.112 p=0.025 p_opp=0.975 n= 353 G=16 G*=10.9 mde=0.29 yrs=2000-2025
+window (1997, 2019)                                     b=   0.237 se=  0.109 p=0.013 p_opp=0.987 n= 316 G=16 G*=11.1 mde=0.29 yrs=1997-2019
+first differences gap on dU                             b=   0.112 se=  0.051 p=0.024 p_opp=0.976 n= 349 G=16 G*=6.9 mde=0.13 yrs=1997-2025
+FD men on dU                                            b=   0.001 se=  0.048 p=0.513 p_opp=0.487 n= 349 G=16 G*=6.9 mde=0.13 yrs=1997-2025
+FD women on dU                                          b=   0.113 se=  0.064 p=0.028 p_opp=0.972 n= 349 G=16 G*=6.9 mde=0.17 yrs=1997-2025
+   geo   n  slope_raw  slope_detrended        yrs   sdU
+0   BE  29     -3.034            0.238  1995-2025  1.11
+1   BG  23      0.260            0.277  2001-2025  3.97
+2   CH  28      4.178           -0.183  1996-2025  0.73
+3   EE  26      0.016            0.205  1998-2025  3.14
+4   FI  29     -0.087            0.222  1995-2025  2.13
+5   FR  29     -1.537           -0.125  1995-2025  1.49
+6   HR  18     -0.115            0.129  2006-2025  3.77
+7   HU  23     -0.418           -0.028  2001-2025  2.37
+8   IE  25      0.300            0.290  1998-2025  3.69
+9   IT  19      0.622            0.301  2005-2025  2.19
+10  LU  29      8.364            1.272  1995-2025  1.25
+11  LV  20      0.193            0.334  2004-2025  3.61
+12  MT  15    -10.454            0.511  2005-2019  0.81
+13  PL  20     -0.190            0.225  2004-2025  4.19
+14  PT  25      0.510            0.289  1999-2025  3.42
+15  SE  27     -0.024           -0.010  1997-2025  1.19
+positive raw 8/16; positive detrended 12/16
+leave-two-out worst: p=0.282 drop ('EE', 'LV') beta=0.117
+LOO se median 0.115 max 0.159; MDE(15, a=.05) median 0.303; MDE(15, a=.01 Holm-first) 0.402; MDE(15,a=.0125) 0.389
+power beta=0.231 alpha=0.05: 0.60
+power beta=0.231 alpha=0.01: 0.27
+power beta=0.15 alpha=0.05: 0.33
+power beta=0.15 alpha=0.01: 0.10
+power beta=0.1 alpha=0.05: 0.19
+power beta=0.1 alpha=0.01: 0.05
+specifications estimated in this vet (incl. LOO/L2O): 149

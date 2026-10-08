@@ -1,0 +1,128 @@
+{
+ "theme": "aging and retirement",
+ "half": "explore",
+ "specifications_estimated": 52,
+ "diagnostic_reruns": "63 leave-one-country-out reruns; correlation tables in s07",
+ "candidates": {
+  "E-AR1": {
+   "statement": "the 2009->2019 rise in 55-64 activity (nationals, C5 band) is larger where its 2009 level was lower",
+   "outcome": "A5564(2019) - A5564(2009)",
+   "regressor": "A5564(2009)",
+   "controls_fe": "stratum FE; cross-section, one row per country",
+   "side": -1,
+   "explore": {
+    "beta": -0.32901318798510637,
+    "se": 0.08588427737469975,
+    "t": -3.8308896347776553,
+    "p": 0.0055,
+    "p_opposite": 0.9946,
+    "n": 15,
+    "G": 15,
+    "G_star": 7.962188413035298,
+    "mde15": 0.22582110587947274
+   },
+   "loo": {
+    "BE": [
+     -0.329,
+     0.007
+    ],
+    "BG": [
+     -0.334,
+     0.006
+    ],
+    "CH": [
+     -0.32,
+     0.034
+    ],
+    "EE": [
+     -0.337,
+     0.005
+    ],
+    "FI": [
+     -0.329,
+     0.009
+    ],
+    "FR": [
+     -0.327,
+     0.008
+    ],
+    "HR": [
+     -0.376,
+     0.001
+    ],
+    "HU": [
+     -0.261,
+     0.044
+    ],
+    "IE": [
+     -0.329,
+     0.011
+    ],
+    "IT": [
+     -0.323,
+     0.009
+    ],
+    "LV": [
+     -0.349,
+     0.006
+    ],
+    "MT": [
+     -0.332,
+     0.013
+    ],
+    "PL": [
+     -0.336,
+     0.05
+    ],
+    "PT": [
+     -0.311,
+     0.021
+    ],
+    "SE": [
+     -0.329,
+     0.011
+    ]
+   },
+   "variants_tried": 4,
+   "motivating_output": "explore/aging_retirement/s13_candidates.py; fig2_rise_xsec.png"
+  },
+  "E-AR2": {
+   "statement": "the 55-64 minus 25-54 activity gap rises with log(HPI/CP00)_{t-1} more where the outright-owner share at 55-64 (2015-17) is higher",
+   "outcome": "A5564 - (AW2554+AM2554)/2",
+   "regressor": "logq_hpi_l1 x std(owner_outright_5564)",
+   "controls_fe": "geo+year FE, U (C7), logq_hpi_l1, C3 breaks",
+   "side": 1,
+   "explore": {
+    "beta": 6.184240404046142,
+    "se": 2.276827501482244,
+    "t": 2.7161655417549735,
+    "p": 0.0259,
+    "p_opposite": 0.9742,
+    "n": 223,
+    "G": 16,
+    "G_star": 4.073025761667781,
+    "mde15": 5.986610355214794
+   },
+   "fragility": "drop SE: two-sided p 0.445; country trends +3.5 (p 0.15 two-sided); CEE x year +6.4 (p 0.21)",
+   "variants_tried": 36,
+   "motivating_output": "explore/aging_retirement/s10_old_minus_prime.py, s11_own_slopes.py, s13_candidates.py"
+  }
+ },
+ "not_proposed": {
+  "realised aging vs routine change": {
+   "beta": 10.702141087525778,
+   "se": 10.213348937711826,
+   "p": 0.1565,
+   "n": 16,
+   "G": 16,
+   "mde15": 26.85462138529271
+  }
+ },
+ "data_problems": [
+  "lfsa_igar has no retirement category; reasons asked only of inactive who want work",
+  "HU 2011 demo_pjan Y_OPEN = 85+, single ages 85-99 missing -> build.aging returns NaN, HU drops from C-5 (plumbing)",
+  "manifest act lacks 65-69",
+  "LU 60-64 nationals missing 2025 (and women 2009); MT no 2025",
+  "within-country q variation concentrated in IE (42%) and EE (24%); G* 3.3"
+ ]
+}

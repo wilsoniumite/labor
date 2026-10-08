@@ -1,0 +1,27 @@
+== E-a robustness (q x outright owners 55-64, sd units; H1 < 0)
+E-a base: AW2554, U_lfs, trends, 1997-2025              b=  -5.116 se=  2.725 p=0.036 p_opp=0.965 n= 342 G=16 G*=5.4 mde=7.14 yrs=1997-2025
+E-a frozen U (une_rt_a), trends                         b=  -5.917 se=  3.318 p=0.035 p_opp=0.966 n= 245 G=16 G*=4.6 mde=8.69 yrs=2003-2025
+E-a no cycle control, trends                            b=  -5.367 se=  2.806 p=0.038 p_opp=0.962 n= 342 G=16 G*=5.4 mde=7.35 yrs=1997-2025
+E-a 2005-2025                                           b=  -4.874 se=  2.590 p=0.036 p_opp=0.965 n= 297 G=16 G*=5.2 mde=6.78 yrs=2005-2025
+E-a on gap W-M                                          b=  -2.540 se=  2.562 p=0.152 p_opp=0.848 n= 342 G=16 G*=5.4 mde=6.71 yrs=1997-2025
+E-a on men (placebo-ish)                                b=  -2.576 se=  2.081 p=0.106 p_opp=0.894 n= 342 G=16 G*=5.4 mde=5.45 yrs=1997-2025
+E-a all residents                                       b=  -2.866 se=  4.142 p=0.223 p_opp=0.777 n= 373 G=16 G*=5.5 mde=10.85 yrs=1997-2025
+E-a implied slope of q at O pct 10 (z=-1.30)            b=   7.734 se=  5.867 p=0.151 p_opp=0.151 n= 342 G=16 G*=5.3 mde=15.37 yrs=1997-2025
+E-a implied slope of q at O pct 90 (z=0.97)             b=  -3.914 se=  1.279 p=0.202 p_opp=0.202 n= 342 G=16 G*=2.6 mde=3.35 yrs=1997-2025
+leave-one-out, E-a base:
+{'BE': (-5.42, 0.031), 'BG': (-4.97, 0.037), 'CH': (-6.26, 0.034), 'EE': (-4.22, 0.104), 'FI': (-5.02, 0.042), 'FR': (-4.95, 0.038), 'HR': (-4.22, 0.078), 'HU': (-5.65, 0.034), 'IE': (-4.17, 0.057), 'IT': (-5.08, 0.044), 'LU': (-4.88, 0.026), 'LV': (-4.85, 0.067), 'MT': (-5.13, 0.022), 'PL': (-4.91, 0.05), 'PT': (-5.16, 0.035), 'SE': (-7.5, 0.017)}
+
+== E-b robustness (gap W-M on U 25-54; H1 > 0)
+E-b base: W-M on U2554_lfs, 1997-2025                   b=   0.231 se=  0.111 p=0.019 p_opp=0.981 n= 376 G=16 G*=11.1 mde=0.29 yrs=1997-2025
+E-b frozen U2554 (une_rt_a)                             b=   0.397 se=  0.178 p=0.008 p_opp=0.992 n= 245 G=16 G*=9.0 mde=0.47 yrs=2003-2025
+E-b country trends                                      b=   0.071 se=  0.041 p=0.038 p_opp=0.962 n= 376 G=16 G*=9.6 mde=0.11 yrs=1997-2025
+E-b U 25-74                                             b=   0.235 se=  0.114 p=0.018 p_opp=0.982 n= 376 G=16 G*=11.0 mde=0.30 yrs=1997-2025
+E-b all residents                                       b=   0.182 se=  0.136 p=0.086 p_opp=0.914 n= 419 G=16 G*=10.9 mde=0.36 yrs=1997-2025
+leave-one-out, E-b base:
+{'BE': (0.229, 0.018), 'BG': (0.211, 0.039), 'CH': (0.231, 0.008), 'EE': (0.214, 0.097), 'FI': (0.26, 0.004), 'FR': (0.223, 0.023), 'HR': (0.274, 0.002), 'HU': (0.21, 0.057), 'IE': (0.251, 0.007), 'IT': (0.223, 0.005), 'LU': (0.208, 0.016), 'LV': (0.178, 0.091), 'MT': (0.298, 0.001), 'PL': (0.225, 0.073), 'PT': (0.242, 0.021), 'SE': (0.219, 0.025)}
+
+== floor kink by sex (D1 form: A 25-34 on q, q x F, U; H1 b2 < 0), understanding
+D1 women 25-34 (frozen U)                               b=   4.637 se=  8.356 p=0.693 p_opp=0.307 n= 230 G=15 G*=8.5 mde=21.97 yrs=2003-2025
+D1 men 25-34 (frozen U)                                 b=  -0.592 se=  2.857 p=0.410 p_opp=0.590 n= 230 G=15 G*=8.5 mde=7.51 yrs=2003-2025
+D1 women 25-34 (U_lfs, 1997-2025)                       b=   7.065 se=  8.879 p=0.754 p_opp=0.246 n= 324 G=15 G*=6.1 mde=23.35 yrs=1997-2025
+D1 men 25-34 (U_lfs, 1997-2025)                         b=  -0.380 se=  3.009 p=0.447 p_opp=0.553 n= 324 G=15 G*=6.1 mde=7.91 yrs=1997-2025

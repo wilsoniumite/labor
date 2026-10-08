@@ -1,0 +1,14 @@
+C3a frozen: W-M 25-54 on q, U(une_rt_a)                 b=  -6.149 se=  4.371 p=0.882 p_opp=0.118 n= 245 G=16 G*=3.3 mde=11.45 yrs=2003-2025
+C3b frozen: W 25-54 on q                                b=  -6.295 se=  4.735 p=0.885 p_opp=0.115 n= 245 G=16 G*=3.3 mde=12.40 yrs=2003-2025
+men 25-54 on q, U                                       b=  -0.146 se=  1.548 p=0.531 p_opp=0.469 n= 245 G=16 G*=3.3 mde=4.05 yrs=2003-2025
+W-M 25-54 on q, U_lfs, 1997-2025                        b= -10.520 se=  6.942 p=0.914 p_opp=0.086 n= 342 G=16 G*=3.5 mde=18.18 yrs=1997-2025
+W 25-54 on q, U_lfs, 1997-2025                          b=  -9.119 se=  7.161 p=0.862 p_opp=0.138 n= 342 G=16 G*=3.5 mde=18.76 yrs=1997-2025
+M 25-54 on q, U_lfs, 1997-2025                          b=   1.400 se=  1.479 p=0.157 p_opp=0.843 n= 342 G=16 G*=3.5 mde=3.87 yrs=1997-2025
+W 2534 on q, U_lfs                                      b=  -7.890 se=  5.745 p=0.863 p_opp=0.137 n= 342 G=16 G*=3.5 mde=15.05 yrs=1997-2025
+M 2534 on q, U_lfs                                      b=   1.771 se=  1.582 p=0.168 p_opp=0.832 n= 342 G=16 G*=3.5 mde=4.14 yrs=1997-2025
+W 3544 on q, U_lfs                                      b= -11.436 se=  9.023 p=0.871 p_opp=0.129 n= 342 G=16 G*=3.5 mde=23.63 yrs=1997-2025
+M 3544 on q, U_lfs                                      b=   0.829 se=  1.724 p=0.310 p_opp=0.690 n= 342 G=16 G*=3.5 mde=4.51 yrs=1997-2025
+W 4554 on q, U_lfs                                      b=  -8.033 se=  7.280 p=0.853 p_opp=0.147 n= 342 G=16 G*=3.5 mde=19.07 yrs=1997-2025
+M 4554 on q, U_lfs                                      b=   1.600 se=  1.791 p=0.140 p_opp=0.860 n= 342 G=16 G*=3.5 mde=4.69 yrs=1997-2025
+W 25-54 on q, U_lfs, country trends                     b=  -2.570 se=  1.484 p=0.832 p_opp=0.168 n= 342 G=16 G*=2.8 mde=3.89 yrs=1997-2025
+W-M on q, U_lfs, country trends                         b=  -2.727 se=  1.298 p=0.838 p_opp=0.162 n= 342 G=16 G*=2.8 mde=3.40 yrs=1997-2025

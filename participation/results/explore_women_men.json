@@ -1,0 +1,70 @@
+{
+ "theme": "women_men",
+ "half": "explore",
+ "geos": [
+  "BE",
+  "BG",
+  "CH",
+  "EE",
+  "FI",
+  "FR",
+  "HR",
+  "HU",
+  "IE",
+  "IT",
+  "LU",
+  "LV",
+  "MT",
+  "PL",
+  "PT",
+  "SE"
+ ],
+ "specifications_estimated": 61,
+ "loo_reruns": 32,
+ "candidates": {
+  "WM-1": {
+   "beta": -5.115963023487746,
+   "se": 2.7254275743016123,
+   "t": -1.877123087667705,
+   "p": 0.0356,
+   "p_opposite": 0.9645,
+   "n": 342.0,
+   "G": 16.0,
+   "G_star": 5.373538028825729,
+   "mde": 7.1386997145894675,
+   "years": [
+    1997,
+    2025
+   ],
+   "mde_15": 7.401161335347481,
+   "side": -1,
+   "outcome": "AW2554",
+   "regressor": "logq_l1 x z(OWN_NL 55-64, 2015-2017 mean)",
+   "controls": "logq_l1, U 25-74 (lfsa_urgan), country+year FE, country linear trends, C3 breaks",
+   "varies_P": "C-3 (leg 2)",
+   "variants_tried": 21
+  },
+  "WM-2": {
+   "beta": 0.23121575506719957,
+   "se": 0.11092811125309204,
+   "t": 2.0843747581680256,
+   "p": 0.0188,
+   "p_opposite": 0.9813,
+   "n": 376.0,
+   "G": 16.0,
+   "G_star": 11.126342937941207,
+   "mde": 0.2905534836475395,
+   "years": [
+    1997,
+    2025
+   ],
+   "mde_15": 0.3012359806405379,
+   "side": 1,
+   "outcome": "AW2554 - AM2554",
+   "regressor": "U 25-54 (lfsa_urgan, sex T)",
+   "controls": "country+year FE, C3 breaks",
+   "varies_P": "none",
+   "variants_tried": 11
+  }
+ }
+}

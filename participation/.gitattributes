@@ -1,0 +1,3 @@
+# keep the committed data files byte-identical across checkouts (the confirm guard compares the fetch log)
+*.jsonl text eol=lf
+*.json text eol=lf

@@ -1,0 +1,97 @@
+1	C3a frozen: W-M 25-54 on q, U(une_rt_a)
+1	C3b frozen: W 25-54 on q
+1	men 25-54 on q, U
+1	W-M 25-54 on q, U_lfs, 1997-2025
+1	W 25-54 on q, U_lfs, 1997-2025
+1	M 25-54 on q, U_lfs, 1997-2025
+1	W 2534 on q, U_lfs
+1	M 2534 on q, U_lfs
+1	W 3544 on q, U_lfs
+1	M 3544 on q, U_lfs
+1	W 4554 on q, U_lfs
+1	M 4554 on q, U_lfs
+1	W 25-54 on q, U_lfs, country trends
+1	W-M on q, U_lfs, country trends
+0	country-by-country slopes (descriptive, not counted as specs)
+1	W 25-54: q x renter share 25-54 (X), sd units
+1	W-M 25-54: q x renter share 25-54 (X)
+1	W 25-54: q x outright owners 55-64 (M)
+1	W-M 25-54: q x outright owners 55-64 (M)
+1	W 25-54: q x outright owners 25-54 (X)
+1	W 25-54: q x renter share, country trends
+1	W 25-54: q x outright owners 55-64 (M), trends
+1	W 25-54 on U25-54 (all years)
+1	M 25-54 on U25-54 (all years)
+1	W-M 25-54 on U25-54 (all years)
+1	W-M on U25-54, 2005-2016
+1	W on U25-54, 2005-2016
+1	W 25-54 on men's U 25-54 (X)
+1	W 25-54 on men's U, women's U held (X)
+1	W-M on U25-54, with q
+1	W-M 2534 on U25-54
+1	W-M 3544 on U25-54
+1	W-M 4554 on U25-54
+1	women's care inactivity 25-54 (X) on q
+1	women's care+personal inactivity (X) on q
+1	women's care+personal inactivity (X) on U25-54
+1	AW2554 on care+personal inactivity (X), mechanical check
+1	men 25-29 activity on men's coresidence 25-29 (X)
+1	women 25-29 activity on women's coresidence 25-29 (X)
+1	men 25-34 activity on men's coresidence 25-34 (X)
+1	coresidence 25-34 sex M (X) on q
+1	coresidence 25-34 sex F (X) on q
+1	E-a base: AW2554, U_lfs, trends, 1997-2025
+1	E-a frozen U (une_rt_a), trends
+1	E-a no cycle control, trends
+1	E-a 2005-2025
+1	E-a on gap W-M
+1	E-a on men (placebo-ish)
+1	E-a all residents
+1	E-a implied slope of q at O pct 10 (z=-1.30)
+1	E-a implied slope of q at O pct 90 (z=0.97)
+1	E-a LOO -BE
+1	E-a LOO -BG
+1	E-a LOO -CH
+1	E-a LOO -EE
+1	E-a LOO -FI
+1	E-a LOO -FR
+1	E-a LOO -HR
+1	E-a LOO -HU
+1	E-a LOO -IE
+1	E-a LOO -IT
+1	E-a LOO -LU
+1	E-a LOO -LV
+1	E-a LOO -MT
+1	E-a LOO -PL
+1	E-a LOO -PT
+1	E-a LOO -SE
+1	E-b base: W-M on U2554_lfs, 1997-2025
+1	E-b frozen U2554 (une_rt_a)
+1	E-b country trends
+1	E-b U 25-74
+1	E-b all residents
+1	E-b LOO -BE
+1	E-b LOO -BG
+1	E-b LOO -CH
+1	E-b LOO -EE
+1	E-b LOO -FI
+1	E-b LOO -FR
+1	E-b LOO -HR
+1	E-b LOO -HU
+1	E-b LOO -IE
+1	E-b LOO -IT
+1	E-b LOO -LU
+1	E-b LOO -LV
+1	E-b LOO -MT
+1	E-b LOO -PL
+1	E-b LOO -PT
+1	E-b LOO -SE
+1	D1 women 25-34 (frozen U)
+1	D1 men 25-34 (frozen U)
+1	D1 women 25-34 (U_lfs, 1997-2025)
+1	D1 men 25-34 (U_lfs, 1997-2025)
+1	AF5564 on q x O55-64, trends, U_lfs
+1	AM5564 on q x O55-64, trends, U_lfs
+1	WM-1 final rerun
+1	WM-2 final rerun
+-2	reruns of the two candidates for the results file (not new specifications)

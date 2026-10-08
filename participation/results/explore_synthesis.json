@@ -1,0 +1,569 @@
+{
+ "what": "DRAFT e_specs on the EXPLORE half (not a test of E; reproduces the explore estimates)",
+ "F_standardisation": {
+  "mean": 26.06888888888889,
+  "sd": 14.057587731880108
+ },
+ "tests": {
+  "E-HF1": {
+   "id": "E-HF1",
+   "varies": "D1",
+   "side": -1,
+   "family": "E",
+   "what": "D1 with country linear trends and lfsa_urgan U for every country, 1997-2025: b2 on log q_{t-1} x F_c",
+   "beta": -6.094189426393646,
+   "se": 3.2078531400436665,
+   "p": 0.0282,
+   "p_opposite": 0.9719,
+   "n": 324,
+   "G": 15,
+   "G_star": 6.381143380044093,
+   "ci_one_sided": [
+    null,
+    -1.402355148979916
+   ],
+   "ci": [
+    -16.494168947452778,
+    0.3254189234341025
+   ],
+   "mde": 8.434616506385112,
+   "years_used": [
+    1997,
+    2025
+   ],
+   "geos_used": [
+    "BE",
+    "BG",
+    "CH",
+    "EE",
+    "FI",
+    "FR",
+    "HU",
+    "IE",
+    "IT",
+    "LU",
+    "LV",
+    "MT",
+    "PL",
+    "PT",
+    "SE"
+   ],
+   "mde_this_run": 8.434616506385112,
+   "explore_reference": {
+    "beta": -6.094,
+    "se": 3.208,
+    "p": 0.0282,
+    "n": 324,
+    "G": 15,
+    "G_star": 6.4,
+    "mde_15": 8.43,
+    "loo_max_p": 0.063,
+    "units": "points of activity per unit of log q x sd(F); sd(F) of the explore half"
+   },
+   "label": "a pass supports D1-with-country-trends only; it never changes D1's verdict and is not by itself evidence for the floor mechanism over the income-effect account",
+   "leave_one_out": {
+    "max_p": 0.0631,
+    "max_p_left_out": "LV",
+    "max_p_opposite": 0.9957,
+    "max_p_opposite_left_out": "FI",
+    "rests_on_one_country_if_supported": null,
+    "per_country": {
+     "BE": {
+      "beta": -6.41532891352859,
+      "p": 0.0217
+     },
+     "BG": {
+      "beta": -5.726237946378695,
+      "p": 0.0373
+     },
+     "CH": {
+      "beta": -6.043202817205535,
+      "p": 0.0263
+     },
+     "EE": {
+      "beta": -6.812373474709403,
+      "p": 0.0355
+     },
+     "FI": {
+      "beta": -8.403302378246865,
+      "p": 0.0044
+     },
+     "FR": {
+      "beta": -5.438536779951615,
+      "p": 0.0409
+     },
+     "HU": {
+      "beta": -5.638910007118305,
+      "p": 0.0355
+     },
+     "IE": {
+      "beta": -5.78662188056781,
+      "p": 0.025
+     },
+     "IT": {
+      "beta": -5.345444680905891,
+      "p": 0.0508
+     },
+     "LU": {
+      "beta": -6.115399939477754,
+      "p": 0.0241
+     },
+     "LV": {
+      "beta": -7.451665155561704,
+      "p": 0.0631
+     },
+     "MT": {
+      "beta": -6.855583894094884,
+      "p": 0.0186
+     },
+     "PL": {
+      "beta": -5.979473311902141,
+      "p": 0.0404
+     },
+     "PT": {
+      "beta": -4.7987297298160225,
+      "p": 0.0611
+     },
+     "SE": {
+      "beta": -5.743439976116235,
+      "p": 0.053
+     }
+    }
+   },
+   "robustness_no_verdict": {
+    "no_trends_same_frame": {
+     "beta": 3.342487053012601,
+     "se": 5.386052066527141,
+     "p": 0.7095,
+     "p_opposite": 0.2906,
+     "n": 324,
+     "G": 15,
+     "G_star": 6.066355602078558,
+     "ci_one_sided": null,
+     "ci": null,
+     "mde": 14.161896346651664
+    },
+    "lead": {
+     "lag_given_lead": {
+      "beta": -6.540495944502559,
+      "se": 3.337039213054432,
+      "p": 0.0226,
+      "p_opposite": 0.9775,
+      "n": 310,
+      "G": 15,
+      "G_star": 6.213068736919931
+     },
+     "lead_x_F": {
+      "beta": -2.881460919873708,
+      "se": 3.9559769089224353,
+      "p_two_sided": 0.3541
+     }
+    },
+    "decomposition": {
+     "rent_x_F": {
+      "beta": -4.283131315078991,
+      "se": 4.134004480227042,
+      "p_two_sided": 0.2184
+     },
+     "minus_goods_x_F": {
+      "beta": -7.4615300743105815,
+      "se": 3.450394866010603,
+      "p_two_sided": 0.0748
+     }
+    },
+    "frozen_U_with_trends": {
+     "beta": -4.529432025689158,
+     "se": 2.985537449514808,
+     "p": 0.0733,
+     "p_opposite": 0.9268,
+     "n": 230,
+     "G": 15,
+     "G_star": 5.251371490025095,
+     "ci_one_sided": null,
+     "ci": null,
+     "mde": 7.850067429136024
+    }
+   }
+  },
+  "E-OCC1": {
+   "id": "E-OCC1",
+   "varies": null,
+   "premise_of": "C4",
+   "side": 1,
+   "family": "E",
+   "what": "clerical (OC4) share of employment at 15-24 minus at 25-64, on average across countries, 2011-2019, country x year FE, young x C3 breaks",
+   "beta": 2.0769213987848962,
+   "se": 1.1156179173703455,
+   "p": 0.0093,
+   "p_opposite": 0.9908,
+   "n": 270,
+   "G": 15,
+   "G_star": 13.928487690504102,
+   "years_used": [
+    2011,
+    2019
+   ],
+   "geos_used": [
+    "BE",
+    "BG",
+    "CH",
+    "EE",
+    "FI",
+    "FR",
+    "HU",
+    "IE",
+    "IT",
+    "LU",
+    "LV",
+    "MT",
+    "PL",
+    "PT",
+    "SE"
+   ],
+   "countries_dropped_lt5_years": [
+    "HR"
+   ],
+   "mde_this_run": 2.933366613080924,
+   "mde_country_means": 1.8215267525207035,
+   "country_mean_gap": {
+    "BE": -2.464,
+    "BG": 1.356,
+    "CH": 5.778,
+    "EE": 3.012,
+    "FI": 0.034,
+    "FR": 0.143,
+    "HU": 0.847,
+    "IE": -0.801,
+    "IT": -1.469,
+    "LU": 2.982,
+    "LV": 3.491,
+    "MT": 7.392,
+    "PL": 3.966,
+    "PT": 1.134,
+    "SE": 2.305
+   },
+   "break_years_2012_2019": [
+    "BE2017",
+    "BG2019",
+    "FR2013",
+    "FR2014",
+    "HU2018",
+    "IE2017",
+    "IT2018",
+    "LU2015",
+    "PL2019",
+    "SE2018"
+   ],
+   "explore_reference": {
+    "beta": 2.077,
+    "se": 1.116,
+    "p": 0.0093,
+    "n": 270,
+    "G": 15,
+    "G_star": 13.9,
+    "mde_15": 2.93,
+    "mde_15_country_means": 1.82,
+    "loo_max_p": 0.018,
+    "dropped": "HR (fewer than 5 years)",
+    "units": "percentage points of employment share"
+   },
+   "label": "a mapping check shared with entry-job-ladder accounts; tests the premise of C-4's exposure measure, not C-4",
+   "leave_one_out": {
+    "max_p": 0.0184,
+    "max_p_left_out": "LV",
+    "max_p_opposite": 0.9967,
+    "max_p_opposite_left_out": "BE",
+    "rests_on_one_country_if_supported": null,
+    "per_country": {
+     "BE": {
+      "beta": 2.352663791685324,
+      "p": 0.0034
+     },
+     "BG": {
+      "beta": 2.1341189535045517,
+      "p": 0.0126
+     },
+     "CH": {
+      "beta": 1.743804354808962,
+      "p": 0.0175
+     },
+     "EE": {
+      "beta": 1.9927500610781328,
+      "p": 0.0158
+     },
+     "FI": {
+      "beta": 2.2607993092118157,
+      "p": 0.0072
+     },
+     "FR": {
+      "beta": 2.117411239784817,
+      "p": 0.0071
+     },
+     "HU": {
+      "beta": 2.1657713042287,
+      "p": 0.0094
+     },
+     "IE": {
+      "beta": 2.2701765997364878,
+      "p": 0.0052
+     },
+     "IT": {
+      "beta": 2.3429046177931276,
+      "p": 0.0036
+     },
+     "LU": {
+      "beta": 2.0381459836416527,
+      "p": 0.0127
+     },
+     "LV": {
+      "beta": 1.9496613198996302,
+      "p": 0.0184
+     },
+     "MT": {
+      "beta": 1.5985600463629719,
+      "p": 0.0184
+     },
+     "PL": {
+      "beta": 1.9263530483547107,
+      "p": 0.0182
+     },
+     "PT": {
+      "beta": 2.1617931149719816,
+      "p": 0.0125
+     },
+     "SE": {
+      "beta": 2.07776202375093,
+      "p": 0.0141
+     }
+    }
+   },
+   "robustness_no_verdict": {
+    "sign_flip_country_means": {
+     "p": 0.0084228515625,
+     "mean": 1.847030414216111,
+     "sd": 2.6830595976543,
+     "G": 15
+    },
+    "log_share": {
+     "beta": 0.21395928633659636,
+     "se": 0.09830630149683323,
+     "p": 0.0052,
+     "p_opposite": 0.9949,
+     "n": 270,
+     "G": 15,
+     "G_star": 13.928487690504102
+    },
+    "no_break_dummies": {
+     "beta": 1.8470304142161105,
+     "se": 0.9815409674892197,
+     "p": 0.0092,
+     "p_opposite": 0.9909,
+     "n": 270,
+     "G": 15,
+     "G_star": 15.0
+    },
+    "era_2022_2025": {
+     "beta": 2.5426736399682417,
+     "se": 1.5310596334343616,
+     "p": 0.0139,
+     "p_opposite": 0.9862,
+     "n": 112,
+     "G": 14,
+     "G_star": 13.520000000000001
+    }
+   }
+  },
+  "E-SCH1": {
+   "id": "E-SCH1",
+   "varies": "C6",
+   "side": 1,
+   "family": "E",
+   "what": "formal education 20-24 on U(25-54) of the previous year (C7 source rule, lag on the full grid)",
+   "beta": 0.41540073751951606,
+   "se": 0.1654462055704982,
+   "p": 0.0058,
+   "p_opposite": 0.9943,
+   "n": 233,
+   "G": 16,
+   "G_star": 8.210932183627088,
+   "ci_one_sided": [
+    0.16275113614707076,
+    null
+   ],
+   "ci": [
+    0.11562408011028927,
+    0.762749868978454
+   ],
+   "mde": 0.4333524734329709,
+   "years_used": [
+    2004,
+    2025
+   ],
+   "geos_used": [
+    "BE",
+    "BG",
+    "CH",
+    "EE",
+    "FI",
+    "FR",
+    "HR",
+    "HU",
+    "IE",
+    "IT",
+    "LU",
+    "LV",
+    "MT",
+    "PL",
+    "PT",
+    "SE"
+   ],
+   "mde_this_run": 0.4333524734329709,
+   "explore_reference": {
+    "beta": 0.415,
+    "se": 0.165,
+    "p": 0.0058,
+    "n": 233,
+    "G": 16,
+    "G_star": 8.2,
+    "mde_15": 0.45,
+    "loo_max_p": 0.045,
+    "units": "points of enrolment per point of U(25-54)"
+   },
+   "label": "a consistency check shared with human-capital accounts (countercyclical enrolment); it never changes C-6's verdict",
+   "leave_one_out": {
+    "max_p": 0.0452,
+    "max_p_left_out": "LV",
+    "max_p_opposite": 0.9982,
+    "max_p_opposite_left_out": "BG",
+    "rests_on_one_country_if_supported": null,
+    "per_country": {
+     "BE": {
+      "beta": 0.3888961338181288,
+      "p": 0.0078
+     },
+     "BG": {
+      "beta": 0.4679245254156505,
+      "p": 0.0019
+     },
+     "CH": {
+      "beta": 0.35404481829729495,
+      "p": 0.0078
+     },
+     "EE": {
+      "beta": 0.3370330511642366,
+      "p": 0.0326
+     },
+     "FI": {
+      "beta": 0.44866143035717526,
+      "p": 0.0075
+     },
+     "FR": {
+      "beta": 0.43682272024995283,
+      "p": 0.0031
+     },
+     "HR": {
+      "beta": 0.4618021694248761,
+      "p": 0.0077
+     },
+     "HU": {
+      "beta": 0.3490338736854697,
+      "p": 0.0351
+     },
+     "IE": {
+      "beta": 0.43318433523240557,
+      "p": 0.0047
+     },
+     "IT": {
+      "beta": 0.4460102795812611,
+      "p": 0.0057
+     },
+     "LU": {
+      "beta": 0.41181871800661923,
+      "p": 0.0105
+     },
+     "LV": {
+      "beta": 0.4636330875171979,
+      "p": 0.0452
+     },
+     "MT": {
+      "beta": 0.41790505104253967,
+      "p": 0.0036
+     },
+     "PL": {
+      "beta": 0.3944833946663984,
+      "p": 0.0202
+     },
+     "PT": {
+      "beta": 0.4413219242311165,
+      "p": 0.0048
+     },
+     "SE": {
+      "beta": 0.39570233125944376,
+      "p": 0.0055
+     }
+    }
+   },
+   "robustness_no_verdict": {
+    "country_trends": {
+     "beta": 0.2594705652797219,
+     "se": 0.20272312712155088,
+     "p": 0.0946,
+     "p_opposite": 0.9055,
+     "n": 233,
+     "G": 16,
+     "G_star": 6.458583406641202,
+     "ci_one_sided": null,
+     "ci": null,
+     "mde": 0.5309917399269499
+    },
+    "excl_2008_2013": {
+     "beta": 0.10735871329012565,
+     "se": 0.27828562212907443,
+     "p": 0.3265,
+     "p_opposite": 0.6736,
+     "n": 166,
+     "G": 16,
+     "G_star": 8.388781958761022,
+     "ci_one_sided": null,
+     "ci": null,
+     "mde": 0.7289122301392431
+    },
+    "with_lead_U2554_f1": {
+     "beta": 0.37796158487760906,
+     "se": 0.20504786092099334,
+     "p": 0.0153,
+     "p_opposite": 0.9848,
+     "n": 217,
+     "G": 16,
+     "G_star": 6.67643568046779,
+     "ci_one_sided": null,
+     "ci": null,
+     "mde": 0.5370809043087365
+    },
+    "C6_contemporaneous_same_sample": {
+     "beta": -0.09058159633541511,
+     "se": 0.3745958676626724,
+     "p": 0.6166,
+     "p_opposite": 0.3835,
+     "n": 233,
+     "G": 16,
+     "G_star": 9.670227777364733,
+     "ci_one_sided": null,
+     "ci": null,
+     "mde": 0.9811772063894068,
+     "note": "U_t with U_{t-1} held: the horse race"
+    }
+   }
+  }
+ },
+ "holm_explore_for_information": {
+  "E-HF1": "supported",
+  "E-OCC1": "supported",
+  "E-SCH1": "supported"
+ },
+ "mde_15": {
+  "E-HF1": 8.434616506385112,
+  "E-OCC1": 2.933366613080924,
+  "E-SCH1": 0.44928512182610375
+ }
+}

@@ -372,12 +372,21 @@ def aging(pop: pd.DataFrame, g: str) -> float:
         return np.nan
     d = es.clean(pop[(pop["geo"] == g) & (pop["year"] == 2011)])
     n = {a: float(v) for a, v in zip(d["age"], d["value"])}
-    if any(not np.isfinite(n.get(a, np.nan)) for a in AGES_POP):
-        return np.nan
     age = {a: (100 if a == "Y_OPEN" else int(a[1:])) for a in AGES_POP}
+    have = {a for a in AGES_POP if np.isfinite(n.get(a, np.nan))}
+    # Every single age 13-55 must be present, and the open group. A country whose open group starts below 100 (HU
+    # 2011: Y_OPEN = 85+, no single ages 85-99) reports a contiguous top block of missing single ages above its last
+    # single age; the open group then holds them, and both ratios only need totals of 48+ and 56+. Plumbing fix of
+    # 2026-10-08, before the E freeze (PROTOCOL section 7): HU had dropped out of C-5 silently.
+    singles = sorted(age[a] for a in have if a != "Y_OPEN")
+    if "Y_OPEN" not in have or any(a not in have for a in AGES_POP if 13 <= age[a] <= 55 and a != "Y_OPEN"):
+        return np.nan
+    last = max(singles)
+    if any(age[a] <= last and a not in have for a in AGES_POP if a != "Y_OPEN"):
+        return np.nan                                         # a gap inside the single ages: not an open-group cut
 
     def tot(lo, hi=999):
-        return sum(n[a] for a in AGES_POP if lo <= age[a] <= hi)
+        return sum(n[a] for a in have if lo <= age[a] <= hi)
     return tot(48) / tot(13, 47) - tot(56) / tot(21, 55)
 
 

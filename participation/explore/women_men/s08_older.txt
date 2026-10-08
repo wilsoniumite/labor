@@ -1,0 +1,2 @@
+AF5564 on q x O55-64, trends, U_lfs                     b=  -0.338 se=  2.669 p=0.448 p_opp=0.553 n= 324 G=16 G*=5.3 mde=6.99 yrs=1997-2025
+AM5564 on q x O55-64, trends, U_lfs                     b=   6.698 se=  5.476 p=0.894 p_opp=0.106 n= 332 G=16 G*=5.3 mde=14.34 yrs=1997-2025

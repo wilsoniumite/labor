@@ -461,6 +461,19 @@ check("G5 X_c = 100 x OC4 / TOTAL at 15-24, mean of 2018-2019; aging_pred equals
       and abs(aged_ratio_change(toys["one person per age"]) - 8 / 35) < 1e-12
       and np.allclose(cl["routine_change"].reindex(sim.C).to_numpy(float), W.routine_true, atol=1e-6),
       f"toys {toy_ok}")
+opn = []
+for name, n in toys.items():                     # HU 2011: single ages to 84, Y_OPEN = 85+, ages 85-99 absent
+    vals = {c: (n[int(c[1:])] if c != "Y_OPEN" and int(c[1:]) <= 84 else np.nan) for c in build.AGES_POP}
+    vals["Y_OPEN"] = sum(v for a, v in n.items() if a >= 85)
+    pdf = pd.DataFrame({"geo": "XX", "year": 2011, "value": [vals[c] for c in build.AGES_POP], "flag": "",
+                        "age": build.AGES_POP, "sex": "T", "unit": "NR"})
+    opn.append(abs(build.aging(pdf, "XX") - aged_ratio_change(n)) < 1e-12)
+gap = {c: 1.0 for c in build.AGES_POP}
+gap["Y30"] = np.nan                              # a hole inside the single ages is not an open-group cut
+gpdf = pd.DataFrame({"geo": "XX", "year": 2011, "value": list(gap.values()), "flag": "", "age": list(gap),
+                     "sex": "T", "unit": "NR"})
+check("G5b aging_pred with an open group starting at 85 (HU 2011) equals the full single-age result; a gap inside "
+      "the single ages gives NaN", all(opn) and np.isnan(build.aging(gpdf, "XX")), f"open-group toys {opn}")
 rb = cl["routine_breaks"]
 check("G6 C-5's break years inside 2012-2019 are recorded per country (lfsa_egais 15-64 cells), for the report",
       all(isinstance(v, list) and all(2011 < y <= 2019 for y in v) for v in rb),
