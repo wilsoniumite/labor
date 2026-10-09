@@ -180,7 +180,31 @@ only, no values). What they found:
     of the split, which was redrawn by its frozen rule: EXPLORE BE CA CL CO EL FR IE IT KR LU SE TR US; CONFIRM AU CH CR
     DE DK ES FI IL JP MX NL NZ PT UK. **Her confirmation asked:** cutting only the European explore countries would
     keep NL (LR-K2 at 10).
-  - Before the tag (`longrun/checks/check_freeze_ready.py` lists them): the IPUMS file above; the L2 records (IPUMS
+  - **Correction to the incident note:** the extract was made early on Claude's advice (2026-10-09: "get it all in
+    one extract", including EMPSTAT, LABFORCE, SCHOOL, OWNERSHIP, MARST — the fuller variable list was Claude's,
+    so the loader's 13-variable allowlist must become a read-only-these-columns rule). An agent read its column names
+    (hours scout, about 12:16-12:21: "no hours variable"); its access time moved again at 13:50 (during the check
+    runs). No values were read by anyone, as far as can be established.
+- **Her decisions (2026-10-09, after the build):**
+  1. **Floor measure:** Giuliano-Nunn ancestral family organisation becomes the MAIN floor measure for LR-K2 (all
+     OECD countries: Southern Europe, Japan and Korea come back, roughly twice the countries); the IPUMS census
+     measure F_L becomes a robustness run. Reason: with census F only 9-10 countries enter and Latin America carries
+     57% of the identifying variation; every long-run MDE was above its European benchmark.
+  2. **The extract:** kept, moved into `longrun/data/ipums/` (done 2026-10-09), fingerprint recorded in
+     `longrun/data/ipums_extract_sha256.txt` (SHA-256 71121ee2...040a, 1,565,024,917 bytes), disclosed. No
+     re-download. It already holds the post-1975 censuses, so it serves as Extract B (LR-C1) too.
+  3. **European cut by what was examined:** explore countries of the European split end at 1994 (their 1995-96 rows
+     were looked at); held-back countries end at 1996 (downloaded, never examined). NL stays in.
+- **PAUSED here (her call, 2026-10-09).** Next, in order:
+  1. Amend `longrun/PROTOCOL.md` for decisions 1-3. G-N: the exact variable and ancestry weighting from its codebook;
+     a pre-freeze validation against the European SILC coresidence F_c (already seen) and nothing else; H recomputed;
+     coverage, split (frozen rule), skeleton and synthetic look rerun.
+  2. Code: F from G-N; F_L robustness; the loader reads only the household-structure columns of her fuller extract
+     (usecols), accepts a pre-tag extract matching the recorded SHA-256, and still refuses to read before the tag;
+     the European cut by half; the checks updated.
+  3. The remaining L2 steps (below), an adversarial review of the amendment and code, then the forecast sheets and
+     her go-ahead for the tag. Ask her to download the extract's DDI codebook (.xml) if the loader needs labels.
+  - Before the tag (`longrun/checks/check_freeze_ready.py` lists them): the IPUMS file above (now moved); the L2 records (IPUMS
     age intervals for IE 1971, IL 1972, NL 1960/71; RELATE codes, household concept, GQ coding, sample kinds;
     Kholodilin's file; the school and coresidence segment rows; the JST and ILOSTAT masks); the scouts' folders and
     the European raw cache (her choice of place); her decisions on the stress nulls and a realised-H calibration
