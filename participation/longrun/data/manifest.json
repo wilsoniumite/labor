@@ -1,0 +1,163 @@
+{
+ "written": "2026-10-09",
+ "protocol": "longrun/PROTOCOL.md section 3",
+ "rule": "each OECD query pins every dimension but REF_AREA; European members end at 1994 (q flows 1993); single-file sources are cut to the half's countries by their loaders",
+ "entries": [
+  {
+   "id": "act",
+   "source": "oecd_lfs",
+   "role": "outcome",
+   "key": {
+    "MEASURE": "LF_RATE",
+    "UNIT_MEASURE": "PT_POP_SUB",
+    "SEX": [
+     "F",
+     "M"
+    ],
+    "AGE": [
+     "Y25T29",
+     "Y30T34",
+     "Y35T39",
+     "Y40T44",
+     "Y45T49",
+     "Y50T54",
+     "Y55T59",
+     "Y60T64"
+    ],
+    "LABOUR_FORCE_STATUS": "LF"
+   },
+   "use": "activity rates (L4): A2534, A2534_M/_F, A5564, AW2554, AM2554"
+  },
+  {
+   "id": "une",
+   "source": "oecd_lfs",
+   "role": "outcome",
+   "key": {
+    "MEASURE": "UNE_RATE",
+    "UNIT_MEASURE": "PT_LF_SUB",
+    "SEX": "_T",
+    "AGE": "Y25T54",
+    "LABOUR_FORCE_STATUS": "UNE"
+   },
+   "use": "the cycle U 25-54 (L5)"
+  },
+  {
+   "id": "house",
+   "source": "oecd_rpi",
+   "role": "regressor",
+   "key": {
+    "FREQ": "A",
+    "MEASURE": [
+     "RPI",
+     "HPI"
+    ],
+    "UNIT_MEASURE": "IX"
+   },
+   "use": "q rung 2 numerator (RPI) and the q_hpi robustness numerator (HPI)"
+  },
+  {
+   "id": "cpi",
+   "source": "oecd_cpi",
+   "role": "regressor",
+   "key": {
+    "FREQ": "A",
+    "METHODOLOGY": "N",
+    "MEASURE": "CPI",
+    "UNIT_MEASURE": "IX",
+    "EXPENDITURE": "_T",
+    "ADJUSTMENT": "N",
+    "TRANSFORMATION": "_Z"
+   },
+   "use": "all-items CPI (L6 rung 2)"
+  },
+  {
+   "id": "cpi2018",
+   "source": "oecd_cpi2018",
+   "role": "regressor",
+   "key": {
+    "FREQ": "A",
+    "METHODOLOGY": "N",
+    "MEASURE": "CPI",
+    "UNIT_MEASURE": "IX",
+    "EXPENDITURE": "_T",
+    "ADJUSTMENT": "N",
+    "TRANSFORMATION": "_Z"
+   },
+   "absent": [
+    "AT",
+    "CO",
+    "DE",
+    "IL",
+    "KR",
+    "NZ",
+    "PL",
+    "SK",
+    "UK",
+    "US"
+   ],
+   "use": "all-items CPI, COICOP 2018, extending DF_PRICES_ALL after its last year (L6)"
+  },
+  {
+   "id": "jst",
+   "source": "jst",
+   "role": "regressor",
+   "only": [
+    "AU",
+    "BE",
+    "CH",
+    "DE",
+    "DK",
+    "ES",
+    "FI",
+    "FR",
+    "IT",
+    "JP",
+    "NL",
+    "NO",
+    "PT",
+    "SE",
+    "UK",
+    "US"
+   ],
+   "use": "JST R6 rent index and CPI (L6 rung 1)"
+  },
+  {
+   "id": "school",
+   "source": "ilostat",
+   "role": "outcome",
+   "use": "school attendance 20-24 (L11)"
+  },
+  {
+   "id": "cohort",
+   "source": "wpp_age",
+   "role": "control",
+   "use": "relative cohort size (L12)"
+  },
+  {
+   "id": "gn",
+   "source": "giuliano_nunn",
+   "role": "moderator",
+   "use": "Giuliano-Nunn F (robustness)"
+  },
+  {
+   "id": "kholodilin",
+   "source": "kholodilin",
+   "role": "control",
+   "use": "strict rent control (L12)"
+  }
+ ],
+ "variables": {
+  "A2534": "activity rate 25-34: mean of F/M x 25-29, 30-34 (pp)",
+  "A2534_M": "men 25-34",
+  "A2534_F": "women 25-34",
+  "A5564": "activity rate 55-64",
+  "AW2554": "women 25-54",
+  "AM2554": "men 25-54",
+  "U": "unemployment rate 25-54",
+  "logq_l1": "log q, year t-1 (L6 ladder)",
+  "logq_hpi_l1": "log house prices over CPI, t-1",
+  "school2024": "share of 20-24 attending school (pp)",
+  "cohort": "population 25-34 / 35-64",
+  "strict": "Kholodilin strict (first-generation) rent control"
+ }
+}

@@ -1,0 +1,11 @@
+{
+ "seed": 6224299058016344563,
+ "countries": ["AU", "BE", "CA", "CH", "CL", "CO", "CR", "DE", "DK", "EL", "ES", "FI", "FR", "IE", "IL", "IT", "JP", "KR", "LU", "MX", "NL", "NZ", "PT", "SE", "TR", "UK", "US"],
+ "strata": {"Nordic": ["DK", "FI", "SE"], "Continental": ["BE", "CH", "DE", "FR", "LU", "NL"], "Anglo": ["IE", "UK", "US", "CA", "AU", "NZ"], "South": ["ES", "IT", "PT", "EL"], "Asia": ["JP", "KR"], "Latin America": ["MX", "CL", "CO", "CR"], "Other": ["IL", "TR"]},
+ "population_1960": {"AU": 10280813.0, "BE": 9102171.0, "CA": 17898790.0, "CH": 5327780.0, "CL": 8153350.0, "CO": 15606209.0, "CR": 1327496.0, "DE": 72811640.0, "DK": 4579342.0, "EL": 8384492.0, "ES": 30404939.0, "FI": 4429624.0, "FR": 46428134.0, "IE": 2827689.0, "IL": 1891935.0, "IT": 49514555.0, "JP": 96399754.0, "KR": 26115379.0, "LU": 313877.0, "MX": 36724615.0, "NL": 11486911.0, "NZ": 2379481.0, "PT": 8873218.0, "SE": 7484596.0, "TR": 28329898.0, "UK": 52538548.0, "US": 180274555.0},
+ "pairs": [["SE", "DK"], ["DE", "FR"], ["NL", "BE"], ["CH", "LU"], ["US", "UK"], ["CA", "AU"], ["IE", "NZ"], ["IT", "ES"], ["PT", "EL"], ["JP", "KR"], ["MX", "CO"], ["CL", "CR"], ["TR", "IL"]],
+ "forced": "US",
+ "explore": ["BE", "CA", "CL", "CO", "EL", "FR", "IE", "IT", "KR", "LU", "SE", "TR", "US"],
+ "confirm": ["AU", "CH", "CR", "DE", "DK", "ES", "FI", "IL", "JP", "MX", "NL", "NZ", "PT", "UK"],
+ "membership_source": "data/coverage.json families: members of LR-K2, LR-Y0, C-6L (LR-C1 left out until her Extract B decision)"
+}

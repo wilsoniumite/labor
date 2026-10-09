@@ -163,6 +163,30 @@ only, no values). What they found:
   in. Next: revise the protocol from those findings; build the long-run pipeline (guarded loaders, split, segments
   from documentation, the coverage-skeleton simulation, checks); show her the protocol; forecast sheets; tag
   `participation-L-freeze`; then fetch (incl. her IPUMS extract). No long-run value has been downloaded.
+- **2026-10-09: protocol revised, pipeline built, code-reviewed (uncommitted, untagged).** `longrun/PROTOCOL.md` was
+  revised on the 34 findings; `longrun/code`, `checks`, `data` (coverage, segments, split, skeleton) were built from
+  metadata only; three code reviewers (fidelity, blinding, statistics) found 2 blockers, 16 major and 26 minor issues,
+  fixed except where marked for her (`longrun/PROTOCOL.md` section 11, "Code review of 2026-10-09").
+  - **INCIDENT: an IPUMS-I extract on disk before the tag.** `longrun/data/ipumsi_00001.csv.gz` (1,565,024,917 bytes,
+    created 10:37, written 11:08; no DDI, no fetch-log record), outside `data/ipums/`, before the L tag (L9 says the
+    extract is made after it). Its size suggests more than the frozen samples x 13 variables x ages 20-34. No agent
+    opened it (name, size and times only). Its access time moved at 12:16 and 12:21 with no agent reading it
+    (likely an antivirus scan; not attributable from here). The loader now refuses while it lies there; the gitignore
+    covers it. **Her call:** where it goes (out of the repository), and whether it is kept; after the tag it is re-made
+    or re-verified against the frozen sample IDs, variables and the 20-34 selection.
+  - **L1 changed: the European cut is 1994, not 1996.** The European study's 1995-1996 rows were seen (its panel grid
+    starts in 1995; its exploration's outputs hold 1995-1996 activity rows). Applied to all 26 European members. At L2
+    this takes NL out of LR-K2 (9 countries: CA CL CO CR DE FR IL MX US; passes testability by one) and AT and IS out
+    of the split, which was redrawn by its frozen rule: EXPLORE BE CA CL CO EL FR IE IT KR LU SE TR US; CONFIRM AU CH CR
+    DE DK ES FI IL JP MX NL NZ PT UK. **Her confirmation asked:** cutting only the European explore countries would
+    keep NL (LR-K2 at 10).
+  - Before the tag (`longrun/checks/check_freeze_ready.py` lists them): the IPUMS file above; the L2 records (IPUMS
+    age intervals for IE 1971, IL 1972, NL 1960/71; RELATE codes, household concept, GQ coding, sample kinds;
+    Kholodilin's file; the school and coresidence segment rows; the JST and ILOSTAT masks); the scouts' folders and
+    the European raw cache (her choice of place); her decisions on the stress nulls and a realised-H calibration
+    (reported now, not in the verdict) and on naming LR-K2's identifying-variation shares in the model-level
+    sentence; her Extract B decision (`longrun/data/decisions.json`); the European real-data run; the forecast
+    sheets.
 
 ## The split (frozen with the P tag)
 

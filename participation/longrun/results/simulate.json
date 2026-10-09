@@ -1,0 +1,5321 @@
+{
+ "seed": 20261009,
+ "worlds": {
+  "null": {
+   "world": "null",
+   "plant": {
+    "DiD": 0.0,
+    "g1": 0.0,
+    "school": 0.0
+   },
+   "seconds": 412.06448888778687,
+   "verdicts": {
+    "LR-K2": "inconclusive",
+    "LR-Y0": "inconclusive",
+    "C-6L": "inconclusive",
+    "LR-C1": "inconclusive"
+   },
+   "verdict_p": {
+    "LR-K2": {
+     "p": 0.979,
+     "p_opposite": 0.0873015873015873,
+     "calibration": "calibrated"
+    },
+    "LR-Y0": {
+     "p": 0.345,
+     "p_opposite": 0.703,
+     "calibration": "calibrated"
+    },
+    "C-6L": {
+     "p": 0.215,
+     "p_opposite": 0.875,
+     "calibration": "calibrated"
+    },
+    "LR-C1": {
+     "p": 0.5215,
+     "p_opposite": 0.496,
+     "calibration": "calibrated"
+    }
+   },
+   "model_verdict": "inconclusive",
+   "model_sentence": "inconclusive",
+   "joint_reading": "inconclusive",
+   "qualifiers": {
+    "LR-K2": "",
+    "LR-Y0": "",
+    "C-6L": "",
+    "LR-C1": ""
+   },
+   "readings": {
+    "LR-K2": "uninformative",
+    "LR-Y0": "uninformative",
+    "C-6L": "uninformative",
+    "LR-C1": "uninformative"
+   },
+   "H_world": {
+    "CA": 0,
+    "CL": 0,
+    "CO": 0,
+    "CR": 1,
+    "DE": 0,
+    "FR": 1,
+    "IL": 1,
+    "MX": 1,
+    "US": 0
+   },
+   "H_look": {
+    "CA": 0,
+    "CL": 0,
+    "CO": 0,
+    "CR": 1,
+    "DE": 0,
+    "FR": 1,
+    "IL": 1,
+    "MX": 1,
+    "US": 0
+   },
+   "knots_explore": {
+    "BE": {
+     "k1": 1.150006447126557,
+     "k2": 1.2036137149455897,
+     "n": 10,
+     "piece": 1984,
+     "years": [
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "CA": {
+     "k1": 5.7907481748540865,
+     "k2": 6.506019468309523,
+     "n": 42,
+     "piece": 1981,
+     "years": [
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "CL": {
+     "k1": 5.952026234474024,
+     "k2": 6.02127979800483,
+     "n": 32,
+     "piece": 1990,
+     "years": [
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024
+     ]
+    },
+    "CO": {
+     "k1": 6.060004497213311,
+     "k2": 6.091143809134049,
+     "n": 24,
+     "piece": 1999,
+     "years": [
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "EL": {
+     "k1": null,
+     "k2": null,
+     "n": 5,
+     "piece": 1989,
+     "years": [
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "FR": {
+     "k1": 0.5201974290270217,
+     "k2": 0.7210885106919853,
+     "n": 44,
+     "piece": 1950,
+     "years": [
+      1951,
+      1952,
+      1953,
+      1954,
+      1955,
+      1956,
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "IE": {
+     "k1": 5.0078625009058975,
+     "k2": 5.1945996636814495,
+     "n": 18,
+     "piece": 1976,
+     "years": [
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "IT": {
+     "k1": 0.45395445778389,
+     "k2": 0.78465890584191,
+     "n": 38,
+     "piece": 1956,
+     "years": [
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "KR": {
+     "k1": 6.34779469807234,
+     "k2": 6.799938958523525,
+     "n": 38,
+     "piece": 1985,
+     "years": [
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "SE": {
+     "k1": 0.533457632821057,
+     "k2": 0.6554221090543482,
+     "n": 34,
+     "piece": 1960,
+     "years": [
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "TR": {
+     "k1": 6.109277767258723,
+     "k2": 6.377807901100061,
+     "n": 41,
+     "piece": 1982,
+     "years": [
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "US": {
+     "k1": 0.5564152281897087,
+     "k2": 1.2166694450481228,
+     "n": 46,
+     "piece": 1950,
+     "years": [
+      1951,
+      1952,
+      1953,
+      1954,
+      1955,
+      1956,
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996
+     ]
+    }
+   },
+   "k2": {
+    "id": "LR-K2",
+    "beta": 5.45830414623989,
+    "se": 1.8649522842050974,
+    "t": 2.9267795173464153,
+    "p_wcr": 0.979,
+    "p_wcr_opposite": 0.022,
+    "n": 267,
+    "G": 9,
+    "G_star": 4.233071488705954,
+    "n_high": 4,
+    "geos_used": [
+     "CA",
+     "CL",
+     "CO",
+     "CR",
+     "DE",
+     "FR",
+     "IL",
+     "MX",
+     "US"
+    ],
+    "years_used": [
+     1960,
+     1961,
+     1962,
+     1963,
+     1964,
+     1965,
+     1966,
+     1967,
+     1968,
+     1969,
+     1970,
+     1971,
+     1972,
+     1973,
+     1974,
+     1975,
+     1976,
+     1977,
+     1978,
+     1979,
+     1980,
+     1981,
+     1982,
+     1983,
+     1984,
+     1985,
+     1986,
+     1987,
+     1988,
+     1989,
+     1990,
+     1991,
+     1992,
+     1993,
+     1994,
+     1995,
+     1996,
+     1997,
+     1998,
+     1999,
+     2000,
+     2001,
+     2002,
+     2003,
+     2004,
+     2005,
+     2006,
+     2007,
+     2008,
+     2009,
+     2010,
+     2011,
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2022,
+     2023,
+     2024,
+     2025
+    ],
+    "n_segment_dummies": 15,
+    "mde": 5.125704896747925,
+    "identifying_variation_share": {
+     "by_country": {
+      "CA": 0.0904284315521674,
+      "CL": 0.027738855240133968,
+      "CO": 0.013728453931033087,
+      "CR": 0.10068641669810242,
+      "DE": 0.066101316063919,
+      "FR": 0.06352367665382722,
+      "IL": 0.145967456672314,
+      "MX": 0.4279907917147323,
+      "US": 0.06383460147377057
+     },
+     "by_stratum": {
+      "Anglo": 0.15426303302593797,
+      "Latin America": 0.5701445175840018,
+      "Continental": 0.12962499271774622,
+      "Other": 0.145967456672314
+     }
+    },
+    "ci": [
+     -0.4717867082186873,
+     11.95902192331305
+    ],
+    "ci_one_sided": [
+     null,
+     11.17668445692257
+    ],
+    "t_ri": 2.9267795173472373,
+    "p_ri": 0.9206349206349206,
+    "p_ri_opposite": 0.0873015873015873,
+    "n_perm": 126,
+    "n_nonfinite": 0,
+    "exact": true,
+    "p_stat": 0.979,
+    "p_stat_opposite": 0.0873015873015873,
+    "slopes": {
+     "g1": {
+      "beta": 0.3245053527612013,
+      "se": 0.5792590006795378
+     },
+     "g2": {
+      "beta": -0.06668293921997388,
+      "se": 0.3108579921682867
+     },
+     "g3": {
+      "beta": 0.6051997702234929,
+      "se": 1.19563374818286
+     },
+     "g1H": {
+      "beta": -4.879806241378966,
+      "se": 2.379220007294358
+     },
+     "g2H": {
+      "beta": 1.6540688019362375,
+      "se": 1.111609072096331
+     },
+     "g3H": {
+      "beta": 0.8591923223255802,
+      "se": 0.7557867903166355
+     }
+    },
+    "slope_top_high_F": {
+     "beta": 0.8591923223256294,
+     "se": 0.7557867903163537,
+     "p_positive": 0.192,
+     "what": "gamma3^H, one-sided WCR p for gamma3^H > 0 (reported, not tested)"
+    },
+    "high_F_change": {
+     "beta": 5.73899856370238,
+     "se": 2.1720482987520393,
+     "p_negative": 0.963,
+     "what": "gamma3^H - gamma1^H"
+    },
+    "drop_condition": false,
+    "scale_free_companion": {
+     "high": -0.176070991311078,
+     "low": 1.8649916405811973,
+     "g1": {
+      "beta": 0.3245053527612013,
+      "se": 0.5792590006795378
+     },
+     "g1H": {
+      "beta": -4.879806241378966,
+      "se": 2.379220007294358
+     },
+     "caveat": "unstable where a bottom slope is near 0 (control eras, LR-RC)"
+    },
+    "testable": true,
+    "H": {
+     "CA": 0,
+     "CL": 0,
+     "CO": 0,
+     "CR": 1,
+     "DE": 0,
+     "FR": 1,
+     "IL": 1,
+     "MX": 1,
+     "US": 0
+    },
+    "verdict_eligible": true,
+    "what": "regime-aware floor kink: the fall in the young's q slope from bottom to top tercile, high F minus low F",
+    "side": -1
+   },
+   "k2_qualifiers": {
+    "rests on one country": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on floor-group trends": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on cohort size": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on control-era years": {
+     "fires": false,
+     "text": ""
+    },
+    "indistinguishable from time curvature": {
+     "fires": true,
+     "text": "indistinguishable from time curvature"
+    }
+   },
+   "robustness_ids": [
+    "F_L_1970_later_years.D1-L",
+    "F_L_1970_later_years.LR-K2",
+    "F_L_2029.LR-K2",
+    "F_L_continuous.LR-K2",
+    "flagged_samples_dropped.D1-L",
+    "flagged_samples_dropped.LR-K2",
+    "giuliano_nunn.D1-L",
+    "giuliano_nunn.LR-K2",
+    "men_only.LR-K2",
+    "men_only.LR-Y0",
+    "q_hpi.LR-C1",
+    "q_hpi.LR-K2",
+    "q_hpi.LR-Y0",
+    "strict_control_dropped.LR-C1",
+    "strict_control_dropped.LR-K2",
+    "strict_control_dropped.LR-Y0",
+    "strict_control_dropped.uncovered_countries",
+    "women_only.LR-K2",
+    "women_only.LR-Y0"
+   ],
+   "no_verdict_ids": [
+    "C-2L",
+    "C-3L.diff",
+    "C-3L.women",
+    "C-6L.leave_one_stratum_out",
+    "D1-L",
+    "D2-L",
+    "E-SCH1-L",
+    "LR-C1.leave_one_stratum_out",
+    "LR-K2.identifying_variation_share",
+    "LR-K2.leave_one_stratum_out",
+    "LR-K2.men_only (beside the primary)",
+    "LR-Y0.leave_one_stratum_out",
+    "pooled_D1_two_studies"
+   ],
+   "replication_labels": {
+    "LR-Y0": "inconclusive",
+    "C-6L": "inconclusive",
+    "LR-C1": "inconclusive"
+   },
+   "replication_k2": {
+    "testable": false,
+    "error": "not testable: 4 countries, 3 high and 1 low floor (needs >= 8 and >= 3 per group)",
+    "H": {
+     "CR": 1,
+     "DE": 0,
+     "IL": 1,
+     "MX": 1
+    }
+   },
+   "robustness": {
+    "giuliano_nunn.LR-K2": {
+     "beta": 0.029096518247976592,
+     "n": 556
+    },
+    "giuliano_nunn.D1-L": {
+     "beta": -0.011102482395799518,
+     "n": 651
+    },
+    "F_L_2029.LR-K2": {
+     "beta": 5.45830414623989,
+     "n": 267
+    },
+    "F_L_continuous.LR-K2": {
+     "beta": 2.502655744121172,
+     "n": 267
+    },
+    "men_only.LR-K2": {
+     "beta": 6.571939155016004,
+     "n": 267
+    },
+    "men_only.LR-Y0": {
+     "beta": 0.19839883520916737,
+     "n": 556
+    },
+    "women_only.LR-K2": {
+     "beta": 4.344669137463918,
+     "n": 267
+    },
+    "women_only.LR-Y0": {
+     "beta": 0.001480192581556358,
+     "n": 556
+    },
+    "strict_control_dropped.LR-K2": {
+     "beta": 5.552448123250164,
+     "n": 260
+    },
+    "strict_control_dropped.LR-Y0": {
+     "beta": 0.1026891084337336,
+     "n": 549
+    },
+    "strict_control_dropped.LR-C1": {
+     "beta": -4.586445896624223e-16,
+     "n": 33
+    },
+    "strict_control_dropped.uncovered_countries": [
+     "AU",
+     "BE",
+     "CH",
+     "CO",
+     "CR",
+     "DK",
+     "EL",
+     "ES",
+     "FI",
+     "IE",
+     "IL",
+     "IT",
+     "JP",
+     "KR",
+     "LU",
+     "MX",
+     "NZ",
+     "PT",
+     "SE",
+     "TR",
+     "UK"
+    ],
+    "q_hpi.LR-K2": {
+     "beta": -0.6399764309960652,
+     "n": 296
+    },
+    "q_hpi.LR-Y0": {
+     "beta": 0.1746067652783249,
+     "n": 622
+    },
+    "q_hpi.LR-C1": {
+     "beta": 6.208572246747434e-15,
+     "n": 33
+    },
+    "F_L_1970_later_years.LR-K2": {
+     "beta": 5.436298898011274,
+     "n": 255
+    },
+    "F_L_1970_later_years.D1-L": {
+     "beta": -0.09320605394896717,
+     "n": 304
+    },
+    "flagged_samples_dropped.LR-K2": {
+     "beta": 3.9645904577891673,
+     "n": 175
+    },
+    "flagged_samples_dropped.D1-L": {
+     "beta": 0.051079033358701044,
+     "n": 209
+    }
+   },
+   "control_era": {
+    "run": {
+     "beta": 5.552448123250164,
+     "se": 1.7440456963135436,
+     "t": 3.1836597716370547,
+     "p_wcr": 0.982,
+     "p_wcr_opposite": 0.019,
+     "p_ri": 0.9523809523809523,
+     "p_ri_opposite": 0.05555555555555555,
+     "p_stat": 0.982,
+     "p_stat_opposite": 0.05555555555555555,
+     "G": 9,
+     "n": 260,
+     "n_nonfinite": 0,
+     "n_strict_dropped": 7
+    },
+    "fires": false,
+    "text": ""
+   },
+   "d2_placebo": {
+    "central80": [
+     -1.9600239876484882,
+     0.5689597674456249
+    ],
+    "draws": 999,
+    "t_observed": -1.790147484390974,
+    "inside_central80": true,
+    "share_at_or_below_observed": 0.12812812812812813,
+    "note": "donor paths on each country's ranking set; m_c recomputed from the donor path"
+   },
+   "pooled_d1": {
+    "beta": -0.11499033345284429,
+    "se": 0.12831696585233984,
+    "europe": [
+     0.7170989171033404,
+     4.95525997113403
+    ],
+    "long_run": [
+     -0.11554867057490119,
+     0.12836000937861602
+    ],
+    "what": "inverse-variance pooled b2 of the European D1 and D1-L; no verdict, no combination test"
+   },
+   "kholodilin_uncovered": [
+    "AU",
+    "BE",
+    "CH",
+    "CO",
+    "CR",
+    "DK",
+    "EL",
+    "ES",
+    "FI",
+    "IE",
+    "IL",
+    "IT",
+    "JP",
+    "KR",
+    "LU",
+    "MX",
+    "NZ",
+    "PT",
+    "SE",
+    "TR",
+    "UK"
+   ],
+   "calls": [
+    {
+     "door": "oecd",
+     "source": "oecd_rpi",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi2018",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "LU",
+      "SE",
+      "TR"
+     ],
+     "records": []
+    },
+    {
+     "door": "jst",
+     "source": "jst",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "FR",
+      "IT",
+      "SE",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "ilostat",
+     "source": "ilostat",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "wpp_age",
+     "source": "wpp_age",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "giuliano_nunn",
+     "source": "giuliano_nunn",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "kholodilin",
+     "source": "kholodilin",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_rpi",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi2018",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CR",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IT",
+      "JP",
+      "LU",
+      "MX",
+      "NL",
+      "PT",
+      "SE",
+      "TR"
+     ],
+     "records": []
+    },
+    {
+     "door": "jst",
+     "source": "jst",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CH",
+      "DE",
+      "DK",
+      "ES",
+      "FI",
+      "FR",
+      "IT",
+      "JP",
+      "NL",
+      "PT",
+      "SE",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "ilostat",
+     "source": "ilostat",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "wpp_age",
+     "source": "wpp_age",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "giuliano_nunn",
+     "source": "giuliano_nunn",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "kholodilin",
+     "source": "kholodilin",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    }
+   ],
+   "records": [
+    {
+     "record": "knots",
+     "half": "explore"
+    },
+    {
+     "record": "F_L",
+     "half": "explore"
+    },
+    {
+     "record": "knots",
+     "half": "confirm"
+    },
+    {
+     "record": "F_L",
+     "half": "confirm"
+    },
+    {
+     "record": "H",
+     "half": "confirm"
+    }
+   ],
+   "vintage": {
+    "q": {
+     "BE": {
+      "explore_k1": 1.150006447126557,
+      "explore_k2": 1.2036137149455897,
+      "new_k1": 1.150006447126557,
+      "new_k2": 1.2036137149455897,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CA": {
+      "explore_k1": 5.7907481748540865,
+      "explore_k2": 6.506019468309523,
+      "new_k1": 5.7907481748540865,
+      "new_k2": 6.506019468309523,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CL": {
+      "explore_k1": 5.952026234474024,
+      "explore_k2": 6.02127979800483,
+      "new_k1": 5.952026234474024,
+      "new_k2": 6.02127979800483,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CO": {
+      "explore_k1": 6.060004497213311,
+      "explore_k2": 6.091143809134049,
+      "new_k1": 6.060004497213311,
+      "new_k2": 6.091143809134049,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "EL": {
+      "explore_k1": null,
+      "explore_k2": null,
+      "new_k1": null,
+      "new_k2": null,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "FR": {
+      "explore_k1": 0.5201974290270217,
+      "explore_k2": 0.7210885106919853,
+      "new_k1": 0.5201974290270217,
+      "new_k2": 0.7210885106919853,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IE": {
+      "explore_k1": 5.0078625009058975,
+      "explore_k2": 5.1945996636814495,
+      "new_k1": 5.0078625009058975,
+      "new_k2": 5.1945996636814495,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IT": {
+      "explore_k1": 0.45395445778389,
+      "explore_k2": 0.78465890584191,
+      "new_k1": 0.45395445778389,
+      "new_k2": 0.78465890584191,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "KR": {
+      "explore_k1": 6.34779469807234,
+      "explore_k2": 6.799938958523525,
+      "new_k1": 6.34779469807234,
+      "new_k2": 6.799938958523525,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "SE": {
+      "explore_k1": 0.533457632821057,
+      "explore_k2": 0.6554221090543482,
+      "new_k1": 0.533457632821057,
+      "new_k2": 0.6554221090543482,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "TR": {
+      "explore_k1": 6.109277767258723,
+      "explore_k2": 6.377807901100061,
+      "new_k1": 6.109277767258723,
+      "new_k2": 6.377807901100061,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "US": {
+      "explore_k1": 0.5564152281897087,
+      "explore_k2": 1.2166694450481228,
+      "new_k1": 0.5564152281897087,
+      "new_k2": 1.2166694450481228,
+      "q_path_changed": false,
+      "differ": false
+     }
+    },
+    "q_hpi": {
+     "BE": {
+      "explore_k1": 0.2858875916387619,
+      "explore_k2": 0.3894805526855839,
+      "new_k1": 0.2858875916387619,
+      "new_k2": 0.3894805526855839,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CA": {
+      "explore_k1": 0.12188551357439081,
+      "explore_k2": 0.2291718856596402,
+      "new_k1": 0.12188551357439081,
+      "new_k2": 0.2291718856596402,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CL": {
+      "explore_k1": -0.148034682497322,
+      "explore_k2": 0.16009845334652661,
+      "new_k1": -0.148034682497322,
+      "new_k2": 0.16009845334652661,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CO": {
+      "explore_k1": -0.12666605803943123,
+      "explore_k2": 0.06676880779728218,
+      "new_k1": -0.12666605803943123,
+      "new_k2": 0.06676880779728218,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "EL": {
+      "explore_k1": null,
+      "explore_k2": null,
+      "new_k1": null,
+      "new_k2": null,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "FR": {
+      "explore_k1": 0.13527641317793174,
+      "explore_k2": 0.27382574671925053,
+      "new_k1": 0.13527641317793174,
+      "new_k2": 0.27382574671925053,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IE": {
+      "explore_k1": -0.2384991536719186,
+      "explore_k2": -0.17458084208354605,
+      "new_k1": -0.2384991536719186,
+      "new_k2": -0.17458084208354605,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IT": {
+      "explore_k1": 0.05517197502995491,
+      "explore_k2": 0.1937213085712738,
+      "new_k1": 0.05517197502995491,
+      "new_k2": 0.1937213085712738,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "KR": {
+      "explore_k1": 0.5626514687354096,
+      "explore_k2": 0.658280066546689,
+      "new_k1": 0.5626514687354096,
+      "new_k2": 0.658280066546689,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "SE": {
+      "explore_k1": 0.13527641317793174,
+      "explore_k2": 0.27382574671925053,
+      "new_k1": 0.13527641317793174,
+      "new_k2": 0.27382574671925053,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "TR": {
+      "explore_k1": 0.30963020916220885,
+      "explore_k2": 0.4056683737665333,
+      "new_k1": 0.30963020916220885,
+      "new_k2": 0.4056683737665333,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "US": {
+      "explore_k1": 0.22884442587088677,
+      "explore_k2": 0.4453532667890482,
+      "new_k1": 0.22884442587088677,
+      "new_k2": 0.4453532667890482,
+      "q_path_changed": false,
+      "differ": false
+     }
+    }
+   }
+  },
+  "planted": {
+   "world": "planted",
+   "plant": {
+    "DiD": -40.0,
+    "g1": 20.0,
+    "school": 2.0
+   },
+   "seconds": 460.5907027721405,
+   "verdicts": {
+    "LR-K2": "supported",
+    "LR-Y0": "supported",
+    "C-6L": "supported",
+    "LR-C1": "inconclusive"
+   },
+   "verdict_p": {
+    "LR-K2": {
+     "p": 0.023809523809523808,
+     "p_opposite": 0.997,
+     "calibration": "calibrated"
+    },
+    "LR-Y0": {
+     "p": 0.002,
+     "p_opposite": 1.0,
+     "calibration": "calibrated"
+    },
+    "C-6L": {
+     "p": 0.004,
+     "p_opposite": 0.9975,
+     "calibration": "calibrated"
+    },
+    "LR-C1": {
+     "p": 0.5265,
+     "p_opposite": 0.495,
+     "calibration": "calibrated"
+    }
+   },
+   "model_verdict": "favours the floor mechanism against the no-coresidence and attenuation accounts",
+   "model_sentence": "favours the floor mechanism against the no-coresidence and attenuation accounts. It does not discriminate against life-cycle models with a below-market parental room (Kaplan 2012; Ermisch): against them the kink is not distinctive, only against models without a coresidence option.",
+   "joint_reading": "supported in the long run (against the no-coresidence and attenuation accounts only), not in 2009-2025 Europe",
+   "qualifiers": {
+    "LR-K2": "",
+    "LR-Y0": "",
+    "C-6L": "",
+    "LR-C1": ""
+   },
+   "readings": {
+    "LR-K2": "stands, with its qualifiers",
+    "LR-Y0": "stands, with its qualifiers",
+    "C-6L": "stands, with its qualifiers",
+    "LR-C1": "uninformative"
+   },
+   "H_world": {
+    "CA": 1,
+    "CL": 0,
+    "CO": 0,
+    "CR": 1,
+    "DE": 1,
+    "FR": 0,
+    "IL": 0,
+    "MX": 1,
+    "US": 0
+   },
+   "H_look": {
+    "CA": 1,
+    "CL": 0,
+    "CO": 0,
+    "CR": 1,
+    "DE": 1,
+    "FR": 0,
+    "IL": 0,
+    "MX": 1,
+    "US": 0
+   },
+   "knots_explore": {
+    "BE": {
+     "k1": 1.189228380917891,
+     "k2": 1.233170792447888,
+     "n": 10,
+     "piece": 1984,
+     "years": [
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "CA": {
+     "k1": 5.16056598131887,
+     "k2": 5.637818288994048,
+     "n": 42,
+     "piece": 1981,
+     "years": [
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "CL": {
+     "k1": 5.852543959254856,
+     "k2": 6.197216796846345,
+     "n": 32,
+     "piece": 1990,
+     "years": [
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024
+     ]
+    },
+    "CO": {
+     "k1": 5.582181976445396,
+     "k2": 5.642720217334136,
+     "n": 24,
+     "piece": 1999,
+     "years": [
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "EL": {
+     "k1": null,
+     "k2": null,
+     "n": 5,
+     "piece": 1989,
+     "years": [
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "FR": {
+     "k1": 0.3864452968211661,
+     "k2": 0.8951511135189536,
+     "n": 44,
+     "piece": 1950,
+     "years": [
+      1951,
+      1952,
+      1953,
+      1954,
+      1955,
+      1956,
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "IE": {
+     "k1": 5.891035318502113,
+     "k2": 5.928817674432835,
+     "n": 18,
+     "piece": 1976,
+     "years": [
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "IT": {
+     "k1": 0.21554052520050565,
+     "k2": 0.27897687812491795,
+     "n": 38,
+     "piece": 1956,
+     "years": [
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "KR": {
+     "k1": 6.140767325340222,
+     "k2": 6.283648622619459,
+     "n": 38,
+     "piece": 1985,
+     "years": [
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "SE": {
+     "k1": 0.8365029379153359,
+     "k2": 1.1665068925434372,
+     "n": 34,
+     "piece": 1960,
+     "years": [
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "TR": {
+     "k1": 6.054825358163426,
+     "k2": 6.325626336343145,
+     "n": 41,
+     "piece": 1982,
+     "years": [
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "US": {
+     "k1": 0.5481826916635938,
+     "k2": 0.9348465876161002,
+     "n": 46,
+     "piece": 1950,
+     "years": [
+      1951,
+      1952,
+      1953,
+      1954,
+      1955,
+      1956,
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996
+     ]
+    }
+   },
+   "k2": {
+    "id": "LR-K2",
+    "beta": -38.79852150857936,
+    "se": 5.122615661771877,
+    "t": -7.57396690876458,
+    "p_wcr": 0.004,
+    "p_wcr_opposite": 0.997,
+    "n": 267,
+    "G": 9,
+    "G_star": 6.21283812311153,
+    "n_high": 4,
+    "geos_used": [
+     "CA",
+     "CL",
+     "CO",
+     "CR",
+     "DE",
+     "FR",
+     "IL",
+     "MX",
+     "US"
+    ],
+    "years_used": [
+     1960,
+     1961,
+     1962,
+     1963,
+     1964,
+     1965,
+     1966,
+     1967,
+     1968,
+     1969,
+     1970,
+     1971,
+     1972,
+     1973,
+     1974,
+     1975,
+     1976,
+     1977,
+     1978,
+     1979,
+     1980,
+     1981,
+     1982,
+     1983,
+     1984,
+     1985,
+     1986,
+     1987,
+     1988,
+     1989,
+     1990,
+     1991,
+     1992,
+     1993,
+     1994,
+     1995,
+     1996,
+     1997,
+     1998,
+     1999,
+     2000,
+     2001,
+     2002,
+     2003,
+     2004,
+     2005,
+     2006,
+     2007,
+     2008,
+     2009,
+     2010,
+     2011,
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2022,
+     2023,
+     2024,
+     2025
+    ],
+    "n_segment_dummies": 15,
+    "mde": 14.079189266171122,
+    "identifying_variation_share": {
+     "by_country": {
+      "CA": 0.15822831950322824,
+      "CL": 0.1562899991856542,
+      "CO": 0.07135855501900752,
+      "CR": 0.0594108752557773,
+      "DE": 0.12669650787650838,
+      "FR": 0.0503839110763117,
+      "IL": 0.28239470823306184,
+      "MX": 0.0472989156476263,
+      "US": 0.04793820820282451
+     },
+     "by_stratum": {
+      "Anglo": 0.20616652770605276,
+      "Latin America": 0.33435834510806534,
+      "Continental": 0.1770804189528201,
+      "Other": 0.28239470823306184
+     }
+    },
+    "ci": [
+     -48.92566274892059,
+     -22.372138418056693
+    ],
+    "ci_one_sided": [
+     null,
+     -24.911525876480958
+    ],
+    "t_ri": -7.573966908779489,
+    "p_ri": 0.023809523809523808,
+    "p_ri_opposite": 0.9841269841269841,
+    "n_perm": 126,
+    "n_nonfinite": 0,
+    "exact": true,
+    "p_stat": 0.023809523809523808,
+    "p_stat_opposite": 0.997,
+    "slopes": {
+     "g1": {
+      "beta": 19.253661872245615,
+      "se": 2.3957016750686653
+     },
+     "g2": {
+      "beta": -0.046486578803436984,
+      "se": 0.6705357989565137
+     },
+     "g3": {
+      "beta": 0.8055150700846596,
+      "se": 0.6947081528981456
+     },
+     "g1H": {
+      "beta": 18.20702281683056,
+      "se": 2.6337196661505695
+     },
+     "g2H": {
+      "beta": 0.27903919597828697,
+      "se": 0.7404180399426075
+     },
+     "g3H": {
+      "beta": -39.039645493916964,
+      "se": 0.8595237261188283
+     }
+    },
+    "slope_top_high_F": {
+     "beta": -39.039645493916936,
+     "se": 0.8595237261188243,
+     "p_positive": 1.0,
+     "what": "gamma3^H, one-sided WCR p for gamma3^H > 0 (reported, not tested)"
+    },
+    "high_F_change": {
+     "beta": -57.24666831074403,
+     "se": 3.064914657114593,
+     "p_negative": 0.003,
+     "what": "gamma3^H - gamma1^H"
+    },
+    "drop_condition": true,
+    "scale_free_companion": {
+     "high": -2.144208083148484,
+     "low": 0.04183698017704462,
+     "g1": {
+      "beta": 19.253661872245615,
+      "se": 2.3957016750686653
+     },
+     "g1H": {
+      "beta": 18.20702281683056,
+      "se": 2.6337196661505695
+     },
+     "caveat": "unstable where a bottom slope is near 0 (control eras, LR-RC)"
+    },
+    "testable": true,
+    "H": {
+     "CA": 1,
+     "CL": 0,
+     "CO": 0,
+     "CR": 1,
+     "DE": 1,
+     "FR": 0,
+     "IL": 0,
+     "MX": 1,
+     "US": 0
+    },
+    "verdict_eligible": true,
+    "what": "regime-aware floor kink: the fall in the young's q slope from bottom to top tercile, high F minus low F",
+    "side": -1
+   },
+   "k2_qualifiers": {
+    "rests on one country": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on floor-group trends": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on cohort size": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on control-era years": {
+     "fires": false,
+     "text": ""
+    },
+    "indistinguishable from time curvature": {
+     "fires": false,
+     "text": ""
+    }
+   },
+   "robustness_ids": [
+    "F_L_1970_later_years.D1-L",
+    "F_L_1970_later_years.LR-K2",
+    "F_L_2029.LR-K2",
+    "F_L_continuous.LR-K2",
+    "flagged_samples_dropped.D1-L",
+    "flagged_samples_dropped.LR-K2",
+    "giuliano_nunn.D1-L",
+    "giuliano_nunn.LR-K2",
+    "men_only.LR-K2",
+    "men_only.LR-Y0",
+    "q_hpi.LR-C1",
+    "q_hpi.LR-K2",
+    "q_hpi.LR-Y0",
+    "strict_control_dropped.LR-C1",
+    "strict_control_dropped.LR-K2",
+    "strict_control_dropped.LR-Y0",
+    "strict_control_dropped.uncovered_countries",
+    "women_only.LR-K2",
+    "women_only.LR-Y0"
+   ],
+   "no_verdict_ids": [
+    "C-2L",
+    "C-3L.diff",
+    "C-3L.women",
+    "C-6L.leave_one_stratum_out",
+    "D1-L",
+    "D2-L",
+    "E-SCH1-L",
+    "LR-C1.leave_one_stratum_out",
+    "LR-K2.identifying_variation_share",
+    "LR-K2.leave_one_stratum_out",
+    "LR-K2.men_only (beside the primary)",
+    "LR-Y0.leave_one_stratum_out",
+    "pooled_D1_two_studies"
+   ],
+   "replication_labels": {
+    "LR-Y0": "supported",
+    "C-6L": "inconclusive",
+    "LR-C1": "inconclusive"
+   },
+   "replication_k2": {
+    "testable": false,
+    "error": "not testable: 4 countries, 3 high and 1 low floor (needs >= 8 and >= 3 per group)",
+    "H": {
+     "CR": 1,
+     "DE": 1,
+     "IL": 0,
+     "MX": 1
+    }
+   },
+   "robustness": {
+    "giuliano_nunn.LR-K2": {
+     "beta": 14.555563698965841,
+     "n": 556
+    },
+    "giuliano_nunn.D1-L": {
+     "beta": 3.7049370944267626,
+     "n": 651
+    },
+    "F_L_2029.LR-K2": {
+     "beta": -38.79852150857936,
+     "n": 267
+    },
+    "F_L_continuous.LR-K2": {
+     "beta": -15.435920608601212,
+     "n": 267
+    },
+    "men_only.LR-K2": {
+     "beta": -39.963636920826545,
+     "n": 267
+    },
+    "men_only.LR-Y0": {
+     "beta": 15.5299202371555,
+     "n": 556
+    },
+    "women_only.LR-K2": {
+     "beta": -37.63340609633309,
+     "n": 267
+    },
+    "women_only.LR-Y0": {
+     "beta": 15.525612872547578,
+     "n": 556
+    },
+    "strict_control_dropped.LR-K2": {
+     "beta": -38.80861307590668,
+     "n": 260
+    },
+    "strict_control_dropped.LR-Y0": {
+     "beta": 15.60733853609214,
+     "n": 549
+    },
+    "strict_control_dropped.LR-C1": {
+     "beta": 7.792575681778598e-16,
+     "n": 33
+    },
+    "strict_control_dropped.uncovered_countries": [
+     "AU",
+     "BE",
+     "CH",
+     "CO",
+     "CR",
+     "DK",
+     "EL",
+     "ES",
+     "FI",
+     "IE",
+     "IL",
+     "IT",
+     "JP",
+     "KR",
+     "LU",
+     "MX",
+     "NZ",
+     "PT",
+     "SE",
+     "TR",
+     "UK"
+    ],
+    "q_hpi.LR-K2": {
+     "beta": -179.29583132762588,
+     "n": 296
+    },
+    "q_hpi.LR-Y0": {
+     "beta": -2.626602068764079,
+     "n": 622
+    },
+    "q_hpi.LR-C1": {
+     "beta": 4.923902123648206e-16,
+     "n": 33
+    },
+    "F_L_1970_later_years.LR-K2": {
+     "beta": -38.92422398212801,
+     "n": 255
+    },
+    "F_L_1970_later_years.D1-L": {
+     "beta": -6.407644019988401,
+     "n": 304
+    },
+    "flagged_samples_dropped.LR-K2": {
+     "beta": -37.427352041543465,
+     "n": 175
+    },
+    "flagged_samples_dropped.D1-L": {
+     "beta": -2.2345078714862923,
+     "n": 209
+    }
+   },
+   "control_era": {
+    "run": {
+     "beta": -38.80861307590668,
+     "se": 5.049837654464452,
+     "t": -7.685120934847643,
+     "p_wcr": 0.005,
+     "p_wcr_opposite": 0.996,
+     "p_ri": 0.023809523809523808,
+     "p_ri_opposite": 0.9841269841269841,
+     "p_stat": 0.023809523809523808,
+     "p_stat_opposite": 0.996,
+     "G": 9,
+     "n": 260,
+     "n_nonfinite": 0,
+     "n_strict_dropped": 7
+    },
+    "fires": false,
+    "text": ""
+   },
+   "d2_placebo": {
+    "central80": [
+     -4.306410638272804,
+     0.08326781233847474
+    ],
+    "draws": 999,
+    "t_observed": -3.888907896132337,
+    "inside_central80": true,
+    "share_at_or_below_observed": 0.12912912912912913,
+    "note": "donor paths on each country's ranking set; m_c recomputed from the donor path"
+   },
+   "pooled_d1": {
+    "beta": -4.597406961661141,
+    "se": 2.4126260982604637,
+    "europe": [
+     0.7170989171033404,
+     4.95525997113403
+    ],
+    "long_run": [
+     -6.248669790164359,
+     2.762123548832295
+    ],
+    "what": "inverse-variance pooled b2 of the European D1 and D1-L; no verdict, no combination test"
+   },
+   "kholodilin_uncovered": [
+    "AU",
+    "BE",
+    "CH",
+    "CO",
+    "CR",
+    "DK",
+    "EL",
+    "ES",
+    "FI",
+    "IE",
+    "IL",
+    "IT",
+    "JP",
+    "KR",
+    "LU",
+    "MX",
+    "NZ",
+    "PT",
+    "SE",
+    "TR",
+    "UK"
+   ],
+   "calls": [
+    {
+     "door": "oecd",
+     "source": "oecd_rpi",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi2018",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "LU",
+      "SE",
+      "TR"
+     ],
+     "records": []
+    },
+    {
+     "door": "jst",
+     "source": "jst",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "FR",
+      "IT",
+      "SE",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "ilostat",
+     "source": "ilostat",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "wpp_age",
+     "source": "wpp_age",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "giuliano_nunn",
+     "source": "giuliano_nunn",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "kholodilin",
+     "source": "kholodilin",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_rpi",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi2018",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CR",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IT",
+      "JP",
+      "LU",
+      "MX",
+      "NL",
+      "PT",
+      "SE",
+      "TR"
+     ],
+     "records": []
+    },
+    {
+     "door": "jst",
+     "source": "jst",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CH",
+      "DE",
+      "DK",
+      "ES",
+      "FI",
+      "FR",
+      "IT",
+      "JP",
+      "NL",
+      "PT",
+      "SE",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "ilostat",
+     "source": "ilostat",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "wpp_age",
+     "source": "wpp_age",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "giuliano_nunn",
+     "source": "giuliano_nunn",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "kholodilin",
+     "source": "kholodilin",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    }
+   ],
+   "records": [
+    {
+     "record": "knots",
+     "half": "explore"
+    },
+    {
+     "record": "F_L",
+     "half": "explore"
+    },
+    {
+     "record": "knots",
+     "half": "confirm"
+    },
+    {
+     "record": "F_L",
+     "half": "confirm"
+    },
+    {
+     "record": "H",
+     "half": "confirm"
+    }
+   ],
+   "vintage": {
+    "q": {
+     "BE": {
+      "explore_k1": 1.189228380917891,
+      "explore_k2": 1.233170792447888,
+      "new_k1": 1.189228380917891,
+      "new_k2": 1.233170792447888,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CA": {
+      "explore_k1": 5.16056598131887,
+      "explore_k2": 5.637818288994048,
+      "new_k1": 5.16056598131887,
+      "new_k2": 5.637818288994048,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CL": {
+      "explore_k1": 5.852543959254856,
+      "explore_k2": 6.197216796846345,
+      "new_k1": 5.852543959254856,
+      "new_k2": 6.197216796846345,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CO": {
+      "explore_k1": 5.582181976445396,
+      "explore_k2": 5.642720217334136,
+      "new_k1": 5.582181976445396,
+      "new_k2": 5.642720217334136,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "EL": {
+      "explore_k1": null,
+      "explore_k2": null,
+      "new_k1": null,
+      "new_k2": null,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "FR": {
+      "explore_k1": 0.3864452968211661,
+      "explore_k2": 0.8951511135189536,
+      "new_k1": 0.3864452968211661,
+      "new_k2": 0.8951511135189536,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IE": {
+      "explore_k1": 5.891035318502113,
+      "explore_k2": 5.928817674432835,
+      "new_k1": 5.891035318502113,
+      "new_k2": 5.928817674432835,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IT": {
+      "explore_k1": 0.21554052520050565,
+      "explore_k2": 0.27897687812491795,
+      "new_k1": 0.21554052520050565,
+      "new_k2": 0.27897687812491795,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "KR": {
+      "explore_k1": 6.140767325340222,
+      "explore_k2": 6.283648622619459,
+      "new_k1": 6.140767325340222,
+      "new_k2": 6.283648622619459,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "SE": {
+      "explore_k1": 0.8365029379153359,
+      "explore_k2": 1.1665068925434372,
+      "new_k1": 0.8365029379153359,
+      "new_k2": 1.1665068925434372,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "TR": {
+      "explore_k1": 6.054825358163426,
+      "explore_k2": 6.325626336343145,
+      "new_k1": 6.054825358163426,
+      "new_k2": 6.325626336343145,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "US": {
+      "explore_k1": 0.5481826916635938,
+      "explore_k2": 0.9348465876161002,
+      "new_k1": 0.5481826916635938,
+      "new_k2": 0.9348465876161002,
+      "q_path_changed": false,
+      "differ": false
+     }
+    },
+    "q_hpi": {
+     "BE": {
+      "explore_k1": 0.2858875916387619,
+      "explore_k2": 0.3894805526855839,
+      "new_k1": 0.2858875916387619,
+      "new_k2": 0.3894805526855839,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CA": {
+      "explore_k1": -0.41135748246412995,
+      "explore_k2": -0.1925693877601692,
+      "new_k1": -0.41135748246412995,
+      "new_k2": -0.1925693877601692,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CL": {
+      "explore_k1": 0.022452673595363955,
+      "explore_k2": 0.08869491321752904,
+      "new_k1": 0.022452673595363955,
+      "new_k2": 0.08869491321752904,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CO": {
+      "explore_k1": -0.6079534465640646,
+      "explore_k2": -0.4591029015082778,
+      "new_k1": -0.6079534465640646,
+      "new_k2": -0.4591029015082778,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "EL": {
+      "explore_k1": null,
+      "explore_k2": null,
+      "new_k1": null,
+      "new_k2": null,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "FR": {
+      "explore_k1": 0.13527641317793174,
+      "explore_k2": 0.27382574671925053,
+      "new_k1": 0.13527641317793174,
+      "new_k2": 0.27382574671925053,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IE": {
+      "explore_k1": 0.5089961956502473,
+      "explore_k2": 0.5955854023857924,
+      "new_k1": 0.5089961956502473,
+      "new_k2": 0.5955854023857924,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IT": {
+      "explore_k1": 0.05517197502995491,
+      "explore_k2": 0.1937213085712738,
+      "new_k1": 0.05517197502995491,
+      "new_k2": 0.1937213085712738,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "KR": {
+      "explore_k1": 0.23016782626484666,
+      "explore_k2": 0.3742449930915117,
+      "new_k1": 0.23016782626484666,
+      "new_k2": 0.3742449930915117,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "SE": {
+      "explore_k1": 0.13527641317793174,
+      "explore_k2": 0.27382574671925053,
+      "new_k1": 0.13527641317793174,
+      "new_k2": 0.27382574671925053,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "TR": {
+      "explore_k1": 0.2531506942451961,
+      "explore_k2": 0.4095127475701744,
+      "new_k1": 0.2531506942451961,
+      "new_k2": 0.4095127475701744,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "US": {
+      "explore_k1": 0.22884442587088677,
+      "explore_k2": 0.4453532667890482,
+      "new_k1": 0.22884442587088677,
+      "new_k2": 0.4453532667890482,
+      "q_path_changed": false,
+      "differ": false
+     }
+    }
+   }
+  },
+  "opposite": {
+   "world": "opposite",
+   "plant": {
+    "DiD": 40.0,
+    "g1": 20.0,
+    "school": 2.0
+   },
+   "seconds": 200.1063892841339,
+   "verdicts": {
+    "LR-K2": "contradicted",
+    "LR-Y0": "supported",
+    "C-6L": "supported",
+    "LR-C1": "inconclusive"
+   },
+   "verdict_p": {
+    "LR-K2": {
+     "p": 1.0,
+     "p_opposite": 0.007936507936507936,
+     "calibration": "calibrated"
+    },
+    "LR-Y0": {
+     "p": 0.0065,
+     "p_opposite": 0.997,
+     "calibration": "calibrated"
+    },
+    "C-6L": {
+     "p": 0.0015,
+     "p_opposite": 1.0,
+     "calibration": "calibrated"
+    },
+    "LR-C1": {
+     "p": 0.816,
+     "p_opposite": 0.207,
+     "calibration": "calibrated"
+    }
+   },
+   "model_verdict": "against the floor mechanism together with its stated regime placement and auxiliaries 1-3",
+   "model_sentence": "against the floor mechanism together with its stated regime placement and auxiliaries 1-3",
+   "joint_reading": "against the floor mechanism together with its long-run regime placement and auxiliaries 1-3",
+   "qualifiers": {
+    "LR-K2": "indistinguishable from time curvature",
+    "LR-Y0": "",
+    "C-6L": "",
+    "LR-C1": ""
+   },
+   "readings": {
+    "LR-K2": "stands, whatever the data quality, with the auxiliaries its label names",
+    "LR-Y0": "stands, with its qualifiers",
+    "C-6L": "stands, with its qualifiers",
+    "LR-C1": "uninformative"
+   },
+   "H_world": {
+    "CA": 0,
+    "CL": 0,
+    "CO": 0,
+    "CR": 1,
+    "DE": 1,
+    "FR": 1,
+    "IL": 0,
+    "MX": 0,
+    "US": 1
+   },
+   "H_look": {
+    "CA": 0,
+    "CL": 0,
+    "CO": 0,
+    "CR": 1,
+    "DE": 1,
+    "FR": 1,
+    "IL": 0,
+    "MX": 0,
+    "US": 1
+   },
+   "knots_explore": {
+    "BE": {
+     "k1": 0.4720241495548041,
+     "k2": 0.5776051679814954,
+     "n": 10,
+     "piece": 1984,
+     "years": [
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "CA": {
+     "k1": 6.750206798062301,
+     "k2": 7.353159681246897,
+     "n": 42,
+     "piece": 1981,
+     "years": [
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "CL": {
+     "k1": 5.2717468263081475,
+     "k2": 5.426318058902062,
+     "n": 32,
+     "piece": 1990,
+     "years": [
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024
+     ]
+    },
+    "CO": {
+     "k1": 5.6134203966445675,
+     "k2": 5.732476219442827,
+     "n": 24,
+     "piece": 1999,
+     "years": [
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "EL": {
+     "k1": null,
+     "k2": null,
+     "n": 5,
+     "piece": 1989,
+     "years": [
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "FR": {
+     "k1": 0.30971329543898923,
+     "k2": 0.5618392872235567,
+     "n": 44,
+     "piece": 1950,
+     "years": [
+      1951,
+      1952,
+      1953,
+      1954,
+      1955,
+      1956,
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "IE": {
+     "k1": 5.397247916137323,
+     "k2": 5.466393421528121,
+     "n": 18,
+     "piece": 1976,
+     "years": [
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "IT": {
+     "k1": 0.6706706815381502,
+     "k2": 1.0548870335348854,
+     "n": 38,
+     "piece": 1956,
+     "years": [
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "KR": {
+     "k1": 5.228836020460987,
+     "k2": 5.591835318441044,
+     "n": 38,
+     "piece": 1985,
+     "years": [
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "SE": {
+     "k1": 0.0719895529094537,
+     "k2": 0.17099150378481212,
+     "n": 34,
+     "piece": 1960,
+     "years": [
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994
+     ]
+    },
+    "TR": {
+     "k1": 5.513931892913893,
+     "k2": 5.703530038000483,
+     "n": 41,
+     "piece": 1982,
+     "years": [
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2022,
+      2023,
+      2024,
+      2025
+     ]
+    },
+    "US": {
+     "k1": 0.2757189236862462,
+     "k2": 0.5353136967150797,
+     "n": 46,
+     "piece": 1950,
+     "years": [
+      1951,
+      1952,
+      1953,
+      1954,
+      1955,
+      1956,
+      1957,
+      1958,
+      1959,
+      1960,
+      1961,
+      1962,
+      1963,
+      1964,
+      1965,
+      1966,
+      1967,
+      1968,
+      1969,
+      1970,
+      1971,
+      1972,
+      1973,
+      1974,
+      1975,
+      1976,
+      1977,
+      1978,
+      1979,
+      1980,
+      1981,
+      1982,
+      1983,
+      1984,
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996
+     ]
+    }
+   },
+   "k2": {
+    "id": "LR-K2",
+    "beta": 33.85771847467395,
+    "se": 2.6813996269487688,
+    "t": 12.626882667691534,
+    "p_wcr": 0.997,
+    "p_wcr_opposite": 0.004,
+    "n": 267,
+    "G": 9,
+    "G_star": 3.4488527110357596,
+    "n_high": 4,
+    "geos_used": [
+     "CA",
+     "CL",
+     "CO",
+     "CR",
+     "DE",
+     "FR",
+     "IL",
+     "MX",
+     "US"
+    ],
+    "years_used": [
+     1960,
+     1961,
+     1962,
+     1963,
+     1964,
+     1965,
+     1966,
+     1967,
+     1968,
+     1969,
+     1970,
+     1971,
+     1972,
+     1973,
+     1974,
+     1975,
+     1976,
+     1977,
+     1978,
+     1979,
+     1980,
+     1981,
+     1982,
+     1983,
+     1984,
+     1985,
+     1986,
+     1987,
+     1988,
+     1989,
+     1990,
+     1991,
+     1992,
+     1993,
+     1994,
+     1995,
+     1996,
+     1997,
+     1998,
+     1999,
+     2000,
+     2001,
+     2002,
+     2003,
+     2004,
+     2005,
+     2006,
+     2007,
+     2008,
+     2009,
+     2010,
+     2011,
+     2012,
+     2013,
+     2014,
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2022,
+     2023,
+     2024,
+     2025
+    ],
+    "n_segment_dummies": 15,
+    "mde": 7.369659435467822,
+    "identifying_variation_share": {
+     "by_country": {
+      "CA": 0.06866711295122097,
+      "CL": 0.050200965046522134,
+      "CO": 0.008386352728422539,
+      "CR": 0.49126068996166244,
+      "DE": 0.12882754401131247,
+      "FR": 0.009559298235406589,
+      "IL": 0.06950368677510677,
+      "MX": 0.03820390694214733,
+      "US": 0.1353904433481987
+     },
+     "by_stratum": {
+      "Anglo": 0.20405755629941966,
+      "Latin America": 0.5880519146787545,
+      "Continental": 0.13838684224671904,
+      "Other": 0.06950368677510677
+     }
+    },
+    "ci": [
+     21.35178048135046,
+     49.64370261963036
+    ],
+    "ci_one_sided": [
+     null,
+     43.92469814795611
+    ],
+    "t_ri": 12.626882667691584,
+    "p_ri": 1.0,
+    "p_ri_opposite": 0.007936507936507936,
+    "n_perm": 126,
+    "n_nonfinite": 0,
+    "exact": true,
+    "p_stat": 1.0,
+    "p_stat_opposite": 0.007936507936507936,
+    "slopes": {
+     "g1": {
+      "beta": 19.760166981736738,
+      "se": 0.5047273584450748
+     },
+     "g2": {
+      "beta": -0.2484166338249827,
+      "se": 0.6168260237311448
+     },
+     "g3": {
+      "beta": 2.0751312751839674,
+      "se": 0.7086995317222948
+     },
+     "g1H": {
+      "beta": 22.596813823609452,
+      "se": 0.8553908786642723
+     },
+     "g2H": {
+      "beta": -0.39066961258491784,
+      "se": 1.2386580722436282
+     },
+     "g3H": {
+      "beta": 38.76949659172461,
+      "se": 1.5926705659458023
+     }
+    },
+    "slope_top_high_F": {
+     "beta": 38.76949659172439,
+     "se": 1.5926705659456115,
+     "p_positive": 0.001,
+     "what": "gamma3^H, one-sided WCR p for gamma3^H > 0 (reported, not tested)"
+    },
+    "high_F_change": {
+     "beta": 16.172682768111578,
+     "se": 2.156113323492761,
+     "p_negative": 0.992,
+     "what": "gamma3^H - gamma1^H"
+    },
+    "drop_condition": false,
+    "scale_free_companion": {
+     "high": 1.7157063333954508,
+     "low": 0.10501587750254843,
+     "g1": {
+      "beta": 19.760166981736738,
+      "se": 0.5047273584450748
+     },
+     "g1H": {
+      "beta": 22.596813823609452,
+      "se": 0.8553908786642723
+     },
+     "caveat": "unstable where a bottom slope is near 0 (control eras, LR-RC)"
+    },
+    "testable": true,
+    "H": {
+     "CA": 0,
+     "CL": 0,
+     "CO": 0,
+     "CR": 1,
+     "DE": 1,
+     "FR": 1,
+     "IL": 0,
+     "MX": 0,
+     "US": 1
+    },
+    "verdict_eligible": true,
+    "what": "regime-aware floor kink: the fall in the young's q slope from bottom to top tercile, high F minus low F",
+    "side": -1
+   },
+   "k2_qualifiers": {
+    "rests on one country": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on floor-group trends": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on cohort size": {
+     "fires": false,
+     "text": ""
+    },
+    "rests on control-era years": {
+     "fires": false,
+     "text": ""
+    },
+    "indistinguishable from time curvature": {
+     "fires": true,
+     "text": "indistinguishable from time curvature"
+    }
+   },
+   "robustness_ids": [
+    "F_L_1970_later_years.D1-L",
+    "F_L_1970_later_years.LR-K2",
+    "F_L_2029.LR-K2",
+    "F_L_continuous.LR-K2",
+    "flagged_samples_dropped.D1-L",
+    "flagged_samples_dropped.LR-K2",
+    "giuliano_nunn.D1-L",
+    "giuliano_nunn.LR-K2",
+    "men_only.LR-K2",
+    "men_only.LR-Y0",
+    "q_hpi.LR-C1",
+    "q_hpi.LR-K2",
+    "q_hpi.LR-Y0",
+    "strict_control_dropped.LR-C1",
+    "strict_control_dropped.LR-K2",
+    "strict_control_dropped.LR-Y0",
+    "strict_control_dropped.uncovered_countries",
+    "women_only.LR-K2",
+    "women_only.LR-Y0"
+   ],
+   "no_verdict_ids": [
+    "C-2L",
+    "C-3L.diff",
+    "C-3L.women",
+    "C-6L.leave_one_stratum_out",
+    "D1-L",
+    "D2-L",
+    "E-SCH1-L",
+    "LR-C1.leave_one_stratum_out",
+    "LR-K2.identifying_variation_share",
+    "LR-K2.leave_one_stratum_out",
+    "LR-K2.men_only (beside the primary)",
+    "LR-Y0.leave_one_stratum_out",
+    "pooled_D1_two_studies"
+   ],
+   "replication_labels": {
+    "LR-K2": "inconclusive",
+    "LR-Y0": "supported",
+    "C-6L": "inconclusive",
+    "LR-C1": "inconclusive"
+   },
+   "replication_k2": {
+    "beta": 42.06370989814612,
+    "p_stat": 0.968,
+    "testable": true,
+    "H": {
+     "CR": 1,
+     "DE": 1,
+     "IL": 0,
+     "MX": 0
+    },
+    "information_only": "the confirm half fails the frozen testability rule; reported for information only (section 3)"
+   },
+   "robustness": {
+    "giuliano_nunn.LR-K2": {
+     "beta": -3.2710898232770984,
+     "n": 556
+    },
+    "giuliano_nunn.D1-L": {
+     "beta": 2.074709436177702,
+     "n": 651
+    },
+    "F_L_2029.LR-K2": {
+     "beta": 33.85771847467395,
+     "n": 267
+    },
+    "F_L_continuous.LR-K2": {
+     "beta": 8.911611935453513,
+     "n": 267
+    },
+    "men_only.LR-K2": {
+     "beta": 35.954643050145485,
+     "n": 267
+    },
+    "men_only.LR-Y0": {
+     "beta": 19.742201740585795,
+     "n": 556
+    },
+    "women_only.LR-K2": {
+     "beta": 31.76079389920219,
+     "n": 267
+    },
+    "women_only.LR-Y0": {
+     "beta": 19.296407016206302,
+     "n": 556
+    },
+    "strict_control_dropped.LR-K2": {
+     "beta": 33.83092951676257,
+     "n": 260
+    },
+    "strict_control_dropped.LR-Y0": {
+     "beta": 19.52755793082768,
+     "n": 549
+    },
+    "strict_control_dropped.LR-C1": {
+     "beta": -1.5458401763309907e-14,
+     "n": 33
+    },
+    "strict_control_dropped.uncovered_countries": [
+     "AU",
+     "BE",
+     "CH",
+     "CO",
+     "CR",
+     "DK",
+     "EL",
+     "ES",
+     "FI",
+     "IE",
+     "IL",
+     "IT",
+     "JP",
+     "KR",
+     "LU",
+     "MX",
+     "NZ",
+     "PT",
+     "SE",
+     "TR",
+     "UK"
+    ],
+    "q_hpi.LR-K2": {
+     "beta": 18.488412978872752,
+     "n": 296
+    },
+    "q_hpi.LR-Y0": {
+     "beta": 15.885442593053394,
+     "n": 622
+    },
+    "q_hpi.LR-C1": {
+     "beta": -1.2609171490718586e-14,
+     "n": 33
+    },
+    "F_L_1970_later_years.LR-K2": {
+     "beta": 34.17417293306479,
+     "n": 255
+    },
+    "F_L_1970_later_years.D1-L": {
+     "beta": 3.0673538162582084,
+     "n": 304
+    },
+    "flagged_samples_dropped.LR-K2": {
+     "error": "a floor group falls below 2 countries"
+    },
+    "flagged_samples_dropped.D1-L": {
+     "beta": -4.829084424568969,
+     "n": 209
+    }
+   },
+   "control_era": {
+    "run": {
+     "beta": 33.83092951676257,
+     "se": 2.6943094375233025,
+     "t": 12.556438041452681,
+     "p_wcr": 0.997,
+     "p_wcr_opposite": 0.004,
+     "p_ri": 1.0,
+     "p_ri_opposite": 0.007936507936507936,
+     "p_stat": 1.0,
+     "p_stat_opposite": 0.007936507936507936,
+     "G": 9,
+     "n": 260,
+     "n_nonfinite": 0,
+     "n_strict_dropped": 7
+    },
+    "fires": false,
+    "text": ""
+   },
+   "d2_placebo": {
+    "central80": [
+     -2.029134029056904,
+     0.842544647204307
+    ],
+    "draws": 999,
+    "t_observed": -2.766307508762739,
+    "inside_central80": false,
+    "share_at_or_below_observed": 0.042042042042042045,
+    "note": "donor paths on each country's ranking set; m_c recomputed from the donor path"
+   },
+   "pooled_d1": {
+    "beta": 2.5195331071869904,
+    "se": 2.201212699725928,
+    "europe": [
+     0.7170989171033404,
+     4.95525997113403
+    ],
+    "long_run": [
+     2.9626446148968477,
+     2.4569326413138604
+    ],
+    "what": "inverse-variance pooled b2 of the European D1 and D1-L; no verdict, no combination test"
+   },
+   "kholodilin_uncovered": [
+    "AU",
+    "BE",
+    "CH",
+    "CO",
+    "CR",
+    "DK",
+    "EL",
+    "ES",
+    "FI",
+    "IE",
+    "IL",
+    "IT",
+    "JP",
+    "KR",
+    "LU",
+    "MX",
+    "NZ",
+    "PT",
+    "SE",
+    "TR",
+    "UK"
+   ],
+   "calls": [
+    {
+     "door": "oecd",
+     "source": "oecd_rpi",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi2018",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "LU",
+      "SE",
+      "TR"
+     ],
+     "records": []
+    },
+    {
+     "door": "jst",
+     "source": "jst",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "FR",
+      "IT",
+      "SE",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "ilostat",
+     "source": "ilostat",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "wpp_age",
+     "source": "wpp_age",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "giuliano_nunn",
+     "source": "giuliano_nunn",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "kholodilin",
+     "source": "kholodilin",
+     "half": "explore",
+     "geos": [
+      "BE",
+      "CA",
+      "CL",
+      "CO",
+      "EL",
+      "FR",
+      "IE",
+      "IT",
+      "KR",
+      "LU",
+      "SE",
+      "TR",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_rpi",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_cpi2018",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CR",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IT",
+      "JP",
+      "LU",
+      "MX",
+      "NL",
+      "PT",
+      "SE",
+      "TR"
+     ],
+     "records": []
+    },
+    {
+     "door": "jst",
+     "source": "jst",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CH",
+      "DE",
+      "DK",
+      "ES",
+      "FI",
+      "FR",
+      "IT",
+      "JP",
+      "NL",
+      "PT",
+      "SE",
+      "UK",
+      "US"
+     ],
+     "records": []
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "oecd",
+     "source": "oecd_lfs",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "ilostat",
+     "source": "ilostat",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "wpp_age",
+     "source": "wpp_age",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "giuliano_nunn",
+     "source": "giuliano_nunn",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    },
+    {
+     "door": "kholodilin",
+     "source": "kholodilin",
+     "half": "confirm",
+     "geos": [
+      "AU",
+      "BE",
+      "CA",
+      "CH",
+      "CL",
+      "CO",
+      "CR",
+      "DE",
+      "DK",
+      "EL",
+      "ES",
+      "FI",
+      "FR",
+      "IE",
+      "IL",
+      "IT",
+      "JP",
+      "KR",
+      "LU",
+      "MX",
+      "NL",
+      "NZ",
+      "PT",
+      "SE",
+      "TR",
+      "UK",
+      "US"
+     ],
+     "records": [
+      "knots",
+      "F_L",
+      "H"
+     ]
+    }
+   ],
+   "records": [
+    {
+     "record": "knots",
+     "half": "explore"
+    },
+    {
+     "record": "F_L",
+     "half": "explore"
+    },
+    {
+     "record": "knots",
+     "half": "confirm"
+    },
+    {
+     "record": "F_L",
+     "half": "confirm"
+    },
+    {
+     "record": "H",
+     "half": "confirm"
+    }
+   ],
+   "vintage": {
+    "q": {
+     "BE": {
+      "explore_k1": 0.4720241495548041,
+      "explore_k2": 0.5776051679814954,
+      "new_k1": 0.4720241495548041,
+      "new_k2": 0.5776051679814954,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CA": {
+      "explore_k1": 6.750206798062301,
+      "explore_k2": 7.353159681246897,
+      "new_k1": 6.750206798062301,
+      "new_k2": 7.353159681246897,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CL": {
+      "explore_k1": 5.2717468263081475,
+      "explore_k2": 5.426318058902062,
+      "new_k1": 5.2717468263081475,
+      "new_k2": 5.426318058902062,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CO": {
+      "explore_k1": 5.6134203966445675,
+      "explore_k2": 5.732476219442827,
+      "new_k1": 5.6134203966445675,
+      "new_k2": 5.732476219442827,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "EL": {
+      "explore_k1": null,
+      "explore_k2": null,
+      "new_k1": null,
+      "new_k2": null,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "FR": {
+      "explore_k1": 0.30971329543898923,
+      "explore_k2": 0.5618392872235567,
+      "new_k1": 0.30971329543898923,
+      "new_k2": 0.5618392872235567,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IE": {
+      "explore_k1": 5.397247916137323,
+      "explore_k2": 5.466393421528121,
+      "new_k1": 5.397247916137323,
+      "new_k2": 5.466393421528121,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IT": {
+      "explore_k1": 0.6706706815381502,
+      "explore_k2": 1.0548870335348854,
+      "new_k1": 0.6706706815381502,
+      "new_k2": 1.0548870335348854,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "KR": {
+      "explore_k1": 5.228836020460987,
+      "explore_k2": 5.591835318441044,
+      "new_k1": 5.228836020460987,
+      "new_k2": 5.591835318441044,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "SE": {
+      "explore_k1": 0.0719895529094537,
+      "explore_k2": 0.17099150378481212,
+      "new_k1": 0.0719895529094537,
+      "new_k2": 0.17099150378481212,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "TR": {
+      "explore_k1": 5.513931892913893,
+      "explore_k2": 5.703530038000483,
+      "new_k1": 5.513931892913893,
+      "new_k2": 5.703530038000483,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "US": {
+      "explore_k1": 0.2757189236862462,
+      "explore_k2": 0.5353136967150797,
+      "new_k1": 0.2757189236862462,
+      "new_k2": 0.5353136967150797,
+      "q_path_changed": false,
+      "differ": false
+     }
+    },
+    "q_hpi": {
+     "BE": {
+      "explore_k1": 0.2858875916387619,
+      "explore_k2": 0.3894805526855839,
+      "new_k1": 0.2858875916387619,
+      "new_k2": 0.3894805526855839,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CA": {
+      "explore_k1": 0.6894884862569433,
+      "explore_k2": 1.147439030732929,
+      "new_k1": 0.6894884862569433,
+      "new_k2": 1.147439030732929,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CL": {
+      "explore_k1": -0.62322685331419,
+      "explore_k2": -0.4539998443993858,
+      "new_k1": -0.62322685331419,
+      "new_k2": -0.4539998443993858,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "CO": {
+      "explore_k1": -0.5074779708920896,
+      "explore_k2": -0.43269154440542623,
+      "new_k1": -0.5074779708920896,
+      "new_k2": -0.43269154440542623,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "EL": {
+      "explore_k1": null,
+      "explore_k2": null,
+      "new_k1": null,
+      "new_k2": null,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "FR": {
+      "explore_k1": 0.13527641317793174,
+      "explore_k2": 0.27382574671925053,
+      "new_k1": 0.13527641317793174,
+      "new_k2": 0.27382574671925053,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IE": {
+      "explore_k1": -0.011739404915449468,
+      "explore_k2": 0.13431427879673924,
+      "new_k1": -0.011739404915449468,
+      "new_k2": 0.13431427879673924,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "IT": {
+      "explore_k1": 0.05517197502995491,
+      "explore_k2": 0.1937213085712738,
+      "new_k1": 0.05517197502995491,
+      "new_k2": 0.1937213085712738,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "KR": {
+      "explore_k1": -0.5129626729582195,
+      "explore_k2": -0.46422508794672135,
+      "new_k1": -0.5129626729582195,
+      "new_k2": -0.46422508794672135,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "SE": {
+      "explore_k1": 0.13527641317793174,
+      "explore_k2": 0.27382574671925053,
+      "new_k1": 0.13527641317793174,
+      "new_k2": 0.27382574671925053,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "TR": {
+      "explore_k1": -0.34817446880794267,
+      "explore_k2": -0.15725730974323088,
+      "new_k1": -0.34817446880794267,
+      "new_k2": -0.15725730974323088,
+      "q_path_changed": false,
+      "differ": false
+     },
+     "US": {
+      "explore_k1": 0.22884442587088677,
+      "explore_k2": 0.4453532667890482,
+      "new_k1": 0.22884442587088677,
+      "new_k2": 0.4453532667890482,
+      "q_path_changed": false,
+      "differ": false
+     }
+    }
+   }
+  }
+ },
+ "code_sha256": {
+  "simulate.py": "0ba7967eea8f3a146e6bec67db5744f1cb9a427c33494986759ad83e9a815c57",
+  "specs.py": "77cb6d85ada525c1dfec3ad1becc889bdb456f5459de14c1574207e4b31a8cd7",
+  "confirm.py": "044dda5b0796b37cd5a162233d7f981ae6ac5cff539fddcdce144eeb743edd4b",
+  "opening.py": "ae2fbad096af14a882838c2721d97ebc9afb27cc7cd93d034d805f64215e55af",
+  "build.py": "e36a8b7b156507875c9f0491260db1a6ecc788f91e186894fe922d95549a2acf",
+  "fetch.py": "e313002fdfc8d6e5100293c848a07a49e2da965851072d871b947e5e470ac813",
+  "ipums.py": "a3577e755d987f69297e43468e5af64a31368bad08d5b8b3baebe673d23f9937",
+  "coverage.py": "9419166bece717744b6ced69c899568c0fae62b995c3d989ea13c1e79ff599ce",
+  "segments.py": "50685be413027044057eda9766bec52c06d9ef87a37543c218c9c0584fd1f3d6",
+  "inference_l.py": "ac6fa83ed6fe9eac416cc3aa1f357dda59dac0317217d6e437179bf80387e055"
+ },
+ "network_calls": 0
+}

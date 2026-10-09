@@ -1,0 +1,13 @@
+# raw downloads and her IPUMS microdata extract are never committed (PROTOCOL L9, L14)
+data/raw/
+data/ipums/
+__pycache__/
+
+# IPUMS-International microdata and codebooks (licence: no redistribution; holdout values: read only through
+# code/ipums.py, from data/ipums/). Any stray copy elsewhere is ignored too, and the loader refuses while one exists.
+ipumsi_*
+data/ipums*.csv*
+data/ipums*.dat*
+*.dat
+*.dat.gz
+*.csv.gz
