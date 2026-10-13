@@ -1,7 +1,8 @@
 # Splits — the protocol
 
 Written 2026-10-12, on her request: many headline statistics only make sense split into a machine/owner side and a
-human/wage side. Revised 2026-10-13 after three reviews (statistics, public copy, protocol), before any freeze.
+human/wage side. Revised 2026-10-13 after three reviews (statistics, public copy, protocol), and measure 12's wealth
+slope set by her call the same day, before any freeze.
 **Fixed by the tag `paths-splits-freeze`**, whose date is the fixed date; until the tag exists this is a draft and
 every reading is a starting point. The tagged commit fixes this file together with `code/splits.py`,
 `results/splits_baseline.json` and the vintage it was written on (`cache/splits/`), so nothing here needs editing at
@@ -47,10 +48,11 @@ US public data via FRED. `L(x) = 100·ln(x)` (log points). Window: 12 months (mo
 | 9 | Produced-input shortage premium | `L(PCU335311335311/WPUFD49207)` (transformer PPI over finished goods PPI, both not seasonally adjusted) | a temporary premium on produced capital: falls back by 2028 (signed down) | lasting scarcity, rents migrating to power equipment: keeps rising |
 | 10 | Site rent | `L(land / annual pay)`, land = (BOGZ1FL155035015Q − RCVSHNWBSHNO) + BOGZ1FL105010005Q + BOGZ1FL115010005Q (owner-occupied real estate less its structures at current cost, plus business land at market value, Fed Z.1), pay = quarterly mean W209RC1 | rises | high real interest rates: falls as the real rate rises |
 | 11 | Build-out against housing | `L(B679RA3Q086SBEA/A011RA3Q086SBEA)` (real quantity indexes: information processing equipment and software over residential investment) | widens (the neutral rate's rising phase) | interest rates: narrows after rate cuts |
-| 12 | Saving | `PSAVERT` (quarterly mean) less its 1960-2019 fit on household equities over disposable income (`BOGZ1LM153064475Q / (1000·DSPI)`) | the residual rises (owners save; the paper's later phase) | the wealth effect: no residual change |
+| 12 | Saving | `PSAVERT` (quarterly mean) less what household equities over disposable income (`BOGZ1LM153064475Q / (1000·DSPI)`) imply at a wealth slope of −1 point per unit of the ratio, set from the literature (about one cent of spending per dollar of equity wealth), with the intercept the 1960-2019 mean of `PSAVERT` plus the ratio | the residual rises (owners save; the paper's later phase) | the wealth effect: no residual change |
 
-The fitted coefficients of 5, 7 and 12 are estimated once, at the freeze, and kept in the baseline; later vintages'
-estimates are printed beside them and never used for judging.
+The fitted coefficients of 5 and 7 and measure 12's intercept are estimated once, at the freeze, and kept in the
+baseline; later vintages' estimates are printed beside them and never used for judging. Measure 12's slope is set from
+outside the data (section 4).
 
 **The conditions, tested from data:**
 
@@ -96,7 +98,7 @@ happens):
 | 9 | ≤ −3.4% | ≥ +4.2% | change in transformer prices relative to finished goods |
 | 10 | ≥ +11.6% | ≤ −5.8% | change in land values relative to pay |
 | 11 | ≥ +18.9% | ≤ −1.3% | change in real IT investment relative to housing |
-| 12 | ≥ +1.32 | ≤ −0.98 | points, change in the saving residual |
+| 12 | ≥ +1.02 | ≤ −1.27 | points, change in the saving residual |
 
 **Channels.** Several measures move together through one channel; the verdict is recomputed without each (section 6):
 *rates* 5, 8, 10, 11, 12; *the tech unwind* 2, 3, 4, 5, 11; *the 2021-23 price shock* 1, 8, 9.
@@ -146,11 +148,13 @@ clear change.
   downturn the tracker therefore reports every measure, judges 3 and 7, and gives no combined verdict.
 - **Measure 7's adjustment is small:** over a year the unemployment rate moves little, so the adjusted change is close to
   the raw share's (on 2026Q2: E +1.36 adjusted, +1.44 raw; the raw E is reported beside it).
-- **Measure 12's wealth slope is extrapolated:** household equities are 3.09 times disposable income in 2026Q2,
-  against 0.32-2.00 in the 1960-2019 fit, so the fitted saving rate is −0.4%. On 2026Q2 E is +0.57 as built, −0.12
-  with the 1990-2019 slope, −0.66 with a slope of −1 (about one cent of spending per dollar of wealth) and −1.00 with no
-  wealth term. The alternatives are reported beside it, with a flag while the ratio is outside the fitted range. Which
-  slope is used is decided before the freeze (`STATE.md`, decision 33).
+- **Measure 12's wealth slope is set from outside the data** (her call, 2026-10-13; `STATE.md`, decision 58): −1 point
+  of the saving rate per unit of household equities over disposable income, about one cent of spending per dollar of
+  equity wealth, from the literature; the intercept is the 1960-2019 mean of the saving rate plus the ratio, so the
+  residual averages zero over 1960-2019. The 1960-2019 fit (slope −4.27) would be extrapolated far: household equities
+  are 3.09 times disposable income in 2026Q2, against 0.32-2.00 in that fit, which puts the saving rate at −0.4%. On
+  2026Q2 E is −0.66 as built, +0.57 with the 1960-2019 fit, −0.12 with the 1990-2019 fit and −1.00 with no wealth term.
+  The alternatives are reported beside it, with a flag while the ratio is beyond its 1960-2019 range.
 - **The naive forecasts, printed beside each measure:** E if the last window repeats; E from the measure's carry-over
   regression (next non-overlapping window's E on this window's E, 1990-2019); and the chance that persistence alone
   gives today's reading next time.
@@ -162,14 +166,14 @@ clear change.
   beyond 1 in that direction **17%** of the time (the panel's construction, an 8-quarter slope in its top quarter, gave
   64%).
 - **The measures split at the starting point continue more often:** the same sign the next year 75% of the time for care
-  (again beyond 1: 20%), 81% for the labour share (31%), 91% for the build-out (17%); against 31-32% for graduates,
+  (again beyond 1: 20%), 81% for the labour share (31%), 91% for the build-out (17%); against 30-32% for graduates,
   hiring and saving and 27% for software postings. From persistence alone, the chance that the next window reads `+`
   again is 57% for care, 23% for the labour share and 41% for the build-out. A single measure's "moved the paper's
   way" is therefore weak evidence where persistence is strong. Per-measure rates are in `results/splits.json`.
 - **Measure 2:** of the 14 normal months at or above the 95th percentile, 1 (7%) was still above it 12 months later.
 - **The rules in normal years (the power, stated now).** Applied to the 13 benchmark years (section 6), the verdict
-  would have read *supports the paper* in none, *favours the rivals* in 1, *nothing unusual* in 7 and *inconclusive* in
-  5. Of the explore years, 2022 reads *nothing unusual* and 2023 *inconclusive*; 2020, 2021, 2024 and 2025 are void (a
+  would have read *supports the paper* in none, *favours the rivals* in 1, *nothing unusual* in 8 and *inconclusive* in
+  4. Of the explore years, 2022 reads *nothing unusual* and 2023 *inconclusive*; 2020, 2021, 2024 and 2025 are void (a
   recession, or a real-time Sahm reading ≥ 0.5 in 2024). So a year in which nothing unusual happens most likely reads
   just that, and *supports the paper* never came up in a normal year from 2004 to 2019. The measures move together
   more since 2021 than in 1990-2019, which is why the verdict is recomputed without each channel.
@@ -182,7 +186,7 @@ clear change.
   an NBER recession month or a real-time Sahm reading ≥ 0.5 (the same void rule as judged windows), each measure's
   window ending in the calendar month its judged windows end in (September; August for 5, 8 and 9; the second quarter
   for the quarterly measures). On the 2026-10-13 vintage these are 13 years, 2004-2007 and 2011-2019 (hiring's history
-  begins in 2001; recession or Sahm months void 2002-2003 and 2008-2010): median 0, 90th percentile 1, range −2 to
+  begins in 2001; recession or Sahm months void 2002-2003 and 2008-2010): median 0, 90th percentile 1.8, range −2 to
   +2.
 - **(b) The tally:** per measure, which explanation the latest window fits: paper, rival (signed or nothing unusual),
   both, neither.
@@ -218,7 +222,7 @@ clear change.
 ## 8. When to retire the idea
 
 After two consecutive non-void judged windows that each favour the rivals or read nothing unusual; void windows are
-skipped, not reset. Stated plainly: in the 13 benchmark years this would have happened in 4 of the 12 consecutive pairs
+skipped, not reset. Stated plainly: in the 13 benchmark years this would have happened in 6 of the 12 consecutive pairs
 (in none with both favouring the rivals), so two ordinary years can retire it. Retiring ends this line of evidence; it
 does not refute the paper.
 
@@ -228,14 +232,17 @@ does not refute the paper.
    failed to refresh and writes `results/splits_baseline.json`: per series its last observation, download date, hash
    and FRED's title, and the series whose last observation is later than in the 2026-10-13 vintage (published between
    the panel and the freeze, and so seen before it); per measure (and leg) its last observation, starting value and the
-   reference mean and sd that E will use; the fitted coefficients of 5, 7 and 12; measure 2's per-cut means and sds and
-   its threshold; the benchmark years of section 6; the base rates of section 5; the SHA-256 of this file, of the
-   measure definitions with the code that computes and judges them (`definitions_hash()`) and of the code file.
+   reference mean and sd that E will use; the fitted coefficients of 5 and 7 and measure 12's intercept and (set) slope;
+   measure 2's per-cut means and sds and its threshold; the benchmark years of section 6; the base rates of section 5;
+   the SHA-256 of this file, of the measure definitions with the code that computes and judges them
+   (`definitions_hash()`) and of the code file.
 2. `checks/check_splits.py` passes; commit (with `cache/splits/`); tag `paths-splits-freeze` and push the tag the same
-   day, before the website says "fixed on". The results record the tagged commit's SHA and flag a tag that has moved
-   since the last run, or that was made more than a day after the baseline was written. The code refuses to rewrite the
-   baseline once the tag exists, and from then on reads it from the tagged commit, not the working copy (a working copy
-   that differs is flagged; a tagged commit without a baseline judges nothing).
+   day. Then run `code/splits.py` again, without `--refresh`, and commit and push `results/splits.json`: only results
+   written after the tag record the freeze (status frozen, the tagged commit's SHA and the tag's date), and the website
+   says "fixed on" only from those. The results flag a tag that has moved since the last run, or that was made more
+   than a day after the baseline was written. The code refuses to rewrite the baseline once the tag exists, and from
+   then on reads it from the tagged commit, not the working copy (a working copy that differs is flagged; a tagged
+   commit without a baseline judges nothing).
 3. After the tag only complete, non-overlapping windows that start at each measure's baseline observation are judged:
    [b, b+12 months], [b+12, b+24], … (quarters likewise). Nothing before b enters except its value as the first starting
    point. The latest rolling readings are labelled "latest 12 months (4 quarters), not judged". If this file or the

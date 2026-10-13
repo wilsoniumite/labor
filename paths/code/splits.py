@@ -504,8 +504,12 @@ SPECS = [
      "fits": "+ paper; - rival only when the window holds a rate cut (as for 5), otherwise neither; 0 neither"},
     {"id": 12, "key": "saving", "name": "Saving net of the stock-market wealth effect",
      "series": ["PSAVERT", "BOGZ1LM153064475Q", "DSPI"], "freq": "QS", "k": 4, "direction": 1,
-     "gap": "PSAVERT (quarterly mean) minus its 1960-2019 least-squares fit on household equities / disposable income "
-            "(BOGZ1LM153064475Q / (1000 * quarterly mean DSPI); coefficients frozen at the freeze), points", "legs": {},
+     "gap": "PSAVERT (quarterly mean) minus what household equities / disposable income (BOGZ1LM153064475Q / (1000 * "
+            "quarterly mean DSPI)) imply at a wealth slope set from the literature, -1 point of the saving rate per unit "
+            "of the ratio (about one cent of spending per dollar of equity wealth), and the intercept the 1960-2019 mean "
+            "of PSAVERT + the ratio, so the residual averages zero over 1960-2019 (intercept frozen at the freeze; the "
+            "1960-2019 least-squares fit is reported beside it), points",
+     "legs": {},
      "paper": "the residual rises (owners save; the paper's later phase)", "rival_name": "the wealth effect",
      "rival": "no residual: saving moves with equity wealth",
      "fits": "+ paper; 0 rival (nothing unusual) only once measure 11 has turned (its same window reads -), otherwise "
@@ -527,6 +531,11 @@ NULL_RIVAL = ("output_per_hour", "labour_share", "saving")
 CHANNELS = {"rates": [5, 8, 10, 11, 12], "tech unwind": [2, 3, 4, 5, 11], "price shock": [1, 8, 9]}
 DEADLINE_WINDOW = {"transformer_premium": 2}    # "falls back by 2028": judged on its level at the second window
 RATE_CUT_BP = 50
+# Measure 12's wealth slope, set from the literature (her call, 2026-10-13): -1 point of the saving rate per unit of
+# household equities over disposable income, about one cent of spending per dollar of equity wealth.
+SAVING_WEALTH_SLOPE = -1.0
+SAVING_SLOPE_SOURCE = ("set from the literature (her call, 2026-10-13): -1 point of the saving rate per unit of household "
+                       "equities over disposable income, about one cent of spending per dollar of equity wealth")
 
 UNITS = {"mining": "USMINE", "construction": "USCONS", "manufacturing": "MANEMP", "trade_transport_utilities": "USTPU",
          "information": "USINFO", "financial": "USFIRE", "professional_business": "USPBS", "education": "CES6561000001",
@@ -562,8 +571,8 @@ WATCH_SPECS = [
 
 def build(data: dict, fits: dict | None = None) -> dict:
     """The gap (and legs) of every judged measure as regular series at the measure's frequency. `fits` (the baseline's
-    frozen coefficients) replaces the re-estimated ones for measures 5, 7 and 12; the current vintage's estimates are
-    returned beside them either way."""
+    frozen coefficients) replaces the re-estimated ones for measures 5 and 7 and measure 12's intercept (its slope is
+    set from the literature, not estimated); the current vintage's estimates are returned beside them either way."""
     f = data
     fits = fits or {}
     out = {}
@@ -610,7 +619,13 @@ def build(data: dict, fits: dict | None = None) -> dict:
     d.columns = ["s", "x"]
     fit = d["1960-01-01":"2019-12-31"]
     e1, e0 = np.polyfit(fit.x, fit.s, 1)
-    cur = {"intercept": float(e0), "slope_on_equity_to_income": float(e1), "period": "1960-01 to 2019-12",
+    # Her call, 2026-10-13: the wealth slope is set from the literature, not fitted (the 1960-2019 fit extrapolates far
+    # beyond the ratios it was measured on). The intercept makes the residual average zero over 1960-2019; the fitted
+    # slope and intercept are reported beside it.
+    cur = {"intercept": float((fit.s - SAVING_WEALTH_SLOPE * fit.x).mean()),
+           "slope_on_equity_to_income": SAVING_WEALTH_SLOPE, "slope_source": SAVING_SLOPE_SOURCE,
+           "intercept_rule": "1960-2019 mean of the saving rate less the slope times equities / income",
+           "period": "1960-01 to 2019-12", "fitted_slope_1960_2019": float(e1), "fitted_intercept_1960_2019": float(e0),
            "equity_to_income_range_in_fit": [float(fit.x.min()), float(fit.x.max())]}
     use = fits.get("saving") or cur
     out["saving"] = {"gap": regular(d.s - (use["intercept"] + use["slope_on_equity_to_income"] * d.x), "QS"), "legs": {},
@@ -1219,30 +1234,43 @@ def plain_facts(key: str, f: dict, B: dict, t: str) -> dict:
                 "housing_investment_real_growth_4q_pct": _pct(f["A011RA3Q086SBEA"], t, y)}
     if key == "saving":
         sv, gp, x = B["saving"]["level"], B["saving"]["gap"], B["saving"]["equity_to_income"]
-        rng = B["saving"]["fit_current_vintage"]["equity_to_income_range_in_fit"]
+        use, cur = B["saving"]["fit"], B["saving"]["fit_current_vintage"]
+        rng = cur["equity_to_income_range_in_fit"]
+        f1 = use.get("fitted_slope_1960_2019", cur["fitted_slope_1960_2019"])
+        f0 = use.get("fitted_intercept_1960_2019", cur["fitted_intercept_1960_2019"])
         xt = _v(x, t)
+        fitted = None if xt is None else f0 + f1 * xt
         return {"saving_rate_pct": _v(sv, t), "saving_rate_pct_12m_earlier": _v(sv, y),
-                "fitted_from_equity_wealth_pct": _v(sv - gp, t), "residual_pts": _v(gp, t),
-                "equity_to_income": xt, "equity_to_income_12m_earlier": _v(x, y), "equity_to_income_range_in_fit": rng,
-                "equity_to_income_outside_fit_range": None if xt is None else bool(xt > rng[1] or xt < rng[0])}
+                "wealth_slope_pts_per_unit": use["slope_on_equity_to_income"],
+                "implied_by_equity_wealth_pct": _v(sv - gp, t), "residual_pts": _v(gp, t),
+                "implied_by_1960_2019_fit_pct": fitted,
+                "residual_pts_1960_2019_fit": None if fitted is None or _v(sv, t) is None else _v(sv, t) - fitted,
+                "fitted_slope_1960_2019": f1,
+                "equity_to_income": xt, "equity_to_income_12m_earlier": _v(x, y), "equity_to_income_range_1960_2019": rng,
+                "equity_to_income_beyond_1960_2019": None if xt is None else bool(xt > rng[1] or xt < rng[0])}
     return {}
 
 
-def saving_alternatives(B: dict, rec: set) -> dict:
-    """Measure 12's latest E under other wealth slopes (reported; the choice of slope is hers before the freeze): the
-    1990-2019 fit, about one cent of spending per dollar of equity wealth (slope -1 point per unit of the
-    equity-to-income ratio), and no wealth term (the saving rate itself)."""
+def saving_alternatives(B: dict, rec: set, ref_used: dict | None = None) -> dict:
+    """Measure 12's latest E under other wealth slopes, reported beside the one used (her call, 2026-10-13: -1 point
+    per unit of the equity-to-income ratio, about one cent of spending per dollar of equity wealth, set from the
+    literature): the 1960-2019 fit (the slope before her call), the 1990-2019 fit, and no wealth term (the saving rate
+    itself). E depends on the slope only; the intercept cancels in the change. `ref_used` (the measure's own reference,
+    the baseline's once the tracker is fixed) is used for the slope as built, so its E is the measure's on any vintage;
+    the other slopes' references are their 1990-2019 windows on the current vintage."""
     sv, x = B["saving"]["level"], B["saving"]["equity_to_income"]
+    use, cur = B["saving"]["fit"], B["saving"]["fit_current_vintage"]
     d = pd.concat([sv, x], axis=1, sort=True).dropna()
     d.columns = ["s", "x"]
     f9 = d["1990-01-01":"2019-12-31"]
     s9 = float(np.polyfit(f9.x, f9.s, 1)[0])
+    s6 = float(use.get("fitted_slope_1960_2019", cur["fitted_slope_1960_2019"]))
     out = {}
-    for name, slope in (("as built", B["saving"]["fit"]["slope_on_equity_to_income"]), ("1990-2019 fit", s9),
-                        ("slope -1 (about 1 cent per dollar of equity wealth)", -1.0), ("no wealth term", 0.0)):
+    for name, slope in (("as built", use["slope_on_equity_to_income"]), ("1960-2019 fit", s6), ("1990-2019 fit", s9),
+                        ("no wealth term", 0.0)):
         g = regular(d.s - slope * d.x, "QS")
         ch = g - g.shift(4)
-        ref = reference(ch, "QS", 4, rec, 40)
+        ref = ref_used if (name == "as built" and ref_used) else reference(ch, "QS", 4, rec, 40)
         t = ch.dropna().index[-1]
         out[name] = {"slope": slope, "E": float((ch[t] - ref["mean"]) / ref["sd"]), "date": str(t.date())[:7]}
     return out
@@ -1394,7 +1422,7 @@ def definitions_hash() -> str:
     d = {"specs": SPECS, "units": UNITS, "dispersion": DISPERSION, "reference": REF,
          "watch": [w["series"] for w in WATCH_SPECS], "count_keys": COUNT_KEYS, "keep_in_recession": KEEP_IN_RECESSION,
          "null_rival": NULL_RIVAL, "channels": CHANNELS, "deadline": DEADLINE_WINDOW, "rate_cut_bp": RATE_CUT_BP,
-         "code": src}
+         "saving_wealth_slope": SAVING_WEALTH_SLOPE, "code": src}
     return _sha(json.dumps(d, sort_keys=True))
 
 
@@ -1630,7 +1658,7 @@ def evaluate(data: dict, st: dict, baseline: dict | None, looks: dict | None = N
                 else:
                     extra[x] = v
         if key == "saving":
-            extra["alternatives"] = saving_alternatives(B, rec)
+            extra["alternatives"] = saving_alternatives(B, rec, S[key]["use"])
         if key == "labour_share":
             extra["raw_share"] = labour_share_raw_E(B, rec)
         label = (UNFROZEN_LABEL if not frozen else

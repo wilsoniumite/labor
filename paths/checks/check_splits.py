@@ -768,6 +768,104 @@ check("S21 the baseline names every series published after the 2026-10-13 vintag
       f"top 1% {w['top1_pct']}% ({w['date']}; series high {w['top1_is_series_high']}), top 10% {w['top10_pct']:.1f}% "
       f"(peak {w['top10_peak']})")
 
+# S22 measure 12's wealth slope is set from the literature (her call, 2026-10-13), not fitted: -1 point per unit of
+# equities over income, the intercept the 1960-2019 mean of s - slope*x; the fitted alternatives reported beside it.
+# After the freeze the fit used is the baseline's (its intercept and its vintage's fitted coefficients) and the
+# measure's reference is frozen, while a refit on the current vintage is reported beside it: the conditions hold on
+# any vintage, and are tested on today's results, on the frozen run of S8 and on a frozen run whose baseline differs
+# from the current vintage in every saving figure it holds (as after a revision to 1960-2019 history).
+b12 = S.build(ALL)["saving"]
+d12 = pd.concat([b12["level"], b12["equity_to_income"]], axis=1, sort=True).dropna()
+d12.columns = ["s", "x"]
+f12 = d12["1960-01-01":"2019-12-31"]
+fs, fi = (float(v) for v in np.polyfit(f12.x, f12.s, 1))
+
+
+def saving_failures(res: dict, bl: dict | None) -> list:
+    """S22's conditions on one run's results, `bl` the baseline it judged against (None before the freeze): the names
+    of those that fail."""
+    m = next(x for x in res["measures"] if x["key"] == "saving")
+    use, cur, alt, p = m["extra"]["fit"], m["extra"]["fit_current_vintage"], m["extra"]["alternatives"], m["plain"]
+    if bl is None and res["status"].get("frozen"):
+        return ["the frozen baseline could not be read"]
+    t = pd.Timestamp(m["latest"]["date"])
+    u1 = use.get("fitted_slope_1960_2019", cur["fitted_slope_1960_2019"])
+    u0 = use.get("fitted_intercept_1960_2019", cur["fitted_intercept_1960_2019"])
+    resid_cur = f12.s - (cur["intercept"] + cur["slope_on_equity_to_income"] * f12.x)
+    conds = {
+        "slope set": S.SAVING_WEALTH_SLOPE == -1.0 and use["slope_on_equity_to_income"] == S.SAVING_WEALTH_SLOPE
+                     and cur["slope_on_equity_to_income"] == S.SAVING_WEALTH_SLOPE,
+        "fit used is the baseline's (frozen) or the current vintage's": use == (bl["fits"]["saving"] if bl else cur),
+        "current intercept: residual averages zero 1960-2019": abs(float(resid_cur.mean())) < 1e-9,
+        "current vintage's 1960-2019 fit": abs(cur["fitted_slope_1960_2019"] - fs) < 1e-9
+                                           and abs(cur["fitted_intercept_1960_2019"] - fi) < 1e-9,
+        "alternatives": set(alt) == {"as built", "1960-2019 fit", "1990-2019 fit", "no wealth term"}
+                        and alt["as built"]["slope"] == S.SAVING_WEALTH_SLOPE and abs(alt["1960-2019 fit"]["slope"] - u1) < 1e-9
+                        and alt["no wealth term"]["slope"] == 0.0,
+        "as built E is the measure's": abs(alt["as built"]["E"] - m["latest"]["E_signed"]) < 1e-9,
+        "plain adds up": abs(p["implied_by_equity_wealth_pct"] + p["residual_pts"] - p["saving_rate_pct"]) < 1e-9,
+        "residual at the fit used": abs(p["residual_pts"] - (d12.s[t] - (use["intercept"] + use["slope_on_equity_to_income"]
+                                                                          * d12.x[t]))) < 1e-9,
+        "the 1960-2019 fit's reading at the fit used": abs(p["implied_by_1960_2019_fit_pct"] - (u0 + u1 * d12.x[t])) < 1e-9,
+    }
+    return [k for k, v in conds.items() if not v]
+
+
+bl_real = S.freeze_state()[1] if J["status"].get("frozen") else None
+BLp = copy.deepcopy(BL)
+BLp["fits"]["saving"].update(intercept=BLp["fits"]["saving"]["intercept"] + 0.3,
+                             fitted_slope_1960_2019=BLp["fits"]["saving"]["fitted_slope_1960_2019"] + 0.2,
+                             fitted_intercept_1960_2019=BLp["fits"]["saving"]["fitted_intercept_1960_2019"] - 0.25)
+BLp["measures"]["saving"]["reference"].update(mean=BLp["measures"]["saving"]["reference"]["mean"] + 0.1,
+                                              sd=BLp["measures"]["saving"]["reference"]["sd"] * 1.1)
+Rp, _Xp = S.evaluate(ALL, {"frozen": True, "tag_date": TAG_DATE, "label": S.FROZEN_LABEL}, BLp, {}, dt.date(2026, 11, 16))
+fail12 = {"today": saving_failures(J, bl_real), "S8's frozen run": saving_failures(R, BL),
+          "a frozen run on another vintage": saving_failures(Rp, BLp)}
+m12, mp12 = (next(m for m in x["measures"] if m["key"] == "saving") for x in (J, Rp))
+use12, alt12 = m12["extra"]["fit"], m12["extra"]["alternatives"]
+check("S22 measure 12's wealth slope is set from outside the data (-1 point of the saving rate per unit of household "
+      "equities over income, her call of 2026-10-13), its intercept the 1960-2019 mean (the residual averages zero "
+      "there on the vintage it was set on; the current vintage's is reported beside it); the 1960-2019 fit is reported, "
+      "not used; the alternatives hold the 1960-2019 fit, the 1990-2019 fit and no wealth term beside the slope used, "
+      "whose E is the measure's; all of it holds after the freeze, on a vintage other than the baseline's",
+      not any(fail12.values()) and abs(mp12["latest"]["E_signed"] - m12["latest"]["E_signed"]) > 1e-6,
+      f"slope {use12['slope_on_equity_to_income']}, intercept {use12['intercept']:.2f} (1960-2019 fit: slope {fs:.2f}, "
+      f"intercept {fi:.2f}); E {m12['latest']['E_signed']:+.2f} as built, "
+      + ", ".join(f"{k} {v['E']:+.2f}" for k, v in alt12.items() if k != "as built")
+      + f"; on the other vintage's baseline E {mp12['latest']['E_signed']:+.2f}"
+      + "".join(f"; {k} fails {v}" for k, v in fail12.items() if v))
+
+# S23 SPLITS.md's table of thresholds in plain units is the results' (the freeze fixes the file's text, and after it
+# the thresholds come from the frozen references): every row's numbers at the decimals the table prints, and its signs
+proto = open(S.PROTOCOL, encoding="utf-8").read()
+table = proto[proto.index("**Thresholds in plain units**"):proto.index("**Channels.**")]
+cells = {int(a): (b, c) for a, b, c in re.findall(r"^\| (\d+) \| ([^|]+) \| ([^|]+) \|", table, flags=re.M)}
+
+
+def printed(cell: str) -> tuple:
+    """The relation, number and decimals a table cell prints: '≥ +1.02' -> ('>=', 1.02, 2)."""
+    x = re.search(r"([≥≤])\s*([−+-]?\d+(?:\.(\d+))?)", cell)
+    if not x:
+        return None, None, None
+    return {"≥": ">=", "≤": "<="}[x.group(1)], float(x.group(2).replace("−", "-")), len(x.group(3) or "")
+
+
+bad23 = []
+for m in J["measures"]:
+    tp, row = m["thresholds_plain"], cells.get(m["id"])
+    if row is None:
+        bad23.append((m["id"], "no row"))
+        continue
+    pairs = ([(row[0], "paper_if_level", "paper_at")] if m["key"] == "payroll_dispersion" else
+             [(row[0], "paper_if_change", "paper_at"), (row[1], "other_way_if_change", "other_at")])
+    for cell, rel_key, at_key in pairs:
+        rel, v, dec = printed(cell)
+        if rel is None or rel != tp[rel_key][:2] or abs(v - tp[at_key]) > 0.5 * 10 ** -dec + 1e-9:
+            bad23.append((m["id"], cell.strip(), tp[rel_key]))
+check("S23 SPLITS.md's thresholds in plain units are the results' (each row's numbers at the decimals printed, and its "
+      "signs), so the text the freeze fixes states the thresholds the references give",
+      len(cells) == 12 and not bad23, f"{len(cells)} rows; differing {bad23}")
+
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
 sys.exit(0 if n_ok == len(RESULTS) else 1)
