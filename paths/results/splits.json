@@ -1,25 +1,26 @@
 {
  "schema_version": 1,
- "generated_utc": "2026-10-13T10:15:22Z",
+ "generated_utc": "2026-10-13T10:16:10Z",
  "protocol": "paths/SPLITS.md",
  "definitions_sha256": "d50b10af0f25117bb90d043e7af82adde3ac40e453ae6a1e08854608012c733e",
  "protocol_sha256": "0535889fa2c064e70fbcc37c906d7846c201c8944615b6939395ccaaa1437cd5",
  "status": {
   "tag": "paths-splits-freeze",
-  "tag_exists": false,
-  "tag_date": null,
-  "tag_commit": null,
-  "baseline_exists": false,
-  "baseline_source": null,
-  "frozen": false,
-  "definitions_match": null,
-  "protocol_match": null,
-  "code_matches_baseline": null,
-  "baseline_working_copy_differs": null,
-  "tag_days_after_baseline": null,
+  "tag_exists": true,
+  "tag_date": "2026-10-13T12:16:04+02:00",
+  "tag_commit": "3bb8508494048610a1ab46396ef345e275848c03",
+  "baseline_exists": true,
+  "baseline_source": "tagged commit",
+  "frozen": true,
+  "definitions_match": true,
+  "protocol_match": true,
+  "code_matches_baseline": true,
+  "baseline_working_copy_differs": false,
+  "tag_days_after_baseline": 0.0004861111111111111,
   "tag_moved_since_last_run": null,
   "flags": [],
-  "label": "starting point (already seen; not judged)"
+  "baseline_written_utc": "2026-10-13T10:15:22Z",
+  "label": "judged windows use only data published after the fixed date; the latest rolling readings are not judged"
  },
  "recession": {
   "usrec_last": [
@@ -66,7 +67,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": -1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -86,7 +87,7 @@
     "E": -2.931343346570954,
     "change_since_2019": -1.0282390606823157,
     "reading": "moved the paper's way",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {
     "jobs": {
@@ -110,7 +111,15 @@
     "n": 293,
     "from": "1990-01",
     "to": "2019-12",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 0.07708068569825112,
+     "sd": 0.6389616484329785,
+     "n": 293,
+     "from": "1990-01",
+     "to": "2019-12",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 250,
@@ -126,7 +135,7 @@
     "E_expected_from_persistence": 1.1440186832494565,
     "p_same_zone_from_persistence": 0.5705815469841626
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": "<= -0.56",
@@ -390,7 +399,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -413,7 +422,7 @@
     "share_12_months_earlier": 23.15583781143136,
     "change_since_2019": 7.425500732779677,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {},
    "reference": {
@@ -425,7 +434,10 @@
     "from": "1992-03",
     "to": "2019-12",
     "own_history": false,
-    "window_months": 12
+    "window_months": 12,
+    "current_vintage": {
+     "normal_p95": 26.648754274548118
+    }
    },
    "base_rates": {
     "n_pairs": 250,
@@ -439,7 +451,7 @@
     "share_if_the_last_12_months_repeat": -8.207132388861748,
     "p_same_zone_from_persistence": null
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% of the 2,047 cuts",
     "paper_if_level": ">= 26.65",
@@ -695,7 +707,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": true,
    "latest": {
@@ -713,7 +725,7 @@
     "E": -0.38750740977436005,
     "change_since_2019": 12.355339211772005,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {},
    "reference": {
@@ -722,7 +734,15 @@
     "n": 275,
     "from": "1993-02",
     "to": "2019-12",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 0.17289900695011057,
+     "sd": 8.056167091838518,
+     "n": 275,
+     "from": "1993-02",
+     "to": "2019-12",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 239,
@@ -738,7 +758,7 @@
     "E_expected_from_persistence": 0.11068980223693219,
     "p_same_zone_from_persistence": 0.6773268691295357
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": ">= +8.58",
@@ -991,7 +1011,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": -1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": false,
    "judged_in_recessions": false,
    "latest": {
@@ -1009,7 +1029,7 @@
     "E": 0.7833748952925388,
     "change_since_2019": null,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {},
    "reference": {
@@ -1018,7 +1038,15 @@
     "n": 54,
     "from": "2021-04",
     "to": "2025-09",
-    "own_history": true
+    "own_history": true,
+    "current_vintage": {
+     "mean": -9.618732824571994,
+     "sd": 34.013321489625135,
+     "n": 54,
+     "from": "2021-04",
+     "to": "2025-09",
+     "own_history": true
+    }
    },
    "base_rates": {
     "n_pairs": 42,
@@ -1034,7 +1062,7 @@
     "E_expected_from_persistence": 0.515445667914124,
     "p_same_zone_from_persistence": 0.6695171223187959
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": "<= -35.36",
@@ -1136,7 +1164,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": -1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -1158,7 +1186,7 @@
     "E": 0.5696279389010046,
     "change_since_2019": -0.5266646545309781,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {},
    "reference": {
@@ -1167,7 +1195,15 @@
     "n": 177,
     "from": "2002-11",
     "to": "2019-12",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": -0.007188405068061949,
+     "sd": 0.1366756466170867,
+     "n": 177,
+     "from": "2002-11",
+     "to": "2019-12",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 153,
@@ -1183,7 +1219,7 @@
     "E_expected_from_persistence": 0.18159560852187495,
     "p_same_zone_from_persistence": 0.6986942147723749
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "points over the window",
     "paper_if_change": "<= -0.14",
@@ -1438,7 +1474,7 @@
    "frequency": "quarterly",
    "window": "4 quarters",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -1458,7 +1494,7 @@
     "E": 0.3011517558883178,
     "change_since_2019": 13.269190485129982,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 4 quarters, not judged"
    },
    "legs": {},
    "reference": {
@@ -1467,7 +1503,15 @@
     "n": 99,
     "from": "1990-01",
     "to": "2019-10",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 1.8194087671808723,
+     "sd": 1.3205893369798165,
+     "n": 99,
+     "from": "1990-01",
+     "to": "2019-10",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 85,
@@ -1483,7 +1527,7 @@
     "E_expected_from_persistence": -0.05702355024845411,
     "p_same_zone_from_persistence": 0.726769102601303
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": ">= +3.19",
@@ -1736,7 +1780,7 @@
    "frequency": "quarterly",
    "window": "4 quarters",
    "direction_toward_paper": -1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": true,
    "latest": {
@@ -1756,7 +1800,7 @@
     "E": -1.3561882432052081,
     "change_since_2019": -3.9291644113854787,
     "reading": "moved the paper's way",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 4 quarters, not judged"
    },
    "legs": {},
    "reference": {
@@ -1765,7 +1809,15 @@
     "n": 99,
     "from": "1990-01",
     "to": "2019-10",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": -0.21628279504718864,
+     "sd": 0.9930719719608441,
+     "n": 99,
+     "from": "1990-01",
+     "to": "2019-10",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 85,
@@ -1781,7 +1833,7 @@
     "E_expected_from_persistence": 0.3718528906135762,
     "p_same_zone_from_persistence": 0.22637024726401633
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "points over the window",
     "paper_if_change": "<= -1.21",
@@ -2060,7 +2112,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -2078,7 +2130,7 @@
     "E": -0.7298480336634444,
     "change_since_2019": 13.004134643049525,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {
     "interest": {
@@ -2116,7 +2168,15 @@
     "n": 293,
     "from": "1990-01",
     "to": "2019-12",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 5.16352285741278,
+     "sd": 8.915571074971327,
+     "n": 293,
+     "from": "1990-01",
+     "to": "2019-12",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 250,
@@ -2132,7 +2192,7 @@
     "E_expected_from_persistence": 0.16650020931839696,
     "p_same_zone_from_persistence": 0.6746475077456545
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": ">= +15.12",
@@ -2385,7 +2445,7 @@
    "frequency": "monthly",
    "window": "12 months",
    "direction_toward_paper": -1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -2403,7 +2463,7 @@
     "E": 0.23578896893881762,
     "change_since_2019": 30.35478233770912,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 12 months, not judged"
    },
    "legs": {},
    "reference": {
@@ -2412,7 +2472,15 @@
     "n": 293,
     "from": "1990-01",
     "to": "2019-12",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 0.2937458689322516,
+     "sd": 3.800957741715646,
+     "n": 293,
+     "from": "1990-01",
+     "to": "2019-12",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 250,
@@ -2428,7 +2496,7 @@
     "E_expected_from_persistence": -0.2189531563559039,
     "p_same_zone_from_persistence": 0.6891696705550359
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": "<= -3.45",
@@ -2684,7 +2752,7 @@
    "frequency": "quarterly",
    "window": "4 quarters",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -2704,7 +2772,7 @@
     "E": -0.5412652604310664,
     "change_since_2019": 4.969809985810613,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 4 quarters, not judged"
    },
    "legs": {},
    "reference": {
@@ -2713,7 +2781,15 @@
     "n": 99,
     "from": "1990-01",
     "to": "2019-10",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 2.501094142781326,
+     "sd": 8.48347349136863,
+     "n": 99,
+     "from": "1990-01",
+     "to": "2019-10",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 85,
@@ -2729,7 +2805,7 @@
     "E_expected_from_persistence": -0.13671974373967216,
     "p_same_zone_from_persistence": 0.7475371396074174
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": ">= +11.61",
@@ -2985,7 +3061,7 @@
    "frequency": "quarterly",
    "window": "4 quarters",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -3007,7 +3083,7 @@
     "E": 1.1742263742164027,
     "change_since_2019": 69.07542210490585,
     "reading": "moved the paper's way",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 4 quarters, not judged"
    },
    "legs": {},
    "reference": {
@@ -3016,7 +3092,15 @@
     "n": 99,
     "from": "1990-01",
     "to": "2019-10",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": 8.009529966588625,
+     "sd": 9.276896147192463,
+     "n": 99,
+     "from": "1990-01",
+     "to": "2019-10",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 85,
@@ -3032,7 +3116,7 @@
     "E_expected_from_persistence": 0.7995177565221113,
     "p_same_zone_from_persistence": 0.41168012314191627
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "% change of the ratio over the window",
     "paper_if_change": ">= +18.87",
@@ -3282,7 +3366,7 @@
    "frequency": "quarterly",
    "window": "4 quarters",
    "direction_toward_paper": 1,
-   "status": "starting point (already seen; not judged)",
+   "status": "no data since the fixed date",
    "in_count": true,
    "judged_in_recessions": false,
    "latest": {
@@ -3302,7 +3386,7 @@
     "E": -0.6573163538352239,
     "change_since_2019": -1.2464584378904897,
     "reading": "no clear change",
-    "label": "starting point (already seen; not judged)"
+    "label": "latest 4 quarters, not judged"
    },
    "legs": {},
    "reference": {
@@ -3311,7 +3395,15 @@
     "n": 99,
     "from": "1990-01",
     "to": "2019-10",
-    "own_history": false
+    "own_history": false,
+    "current_vintage": {
+     "mean": -0.12634372609669742,
+     "sd": 1.1424676792022677,
+     "n": 99,
+     "from": "1990-01",
+     "to": "2019-10",
+     "own_history": false
+    }
    },
    "base_rates": {
     "n_pairs": 85,
@@ -3327,7 +3419,7 @@
     "E_expected_from_persistence": 0.08289878208054019,
     "p_same_zone_from_persistence": 0.6869189711242955
    },
-   "judged_windows": null,
+   "judged_windows": [],
    "thresholds_plain": {
     "units": "points over the window",
     "paper_if_change": ">= +1.02",
@@ -3645,7 +3737,7 @@
    "2026-09",
    7.474352711284807
   ],
-  "moments_frozen": false,
+  "moments_frozen": true,
   "care_vs_rest": {
    "pp_a_year": 2.213708033706581,
    "z": 1.1437782070345146,
