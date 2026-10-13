@@ -1,6 +1,7 @@
 {
- "start": "2026Q4",
- "quarters": 24,
+ "start": "2026Q3",
+ "quarters": 25,
+ "dating": "index 0 = 2026Q3, the state measured on data to September 2026; index 1 = 2026Q4, the first simulated quarter; index 9 = 2028Q4; index 24 = 2032Q3 (decision 43)",
  "settings": {
   "bust": {
    "scale": 1.5,
@@ -45,34 +46,36 @@
  },
  "case": {
   "low": {
-   "four_output_worst": -12.8,
-   "four_output_worst_year": 5.75,
-   "four_output_end_2028": -8.5,
-   "us_out_of_work_peak": 31.5,
-   "us_out_of_work_peak_year": 5.75,
-   "us_unemployment_at_peak": 19.5,
-   "us_left_at_peak": 12.1,
-   "us_out_of_work_end_2028": 13.8,
-   "us_output_end_2028": -10.8,
+   "four_output_worst": -13.3,
+   "four_output_worst_year": 6.0,
+   "four_output_end_2028": -8.9,
+   "us_out_of_work_peak": 32.9,
+   "us_out_of_work_peak_year": 6.0,
+   "us_unemployment_at_peak": 19.9,
+   "us_left_at_peak": 13.0,
+   "us_out_of_work_end_2028": 14.4,
+   "us_output_end_2028": -11.0,
+   "us_out_of_work_2032Q2": 31.5,
+   "us_at_the_models_cap_from": null,
    "still_rising_at_end": true,
    "regions": {
     "US": {
-     "output_worst": -18.3,
-     "out_of_work_peak": 31.5,
-     "out_of_work_end_2028": 13.8,
-     "unemployment_peak": 19.5,
+     "output_worst": -18.8,
+     "out_of_work_peak": 32.9,
+     "out_of_work_end_2028": 14.4,
+     "unemployment_peak": 19.9,
      "bank_capital_lost_max_pct": 40,
-     "inflation_min": -1.0,
+     "inflation_min": -1.1,
      "inflation_max": 4.1,
      "policy_rate_min": 0.0,
      "credit_spread_max": 4.0,
      "care_end": 15.0
     },
     "EA": {
-     "output_worst": -10.6,
-     "out_of_work_peak": 13.4,
-     "out_of_work_end_2028": 8.9,
-     "unemployment_peak": 13.4,
+     "output_worst": -10.8,
+     "out_of_work_peak": 13.7,
+     "out_of_work_end_2028": 9.3,
+     "unemployment_peak": 13.7,
      "bank_capital_lost_max_pct": 40,
      "inflation_min": 0.2,
      "inflation_max": 3.2,
@@ -81,10 +84,10 @@
      "care_end": 12.7
     },
     "SE": {
-     "output_worst": -18.4,
-     "out_of_work_peak": 20.2,
-     "out_of_work_end_2028": 13.3,
-     "unemployment_peak": 20.2,
+     "output_worst": -18.9,
+     "out_of_work_peak": 20.7,
+     "out_of_work_end_2028": 13.8,
+     "unemployment_peak": 20.7,
      "bank_capital_lost_max_pct": 40,
      "inflation_min": -1.1,
      "inflation_max": 1.7,
@@ -93,10 +96,10 @@
      "care_end": 15.0
     },
     "CN": {
-     "output_worst": -6.6,
-     "out_of_work_peak": 9.4,
-     "out_of_work_end_2028": 6.5,
-     "unemployment_peak": 9.4,
+     "output_worst": -7.3,
+     "out_of_work_peak": 9.7,
+     "out_of_work_end_2028": 6.6,
+     "unemployment_peak": 9.7,
      "bank_capital_lost_max_pct": 40,
      "inflation_min": -0.1,
      "inflation_max": 2.2,
@@ -108,58 +111,60 @@
    "verdict": "a labour depression"
   },
   "high": {
-   "four_output_worst": -15.6,
-   "four_output_worst_year": 5.75,
-   "four_output_end_2028": -8.7,
-   "us_out_of_work_peak": 46.2,
-   "us_out_of_work_peak_year": 5.75,
-   "us_unemployment_at_peak": 23.7,
-   "us_left_at_peak": 22.5,
-   "us_out_of_work_end_2028": 14.8,
-   "us_output_end_2028": -11.1,
+   "four_output_worst": -16.4,
+   "four_output_worst_year": 6.0,
+   "four_output_end_2028": -9.1,
+   "us_out_of_work_peak": 49.0,
+   "us_out_of_work_peak_year": 6.0,
+   "us_unemployment_at_peak": 24.6,
+   "us_left_at_peak": 24.4,
+   "us_out_of_work_end_2028": 15.7,
+   "us_output_end_2028": -11.4,
+   "us_out_of_work_2032Q2": 46.2,
+   "us_at_the_models_cap_from": null,
    "still_rising_at_end": true,
    "regions": {
     "US": {
-     "output_worst": -22.9,
-     "out_of_work_peak": 46.2,
-     "out_of_work_end_2028": 14.8,
-     "unemployment_peak": 23.7,
+     "output_worst": -23.8,
+     "out_of_work_peak": 49.0,
+     "out_of_work_end_2028": 15.7,
+     "unemployment_peak": 24.6,
      "bank_capital_lost_max_pct": 40,
-     "inflation_min": -1.8,
+     "inflation_min": -2.0,
      "inflation_max": 4.1,
      "policy_rate_min": 0.0,
      "credit_spread_max": 4.0,
      "care_end": 15.0
     },
     "EA": {
-     "output_worst": -12.1,
-     "out_of_work_peak": 15.1,
-     "out_of_work_end_2028": 9.0,
-     "unemployment_peak": 15.1,
+     "output_worst": -12.5,
+     "out_of_work_peak": 15.6,
+     "out_of_work_end_2028": 9.4,
+     "unemployment_peak": 15.6,
      "bank_capital_lost_max_pct": 40,
-     "inflation_min": -0.0,
+     "inflation_min": -0.1,
      "inflation_max": 3.2,
      "policy_rate_min": -0.5,
      "credit_spread_max": 3.5,
      "care_end": 12.7
     },
     "SE": {
-     "output_worst": -21.3,
-     "out_of_work_peak": 23.5,
-     "out_of_work_end_2028": 13.4,
-     "unemployment_peak": 23.5,
+     "output_worst": -22.1,
+     "out_of_work_peak": 24.4,
+     "out_of_work_end_2028": 14.1,
+     "unemployment_peak": 24.4,
      "bank_capital_lost_max_pct": 40,
-     "inflation_min": -1.5,
+     "inflation_min": -1.7,
      "inflation_max": 1.7,
      "policy_rate_min": -0.5,
      "credit_spread_max": 3.0,
      "care_end": 15.0
     },
     "CN": {
-     "output_worst": -7.6,
-     "out_of_work_peak": 10.1,
-     "out_of_work_end_2028": 6.5,
-     "unemployment_peak": 10.1,
+     "output_worst": -8.6,
+     "out_of_work_peak": 10.5,
+     "out_of_work_end_2028": 6.6,
+     "unemployment_peak": 10.5,
      "bank_capital_lost_max_pct": 40,
      "inflation_min": -0.1,
      "inflation_max": 2.2,
@@ -172,48 +177,50 @@
   }
  },
  "reference_central_run": {
-  "four_output_worst": -8.5,
-  "four_output_worst_year": 5.75,
-  "four_output_end_2028": -4.1,
-  "us_out_of_work_peak": 23.5,
-  "us_out_of_work_peak_year": 5.75,
-  "us_unemployment_at_peak": 14.7,
-  "us_left_at_peak": 8.8,
-  "us_out_of_work_end_2028": 9.2,
-  "us_output_end_2028": -4.8,
+  "four_output_worst": -8.9,
+  "four_output_worst_year": 6.0,
+  "four_output_end_2028": -4.7,
+  "us_out_of_work_peak": 24.5,
+  "us_out_of_work_peak_year": 6.0,
+  "us_unemployment_at_peak": 15.1,
+  "us_left_at_peak": 9.5,
+  "us_out_of_work_end_2028": 10.1,
+  "us_output_end_2028": -5.6,
+  "us_out_of_work_2032Q2": 23.5,
+  "us_at_the_models_cap_from": null,
   "still_rising_at_end": true,
   "regions": {
    "US": {
-    "output_worst": -12.6,
-    "out_of_work_peak": 23.5,
-    "out_of_work_end_2028": 9.2,
-    "unemployment_peak": 14.7,
+    "output_worst": -13.0,
+    "out_of_work_peak": 24.5,
+    "out_of_work_end_2028": 10.1,
+    "unemployment_peak": 15.1,
     "bank_capital_lost_max_pct": 40,
-    "inflation_min": -0.1,
+    "inflation_min": -0.2,
     "inflation_max": 3.3,
     "policy_rate_min": 0.0,
     "credit_spread_max": 3.0,
-    "care_end": 15.9
+    "care_end": 16.0
    },
    "EA": {
-    "output_worst": -7.0,
-    "out_of_work_peak": 10.8,
-    "out_of_work_end_2028": 7.7,
-    "unemployment_peak": 10.8,
+    "output_worst": -7.5,
+    "out_of_work_peak": 11.1,
+    "out_of_work_end_2028": 7.9,
+    "unemployment_peak": 11.1,
     "bank_capital_lost_max_pct": 40,
     "inflation_min": 0.8,
     "inflation_max": 3.2,
     "policy_rate_min": -0.5,
     "credit_spread_max": 3.0,
-    "care_end": 13.6
+    "care_end": 13.7
    },
    "SE": {
-    "output_worst": -12.1,
-    "out_of_work_peak": 16.6,
-    "out_of_work_end_2028": 10.9,
-    "unemployment_peak": 16.6,
+    "output_worst": -12.5,
+    "out_of_work_peak": 17.0,
+    "out_of_work_end_2028": 11.1,
+    "unemployment_peak": 17.0,
     "bank_capital_lost_max_pct": 40,
-    "inflation_min": -0.0,
+    "inflation_min": -0.1,
     "inflation_max": 1.8,
     "policy_rate_min": -0.5,
     "credit_spread_max": 3.0,
@@ -221,9 +228,9 @@
    },
    "CN": {
     "output_worst": -4.8,
-    "out_of_work_peak": 8.8,
-    "out_of_work_end_2028": 6.0,
-    "unemployment_peak": 8.8,
+    "out_of_work_peak": 9.0,
+    "out_of_work_end_2028": 6.2,
+    "unemployment_peak": 9.0,
     "bank_capital_lost_max_pct": 40,
     "inflation_min": -0.1,
     "inflation_max": 1.9,
@@ -235,177 +242,216 @@
   "verdict": "a labour depression, output held"
  },
  "piece_by_piece": {
-  "note": "each row takes one piece of the case (at its high end) back to the model's central setting; 'adds' is the case minus that run (what the piece adds)",
+  "note": "each row takes one piece of the case (at its high end) back to the model's central setting; 'adds' is the case minus that run (what the piece adds): at 2028Q4, at 2032Q2, and at the peak (2032Q3 while still rising; where the run is at the model's 50% cap there, its peak is a floor and 2032Q2 is the reading)",
   "bust": {
-   "us_out_of_work_end_2028": 11.9,
-   "us_out_of_work_peak": 39.0,
-   "four_output_worst": -12.8,
-   "ea_out_of_work_peak": 14.0,
-   "se_out_of_work_peak": 21.1,
-   "us_inflation_min": -1.2,
+   "us_out_of_work_end_2028": 12.9,
+   "us_out_of_work_peak": 41.4,
+   "us_out_of_work_2032Q2": 39.0,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -13.5,
+   "ea_out_of_work_peak": 14.4,
+   "se_out_of_work_peak": 21.8,
+   "us_inflation_min": -1.3,
    "us_inflation_max": 4.6,
-   "adds_to_us_out_of_work": 7.2,
-   "adds_to_us_out_of_work_end_2028": 2.9,
-   "adds_to_four_output": -2.8,
-   "adds_to_ea_out_of_work": 1.1,
-   "adds_to_se_out_of_work": 2.4
+   "adds_to_us_out_of_work": 7.6,
+   "adds_to_us_out_of_work_end_2028": 2.8,
+   "adds_to_us_out_of_work_2032Q2": 7.2,
+   "adds_to_four_output": -2.9,
+   "adds_to_ea_out_of_work": 1.2,
+   "adds_to_se_out_of_work": 2.6
   },
   "pace": {
-   "us_out_of_work_end_2028": 16.2,
-   "us_out_of_work_peak": 49.2,
-   "four_output_worst": -16.9,
-   "ea_out_of_work_peak": 15.9,
-   "se_out_of_work_peak": 24.8,
-   "us_inflation_min": -2.0,
+   "us_out_of_work_end_2028": 17.3,
+   "us_out_of_work_peak": 50.0,
+   "us_out_of_work_2032Q2": 49.2,
+   "us_at_the_models_cap_from": "2032Q3",
+   "four_output_worst": -17.8,
+   "ea_out_of_work_peak": 16.4,
+   "se_out_of_work_peak": 25.7,
+   "us_inflation_min": -2.2,
    "us_inflation_max": 4.1,
-   "adds_to_us_out_of_work": -3.0,
-   "adds_to_us_out_of_work_end_2028": -1.4,
-   "adds_to_four_output": 1.3,
+   "adds_to_us_out_of_work": -1.0,
+   "adds_to_us_out_of_work_end_2028": -1.6,
+   "adds_to_us_out_of_work_2032Q2": -3.0,
+   "adds_to_four_output": 1.4,
    "adds_to_ea_out_of_work": -0.8,
    "adds_to_se_out_of_work": -1.3
   },
   "adoption": {
-   "us_out_of_work_end_2028": 13.8,
-   "us_out_of_work_peak": 31.5,
-   "four_output_worst": -12.8,
-   "ea_out_of_work_peak": 13.4,
-   "se_out_of_work_peak": 20.2,
-   "us_inflation_min": -1.0,
+   "us_out_of_work_end_2028": 14.4,
+   "us_out_of_work_peak": 32.9,
+   "us_out_of_work_2032Q2": 31.5,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -13.3,
+   "ea_out_of_work_peak": 13.7,
+   "se_out_of_work_peak": 20.7,
+   "us_inflation_min": -1.1,
    "us_inflation_max": 4.1,
-   "adds_to_us_out_of_work": 14.7,
-   "adds_to_us_out_of_work_end_2028": 1.0,
-   "adds_to_four_output": -2.8,
-   "adds_to_ea_out_of_work": 1.7,
-   "adds_to_se_out_of_work": 3.3
+   "adds_to_us_out_of_work": 16.1,
+   "adds_to_us_out_of_work_end_2028": 1.3,
+   "adds_to_us_out_of_work_2032Q2": 14.7,
+   "adds_to_four_output": -3.1,
+   "adds_to_ea_out_of_work": 1.9,
+   "adds_to_se_out_of_work": 3.7
   },
   "premium": {
-   "us_out_of_work_end_2028": 13.3,
-   "us_out_of_work_peak": 41.5,
-   "four_output_worst": -13.8,
-   "ea_out_of_work_peak": 14.2,
-   "se_out_of_work_peak": 22.4,
-   "us_inflation_min": -1.3,
+   "us_out_of_work_end_2028": 14.1,
+   "us_out_of_work_peak": 44.0,
+   "us_out_of_work_2032Q2": 41.5,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -14.5,
+   "ea_out_of_work_peak": 14.6,
+   "se_out_of_work_peak": 23.2,
+   "us_inflation_min": -1.5,
    "us_inflation_max": 4.2,
-   "adds_to_us_out_of_work": 4.7,
-   "adds_to_us_out_of_work_end_2028": 1.5,
-   "adds_to_four_output": -1.8,
-   "adds_to_ea_out_of_work": 0.9,
-   "adds_to_se_out_of_work": 1.1
+   "adds_to_us_out_of_work": 5.0,
+   "adds_to_us_out_of_work_end_2028": 1.6,
+   "adds_to_us_out_of_work_2032Q2": 4.7,
+   "adds_to_four_output": -1.9,
+   "adds_to_ea_out_of_work": 1.0,
+   "adds_to_se_out_of_work": 1.2
   },
   "tariffs": {
-   "us_out_of_work_end_2028": 13.4,
-   "us_out_of_work_peak": 41.9,
-   "four_output_worst": -13.9,
-   "ea_out_of_work_peak": 14.4,
-   "se_out_of_work_peak": 22.2,
-   "us_inflation_min": -1.4,
+   "us_out_of_work_end_2028": 14.2,
+   "us_out_of_work_peak": 44.4,
+   "us_out_of_work_2032Q2": 41.9,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -14.7,
+   "ea_out_of_work_peak": 14.8,
+   "se_out_of_work_peak": 23.0,
+   "us_inflation_min": -1.5,
    "us_inflation_max": 3.3,
-   "adds_to_us_out_of_work": 4.3,
-   "adds_to_us_out_of_work_end_2028": 1.4,
+   "adds_to_us_out_of_work": 4.6,
+   "adds_to_us_out_of_work_end_2028": 1.5,
+   "adds_to_us_out_of_work_2032Q2": 4.3,
    "adds_to_four_output": -1.7,
-   "adds_to_ea_out_of_work": 0.7,
-   "adds_to_se_out_of_work": 1.3
+   "adds_to_ea_out_of_work": 0.8,
+   "adds_to_se_out_of_work": 1.4
   },
   "austerity": {
-   "us_out_of_work_end_2028": 14.8,
-   "us_out_of_work_peak": 45.7,
-   "four_output_worst": -15.1,
-   "ea_out_of_work_peak": 14.2,
-   "se_out_of_work_peak": 21.9,
-   "us_inflation_min": -1.8,
-   "us_inflation_max": 4.1,
-   "adds_to_us_out_of_work": 0.5,
-   "adds_to_us_out_of_work_end_2028": 0.0,
-   "adds_to_four_output": -0.5,
-   "adds_to_ea_out_of_work": 0.9,
-   "adds_to_se_out_of_work": 1.6
-  },
-  "care": {
-   "us_out_of_work_end_2028": 14.7,
-   "us_out_of_work_peak": 45.7,
+   "us_out_of_work_end_2028": 15.6,
+   "us_out_of_work_peak": 48.5,
+   "us_out_of_work_2032Q2": 45.7,
+   "us_at_the_models_cap_from": null,
    "four_output_worst": -15.9,
-   "ea_out_of_work_peak": 14.6,
-   "se_out_of_work_peak": 23.4,
-   "us_inflation_min": -1.8,
+   "ea_out_of_work_peak": 14.7,
+   "se_out_of_work_peak": 22.7,
+   "us_inflation_min": -1.9,
    "us_inflation_max": 4.1,
    "adds_to_us_out_of_work": 0.5,
    "adds_to_us_out_of_work_end_2028": 0.1,
+   "adds_to_us_out_of_work_2032Q2": 0.5,
+   "adds_to_four_output": -0.5,
+   "adds_to_ea_out_of_work": 0.9,
+   "adds_to_se_out_of_work": 1.7
+  },
+  "care": {
+   "us_out_of_work_end_2028": 15.5,
+   "us_out_of_work_peak": 48.5,
+   "us_out_of_work_2032Q2": 45.7,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -16.7,
+   "ea_out_of_work_peak": 15.0,
+   "se_out_of_work_peak": 24.2,
+   "us_inflation_min": -2.0,
+   "us_inflation_max": 4.1,
+   "adds_to_us_out_of_work": 0.5,
+   "adds_to_us_out_of_work_end_2028": 0.2,
+   "adds_to_us_out_of_work_2032Q2": 0.5,
    "adds_to_four_output": 0.3,
-   "adds_to_ea_out_of_work": 0.5,
-   "adds_to_se_out_of_work": 0.1
+   "adds_to_ea_out_of_work": 0.6,
+   "adds_to_se_out_of_work": 0.2
   }
  },
  "sensitivities": {
-  "note": "each changes one setting the case does not carry, on the case at its high end",
+  "note": "each changes one setting the case does not carry, on the case at its high end; at the peak and at 2032Q2 (the reading where the run is at the model's 50% cap by 2032Q3)",
   "fiscal dominance: the US anchor loosens to the eroding rules' 0.6": {
-   "us_out_of_work_end_2028": 14.9,
-   "us_out_of_work_peak": 47.3,
-   "four_output_worst": -16.3,
-   "ea_out_of_work_peak": 15.2,
-   "se_out_of_work_peak": 23.7,
-   "us_inflation_min": -3.8,
+   "us_out_of_work_end_2028": 15.9,
+   "us_out_of_work_peak": 50.0,
+   "us_out_of_work_2032Q2": 47.3,
+   "us_at_the_models_cap_from": "2032Q3",
+   "four_output_worst": -17.2,
+   "ea_out_of_work_peak": 15.7,
+   "se_out_of_work_peak": 24.6,
+   "us_inflation_min": -4.0,
    "us_inflation_max": 4.3,
-   "change_in_us_out_of_work": 1.1,
-   "change_in_four_output": -0.7,
+   "change_in_us_out_of_work": 1.0,
+   "change_in_us_out_of_work_2032Q2": 1.1,
+   "change_in_four_output": -0.8,
    "change_in_ea_out_of_work": 0.1
   },
   "fiscal dominance: the US anchor loosens to 0.6 and the Fed tolerates 3% inflation": {
-   "us_out_of_work_end_2028": 14.7,
-   "us_out_of_work_peak": 46.1,
-   "four_output_worst": -15.6,
-   "ea_out_of_work_peak": 15.1,
-   "se_out_of_work_peak": 23.5,
-   "us_inflation_min": -2.6,
+   "us_out_of_work_end_2028": 15.6,
+   "us_out_of_work_peak": 49.0,
+   "us_out_of_work_2032Q2": 46.1,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -16.5,
+   "ea_out_of_work_peak": 15.6,
+   "se_out_of_work_peak": 24.4,
+   "us_inflation_min": -2.8,
    "us_inflation_max": 5.1,
-   "change_in_us_out_of_work": -0.1,
-   "change_in_four_output": 0.0,
+   "change_in_us_out_of_work": 0.0,
+   "change_in_us_out_of_work_2032Q2": -0.1,
+   "change_in_four_output": -0.1,
    "change_in_ea_out_of_work": 0.0
   },
   "Germany's spending offsets the periphery's cuts: the euro area neither stimulates nor cuts": {
-   "us_out_of_work_end_2028": 14.8,
-   "us_out_of_work_peak": 46.0,
-   "four_output_worst": -15.3,
-   "ea_out_of_work_peak": 14.7,
-   "se_out_of_work_peak": 23.3,
-   "us_inflation_min": -1.8,
+   "us_out_of_work_end_2028": 15.7,
+   "us_out_of_work_peak": 48.8,
+   "us_out_of_work_2032Q2": 46.0,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -16.1,
+   "ea_out_of_work_peak": 15.1,
+   "se_out_of_work_peak": 24.1,
+   "us_inflation_min": -1.9,
    "us_inflation_max": 4.1,
    "change_in_us_out_of_work": -0.2,
+   "change_in_us_out_of_work_2032Q2": -0.2,
    "change_in_four_output": 0.3,
-   "change_in_ea_out_of_work": -0.4
+   "change_in_ea_out_of_work": -0.5
   },
   "the euro area stimulates": {
-   "us_out_of_work_end_2028": 14.8,
-   "us_out_of_work_peak": 45.7,
-   "four_output_worst": -15.2,
-   "ea_out_of_work_peak": 14.3,
-   "se_out_of_work_peak": 23.0,
-   "us_inflation_min": -1.8,
+   "us_out_of_work_end_2028": 15.7,
+   "us_out_of_work_peak": 48.5,
+   "us_out_of_work_2032Q2": 45.7,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -16.0,
+   "ea_out_of_work_peak": 14.7,
+   "se_out_of_work_peak": 23.8,
+   "us_inflation_min": -1.9,
    "us_inflation_max": 4.1,
    "change_in_us_out_of_work": -0.5,
+   "change_in_us_out_of_work_2032Q2": -0.5,
    "change_in_four_output": 0.4,
-   "change_in_ea_out_of_work": -0.8
+   "change_in_ea_out_of_work": -0.9
   },
   "the US exit share at decision 21's proposal (0.36)": {
-   "us_out_of_work_end_2028": 14.8,
-   "us_out_of_work_peak": 45.8,
-   "four_output_worst": -15.5,
-   "ea_out_of_work_peak": 15.1,
-   "se_out_of_work_peak": 23.5,
-   "us_inflation_min": -1.8,
+   "us_out_of_work_end_2028": 15.7,
+   "us_out_of_work_peak": 48.6,
+   "us_out_of_work_2032Q2": 45.8,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -16.3,
+   "ea_out_of_work_peak": 15.6,
+   "se_out_of_work_peak": 24.4,
+   "us_inflation_min": -1.9,
    "us_inflation_max": 4.1,
    "change_in_us_out_of_work": -0.4,
+   "change_in_us_out_of_work_2032Q2": -0.4,
    "change_in_four_output": 0.1,
    "change_in_ea_out_of_work": 0.0
   },
   "fiscal triggers watch non-employment": {
-   "us_out_of_work_end_2028": 14.8,
-   "us_out_of_work_peak": 46.2,
-   "four_output_worst": -15.6,
-   "ea_out_of_work_peak": 15.1,
-   "se_out_of_work_peak": 23.5,
-   "us_inflation_min": -1.8,
+   "us_out_of_work_end_2028": 15.7,
+   "us_out_of_work_peak": 49.0,
+   "us_out_of_work_2032Q2": 46.2,
+   "us_at_the_models_cap_from": null,
+   "four_output_worst": -16.4,
+   "ea_out_of_work_peak": 15.6,
+   "se_out_of_work_peak": 24.4,
+   "us_inflation_min": -2.0,
    "us_inflation_max": 4.1,
    "change_in_us_out_of_work": 0.0,
+   "change_in_us_out_of_work_2032Q2": 0.0,
    "change_in_four_output": 0.0,
    "change_in_ea_out_of_work": 0.0
   }
@@ -436,7 +482,8 @@
     -11.78,
     -12.05,
     -12.34,
-    -12.81
+    -12.81,
+    -13.34
    ],
    "US": {
     "out_of_work": [
@@ -463,7 +510,8 @@
      27.68,
      28.94,
      30.22,
-     31.52
+     31.52,
+     32.88
     ],
     "unemployment": [
      4.1,
@@ -489,7 +537,8 @@
      18.3,
      18.68,
      19.07,
-     19.47
+     19.47,
+     19.91
     ],
     "left_workforce": [
      0.0,
@@ -515,7 +564,8 @@
      9.38,
      10.26,
      11.15,
-     12.05
+     12.05,
+     12.97
     ],
     "output": [
      0.0,
@@ -541,7 +591,8 @@
      -17.05,
      -17.46,
      -17.88,
-     -18.31
+     -18.31,
+     -18.79
     ],
     "inflation": [
      3.34,
@@ -567,7 +618,8 @@
      -0.83,
      -0.9,
      -0.97,
-     -1.04
+     -1.04,
+     -1.12
     ],
     "rate": [
      3.88,
@@ -593,6 +645,7 @@
      0.0,
      0.0,
      0.0,
+     0.0,
      0.0
     ],
     "spread": [
@@ -601,6 +654,7 @@
      1.27,
      2.26,
      3.33,
+     4.0,
      4.0,
      4.0,
      4.0,
@@ -645,6 +699,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -652,6 +707,7 @@
      14.85,
      14.9,
      14.95,
+     15.0,
      15.0,
      15.0,
      15.0,
@@ -699,7 +755,8 @@
      12.48,
      12.77,
      13.06,
-     13.36
+     13.36,
+     13.67
     ],
     "unemployment": [
      6.3,
@@ -725,9 +782,11 @@
      12.48,
      12.77,
      13.06,
-     13.36
+     13.36,
+     13.67
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -777,7 +836,8 @@
      -10.08,
      -10.24,
      -10.4,
-     -10.57
+     -10.57,
+     -10.82
     ],
     "inflation": [
      3.23,
@@ -803,7 +863,8 @@
      0.32,
      0.3,
      0.27,
-     0.24
+     0.24,
+     0.2
     ],
     "rate": [
      2.5,
@@ -814,6 +875,7 @@
      1.28,
      0.53,
      -0.21,
+     -0.5,
      -0.5,
      -0.5,
      -0.5,
@@ -855,6 +917,7 @@
      3.5,
      3.5,
      3.5,
+     3.5,
      3.5
     ],
     "capital_lost": [
@@ -881,6 +944,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -888,6 +952,7 @@
      12.58,
      12.63,
      12.67,
+     12.72,
      12.72,
      12.72,
      12.72,
@@ -935,7 +1000,8 @@
      18.77,
      19.23,
      19.69,
-     20.16
+     20.16,
+     20.66
     ],
     "unemployment": [
      8.5,
@@ -961,9 +1027,11 @@
      18.77,
      19.23,
      19.69,
-     20.16
+     20.16,
+     20.66
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -1013,7 +1081,8 @@
      -17.43,
      -17.74,
      -18.07,
-     -18.4
+     -18.4,
+     -18.85
     ],
     "inflation": [
      0.7,
@@ -1039,7 +1108,8 @@
      -0.9,
      -0.95,
      -1.01,
-     -1.06
+     -1.06,
+     -1.13
     ],
     "rate": [
      1.75,
@@ -1047,6 +1117,7 @@
      1.54,
      1.25,
      0.4,
+     -0.5,
      -0.5,
      -0.5,
      -0.5,
@@ -1091,6 +1162,7 @@
      3.0,
      3.0,
      3.0,
+     3.0,
      3.0
     ],
     "capital_lost": [
@@ -1117,6 +1189,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -1124,6 +1197,7 @@
      14.92,
      14.95,
      14.97,
+     15.0,
      15.0,
      15.0,
      15.0,
@@ -1171,7 +1245,8 @@
      8.55,
      8.81,
      9.07,
-     9.38
+     9.38,
+     9.73
     ],
     "unemployment": [
      5.2,
@@ -1197,9 +1272,11 @@
      8.55,
      8.81,
      9.07,
-     9.38
+     9.38,
+     9.73
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -1249,7 +1326,8 @@
      -5.26,
      -5.44,
      -5.63,
-     -6.42
+     -6.42,
+     -7.28
     ],
     "inflation": [
      -0.07,
@@ -1275,7 +1353,8 @@
      1.13,
      1.1,
      1.07,
-     0.94
+     0.94,
+     0.8
     ],
     "rate": [
      1.4,
@@ -1301,6 +1380,7 @@
      0.0,
      0.0,
      0.0,
+     0.0,
      0.0
     ],
     "spread": [
@@ -1308,6 +1388,7 @@
      0.01,
      0.44,
      0.97,
+     1.5,
      1.5,
      1.5,
      1.5,
@@ -1353,6 +1434,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -1360,6 +1442,7 @@
      2.31,
      2.31,
      2.32,
+     2.33,
      2.33,
      2.33,
      2.33,
@@ -1408,7 +1491,8 @@
     -13.78,
     -14.3,
     -14.85,
-    -15.59
+    -15.59,
+    -16.42
    ],
    "US": {
     "out_of_work": [
@@ -1435,7 +1519,8 @@
      38.38,
      40.9,
      43.5,
-     46.2
+     46.2,
+     49.02
     ],
     "unemployment": [
      4.1,
@@ -1461,7 +1546,8 @@
      21.39,
      22.15,
      22.93,
-     23.75
+     23.75,
+     24.62
     ],
     "left_workforce": [
      0.0,
@@ -1487,7 +1573,8 @@
      16.99,
      18.75,
      20.57,
-     22.45
+     22.45,
+     24.4
     ],
     "output": [
      0.0,
@@ -1513,7 +1600,8 @@
      -20.36,
      -21.17,
      -22.01,
-     -22.88
+     -22.88,
+     -23.83
     ],
     "inflation": [
      3.34,
@@ -1539,7 +1627,8 @@
      -1.38,
      -1.51,
      -1.65,
-     -1.8
+     -1.8,
+     -1.95
     ],
     "rate": [
      3.88,
@@ -1565,6 +1654,7 @@
      0.0,
      0.0,
      0.0,
+     0.0,
      0.0
     ],
     "spread": [
@@ -1573,6 +1663,7 @@
      1.27,
      2.27,
      3.36,
+     4.0,
      4.0,
      4.0,
      4.0,
@@ -1617,6 +1708,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -1624,6 +1716,7 @@
      14.85,
      14.9,
      14.95,
+     15.0,
      15.0,
      15.0,
      15.0,
@@ -1671,7 +1764,8 @@
      13.72,
      14.17,
      14.63,
-     15.09
+     15.09,
+     15.58
     ],
     "unemployment": [
      6.3,
@@ -1697,9 +1791,11 @@
      13.72,
      14.17,
      14.63,
-     15.09
+     15.09,
+     15.58
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -1749,7 +1845,8 @@
      -11.14,
      -11.44,
      -11.76,
-     -12.08
+     -12.08,
+     -12.49
     ],
     "inflation": [
      3.23,
@@ -1775,7 +1872,8 @@
      0.15,
      0.1,
      0.05,
-     -0.01
+     -0.01,
+     -0.07
     ],
     "rate": [
      2.5,
@@ -1786,6 +1884,7 @@
      1.28,
      0.53,
      -0.22,
+     -0.5,
      -0.5,
      -0.5,
      -0.5,
@@ -1827,6 +1926,7 @@
      3.5,
      3.5,
      3.5,
+     3.5,
      3.5
     ],
     "capital_lost": [
@@ -1853,6 +1953,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -1860,6 +1961,7 @@
      12.58,
      12.63,
      12.67,
+     12.72,
      12.72,
      12.72,
      12.72,
@@ -1907,7 +2009,8 @@
      21.22,
      21.98,
      22.75,
-     23.55
+     23.55,
+     24.39
     ],
     "unemployment": [
      8.5,
@@ -1933,9 +2036,11 @@
      21.22,
      21.98,
      22.75,
-     23.55
+     23.55,
+     24.39
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -1985,7 +2090,8 @@
      -19.46,
      -20.04,
      -20.65,
-     -21.28
+     -21.28,
+     -22.05
     ],
     "inflation": [
      0.7,
@@ -2011,7 +2117,8 @@
      -1.23,
      -1.33,
      -1.43,
-     -1.54
+     -1.54,
+     -1.66
     ],
     "rate": [
      1.75,
@@ -2019,6 +2126,7 @@
      1.54,
      1.25,
      0.4,
+     -0.5,
      -0.5,
      -0.5,
      -0.5,
@@ -2063,6 +2171,7 @@
      3.0,
      3.0,
      3.0,
+     3.0,
      3.0
     ],
     "capital_lost": [
@@ -2089,6 +2198,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -2096,6 +2206,7 @@
      14.92,
      14.95,
      14.97,
+     15.0,
      15.0,
      15.0,
      15.0,
@@ -2143,7 +2254,8 @@
      9.05,
      9.36,
      9.69,
-     10.06
+     10.06,
+     10.49
     ],
     "unemployment": [
      5.2,
@@ -2169,9 +2281,11 @@
      9.05,
      9.36,
      9.69,
-     10.06
+     10.06,
+     10.49
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -2221,7 +2335,8 @@
      -6.13,
      -6.42,
      -6.72,
-     -7.64
+     -7.64,
+     -8.64
     ],
     "inflation": [
      -0.07,
@@ -2247,7 +2362,8 @@
      0.98,
      0.94,
      0.89,
-     0.74
+     0.74,
+     0.58
     ],
     "rate": [
      1.4,
@@ -2273,6 +2389,7 @@
      0.0,
      0.0,
      0.0,
+     0.0,
      0.0
     ],
     "spread": [
@@ -2280,6 +2397,7 @@
      0.01,
      0.44,
      0.97,
+     1.5,
      1.5,
      1.5,
      1.5,
@@ -2325,6 +2443,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -2332,6 +2451,7 @@
      2.31,
      2.31,
      2.32,
+     2.33,
      2.33,
      2.33,
      2.33,
@@ -2380,7 +2500,8 @@
     -7.59,
     -7.87,
     -8.19,
-    -8.53
+    -8.53,
+    -8.87
    ],
    "US": {
     "out_of_work": [
@@ -2407,7 +2528,8 @@
      20.69,
      21.6,
      22.55,
-     23.53
+     23.53,
+     24.53
     ],
     "unemployment": [
      4.1,
@@ -2433,7 +2555,8 @@
      13.79,
      14.08,
      14.39,
-     14.72
+     14.72,
+     15.06
     ],
     "left_workforce": [
      0.0,
@@ -2459,7 +2582,8 @@
      6.91,
      7.53,
      8.16,
-     8.81
+     8.81,
+     9.47
     ],
     "output": [
      0.0,
@@ -2485,7 +2609,8 @@
      -11.6,
      -11.91,
      -12.25,
-     -12.62
+     -12.62,
+     -12.99
     ],
     "inflation": [
      3.34,
@@ -2511,7 +2636,8 @@
      0.07,
      0.02,
      -0.04,
-     -0.1
+     -0.1,
+     -0.16
     ],
     "rate": [
      3.88,
@@ -2537,6 +2663,7 @@
      0.0,
      0.0,
      0.0,
+     0.0,
      0.0
     ],
     "spread": [
@@ -2549,6 +2676,7 @@
      1.71,
      2.18,
      2.71,
+     3.0,
      3.0,
      3.0,
      3.0,
@@ -2589,6 +2717,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -2615,7 +2744,8 @@
      15.79,
      15.84,
      15.89,
-     15.94
+     15.94,
+     15.99
     ]
    },
    "EA": {
@@ -2643,7 +2773,8 @@
      10.06,
      10.28,
      10.53,
-     10.81
+     10.81,
+     11.11
     ],
     "unemployment": [
      6.3,
@@ -2669,9 +2800,11 @@
      10.06,
      10.28,
      10.53,
-     10.81
+     10.81,
+     11.11
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -2721,7 +2854,8 @@
      -5.73,
      -6.14,
      -6.57,
-     -7.03
+     -7.03,
+     -7.51
     ],
     "inflation": [
      3.23,
@@ -2747,7 +2881,8 @@
      1.05,
      0.98,
      0.91,
-     0.84
+     0.84,
+     0.76
     ],
     "rate": [
      2.5,
@@ -2773,6 +2908,7 @@
      -0.5,
      -0.5,
      -0.5,
+     -0.5,
      -0.5
     ],
     "spread": [
@@ -2789,6 +2925,7 @@
      2.22,
      2.61,
      2.99,
+     3.0,
      3.0,
      3.0,
      3.0,
@@ -2825,6 +2962,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -2851,7 +2989,8 @@
      13.49,
      13.53,
      13.58,
-     13.63
+     13.63,
+     13.68
     ]
    },
    "SE": {
@@ -2879,7 +3018,8 @@
      15.4,
      15.8,
      16.2,
-     16.6
+     16.6,
+     17.01
     ],
     "unemployment": [
      8.5,
@@ -2905,9 +3045,11 @@
      15.4,
      15.8,
      16.2,
-     16.6
+     16.6,
+     17.01
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -2957,7 +3099,8 @@
      -11.07,
      -11.29,
      -11.67,
-     -12.08
+     -12.08,
+     -12.51
     ],
     "inflation": [
      0.7,
@@ -2983,7 +3126,8 @@
      0.17,
      0.12,
      0.06,
-     -0.01
+     -0.01,
+     -0.08
     ],
     "rate": [
      1.75,
@@ -2996,6 +3140,7 @@
      0.29,
      -0.16,
      -0.31,
+     -0.5,
      -0.5,
      -0.5,
      -0.5,
@@ -3035,6 +3180,7 @@
      3.0,
      3.0,
      3.0,
+     3.0,
      3.0
     ],
     "capital_lost": [
@@ -3051,6 +3197,7 @@
      25.42,
      29.93,
      34.89,
+     40.0,
      40.0,
      40.0,
      40.0,
@@ -3087,7 +3234,8 @@
      15.39,
      15.42,
      15.44,
-     15.47
+     15.47,
+     15.49
     ]
    },
    "CN": {
@@ -3115,7 +3263,8 @@
      8.12,
      8.34,
      8.56,
-     8.79
+     8.79,
+     9.03
     ],
     "unemployment": [
      5.2,
@@ -3141,9 +3290,11 @@
      8.12,
      8.34,
      8.56,
-     8.79
+     8.79,
+     9.03
     ],
     "left_workforce": [
+     0.0,
      0.0,
      0.0,
      0.0,
@@ -3193,7 +3344,8 @@
      -3.15,
      -3.29,
      -3.46,
-     -3.65
+     -3.65,
+     -3.84
     ],
     "inflation": [
      -0.07,
@@ -3219,7 +3371,8 @@
      1.48,
      1.45,
      1.43,
-     1.4
+     1.4,
+     1.36
     ],
     "rate": [
      1.4,
@@ -3245,7 +3398,8 @@
      0.41,
      0.39,
      0.34,
-     0.27
+     0.27,
+     0.17
     ],
     "spread": [
      0.0,
@@ -3256,6 +3410,7 @@
      0.81,
      1.08,
      1.38,
+     1.5,
      1.5,
      1.5,
      1.5,
@@ -3297,6 +3452,7 @@
      40.0,
      40.0,
      40.0,
+     40.0,
      40.0
     ],
     "care": [
@@ -3323,7 +3479,8 @@
      2.45,
      2.46,
      2.46,
-     2.47
+     2.47,
+     2.48
     ]
    }
   }

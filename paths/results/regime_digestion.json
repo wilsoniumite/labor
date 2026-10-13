@@ -270,48 +270,119 @@
    }
   }
  },
+ "layer3_calibration": {
+  "tag": "c_central_lo",
+  "root": "lo",
+  "rho": 0.07550369553563056,
+  "capital_premium": 6.800369553563057,
+  "headroom_pp": 7.184086560752992,
+  "k": 5.661774951748947,
+  "source": "results/calibration_c.json calibrations['c_central_lo']['targets'], re-solved by macro.calibrate_c; equal to the stored params bit for bit"
+ },
  "layer3_model_catch_up": {
   "instant (the evidence)": {
-   "p_0.5": 3.296039677444493,
+   "p_0.5": 1.9788290828831838,
+   "max_10Y_move_in_a_month_bp": 17.1,
+   "max_10Y_move_in_a_quarter_bp": 49.8,
+   "10Y_move_years_4.5_to_5.5_bp": 31.0
+  },
+  "human regime digestion 1y": {
+   "p_0.5": 2.892046157498906,
+   "max_10Y_move_in_a_month_bp": 5.7,
+   "max_10Y_move_in_a_quarter_bp": 17.2,
+   "10Y_move_years_4.5_to_5.5_bp": 43.2
+  },
+  "human regime digestion 1y, AI adopted around year 5 (x30)": {
+   "p_0.5": 2.8904313128068675,
+   "max_10Y_move_in_a_month_bp": 7.2,
+   "max_10Y_move_in_a_quarter_bp": 19.9,
+   "10Y_move_years_4.5_to_5.5_bp": 46.9
+  },
+  "human regime digestion 3y": {
+   "p_0.5": 4.724996580105174,
+   "max_10Y_move_in_a_month_bp": 3.8,
+   "max_10Y_move_in_a_quarter_bp": 10.2,
+   "10Y_move_years_4.5_to_5.5_bp": 38.3
+  },
+  "human regime digestion 3y, AI adopted around year 5 (x30)": {
+   "p_0.5": 4.2928476890451375,
+   "max_10Y_move_in_a_month_bp": 12.1,
+   "max_10Y_move_in_a_quarter_bp": 36.0,
+   "10Y_move_years_4.5_to_5.5_bp": 108.4
+  },
+  "human regime digestion 5y": {
+   "p_0.5": 6.572945523199001,
+   "max_10Y_move_in_a_month_bp": 3.0,
+   "max_10Y_move_in_a_quarter_bp": 8.2,
+   "10Y_move_years_4.5_to_5.5_bp": 29.3
+  },
+  "human regime digestion 5y, AI adopted around year 5 (x30)": {
+   "p_0.5": 4.6869498836364905,
+   "max_10Y_move_in_a_month_bp": 12.9,
+   "max_10Y_move_in_a_quarter_bp": 39.1,
+   "10Y_move_years_4.5_to_5.5_bp": 126.0
+  },
+  "worlds": {
+   "new_world_r_star_start_max_year15": [
+    0.75,
+    3.86,
+    3.86
+   ],
+   "new_world_required_return_rise_max_pp": 3.104,
+   "rate_headroom_pp": 7.184
+  }
+ },
+ "layer3_model_catch_up_comparator_b": {
+  "instant (the evidence)": {
+   "p_0.5": 3.2960396774466014,
    "max_10Y_move_in_a_month_bp": 9.4,
    "max_10Y_move_in_a_quarter_bp": 27.8,
    "10Y_move_years_4.5_to_5.5_bp": 17.3
   },
   "human regime digestion 1y": {
-   "p_0.5": 4.2115693695878935,
+   "p_0.5": 4.21156936959003,
    "max_10Y_move_in_a_month_bp": 3.8,
    "max_10Y_move_in_a_quarter_bp": 11.3,
    "10Y_move_years_4.5_to_5.5_bp": 34.6
   },
   "human regime digestion 1y, AI adopted around year 5 (x30)": {
-   "p_0.5": 4.049433254688924,
+   "p_0.5": 4.049433254690224,
    "max_10Y_move_in_a_month_bp": 7.0,
    "max_10Y_move_in_a_quarter_bp": 20.6,
    "10Y_move_years_4.5_to_5.5_bp": 39.5
   },
   "human regime digestion 3y": {
-   "p_0.5": 6.030364769822887,
+   "p_0.5": 6.030364769824989,
    "max_10Y_move_in_a_month_bp": 2.2,
    "max_10Y_move_in_a_quarter_bp": 6.4,
    "10Y_move_years_4.5_to_5.5_bp": 22.0
   },
   "human regime digestion 3y, AI adopted around year 5 (x30)": {
-   "p_0.5": 4.608681039605752,
+   "p_0.5": 4.608681039606099,
    "max_10Y_move_in_a_month_bp": 8.4,
    "max_10Y_move_in_a_quarter_bp": 25.1,
    "10Y_move_years_4.5_to_5.5_bp": 74.0
   },
   "human regime digestion 5y": {
-   "p_0.5": 7.875033245378223,
+   "p_0.5": 7.87503324538032,
    "max_10Y_move_in_a_month_bp": 1.8,
    "max_10Y_move_in_a_quarter_bp": 5.0,
    "10Y_move_years_4.5_to_5.5_bp": 15.5
   },
   "human regime digestion 5y, AI adopted around year 5 (x30)": {
-   "p_0.5": 4.828386316437566,
+   "p_0.5": 4.828386316437759,
    "max_10Y_move_in_a_month_bp": 8.1,
    "max_10Y_move_in_a_quarter_bp": 24.8,
    "10Y_move_years_4.5_to_5.5_bp": 78.6
+  },
+  "worlds": {
+   "new_world_r_star_start_max_year15": [
+    0.75,
+    2.54,
+    2.54
+   ],
+   "new_world_required_return_rise_max_pp": 1.795,
+   "rate_headroom_pp": 20.0
   }
  }
 }

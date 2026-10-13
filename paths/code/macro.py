@@ -21,6 +21,41 @@
 # required return and 8% depreciation. With Bridges.capital_premium set, the required return follows the
 # economy's own real rate, so rates feed back into automation.
 #
+# (c) THE MACHINE CHAIN ON THE NATIONAL ACCOUNTS' BASIS (calibrate_c; code/calibration_c.py). Calibrations (a)
+# and (b) put almost no labour in machine services (its full-chain share of machine cost 0.026 and ~0.002); BEA's
+# input-output accounts put ~0.57 of a machine's build cost in full-chain compensation with imports priced at US cost
+# shares, 0.47 counting US labour only (code/chains.py; ChainTargets says which basis each target is on). At that
+# labour content Appendix B's standing assumption 1 - (rho + delta)(a + lambda gamma(1)) > 0 fails, and it is
+# relaxed here: tasks with gamma above the machine chain's ceiling x_ceiling cannot be done by machines at any
+# wage — the machine services that would replace the hour embody more than the hour — so they are closed to
+# machines by capability (Appendix A.1 lets tasks be closed to machines by capability, preference or law; A.4:
+# "each expression requires a positive denominator"). The equilibrium is sought on (0, x_ceiling), which is
+# (0, 1) exactly, and the solve bit-identical, whenever x_ceiling = 1 (the paper's instance, (a), (b)). Beyond a
+# rate headroom (rate_headroom) the ceiling falls below the tasks the labour force can staff and there is no
+# land-scarce equilibrium: the economy would enter a land-slack regime (r = 0, output labour-constrained) that
+# this code does not have, and solve raises NoEquilibrium. BEA-basis objects, per unit of build cost Vm:
+#     theta_V = lambda v / Vm (the lambda thread's full-chain labour share), kappa_V = a p_m / Vm (capital
+#     services), sigma_V = b / Vm (fixed-quantity rent: site, resources, institutional rents); they sum to 1;
+#     multiplier = 1 + theta_V / sigma_V = d ln v / d ln gamma at a fixed return (the closure elasticity);
+#     labour_share_bea = v final_hours / income — the paper's Figure 7 object (the consumption chain's labour,
+#     with capital services, i.e. depreciation and the return, left in surplus); chain_share = machine hours / n.
+#
+# THE CENTRAL CALIBRATION (her decision, 2026-09-30: the downstream modules run on (c), not (b)). central(root) is the
+# one entry point: (c)'s central economy — the open (domp) reading, the low root in k (root "hi" is the sensitivity) —
+# and its info (rho, the capital premium that starts a feedback path at that rho, multiplier, headroom). It returns the
+# parameters stored in results/calibration_c.json after re-solving the stored central targets with calibrate_c (closed
+# form) and checking that the re-solve agrees with them to a relative 1e-9 in every parameter (CENTRAL_RTOL); beyond
+# that it refuses to run. The tolerance is for another platform's numpy/scipy builds (the website's builder), where a
+# re-solve may differ in the last bits: the stored parameters are used either way, so they do not move. On the
+# development machine the re-solve equals the stored parameters bit for bit, and checks/check_calibration_c.py (E1)
+# gates that, and gates both equal to code/calibration_c.py's own.
+# Provenance: the targets are BEA's (chains.py's bundle and cost split, WP2026-01's labour, Fixed Assets' delta), built
+# and gated in code/calibration_c.py; reading its gated output keeps the BEA workbooks and the lambda cache out of every
+# module that imports macro. Helpers so no module hard-codes (b)'s numbers: deep_tech(e) (recursive automation to a fifth
+# of the economy's own lambda, not to (b)'s 0.01), hold_tech(e), capital_premium(e) (rho x 100 - r0_star, not (b)'s 5.0),
+# feedback_bridges(e). calibrate(), CALIBRATION_BASE and CAPITAL_BASE stay for the (a)/(b) comparators; every helper
+# reproduces (b)'s hard-coded values exactly on (b) (0.05 / 5 == 0.01 and 5.75 - 0.75 == 5.0 in floating point).
+#
 # DYNAMICS. The technology clock moves capability (gamma scaled by eta: task automation) and the
 # labour embodied in machine services (lambda: recursive automation) along a path; each date is solved
 # as an equilibrium (quasi-static: no build lags, no adjustment costs — a stated simplification).
@@ -38,6 +73,8 @@
 
 from __future__ import annotations
 
+import json
+import os
 from dataclasses import dataclass, field, replace
 
 import numpy as np
@@ -95,13 +132,49 @@ def _parts(e: Economy, x):
                 machine_hours=machine_hours, nD=nD, nS=nS)
 
 
+class NoEquilibrium(ValueError):
+    """No interior land-scarce equilibrium on (0, x_ceiling)."""
+
+
+def x_ceiling(e: Economy):
+    """The last task machines can take at any wage: where (rho + delta)(a + lambda gamma(x)) = 1 the machine
+    services that replace an hour embody (with interest, traced through the machines that build machines) the
+    whole hour, and the machine-service cost is unbounded in rent units. Tasks beyond it are closed to machines by
+    capability (A.1). 1.0 when the cost stays finite on the whole task list — Appendix B's standing assumption,
+    which holds for the paper's instance and calibrations (a) and (b). On the knife edge g(1) = 0 exactly the cost is
+    unbounded only at x = 1 itself; the ceiling returned is then the interior point where the cost's denominator is 1e-9
+    of its value at x = 0, so solve never divides by zero there (it solves below it or raises NoEquilibrium)."""
+    cpt = e.rho + e.delta
+    g = lambda x: 1.0 - cpt * (e.a + e.lam * e.gamma(x))  # noqa: E731
+    g1 = g(1.0)
+    if g1 > 0:
+        return 1.0
+    g0 = g(0.0)
+    if g0 <= 0:
+        raise NoEquilibrium("machine-service cost undefined even at x = 0")
+    if g1 == 0:
+        return brentq(lambda x: g(x) - 1e-9 * g0, 0.0, 1.0, xtol=1e-15)
+    return brentq(g, 0.0, 1.0, xtol=1e-15)
+
+
 def solve(e: Economy):
-    """The interior equilibrium n_D(x*) = n_S(x*). Raises if Lemma B.1's conditions fail."""
-    assert 1.0 - (e.rho + e.delta) * (e.a + e.lam * e.gamma(1.0)) > 0, "machine-service cost undefined at x = 1"
+    """The interior equilibrium n_D(x*) = n_S(x*) on the tasks machines can take, (0, x_ceiling). Raises
+    NoEquilibrium (a ValueError) if Lemma B.1's conditions fail there. [(c): the search stops at the machine
+    chain's ceiling instead of asserting Appendix B's assumption at x = 1; identical whenever x_ceiling = 1.]"""
+    xb = x_ceiling(e)
     f = lambda x: _parts(e, x)["nD"] - _parts(e, x)["nS"]  # noqa: E731
-    lo, hi = 1e-12, 1.0
+    lo, hi = 1e-12, (1.0 if xb >= 1.0 else xb * (1.0 - 1e-13))
+    if hi < 1.0:          # where the cost is very flat at the ceiling, step back until its denominator is positive in floating point
+        den = lambda x: 1.0 - (e.rho + e.delta) * (e.a + e.lam * e.gamma(x))  # noqa: E731
+        j = 0
+        while den(hi) <= 0.0:
+            j += 1
+            if j > 40:
+                raise NoEquilibrium(f"machine-service cost not finite below the machine chain's ceiling x = {xb:.5f}")
+            hi = xb * (1.0 - 1e-13 * 2.0 ** j)
     if f(lo) <= 0 or f(hi) >= 0:
-        raise ValueError(f"no interior equilibrium: nD - nS = {f(lo):.4g} at 0, {f(hi):.4g} at 1")
+        raise NoEquilibrium(f"no interior equilibrium: nD - nS = {f(lo):.4g} at 0, {f(hi):.4g} at "
+                            + ("1" if hi == 1.0 else f"the machine chain's ceiling x = {xb:.5f}"))
     x = brentq(f, lo, hi, xtol=1e-15)
     q = _parts(e, x)
     n = q["nD"]
@@ -111,6 +184,14 @@ def solve(e: Economy):
              capital_share=interest / income, capital_output=q["Vm"] * q["K"] / income,
              real_wage=q["v"] / q["Ps"], goods_to_space=q["p"] / 1.0,
              support_cost=e.N * q["Ps"], funded=e.T + interest > e.N * q["Ps"])
+    # (c) additions — the machine chain on BEA's basis (per unit of build cost Vm); every key above is unchanged
+    Vm = q["Vm"]
+    theta_V = e.lam * q["v"] / Vm if Vm > 0 else float("nan")
+    sigma_V = e.b / Vm if Vm > 0 else float("nan")
+    q.update(x_ceiling=xb, theta_V=theta_V, kappa_V=e.a * q["pm"] / Vm if Vm > 0 else float("nan"), sigma_V=sigma_V,
+             multiplier=1.0 + theta_V / sigma_V if sigma_V > 0 else float("inf"),
+             chain_share=q["machine_hours"] / n, labour_share_bea=q["v"] * q["final_hours"] / income,
+             inv_income=e.delta * Vm * q["K"] / income)
     return q
 
 
@@ -239,7 +320,11 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
                 capital_output=get("capital_output"), real_wage=get("real_wage"), X=X, Y=Y, funded=get("funded"),
                 pi_goods=pi_goods, pi_shelter=pi_shelter, pi_wage=pi_wage, deficit=deficit,
                 wage_tax_share=wage_tax_share, debt=debt, r_star=r_star, tp=tp, loss_longrun=loss_longrun,
-                desired=desired, automation_pace=automation_pace, nonwage_share=nonwage_share, pi_star=br.pi_star)
+                desired=desired, automation_pace=automation_pace, nonwage_share=nonwage_share, pi_star=br.pi_star,
+                # (c) additions: the machine chain along the path (BEA basis; see solve)
+                labour_share_bea=get("labour_share_bea"), chain_share=get("chain_share"), theta_V=get("theta_V"),
+                sigma_V=get("sigma_V"), multiplier=get("multiplier"), x_ceiling=get("x_ceiling"),
+                final_hours=get("final_hours"), machine_hours=get("machine_hours"), Vm=get("Vm"), K=get("K"))
 
 
 # ------------------------------------------------------------------ from the macro path to the curve layer
@@ -331,3 +416,275 @@ def income_split(e: Economy, q: dict):
 
 
 CAPITAL_BASE = replace(CALIBRATION_BASE, rho=0.0575, delta=0.08)   # (b): return 0.75% real + 5% premium; 8% depreciation
+
+
+# ------------------------------------------------------------------ (c): the machine chain on the national accounts' basis
+@dataclass(frozen=True)
+class ChainTargets:
+    """Calibration (c)'s targets: her four plus the machine chain as BEA's accounts measure it (code/chains.py) and
+    a depreciation rate from BEA's Fixed Assets accounts. b stays the land unit ((b, h, T) scale together and leave
+    every real quantity unchanged); the return rho is an outcome (the adding-up pins rho/delta).
+    IMPORT BASIS. labour, theta_V, chain_share and sigma_V must be read on one import basis (code/calibration_c.py
+    records a tag for each and checks/check_calibration_c.py gates it). Central, 'domp' (US labour only; imported
+    content outside the labour share, as a fixed-quantity cost — in the model it is part of the chain's land b, paid as
+    domestic rent and drawn from T, not an elastic import at a world price): labour 0.47 is BEA WP2026-01's human-effort share
+    of PCE (foreign content in its own bucket), theta_V 0.470 and chain_share 0.151 the equipment + IPP + private
+    structures bundle on chains.py's domp basis, sigma_V its imported content plus its domestic fixed rent. 'tot'
+    (imports priced at US cost shares): theta_V 0.569, chain_share 0.183, labour 0.47 grossed up for PCE's foreign
+    content (0.519). Pairing 0.47 with the tot theta_V and chain_share mixes the two (the 'mixed basis' variant)."""
+    theta_V: float                 # lambda v / Vm: full-chain compensation share of a machine's build cost
+    chain_share: float             # lambda delta K / n: the machine chain's share of all labour (compensation: one wage)
+    sigma_V: float                 # b / Vm: fixed-quantity rents' share of build cost (open basis: incl. imported content)
+    delta: float                   # depreciation a year (BEA Fixed Assets)
+    labour: float = 0.47           # her labour share, read on `basis` (and on the import basis of theta_V; see above)
+    basis: str = "bea"             # "bea": v (1 - x) / Ps, the consumption chain with capital services in surplus (the
+                                   # paper's Figure 7 object under A.4); "traced": v n / income (solve's labor_share)
+    participation: float = 0.60
+    baskets_per_person: float = 3.0
+    site: float = 0.13             # read on `site_basis`
+    site_basis: str = "basket"     # "basket": h / Ps (her target); "gdp": h Y / (income + delta Vm K), the measured flow
+    b: float = 0.4
+    g0: float = 0.01               # gamma(0)/gamma(1) at eta = 1; her 0.02 has no root on the BEA basis at measured values
+    N: float = 1.0
+
+
+def _chain_ratio(x, k, g0, g1):
+    """J(x) / (gamma(x)(1 - x)) at eta = 1: capital services over direct labour in the consumption chain. It tends to
+    x/(1 - x) as k -> 0 and as k -> infinity and dips between (J <= x gamma), so a target below x/(1 - x) and above
+    the dip has exactly two roots in k (checks/check_calibration_c.py M3)."""
+    return (g0 * x + g1 * x ** (k + 1.0) / (k + 1.0)) / ((g0 + g1 * x ** k) * (1.0 - x))
+
+
+def calibrate_c(tg: ChainTargets):
+    """(c) in closed form: steady-state identities pin, in turn, investment over consumption (from the chain share
+    and theta_V), capital services' share of consumption (labour and site), delta/(rho + delta) (the adding-up),
+    the threshold x* (participation, output, chain share), the schedule's convexity k (capital services over
+    labour at x*), lambda and a (theta_V, sigma_V) and the scale (h, T, chi_max). Returns [(Economy, info)] for
+    every root in k, sorted by k (the low root is (a)/(b)'s branch); raises ValueError when a step has no solution."""
+    s = tg.chain_share
+    LB = tg.labour if tg.basis == "bea" else tg.labour * (1.0 - s)          # labour in the consumption chain / C
+    iC = s * LB / (tg.theta_V * (1.0 - s))                                   # replacement investment / C
+    site_C = tg.site if tg.site_basis == "basket" else tg.site * (1.0 + iC)
+    cs = 1.0 - LB - site_C                                                   # capital services / C
+    if cs <= 0:
+        raise ValueError(f"labour {LB:.4f} + site {site_C:.4f} leave no capital services")
+    u = iC / (cs + (1.0 - tg.theta_V - tg.sigma_V) * iC)                     # delta / (rho + delta)
+    if u >= 1:
+        raise ValueError(f"the adding-up needs a non-positive return (delta/(rho + delta) = {u:.4f})")
+    rho = tg.delta * (1.0 / u - 1.0)
+    x = 1.0 - tg.participation * (1.0 - s) / tg.baskets_per_person
+    ratio = cs / LB
+    g0, g1 = tg.g0, 1.0 - tg.g0
+    ks = np.exp(np.linspace(np.log(0.05), np.log(400.0), 40001))
+    r = _chain_ratio(x, ks, g0, g1) - ratio
+    info = dict(LB=LB, iC=iC, site_C=site_C, cs=cs, u=u, rho=rho, x=x, ratio=ratio,
+                ratio_min=float(np.min(_chain_ratio(x, ks, g0, g1))), ratio_limit=x / (1.0 - x))
+    roots = [brentq(lambda k: _chain_ratio(x, k, g0, g1) - ratio, ks[i], ks[i + 1], xtol=1e-14)
+             for i in range(len(ks) - 1) if r[i] * r[i + 1] < 0]
+    if not roots:
+        raise ValueError(f"no schedule convexity k fits: cs/LB {ratio:.4f} at x* {x:.4f} lies outside the schedule's "
+                         f"range [{info['ratio_min']:.4f}, {info['ratio_limit']:.4f}) at g0 {g0}")
+    cpt = rho + tg.delta
+    out = []
+    for k in roots:
+        gam = g0 + g1 * x ** k
+        J = g0 * x + g1 * x ** (k + 1.0) / (k + 1.0)
+        lam = tg.theta_V / (gam * cpt)
+        a = (1.0 - tg.theta_V - tg.sigma_V) / cpt
+        Vm = tg.b / tg.sigma_V
+        v = gam * cpt * Vm
+        Ps = v * (1.0 - x) / LB
+        h = site_C * Ps
+        Y = tg.baskets_per_person * tg.N
+        K = Y * J / (1.0 - a * tg.delta)
+        T = h * Y + tg.b * tg.delta * K
+        chi = float(np.log1p(v / Ps) / tg.participation)
+        e = Economy(N=tg.N, T=T, h=h, a=a, b=tg.b, lam=lam, g0=g0, g1=g1, k=k, eta=1.0, chi_max=chi, rho=rho,
+                    delta=tg.delta)
+        out.append((e, dict(info, k=k, gamma=gam)))
+    return sorted(out, key=lambda p: p[1]["k"])
+
+
+def target_residuals(e: Economy, tg: ChainTargets):
+    """Each of (c)'s seven targets missed at the solved equilibrium (relative for output, absolute shares otherwise)."""
+    q = solve(e)
+    lab = q["labour_share_bea"] if tg.basis == "bea" else q["labor_share"]
+    site = e.h / q["Ps"] if tg.site_basis == "basket" else e.h * q["Y"] / (q["income"] + e.delta * q["Vm"] * q["K"])
+    return dict(labour=lab - tg.labour, participation=q["participation"] - tg.participation,
+                baskets=(q["Y"] / e.N - tg.baskets_per_person) / tg.baskets_per_person, site=site - tg.site,
+                theta_V=q["theta_V"] - tg.theta_V, chain_share=q["chain_share"] - tg.chain_share,
+                sigma_V=q["sigma_V"] - tg.sigma_V)
+
+
+def rate_headroom(e: Economy, hi_pp: float = 20.0):
+    """The largest sustained rise in the required return (pp, found to 60 bisections) at which a land-scarce
+    interior equilibrium still exists. Beyond it the machine chain's ceiling falls below the tasks the labour force
+    can staff (labour demand exceeds supply at the ceiling) and solve raises NoEquilibrium."""
+    def ok(d):
+        try:
+            solve(replace(e, rho=e.rho + d / 100.0))
+            return True
+        except NoEquilibrium:
+            return False
+    if ok(hi_pp):
+        return hi_pp
+    lo, hi = 0.0, hi_pp
+    for _ in range(60):
+        mid = 0.5 * (lo + hi)
+        lo, hi = (mid, hi) if ok(mid) else (lo, mid)
+    return lo
+
+
+def calibrate_roots(targets=None, base: Economy = CALIBRATION_BASE, site_basis: str = "basket"):
+    """Every root in k of calibrate()'s four targets, in closed form (N = 1; a, b, lambda, rho, delta, g0, g1 held at
+    base's), sorted by k. calibrate() is unchanged: its four-start search returns one root (the low one for (a) and (b));
+    this finds the other too, so (c) can be compared root for root. At the targets, participation and output pin x*(k):
+        participation / baskets = (1 - x) + lambda delta J(x) / (1 - a delta);
+    income = Ps Y (an identity), so the labour share and the site share then need, one equation in k,
+        (1 - x) + J(x) / gamma(x) = (1 - site) participation / (labour baskets);
+    h = site Ps, T from the land market (h Y + b delta K) and chi_max from participation follow. Raises ValueError if no
+    k in [0.05, 400] fits. site_basis "gdp" reads the site share as the measured flow h Y / (income + delta Vm K), as
+    ChainTargets does (calibration (c)'s variant (ii)); the equation in k becomes
+        (1 - x) + J(x) / gamma(x) (1 + site u / (1 - a delta)) = (1 - site) participation / (labour baskets),
+    u = delta / (rho + delta), and Ps = (p + site delta Vm K / Y) / (1 - site). The default path is unchanged."""
+    if site_basis not in ("basket", "gdp"):
+        raise ValueError(f"site_basis {site_basis!r}: 'basket' or 'gdp'")
+    tg = {"labor_share": 0.47, "participation": 0.60, "baskets_per_person": 3.0, "site_share": 0.13, **(targets or {})}
+    L, P, B, s = tg["labor_share"], tg["participation"], tg["baskets_per_person"], tg["site_share"]
+    c = base.lam * base.delta / (1.0 - base.a * base.delta)
+    g0, g1 = base.g0, base.g1
+    need = (1.0 - s) * P / (L * B)
+    jm = 1.0 + s * base.delta / (base.rho + base.delta) / (1.0 - base.a * base.delta) if site_basis == "gdp" else None
+
+    def x_of(k):
+        return brentq(lambda x: (1.0 - x) + c * (g0 * x + g1 * x ** (k + 1.0) / (k + 1.0)) - P / B, 0.0, 1.0, xtol=1e-16)
+
+    def F(k):
+        x = x_of(k)
+        if jm is not None:
+            return (1.0 - x) + (g0 * x + g1 * x ** (k + 1.0) / (k + 1.0)) / (g0 + g1 * x ** k) * jm - need
+        return (1.0 - x) + (g0 * x + g1 * x ** (k + 1.0) / (k + 1.0)) / (g0 + g1 * x ** k) - need
+
+    ks = np.exp(np.linspace(np.log(0.05), np.log(400.0), 4001))
+    lo, hi = np.zeros_like(ks), np.ones_like(ks)                      # x*(k) on the grid by vectorised bisection
+    for _ in range(80):
+        mid = 0.5 * (lo + hi)
+        up = (1.0 - mid) + c * (g0 * mid + g1 * mid ** (ks + 1.0) / (ks + 1.0)) - P / B > 0
+        lo, hi = np.where(up, mid, lo), np.where(up, hi, mid)
+    xg = 0.5 * (lo + hi)
+    Fg = (1.0 - xg) + (g0 * xg + g1 * xg ** (ks + 1.0) / (ks + 1.0)) / (g0 + g1 * xg ** ks) - need
+    if jm is not None:
+        Fg = (1.0 - xg) + (g0 * xg + g1 * xg ** (ks + 1.0) / (ks + 1.0)) / (g0 + g1 * xg ** ks) * jm - need
+    roots = [brentq(F, ks[i], ks[i + 1], xtol=1e-14) for i in range(len(ks) - 1) if Fg[i] * Fg[i + 1] < 0]
+    if not roots:
+        raise ValueError("no schedule convexity k in [0.05, 400] fits calibrate()'s targets")
+    out = []
+    for k in roots:
+        x = x_of(k)
+        e = replace(base, N=1.0, k=float(k), eta=1.0)
+        gam, J = e.gamma(x), e.J(x)
+        cpt = e.rho + e.delta
+        pm = cpt * e.b / (1.0 - cpt * (e.a + e.lam * gam))
+        v = gam * pm
+        if jm is not None:                                   # the site as the measured flow: h Y / (income + delta Vm K)
+            p_ = v * (1.0 - x) + pm * J
+            Ps = (p_ + s * e.delta * (pm / cpt) * J / (1.0 - e.a * e.delta)) / (1.0 - s)
+            h = Ps - p_
+        else:
+            Ps = (v * (1.0 - x) + pm * J) / (1.0 - s)
+            h = s * Ps
+        T = B * (h + e.b * e.delta * J / (1.0 - e.a * e.delta))
+        e = replace(e, T=float(T), h=float(h), chi_max=float(np.log1p(v / Ps) / P))
+        out.append((e, dict(k=float(k), x=float(x), need=need, **({"site_basis": "gdp"} if jm is not None else {}))))
+    return sorted(out, key=lambda p: p[1]["k"])
+
+
+# ------------------------------------------------------------------ the central calibration: (c), the open reading
+CENTRAL_TAG = "c_central"                       # calibration_c.py's name for it
+CENTRAL_ROOTS = ("lo", "hi")                    # "lo": the central (the low root in k, (a)/(b)'s branch); "hi": the sensitivity
+CENTRAL_SOURCE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "calibration_c.json")
+TECH_SPEEDS = {"slow": dict(t_mid=10, width=12), "medium": dict(t_mid=6, width=6), "fast": dict(t_mid=3, width=2)}
+DEEP_ETA_END = 0.04                             # capability's end point on the deep-automation path (macro_scenarios)
+LAM_END_DIVISOR = 5.0                           # recursive automation: lambda ends at a fifth of the economy's own start
+CENTRAL_RTOL = 1e-9                             # central(): the largest relative gap, in any parameter, between a re-solve
+                                                # and the stored central it accepts (another platform's last bits)
+_CENTRAL: dict = {}
+
+
+def param_gap(e: Economy, ref: Economy) -> float:
+    """The largest relative gap between two economies' parameters, |e - ref| / |ref| (absolute where ref's is 0)."""
+    gaps = []
+    for k in Economy.__dataclass_fields__:
+        a, b = float(getattr(e, k)), float(getattr(ref, k))
+        gaps.append(abs(a - b) / abs(b) if b != 0.0 else abs(a - b))
+    return max(gaps)
+
+
+def central(root: str = "lo"):
+    """(Economy, info) for calibration (c)'s central economy, the open (domp) reading: root "lo" (the central) or "hi" (the
+    sensitivity). Built once and cached: the economy is the parameters stored in results/calibration_c.json, returned
+    after the central ChainTargets stored there (theta_V, chain share, the fixed-point sigma_V, delta, labour 0.47, g0
+    0.01, her other three) are re-solved by calibrate_c and the re-solve agrees with them to a relative CENTRAL_RTOL (1e-9)
+    in every parameter (RuntimeError otherwise: rerun code/calibration_c.py). On the development machine the two are
+    bit-identical (checks/check_calibration_c.py E1); the tolerance lets another platform's numpy/scipy differ in the last
+    bits without moving the stored numbers.
+    info: tag, root, rho; capital_premium — pp over Bridges().r0_star, so a feedback path (Bridges.capital_premium set)
+    starts at this rho; multiplier (1 + theta_V/sigma_V at the start); headroom_pp (rate_headroom); k, x, x_ceiling,
+    theta_V, sigma_V, chain_share, participation, labour_share_bea at the start; targets (the ChainTargets); resolve_gap
+    (param_gap of the re-solve against the stored parameters: 0.0 when bit-identical); source.
+    A module that sets its own r0_star takes the premium from capital_premium(e, br) or feedback_bridges(e, ...)."""
+    if root not in CENTRAL_ROOTS:
+        raise ValueError(f"root {root!r}: one of {CENTRAL_ROOTS}")
+    if root not in _CENTRAL:
+        tag = f"{CENTRAL_TAG}_{root}"
+        with open(CENTRAL_SOURCE, encoding="utf-8") as f:
+            stored = json.load(f)["calibrations"][tag]
+        tg = ChainTargets(**stored["targets"])
+        sols = calibrate_c(tg)
+        if len(sols) != len(CENTRAL_ROOTS):
+            raise RuntimeError(f"{tag}: calibrate_c finds {len(sols)} roots in k, not {len(CENTRAL_ROOTS)}")
+        e = Economy(**stored["params"])
+        gap = param_gap(sols[CENTRAL_ROOTS.index(root)][0], e)
+        if not gap <= CENTRAL_RTOL:
+            raise RuntimeError(f"{tag}: re-solved parameters differ from results/calibration_c.json by a relative {gap:.1e} "
+                               f"(more than {CENTRAL_RTOL:.0e}); rerun code/calibration_c.py")
+        q = solve(e)
+        info = dict(tag=tag, root=root, rho=e.rho, capital_premium=capital_premium(e), multiplier=q["multiplier"],
+                    headroom_pp=rate_headroom(e), k=e.k, x=q["x"], x_ceiling=q["x_ceiling"], theta_V=q["theta_V"],
+                    sigma_V=q["sigma_V"], chain_share=q["chain_share"], participation=q["participation"],
+                    labour_share_bea=q["labour_share_bea"], targets=tg, resolve_gap=gap,
+                    source="results/calibration_c.json calibrations['" + tag + "']['targets'], re-solved by macro.calibrate_c; "
+                           + ("equal to the stored params bit for bit" if gap == 0.0 else
+                              f"the stored params, which the re-solve matches to a relative {gap:.1e} (accepted to "
+                              f"{CENTRAL_RTOL:.0e})"))
+        _CENTRAL[root] = (e, info)
+    e, info = _CENTRAL[root]
+    return e, dict(info)
+
+
+def deep_tech(e: Economy, t_mid: float = 6, width: float = 6, eta_end: float = DEEP_ETA_END) -> TechPath:
+    """Deep automation relative to the economy's own start: capability eta -> eta_end (0.04), and recursive automation
+    lambda -> e.lam / 5 (a fifth of its own start; (b)'s 0.05 -> 0.01 exactly). The default clock is the medium speed;
+    TECH_SPEEDS holds slow / medium / fast (macro_scenarios' three): deep_tech(e, **TECH_SPEEDS['fast'])."""
+    return TechPath(eta_end=eta_end, lam_end=e.lam / LAM_END_DIVISOR, t_mid=t_mid, width=width)
+
+
+def hold_tech(e: Economy) -> TechPath:
+    """The status quo: capability and lambda held at the economy's own start (the old world of a two-world run)."""
+    return TechPath(eta_end=1.0, lam_end=e.lam)
+
+
+def capital_premium(e: Economy, br: Bridges | None = None) -> float:
+    """The capital premium (pp) over br's starting neutral rate that makes a feedback path's required return start at the
+    economy's own: rho(0) = (r0_star + premium) / 100 = e.rho. (b): 5.75 - 0.75 = 5.0; (c) central: rho x 100 - 0.75."""
+    br = br if br is not None else Bridges()
+    return e.rho * 100 - br.r0_star
+
+
+def feedback_bridges(e: Economy, **overrides) -> Bridges:
+    """Bridges(**overrides) with the required return following r* from the economy's own rho (capital_premium against the
+    overrides' own r0_star). The premium is computed, so it may not be passed."""
+    if "capital_premium" in overrides:
+        raise TypeError("feedback_bridges computes capital_premium; pass Bridges(...) directly to set it by hand")
+    br = Bridges(**overrides)
+    return replace(br, capital_premium=capital_premium(e, br))

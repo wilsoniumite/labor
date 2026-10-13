@@ -1,30 +1,133 @@
 {
- "calibration_b": {
-  "T": 0.008682088763005606,
-  "h": 0.0010497847619132265,
-  "chi_max": 2.014933909728378,
-  "k": 5.164424786301001,
-  "rho": 0.0575,
-  "delta": 0.08,
-  "b": 0.4
+ "calibration": {
+  "T": 0.011247029437373266,
+  "h": 0.002582025346944162,
+  "chi_max": 2.2110901265570457,
+  "k": 5.661774951748947,
+  "rho": 0.07550369553563056,
+  "delta": 0.05219153020540547,
+  "b": 0.4,
+  "lam": 10.36095037154311,
+  "record": {
+   "tag": "c_central_lo",
+   "root": "lo",
+   "rho": 0.07550369553563056,
+   "capital_premium": 6.800369553563057,
+   "multiplier": 2.4242548296321904,
+   "headroom_pp": 7.184086560752992,
+   "k": 5.661774951748947,
+   "x": 0.8302276703288702,
+   "x_ceiling": 0.913916410764521,
+   "theta_V": 0.4700263421044404,
+   "sigma_V": 0.33001562102887394,
+   "chain_share": 0.15113835164435127,
+   "source": "results/calibration_c.json calibrations['c_central_lo']['targets'], re-solved by macro.calibrate_c; equal to the stored params bit for bit"
+  }
+ },
+ "split_note": "machine-chain land = b delta K / income; under the open reading b includes the chain's imported content (0.559 of sigma_V; results/calibration_c.json readouts.import_as_land), modelled as land",
+ "errors": {
+  "follow": null,
+  "shock_200bp": null
  },
  "split_start": {
-  "labour": 0.47,
+  "labour": 0.554,
   "housing site": 0.13,
-  "machine-chain land": 0.228,
-  "interest": 0.172
+  "machine-chain land": 0.059,
+  "interest": 0.258
  },
  "split_year15": {
-  "labour": 0.065,
-  "housing site": 0.727,
-  "machine-chain land": 0.126,
-  "interest": 0.081
+  "labour": 0.033,
+  "housing site": 0.87,
+  "machine-chain land": 0.037,
+  "interest": 0.06
  },
- "capital_output_start": 2.98,
+ "split_basis": "labour = all wages over income (solve's labor_share); housing site = h Y / income; machine-chain land = b delta X / income; interest = capital_share",
+ "chain_share_of_land_rent_start_year15": [
+  0.311,
+  0.041
+ ],
+ "capital_output_start": 3.41,
  "shock_200bp": {
-  "max_labour_share_pp": 1.57,
-  "max_tasks_pp": -0.34,
-  "delay_at_year6_weeks": 3.9
+  "max_labour_share_pp": 2.98,
+  "max_tasks_pp": -0.61,
+  "delay_at_year6_weeks": 18.9,
+  "slows_every_date": true,
+  "raises_labour_share_every_date": true,
+  "max_labour_share_bea_pp": 2.9,
+  "labour_basis": "max_labour_share_pp: all wages over income (solve's labor_share); max_labour_share_bea_pp: the paper's Figure 7 basis (labour_share_bea)"
  },
- "loop_year15_tasks_ahead_pp": 0.14
+ "loop_year15_tasks_ahead_pp": 0.23,
+ "loop_lag_phase": {
+  "from_year": 0.5,
+  "to_year": 2.5,
+  "deepest_tasks_pp": -0.00059,
+  "deepest_year": 1.25
+ },
+ "loop_corr_return_vs_tasks": -0.998,
+ "max_rho_rise_pp": {
+  "follow": 0.003,
+  "shock_200bp": 2.003
+ },
+ "investment_income_start_year15": [
+  0.178,
+  0.0458
+ ],
+ "comparator_b": {
+  "calibration_b": {
+   "T": 0.008682088762976842,
+   "h": 0.0010497847619100162,
+   "chi_max": 2.014933909728207,
+   "k": 5.164424786313848,
+   "rho": 0.0575,
+   "delta": 0.08,
+   "b": 0.4
+  },
+  "errors": {
+   "follow": null,
+   "shock_200bp": null
+  },
+  "split_start": {
+   "labour": 0.47,
+   "housing site": 0.13,
+   "machine-chain land": 0.228,
+   "interest": 0.172
+  },
+  "split_year15": {
+   "labour": 0.065,
+   "housing site": 0.727,
+   "machine-chain land": 0.126,
+   "interest": 0.081
+  },
+  "split_basis": "labour = all wages over income (solve's labor_share); housing site = h Y / income; machine-chain land = b delta X / income; interest = capital_share",
+  "chain_share_of_land_rent_start_year15": [
+   0.637,
+   0.148
+  ],
+  "capital_output_start": 2.98,
+  "shock_200bp": {
+   "max_labour_share_pp": 1.57,
+   "max_tasks_pp": -0.34,
+   "delay_at_year6_weeks": 3.9,
+   "slows_every_date": true,
+   "raises_labour_share_every_date": true,
+   "max_labour_share_bea_pp": 1.57,
+   "labour_basis": "max_labour_share_pp: all wages over income (solve's labor_share); max_labour_share_bea_pp: the paper's Figure 7 basis (labour_share_bea)"
+  },
+  "loop_year15_tasks_ahead_pp": 0.14,
+  "loop_lag_phase": {
+   "from_year": 0.5,
+   "to_year": 8.75,
+   "deepest_tasks_pp": -0.01321,
+   "deepest_year": 7.25
+  },
+  "loop_corr_return_vs_tasks": -0.997,
+  "max_rho_rise_pp": {
+   "follow": 0.144,
+   "shock_200bp": 2.144
+  },
+  "investment_income_start_year15": [
+   0.2388,
+   0.1313
+  ]
+ }
 }

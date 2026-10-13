@@ -1,6 +1,13 @@
 {
- "draws": 4000,
- "solved": 4000,
+ "calibration": {
+  "tag": "c_central_lo",
+  "root": "lo",
+  "rho": 0.07550369553563056,
+  "capital_premium": 6.800369553563057,
+  "headroom_pp": 7.184086560752992,
+  "k": 5.661774951748947,
+  "source": "results/calibration_c.json calibrations['c_central_lo']['targets'], re-solved by macro.calibrate_c; equal to the stored params bit for bit"
+ },
  "ranges": {
   "eta_end": [
    0.02,
@@ -38,9 +45,9 @@
    0.1,
    0.6
   ],
-  "capital_premium": [
-   3.0,
-   7.0
+  "premium_shift": [
+   -2.0,
+   2.0
   ],
   "sigma": [
    0.5,
@@ -51,97 +58,110 @@
    0.3
   ]
  },
+ "premium_dial": "premium_shift: pp added to the economy's own capital premium (central 6.80, (b) 5.00); on (b) the pre-switch capital_premium dial's 3-7 pp",
+ "draws": 4000,
+ "solved": 4000,
+ "no_equilibrium": 0,
+ "other_failures": 0,
+ "no_equilibrium_detail": {
+  "draws": [],
+  "other": [],
+  "within_reported_horizon": 0,
+  "dial_mean_unit_failed_vs_all": null,
+  "dial_rank_corr_with_failure": null,
+  "note": "the envelope below is over the solved draws only (conditional on a land-scarce equilibrium at every date)"
+ },
  "envelope": {
   "recog_2Y": {
-   "p5": -93.79,
-   "p50": 7.59,
-   "p95": 160.3,
-   "min": -276.03,
-   "max": 631.4
+   "p5": -133.17,
+   "p50": -10.13,
+   "p95": 134.04,
+   "min": -283.43,
+   "max": 670.69
   },
   "recog_10Y": {
-   "p5": -191.46,
-   "p50": -23.26,
-   "p95": 128.47,
-   "min": -300.6,
-   "max": 492.65
+   "p5": -225.65,
+   "p50": -34.3,
+   "p95": 171.24,
+   "min": -306.0,
+   "max": 581.21
   },
   "recog_30Y": {
-   "p5": -247.53,
-   "p50": -38.85,
-   "p95": 120.5,
-   "min": -320.41,
-   "max": 403.29
+   "p5": -269.9,
+   "p50": -45.66,
+   "p95": 192.4,
+   "min": -314.24,
+   "max": 559.75
   },
   "ten_year_3M": {
-   "p5": -325.0,
-   "p50": -76.48,
-   "p95": 148.03,
-   "min": -327.73,
-   "max": 399.71
+   "p5": -324.96,
+   "p50": -97.35,
+   "p95": 281.09,
+   "min": -325.01,
+   "max": 634.83
   },
   "ten_year_2Y": {
-   "p5": -323.94,
-   "p50": -95.38,
-   "p95": 142.72,
-   "min": -332.59,
-   "max": 391.49
+   "p5": -323.28,
+   "p50": -105.73,
+   "p95": 300.41,
+   "min": -324.84,
+   "max": 690.26
   },
   "ten_year_10Y": {
-   "p5": -321.71,
-   "p50": -107.04,
-   "p95": 147.46,
-   "min": -327.69,
-   "max": 407.06
+   "p5": -320.77,
+   "p50": -100.88,
+   "p95": 329.06,
+   "min": -324.45,
+   "max": 861.16
   },
   "max_up_10Y": {
    "p5": 0.0,
    "p50": 0.0,
-   "p95": 215.0,
+   "p95": 474.02,
    "min": 0.0,
-   "max": 608.01
+   "max": 1378.06
   },
   "max_down_10Y": {
-   "p5": -323.87,
-   "p50": -124.33,
+   "p5": -322.46,
+   "p50": -122.22,
    "p95": 0.0,
-   "min": -329.22,
+   "min": -324.82,
    "max": 0.0
   },
   "max_jump_10Y": {
-   "p5": 7.44,
-   "p50": 46.85,
-   "p95": 176.85,
-   "min": 0.39,
-   "max": 475.88
+   "p5": 7.35,
+   "p50": 72.63,
+   "p95": 213.53,
+   "min": 0.12,
+   "max": 449.9
   },
   "c50": {
-   "p5": 1.12,
-   "p50": 3.04,
-   "p95": 6.37,
-   "min": 0.51,
-   "max": 8.31
+   "p5": 0.43,
+   "p50": 1.66,
+   "p95": 5.35,
+   "min": 0.13,
+   "max": 7.63
   },
   "debt_max": {
-   "p5": 40.0,
-   "p50": 75.22,
-   "p95": 123.8,
+   "p5": 57.0,
+   "p50": 119.17,
+   "p95": 201.3,
    "min": 40.0,
-   "max": 201.75
+   "max": 377.95
   },
   "real_wage_min_rel": {
-   "p5": 0.34,
-   "p50": 0.77,
-   "p95": 1.0,
-   "min": 0.21,
-   "max": 1.0
+   "p5": 0.13,
+   "p50": 0.39,
+   "p95": 0.73,
+   "min": 0.06,
+   "max": 0.82
   },
   "shelter_infl_max": {
-   "p5": 9.96,
-   "p50": 22.26,
-   "p95": 77.75,
-   "min": 5.88,
-   "max": 153.89
+   "p5": 16.43,
+   "p50": 28.66,
+   "p95": 91.16,
+   "min": 9.56,
+   "max": 164.8
   },
   "policy_min": {
    "p5": -0.5,
@@ -152,150 +172,116 @@
   },
   "policy_max": {
    "p5": 2.75,
-   "p50": 3.0,
-   "p95": 5.75,
+   "p50": 2.75,
+   "p95": 6.25,
    "min": 2.75,
-   "max": 11.25
+   "max": 11.75
+  },
+  "rho_rise_max_pp": {
+   "p5": 0.0,
+   "p50": 0.03,
+   "p95": 3.22,
+   "min": 0.0,
+   "max": 6.4
   }
+ },
+ "shares": {
+  "10Y_never_rises": 0.5365,
+  "10Y_never_falls": 0.3397,
+  "policy_reaches_floor": 0.2958,
+  "ten_year_10Y_negative": 0.6335,
+  "never_recognised_c50": 0.0
  },
  "drivers_rank_corr": {
   "recog_10Y": {
-   "eta_end": 0.01,
-   "width": 0.02,
+   "eta_end": -0.02,
+   "width": 0.01,
    "t_mid": -0.0,
-   "alpha_capex": 0.28,
-   "alpha_rent": -0.83,
-   "alpha_fiscal": 0.32,
+   "alpha_capex": 0.14,
+   "alpha_rent": -0.82,
+   "alpha_fiscal": 0.48,
    "tp_per_debt": 0.03,
    "debt_threshold": 0.0,
-   "public_support": -0.1,
-   "capital_premium": 0.04,
-   "sigma": -0.11,
+   "public_support": 0.0,
+   "premium_shift": 0.03,
+   "sigma": -0.05,
    "p0": 0.01
   },
   "max_up_10Y": {
    "eta_end": -0.09,
-   "width": -0.11,
-   "t_mid": -0.02,
-   "alpha_capex": 0.19,
-   "alpha_rent": -0.69,
-   "alpha_fiscal": 0.27,
-   "tp_per_debt": 0.07,
+   "width": -0.06,
+   "t_mid": -0.07,
+   "alpha_capex": 0.04,
+   "alpha_rent": -0.68,
+   "alpha_fiscal": 0.37,
+   "tp_per_debt": 0.15,
    "debt_threshold": -0.05,
-   "public_support": -0.03,
-   "capital_premium": 0.01,
-   "sigma": -0.02,
-   "p0": -0.02
+   "public_support": 0.1,
+   "premium_shift": -0.02,
+   "sigma": -0.01,
+   "p0": 0.0
   },
   "max_down_10Y": {
-   "eta_end": 0.17,
-   "width": 0.04,
-   "t_mid": -0.03,
-   "alpha_capex": -0.0,
-   "alpha_rent": -0.84,
-   "alpha_fiscal": 0.34,
-   "tp_per_debt": 0.04,
-   "debt_threshold": -0.02,
-   "public_support": -0.04,
-   "capital_premium": 0.03,
+   "eta_end": 0.03,
+   "width": 0.05,
+   "t_mid": -0.04,
+   "alpha_capex": 0.02,
+   "alpha_rent": -0.78,
+   "alpha_fiscal": 0.43,
+   "tp_per_debt": 0.05,
+   "debt_threshold": -0.03,
+   "public_support": 0.06,
+   "premium_shift": 0.01,
    "sigma": -0.02,
-   "p0": 0.01
+   "p0": 0.07
   },
   "ten_year_2Y": {
-   "eta_end": 0.11,
-   "width": 0.11,
-   "t_mid": 0.08,
-   "alpha_capex": 0.07,
-   "alpha_rent": -0.85,
-   "alpha_fiscal": 0.35,
-   "tp_per_debt": 0.03,
-   "debt_threshold": -0.0,
-   "public_support": -0.08,
-   "capital_premium": 0.03,
+   "eta_end": -0.01,
+   "width": 0.04,
+   "t_mid": -0.02,
+   "alpha_capex": 0.04,
+   "alpha_rent": -0.82,
+   "alpha_fiscal": 0.48,
+   "tp_per_debt": 0.06,
+   "debt_threshold": -0.03,
+   "public_support": 0.06,
+   "premium_shift": 0.01,
    "sigma": -0.02,
-   "p0": -0.01
+   "p0": 0.02
   },
   "debt_max": {
-   "eta_end": -0.43,
-   "width": -0.37,
-   "t_mid": -0.36,
-   "alpha_capex": -0.0,
-   "alpha_rent": -0.11,
-   "alpha_fiscal": 0.06,
+   "eta_end": -0.41,
+   "width": -0.23,
+   "t_mid": -0.41,
+   "alpha_capex": -0.01,
+   "alpha_rent": -0.15,
+   "alpha_fiscal": 0.11,
    "tp_per_debt": 0.02,
    "debt_threshold": 0.01,
-   "public_support": 0.62,
-   "capital_premium": -0.12,
-   "sigma": -0.0,
+   "public_support": 0.67,
+   "premium_shift": -0.15,
+   "sigma": -0.01,
    "p0": 0.01
   },
   "real_wage_min_rel": {
-   "eta_end": 0.94,
-   "width": 0.16,
+   "eta_end": 0.9,
+   "width": 0.15,
    "t_mid": 0.04,
    "alpha_capex": 0.01,
-   "alpha_rent": -0.18,
-   "alpha_fiscal": 0.1,
+   "alpha_rent": -0.29,
+   "alpha_fiscal": 0.2,
    "tp_per_debt": -0.01,
-   "debt_threshold": -0.02,
-   "public_support": -0.0,
-   "capital_premium": 0.1,
-   "sigma": 0.01,
+   "debt_threshold": -0.01,
+   "public_support": 0.02,
+   "premium_shift": 0.08,
+   "sigma": 0.0,
    "p0": 0.01
   }
  },
  "picks": {
   "most plausible +100 bp 10Y": {
-   "distance": 0.608,
-   "value": 100.7,
-   "dials_moved_default_to_draw": {
-    "alpha_capex": [
-     0.25,
-     0.435
-    ],
-    "alpha_fiscal": [
-     0.1,
-     0.18
-    ],
-    "tp_per_debt": [
-     0.02,
-     0.003
-    ],
-    "public_support": [
-     0.3,
-     0.191
-    ],
-    "capital_premium": [
-     5.0,
-     6.152
-    ],
-    "sigma": [
-     1.0,
-     0.705
-    ]
-   }
-  },
-  "most plausible -100 bp 10Y": {
-   "distance": 0.541,
-   "value": -151.8,
-   "dials_moved_default_to_draw": {
-    "t_mid": [
-     6.0,
-     7.524
-    ],
-    "alpha_capex": [
-     0.25,
-     0.433
-    ],
-    "capital_premium": [
-     5.0,
-     3.523
-    ]
-   }
-  },
-  "most plausible +50 bp 10Y in the recognition window": {
    "distance": 0.511,
-   "value": 70.8,
+   "value": 146.4,
    "dials_moved_default_to_draw": {
     "width": [
      6.0,
@@ -313,13 +299,710 @@
      0.3,
      0.21
     ]
-   }
+   },
+   "cause_by_subset": {
+    "outcome": "max_up_10Y",
+    "threshold": 100.0,
+    "at_draw": 146.4,
+    "direction_bridges": {
+     "alpha_rent": [
+      0.05,
+      0.023
+     ],
+     "alpha_fiscal": [
+      0.1,
+      0.1503
+     ]
+    },
+    "direction_bridges_only": 221.5,
+    "direction_bridges_reset": 0.0,
+    "listed_dials_only": 0.0,
+    "each_dial_reset": {
+     "eta_end": 150.4,
+     "width": 135.2,
+     "t_mid": 145.8,
+     "alpha_capex": 140.6,
+     "alpha_rent": 30.0,
+     "alpha_fiscal": 76.9,
+     "tp_per_debt": 166.3,
+     "debt_threshold": 146.4,
+     "public_support": 152.7,
+     "premium_shift": 145.9,
+     "sigma": 146.4,
+     "p0": 146.4
+    },
+    "needed": [
+     "alpha_rent",
+     "alpha_fiscal"
+    ]
+   },
+   "draw": 268
+  },
+  "most plausible -100 bp 10Y": {
+   "distance": 0.541,
+   "value": -152.1,
+   "dials_moved_default_to_draw": {
+    "t_mid": [
+     6.0,
+     7.524
+    ],
+    "alpha_capex": [
+     0.25,
+     0.433
+    ],
+    "premium_shift": [
+     0.0,
+     -1.477
+    ]
+   },
+   "cause_by_subset": {
+    "outcome": "max_down_10Y",
+    "threshold": -100.0,
+    "at_draw": -152.1,
+    "direction_bridges": {
+     "alpha_rent": [
+      0.05,
+      0.0536
+     ],
+     "alpha_fiscal": [
+      0.1,
+      0.0495
+     ]
+    },
+    "direction_bridges_only": -173.3,
+    "direction_bridges_reset": -55.5,
+    "listed_dials_only": -52.7,
+    "each_dial_reset": {
+     "eta_end": -152.1,
+     "width": -157.4,
+     "t_mid": -150.8,
+     "alpha_capex": -161.4,
+     "alpha_rent": -134.5,
+     "alpha_fiscal": -72.1,
+     "tp_per_debt": -148.9,
+     "debt_threshold": -152.8,
+     "public_support": -147.9,
+     "premium_shift": -165.7,
+     "sigma": -152.1,
+     "p0": -152.1
+    },
+    "needed": [
+     "alpha_fiscal"
+    ]
+   },
+   "draw": 1836
+  },
+  "most plausible +50 bp 10Y in the recognition window": {
+   "distance": 0.511,
+   "value": 78.0,
+   "dials_moved_default_to_draw": {
+    "width": [
+     6.0,
+     3.589
+    ],
+    "t_mid": [
+     6.0,
+     7.021
+    ],
+    "tp_per_debt": [
+     0.02,
+     0.007
+    ],
+    "public_support": [
+     0.3,
+     0.21
+    ]
+   },
+   "cause_by_subset": {
+    "outcome": "recog_10Y",
+    "threshold": 50.0,
+    "at_draw": 78.0,
+    "direction_bridges": {
+     "alpha_rent": [
+      0.05,
+      0.023
+     ],
+     "alpha_fiscal": [
+      0.1,
+      0.1503
+     ]
+    },
+    "direction_bridges_only": 56.7,
+    "direction_bridges_reset": -16.6,
+    "listed_dials_only": -20.7,
+    "each_dial_reset": {
+     "eta_end": 68.1,
+     "width": 54.2,
+     "t_mid": 78.7,
+     "alpha_capex": 74.5,
+     "alpha_rent": 14.9,
+     "alpha_fiscal": 36.6,
+     "tp_per_debt": 78.0,
+     "debt_threshold": 78.0,
+     "public_support": 79.8,
+     "premium_shift": 77.9,
+     "sigma": 70.2,
+     "p0": 78.1
+    },
+    "needed": [
+     "alpha_rent",
+     "alpha_fiscal"
+    ]
+   },
+   "draw": 268
   },
   "largest 10Y rise": {
-   "value": 608.0
+   "value": 1378.1,
+   "dials": {
+    "eta_end": 0.027,
+    "width": 3.338,
+    "t_mid": 3.104,
+    "alpha_capex": 0.959,
+    "alpha_rent": 0.018,
+    "alpha_fiscal": 0.392,
+    "tp_per_debt": 0.043,
+    "debt_threshold": 83.269,
+    "public_support": 0.571,
+    "premium_shift": -1.239,
+    "sigma": 1.531,
+    "p0": 0.094
+   },
+   "debt_max": 378.0,
+   "r_star_max": 7.77,
+   "draw": 31
   },
   "largest 10Y fall": {
-   "value": -329.2
+   "value": -324.8,
+   "dials": {
+    "eta_end": 0.104,
+    "width": 3.5,
+    "t_mid": 7.844,
+    "alpha_capex": 0.676,
+    "alpha_rent": 0.179,
+    "alpha_fiscal": 0.347,
+    "tp_per_debt": 0.033,
+    "debt_threshold": 76.222,
+    "public_support": 0.124,
+    "premium_shift": -0.45,
+    "sigma": 2.045,
+    "p0": 0.013
+   },
+   "r_star_min": -2.6,
+   "draw": 3907
+  },
+  "largest rise in the required return": {
+   "value_pp": 6.4,
+   "dials": {
+    "eta_end": 0.023,
+    "width": 6.912,
+    "t_mid": 3.147,
+    "alpha_capex": 0.908,
+    "alpha_rent": 0.009,
+    "alpha_fiscal": 0.38,
+    "tp_per_debt": 0.034,
+    "debt_threshold": 86.469,
+    "public_support": 0.392,
+    "premium_shift": 0.98,
+    "sigma": 2.017,
+    "p0": 0.024
+   },
+   "draw": 1315
+  }
+ },
+ "picks_note": "dials_moved_default_to_draw lists the dials a pick moves by more than 0.15 of their range: a description of the draw, not the cause of its outcome. cause_by_subset (reverse.attribute) re-runs the draw with dial subsets: only the two direction bridges (alpha_rent, alpha_fiscal) moved from the defaults, those two reset to the defaults in the draw, only the listed dials moved, each dial reset alone; 'needed' names the dials whose reset alone loses the breach.",
+ "default_dials": {
+  "recog_10Y": -15.33,
+  "ten_year_10Y": -69.95,
+  "max_up_10Y": 0.0,
+  "max_down_10Y": -71.55,
+  "c50": 1.83,
+  "debt_max": 122.42,
+  "real_wage_min_rel": 0.23,
+  "policy_min": 2.0,
+  "policy_max": 2.75,
+  "rho_rise_max_pp": 0.0
+ },
+ "comparator_b": {
+  "calibration": {
+   "tag": "b",
+   "rho": 0.0575,
+   "capital_premium": 5.0,
+   "k": 5.164424786313848,
+   "source": "macro.calibrate(base=macro.CAPITAL_BASE)"
+  },
+  "draws": 4000,
+  "solved": 4000,
+  "no_equilibrium": 0,
+  "other_failures": 0,
+  "no_equilibrium_detail": {
+   "draws": [],
+   "other": [],
+   "within_reported_horizon": 0,
+   "dial_mean_unit_failed_vs_all": null,
+   "dial_rank_corr_with_failure": null,
+   "note": "the envelope below is over the solved draws only (conditional on a land-scarce equilibrium at every date)"
+  },
+  "envelope": {
+   "recog_2Y": {
+    "p5": -93.79,
+    "p50": 7.59,
+    "p95": 160.3,
+    "min": -276.03,
+    "max": 631.4
+   },
+   "recog_10Y": {
+    "p5": -191.46,
+    "p50": -23.26,
+    "p95": 128.47,
+    "min": -300.6,
+    "max": 492.65
+   },
+   "recog_30Y": {
+    "p5": -247.53,
+    "p50": -38.85,
+    "p95": 120.5,
+    "min": -320.41,
+    "max": 403.29
+   },
+   "ten_year_3M": {
+    "p5": -325.0,
+    "p50": -76.48,
+    "p95": 148.03,
+    "min": -327.73,
+    "max": 399.71
+   },
+   "ten_year_2Y": {
+    "p5": -323.94,
+    "p50": -95.38,
+    "p95": 142.72,
+    "min": -332.59,
+    "max": 391.49
+   },
+   "ten_year_10Y": {
+    "p5": -321.71,
+    "p50": -107.04,
+    "p95": 147.46,
+    "min": -327.69,
+    "max": 407.06
+   },
+   "max_up_10Y": {
+    "p5": 0.0,
+    "p50": 0.0,
+    "p95": 215.0,
+    "min": 0.0,
+    "max": 608.01
+   },
+   "max_down_10Y": {
+    "p5": -323.87,
+    "p50": -124.33,
+    "p95": 0.0,
+    "min": -329.22,
+    "max": 0.0
+   },
+   "max_jump_10Y": {
+    "p5": 7.44,
+    "p50": 46.85,
+    "p95": 176.85,
+    "min": 0.39,
+    "max": 475.88
+   },
+   "c50": {
+    "p5": 1.12,
+    "p50": 3.04,
+    "p95": 6.37,
+    "min": 0.51,
+    "max": 8.31
+   },
+   "debt_max": {
+    "p5": 40.0,
+    "p50": 75.22,
+    "p95": 123.8,
+    "min": 40.0,
+    "max": 201.75
+   },
+   "real_wage_min_rel": {
+    "p5": 0.34,
+    "p50": 0.77,
+    "p95": 1.0,
+    "min": 0.21,
+    "max": 1.0
+   },
+   "shelter_infl_max": {
+    "p5": 9.96,
+    "p50": 22.26,
+    "p95": 77.75,
+    "min": 5.88,
+    "max": 153.89
+   },
+   "policy_min": {
+    "p5": -0.5,
+    "p50": 1.5,
+    "p95": 2.75,
+    "min": -0.5,
+    "max": 2.75
+   },
+   "policy_max": {
+    "p5": 2.75,
+    "p50": 3.0,
+    "p95": 5.75,
+    "min": 2.75,
+    "max": 11.25
+   },
+   "rho_rise_max_pp": {
+    "p5": 0.0,
+    "p50": 0.31,
+    "p95": 2.26,
+    "min": 0.0,
+    "max": 5.12
+   }
+  },
+  "shares": {
+   "10Y_never_rises": 0.544,
+   "10Y_never_falls": 0.2432,
+   "policy_reaches_floor": 0.2097,
+   "ten_year_10Y_negative": 0.7368,
+   "never_recognised_c50": 0.0
+  },
+  "drivers_rank_corr": {
+   "recog_10Y": {
+    "eta_end": 0.01,
+    "width": 0.02,
+    "t_mid": -0.0,
+    "alpha_capex": 0.28,
+    "alpha_rent": -0.83,
+    "alpha_fiscal": 0.32,
+    "tp_per_debt": 0.03,
+    "debt_threshold": 0.0,
+    "public_support": -0.1,
+    "premium_shift": 0.04,
+    "sigma": -0.11,
+    "p0": 0.01
+   },
+   "max_up_10Y": {
+    "eta_end": -0.09,
+    "width": -0.11,
+    "t_mid": -0.02,
+    "alpha_capex": 0.19,
+    "alpha_rent": -0.69,
+    "alpha_fiscal": 0.27,
+    "tp_per_debt": 0.07,
+    "debt_threshold": -0.05,
+    "public_support": -0.03,
+    "premium_shift": 0.01,
+    "sigma": -0.02,
+    "p0": -0.02
+   },
+   "max_down_10Y": {
+    "eta_end": 0.17,
+    "width": 0.04,
+    "t_mid": -0.03,
+    "alpha_capex": -0.0,
+    "alpha_rent": -0.84,
+    "alpha_fiscal": 0.34,
+    "tp_per_debt": 0.04,
+    "debt_threshold": -0.02,
+    "public_support": -0.04,
+    "premium_shift": 0.03,
+    "sigma": -0.02,
+    "p0": 0.01
+   },
+   "ten_year_2Y": {
+    "eta_end": 0.11,
+    "width": 0.11,
+    "t_mid": 0.08,
+    "alpha_capex": 0.07,
+    "alpha_rent": -0.85,
+    "alpha_fiscal": 0.35,
+    "tp_per_debt": 0.03,
+    "debt_threshold": -0.0,
+    "public_support": -0.08,
+    "premium_shift": 0.03,
+    "sigma": -0.02,
+    "p0": -0.01
+   },
+   "debt_max": {
+    "eta_end": -0.43,
+    "width": -0.37,
+    "t_mid": -0.36,
+    "alpha_capex": -0.0,
+    "alpha_rent": -0.11,
+    "alpha_fiscal": 0.06,
+    "tp_per_debt": 0.02,
+    "debt_threshold": 0.01,
+    "public_support": 0.62,
+    "premium_shift": -0.12,
+    "sigma": -0.0,
+    "p0": 0.01
+   },
+   "real_wage_min_rel": {
+    "eta_end": 0.94,
+    "width": 0.16,
+    "t_mid": 0.04,
+    "alpha_capex": 0.01,
+    "alpha_rent": -0.18,
+    "alpha_fiscal": 0.1,
+    "tp_per_debt": -0.01,
+    "debt_threshold": -0.02,
+    "public_support": -0.0,
+    "premium_shift": 0.1,
+    "sigma": 0.01,
+    "p0": 0.01
+   }
+  },
+  "picks": {
+   "most plausible +100 bp 10Y": {
+    "distance": 0.608,
+    "value": 100.7,
+    "dials_moved_default_to_draw": {
+     "alpha_capex": [
+      0.25,
+      0.435
+     ],
+     "alpha_fiscal": [
+      0.1,
+      0.18
+     ],
+     "tp_per_debt": [
+      0.02,
+      0.003
+     ],
+     "public_support": [
+      0.3,
+      0.191
+     ],
+     "premium_shift": [
+      0.0,
+      1.152
+     ],
+     "sigma": [
+      1.0,
+      0.705
+     ]
+    },
+    "cause_by_subset": {
+     "outcome": "max_up_10Y",
+     "threshold": 100.0,
+     "at_draw": 100.7,
+     "direction_bridges": {
+      "alpha_rent": [
+       0.05,
+       0.0284
+      ],
+      "alpha_fiscal": [
+       0.1,
+       0.1805
+      ]
+     },
+     "direction_bridges_only": 101.7,
+     "direction_bridges_reset": 13.7,
+     "listed_dials_only": 51.2,
+     "each_dial_reset": {
+      "eta_end": 100.5,
+      "width": 105.4,
+      "t_mid": 100.6,
+      "alpha_capex": 87.3,
+      "alpha_rent": 47.2,
+      "alpha_fiscal": 48.7,
+      "tp_per_debt": 100.7,
+      "debt_threshold": 100.7,
+      "public_support": 90.0,
+      "premium_shift": 101.8,
+      "sigma": 100.7,
+      "p0": 100.6
+     },
+     "needed": [
+      "alpha_capex",
+      "alpha_rent",
+      "alpha_fiscal",
+      "public_support"
+     ]
+    },
+    "draw": 3168
+   },
+   "most plausible -100 bp 10Y": {
+    "distance": 0.541,
+    "value": -151.8,
+    "dials_moved_default_to_draw": {
+     "t_mid": [
+      6.0,
+      7.524
+     ],
+     "alpha_capex": [
+      0.25,
+      0.433
+     ],
+     "premium_shift": [
+      0.0,
+      -1.477
+     ]
+    },
+    "cause_by_subset": {
+     "outcome": "max_down_10Y",
+     "threshold": -100.0,
+     "at_draw": -151.8,
+     "direction_bridges": {
+      "alpha_rent": [
+       0.05,
+       0.0536
+      ],
+      "alpha_fiscal": [
+       0.1,
+       0.0495
+      ]
+     },
+     "direction_bridges_only": -161.4,
+     "direction_bridges_reset": -83.5,
+     "listed_dials_only": -87.2,
+     "each_dial_reset": {
+      "eta_end": -154.1,
+      "width": -154.3,
+      "t_mid": -151.8,
+      "alpha_capex": -154.6,
+      "alpha_rent": -137.2,
+      "alpha_fiscal": -97.9,
+      "tp_per_debt": -151.8,
+      "debt_threshold": -151.9,
+      "public_support": -150.6,
+      "premium_shift": -151.8,
+      "sigma": -151.8,
+      "p0": -151.9
+     },
+     "needed": [
+      "alpha_fiscal"
+     ]
+    },
+    "draw": 1836
+   },
+   "most plausible +50 bp 10Y in the recognition window": {
+    "distance": 0.511,
+    "value": 70.8,
+    "dials_moved_default_to_draw": {
+     "width": [
+      6.0,
+      3.589
+     ],
+     "t_mid": [
+      6.0,
+      7.021
+     ],
+     "tp_per_debt": [
+      0.02,
+      0.007
+     ],
+     "public_support": [
+      0.3,
+      0.21
+     ]
+    },
+    "cause_by_subset": {
+     "outcome": "recog_10Y",
+     "threshold": 50.0,
+     "at_draw": 70.8,
+     "direction_bridges": {
+      "alpha_rent": [
+       0.05,
+       0.023
+      ],
+      "alpha_fiscal": [
+       0.1,
+       0.1503
+      ]
+     },
+     "direction_bridges_only": 44.7,
+     "direction_bridges_reset": -2.7,
+     "listed_dials_only": -9.5,
+     "each_dial_reset": {
+      "eta_end": 73.0,
+      "width": 47.4,
+      "t_mid": 71.4,
+      "alpha_capex": 63.8,
+      "alpha_rent": 21.5,
+      "alpha_fiscal": 47.4,
+      "tp_per_debt": 70.8,
+      "debt_threshold": 70.8,
+      "public_support": 66.2,
+      "premium_shift": 71.1,
+      "sigma": 74.6,
+      "p0": 70.8
+     },
+     "needed": [
+      "width",
+      "alpha_rent",
+      "alpha_fiscal"
+     ]
+    },
+    "draw": 268
+   },
+   "largest 10Y rise": {
+    "value": 608.0,
+    "dials": {
+     "eta_end": 0.027,
+     "width": 3.338,
+     "t_mid": 3.104,
+     "alpha_capex": 0.959,
+     "alpha_rent": 0.018,
+     "alpha_fiscal": 0.392,
+     "tp_per_debt": 0.043,
+     "debt_threshold": 83.269,
+     "public_support": 0.571,
+     "premium_shift": -1.239,
+     "sigma": 1.531,
+     "p0": 0.094
+    },
+    "debt_max": 199.0,
+    "r_star_max": 5.09,
+    "draw": 31
+   },
+   "largest 10Y fall": {
+    "value": -329.2,
+    "dials": {
+     "eta_end": 0.037,
+     "width": 1.42,
+     "t_mid": 7.832,
+     "alpha_capex": 0.985,
+     "alpha_rent": 0.192,
+     "alpha_fiscal": 0.367,
+     "tp_per_debt": 0.004,
+     "debt_threshold": 83.019,
+     "public_support": 0.515,
+     "premium_shift": -1.017,
+     "sigma": 1.785,
+     "p0": 0.107
+    },
+    "r_star_min": -3.43,
+    "draw": 2085
+   },
+   "largest rise in the required return": {
+    "value_pp": 5.12,
+    "dials": {
+     "eta_end": 0.03,
+     "width": 1.125,
+     "t_mid": 2.541,
+     "alpha_capex": 0.77,
+     "alpha_rent": 0.021,
+     "alpha_fiscal": 0.346,
+     "tp_per_debt": 0.009,
+     "debt_threshold": 45.555,
+     "public_support": 0.185,
+     "premium_shift": 1.128,
+     "sigma": 0.958,
+     "p0": 0.05
+    },
+    "draw": 2315
+   }
+  },
+  "picks_note": "dials_moved_default_to_draw lists the dials a pick moves by more than 0.15 of their range: a description of the draw, not the cause of its outcome. cause_by_subset (reverse.attribute) re-runs the draw with dial subsets: only the two direction bridges (alpha_rent, alpha_fiscal) moved from the defaults, those two reset to the defaults in the draw, only the listed dials moved, each dial reset alone; 'needed' names the dials whose reset alone loses the breach.",
+  "default_dials": {
+   "recog_10Y": -11.27,
+   "ten_year_10Y": -74.74,
+   "max_up_10Y": 0.0,
+   "max_down_10Y": -91.45,
+   "c50": 3.16,
+   "debt_max": 77.39,
+   "real_wage_min_rel": 0.51,
+   "policy_min": 2.0,
+   "policy_max": 2.75,
+   "rho_rise_max_pp": 0.14
   }
  }
 }
