@@ -764,6 +764,67 @@ is right; in an extreme path the destination is what is wrong.
     years; what would matter is a funded build-out (about 5 points of US unemployment, above). The deficit worry works in
     the model only as a price: it has no revenue side and no default, so the case says what a premium does to borrowers,
     not whether one comes.
+- **The splits tracker** (her request, 2026-10-12: many headline statistics only make sense split into a machine/owner
+  side and a human/wage side — put a tracker in this thread and on the website. A panel that day catalogued 46 measures,
+  measured how easily a split is found by trying cuts, and designed the tracker on her participation method; a critic
+  corrected it; three reviews on 2026-10-13 (statistics, public copy, protocol) revised it, Log 31. `SPLITS.md` (the
+  protocol), `code/splits.py`, `results/splits.json`, `figures/fig_splits.png`, `checks/check_splits.py` 23/23; the
+  tracker's own vintages in `cache/splits/`). **Not yet fixed** (decision 37): every reading below is the starting
+  point, already seen and not judged. Stated as found (monthly data to August or September 2026, quarterly to 2026Q2):
+  - **How easily a split is found.** Of all 2,047 two-way cuts of the twelve payroll supersectors, 7.5% split beyond
+    2 sd of their normal 12-month range in September 2026, down from 23.2% a year earlier; in normal months 1992-2019 the
+    median is 0.4% and the 95th percentile 26.6%, in recessions 54.0%. Thirteen of the 15 normal months at or above
+    that percentile are recoveries (the year after a recession's exclusion ends; without them it would be 10.9%). Care
+    against the rest (+2.2 points a year, z 1.1) ranks 684th of the 2,047. On the panel's 24-month windows (reproduced,
+    S5a) the share was 26.6% against a 95th percentile of 18.7%, down from 48.7%: measure 2 moved from "above" to
+    "within the normal range" when the reviews put it on 12-month windows (decision 39).
+  - **Moved the paper's way over the latest window (E ≥ +1): three of twelve.** Care: in the year to September 2026 care
+    added 520,000 jobs while all other jobs lost 24,000, and care's relative pay (production workers, education and
+    health) fell 1.8% against a usual rise of 0.1% (E +2.9; jobs leg +1.1). Labour's share of nonfinancial corporate
+    value added 54.6% in 2026Q2 (56.1% a year earlier, 58.6% in 2019Q4), the lowest since the series began in 1947;
+    adjusted for unemployment E +1.36 (the raw share +1.44: the adjustment is small). Real investment in information
+    processing equipment and software +16.8% on the year against housing −3.3% (E +1.2; the year holds a rate cut of
+    75 bp, so a narrowing would have fitted the rival).
+  - **No clear change: the other nine.** Payroll dispersion within its normal range, 7.5% from 23.2% without a
+    recession: the direction the over-hiring unwind expects. Graduates: bachelor's+ 2.6% against high school 4.3%, ratio
+    0.62 from 0.64 (E −0.4). Software postings: index 77 from 65 a year earlier while all postings held at 103 —
+    recovering, the rival's direction, not yet clearly (E −0.8 on its own history to September 2025; reported beside the
+    count). Hiring: 3.3% against the 3.9% unemployment implies; the gap closed 0.07 points (E −0.6), so it fits the
+    paper's "stays below". Output per hour +2.2% on the year against a 2.0% average (E +0.3: output +2.5%, hours +0.2%,
+    the immigration rival's call). Dividends 13.4% of pay (13.6% a year earlier), interest 15.2% (15.3%) (E −0.7).
+    Transformer prices +7.8% on the year against finished goods +6.6% (now both unadjusted), 35% above their December
+    2019 relative level (E −0.2: the premium is not falling back yet). Land $30.1 trillion, 1.84 years of pay (1.88;
+    E −0.5; the 10-year real rate did not rise over the year). Saving 4.4% of income (5.8% a year earlier), 4.8 points
+    above what equity wealth implies (E +0.6 as built; −0.1, −0.7 and −1.0 with the 1990-2019 slope, a slope of −1 and
+    no wealth term; household equities are 3.09 times income, beyond the 0.32-2.00 of the fit: decision 33).
+  - **Combined:** count +3 over the eleven counted measures (three the paper's way, none against), above all 13
+    benchmark years (2004-2007 and 2011-2019, built like the judged count: median 0, 90th percentile 1, highest +2).
+    Tally: the paper's call fits four (1, 5, 7, 11), the rivals' two, both "nothing unusual" (2, 6), no signed call;
+    neither five (3, 8, 9, 10, 12); measure 4 beside (neither). By the protocol's rules that would read "supports the
+    paper", resting on two channels (without the rates measures or the price-shock measures it reads inconclusive) —
+    and this is the explore half: the twelve were chosen by people who had seen these series, and it carries no weight.
+  - **Base rates.** When a measure's excess was clear (|E| ≥ 1) in 1990-2019, it kept its sign the next year 59% of the
+    time and was clear again 17% (pooled over the ten counted measures with E; the panel's construction: 64%). The split
+    measures persist more: care 75%, the labour share 81%, the build-out 91%; persistence alone gives them `+` again with
+    a chance of 57%, 23% and 41%. Measure 2: 1 of 14 normal months above its threshold was still above a year later.
+    The rules in the 13 benchmark years: supports the paper none, favours the rivals 1, nothing unusual 7,
+    inconclusive 5; the retirement rule would have been met in 4 of 12 consecutive pairs.
+  - **Watch list (never judged).** Nasdaq-100 cap-weighted over its equal-weighted version +2.5 log points on the year,
+    +41.6 since December 2019 (+36.3 since December 2022); large over small caps −1.6 on the year, +31.8 since 2019,
+    with small caps ahead from December 2025 to July 2026 and behind again by September. Computer imports 72% of
+    investment in information processing equipment in 2026Q2 (33% in 2015-19; 39% the pre-2020 high). Electricity
+    +0.4 log points against all prices on the year, +10.2 since 2019. Consumer spending 67.5% of GDP (67.4% in 2015-19).
+    Swedish household property income net of property income paid 6.09% of GDP (6.03% in 2015-19). Wealth (context for
+    the website): the richest 1% held 32.5% of household net worth in 2026Q2, the highest since the series began in 1989
+    (previous high 31.8% in 2025Q4); the richest 10% 68.9%, below their 70.2% peak of 2019Q1.
+  - **The panel's numbers reproduced** (S5a): on its inputs and its recession dates the 24-month dispersion benchmark
+    gives 0.4%, 17.9%, 55.7% and 27.7% exactly. On 24-month windows the tracker's 18.7% is NBER's dating (five more
+    normal months); August 2026 reads 27.9% after the September release's revisions (26.0% on NBER dating before them).
+  - `[inferred]` The splits moving most now are the build-out, the labour share and care's pay, all three measures
+    whose splits persist from year to year; the payroll split has unwound without a recession, which is the rival's
+    call coming true. Of the measures built to separate the explanations, care's pay leans to the paper, software
+    postings and payroll dispersion lean to the rivals, and graduates and the produced-input premium against land show
+    nothing yet. Care's pay is not yet clean: a shift toward low-paid home care would lower the average too.
 - **Reading, for her question** ("does the hump give way to a truer parallel once the curve is
   flat?") `[inferred]`: over a whole cycle the move is near-parallel, front-heavy; phase by
   phase, a flat curve does not by itself bring parallel moves — it brings delivery (the front)
@@ -875,6 +936,83 @@ is right; in an extreme path the destination is what is wrong.
 27. **Energy, housing, Japan, Korea and Taiwan are watched, not modelled** (the watcher's wider rules, 2026-09-25). An oil
     surge would tie central banks' hands in the bust; the model's inflation has no energy term. Proposed: add one only if
     the oil rule and a bust fire together.
+28. **The twelve judged measures are the critic's list** (`SPLITS.md` §2), where the paper and a named rival predict
+    different signs, not the panel's first draft (which judged splits every explanation predicts). Three swaps from the
+    brief, all for data: care's pay is production workers in education and health (`CES6500000008`; no health-care
+    production-worker earnings series is on FRED); the build-out against housing uses BEA's chain-type quantity indexes
+    (`B679RA3Q086SBEA`, `A011RA3Q086SBEA`, from 1947; the chained-dollar series on FRED start in 2007 and
+    `A679RA3Q086SBEA` stops in 2013); computer imports are set against information processing equipment (`Y034RC1Q027SBEA`),
+    since `Y033RC1Q027SBEA` is all equipment. Measure 9's finished goods are the unadjusted index (`WPUFD49207`), like the
+    transformer index (the review: the adjusted one's seasonal factors are revised each February). Alternatives: the
+    panel's draft list; credit stress by area income (NY Fed, not on FRED) in place of saving.
+29. **One statistic, E, on the latest 12 months or 4 quarters**, against the mean and sd of such changes in 1990-2019
+    windows without a recession month; thresholds ±1 (in plain units in `SPLITS.md` §2). It scores the excess over the
+    1990-2019 pace, so a gap that keeps that pace scores nothing — but a split that continues at its recent pace scores
+    again, which is why each measure carries the chance that persistence alone gives its reading (§5). Output per hour is
+    judged on its growth over 4 quarters, not the brief's 8, so every measure has the same window (8-quarter growth is
+    reported: 2.2% a year to 2026Q2). Alternatives: 24-month windows (fewer, slower), ±1.5 (fewer readings either way), a
+    frozen persistence null for the count (not built).
+30. **Recessions are NBER's (`USREC`)**, plus a real-time Sahm reading ≥ 0.5 for windows NBER has not dated, on judged
+    windows and the count's benchmark alike. A recession voids every measure except 3 and 7, whose rival is the cycle
+    (judged in a downturn); the combined verdict is void either way. On 24-month windows NBER's dating put measure 2's
+    threshold at 18.7%, not the panel's 17.9% (its hand-typed peaks counted five more months as recession).
+31. **Which explanation a reading fits** (`SPLITS.md` §2): a rival that predicts nothing unusual (6, 7; 12 only once
+    measure 11 has turned; 2 below at both ends) fits when |E| < 1, but that is not a signed call; hiring's "stays below"
+    fits the paper while the gap is below zero; care counts only while its jobs rise faster than usual; dividends are
+    judged alone (rent is reported: it is mostly owner-occupiers' imputed rent, which overlaps measure 10). The rivals'
+    conditions are tested: a rate cut (target at least 50 bp below its level a year earlier) for 5 and 11, a rising
+    10-year real rate (Cleveland Fed) for 10; without them a `−` fits neither. Measure 9 is judged on its level at the
+    window ending August 2028 ("falls back by 2028"). The paired reading of 9 with 10 is dropped: each is scored on its
+    own, which already reads the produced-input premium falling while land holds as the paper's. Alternatives: a high
+    (not rising) real rate for 10; the paired reading in place of 9's and 10's separate entries.
+32. **Software postings are judged against their own history** (2021-04 to 2025-09, the window before the latest left
+    out: mean −9.6, sd 34 log points a year), which contains the 2022-25 fall the measure tests; it reads `+` only on a
+    35% relative fall in a year and `−` on a 28% rise. It is reported beside the count, not in it (the count's benchmark
+    needs 1990-2019 history). Alternatives: a zero mean; moving it to the watch list.
+33. **The residual fits** (coefficients frozen at the freeze; later vintages' estimates printed beside them): labour
+    share on the unemployment rate's level over 1948-2019, no trend (over a year the adjustment is small: E +1.36 against
+    +1.44 raw); hiring on unemployment over 2001-2019; saving on equities over disposable income, linear, 1960-2019.
+    **Open, for her before the freeze:** saving's wealth slope is extrapolated (equities 3.09 times income against
+    0.32-2.00 in the fit; fitted saving rate −0.4%), and today's E depends on it: +0.57 as built, −0.12 with the 1990-2019
+    slope, −0.66 with a slope of −1 (about the Fed's one cent per dollar), −1.00 with no wealth term; a stock rally alone
+    raises the residual. The alternatives and an out-of-range flag are reported. Options: keep the 1960-2019 slope; a
+    slope of −1 from the literature; a log wealth term; move 12 to the watch list. Alternative for 7: a fit in changes.
+34. **Verdicts and retiring** (`SPLITS.md` §6, §8), over the eleven counted measures: supports the paper when the count
+    is above the benchmark's 90th percentile (today 1) and the paper fits at least twice as many measures as the rivals
+    (all their fits); favours the rivals when the rivals' signed calls fit at least twice as many as the paper;
+    nothing unusual at a count at or below the median (0) or with no fit for the paper and no signed call; given only at
+    the yearly look, and recomputed without each channel (rates; the tech unwind; the price shock). Retire after two
+    consecutive non-void windows that favour the rivals or read nothing unusual (void windows skipped): in the benchmark
+    years that would have happened in 4 of 12 pairs. Alternative: retire only on two that favour the rivals (0 of 12).
+35. **The watch list**: big stocks against the rest as the Nasdaq-100 over its equal-weighted version (the S&P 500
+    equal-weight index is not on FRED; large against small caps beside it), computer imports, electricity, consumer
+    spending's share, and Sweden's household property income net of property income paid (Statistics Sweden NR0103 sector
+    accounts, cached; national accounts, not labour-force data). Reported, never judged. The wealth shares of the
+    richest 1% and 10% (Fed distributional accounts) are fetched as context for the website's spending section.
+36. **The tracker keeps its own vintages** (`cache/splits/`, refreshed each quarter with `--refresh`, committed with the
+    freeze and with each look), so the other units' caches do not move; October 2025 (no household survey or CPI, the
+    shutdown) is handled as never published. A failed refresh keeps the previous file and its record, marked and warned;
+    the baseline and the look refuse it.
+37. **The freeze date** — proposed: as soon as she has read this, before the September CPI and PPI and the third-quarter
+    GDP release, so the starting point is not picked around them; the first judged look then falls on 15 November 2027.
+    `--refresh --write-baseline`, the checks, a commit, then the tag `paths-splits-freeze`. Proposed (was her call): push
+    the tag the same day, before the website says "fixed on" — an unpushed tag can be deleted and made again. The
+    baseline lists the releases published after the 2026-10-13 vintage, as seen. Alternative: freeze at the next
+    quarterly run.
+38. **The count's benchmark is built like the judged count:** the eleven measures with 1990-2019 history, only years in
+    which all eleven exist, each window ending in the calendar month its judged windows end in (September; August for 5,
+    8, 9; the second quarter), and the same void rule (NBER or Sahm): 13 years, 2004-2007 and 2011-2019 (was: December
+    windows over 8-11 measures, 25 years). Alternative: scale the count by the number of measures to use 1993-2019.
+39. **Measure 2 on 12-month windows** (was 24, the panel's): a judged reading then holds nothing from before its window's
+    start and consecutive windows share no data, as `SPLITS.md` §9.3 requires; its per-cut moments are frozen. Its
+    threshold keeps the recovery years (13 of the 15 normal months at or above it), as judged windows in a recovery are
+    not voided either. It reads "within the normal range" today (7.5% against 26.6%); on 24-month windows it read above
+    (26.6% against 18.7%). Alternatives: 24-month windows judged from b+24 only; leaving out the year after each
+    recession's exclusion (threshold 10.9%).
+40. **The yearly look runs once and stands** (`SPLITS.md` §7): `--refresh --look` on 15 November (or the first day after
+    it when every window is published), refusing a failed refresh; committed with the vintage and tagged
+    `paths-splits-look-<year>`; later runs report the window on revised data beside it. A code change after the freeze is
+    run beside the tagged code, whose judged readings stand; any difference is a deviation.
 
 ## Next
 
@@ -917,6 +1055,12 @@ is right; in an extreme path the destination is what is wrong.
 11. **Her case, onward** (decisions 23-27): the case on the website (a page stating it, with the watcher's signs for and
     against each leaning); the US fiscal arithmetic (revenue with the wage base, interest as debt rolls over) so that
     deficits are computed, not priced; the crash model's displacement on the dated clock.
+12. **The splits tracker** (decisions 28-40): her read and vetoes — decision 33 (saving's wealth slope) is open and needs
+    her call before the freeze; then the freeze (`code/splits.py --refresh --write-baseline`, `checks/check_splits.py`,
+    commit with `cache/splits/`, tag `paths-splits-freeze`, push the tag the same day); a quarterly run of about an hour
+    (`SPLITS.md` §7); the first judged look on 15 November 2027 (`--refresh --look`, commit, tag
+    `paths-splits-look-2027`); the page on the website reads `results/splits.json` (deploy it after this repository is
+    pushed, so its link to `SPLITS.md` resolves).
 
 ## Siblings
 
@@ -1190,3 +1334,51 @@ the macro block lands.
     the regions measured on data to September 2026; `case.py` now reads it) and `ai_shock(delay=...)`, the bust starting
     that many quarters later with the build-out holding until then. Off by default: `check_global_crash.py` 43/43 and
     `check_case.py` 11/11 unchanged.
+30. **2026-10-12 — the splits tracker.** Her request: put a splits tracker in this thread and on her website. Built from
+    the day's panel (catalogue, cut test, tracker design, critic) on her participation method: `SPLITS.md`,
+    `code/splits.py`, `checks/check_splits.py` (15/15), decisions 28-38; not frozen. FRED answered from this machine
+    through the existing helper; the tracker caches its own vintages in `cache/splits/` with FRED's own title for every
+    series (52), which caught one wrong ID in the brief (`Y033RC1Q027SBEA` is all equipment, not information processing
+    equipment) and two unusable ones (no health-care production-worker earnings series; the chained-dollar IT investment
+    series start only in 2007 and the older quantity index stops in 2013) — swapped, decision 28. Caught before findings: the
+    first judged windows were counted by position and slipped a month over October 2025, which was never collected
+    (household survey, CPI); windows are now on the calendar and a check runs a release past that gap (S14). The panel's
+    dispersion numbers are reproduced exactly on its inputs (S5a); the tracker's own differ by NBER dating and the
+    September revisions, stated (S5b). No European labour-force data opened by the build (the panel's reading: Log
+    31); the guard refuses it by name (S2). **Found in passing, not changed:** `decoupling.py` labels
+    `Y033RC1Q027SBEA` "information processing equipment", but FRED's
+    title is all equipment (5.7% of GDP in 2026Q2; information processing equipment, `Y034RC1Q027SBEA`, is 2.6%). Its
+    change since 2022 is the same (+0.7 points either way), so D5's comparison stands, but the build-out's level and its
+    2015-22 trend (and the measured build-out `global_crash.py` takes from it) need rechecking. **Rechecked 2026-10-13**
+    (a second reading of the unit before her review): the checks would have failed at the freeze itself (S7 read the real
+    baseline once `--write-baseline` had written it) and at the first refresh past October 2026 (S14, S5b and S4 were tied
+    to the 2026-10-12 vintage); fixed, and the freeze steps run end to end in a scratch copy (baseline, commit, tag, a
+    judged run, a refused rewrite, a refresh from FRED), 15/15 at each step. Once tagged, the baseline is read from the
+    tagged commit, not the working copy, and it carries the base rates. The refresh of 2026-10-13 brought only new daily
+    stock-index values: every reading above stands.
+31. **2026-10-13 — the splits tracker, three reviews applied** (statistics, public copy, protocol; not frozen). The
+    statistics reviewer reproduced every E, leg and the 2,047-cut benchmark exactly; the findings changed the design,
+    not the arithmetic. Measure 2 moved to 12-month windows (its 24-month share at a judged window's end held a year of
+    data seen before the freeze, and consecutive windows overlapped), with its recession check over its own window (and,
+    for a fall, the year before its start); it now reads within its normal range (decision 39). The count is built like
+    its benchmark (eleven measures, complete years, the judged months, NBER and Sahm voiding both: 13 years, decision
+    38). The fitted coefficients and measure 2's moments are frozen in the baseline; the definitions hash covers the
+    code that computes and judges the measures; a code change after the tag is run beside the tagged code. A failed
+    refresh no longer logs itself as a fresh download (it kept the old file but stamped today's date); it is marked,
+    warned and refused for the baseline and the look. Measure 9 uses the unadjusted finished-goods index; measure 4's
+    benchmark stops a window before the latest (E −0.78, was −0.70); the pooled base rates leave out 4 (59% and 17%).
+    The rivals' conditions are tested (rate cuts, a rising real rate, the build-out turning), the "by 2028" deadline is
+    dated, the 9-with-10 paired reading is dropped, 12's "no change" counts for the wealth effect only after the
+    build-out turns, and 3 and 7 are judged in a recession. The verdict splits "favours the rivals" (signed calls) from
+    "nothing unusual": in the benchmark years the rules give none, 1, 7 and 5 (supports, favours, nothing unusual,
+    inconclusive), where the old rules gave mostly "favours the rivals" on null fits; it waits for a yearly look that
+    runs once and is tagged. Measure 12's wealth slope is extrapolated far beyond its fit and decides today's sign: left
+    open for her (decision 33). Base rates per measure and the chance that persistence alone repeats a reading are
+    printed. Checks 23/23 (new: measure 2's windows, the tagged-code rerun, the look, the failed refresh, the conditions,
+    recessions, what was seen). **Blinding, recorded for the participation thread to judge:** the day's panel (scratch,
+    not in the repository) read Statistics Sweden's LFS unemployment rate, total, quarterly
+    (`cache/scb/lfs_unemp_q_sa.json`, already cached and used by `code/demand.py`; the website has a Swedish
+    unemployment indicator), and two of its agents saw its latest values; the tracker itself reads no labour-force data.
+    While applying the reviews, a search of the watcher's code for the series' name printed one line of a test fixture in
+    the watcher's repository (`tests/test_crash.py`), which holds two Swedish unemployment values labelled July and
+    August 2026; no data file was opened.
