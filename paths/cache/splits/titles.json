@@ -2,286 +2,286 @@
  "CES6562000001": {
   "title": "All Employees, Health Care and Social Assistance",
   "status": 200,
-  "checked_utc": "2026-10-12T15:15:56Z"
+  "checked_utc": "2026-10-13T10:14:47Z"
  },
  "PAYEMS": {
   "title": "All Employees, Total Nonfarm",
   "status": 200,
-  "checked_utc": "2026-10-12T15:15:56Z"
+  "checked_utc": "2026-10-13T10:14:47Z"
  },
  "CES6500000008": {
   "title": "Average Hourly Earnings of Production and Nonsupervisory Employees, Private Education and Health Services",
   "status": 200,
-  "checked_utc": "2026-10-12T15:15:57Z"
+  "checked_utc": "2026-10-13T10:14:48Z"
  },
  "AHETPI": {
   "title": "Average Hourly Earnings of Production and Nonsupervisory Employees, Total Private",
   "status": 200,
-  "checked_utc": "2026-10-12T15:15:58Z"
+  "checked_utc": "2026-10-13T10:14:49Z"
  },
  "USMINE": {
   "title": "All Employees, Mining and Logging",
   "status": 200,
-  "checked_utc": "2026-10-12T15:15:58Z"
+  "checked_utc": "2026-10-13T10:14:49Z"
  },
  "USCONS": {
   "title": "All Employees, Construction",
   "status": 200,
-  "checked_utc": "2026-10-12T15:15:59Z"
+  "checked_utc": "2026-10-13T10:14:50Z"
  },
  "MANEMP": {
   "title": "All Employees, Manufacturing",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:00Z"
+  "checked_utc": "2026-10-13T10:14:50Z"
  },
  "USTPU": {
   "title": "All Employees, Trade, Transportation, and Utilities",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:01Z"
+  "checked_utc": "2026-10-13T10:14:51Z"
  },
  "USINFO": {
   "title": "All Employees, Information",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:01Z"
+  "checked_utc": "2026-10-13T10:14:52Z"
  },
  "USFIRE": {
   "title": "All Employees, Financial Activities",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:02Z"
+  "checked_utc": "2026-10-13T10:14:52Z"
  },
  "USPBS": {
   "title": "All Employees, Professional and Business Services",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:03Z"
+  "checked_utc": "2026-10-13T10:14:53Z"
  },
  "CES6561000001": {
   "title": "All Employees, Private Educational Services",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:04Z"
+  "checked_utc": "2026-10-13T10:14:53Z"
  },
  "USLAH": {
   "title": "All Employees, Leisure and Hospitality",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:04Z"
+  "checked_utc": "2026-10-13T10:14:54Z"
  },
  "USSERV": {
   "title": "All Employees, Other Services",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:05Z"
+  "checked_utc": "2026-10-13T10:14:55Z"
  },
  "USGOVT": {
   "title": "All Employees, Government",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:06Z"
+  "checked_utc": "2026-10-13T10:14:55Z"
  },
  "LNS14027662": {
   "title": "Unemployment Rate - Bachelor's Degree and Higher, 25 Yrs. & over",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:06Z"
+  "checked_utc": "2026-10-13T10:14:56Z"
  },
  "LNS14027660": {
   "title": "Unemployment Rate - High School Graduates, No College, 25 Yrs. & over",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:07Z"
+  "checked_utc": "2026-10-13T10:14:57Z"
  },
  "IHLIDXUSTPSOFTDEVE": {
   "title": "Software Development Job Postings on Indeed in the United States",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:08Z"
+  "checked_utc": "2026-10-13T10:14:57Z"
  },
  "IHLIDXUS": {
   "title": "Job Postings on Indeed in the United States",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:08Z"
+  "checked_utc": "2026-10-13T10:14:58Z"
  },
  "JTSHIR": {
   "title": "Hires: Total Nonfarm",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:09Z"
+  "checked_utc": "2026-10-13T10:14:58Z"
  },
  "UNRATE": {
   "title": "Unemployment Rate",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:09Z"
+  "checked_utc": "2026-10-13T10:14:59Z"
  },
  "OUTNFB": {
   "title": "Nonfarm Business Sector: Real Value-Added Output for All Workers",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:10Z"
+  "checked_utc": "2026-10-13T10:14:59Z"
  },
  "HOANBS": {
   "title": "Nonfarm Business Sector: Hours Worked for All Workers",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:11Z"
+  "checked_utc": "2026-10-13T10:15:00Z"
  },
  "A460RC1Q027SBEA": {
   "title": "Net value added of nonfinancial corporate business: Compensation of employees",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:12Z"
+  "checked_utc": "2026-10-13T10:15:01Z"
  },
  "A455RC1Q027SBEA": {
   "title": "Gross value added of nonfinancial corporate business",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:13Z"
+  "checked_utc": "2026-10-13T10:15:01Z"
  },
  "PDI": {
   "title": "Personal Income Receipts on Assets: Personal Dividend Income",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:13Z"
+  "checked_utc": "2026-10-13T10:15:02Z"
  },
  "PII": {
   "title": "Personal Income Receipts on Assets: Personal Interest Income",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:14Z"
+  "checked_utc": "2026-10-13T10:15:03Z"
  },
  "W209RC1": {
   "title": "Compensation of employees, received",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:15Z"
+  "checked_utc": "2026-10-13T10:15:03Z"
  },
  "RENTIN": {
   "title": "Rental Income of Persons with Capital Consumption Adjustment (CCAdj)",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:16Z"
+  "checked_utc": "2026-10-13T10:15:04Z"
  },
  "PCU335311335311": {
   "title": "Producer Price Index by Industry: Electric Power and Specialty Transformer Manufacturing",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:17Z"
+  "checked_utc": "2026-10-13T10:15:04Z"
  },
  "WPUFD49207": {
   "title": "Producer Price Index by Commodity: Final Demand: Finished Goods",
   "status": 200,
-  "checked_utc": "2026-10-13T08:07:56Z"
+  "checked_utc": "2026-10-13T10:15:05Z"
  },
  "BOGZ1FL155035015Q": {
   "title": "Households; Owner-Occupied Real Estate Including Vacant Land and Mobile Homes at Market Value, Level",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:18Z"
+  "checked_utc": "2026-10-13T10:15:06Z"
  },
  "RCVSHNWBSHNO": {
   "title": "Households; Residential Structures, Current Cost Basis, Level",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:19Z"
+  "checked_utc": "2026-10-13T10:15:07Z"
  },
  "BOGZ1FL105010005Q": {
   "title": "Nonfinancial Corporate Business; Land at Market Value, Level",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:20Z"
+  "checked_utc": "2026-10-13T10:15:07Z"
  },
  "BOGZ1FL115010005Q": {
   "title": "Nonfinancial Noncorporate Business; Land at Market Value, Level",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:20Z"
+  "checked_utc": "2026-10-13T10:15:08Z"
  },
  "B679RA3Q086SBEA": {
   "title": "Real private fixed investment, chained quantity index: Private fixed investment in information processing equipment and software",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:22Z"
+  "checked_utc": "2026-10-13T10:15:08Z"
  },
  "A011RA3Q086SBEA": {
   "title": "Real gross private domestic investment: Fixed investment: Residential (chain-type quantity index)",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:23Z"
+  "checked_utc": "2026-10-13T10:15:09Z"
  },
  "PSAVERT": {
   "title": "Personal Saving Rate",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:23Z"
+  "checked_utc": "2026-10-13T10:15:10Z"
  },
  "BOGZ1LM153064475Q": {
   "title": "Households and Nonprofit Organizations; Directly and Indirectly Held Corporate Equities; Asset, Market Value Levels",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:24Z"
+  "checked_utc": "2026-10-13T10:15:11Z"
  },
  "DSPI": {
   "title": "Disposable Personal Income",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:25Z"
+  "checked_utc": "2026-10-13T10:15:11Z"
  },
  "USREC": {
   "title": "NBER based Recession Indicators for the United States from the Period following the Peak through the Trough",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:25Z"
+  "checked_utc": "2026-10-13T10:15:12Z"
  },
  "SAHMREALTIME": {
   "title": "Real-time Sahm Rule Recession Indicator",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:26Z"
+  "checked_utc": "2026-10-13T10:15:13Z"
  },
  "DFEDTAR": {
   "title": "Federal Funds Target Rate (DISCONTINUED)",
   "status": 200,
-  "checked_utc": "2026-10-13T08:07:57Z"
+  "checked_utc": "2026-10-13T10:15:13Z"
  },
  "DFEDTARU": {
   "title": "Federal Funds Target Range - Upper Limit",
   "status": 200,
-  "checked_utc": "2026-10-13T08:07:58Z"
+  "checked_utc": "2026-10-13T10:15:14Z"
  },
  "REAINTRATREARAT10Y": {
   "title": "10-Year Real Interest Rate",
   "status": 200,
-  "checked_utc": "2026-10-13T08:07:59Z"
+  "checked_utc": "2026-10-13T10:15:14Z"
  },
  "NASDAQ100": {
   "title": "NASDAQ-100",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:27Z"
+  "checked_utc": "2026-10-13T10:15:14Z"
  },
  "NASDAQNDXE": {
   "title": "NASDAQ-100 Equal Weighted",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:27Z"
+  "checked_utc": "2026-10-13T10:15:15Z"
  },
  "NASDAQNQUSL": {
   "title": "NASDAQ US Large Cap Index",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:28Z"
+  "checked_utc": "2026-10-13T10:15:16Z"
  },
  "NASDAQNQUSS": {
   "title": "NASDAQ US Small Cap Index",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:29Z"
+  "checked_utc": "2026-10-13T10:15:16Z"
  },
  "B852RC1Q027SBEA": {
   "title": "Imports of goods: Capital goods, except automotive: Computers, peripherals, and parts",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:29Z"
+  "checked_utc": "2026-10-13T10:15:17Z"
  },
  "Y034RC1Q027SBEA": {
   "title": "Gross Private Domestic Investment: Fixed Investment: Nonresidential: Equipment: Information Processing Equipment",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:30Z"
+  "checked_utc": "2026-10-13T10:15:17Z"
  },
  "CUSR0000SEHF01": {
   "title": "Consumer Price Index for All Urban Consumers: Electricity in U.S. City Average",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:30Z"
+  "checked_utc": "2026-10-13T10:15:18Z"
  },
  "CPIAUCSL": {
   "title": "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:31Z"
+  "checked_utc": "2026-10-13T10:15:19Z"
  },
  "PCEC": {
   "title": "Personal Consumption Expenditures",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:32Z"
+  "checked_utc": "2026-10-13T10:15:19Z"
  },
  "GDP": {
   "title": "Gross Domestic Product",
   "status": 200,
-  "checked_utc": "2026-10-12T15:16:32Z"
+  "checked_utc": "2026-10-13T10:15:20Z"
  },
  "WFRBST01134": {
   "title": "Share of Net Worth Held by the Top 1% (99th to 100th Wealth Percentiles)",
   "status": 200,
-  "checked_utc": "2026-10-13T08:07:59Z"
+  "checked_utc": "2026-10-13T10:15:20Z"
  },
  "WFRBSN09161": {
   "title": "Share of Net Worth Held by the 90th to 99th Wealth Percentiles",
   "status": 200,
-  "checked_utc": "2026-10-13T08:08:00Z"
+  "checked_utc": "2026-10-13T10:15:21Z"
  }
 }

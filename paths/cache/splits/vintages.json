@@ -1,6 +1,6 @@
 {
  "CES6562000001": {
-  "downloaded_utc": "2026-10-12T15:13:34Z",
+  "downloaded_utc": "2026-10-13T10:12:22Z",
   "sha256": "303d46a50651ccb69350268cfebf56aaf1f58a342d2ad5736e07cdecf4a8de48",
   "first": "1990-01-01",
   "last": "2026-09-01",
@@ -10,7 +10,7 @@
   "fred_title": "All Employees, Health Care and Social Assistance"
  },
  "PAYEMS": {
-  "downloaded_utc": "2026-10-12T15:13:36Z",
+  "downloaded_utc": "2026-10-13T10:12:25Z",
   "sha256": "c8c429818ed73de6db985f4ff565d64bd2a5ba66a6b651b39373a1532924fc0e",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -20,7 +20,7 @@
   "fred_title": "All Employees, Total Nonfarm"
  },
  "CES6500000008": {
-  "downloaded_utc": "2026-10-12T15:13:39Z",
+  "downloaded_utc": "2026-10-13T10:12:27Z",
   "sha256": "0fa2a282dffd951df9b591e78453c25aa50f4b35e3f5d3b05e2dcff5d448196a",
   "first": "1964-01-01",
   "last": "2026-09-01",
@@ -30,7 +30,7 @@
   "fred_title": "Average Hourly Earnings of Production and Nonsupervisory Employees, Private Education and Health Services"
  },
  "AHETPI": {
-  "downloaded_utc": "2026-10-12T15:13:42Z",
+  "downloaded_utc": "2026-10-13T10:12:30Z",
   "sha256": "d564b359cc80dbb142b079038f220dac549143633dcaf324cd437621ac0d55bf",
   "first": "1964-01-01",
   "last": "2026-09-01",
@@ -40,7 +40,7 @@
   "fred_title": "Average Hourly Earnings of Production and Nonsupervisory Employees, Total Private"
  },
  "USMINE": {
-  "downloaded_utc": "2026-10-12T15:13:45Z",
+  "downloaded_utc": "2026-10-13T10:12:32Z",
   "sha256": "6d95326c82441a9afbf61abbe631a6ad6c9f8b368f3d3b2c34ca62218c45b2f8",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -50,7 +50,7 @@
   "fred_title": "All Employees, Mining and Logging"
  },
  "USCONS": {
-  "downloaded_utc": "2026-10-12T15:13:48Z",
+  "downloaded_utc": "2026-10-13T10:12:35Z",
   "sha256": "4c96793ff7db763e25971fd13905b8b631d168c8a9ed42f8424e1cac867c556d",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -60,7 +60,7 @@
   "fred_title": "All Employees, Construction"
  },
  "MANEMP": {
-  "downloaded_utc": "2026-10-12T15:13:50Z",
+  "downloaded_utc": "2026-10-13T10:12:38Z",
   "sha256": "a5c4e25938328718623f3f05f1f724f57c550c9d09e72a5c37ec17eaa5c89a37",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -70,7 +70,7 @@
   "fred_title": "All Employees, Manufacturing"
  },
  "USTPU": {
-  "downloaded_utc": "2026-10-12T15:13:53Z",
+  "downloaded_utc": "2026-10-13T10:12:40Z",
   "sha256": "cd38ec15ef5ccf0470b4a1118521e927ddb9da7aef3eb6fd4bad499519b9ef8a",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -80,7 +80,7 @@
   "fred_title": "All Employees, Trade, Transportation, and Utilities"
  },
  "USINFO": {
-  "downloaded_utc": "2026-10-12T15:13:56Z",
+  "downloaded_utc": "2026-10-13T10:12:43Z",
   "sha256": "726f32619e09239d299dc8bb48f3074f246b68041aaa7864ce4e86e76699e32e",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -90,7 +90,7 @@
   "fred_title": "All Employees, Information"
  },
  "USFIRE": {
-  "downloaded_utc": "2026-10-12T15:13:58Z",
+  "downloaded_utc": "2026-10-13T10:12:45Z",
   "sha256": "0064dc2761908071b60eb94704bee1389c784ffcf646957cb3c0dd85b4c8cb79",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -100,7 +100,7 @@
   "fred_title": "All Employees, Financial Activities"
  },
  "USPBS": {
-  "downloaded_utc": "2026-10-12T15:14:01Z",
+  "downloaded_utc": "2026-10-13T10:12:48Z",
   "sha256": "9a76e66f00e122e82fee635b14e278a0794e3447c2037d3937a0d8c341e86500",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -110,7 +110,7 @@
   "fred_title": "All Employees, Professional and Business Services"
  },
  "CES6561000001": {
-  "downloaded_utc": "2026-10-12T15:14:04Z",
+  "downloaded_utc": "2026-10-13T10:12:51Z",
   "sha256": "9db2f5bbc9731cb6b34e7913dfe6cddc6360cd6c7b28524cdc6e286598505bd5",
   "first": "1990-01-01",
   "last": "2026-09-01",
@@ -120,7 +120,7 @@
   "fred_title": "All Employees, Private Educational Services"
  },
  "USLAH": {
-  "downloaded_utc": "2026-10-12T15:14:06Z",
+  "downloaded_utc": "2026-10-13T10:12:53Z",
   "sha256": "14f36907938f25b6536e828bc4b4df917234c094d0d508d639993669d171f8ff",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -130,7 +130,7 @@
   "fred_title": "All Employees, Leisure and Hospitality"
  },
  "USSERV": {
-  "downloaded_utc": "2026-10-12T15:14:09Z",
+  "downloaded_utc": "2026-10-13T10:12:56Z",
   "sha256": "b8642bfb46085d9b4e51044bcfcd919d6a388bdd602243842cccee376d07447e",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -140,7 +140,7 @@
   "fred_title": "All Employees, Other Services"
  },
  "USGOVT": {
-  "downloaded_utc": "2026-10-12T15:14:12Z",
+  "downloaded_utc": "2026-10-13T10:12:58Z",
   "sha256": "cea78b8ec333d9ea8cd6d070079ab06d8b92f9e5592249b3fc67c78d09b36d14",
   "first": "1939-01-01",
   "last": "2026-09-01",
@@ -150,7 +150,7 @@
   "fred_title": "All Employees, Government"
  },
  "LNS14027662": {
-  "downloaded_utc": "2026-10-12T15:14:15Z",
+  "downloaded_utc": "2026-10-13T10:13:01Z",
   "sha256": "d2f3a6d32326db4b163baaefee4780eb55998af6d7c18faa9d6a3ca082c0bfa1",
   "first": "1992-01-01",
   "last": "2026-09-01",
@@ -160,7 +160,7 @@
   "fred_title": "Unemployment Rate - Bachelor's Degree and Higher, 25 Yrs. & over"
  },
  "LNS14027660": {
-  "downloaded_utc": "2026-10-12T15:14:17Z",
+  "downloaded_utc": "2026-10-13T10:13:04Z",
   "sha256": "8e468a645ba5c47ff19c3a2d3f6d770479aafc8213574628dab826514d69614e",
   "first": "1992-01-01",
   "last": "2026-09-01",
@@ -170,7 +170,7 @@
   "fred_title": "Unemployment Rate - High School Graduates, No College, 25 Yrs. & over"
  },
  "IHLIDXUSTPSOFTDEVE": {
-  "downloaded_utc": "2026-10-12T15:14:20Z",
+  "downloaded_utc": "2026-10-13T10:13:06Z",
   "sha256": "e48c4dc97b972f85c58f1aea22c8e862b2f7a3f795bea832db0cf8dc5443432a",
   "first": "2020-02-01",
   "last": "2026-10-02",
@@ -180,7 +180,7 @@
   "fred_title": "Software Development Job Postings on Indeed in the United States"
  },
  "IHLIDXUS": {
-  "downloaded_utc": "2026-10-12T15:14:23Z",
+  "downloaded_utc": "2026-10-13T10:13:09Z",
   "sha256": "35683739b648107dc0c47208a25f30cd4d4d9fa93ac59f3fa98ea01b7bf5b9ee",
   "first": "2020-02-01",
   "last": "2026-10-02",
@@ -190,7 +190,7 @@
   "fred_title": "Job Postings on Indeed in the United States"
  },
  "JTSHIR": {
-  "downloaded_utc": "2026-10-12T15:14:25Z",
+  "downloaded_utc": "2026-10-13T10:13:12Z",
   "sha256": "aba952527222335b49ddbfa400456118252d25a5229e94dee8308c3f8f3213aa",
   "first": "2000-12-01",
   "last": "2026-08-01",
@@ -200,7 +200,7 @@
   "fred_title": "Hires: Total Nonfarm"
  },
  "UNRATE": {
-  "downloaded_utc": "2026-10-12T15:14:28Z",
+  "downloaded_utc": "2026-10-13T10:13:14Z",
   "sha256": "621ff6fadf50910cb7a21ee20ba610c247cb043b29b4e05c4c1a72fadca2a06c",
   "first": "1948-01-01",
   "last": "2026-09-01",
@@ -210,7 +210,7 @@
   "fred_title": "Unemployment Rate"
  },
  "OUTNFB": {
-  "downloaded_utc": "2026-10-12T15:14:31Z",
+  "downloaded_utc": "2026-10-13T10:13:16Z",
   "sha256": "abc705c764b11561516654b523d0da08989097089fa30ce1d4d830923c905de2",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -220,7 +220,7 @@
   "fred_title": "Nonfarm Business Sector: Real Value-Added Output for All Workers"
  },
  "HOANBS": {
-  "downloaded_utc": "2026-10-12T15:14:33Z",
+  "downloaded_utc": "2026-10-13T10:13:19Z",
   "sha256": "25968350f6bccc181fbbe8380e2729f55ccb5df14121773886461d6b8fafb0db",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -230,7 +230,7 @@
   "fred_title": "Nonfarm Business Sector: Hours Worked for All Workers"
  },
  "A460RC1Q027SBEA": {
-  "downloaded_utc": "2026-10-12T15:14:36Z",
+  "downloaded_utc": "2026-10-13T10:13:21Z",
   "sha256": "53910669334c9ac77b44336050baebebb408f9ebc8b8889a5f122e25548cc64a",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -240,7 +240,7 @@
   "fred_title": "Net value added of nonfinancial corporate business: Compensation of employees"
  },
  "A455RC1Q027SBEA": {
-  "downloaded_utc": "2026-10-12T15:14:39Z",
+  "downloaded_utc": "2026-10-13T10:13:24Z",
   "sha256": "f0a80394446843111b76f37f65ce4c1829d3268a1f35aba5fa7f9ef8cc662b4e",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -250,7 +250,7 @@
   "fred_title": "Gross value added of nonfinancial corporate business"
  },
  "PDI": {
-  "downloaded_utc": "2026-10-12T15:14:41Z",
+  "downloaded_utc": "2026-10-13T10:13:27Z",
   "sha256": "4ce14b7fd3668febd3edd3d6c8988bf36e44339777343ca4eca43a81010fde19",
   "first": "1959-01-01",
   "last": "2026-08-01",
@@ -260,7 +260,7 @@
   "fred_title": "Personal Income Receipts on Assets: Personal Dividend Income"
  },
  "PII": {
-  "downloaded_utc": "2026-10-12T15:14:44Z",
+  "downloaded_utc": "2026-10-13T10:13:29Z",
   "sha256": "85293a24317a4fc61699ae85681c51080aaad9ab056b551801896604ff10bb67",
   "first": "1959-01-01",
   "last": "2026-08-01",
@@ -270,7 +270,7 @@
   "fred_title": "Personal Income Receipts on Assets: Personal Interest Income"
  },
  "W209RC1": {
-  "downloaded_utc": "2026-10-12T15:14:47Z",
+  "downloaded_utc": "2026-10-13T10:13:32Z",
   "sha256": "a1a4ebd44ae6543ca8caa569dd5601099166af508b2e1b5231d75008694e9f10",
   "first": "1959-01-01",
   "last": "2026-08-01",
@@ -280,7 +280,7 @@
   "fred_title": "Compensation of employees, received"
  },
  "RENTIN": {
-  "downloaded_utc": "2026-10-12T15:14:50Z",
+  "downloaded_utc": "2026-10-13T10:13:35Z",
   "sha256": "f1dcc7745877068c79713adc8f8dfcf4c947e6aeb736f1e33c4edb3a54677b31",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -290,7 +290,7 @@
   "fred_title": "Rental Income of Persons with Capital Consumption Adjustment (CCAdj)"
  },
  "PCU335311335311": {
-  "downloaded_utc": "2026-10-12T15:14:53Z",
+  "downloaded_utc": "2026-10-13T10:13:37Z",
   "sha256": "7969665778816bb371dd294f06dd3c9fa37c52ca296bc7f926832e6979c7cf90",
   "first": "1967-01-01",
   "last": "2026-08-01",
@@ -300,7 +300,7 @@
   "fred_title": "Producer Price Index by Industry: Electric Power and Specialty Transformer Manufacturing"
  },
  "BOGZ1FL155035015Q": {
-  "downloaded_utc": "2026-10-12T15:14:58Z",
+  "downloaded_utc": "2026-10-13T10:13:43Z",
   "sha256": "7a83002f869942b3f2a95a3bcb312b170167f8e4c3abbce65ee41f4af79f62d1",
   "first": "1945-10-01",
   "last": "2026-04-01",
@@ -310,7 +310,7 @@
   "fred_title": "Households; Owner-Occupied Real Estate Including Vacant Land and Mobile Homes at Market Value, Level"
  },
  "RCVSHNWBSHNO": {
-  "downloaded_utc": "2026-10-12T15:15:01Z",
+  "downloaded_utc": "2026-10-13T10:13:45Z",
   "sha256": "554501410426c8631f16ff118e6d9759f4649b7f501297e09bae1d8ad443ae5e",
   "first": "1945-10-01",
   "last": "2026-04-01",
@@ -320,7 +320,7 @@
   "fred_title": "Households; Residential Structures, Current Cost Basis, Level"
  },
  "BOGZ1FL105010005Q": {
-  "downloaded_utc": "2026-10-12T15:15:04Z",
+  "downloaded_utc": "2026-10-13T10:13:48Z",
   "sha256": "a3c4370564ca4f3bbd6c8d52c11f6f1517069f51bab32d5d1406ea7f6b78439f",
   "first": "1945-10-01",
   "last": "2026-04-01",
@@ -330,7 +330,7 @@
   "fred_title": "Nonfinancial Corporate Business; Land at Market Value, Level"
  },
  "BOGZ1FL115010005Q": {
-  "downloaded_utc": "2026-10-12T15:15:07Z",
+  "downloaded_utc": "2026-10-13T10:13:50Z",
   "sha256": "d182910741c12ecf4950740e31fc4f3ef08cfe19a44a4b04488b9201cdf9aca4",
   "first": "1945-10-01",
   "last": "2026-04-01",
@@ -340,7 +340,7 @@
   "fred_title": "Nonfinancial Noncorporate Business; Land at Market Value, Level"
  },
  "A011RA3Q086SBEA": {
-  "downloaded_utc": "2026-10-12T15:15:12Z",
+  "downloaded_utc": "2026-10-13T10:13:56Z",
   "sha256": "8d8de5d14a75933024ead780764854753716ab509ac263306bb3f6f673ebbe25",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -350,7 +350,7 @@
   "fred_title": "Real gross private domestic investment: Fixed investment: Residential (chain-type quantity index)"
  },
  "PSAVERT": {
-  "downloaded_utc": "2026-10-12T15:15:14Z",
+  "downloaded_utc": "2026-10-13T10:13:58Z",
   "sha256": "b6f2ac9a14d541cee2ee211d46211228ffa9ca9e61a275ae58e65335dd89b4ad",
   "first": "1959-01-01",
   "last": "2026-08-01",
@@ -360,7 +360,7 @@
   "fred_title": "Personal Saving Rate"
  },
  "BOGZ1LM153064475Q": {
-  "downloaded_utc": "2026-10-12T15:15:17Z",
+  "downloaded_utc": "2026-10-13T10:14:01Z",
   "sha256": "9bec443b16c2581d3fa2f2ae6391d3d9d9e2f239fb46dec691c4d014b112159c",
   "first": "1945-10-01",
   "last": "2026-04-01",
@@ -370,7 +370,7 @@
   "fred_title": "Households and Nonprofit Organizations; Directly and Indirectly Held Corporate Equities; Asset, Market Value Levels"
  },
  "DSPI": {
-  "downloaded_utc": "2026-10-12T15:15:20Z",
+  "downloaded_utc": "2026-10-13T10:14:03Z",
   "sha256": "7a804a337c7c0e6ded6323fee391bac1bc8619358ac1ad76a949784e24c2942b",
   "first": "1959-01-01",
   "last": "2026-08-01",
@@ -380,7 +380,7 @@
   "fred_title": "Disposable Personal Income"
  },
  "USREC": {
-  "downloaded_utc": "2026-10-12T15:15:23Z",
+  "downloaded_utc": "2026-10-13T10:14:06Z",
   "sha256": "a42a3581fe9c260dd3627febc84a7d563e5ed162cc7085a7518ebde99dc3c3b4",
   "first": "1854-12-01",
   "last": "2026-09-01",
@@ -390,7 +390,7 @@
   "fred_title": "NBER based Recession Indicators for the United States from the Period following the Peak through the Trough"
  },
  "SAHMREALTIME": {
-  "downloaded_utc": "2026-10-12T15:15:26Z",
+  "downloaded_utc": "2026-10-13T10:14:08Z",
   "sha256": "c2756a2549c533bc77bd94dbe9d188742dc4213c7e1094e690133aa22ef3d1ad",
   "first": "1959-12-01",
   "last": "2026-09-01",
@@ -400,47 +400,71 @@
   "fred_title": "Real-time Sahm Rule Recession Indicator"
  },
  "NASDAQ100": {
-  "downloaded_utc": "2026-10-12T15:15:28Z",
-  "sha256": "cc6f098b2ad7d5cd04aa7ded5230f988e51a471bd45c281405901730190fb57a",
+  "downloaded_utc": "2026-10-13T10:14:18Z",
+  "sha256": "f1958ba1c7b04246ae273e61f185ebf596dad3fde87a57c140035229ef71ea70",
   "first": "1986-01-02",
-  "last": "2026-10-09",
-  "n": 10274,
+  "last": "2026-10-12",
+  "n": 10275,
   "title": "NASDAQ-100",
   "source": "Nasdaq",
+  "revision_vs_previous": {
+   "previous_downloaded_utc": "2026-10-12T15:15:28Z",
+   "observations_changed": 0,
+   "max_abs_change": 0.0,
+   "new_observations": 1
+  },
   "fred_title": "NASDAQ-100"
  },
  "NASDAQNDXE": {
-  "downloaded_utc": "2026-10-12T15:15:32Z",
-  "sha256": "0abe5985c293166cd1c0130c2a74d4239ad632ff62cce9cdd86ac53371b6b8e7",
+  "downloaded_utc": "2026-10-13T10:14:21Z",
+  "sha256": "b2a902a683c32869c95146e72a000b54efe7dfb10f66b4f58da24807c6c3ea9d",
   "first": "2005-06-28",
-  "last": "2026-10-09",
-  "n": 5354,
+  "last": "2026-10-12",
+  "n": 5355,
   "title": "NASDAQ-100 Equal Weighted",
   "source": "Nasdaq",
+  "revision_vs_previous": {
+   "previous_downloaded_utc": "2026-10-12T15:15:32Z",
+   "observations_changed": 0,
+   "max_abs_change": 0.0,
+   "new_observations": 1
+  },
   "fred_title": "NASDAQ-100 Equal Weighted"
  },
  "NASDAQNQUSL": {
-  "downloaded_utc": "2026-10-12T15:15:35Z",
-  "sha256": "6deeaa977fe4660929cc4c290c9be8262055a589298355574bd766160bfc98c5",
+  "downloaded_utc": "2026-10-13T10:14:24Z",
+  "sha256": "4b567afd258a9f647721ed55849a873b30d7cb8e67f3f6009e383c821312b184",
   "first": "2011-05-16",
-  "last": "2026-10-09",
-  "n": 3936,
+  "last": "2026-10-12",
+  "n": 3937,
   "title": "NASDAQ US Large Cap Index",
   "source": "Nasdaq",
+  "revision_vs_previous": {
+   "previous_downloaded_utc": "2026-10-12T15:15:35Z",
+   "observations_changed": 0,
+   "max_abs_change": 0.0,
+   "new_observations": 1
+  },
   "fred_title": "NASDAQ US Large Cap Index"
  },
  "NASDAQNQUSS": {
-  "downloaded_utc": "2026-10-12T15:15:39Z",
-  "sha256": "493cf6a537d18111030e20230788e8f60322f80e37fc5022caf189aac5e6750d",
+  "downloaded_utc": "2026-10-13T10:14:26Z",
+  "sha256": "6f0467966b36abc1c7a7457de06c1befbfc3c31f401e1459449288b67e1d2532",
   "first": "2011-05-16",
-  "last": "2026-10-09",
-  "n": 3936,
+  "last": "2026-10-12",
+  "n": 3937,
   "title": "NASDAQ US Small Cap Index",
   "source": "Nasdaq",
+  "revision_vs_previous": {
+   "previous_downloaded_utc": "2026-10-12T15:15:39Z",
+   "observations_changed": 0,
+   "max_abs_change": 0.0,
+   "new_observations": 1
+  },
   "fred_title": "NASDAQ US Small Cap Index"
  },
  "B852RC1Q027SBEA": {
-  "downloaded_utc": "2026-10-12T15:15:42Z",
+  "downloaded_utc": "2026-10-13T10:14:29Z",
   "sha256": "afe36e10ee006217c4036cf55347aae5cb050f27540acb5fc2dea2b4449c26c8",
   "first": "1972-01-01",
   "last": "2026-04-01",
@@ -450,7 +474,7 @@
   "fred_title": "Imports of goods: Capital goods, except automotive: Computers, peripherals, and parts"
  },
  "Y034RC1Q027SBEA": {
-  "downloaded_utc": "2026-10-12T15:15:45Z",
+  "downloaded_utc": "2026-10-13T10:14:31Z",
   "sha256": "008f6c80827a9b3cca9cd8c9b02db83bb3cca1206e8fa96691d755f79c84338d",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -460,7 +484,7 @@
   "fred_title": "Gross Private Domestic Investment: Fixed Investment: Nonresidential: Equipment: Information Processing Equipment"
  },
  "CUSR0000SEHF01": {
-  "downloaded_utc": "2026-10-12T15:15:48Z",
+  "downloaded_utc": "2026-10-13T10:14:34Z",
   "sha256": "9b5ccd5429f9e29875fa4b8e1c6078e9c93f095aaecdb5b28e803b646cb22378",
   "first": "1952-01-01",
   "last": "2026-08-01",
@@ -470,7 +494,7 @@
   "fred_title": "Consumer Price Index for All Urban Consumers: Electricity in U.S. City Average"
  },
  "CPIAUCSL": {
-  "downloaded_utc": "2026-10-12T15:15:50Z",
+  "downloaded_utc": "2026-10-13T10:14:36Z",
   "sha256": "f8ecddf53a9a9a74dda92c2c4204e6039466fcb744bc74171b73b5f6aac48119",
   "first": "1947-01-01",
   "last": "2026-08-01",
@@ -480,7 +504,7 @@
   "fred_title": "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average"
  },
  "PCEC": {
-  "downloaded_utc": "2026-10-12T15:15:53Z",
+  "downloaded_utc": "2026-10-13T10:14:39Z",
   "sha256": "0ce480190e49c5a3d48f7e04f38ddb8a573f2a2c0d44a1c2776a937fc433693d",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -490,7 +514,7 @@
   "fred_title": "Personal Consumption Expenditures"
  },
  "GDP": {
-  "downloaded_utc": "2026-10-12T15:15:55Z",
+  "downloaded_utc": "2026-10-13T10:14:41Z",
   "sha256": "5d2a8770ac8661e0989113aad8be4b2ea4a0f5fa4549dc7f372ce6279a95c818",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -500,7 +524,7 @@
   "fred_title": "Gross Domestic Product"
  },
  "B679RA3Q086SBEA": {
-  "downloaded_utc": "2026-10-12T15:15:09Z",
+  "downloaded_utc": "2026-10-13T10:13:53Z",
   "sha256": "c89556334b8954bd891050d7c498abb85dddc0ab7b62671aebfabb931d6ade4b",
   "first": "1947-01-01",
   "last": "2026-04-01",
@@ -510,7 +534,7 @@
   "fred_title": "Real private fixed investment, chained quantity index: Private fixed investment in information processing equipment and software"
  },
  "WPUFD49207": {
-  "downloaded_utc": "2026-10-13T08:07:42Z",
+  "downloaded_utc": "2026-10-13T10:13:40Z",
   "sha256": "30794d233c55852ab36ab5a954b6ed647599e0390ae88bc91bfb16fc8f36ab47",
   "first": "1947-01-01",
   "last": "2026-08-01",
@@ -520,7 +544,7 @@
   "fred_title": "Producer Price Index by Commodity: Final Demand: Finished Goods"
  },
  "DFEDTAR": {
-  "downloaded_utc": "2026-10-13T08:07:45Z",
+  "downloaded_utc": "2026-10-13T10:14:11Z",
   "sha256": "323b6d9fb014cdd8b39eab02025bb37111e9497c75fdd24ea1731ed3f360376c",
   "first": "1982-09-27",
   "last": "2008-12-15",
@@ -530,7 +554,7 @@
   "fred_title": "Federal Funds Target Rate (DISCONTINUED)"
  },
  "DFEDTARU": {
-  "downloaded_utc": "2026-10-13T08:07:48Z",
+  "downloaded_utc": "2026-10-13T10:14:13Z",
   "sha256": "0837e288e1408b3b78d42e34db7c5afba10311a4d46021ae84a4a9b9ce332192",
   "first": "2008-12-16",
   "last": "2026-10-12",
@@ -540,7 +564,7 @@
   "fred_title": "Federal Funds Target Range - Upper Limit"
  },
  "REAINTRATREARAT10Y": {
-  "downloaded_utc": "2026-10-13T08:07:50Z",
+  "downloaded_utc": "2026-10-13T10:14:16Z",
   "sha256": "422deddbfff2e7530fc9504994dcd9f8a61c305eb800208f845e089cf4f1e06c",
   "first": "1982-01-01",
   "last": "2026-09-01",
@@ -550,7 +574,7 @@
   "fred_title": "10-Year Real Interest Rate"
  },
  "WFRBST01134": {
-  "downloaded_utc": "2026-10-13T08:07:53Z",
+  "downloaded_utc": "2026-10-13T10:14:44Z",
   "sha256": "cc38d864a7dbf3868a3d8f6950bcf105baceb061231a6aed857a43698086ef7f",
   "first": "1989-07-01",
   "last": "2026-04-01",
@@ -560,7 +584,7 @@
   "fred_title": "Share of Net Worth Held by the Top 1% (99th to 100th Wealth Percentiles)"
  },
  "WFRBSN09161": {
-  "downloaded_utc": "2026-10-13T08:07:56Z",
+  "downloaded_utc": "2026-10-13T10:14:46Z",
   "sha256": "6f5828f9009e8556bbaddcada59b2f67594c43098c6e10dded5b27f93a2910a2",
   "first": "1989-07-01",
   "last": "2026-04-01",
