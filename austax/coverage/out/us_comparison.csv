@@ -1,0 +1,20 @@
+country,period,quantity,value
+US,2025,coverage median [min-max] (paper),0.326 [0.179-0.589]
+US,2025,"Orshansky single bundle, $ per year",16186
+US,2025,"Orshansky per-capita (family of four) bundle, $ per year",8219
+US,2025,"disposable personal income per head, $",67221
+US,2025,single bundle / income per head,0.241
+US,2025,per-capita bundle / income per head,0.122
+US,2025,"land rent per person, median of the 2025 numerators, $",3467
+US,2025,land rent per person / income per head,0.052
+AU,2024-25,coverage median [min-max],0.485 [0.096-0.850]
+AU,2024-25,"household disposable income per head, $ (Melbourne Institute Table 2 x 52)",55725
+AU,2024-25,Henderson single / income per head,0.625
+AU,2024-25,JobSeeker package / income per head,0.462
+AU,2024-25,Age Pension / income per head,0.532
+AU,2024-25,"land rent per person, median of the six numerators, $",14607
+AU,2024-25,land rent per person / income per head,0.262
+US,2025,"housing-rent constructions (0.30, 0.50 x PCE housing) per person / income per head",0.043 to 0.072
+AU,2024-25,"housing-rent constructions (0.30, 0.50 x actual + imputed rent) per person / income per head",0.060 to 0.100
+US,2025,"household land x 10-year yield (+0, +1.5) per person / income per head",0.044 to 0.059
+AU,2024-25,"residential land x 10-year yield (+0, +1.5) per person / income per head",0.233 to 0.315

@@ -1,0 +1,12 @@
+composite,cpi_code,class,abs_weight_pct_of_all_groups,share_in_composite,weight_period
+Durable goods,40058,Furniture,1.32,0.22,2018-Q3
+Durable goods,131185,Carpets and other floor coverings,0.3,0.05,2018-Q3
+Durable goods,40060,Major household appliances,0.39,0.065,2018-Q3
+Durable goods,115484,Small electric household appliances,0.31,0.0517,2018-Q3
+Durable goods,40098,"Audio, visual and computing equipment",1.12,0.1867,2018-Q3
+Durable goods,40080,Motor vehicles,2.56,0.4267,2018-Q3
+Energy,40055,Electricity,2.54,0.378,2018-Q3
+Energy,115524,Gas and other household fuels,0.94,0.1399,2018-Q3
+Energy,40081,Automotive fuel,3.24,0.4821,2018-Q3
+Household energy,40055,Electricity,2.54,0.7299,2018-Q3
+Household energy,115524,Gas and other household fuels,0.94,0.2701,2018-Q3
