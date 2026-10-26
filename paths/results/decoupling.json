@@ -98,108 +98,108 @@
  "ai_build_out": {
   "latest": "2026-04",
   "pct_gdp_latest": {
-   "information processing equipment": 5.74,
-   "software": 2.51,
-   "power and communication structures": 0.54,
-   "less: imports of computers, peripherals and parts": -1.81,
-   "net": 6.98
+   "information processing equipment": 2.57,
+   "software": 2.49,
+   "power and communication structures": 0.57,
+   "less: imports of computers, peripherals and parts": -1.85,
+   "net": 3.78
   },
   "pct_gdp_by_year": {
    "2015": {
-    "information processing equipment": 6.25,
+    "information processing equipment": 1.98,
     "software": 1.73,
     "power and communication structures": 0.66,
     "less: imports of computers, peripherals and parts": -0.66,
-    "net": 7.99
+    "net": 3.71
    },
    "2016": {
-    "information processing equipment": 5.96,
+    "information processing equipment": 1.94,
     "software": 1.85,
     "power and communication structures": 0.66,
     "less: imports of computers, peripherals and parts": -0.61,
-    "net": 7.86
+    "net": 3.84
    },
    "2017": {
-    "information processing equipment": 5.91,
+    "information processing equipment": 1.97,
     "software": 1.95,
     "power and communication structures": 0.58,
     "less: imports of computers, peripherals and parts": -0.65,
-    "net": 7.79
+    "net": 3.84
    },
    "2018": {
-    "information processing equipment": 5.94,
+    "information processing equipment": 1.97,
     "software": 2.05,
     "power and communication structures": 0.57,
     "less: imports of computers, peripherals and parts": -0.69,
-    "net": 7.88
+    "net": 3.9
    },
    "2019": {
-    "information processing equipment": 5.76,
+    "information processing equipment": 1.88,
     "software": 2.08,
     "power and communication structures": 0.61,
     "less: imports of computers, peripherals and parts": -0.61,
-    "net": 7.85
+    "net": 3.97
    },
    "2020": {
-    "information processing equipment": 5.2,
+    "information processing equipment": 1.87,
     "software": 2.24,
     "power and communication structures": 0.63,
     "less: imports of computers, peripherals and parts": -0.68,
-    "net": 7.39
+    "net": 4.06
    },
    "2021": {
-    "information processing equipment": 5.05,
+    "information processing equipment": 1.87,
     "software": 2.25,
     "power and communication structures": 0.56,
     "less: imports of computers, peripherals and parts": -0.71,
-    "net": 7.14
+    "net": 3.96
    },
    "2022": {
-    "information processing equipment": 5.01,
+    "information processing equipment": 1.85,
     "software": 2.31,
     "power and communication structures": 0.52,
     "less: imports of computers, peripherals and parts": -0.69,
-    "net": 7.15
+    "net": 3.98
    },
    "2023": {
-    "information processing equipment": 5.05,
-    "software": 2.32,
+    "information processing equipment": 1.73,
+    "software": 2.29,
     "power and communication structures": 0.58,
     "less: imports of computers, peripherals and parts": -0.56,
-    "net": 7.39
+    "net": 4.04
    },
    "2024": {
-    "information processing equipment": 5.07,
-    "software": 2.37,
-    "power and communication structures": 0.56,
+    "information processing equipment": 1.75,
+    "software": 2.33,
+    "power and communication structures": 0.59,
     "less: imports of computers, peripherals and parts": -0.74,
-    "net": 7.25
+    "net": 3.94
    },
    "2025": {
-    "information processing equipment": 5.34,
-    "software": 2.45,
-    "power and communication structures": 0.55,
-    "less: imports of computers, peripherals and parts": -1.16,
-    "net": 7.18
+    "information processing equipment": 2.11,
+    "software": 2.43,
+    "power and communication structures": 0.58,
+    "less: imports of computers, peripherals and parts": -1.17,
+    "net": 3.96
    },
    "2026": {
-    "information processing equipment": 5.67,
-    "software": 2.51,
-    "power and communication structures": 0.54,
-    "less: imports of computers, peripherals and parts": -1.78,
-    "net": 6.94
+    "information processing equipment": 2.53,
+    "software": 2.48,
+    "power and communication structures": 0.57,
+    "less: imports of computers, peripherals and parts": -1.82,
+    "net": 3.77
    }
   },
   "change_since_2022_pts": {
-   "information processing equipment": 0.73,
-   "software": 0.21,
-   "power and communication structures": 0.02,
-   "less: imports of computers, peripherals and parts": -1.12,
-   "net": -0.16
+   "information processing equipment": 0.72,
+   "software": 0.18,
+   "power and communication structures": 0.05,
+   "less: imports of computers, peripherals and parts": -1.16,
+   "net": -0.2
   },
-  "trend_2015_22_pts_a_year": -0.127,
-  "net_above_2015_22_trend_pts": 0.34,
-  "net_above_2022_pts": -0.16,
+  "trend_2015_22_pts_a_year": 0.038,
+  "net_above_2015_22_trend_pts": -0.42,
+  "net_above_2022_pts": -0.2,
   "crash_model_assumed_pct_gdp": 1.5
  },
  "where_the_displaced_go": {

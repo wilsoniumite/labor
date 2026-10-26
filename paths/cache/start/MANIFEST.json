@@ -1,0 +1,147 @@
+{
+ "vintage": "2026-10-26",
+ "built_utc": "2026-10-26T21:18Z",
+ "watcher_state_commit": "3e23410 2026-10-26T19:54:54+00:00",
+ "series": {
+  "UNRATE": {
+   "for": "US u0 (BLS via FRED)",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-09-01",
+   "value": 4.2,
+   "sha256": "f4118de63a615690e0fae5ec6c597224a91494e1f9be898e125b8d6707062366"
+  },
+  "DFF": {
+   "for": "US i0, the effective funds rate",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-09-29",
+   "value": 3.88,
+   "sha256": "2e047bf6f74cbec372aa70749d5b2e2bb792738ce4f577bdd58e22da09be21f9"
+  },
+  "PCEPILFE": {
+   "for": "US pi0, core PCE prices (y/y)",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-08-01",
+   "value": 130.455,
+   "sha256": "c792cced04d9c4aa74e56e49e75e2068ea47a3df839ae3148a4322dfa3258110"
+  },
+  "PCEPI": {
+   "for": "US headline PCE prices (y/y), for the energy term",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-08-01",
+   "value": 131.579,
+   "sha256": "4f536aa1589b65937f3897822ba14c7fab755eef808c55f0741e49359058d2c4"
+  },
+  "GDP": {
+   "for": "US nominal GDP, for equity wealth over GDP",
+   "source": "BEA, NipaDataQ.txt (A191RC; Last-Modified Wed, 30 Sep 2026 12:30:02 GMT)",
+   "last": "2026-04-01",
+   "value": 32563.03,
+   "sha256": "8e914817e8d37997cb9ad713f794bec5b5e25017a8f3098e910b46295c2bc353"
+  },
+  "BOGZ1LM153064475Q": {
+   "for": "US household corporate equities, directly and indirectly held (Fed Z.1), for equity_wealth",
+   "source": "FRED as cached in cache/",
+   "last": "2026-04-01",
+   "value": 74027116.0,
+   "sha256": "e88c1931a1a7c560e0e48b211119e9eceedd74335758a37a13635e1d705ef128"
+  },
+  "BAMLC0A0CM": {
+   "for": "US investment-grade OAS, its 63-print rise: the spread already present at the start (decision 47)",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-23",
+   "value": 0.91,
+   "sha256": "0c2cdacf7e4aa574d91c179e287a2da7713ae1a923aacd8435ba695ba251dc43"
+  },
+  "ECBDFR": {
+   "for": "euro-area i0, the ECB deposit rate",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-09-30",
+   "value": 2.5,
+   "sha256": "5e94d20ced1d9bafd91d32c4a9406f4c76acb6acef085789c45f728f05500917"
+  },
+  "00XEFDEZ19M086NEST": {
+   "for": "euro-area pi0, HICP excluding energy, food, alcohol and tobacco (y/y)",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-08-01",
+   "value": 103.03,
+   "sha256": "341e79cab206cee075ac7aab3d4cb5c66454d6259c99be90ca61678ef2056220"
+  },
+  "CP0000EZ19M086NEST": {
+   "for": "euro-area headline HICP (y/y)",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-08-01",
+   "value": 103.66,
+   "sha256": "0b7b317cf1404bcb36c83c1afda632562583c780939ed95fc05a631c13db9d7e"
+  },
+  "00XEFDSEM086NEST": {
+   "for": "Sweden pi0, HICP excluding energy, food, alcohol and tobacco (y/y)",
+   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
+   "last": "2026-08-01",
+   "value": 101.52,
+   "sha256": "c67001a11628381d8c3bc8efebac5acfa9929379d6d3c7d3d194e7338a8f5d3c"
+  },
+  "DCOILBRENTEU": {
+   "for": "dated Brent, for decision 27's price leg",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-20",
+   "value": 115.22,
+   "sha256": "4ae332c857a01cecb1c97934a8bf290dda636764b077f975027725478f5f8988"
+  },
+  "NASDAQCOM": {
+   "for": "the Nasdaq composite, for the pop so far and the watcher's equity rule",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-23",
+   "value": 25955.34,
+   "sha256": "2dc382acf5d6e4cc9918f811c8b832a06c40ef42ef0b7d7e4fd7d2b91137b204"
+  },
+  "Y034RC1Q027SBEA": {
+   "for": "the AI build-out (decoupling.build_out)",
+   "source": "BEA, NipaDataQ.txt (Y034RC; Last-Modified Wed, 30 Sep 2026 12:30:02 GMT)",
+   "last": "2026-04-01",
+   "value": 836.42,
+   "sha256": "27c4f24c52511f97045aa5cd1f0237961f6ae9bf7bfaea53455f276466cd9206"
+  },
+  "B985RC1Q027SBEA": {
+   "for": "the AI build-out (decoupling.build_out)",
+   "source": "BEA, NipaDataQ.txt (B985RC; Last-Modified Wed, 30 Sep 2026 12:30:02 GMT)",
+   "last": "2026-04-01",
+   "value": 809.265,
+   "sha256": "0312f1c6b29e789fa8a7ba63b6025d2c572df1707e5dd27388625d806f7fbadf"
+  },
+  "W003RC1Q027SBEA": {
+   "for": "the AI build-out (decoupling.build_out)",
+   "source": "BEA, NipaDataQ.txt (W003RC; Last-Modified Wed, 30 Sep 2026 12:30:02 GMT)",
+   "last": "2026-04-01",
+   "value": 186.148,
+   "sha256": "63db928437ddb5d4f9018cc4ce5d40097206bba9c99b6d722c1cb4ae059aeafa"
+  },
+  "B852RC1Q027SBEA": {
+   "for": "the AI build-out (decoupling.build_out)",
+   "source": "BEA, NipaDataQ.txt (B852RC; Last-Modified Wed, 30 Sep 2026 12:30:02 GMT)",
+   "last": "2026-04-01",
+   "value": 601.369,
+   "sha256": "9cf07baee5520876d0f20ded4cbdd50d18eddcc5d2b6c86d1f8fce3b8d58b7c4"
+  },
+  "EA_UNEMPLOYMENT": {
+   "for": "euro-area u0, ECB LFSI M.I9.S.UNEHRT.TOTAL0.15_74.T",
+   "source": "ECB Data Portal",
+   "last": "2026-08-01",
+   "value": 6.5,
+   "sha256": "5e5b5db12b864b2e047790a5c95be537a0f1ac18ad49bcdf250f57c1dc4274e5"
+  },
+  "SEUNRATE": {
+   "for": "Sweden u0, Statistics Sweden's labour force survey, 15-74, seasonally adjusted",
+   "source": "Statistics Sweden via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-09-01",
+   "value": 8.6,
+   "sha256": "c805afdfd995d616a9abecac2fbfe83d200ea8a552d5e3db0e50dff29429f338"
+  },
+  "SECBREPOEFF": {
+   "for": "Sweden i0, the Riksbank's policy rate (SWEA)",
+   "source": "the Riksbank (SWEA) via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-26",
+   "value": 1.75,
+   "sha256": "cfbb0c41105ccdcf6f38eb7f84991bff9bf0f9f49aae568b5c20a8f2ee01e2a3"
+  }
+ }
+}

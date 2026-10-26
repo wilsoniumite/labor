@@ -55,11 +55,12 @@ check("A4 the paper's pace runs far ahead of what has been seen: over the window
       f"paper's {pm}; targets {tg}; paces {paces}")
 rw = P["rows"]
 b = rw["pace: trend + 2 s.e."]
-check("A5 the bust, not the pace seen so far, carries the danger: at the trend's upper bound a dot-com-sized bust under today's "
-      "rules still takes US out of work above 10%, and above 20% when the rules erode; displacement without a bust stays "
-      "under 7%. Restated after the crash model's sign fix of 2026-10-26: before it, above 15% and 40%, under 8% (16.2, 46.7, 6.8)",
-      b["modern rules | bust + displacement"]["us_out_of_work_peak"] > 10
-      and b["rules erode under pressure | bust + displacement"]["us_out_of_work_peak"] > 20
+check("A5 the response to a bust, not the pace seen so far, carries the danger: at the trend's upper bound a dot-com-sized "
+      "bust under today's rules adds to US out of work (7.9% against 6.1% with no bust), and when the rules erode it takes "
+      "over 5 points more (16.1%). Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the "
+      "start to the dated vintage (Log 42): before it above 10% and 20% (11.7, 21.3); before the sign fix 16.2, 46.7, 6.8",
+      b["modern rules | bust + displacement"]["us_out_of_work_peak"] > b["modern rules | displacement without a bust"]["us_out_of_work_peak"]
+      and b["rules erode under pressure | bust + displacement"]["us_out_of_work_peak"] > b["modern rules | bust + displacement"]["us_out_of_work_peak"] + 5
       and b["modern rules | displacement without a bust"]["us_out_of_work_peak"] < 7,
       {k: v["us_out_of_work_peak"] for k, v in b.items()})
 wt, wm = P["window_model_at_each_pace"]["trend"], P["window_model_at_each_pace"]["trend + 2 s.e."]

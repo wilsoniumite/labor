@@ -36,7 +36,8 @@ unit under Where things stand, decisions 53-65, Next 14, Log 37-39), frozen 2026
 **2026-10-26, the redo, under way** (Log 40; on her delegation: well calibrated, on new data, fitting the pop now seen,
 simpler): the record before the FOMC (Log 40); the crash model's 2008–10 sign error fixed and the results regenerated,
 the dot-com bust added as an out-of-sample check, the October bust retired to the tag `paths-pre-signfix` (Log 41);
-next, her case on a dated vintage with the bust's legs timed from 2000–02.
+her case, the central run and the website's model on one dated vintage, with the bust on the 2000–02 bust's measured
+path from today's peak and the build-out measured as information processing equipment (Log 42; decisions 66-68).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -768,19 +769,20 @@ is right; in an extreme path the destination is what is wrong.
   output gap recovered too fast as well. The fit makes interest rates a weak lever (a_r 0.03, the literature's low
   end; on the corrected fit the data barely separate 0.03 from 0.08) and cannot separate debt deflation from the
   real-rate effect of expected deflation. Start values measured on FRED/BIS (US unemployment, policy rate, core PCE; ECB
-  rate; household debt); the rest approximate, stated. Findings on the corrected fit (a dot-com-shaped bust of the AI
-  build-out; year 4; before the fix in brackets):
-  - **Today's rules, the bust alone**: a world recession about 2001's depth, smaller than 2008's — the four 2.7% below
-    capacity, the US 3.5%, US unemployment to 6.5% [2008-sized: 5.9% and 7.6%].
+  rate; household debt; US equity wealth from Z.1) on the dated vintage since 2026-10-26 (decision 67); the rest
+  approximate, stated. Findings on the corrected fit, the bust on the 2000-02 bust's measured path (decision 66) and the
+  vintage's start (year 4; in brackets, the corrected fit with the bust as first built, Log 41):
+  - **Today's rules, the bust alone**: a world recession about 2001's depth, smaller than 2008's — the four 2.3% below
+    capacity, the US 3.2%, US unemployment to 6.5% [2.7%, 3.5%; before the sign fix 2008-sized, 5.9% and 7.6%].
   - **With the paper's displacement and recessions triggering adoption**: a jobs crisis without an output one — US
-    non-employment +13 points (unemployment 9.2%, 8 points out of the labour force) while US output stays within 7% of
-    capacity [+21, unemployment 13.6%, output -11%]. The US leads.
+    non-employment +10 points (unemployment 7.6%, 7 points out of the labour force) while US output stays within 5% of
+    capacity [+13; before the sign fix +21]. The US leads.
   - **When the rules erode** (austerity, no backstop, tariffs, looser anchoring): a slump about twice 2008's — the four
-    10.6-13.3% below capacity, US unemployment 13.6-17.2%, US banks' capital 87-100% gone [Great Depression scale: the
-    four 22-29%]. The 1930s' rules on today's debts are a depression (the four 36-41% below capacity, US unemployment
-    33-35%).
-  - **When the rules expand** (an income guarantee at 90% of lost labour income): output held within 6% of capacity
-    everywhere, at up to 2.7-3.8% of US GDP a year — but US non-employment still up 9-12 points: the guarantee holds
+    8.9-10.7% below capacity, US unemployment 12-15%, US banks' capital 70-90% gone [10.6-13.3%; before the sign fix
+    Great Depression scale, 22-29%]. The 1930s' rules on today's debts are a depression (the four 29-34% below capacity,
+    US unemployment 30-33%).
+  - **When the rules expand** (an income guarantee at 90% of lost labour income): output held within 5% of capacity
+    everywhere, at up to 2.5-3.3% of US GDP a year — but US non-employment still up 8-10 points: the guarantee holds
     demand, not jobs. No inflation surge in four years.
   - `[inferred]` What makes a Depression is not the shock but the rules' response, as in 1929-33: on the corrected fit
     the same bust is a 2001 under today's rules, about twice 2008 when they erode, and a 1930 under the 1930s' rules.
@@ -984,20 +986,22 @@ is right; in an extreme path the destination is what is wrong.
     (participation not falling). The endpoint from the peak (+0.68, of which 0.64 exits) rests on June 2026 (A1-A3).
   - **The paper's pace runs far ahead of it.** Over the window the model at the paper's pace (today's rules, no bust,
     robotics not arrived, care at its trend) raises US non-employment 1.8 points (1.0 exits, 0.8 unemployment; the gap
-    −1.1). The trend's upper bound allows 0.235 of the paper's pace, the endpoint 0.415, the trend itself none (A4). All
+    −1.0). The trend's upper bound allows 0.249 of the paper's pace, the endpoint 0.427, the trend itself 0.012 (A4). All
     of the observed change is attributed to displacement, so each is an upper bound on AI's. Restated 2026-10-26 on the
-    corrected crash model (Log 41): a milder model lets a faster pace fit what was seen [0.15 and 0.29 before; 2.3
-    points at the paper's pace].
-  - **The bust carries the danger, not the pace seen so far.** At 0.235 of the paper's pace a dot-com-sized bust under
-    today's rules still takes US out of work to 11.7% (17.8% at the paper's pace), and to 21.3% when the rules erode
-    (29.0%); displacement without a bust to 5.9% (10.5%) (A5) [at 0.15 before: 16.2%, 46.7%, 6.8%].
+    corrected crash model and the vintage's start (Logs 41-42): a milder model lets a faster pace fit what was seen
+    [0.15 and 0.29 before; 2.3 points at the paper's pace]. `[inferred]` The bound is read through the model, so it moves
+    with the model: a bound on AI's pace that depends on the fit is weaker evidence than one read off the data alone.
+  - **The response to a bust carries the danger, not the pace seen so far.** At 0.249 of the paper's pace a
+    dot-com-sized bust on its measured path under today's rules takes US out of work to 7.9% (14.0% at the paper's
+    pace), and to 16.1% when the rules erode (24.3%); displacement without a bust to 6.1% (10.5%) (A5) [on the ramp at
+    0.235: 11.7%, 21.3%, 5.9%; before the sign fix at 0.15: 16.2%, 46.7%, 6.8%].
   - **The spending loop is not identified here.** Across the paces the data allow, the model's gap accounts for a quarter
     to just over half of the CBO gap's fall (−0.7, from an overheated +1.5); the rest may be that unwinding (A6). An
     endpoint fit tried first matched the exits and the gap with 0.71 of the paper's pace and 43% of the lost-pay spending
     cut left unoffset; dropped, since it rested on June 2026.
   - **Two sensitivities (her questions).** Care hired 0.39 points of the labour force a year over the window, twice the
     model's trend (0.20). Counting all of the excess as displaced people it took in — an upper bound, since care hires
-    mostly women and new entrants — raises the paces the data allow to 0.48 (the trend's upper bound) and 0.62 (the
+    mostly women and new entrants — raises the paces the data allow to 0.49 (the trend's upper bound) and 0.63 (the
     endpoint) on the corrected model [0.35 and 0.47 before]: still under two-thirds of the paper's. Counting all care hiring as non-employment would double count real jobs the
     model already hires at its trend. The build-out's own jobs are too few to matter: all of construction's gain is 0.06
     points of the labour force, and manufacturing lost 0.07 (A8).
@@ -1013,46 +1017,52 @@ is right; in an extreme path the destination is what is wrong.
     against prime-age rates — and the dating of year 0 are approximate). The measured-site variant (ii) is the reading
     whose early years are not a loss (its high root's participation rises over years 0–6).
 - **Her case: what we think is happening** (her call, 2026-09-25: pin down one case across the model, the watcher and
-  the website. `code/case.py`, `results/case.json`, `figures/fig_case.png`, `checks/check_case.py` 12/12). Her
-  leanings: deficit and sovereign worry; recession and failing consumption demand; a stock bust bigger and faster than
-  dot-com; care capping out as the absorber; reckless US tariffs, Europe more sensible but still austere; a process
-  under way for two to four years that accelerates as AI companies change behaviour. Four general additions to
-  `global_crash.py`, each off by default (the stored central run reproduced exactly, K1): a faster bust (`ai_shock`
-  speed), a displacement pace by quarter (`Shock.drift`), a premium on borrowing passed to private borrowers
-  (`Shock.spread`), and a region's own care ceiling (`Rules.care_cap`). The settings are decisions 23-27. Stated as
-  found, on the one dating (decision 43, adopted 2026-10-01: index 0 is the state measured on data to September 2026,
-  2026Q3; index 1, where the bust's first falls come, is 2026Q4; 2028Q4 is index 9; 25 quarters, to 2032Q3):
-  - **Dated as measured, her case was already an October bust** (corrected 2026-10-01). From log 28 to then its labels
-    ran one quarter late (case.py's END_2028 = 8 with "quarter 1 = 2026Q4"; log 29's START = 2026Q4 at index 0), so
-    the figures quoted before 2026-10-01 — 13.8–14.8% "at 2028Q4" against 9.2%, 31.5–46.2% "by 2032Q3", the pace
-    "half-way by 2028Q3" — were 2028Q3's, 2032Q2's and 2028Q2's. The arrays did not change (K12: every stored path
-    equals 27dd785's in its first 24 quarters); only the labels and the quarters quoted moved. Dates: first falls
-    2026Q4, the tariffs 2027Q1, the premium over 2026Q4–2027Q3, the pace half-way in 2028Q2, robotics from 2028Q4,
-    complete by 2029Q3.
-  - **Restated 2026-10-26 on the corrected crash model, settings unchanged** (Log 41; the case as stored before, the
-    record behind the 8 Oct predictions, reproduces at the tag `paths-pre-signfix`; its values in brackets). The pace
-    seen re-derives on the corrected model from 0.147 to 0.235 of the paper's (pace.json).
-  - **Through 2028 the case is well defined, about one and a half times the model's central run.** US out of work
-    11.0–12.0% at 2028Q4 against 7.6% (1.46–1.58 times) [14.4–15.7% against 10.1%] (K7).
-  - **After 2028 it depends on one lever.** By 2032Q3 US out of work is 25.5% if firms automate the usual share of the
-    jobs they cut in the downturn and 36.0% if twice it (24.5–34.0% at 2032Q2) [32.9–49.0%; 31.5–46.2%], still rising
-    at both ends, the high end 14 points under the model's 50% cap; the four economies' output 10.2–12.2% below capacity
-    at worst [13.3–16.4%]. Both ends are a labour depression, not the Depression row (K7-K8).
-  - **What drives it depends on when.** By 2028Q4 the bust adds most (2.5 points of US out of work; the premium and the
-    tariffs 1.5 each, adoption 0.9 unrounded); by 2032Q3 adoption (10.5) [2.8; 16.1]. The premium on borrowing and the
-    US tariffs add 4.1 and 3.8 by 2032Q3 [5.0, 4.6]; European austerity and care capping out under a point each to the
-    US (K9-K10). The method, as case.json stores the pieces: each is the case minus the run without that piece, the
-    difference of the two values rounded to 0.1, so within 0.1 of the unrounded difference.
-  - **Her acceleration story is milder than the model's central assumption.** The central runs carry the paper's pace
-    from today; the case starts at the pace seen so far. Taking the case's pace back to the central one adds 1.3 points
-    of US out of work at 2028Q4 and 2.5 by 2032Q2 [1.6, 3.0] (K10).
-  - **What the case leaves out moves little.** A looser US anchor (fiscal dominance) deepens the bust's deflation (US
-    inflation's low −2.6% against −1.0%) and adds 0.8 points by 2032Q2 [−4.0 against −2.0; 1.1]. Every sensitivity
-    moves the total by under 1.5 points (K11).
+  the website. `code/case.py`, `results/case.json`, `figures/fig_case.png`, `checks/check_case.py` 17/17). Her
+  leanings: deficit and sovereign worry; recession and failing consumption demand; a stock bust bigger than dot-com;
+  care capping out as the absorber; reckless US tariffs, Europe more sensible but still austere; a process under way
+  for two to four years that accelerates as AI companies change behaviour. The settings are decisions 23-27 and 66-68.
+  **Redone 2026-10-26 on her delegation** (Log 42: well calibrated, on new data, fitting the pop now seen): one start
+  for the case and the model, a dated vintage (decision 67); the bust 1.5 times the dot-com size on the 2000-02 bust's
+  measured path from the quarter of today's peak, 2026Q4 (decision 66); the build-out measured as information
+  processing equipment, which leaves nothing above trend in the US (decision 68); the October bust's energy run as an
+  alternative. The 8 Oct case, which the 16 predictions were derived from, reproduces at the tag `paths-pre-signfix`
+  (14.4–15.7% at 2028Q4 against 10.1%); on the corrected fit with its ramp and the stored start it read 11.0–12.0%
+  against 7.6% (Log 41). Stated as found, on the one dating (decision 43: index 0 is the state measured on data to
+  September 2026, 2026Q3; index 1, the quarter of the peak, 2026Q4; 2028Q4 is index 9; 25 quarters, to 2032Q3):
+  - **The data so far fit the measured path, not the 8 Oct timing.** In 2026Q4 the case has US household equity at its
+    2026Q3 level (the Nasdaq's 2026Q4 average to 23 Oct is 2.6% above its 2026Q3 average; −6.0% off the 6 Oct high),
+    the first losses on AI lending, and US out of work at 4.32%; the 8 Oct timing put it at 5.64% (claims to 17 Oct
+    point to about 4.2) (A1). The path: US household equity first falls in 2027Q1, 60% down at its trough in 2029Q2,
+    then recovers as in 2000-05; the build-out keeps growing into 2027Q2 and loses most of its excess by 2030; the
+    losses on AI lending (2.25% of US loans in all) peak around 2029Q2 (K4).
+  - **Through 2028 the case is well defined, about a third above the model's central run** (which carries the same
+    measured bust at the dot-com size): US out of work 8.6–9.1% at 2028Q4 against 6.5% (1.31–1.39 times); the four
+    economies' output 3.7–3.8% below capacity (K7).
+  - **After 2028 it depends on one lever.** By 2032Q3 US out of work is 19.5% if firms automate the usual share of the
+    jobs they cut in the downturn and 26.9% if twice it (19.0–25.7% at 2032Q2), still rising at both ends; the four
+    economies' output 7.0–7.7% below capacity at worst. Both ends are a labour depression with output held (K7-K8).
+  - **What drives it depends on when.** By 2028Q4 no single piece dominates: the premium on borrowing adds 1.4 points
+    of US out of work, the tariffs 1.2, the bust 1.1; by 2032Q3 adoption (7.4), with the premium and the tariffs about 4
+    each; European austerity and care capping out under a point each to the US (K9-K10). Each piece is the case minus
+    the run without it, the difference of the unrounded runs rounded once.
+  - **Her acceleration story is milder than the model's central assumption.** The case starts at the pace seen so far
+    (0.249 of the paper's on the corrected model; 0.147 before the sign fix); taking it back to the paper's pace adds
+    1.3 points at 2028Q4 and 2.5 by 2032Q2 (K10).
+  - **What the case leaves out moves little, except the rate channel.** At the Holston-Laubach-Williams estimate (a_r
+    0.079, against the fit's bound of 0.03, which the corrected fit no longer pins: +2.7 of loss) US out of work is 3.7
+    points lower at the peak; every other sensitivity moves it under 1.5 points; a looser US anchor lowers inflation's
+    low (−0.9% against 0.2%) (K11).
+  - **Decision 27's run** (oil stays high: dated Brent's last five prints, $121.25, held a year, then its three-year
+    average, $80.71; policy on four quarters' headline): +0.1 at 2028Q4, the Fed at 4.21 in 2026Q4 against 4.02 (A2).
+    Its price leg is met on the vintage, its bust leg is not, so it stays an alternative.
+  - **What the watcher would see** (the high end, by quarter, a late bound): the US Sahm rule in 2027Q1; the Nasdaq
+    rule (20% under its high) in 2027Q2 on the 2000-02 bust's ratio of the Nasdaq's fall to household equity's (1.7 to
+    3.9; 2027Q3 one for one); the model's spread never rises 0.56 in a quarter, and the Baa rule is unmeasured (the
+    model's spread is not validated against an observed one). The Fed raises in 2026Q4 (4.02 against 3.88) and the
+    Riksbank cuts (1.65 against 1.75): the tests registered in Log 40, on the case's own start (A3).
   - `[inferred]` Care capping out matters little because care at its trend absorbs about a point of employment over six
-    years; what would matter is a funded build-out (about 5 points of US unemployment, above). The deficit worry works in
-    the model only as a price: it has no revenue side and no default, so the case says what a premium does to borrowers,
-    not whether one comes.
+    years; what would matter is a funded build-out. The deficit worry works in the model only as a price: it has no
+    revenue side and no default, so the case says what a premium does to borrowers, not whether one comes.
 - **The October bust — a record since 2026-10-26** (her request, 2026-09-30, paraphrased: could a bust case start in
   October, within a month?). `code/october.py`, `results/october.json`, `figures/fig_october.png` and
   `checks/check_october.py` (42/42 on 2026-10-26, against watch 8b958af) are retired with the crash model's sign fix
@@ -1247,6 +1257,9 @@ is right; in an extreme path the destination is what is wrong.
     trend above today's share; a premium on borrowing
     of a point in the US and half a point in the euro area, over the first year. Alternatives: each piece's size is in the
     attribution table (`piece_by_piece`), so any can be halved or doubled by reading across.
+    → Amended 2026-10-26 (Claude, on her delegation; decision 66): the bust keeps 1.5 times the dot-com size, on the
+    2000-02 bust's measured path from the quarter of today's peak (2026Q4) instead of over two quarters (the data so far
+    fit the path, not the two quarters); the pace starts at 0.249 of the paper's (on the corrected model).
 24. **Adoption in the downturn is a range, and the case a band** (the usual share of the jobs cut is automated, or twice
     it). It barely matters through 2028 (1.3 points at 2028Q4) and decides 2032 (about 16 points at 2032Q3, 15 at
     2032Q2; restated 2026-10-01 on the one dating, "15 points" quoted before). Quoted as the band; the high end is her
@@ -1269,6 +1282,11 @@ is right; in an extreme path the destination is what is wrong.
     is met the energy term is switched on in the main case, and until then it stays off by default (on 1 Oct no bust
     rule is active). Reason: the first wording turned on the oil rule's base effects and was a knife-edge on the price
     ($109.65); the level bar is the oil rule's own.
+    → 2026-10-26: its run is case.py's alternative "oil stays high and policy reads four quarters' headline", on the
+    pass-through measured at the tag `paths-pre-signfix` (not refitted). On the vintage the price leg is met (dated
+    Brent's last five prints $121.25 against 1.25 times its three-year average, $100.89) and the bust leg is not (no bust
+    rule active on the watcher's state of 26 Oct). bust.credit.us, which the wording names, was retired by the watcher's
+    edition 2 (8 Oct); whether it should name bust.credit.baa stays her call (lens).
 28. **The machine chain is measured on the λ thread's engine, read-only and gated** (`chains.py`; Unit 1's D1, D11,
     D13–D14). The thread's narrow / medium / broad series must reproduce (1.7e-16) before anything new runs; its
     import convention (the domestic share q/(q + M)) is kept, with BEA's domestic-use convention stored beside (domp
@@ -1380,6 +1398,8 @@ is right; in an extreme path the destination is what is wrong.
     unchanged. The October runs start every region on core (US core PCE 3.01; euro-area and Swedish HICP excluding
     energy, food, alcohol and tobacco, 2.38 / 1.17); Sweden's headline at the start is core + the energy term (1.01),
     with CPIF (0.7, lowered by the food VAT cut) a variant; China has no energy term (its CPI on FRED ends 2025-04).
+    → 2026-10-26: every region but China starts on core in the model itself (gc.regions_today on the vintage, decision
+    67), so the stored runs, the case and the website share the start.
 45. **The energy term** (`global_crash.energy_inflation`, off by default): pass-through measured (headline minus core
     on crude's change times energy's share of spending, this quarter and one lag, the previous quarter's weight; US
     PCE 1990–2026, euro-area and Swedish HICP 2000–2026 with quarter dummies; the constant and the dummies not
@@ -1408,7 +1428,10 @@ is right; in an extreme path the destination is what is wrong.
     oil-collapse run is under hands tied, matching today's central-bank stance (the October unit's decision 8). Reason:
     central banks set their targets, and read inflation, over a year; the quarterly reading's whipsaws (the ECB's in the
     collapse run, the Fed at 2.18) come from annualising one quarter's oil move.
-49. **The October start and its vintage**: measured to 30 Sep (euro-area unemployment 6.4, ECB LFSI for the euro area
+49. **The October start and its vintage** (superseded 2026-10-26 by decision 67; decisions 45-46, 48 and 50-51 are
+    the October bust's, a record at the tag `paths-pre-signfix`; 46's "stays high" and 48's four-quarter reading are
+    case.py's energy alternative; 50's mapping is `case.signals`, on the 2000-02 bust's measured Nasdaq-to-equity ratio
+    and one for one): measured to 30 Sep (euro-area unemployment 6.4, ECB LFSI for the euro area
     of 21, July 2026; Sweden 8.9, SCB); the output gap left at 0 (measured about +1.4; open); a separate cache
     (`cache/october/`) read through a context manager, so no other module sees it; refreshed on 1 Oct (DFF, BAA10Y,
     NASDAQCOM, STLFSI4); re-run after each new print.
@@ -1514,6 +1537,31 @@ is right; in an extreme path the destination is what is wrong.
     it when every window is published), refusing a failed refresh; committed with the vintage and tagged
     `paths-splits-look-<year>`; later runs report the window on revised data beside it. A code change after the freeze is
     run beside the tagged code, whose judged readings stand; any difference is a deviation.
+66. **Decided 2026-10-26 (Claude, on her delegation): the bust's path is the 2000-02 bust's, measured**
+    (`global_crash.bust_2000`; `ai_shock`'s default, so the stored runs, the website's model and her case share it; her
+    case at 1.5 times the size). Household equity −44.7% at its trough ten quarters after the peak (Fed Z.1), back at the
+    peak by 2005Q4; the build-out (BEA, above its 1990-94 trend) still growing three quarters after the peak, most of its
+    excess gone by four years; bank losses (C&I charge-offs above their 1997-99 mean, the Fed Board) peaking ten
+    quarters after. The onset is the quarter of the peak, 2026Q4 (the Nasdaq's and the S&P's high, 6 Oct). Reason: the
+    bust as first built (straight-line falls over four quarters, held for good; kept as `shape="ramp"`, check_case K1)
+    was about 2.5 times faster than the dot-com bust on every leg and out of its order, and never recovered; October's
+    data fit the measured path's first quarter (household equity at its Q3 level, the periphery and the lowest credit
+    tier breaking, the build-out still rising) and not the ramp's (equity −30% and US out of work 5.6% in 2026Q4, against
+    claims pointing to about 4.2). Alternatives (case.json `alternatives`): the ramp (the 8 Oct timing), the fall held at
+    its trough, the core holding, a quarter later.
+67. **Decided 2026-10-26 (Claude, on her delegation): one start, a dated vintage** (`code/vintage.py`, `cache/start/`
+    with a manifest of each series' source, last observation and hash; `gc.regions_today` reads it to the end of 2026Q3;
+    the case, the central run and the website's model on it; check_case V1-V2). US unemployment 4.2 (Sep), core PCE 3.01
+    (Aug, after BEA's annual update; 3.34 stored before), equity wealth 2.27 times GDP (Z.1, 2026Q2; 1.9 approximate
+    before); the euro area 6.5 (ECB LFSI, Aug; 6.3 hard-coded before) on core HICP 2.39 (headline 3.23 before); Sweden
+    8.6 (SCB, Sep; 8.5) on core HICP 1.17 (0.7 hard-coded) at the Riksbank's 1.75; China stored. FRED refused this
+    machine from the evening of 26 Oct, so the sources are FRED as cached on 30 Sep (after the annual update), the
+    watcher's FRED copies of 26 Oct, BEA's bulk NIPA file and the ECB; the manifest names each. A vintage is refreshed
+    (`code/vintage.py --refresh`) and committed before the prints it is scored on (Next 11).
+68. **Decided 2026-10-26 (Claude, on her delegation): the build-out is information processing equipment** (`decoupling.py`
+    read Y033RC, all equipment, under that label, since 2026-09-25). Net of computer imports it sits 0.42 points of GDP
+    below its 2015-22 trend (0.2 below its 2022 level), so the US capex leg is zero: a lower bound, since data-centre
+    buildings are not in the measure. Alternative: add data-centre construction (Census, annual) — not done.
 
 ## Next
 
@@ -1581,6 +1629,10 @@ of decisions 39, 41 and 42 stand.
     Oct). **Amended 2026-10-26 (Log 40):** a print is not folded into the inputs of a run that makes a claim about it.
     Each data vintage is frozen and committed before the prints it is scored on, and scored on them afterwards; the
     FOMC, the Riksbank's 4 Nov decision and October employment (6 Nov) are tests of the stored runs, registered in Log 40.
+    **Since 2026-10-26 (Log 42):** the vintage is `cache/start/` (`code/vintage.py --refresh`, then `code/decoupling.py`,
+    `code/global_crash.py`, `code/pace.py`, `code/case.py` and every battery, committed together); October's vintage
+    (`cache/october/`) is kept for the record. The next refresh: after the December deadlines, or before a print the
+    case should be scored on (the October employment report is already a test of this vintage: case 2026Q4 4.32).
 12. **(c), onward** (decisions 31–42; 39, 41 and 42 decided 2026-10-01, pending the refit of Next, first): before (c)
     carries rate stress, a land-slack corner and `rho_rate_share`; the chain's own depreciation (FA 3.1ESI / 3.4ESI)
     for sigma; WP2026-01's labour definition (the self-employed imputation) and a primary copy of its numbers; README's
@@ -2187,3 +2239,56 @@ the macro block lands.
     equipment, Y034RC, was about $280bn) — so the measured AI build-out has carried trucks and aircraft; with Y034 the
     build-out net of computer imports sits below its 2015-22 trend (−0.42 points on BEA's 30 Sep release; scratch), and
     the US capex leg would be zero (a lower bound: data-centre buildings are not in the measure).
+42. **2026-10-26 — her case on a dated vintage, the bust on the 2000-02 bust's measured path.** The redo's third step,
+    on her delegation (her words, paraphrased: well calibrated, on new data, fitting the path of the bubble pop we are
+    seeing, simpler where parts are no longer relevant; most of it left to Claude). Decisions 66-68 (veto window).
+    - **The vintage** (`code/vintage.py`, new; `cache/start/` with `MANIFEST.json`): the start's series, each from the
+      best source reachable and named. FRED refused this machine all evening (HTTP/2 stream errors, then stalls, after
+      several agents had pulled from it at once), so: FRED as cached on 30 Sep (after BEA's annual update of 25 Sep) for
+      core and headline PCE, the funds rate, the ECB rate and the euro-area and Swedish core HICP (to August); the
+      watcher's FRED copies of 26 Oct (state 3e23410) for US unemployment (September, 4.2), the corporate spread, Brent,
+      the Nasdaq and nominal GDP; BEA's bulk NIPA file (Last-Modified 30 Sep) for the build-out's series and GDP; the
+      ECB's portal for euro-area unemployment (August, 6.5); Statistics Sweden (September, 8.6) and the Riksbank's rate
+      (1.75) through the watcher's copies. The history the measured bust needs, written once into `cache/` in FRED's
+      format from the publishers FRED republishes: information processing equipment (BEA Y034RC, as Y034RC1Q027SBEA)
+      and the C&I charge-off rate (the Fed Board's release, as CORBLACBS); and the Nasdaq's history (FRED, as cached
+      30 Sep). To refresh when FRED answers again; the values should not move (BEA's and FRED's agree to the cent on
+      every series both carry, checked).
+    - **One start** (`gc.regions_today` on the vintage, cut at the end of 2026Q3): US u0 4.1 → 4.2, core PCE 3.34 →
+      3.01 (the annual update alone lowered it 0.36), equity wealth 1.9 → 2.27 times GDP (Z.1 2026Q2, verified against
+      the Fed's release: +16.9% on Q1, in line with the market); the euro area's u0 6.3 → 6.5 and its pi0 from headline
+      3.23 to core 2.39; Sweden's u0 8.5 → 8.6 and pi0 0.7 (hard-coded) → 1.17. The case and the model's central run share
+      it, so October's separate "fresh start" is gone.
+    - **The build-out, corrected** (`decoupling.py`: Y034RC, information processing equipment, in place of Y033RC, all
+      equipment): net of computer imports 0.42 points below its 2015-22 trend, so the US capex leg is zero (decision 68).
+      check_decoupling 6/6 unchanged (its D5 already said the build-out leaks abroad).
+    - **The bust's path** (`gc.bust_2000`, `gc.ai_shock`'s default; `shape="ramp"` keeps the bust as first built,
+      gated exact): household equity, the build-out above its 1990-94 trend and bank losses, each by quarter from the
+      quarter of the 2000 peak (decision 66). On the corrected model the findings move again (check_global_crash 46/46:
+      F3, F4, X1, X2, W1, C5-C9, C11, K3, K5, K7 restated as found, the values before in each check's text; check_pace
+      A5): today's rules with the bust alone the four 2.3% below capacity (2.7 on the ramp); the labour row +10 points of
+      US non-employment (+13); eroding rules 8.9% (10.6); in the US care's pace now binds before its ceiling (C6
+      inverted: fewer are displaced by year 6). The pace seen 0.249 (0.235 on Log 41's start).
+    - **Her case, the successor** (`code/case.py` rebuilt; `checks/check_case.py` 17/17, new K4, V1-V2, A1-A3): 1.5
+      times the dot-com bust from 2026Q4. US out of work 8.6–9.1% at 2028Q4 against the central run's 6.5%, 19.0–25.7% at
+      2032Q2 against 14.0%; no single piece dominates by 2028 (the premium 1.4, the tariffs 1.2, the bust 1.1), adoption
+      decides 2032 (7.4); a_r at the HLW estimate takes 3.7 points off the peak. Its own calls, made before the data (the
+      vintage was built and committed before them): US out of work 4.32% in 2026Q4 (October employment, 6 Nov); the Fed
+      raises in 2026Q4 (the quarter's average 4.02) and the Riksbank cuts (to 1.65 for the quarter; 4 Nov); the US Sahm
+      rule in 2027Q1; the Nasdaq rule in 2027Q2 (on the 2000-02 ratio; 2027Q3 one for one). The 8 Oct predictions stay
+      as written: on this case their December deadlines are expected to lapse unmet.
+    - **The watcher's site, restated to match** (watch `web/model_export.py`, `web/facts.py`, `web/guide.py`,
+      `web/case.py`): the model page's bust described on the measured path; its timing check reads the first quarter any
+      leg shows; Our view's bust paragraph and its 2028 band to one decimal. **Restated after seeing the results, for her
+      review (the critic's point):** "after 2028 one assumption decides it" read as the adoption band wider than any other
+      piece (Log 41; it had been over 10 points); "the bust matters most early" is now "by 2028 the bust, the premium and
+      the tariffs each add a point or more"; "today's policies prevent a depression in output, not in jobs" is now "hold
+      output far better than jobs" (14.0% out of work by 2032Q2, under the 15% the old wording needed); "the guarantee
+      holds output, not jobs" is now "lowers the share out of work, but most of the lost jobs stay lost" (its output is
+      no better at the worst, -3.7 either way); eroding policies "a fifth" → "about a sixth" at the paces seen. Two
+      claims pass by a hair and are hers to look at: the pace seen under 0.25 (0.249), and the case's low end more than
+      2 points above the central run at 2028Q4 (8.6 against 6.5: 2.1 points). The site's export reproduces (10,920 runs) and
+      its build passes every model claim; it fails here only on FRED's payroll fetch, which this machine cannot reach.
+    - **Blinding, for the participation thread:** the vintage reads US unemployment to September 2026 and Swedish LFS
+      unemployment (seasonally adjusted, via the watcher's copy) to September 2026, already cached in this repository
+      for the October unit; the long-run study's unseen cells (Europe before 1995, elsewhere 1976-2025) are untouched.

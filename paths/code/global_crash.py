@@ -109,6 +109,7 @@
 
 from __future__ import annotations
 
+import functools
 import json
 import os
 import sys
@@ -666,18 +667,31 @@ def yoy(s: pd.Series, periods: int) -> float:
 
 
 def regions_today() -> dict:
-    core = fred("PCEPILFE")
-    hicp = fred("CP0000EZ19M086NEST")
+    """The regions at the start (index 0, 2026Q3), measured on the dated vintage in cache/start/ (vintage.py; its manifest
+    names each source) where a public series exists: unemployment, the policy rate and core inflation (the model's pi
+    is core: the 2007-10 fit targets core PCE) for the US, the euro area and Sweden, and US household equity over GDP (Fed
+    Z.1); household and private debt from BIS (FRED). Approximate and stated: sizes, Okun slopes and speeds, the other
+    regions' equity wealth and build-out, bank capital and loans, trade, China's start."""
+    import vintage
+    end = pd.Period(START, "Q").end_time                   # index 0 is measured on data to the end of its quarter
+    at = lambda sid: vintage.read(sid).loc[:end]  # noqa: E731
+    v = lambda sid: float(at(sid).iloc[-1])  # noqa: E731
     cn_cpi = fred("CHNCPIALLMINMEI")
     last = lambda sid: float(fred(sid).iloc[-1])  # noqa: E731
     se = json.load(open(os.path.join(ROOT, "results", "households.json"), encoding="utf-8"))["sweden_start"]
     sw_cyc = json.load(open(os.path.join(ROOT, "results", "demand.json"), encoding="utf-8"))["sweden_cycle"]
-    us = Region("US", 0.44, last("UNRATE"), last("DFF"), yoy(core, 12), 0.0, 0.6, 0.9, 0.35, last("QUSHAM770A"), last("QUSPAM770A"),
-                0.10, 1.9, 1.5, 8.0, 45.0, 0.11, {"EA": 0.18, "CN": 0.07, "SE": 0.005, "RoW": 0.745}, 2.5, 3.0, 0.05, 1.0)
-    ea = Region("EA", 0.25, 6.3, last("ECBDFR"), yoy(hicp, 12), -0.5, 0.4, 0.35, 0.60, last("QXMHAM770A"), last("QXMPAM770A"),
-                0.35, 0.6, 0.3, 10.0, 90.0, 0.20, {"US": 0.20, "CN": 0.08, "SE": 0.04, "RoW": 0.68}, 1.5, 3.0, 0.03, 0.5)
-    sw = Region("SE", 0.01, 8.5, 1.75, 0.7, -0.5, 0.4, 0.4, 0.65, last("QSEHAM770A"), last("QSEPAM770A"),
-                se["floating_share"], 1.4, 0.4, 15.0, 130.0, 0.50, {"US": 0.09, "EA": 0.40, "CN": 0.04, "RoW": 0.47}, 2.0, 3.0, 0.03, 0.6)
+    z1, gdp = at("BOGZ1LM153064475Q"), at("GDP")
+    q = min(z1.index[-1], gdp.index[-1])
+    us_equity = float(z1[q] / 1000 / gdp[q])                    # Z.1 levels in millions, GDP in billions (annual rate)
+    us = Region("US", 0.44, v("UNRATE"), v("DFF"), vintage.yoy(at("PCEPILFE")), 0.0, 0.6, 0.9, 0.35, last("QUSHAM770A"),
+                last("QUSPAM770A"), 0.10, us_equity, 1.5, 8.0, 45.0, 0.11, {"EA": 0.18, "CN": 0.07, "SE": 0.005, "RoW": 0.745}, 2.5,
+                3.0, 0.05, 1.0)
+    ea = Region("EA", 0.25, v("EA_UNEMPLOYMENT"), v("ECBDFR"), vintage.yoy(at("00XEFDEZ19M086NEST")), -0.5, 0.4, 0.35,
+                0.60, last("QXMHAM770A"), last("QXMPAM770A"), 0.35, 0.6, 0.3, 10.0, 90.0, 0.20,
+                {"US": 0.20, "CN": 0.08, "SE": 0.04, "RoW": 0.68}, 1.5, 3.0, 0.03, 0.5)
+    sw = Region("SE", 0.01, v("SEUNRATE"), v("SECBREPOEFF"), vintage.yoy(at("00XEFDSEM086NEST")), -0.5, 0.4, 0.4, 0.65,
+                last("QSEHAM770A"), last("QSEPAM770A"), se["floating_share"], 1.4, 0.4, 15.0, 130.0, 0.50,
+                {"US": 0.09, "EA": 0.40, "CN": 0.04, "RoW": 0.47}, 2.0, 3.0, 0.03, 0.6)
     cn = Region("CN", 0.30, 5.2, 1.4, yoy(cn_cpi, 12), 0.0, 0.25, 0.3, 0.15, last("QCNHAM770A"), last("QCNPAM770A"),
                 0.8, 0.3, 1.0, 20.0, 180.0, 0.19, {"US": 0.15, "EA": 0.15, "SE": 0.005, "RoW": 0.695}, 3.0, 1.5, 0.04, 0.8)
     # the two-wave split: occupations and pay measured (exposure.py); where support stops rising, approximate — the US
@@ -870,17 +884,77 @@ def fit(tg: dict):
 
 
 # ------------------------------------------------------------------ the AI crash
-def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: int = 0) -> Shock:
-    """A dot-com-shaped bust of the AI build-out: equity down over four quarters (the periphery collapses, the core
-    reprices), AI investment down 60%, losses on AI-related lending (private credit and its bank lenders). `speed`
-    shortens it: the falls over 4 / speed quarters, the losses over 8 / speed (1: as fitted). `delay` starts it that many
-    quarters later (0: in the first quarter after the start, as fitted); until then the build-out holds."""
-    eq = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}
-    ls = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}
-    qf, ql = max(1, round(4 / speed)), max(2, round(8 / speed))
-    return Shock(equity={r: ramp(scale * v, 1 + delay, qf, n) for r, v in eq.items()},
-                 capex={r: ramp(scale * 0.6 * 100, 1 + delay, qf, n) / 100 for r in eq},
-                 losses={r: pulse(scale * v, 2 + delay, ql, n) for r, v in ls.items()})
+BUST_EQUITY = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}    # the fall in household equity at the trough
+BUST_CAPEX = 0.6                                                  # the share of the above-trend build-out lost
+BUST_LOSSES = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}        # losses on AI-related lending, % of loans in all
+Q0_2000 = pd.Period("2000Q1", "Q")                                # the quarter of the 2000 equity peak (10 Mar 2000)
+WINDOW_2000 = 24                                                  # 2000Q1-2005Q4: household equity back to its peak
+
+
+@functools.lru_cache(maxsize=1)
+def bust_2000() -> dict:
+    """The legs of the 2000-02 bust, measured, by quarters k from the quarter of the equity peak (k = 0 = 2000Q1),
+    k = 0 .. 23 (to 2005Q4; after it 2007's bust would enter the window), each normalised so that its largest value over
+    the first 17 quarters (2000Q1-2004Q1) is 1 (2026-10-26, STATE Log 42):
+      equity  US household corporate equities, directly and indirectly held (Fed Z.1, BOGZ1LM153064475Q, end of quarter):
+              the fall from 2000Q1, floored at zero (a fall from the peak; no rise above it); trough at k = 10 (2002Q3),
+              -44.7%; back at the peak by 2005Q4;
+      capex   the build-out as decoupling.py measures it (information processing equipment, software, power and
+              communication structures, less imports of computers; BEA) over GDP, above its 1990-94 linear trend: the
+              share of 2000Q1's excess lost (negative while it still grows, as it did for three quarters);
+      losses  the C&I loan charge-off rate above its 1997-99 mean (the Fed Board's release, all banks, SA; FRED
+              CORBLACBS), as weights summing to one; peak at k = 10.
+    The raw measures are returned beside the shapes (check_global_crash B1 recomputes them)."""
+    qs = [Q0_2000 + k for k in range(WINDOW_2000)]
+    qd = lambda sid, end=False: (lambda s: s.groupby(s.index.to_period("Q")).last() if end  # noqa: E731
+                                 else s.groupby(s.index.to_period("Q")).mean())(fred(sid))
+    z = qd("BOGZ1LM153064475Q", True)
+    eq = np.array([max(0.0, 1 - float(z[q] / z[Q0_2000])) for q in qs])
+    gdp = qd("GDP")
+    net = sum(sign * qd(sid) / gdp * 100 for sid, sign in (("Y034RC1Q027SBEA", 1), ("B985RC1Q027SBEA", 1),
+                                                          ("W003RC1Q027SBEA", 1), ("B852RC1Q027SBEA", -1))).dropna()
+    yr = net.groupby(net.index.year).mean().loc[1990:1994]
+    slope, icpt = np.polyfit(yr.index.values.astype(float), yr.values, 1)
+    gap = np.array([float(net[q] - (slope * (q.year + (q.quarter - 1) / 4 + 0.125) + icpt)) for q in qs])
+    cx = 1 - gap / gap[0]
+    ci = qd("CORBLACBS")
+    base = float(ci[(ci.index >= pd.Period("1997Q1", "Q")) & (ci.index <= pd.Period("1999Q4", "Q"))].mean())
+    ex = np.array([max(0.0, float(ci[q]) - base) for q in qs])
+    h = slice(0, 17)
+    return {"equity": eq / eq[h].max(), "capex": cx / cx[h].max(), "losses": ex / ex.sum(),
+            "measured": {"equity_fall": eq, "capex_share_lost": cx, "chargeoff_excess": ex, "capex_excess_2000Q1": float(gap[0]),
+                         "chargeoff_base_1997_99": base}}
+
+
+def _on(arr: np.ndarray, onset: int, n: int, speed: float, after: float) -> np.ndarray:
+    """A measured path from index `onset` (k = 0 there), time running `speed` times as fast, linearly between quarters;
+    before the onset 0, after the window `after`."""
+    k = (np.arange(n) - onset) * speed
+    out = np.interp(k, np.arange(len(arr)), arr, left=0.0, right=after)
+    return np.where(k < 0, 0.0, out)
+
+
+def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: int = 0, shape: str = "2000") -> Shock:
+    """A dot-com-shaped bust of the AI build-out, from the quarter of the peak (index 1 + delay): household equity, the
+    above-trend build-out and losses on AI-related lending (private credit and its bank lenders), each on the path the
+    2000-02 bust measured (bust_2000) at the 2000-02 sizes (equity -40% at the trough in the US, 60% of the build-out's
+    excess, 1.5% of US loans), times `scale`; `speed` runs the path faster. Since 2026-10-26 (STATE Log 42). shape="ramp":
+    the bust as first built (2026-09-24 to 2026-10-26): equity and the build-out down in a straight line over 4 / speed
+    quarters from 1 + delay and held there for good, the losses spread evenly over 8 / speed quarters from 2 + delay."""
+    eq, ls = BUST_EQUITY, BUST_LOSSES
+    if shape == "ramp":
+        qf, ql = max(1, round(4 / speed)), max(2, round(8 / speed))
+        return Shock(equity={r: ramp(scale * v, 1 + delay, qf, n) for r, v in eq.items()},
+                     capex={r: ramp(scale * 0.6 * 100, 1 + delay, qf, n) / 100 for r in eq},
+                     losses={r: pulse(scale * v, 2 + delay, ql, n) for r, v in ls.items()})
+    b = bust_2000()
+    onset = 1 + delay
+    e = _on(b["equity"], onset, n, speed, 0.0)
+    c = _on(b["capex"], onset, n, speed, float(b["capex"][-1]))
+    w = _on(b["losses"], onset, n, speed, 0.0) * speed           # weights per quarter, so the losses still sum to one
+    return Shock(equity={r: scale * v * e for r, v in eq.items()},
+                 capex={r: scale * BUST_CAPEX * c for r in eq},
+                 losses={r: scale * v * w / DT for r, v in ls.items()})
 
 
 def scenarios(cm: Common, regions: dict) -> dict:

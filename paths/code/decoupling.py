@@ -34,7 +34,9 @@ import lambda_compute2 as _lc  # noqa: E402
 _lc.CACHE = os.path.join(ROOT, "cache")
 IP = {"IPMAN": "all manufacturing", "IPG3344S": "semiconductors", "IPG334S": "computers and electronics",
       "IPG335S": "electrical equipment", "IPG2211S": "electric power generation"}
-BUILD = {"Y033RC1Q027SBEA": "information processing equipment", "B985RC1Q027SBEA": "software",
+# Y034RC is information processing equipment (BEA NIPA Table 5.3.5); until 2026-10-26 this read Y033RC, which is all
+# equipment (Table 1.1.5 line 11: $749bn in 2000Q1 against Y034RC's $280bn), under this label (STATE Log 41-42)
+BUILD = {"Y034RC1Q027SBEA": "information processing equipment", "B985RC1Q027SBEA": "software",
          "W003RC1Q027SBEA": "power and communication structures", "B852RC1Q027SBEA": "less: imports of computers, peripherals and parts"}
 
 
@@ -94,8 +96,11 @@ def manufacturing() -> dict:
 
 
 def build_out() -> dict:
-    gdp = fred("GDP")
-    sh = pd.DataFrame({BUILD[k]: (-1 if k == "B852RC1Q027SBEA" else 1) * 100 * fred(k) / gdp.reindex(fred(k).index) for k in BUILD}).dropna()
+    """On the start's dated vintage (vintage.py: BEA's bulk NIPA file), not the history cache."""
+    import vintage
+    gdp = vintage.read("GDP")
+    sh = pd.DataFrame({BUILD[k]: (-1 if k == "B852RC1Q027SBEA" else 1) * 100 * vintage.read(k) / gdp.reindex(vintage.read(k).index)
+                       for k in BUILD}).dropna()
     sh["net"] = sh.sum(axis=1)
     yr = sh.groupby(sh.index.year).mean()
     t = yr.loc[2015:2022, "net"]

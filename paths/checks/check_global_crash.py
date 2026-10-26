@@ -129,16 +129,17 @@ check("F2 today's rules with displacement and recessions triggering adoption: a 
       NW(lab) >= 10 and lab["US"]["gap_min"] > -10 and lab["US"]["unemployment_max"] - regs["US"].u0 < NW(lab) / 2,
       f"US non-employment +{NW(lab)} (unemployment {lab['US']['unemployment_max']}%, {lab['US']['out_of_labour_force_end']} points out of the labour force), gap {lab['US']['gap_min']}%")
 er = y4("rules erode under pressure | bust + displacement")
-check("F3 when the rules erode (austerity, no backstop, tariffs, looser anchoring): a deep world recession, about twice 2008's "
-      "— the four together near 10% below capacity, US non-employment up 15 points or more, most of US banks' capital gone. "
-      "Restated after the sign fix of 2026-10-26: before it, Great Depression scale (-24.66%, +34.36, all capital)",
-      er["four_weighted_gap_min"] <= -9.5 and NW(er) >= 15 and er["US"]["bank_capital_lost_max"] >= 0.8,
+check("F3 when the rules erode (austerity, no backstop, tariffs, looser anchoring): a deep world recession, about twice "
+      "2008's — the four together 8% or more below capacity, US non-employment up 12 points or more, most of US banks' "
+      "capital gone. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it -10.59%, +16.32, 0.874; before the sign fix, Great Depression scale (-24.66%, "
+      "+34.36, all capital)",
+      er["four_weighted_gap_min"] <= -8.0 and NW(er) >= 12 and er["US"]["bank_capital_lost_max"] >= 0.6,
       f"four together {er['four_weighted_gap_min']}%, US non-employment +{NW(er)}, capital lost {er['US']['bank_capital_lost_max']}")
 ex = y4("rules expand under pressure | bust + displacement")
-check("F4 when the rules expand (an income guarantee): output held within 6% everywhere, at no more than 4% of US GDP a year — but "
-      "US non-employment still up more than 8 points: the guarantee holds demand, not jobs. Restated after the sign fix of "
-      "2026-10-26: before it, within 10%, 3.67% of GDP, +11.6",
-      all(ex[r]["gap_min"] > -6 for r in gc.R) and ex["US"]["guarantee_cost_max_pct_gdp"] <= 4 and NW(ex) > 8,
+check("F4 when the rules expand (an income guarantee): output held within 5% everywhere, at no more than 3% of US GDP a year — "
+      "but US non-employment still up more than 7 points: the guarantee holds demand, not jobs. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it "
+      "within 6%, 2.74% of GDP, +8.71; before the sign fix within 10%, 3.67%, +11.6",
+      all(ex[r]["gap_min"] > -5 for r in gc.R) and ex["US"]["guarantee_cost_max_pct_gdp"] <= 3 and NW(ex) > 7,
       f"gaps {[ex[r]['gap_min'] for r in gc.R]}; US guarantee {ex['US']['guarantee_cost_max_pct_gdp']}% of GDP; US non-employment +{NW(ex)}")
 th = y4("the 1930s' rules | bust + displacement")
 check("F5 the 1930s' rules on today's economy are worse still than eroded rules", th["four_weighted_gap_min"] < er["four_weighted_gap_min"],
@@ -149,19 +150,25 @@ check("F6 the US leads: the largest rise in non-employment of the four under tod
 
 print("X — the participation margin and the measured build-out (decoupling.py), stated as found")
 dec = json.load(open(os.path.join(ROOT, "results", "decoupling.json"), encoding="utf-8"))
-check("X1 the inputs are the measured ones: the US build-out net of computer imports above its 2015-22 trend, and the US exit share "
-      "since the prime-age employment peak; the other regions keep the displaced in the labour force (not measured)",
-      abs(regs["US"].ai_capex - dec["ai_build_out"]["net_above_2015_22_trend_pts"]) < 1e-9
+check("X1 the inputs are the measured ones: the US build-out net of computer imports above its 2015-22 trend (floored at zero: "
+      "it sits below its trend, -0.42 points, since decoupling.py reads information processing equipment, not all "
+      "equipment; Log 42), and the US exit share since the prime-age employment peak; the other regions keep the "
+      "displaced in the labour force (not measured)",
+      abs(regs["US"].ai_capex - max(dec["ai_build_out"]["net_above_2015_22_trend_pts"], 0.0)) < 1e-9
       and abs(regs["US"].exit_share - dec["where_the_displaced_go"]["prime_age_25_54"]["since_the_employment_peak"]["exit_share"]) < 1e-9
       and all(regs[r].exit_share == 0 for r in ("EA", "SE", "CN")),
-      f"US build-out {regs['US'].ai_capex}% of GDP (assumed 1.5 before), exit share {regs['US'].exit_share}")
+      f"US build-out {regs['US'].ai_capex}% of GDP (measured {dec['ai_build_out']['net_above_2015_22_trend_pts']}; assumed 1.5 before), "
+      f"exit share {regs['US'].exit_share}")
 old_us = {r: (replace(g, ai_capex=1.5, drift=0.0) if r == "US" else replace(g, drift=0.0)) for r, g in regs.items()}
 new_us = {r: replace(g, drift=0.0) for r, g in regs.items()}
 a = gc.summary(gc.simulate(old_us, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24), regs, 16)
 b = gc.summary(gc.simulate(new_us, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24), regs, 16)
-check("X2 measured, the build-out makes the US bust milder: the bust alone takes US output at worst over a point less below capacity "
-      "than with the 1.5% of GDP assumed before — the imported servers' collapse lands abroad",
-      b["US"]["gap_min"] - a["US"]["gap_min"] >= 1, f"US gap {a['US']['gap_min']} assumed -> {b['US']['gap_min']} measured")
+check("X2 measured, the US build-out has nothing above its trend, so the bust's capex leg is zero in the US; on the 2000-02 "
+      "path the build-out kept growing three quarters after the equity peak and fell mostly after year 4, so the 1.5% of "
+      "GDP assumed before moves the US year-4 trough by under half a point. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it the measured "
+      "build-out (0.34) made the bust over a point milder than the assumed 1.5%, on the ramp",
+      abs(b["US"]["gap_min"] - a["US"]["gap_min"]) < 0.5 and regs["US"].ai_capex == 0.0,
+      f"US gap {a['US']['gap_min']} assumed -> {b['US']['gap_min']} measured")
 dep6 = S["modern rules | bust + displacement, recessions trigger adoption x3 | two waves, robotics in 2 years"]["year6"]["US"]
 check("X3 exits hide a jobs depression from the unemployment rate: by year 6 (robotics two years out) US unemployment reads under "
       "15% while more points have left the labour force than unemployment has risen. Restated after the sign fix of 2026-10-26: "
@@ -188,9 +195,9 @@ row = "modern rules | bust + displacement, recessions trigger adoption x3"
 wv = lambda L, h="year4": S[f"{row} | two waves, robotics in {L} years"][h]  # noqa: E731
 u4 = [NW(lab)] + [NW(wv(L)) for L in (1, 2, 3)]
 check("W1 the robotics lag holds the jobs crisis back: US year-4 non-employment falls with every year of lag, and with robotics "
-      "three years out it is at least 3.5 points below the uniform case. Restated after the sign fix of 2026-10-26: before it, "
-      "at least 5 (21.03 -> 14.71)",
-      all(a_ >= b_ for a_, b_ in zip(u4, u4[1:])) and u4[0] - u4[3] >= 3.5, f"uniform, 1, 2, 3 years: {u4}")
+      "three years out it is at least 2.5 points below the uniform case. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 3.5 (13.2 -> "
+      "9.26); before the sign fix at least 5 (21.03 -> 14.71)",
+      all(a_ >= b_ for a_, b_ in zip(u4, u4[1:])) and u4[0] - u4[3] >= 2.5, f"uniform, 1, 2, 3 years: {u4}")
 d2 = S["modern rules | bust + displacement | two waves, robotics in 2 years"]["year6"]
 check("W2 it delays, it does not prevent: with robotics two years out, US non-employment by year 6 is above the uniform case's at "
       "year 4, in this row and with displacement alone",
@@ -245,35 +252,35 @@ check("C4 care's trend jobs exist anyway: taking them lowers US non-employment a
       "take them from people who would have entered work)",
       NW(trend_) < NW(none_) and trend_["US"]["gap_min"] <= none_["US"]["gap_min"],
       f"non-employment +{NW(none_)} -> +{NW(trend_)}; gap {none_['US']['gap_min']} -> {trend_['US']['gap_min']}")
-check("C5 a funded build-out, a point of employment a year: in the labour-depression row, US year-6 non-employment at least 5 points "
-      "lower, at no more than 1.5% of GDP a year, with US care within 0.1 of the ceiling. Restated after the sign fix of "
-      "2026-10-26: before it, at the ceiling to 0.05 (+38.57 -> +31.24, care 20.1%)",
-      NW(none_) - NW(build_) >= 5 and build_["US"]["care_cost_max_pct_gdp"] <= 1.5 and build_["US"]["care_share_end"] >= cm.care_ceiling - 0.1,
+check("C5 a funded build-out, a point of employment a year: in the labour-depression row, US year-6 non-employment at least 4 "
+      "points lower, at no more than 1% of GDP a year; US care short of the ceiling by year 6 (the pace binds; C6). "
+      "Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 5 points lower with care within 0.1 of the ceiling (+24.44 -> +18.08, 20.02%)",
+      NW(none_) - NW(build_) >= 4 and build_["US"]["care_cost_max_pct_gdp"] <= 1.0 and build_["US"]["care_share_end"] < cm.care_ceiling - 0.5,
       f"+{NW(none_)} -> +{NW(build_)}; cost {build_['US']['care_cost_max_pct_gdp']}% of GDP; care {build_['US']['care_share_end']}%")
 fast_, open_ = y6("rules expand into care", row3, ", care absorbs, three points a year"), y6("rules expand into care", row3, ", care absorbs, three points a year, no ceiling")
-check("C6 in the US the ceiling is the limit, not the pace: three points a year gains under a point by year 6; without the "
-      "ceiling it gains more than three and a half. Restated after the sign fix of 2026-10-26: before it, more than five "
-      "(30.59 -> 23.96)",
-      NW(build_) - NW(fast_) < 1 and NW(fast_) - NW(open_) > 3.5,
+check("C6 in the US the pace binds before the ceiling: three points a year gains over a point by year 6, and without the "
+      "ceiling it gains under two more. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it the ceiling was the limit, not the pace (a point a year "
+      "+18.08, three +17.61, three without the ceiling +13.65)",
+      NW(build_) - NW(fast_) > 1 and NW(fast_) - NW(open_) < 2,
       f"a point a year +{NW(build_)}, three +{NW(fast_)}, three without the ceiling +{NW(open_)} (care {open_['US']['care_share_end']}%)")
 struct = build_["US"]["displaced_cognitive_end"] + build_["US"]["displaced_physical_end"]
 room = cm.care_ceiling - regs["US"].care_share
-check("C7 care cannot rescue the jobs crisis: the US displaced still out of work at year 6 are about twice the room care had "
-      "(Norway's share less today's), and US non-employment stays up more than 12 points even without a ceiling. Restated after "
-      "the sign fix of 2026-10-26: before it, over three times the room and more than 20 points (18.2 against 5.3; +23.96)",
-      struct >= 1.8 * room and NW(open_) > 12, f"still displaced {struct:.1f} points against room {room:.1f}; without a ceiling +{NW(open_)}")
+check("C7 care cannot rescue the jobs crisis: the US displaced still out of work at year 6 exceed the room care had (Norway's "
+      "share less today's), and US non-employment stays up more than 8 points even without a ceiling. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): "
+      "before it about twice the room and more than 12 points (10.4 against 5.3; +13.65)",
+      struct >= room and NW(open_) > 8, f"still displaced {struct:.1f} points against room {room:.1f}; without a ceiling +{NW(open_)}")
 se1, se0 = y6("rules expand into care", row1, ", care absorbs")["SE"], y6("modern rules", row1, "")["SE"]
-check("C8 Sweden, displacement alone: the build-out takes year-6 unemployment down at least 2.5 points and care stays under the "
-      "ceiling — there the gate and the pace of training bind, not the ceiling",
-      se0["unemployment_max"] - se1["unemployment_max"] >= 2.5 and se1["care_share_end"] < cm.care_ceiling - 1,
+check("C8 Sweden, displacement alone: the build-out takes year-6 unemployment down at least 2 points and care stays under the "
+      "ceiling — there the gate and the pace of training bind, not the ceiling. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 2.5",
+      se0["unemployment_max"] - se1["unemployment_max"] >= 2.0 and se1["care_share_end"] < cm.care_ceiling - 1,
       f"{se0['unemployment_max']} -> {se1['unemployment_max']}; care {se1['care_share_end']}%")
 g_ = y6("rules expand under pressure", row3, "")
 per_c = (NW(none_) - NW(build_)) / build_["US"]["care_cost_max_pct_gdp"]
 per_g = (NW(none_) - NW(g_)) / g_["US"]["guarantee_cost_max_pct_gdp"]
 check("C9 care buys jobs, the guarantee buys demand: per point of GDP a year, the build-out takes more off US non-employment than "
-      "the income guarantee, but the guarantee holds output over 4 points closer to capacity. Restated after the sign fix of "
-      "2026-10-26: before it, over 5 points (-14.56 against -6.36)",
-      per_c > per_g and g_["US"]["gap_min"] > build_["US"]["gap_min"] + 4,
+      "the income guarantee, and the guarantee holds output closer to capacity. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it over 4 points "
+      "closer (-9.1 against -4.44)",
+      per_c > per_g and g_["US"]["gap_min"] > build_["US"]["gap_min"],
       f"points of non-employment per % of GDP: care {per_c:.1f}, guarantee {per_g:.1f}; gap: care {build_['US']['gap_min']}, guarantee {g_['US']['gap_min']}")
 er_ = y6("rules erode under pressure", row3, ", care absorbs")
 check("C10 when the rules erode, care takes in nobody and stops growing",
@@ -284,9 +291,9 @@ for h in (0.10, 0.50):
     o = gc.summary(gc.simulate(rg3, {r: gc.CARE for r in gc.R}, gc.ai_shock(24), replace(cm, care_hire=h), 24, waves=ab), regs)
     sens[h] = (NW(o), o["US"]["care_share_end"], o["SE"]["unemployment_max"])
 check("C11 how fast care trains and hires (0.10 or 0.50 of the willing a quarter, against 0.25): US non-employment stays up more than "
-      "15 points with the build-out either way; Sweden's result moves with it (there it binds). Restated after the sign fix of "
-      "2026-10-26: before it, more than 25 (32.84, 30.6)",
-      all(v[0] > 15 for v in sens.values()) and abs(sens[0.10][2] - sens[0.50][2]) > 1, sens)
+      "10 points with the build-out either way; Sweden's result moves with it (there it binds). Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it "
+      "more than 15 (19.84, 17.65)",
+      all(v[0] > 10 for v in sens.values()) and abs(sens[0.10][2] - sens[0.50][2]) > 1, sens)
 
 print("K — the financing limit (what pays for the build-out), stated as found")
 fin = json.load(open(os.path.join(ROOT, "results", "financing.json"), encoding="utf-8"))
@@ -305,11 +312,11 @@ check("K2 the source changes only the limit, the drag and the price: with debt f
       "give the same paths", d < 1e-9, f"largest difference {d:.1e}")
 fl = lambda rn, dial, fast=True: S[f"{rn} | {dial} | two waves, robotics in 2 years, care absorbs, financing limit" + (", three points a year" if fast else "")]["year6"]  # noqa: E731
 tx, lv, bo = fl("care financed by labour taxes", row3), fl("care financed by a levy on AI income", row3), fl("care financed by borrowing", row3)
-check("K3 taxes on labour lose room as displacement shrinks the wage base: the US room falls by over two-fifths by year 6; "
-      "Sweden's, already near the top, nearly runs out (under a point left), and its build-out ends level with the levy's. "
-      "Restated after the sign fix of 2026-10-26: before it, the US room fell by more than two-thirds (to 3.14) and Sweden's ran "
-      "out (-0.07), its build-out stalling 1.35 points short of the levy's",
-      tx["US"]["financing_room_end_pct_gdp"] < tx["US"]["financing_room_start_pct_gdp"] * 0.6 and tx["SE"]["financing_room_end_pct_gdp"] < 1.0
+check("K3 taxes on labour lose room as displacement shrinks the wage base: the US room falls by over a quarter by year 6; "
+      "Sweden's, already near the top, by over two-fifths, and its build-out ends level with the levy's. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): "
+      "before it the US room fell by over two-fifths (11.58 -> 6.32) and Sweden's to under a point (0.75)",
+      tx["US"]["financing_room_end_pct_gdp"] < tx["US"]["financing_room_start_pct_gdp"] * 0.75
+      and tx["SE"]["financing_room_end_pct_gdp"] < tx["SE"]["financing_room_start_pct_gdp"] * 0.6
       and abs(lv["SE"]["care_share_end"] - tx["SE"]["care_share_end"]) < 0.2,
       f"US room {tx['US']['financing_room_start_pct_gdp']} -> {tx['US']['financing_room_end_pct_gdp']}; Sweden {tx['SE']['financing_room_start_pct_gdp']} -> "
       f"{tx['SE']['financing_room_end_pct_gdp']}; Swedish care {tx['SE']['care_share_end']}% against {lv['SE']['care_share_end']}% with the levy")
@@ -319,20 +326,19 @@ check("K4 a levy on AI income gains room as displacement grows, and in the US, t
       and all(abs(NW(lv, r) - NW(bo, r)) < 0.05 for r in ("US", "EA", "SE"))
       and all(lv[r]["debt_added_end_pct_gdp"] == 0 for r in gc.R),
       {r: (lv[r]["financing_room_start_pct_gdp"], lv[r]["financing_room_end_pct_gdp"], NW(lv, r), NW(bo, r)) for r in ("US", "EA", "SE")})
-check("K5 taxing workers to pay for it costs jobs: financed by labour taxes, US year-6 non-employment is at least 1.5 points above "
-      "the levy's, and Sweden's at least 0.3. Restated after the sign fix of 2026-10-26: before it, at least 2 and 1 (26.94 "
-      "against 23.96; 8.03 against 6.69)",
-      NW(tx) - NW(lv) >= 1.5 and NW(tx, "SE") - NW(lv, "SE") >= 0.3, {r: (NW(tx, r), NW(lv, r)) for r in gc.R})
+check("K5 taxing workers to pay for it costs jobs: financed by labour taxes, US year-6 non-employment is at least a point above "
+      "the levy's, and Sweden's at least 0.2. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 1.5 and 0.3 (15.33 against 13.65; 4.71 "
+      "against 4.37)",
+      NW(tx) - NW(lv) >= 1.0 and NW(tx, "SE") - NW(lv, "SE") >= 0.2, {r: (NW(tx, r), NW(lv, r)) for r in gc.R})
 check("K6 the price of debt does not bind at a build-out's size: under 5 bp in every region, the euro area included, with at most "
       "5% of GDP added over six years",
       all(bo[r]["debt_premium_max_bp"] < 5 and bo[r]["debt_added_end_pct_gdp"] <= 5 for r in gc.R),
       {r: (bo[r]["debt_premium_max_bp"], bo[r]["debt_added_end_pct_gdp"]) for r in gc.R})
 slow = fl("care financed by borrowing", row3, fast=False)
 check("K7 with a point a year the pace binds before any financing limit (borrowing without a cap within half a point of the capped "
-      "build-out); with three points a year, financing decides: taxes on labour leave US non-employment's rise at least 1.5 "
-      "points above the levy's and borrowing's. Restated after the sign fix of 2026-10-26: before it, the levy and borrowing "
-      "held it under 25 points and taxes on labour did not (23.96, 23.96, 26.94)",
-      abs(NW(slow) - NW(build_)) < 0.5 and NW(tx) - max(NW(lv), NW(bo)) >= 1.5,
+      "build-out); with three points a year, financing decides: taxes on labour leave US non-employment's rise at least a "
+      "point above the levy's and borrowing's. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 1.5 (15.33 against 13.65)",
+      abs(NW(slow) - NW(build_)) < 0.5 and NW(tx) - max(NW(lv), NW(bo)) >= 1.0,
       f"a point a year +{NW(slow)} (capped +{NW(build_)}); three: levy +{NW(lv)}, borrowing +{NW(bo)}, labour taxes +{NW(tx)}")
 
 n_ok = sum(ok for _, ok, _ in RESULTS)
