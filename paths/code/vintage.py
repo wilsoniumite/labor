@@ -23,6 +23,7 @@ import os
 import subprocess
 import sys
 
+import numpy as np
 import pandas as pd
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -49,6 +50,9 @@ SERIES = {
     "00XEFDSEM086NEST": "Sweden pi0, HICP excluding energy, food, alcohol and tobacco (y/y)",
     "DCOILBRENTEU": "dated Brent, for decision 27's price leg",
     "NASDAQCOM": "the Nasdaq composite, for the pop so far and the watcher's equity rule",
+    "DGS10": "the US ten-year Treasury yield, for the premium's test: its move since the start (decision 69)",
+    "THREEFYTP10": "the US ten-year term premium (Kim-Wright, the Fed Board), likewise",
+    "BAA10Y": "Moody's Baa over the ten-year, likewise",
 }
 # the AI build-out (decoupling.build_out) and nominal GDP from BEA's own bulk NIPA file, as FRED republishes them (FRED id:
 # BEA code; millions in the file, billions here); from 2014 for the 2015-22 trend
@@ -60,6 +64,8 @@ NON_FRED = {
     "EA_UNEMPLOYMENT": ("euro-area u0, ECB LFSI M.I9.S.UNEHRT.TOTAL0.15_74.T", "ecb_LFSI_M.I9.S.UNEHRT.TOTAL0.15_74.T.csv"),
     "SEUNRATE": ("Sweden u0, Statistics Sweden's labour force survey, 15-74, seasonally adjusted", None),
     "SECBREPOEFF": ("Sweden i0, the Riksbank's policy rate (SWEA)", None),
+    "FRGVB10Y": ("France's ten-year government bond yield (the Riksbank's SWEA), for France's spread over Germany", None),
+    "DEGVB10Y": ("Germany's ten-year government bond yield (the Riksbank's SWEA), likewise", None),
 }
 
 
@@ -129,61 +135,100 @@ def _read_fred_text(txt: str, sid: str) -> pd.Series:
     return pd.Series(pd.to_numeric(df[sid], errors="coerce").values, index=pd.to_datetime(df["observation_date"])).dropna()
 
 
+# HICP from Eurostat itself (prc_hicp_minr, 2025 = 100, the dataset FRED's copies follow), used whole for a series when
+# it reaches further than every FRED source: FRED's id -> (coicop18, geo)
+EUROSTAT = {"00XEFDEZ19M086NEST": ("TOT_X_NRG_FOOD", "EA19"), "CP0000EZ19M086NEST": ("TOTAL", "EA19"),
+            "00XEFDSEM086NEST": ("TOT_X_NRG_FOOD", "SE")}
+EUROSTAT_URL = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_minr"
+
+
+def _eurostat(coicop: str, geo: str) -> pd.Series | None:
+    try:
+        import requests
+        import truststore
+        truststore.inject_into_ssl()
+        r = requests.get(EUROSTAT_URL, params={"geo": geo, "coicop18": coicop, "unit": "I25", "sinceTimePeriod": "2022-01"},
+                         headers=UA, timeout=60)
+        if r.status_code != 200:
+            return None
+        js = r.json()
+        ids, size = js["id"], js["size"]
+        cats = {d: {v: k for k, v in js["dimension"][d]["category"]["index"].items()} for d in ids}
+        strides = [int(np.prod(size[i + 1:])) for i in range(len(ids))]
+        out = {}
+        for k, v in js["value"].items():
+            key = {d: cats[d][(int(k) // strides[i]) % size[i]] for i, d in enumerate(ids)}
+            out[pd.Timestamp(key["time"] + "-01")] = float(v)
+        return pd.Series(out).sort_index() if out else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def refresh(live: bool = True) -> dict:
-    """Build cache/start/ from the best source reachable for each series; write the manifest. Fails if a series has no
-    source at all."""
-    os.makedirs(START, exist_ok=True)
+    """Build the vintage from the best source reachable for each series, in a folder beside cache/start/, and put it in
+    place only once every series and the manifest are written (a failed refresh leaves the frozen vintage as it was).
+    Fails if a series has no source at all."""
+    import shutil
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="start-", dir=os.path.dirname(START))
     wc = _watcher_commit()
     man = {"vintage": dt.date.today().isoformat(), "built_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
            "watcher_state_commit": wc, "series": {}}
-    for sid, what in SERIES.items():
-        txt = _fred_live(sid) if live else None
-        if txt is not None:
-            s, src = _read_fred_text(txt, sid), "FRED"
-        else:
-            s = _watcher(sid)
-            src = f"FRED via the watcher's copy (state {wc})" if s is not None else None
-            for folder, what_ in ((OCT, "FRED as cached on 30 Sep 2026 (cache/october)"),
-                                  (os.path.join(ROOT, "cache"), "FRED as cached in cache/")):
-                fp = os.path.join(folder, f"{sid}.csv")
-                if os.path.exists(fp):
-                    o = _read_fred_text(open(fp, encoding="utf-8").read(), sid)
-                    if s is None or o.index[-1] > s.index[-1]:
-                        s, src = o, what_
-            if s is None:
-                raise SystemExit(f"{sid}: no source reachable")
-        body = _csv(s, sid)
-        open(os.path.join(START, f"{sid}.csv"), "w", encoding="utf-8", newline="\n").write(body)
+
+    def put(sid, s, src, what, start=FROM):
+        body = _csv(s, sid, start)
+        open(os.path.join(tmp, f"{sid}.csv"), "w", encoding="utf-8", newline="\n").write(body)
         man["series"][sid] = {"for": what, "source": src, "last": f"{s.index[-1]:%Y-%m-%d}", "value": float(s.iloc[-1]),
                               "sha256": hashlib.sha256(body.encode()).hexdigest()}
-    # BEA: the build-out and nominal GDP (GDP replaces any FRED copy above: one source for the build-out's shares)
-    bea, modified = _bea()
-    for sid, s in bea.items():
-        body = _csv(s, sid, BEA_FROM)
-        open(os.path.join(START, f"{sid}.csv"), "w", encoding="utf-8", newline="\n").write(body)
-        man["series"][sid] = {"for": "the AI build-out (decoupling.build_out)" if sid != "GDP" else SERIES["GDP"],
-                              "source": f"BEA, NipaDataQ.txt ({BEA[sid]}; Last-Modified {modified})",
-                              "last": f"{s.index[-1]:%Y-%m-%d}", "value": float(s.iloc[-1]),
-                              "sha256": hashlib.sha256(body.encode()).hexdigest()}
-    # non-FRED
-    for key, (what, oct_file) in NON_FRED.items():
-        s, src = _watcher(key) if oct_file is None else None, None
-        if s is not None:
-            src = f"{'Statistics Sweden' if key == 'SEUNRATE' else 'the Riksbank (SWEA)'} via the watcher's copy (state {wc})"
-        if oct_file is not None:
-            s = _ecb_lfsi(live)
-            src = "ECB Data Portal" if s is not None else None
+    try:
+        for sid, what in SERIES.items():
+            txt = _fred_live(sid) if live else None
+            if txt is not None:
+                s, src = _read_fred_text(txt, sid), "FRED"
+            else:
+                s = _watcher(sid)
+                src = f"FRED via the watcher's copy (state {wc})" if s is not None else None
+                for folder, what_ in ((OCT, "FRED as cached on 30 Sep 2026 (cache/october)"),
+                                      (os.path.join(ROOT, "cache"), "FRED as cached in cache/")):
+                    fp = os.path.join(folder, f"{sid}.csv")
+                    if os.path.exists(fp):
+                        o = _read_fred_text(open(fp, encoding="utf-8").read(), sid)
+                        if s is None or o.index[-1] > s.index[-1]:
+                            s, src = o, what_
+            if sid in EUROSTAT and live:
+                e = _eurostat(*EUROSTAT[sid])
+                if e is not None and (s is None or e.index[-1] > s.index[-1]):
+                    s, src = e, f"Eurostat, prc_hicp_minr ({EUROSTAT[sid][1]}, {EUROSTAT[sid][0]}, 2025 = 100)"
             if s is None:
-                d = pd.read_csv(os.path.join(OCT, oct_file))
-                s = pd.Series(pd.to_numeric(d.iloc[:, 1], errors="coerce").values, index=pd.to_datetime(d.iloc[:, 0])).dropna()
-                src = "ECB Data Portal as cached on 30 Sep 2026 (cache/october)"
-        if s is None:
-            raise SystemExit(f"{key}: no source reachable")
-        body = _csv(s, key)
-        open(os.path.join(START, f"{key}.csv"), "w", encoding="utf-8", newline="\n").write(body)
-        man["series"][key] = {"for": what, "source": src, "last": f"{s.index[-1]:%Y-%m-%d}", "value": float(s.iloc[-1]),
-                              "sha256": hashlib.sha256(body.encode()).hexdigest()}
-    json.dump(man, open(os.path.join(START, "MANIFEST.json"), "w", encoding="utf-8"), indent=1)
+                raise SystemExit(f"{sid}: no source reachable")
+            put(sid, s, src, what)
+        # BEA: the build-out and nominal GDP (GDP replaces any FRED copy above: one source for the build-out's shares)
+        bea, modified = _bea()
+        for sid, s in bea.items():
+            put(sid, s, f"BEA, NipaDataQ.txt ({BEA[sid]}; Last-Modified {modified})",
+                "the AI build-out (decoupling.build_out)" if sid != "GDP" else SERIES["GDP"], BEA_FROM)
+        # non-FRED
+        for key, (what, oct_file) in NON_FRED.items():
+            s, src = (_watcher(key), None) if oct_file is None else (None, None)
+            if s is not None:
+                src = f"{'Statistics Sweden' if key == 'SEUNRATE' else 'the Riksbank (SWEA)'} via the watcher's copy (state {wc})"
+            if oct_file is not None:
+                s = _ecb_lfsi(live)
+                src = "ECB Data Portal" if s is not None else None
+                if s is None:
+                    d = pd.read_csv(os.path.join(OCT, oct_file))
+                    s = pd.Series(pd.to_numeric(d.iloc[:, 1], errors="coerce").values, index=pd.to_datetime(d.iloc[:, 0])).dropna()
+                    src = "ECB Data Portal as cached on 30 Sep 2026 (cache/october)"
+            if s is None:
+                raise SystemExit(f"{key}: no source reachable")
+            put(key, s, src, what)
+        json.dump(man, open(os.path.join(tmp, "MANIFEST.json"), "w", encoding="utf-8"), indent=1)
+    except BaseException:
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise
+    if os.path.exists(START):
+        shutil.rmtree(START)
+    os.replace(tmp, START)
     return man
 
 
@@ -234,6 +279,14 @@ def history() -> dict:
         s = pd.Series(rows).sort_index()
         open(fp, "w", encoding="utf-8", newline="\n").write(_csv(s, "CORBLACBS", "1900-01-01"))
         out["CORBLACBS"] = f"Federal Reserve Board, charge-off rates, all banks, SA ({FRB_CHARGEOFF}), column C&I"
+    if out:
+        hp = os.path.join(cache, "HISTORY_SOURCES.json")
+        rec = json.load(open(hp, encoding="utf-8")) if os.path.exists(hp) else {}
+        for sid, src in out.items():
+            body = open(os.path.join(cache, f"{sid}.csv"), encoding="utf-8").read()
+            rec[sid] = {"source": src, "written": dt.date.today().isoformat(), "sha256": hashlib.sha256(body.encode()).hexdigest(),
+                        "note": "in FRED's format and under FRED's id, from the publisher FRED republishes (FRED was unreachable)"}
+        json.dump(rec, open(hp, "w", encoding="utf-8"), indent=1)
     return out
 
 
@@ -262,6 +315,8 @@ def rise(s: pd.Series, prints: int = 63) -> float:
 
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if "--history" in sys.argv:
+        print(json.dumps(history(), indent=1))
     if "--refresh" in sys.argv:
         m = refresh()
         for k, v in m["series"].items():

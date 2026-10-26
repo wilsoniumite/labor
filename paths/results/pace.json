@@ -78,8 +78,8 @@
  },
  "paces": {
   "multiples_of_the_papers": {
-   "trend": 0.012,
-   "trend + 2 s.e.": 0.249,
+   "trend": 0.011,
+   "trend + 2 s.e.": 0.248,
    "endpoint": 0.427
   },
   "us_drift_papers_pts_a_year": 1.0,
@@ -126,9 +126,9 @@
     "endpoint": 1.05
    },
    "paces_with_above_trend_care": {
-    "trend": 0.279,
+    "trend": 0.278,
     "trend + 2 s.e.": 0.488,
-    "endpoint": 0.63
+    "endpoint": 0.629
    },
    "note": "an upper bound on what care hides: the hiring above its trend counted as displaced people it took in"
   },
@@ -141,22 +141,22 @@
  "rows": {
   "papers_pace": {
    "modern rules | bust + displacement": {
-    "us_out_of_work_peak": 14.0,
-    "us_unemployment_at_peak": 8.4,
-    "year4_us_gap_min": -3.8,
-    "year4_four_gap_min": -3.27
+    "us_out_of_work_peak": 14.4,
+    "us_unemployment_at_peak": 8.5,
+    "year4_us_gap_min": -4.25,
+    "year4_four_gap_min": -3.54
    },
    "rules expand under pressure | bust + displacement": {
-    "us_out_of_work_peak": 11.7,
-    "us_unemployment_at_peak": 6.2,
-    "year4_us_gap_min": -4.55,
-    "year4_four_gap_min": -3.67
+    "us_out_of_work_peak": 11.8,
+    "us_unemployment_at_peak": 6.3,
+    "year4_us_gap_min": -4.93,
+    "year4_four_gap_min": -3.96
    },
    "rules erode under pressure | bust + displacement": {
-    "us_out_of_work_peak": 24.3,
-    "us_unemployment_at_peak": 14.6,
-    "year4_us_gap_min": -10.24,
-    "year4_four_gap_min": -8.33
+    "us_out_of_work_peak": 24.8,
+    "us_unemployment_at_peak": 14.8,
+    "year4_us_gap_min": -10.83,
+    "year4_four_gap_min": -8.78
    },
    "modern rules | displacement without a bust": {
     "us_out_of_work_peak": 10.5,
@@ -167,22 +167,22 @@
   },
   "pace: trend": {
    "modern rules | bust + displacement": {
-    "us_out_of_work_peak": 6.6,
+    "us_out_of_work_peak": 6.4,
     "us_unemployment_at_peak": 6.4,
-    "year4_us_gap_min": -3.2,
-    "year4_four_gap_min": -2.28
+    "year4_us_gap_min": -3.16,
+    "year4_four_gap_min": -2.03
    },
    "rules expand under pressure | bust + displacement": {
-    "us_out_of_work_peak": 7.2,
-    "us_unemployment_at_peak": 6.9,
-    "year4_us_gap_min": -3.75,
-    "year4_four_gap_min": -2.85
+    "us_out_of_work_peak": 7.5,
+    "us_unemployment_at_peak": 7.1,
+    "year4_us_gap_min": -4.13,
+    "year4_four_gap_min": -3.13
    },
    "rules erode under pressure | bust + displacement": {
-    "us_out_of_work_peak": 13.0,
-    "us_unemployment_at_peak": 9.7,
-    "year4_us_gap_min": -7.26,
-    "year4_four_gap_min": -5.79
+    "us_out_of_work_peak": 13.7,
+    "us_unemployment_at_peak": 10.1,
+    "year4_us_gap_min": -7.86,
+    "year4_four_gap_min": -6.25
    },
    "modern rules | displacement without a bust": {
     "us_out_of_work_peak": 4.4,
@@ -193,22 +193,22 @@
   },
   "pace: trend + 2 s.e.": {
    "modern rules | bust + displacement": {
-    "us_out_of_work_peak": 7.9,
-    "us_unemployment_at_peak": 6.6,
-    "year4_us_gap_min": -3.05,
-    "year4_four_gap_min": -2.06
+    "us_out_of_work_peak": 8.2,
+    "us_unemployment_at_peak": 6.8,
+    "year4_us_gap_min": -3.36,
+    "year4_four_gap_min": -2.42
    },
    "rules expand under pressure | bust + displacement": {
-    "us_out_of_work_peak": 7.8,
-    "us_unemployment_at_peak": 7.1,
-    "year4_us_gap_min": -4.02,
-    "year4_four_gap_min": -3.1
+    "us_out_of_work_peak": 8.1,
+    "us_unemployment_at_peak": 7.4,
+    "year4_us_gap_min": -4.41,
+    "year4_four_gap_min": -3.39
    },
    "rules erode under pressure | bust + displacement": {
-    "us_out_of_work_peak": 16.1,
-    "us_unemployment_at_peak": 11.2,
-    "year4_us_gap_min": -7.83,
-    "year4_four_gap_min": -6.41
+    "us_out_of_work_peak": 16.7,
+    "us_unemployment_at_peak": 11.6,
+    "year4_us_gap_min": -8.43,
+    "year4_four_gap_min": -6.85
    },
    "modern rules | displacement without a bust": {
     "us_out_of_work_peak": 6.1,
@@ -219,22 +219,22 @@
   },
   "pace: endpoint": {
    "modern rules | bust + displacement": {
-    "us_out_of_work_peak": 9.6,
-    "us_unemployment_at_peak": 7.2,
-    "year4_us_gap_min": -3.2,
-    "year4_four_gap_min": -2.34
+    "us_out_of_work_peak": 9.8,
+    "us_unemployment_at_peak": 7.3,
+    "year4_us_gap_min": -3.51,
+    "year4_four_gap_min": -2.7
    },
    "rules expand under pressure | bust + displacement": {
-    "us_out_of_work_peak": 8.6,
-    "us_unemployment_at_peak": 6.1,
-    "year4_us_gap_min": -4.17,
-    "year4_four_gap_min": -3.25
+    "us_out_of_work_peak": 8.8,
+    "us_unemployment_at_peak": 6.6,
+    "year4_us_gap_min": -4.56,
+    "year4_four_gap_min": -3.54
    },
    "rules erode under pressure | bust + displacement": {
-    "us_out_of_work_peak": 18.3,
-    "us_unemployment_at_peak": 12.2,
-    "year4_us_gap_min": -8.37,
-    "year4_four_gap_min": -6.86
+    "us_out_of_work_peak": 18.8,
+    "us_unemployment_at_peak": 12.5,
+    "year4_us_gap_min": -8.94,
+    "year4_four_gap_min": -7.29
    },
    "modern rules | displacement without a bust": {
     "us_out_of_work_peak": 7.9,

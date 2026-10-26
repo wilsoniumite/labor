@@ -43,8 +43,9 @@
 # 12% in 2007-10). A region's exit share of structural displacement (the drift and adoption in recessions) goes out of the
 # labour force; cyclical job loss stays unemployment, as measured in recessions. The exits lose the same income: spending,
 # bank losses and an income guarantee count everyone not working; measured unemployment and the fiscal triggers keyed to
-# it do not (a variant keys them to non-employment). The US AI build-out is measured too (decoupling.py: 0.3% of GDP net
-# of computer imports above its 2015-22 trend, against the 1.5% assumed before).
+# it do not (a variant keys them to non-employment). The US AI build-out is measured too (decoupling.py, on information
+# processing equipment since 2026-10-26: net of computer imports 0.42 points of GDP below its 2015-22 trend, so the US
+# capex leg is zero; the 1.5% assumed at first, then 0.3% on all equipment).
 #
 # The financing limit (her call, 2026-09-24, after financing.py: the ceiling is financing, not need). The build-out is
 # paid for from one source, each with its own limit and its own drag on demand:
@@ -58,8 +59,8 @@
 # What a source cannot cover is borrowed. Norway's share of employment becomes a marker, and a variant that keeps it.
 #
 # The dating (decision 43, adopted 2026-10-01): quarter_label(k) — index 0 is the state measured on data to September 2026,
-# the end of 2026Q3 (START), so the first simulated quarter, index 1, where ai_shock's falls begin, is 2026Q4, and index 9
-# is 2028Q4. One dating. Before 2026-10-01 the labels ran one quarter late (log 29's START = 2026Q4 at index 0, case.py's
+# the end of 2026Q3 (START), so the first simulated quarter, index 1, the quarter of the bust's peak in ai_shock (its first
+# losses there, share prices falling from the next quarter on the default dating), is 2026Q4, and index 9 is 2028Q4. One dating. Before 2026-10-01 the labels ran one quarter late (log 29's START = 2026Q4 at index 0, case.py's
 # "quarter 1 = 2026Q4" since log 28); labels only: the dynamics never depended on them.
 #
 # Two additions for the October bust (her request, 2026-09-30; october.py, a record at the tag paths-pre-signfix since
@@ -95,8 +96,8 @@
 # fitted jointly by a global search: spread per unit of capital lost, the money channel of bank runs, the
 # debt-deflation coefficient, the 1930s Phillips slope, the US Okun coefficient, the size of 1930's post-crash spending
 # collapse (Romer's; the propagation to 1933 is what is tested), and the rate transmission a_r (bounded to the
-# literature's 0.03-0.15). Everything else is fixed from data or the literature, stated. Known bias: the model recovers
-# from 2009 faster than the US did, so it is optimistic about how long a crisis lasts.
+# literature's 0.03-0.15). Everything else is fixed from data or the literature, stated. Known bias: unemployment recovers
+# from 2009 (and from 2001) faster than the US's did, so it is optimistic about how long joblessness lasts (V3, V4).
 # Data (FRED): real GDP annual from 1929 (GDPCA), CPI from 1913 (CPIAUCNS), unemployment from 1948 (UNRATE), real GDP
 # and CBO potential quarterly (GDPC1, GDPPOT), core PCE (PCEPILFE), policy rates (DFF, ECBDFR), euro-area HICP and
 # unemployment, China CPI, BIS credit to households and to the private non-financial sector (Q..HAM770A, Q..PAM770A).
@@ -128,13 +129,14 @@ import lambda_compute2 as _lc  # noqa: E402
 _lc.CACHE = os.path.join(ROOT, "cache")
 DT = 0.25
 R = ("US", "EA", "SE", "CN")
-START = "2026Q3"    # index 0, the start: the regions as measured on data to September 2026 (the end of 2026Q3); index 1,
-                    # the first simulated quarter, is 2026Q4 (decision 43)
+START = "2026Q3"    # index 0, the start: the regions as measured on data to the end of 2026Q3 (the dated vintage,
+                    # cache/start/: monthly series to August or September, quarterly to 2026Q2); index 1, the first
+                    # simulated quarter, is 2026Q4 (decision 43)
 
 
 def quarter_label(k: int) -> str:
     """The calendar quarter of index k: index 0 is START, the quarter the start state is measured on, so index 1 — the
-    first simulated quarter, where ai_shock's falls begin — is 2026Q4, and index 9 is 2028Q4."""
+    first simulated quarter, the quarter of ai_shock's peak — is 2026Q4, and index 9 is 2028Q4."""
     return str(pd.Period(START, "Q") + int(k))
 
 
@@ -884,9 +886,14 @@ def fit(tg: dict):
 
 
 # ------------------------------------------------------------------ the AI crash
-BUST_EQUITY = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}    # the fall in household equity at the trough
-BUST_CAPEX = 0.6                                                  # the share of the above-trend build-out lost
-BUST_LOSSES = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}        # losses on AI-related lending, % of loans in all
+# the bust's sizes: the fall in household equity at the trough as first built (the US 0.40; since 2026-10-26 the US
+# follows its measured 2000-02 fall, -44.7%, and the other regions keep these ratios to it: approximate, stated); the
+# share of the above-trend build-out lost as first built (since 2026-10-26 the measured share, 76% at most); losses on
+# AI-related lending, % of loans in all (assumed, not measured: the 2000-02 C&I charge-off excess came to 3.8% of C&I
+# loans, and the model's own loss rule already produces most of a recession's bank losses: run_2000 makes 2.05% of loans)
+BUST_EQUITY = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}
+BUST_CAPEX = 0.6
+BUST_LOSSES = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}
 Q0_2000 = pd.Period("2000Q1", "Q")                                # the quarter of the 2000 equity peak (10 Mar 2000)
 WINDOW_2000 = 24                                                  # 2000Q1-2005Q4: household equity back to its peak
 
@@ -894,17 +901,18 @@ WINDOW_2000 = 24                                                  # 2000Q1-2005Q
 @functools.lru_cache(maxsize=1)
 def bust_2000() -> dict:
     """The legs of the 2000-02 bust, measured, by quarters k from the quarter of the equity peak (k = 0 = 2000Q1),
-    k = 0 .. 23 (to 2005Q4; after it 2007's bust would enter the window), each normalised so that its largest value over
-    the first 17 quarters (2000Q1-2004Q1) is 1 (2026-10-26, STATE Log 42):
+    k = 0 .. 23 (to 2005Q4; after it 2007's bust would enter the window), each normalised so that its largest value in
+    the window is 1, the measured levels beside them (ai_shock runs on those; 2026-10-26, STATE Logs 42-44):
       equity  US household corporate equities, directly and indirectly held (Fed Z.1, BOGZ1LM153064475Q, end of quarter):
               the fall from 2000Q1, floored at zero (a fall from the peak; no rise above it); trough at k = 10 (2002Q3),
               -44.7%; back at the peak by 2005Q4;
       capex   the build-out as decoupling.py measures it (information processing equipment, software, power and
               communication structures, less imports of computers; BEA) over GDP, above its 1990-94 linear trend: the
-              share of 2000Q1's excess lost (negative while it still grows, as it did for three quarters);
+              share of 2000Q1's excess lost (negative while it still grows: growing for three quarters, above the peak
+              quarter's level for four; 76% lost at most, nineteen quarters after the peak);
       losses  the C&I loan charge-off rate above its 1997-99 mean (the Fed Board's release, all banks, SA; FRED
               CORBLACBS), as weights summing to one; peak at k = 10.
-    The raw measures are returned beside the shapes (check_global_crash B1 recomputes them)."""
+    The measured levels are returned beside the shapes (check_global_crash B1 recomputes them from the cache)."""
     qs = [Q0_2000 + k for k in range(WINDOW_2000)]
     qd = lambda sid, end=False: (lambda s: s.groupby(s.index.to_period("Q")).last() if end  # noqa: E731
                                  else s.groupby(s.index.to_period("Q")).mean())(fred(sid))
@@ -920,40 +928,51 @@ def bust_2000() -> dict:
     ci = qd("CORBLACBS")
     base = float(ci[(ci.index >= pd.Period("1997Q1", "Q")) & (ci.index <= pd.Period("1999Q4", "Q"))].mean())
     ex = np.array([max(0.0, float(ci[q]) - base) for q in qs])
-    h = slice(0, 17)
-    return {"equity": eq / eq[h].max(), "capex": cx / cx[h].max(), "losses": ex / ex.sum(),
+    return {"equity": eq / eq.max(), "capex": cx / cx.max(), "losses": ex / ex.sum(),
             "measured": {"equity_fall": eq, "capex_share_lost": cx, "chargeoff_excess": ex, "capex_excess_2000Q1": float(gap[0]),
                          "chargeoff_base_1997_99": base}}
 
 
-def _on(arr: np.ndarray, onset: int, n: int, speed: float, after: float) -> np.ndarray:
-    """A measured path from index `onset` (k = 0 there), time running `speed` times as fast, linearly between quarters;
-    before the onset 0, after the window `after`."""
+def _on(arr: np.ndarray, onset: float, n: int, speed: float, after: float) -> np.ndarray:
+    """A measured level path from index `onset` (k = 0 there; it may be fractional, for a peak inside a quarter), time
+    running `speed` times as fast, linearly between quarters; before the onset 0, after the window `after`."""
     k = (np.arange(n) - onset) * speed
     out = np.interp(k, np.arange(len(arr)), arr, left=0.0, right=after)
     return np.where(k < 0, 0.0, out)
 
 
-def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: int = 0, shape: str = "2000") -> Shock:
-    """A dot-com-shaped bust of the AI build-out, from the quarter of the peak (index 1 + delay): household equity, the
-    above-trend build-out and losses on AI-related lending (private credit and its bank lenders), each on the path the
-    2000-02 bust measured (bust_2000) at the 2000-02 sizes (equity -40% at the trough in the US, 60% of the build-out's
-    excess, 1.5% of US loans), times `scale`; `speed` runs the path faster. Since 2026-10-26 (STATE Log 42). shape="ramp":
-    the bust as first built (2026-09-24 to 2026-10-26): equity and the build-out down in a straight line over 4 / speed
-    quarters from 1 + delay and held there for good, the losses spread evenly over 8 / speed quarters from 2 + delay."""
+def _spread(w: np.ndarray, onset: float, n: int, speed: float) -> np.ndarray:
+    """Weights summing to one, spread over quarters from `onset` at `speed` through their cumulative path, so that the
+    total is kept whatever the onset and the speed (exactly the weights at an integer onset and speed 1)."""
+    cum = np.concatenate([[0.0], np.cumsum(w)])
+    c = lambda x: np.interp(x, np.arange(len(cum)), cum, left=0.0, right=float(cum[-1]))  # noqa: E731
+    i = np.arange(n)
+    return c((i + 1 - onset) * speed) - c((i - onset) * speed)
+
+
+def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: float = 0, shape: str = "2000") -> Shock:
+    """A dot-com-sized bust of the AI build-out, from the quarter of the peak (index 1 + delay; `delay` may be
+    fractional): US household equity on its measured 2000-02 fall (-44.7% at the trough, ten quarters after the peak,
+    then recovering; bust_2000), the other regions at the first build's ratios to the US; the build-out losing its
+    measured share of the excess above trend (still growing for three quarters, 76% lost at most); losses on AI-related
+    lending (private credit and its bank lenders) of BUST_LOSSES, assumed, spread on the measured path of 2000-02's bank
+    losses. All times `scale`; `speed` runs the path faster. Since 2026-10-26 (STATE Logs 42-44). shape="ramp": the bust
+    as first built (2026-09-24 to 2026-10-26): equity (US -40%) and the build-out (60%) down in a straight line over
+    4 / speed quarters from 1 + delay and held there for good, the losses spread evenly over 8 / speed quarters from
+    2 + delay."""
     eq, ls = BUST_EQUITY, BUST_LOSSES
     if shape == "ramp":
         qf, ql = max(1, round(4 / speed)), max(2, round(8 / speed))
         return Shock(equity={r: ramp(scale * v, 1 + delay, qf, n) for r, v in eq.items()},
                      capex={r: ramp(scale * 0.6 * 100, 1 + delay, qf, n) / 100 for r in eq},
                      losses={r: pulse(scale * v, 2 + delay, ql, n) for r, v in ls.items()})
-    b = bust_2000()
+    m = bust_2000()["measured"]
     onset = 1 + delay
-    e = _on(b["equity"], onset, n, speed, 0.0)
-    c = _on(b["capex"], onset, n, speed, float(b["capex"][-1]))
-    w = _on(b["losses"], onset, n, speed, 0.0) * speed           # weights per quarter, so the losses still sum to one
-    return Shock(equity={r: scale * v * e for r, v in eq.items()},
-                 capex={r: scale * BUST_CAPEX * c for r in eq},
+    e = _on(m["equity_fall"], onset, n, speed, 0.0)                         # US household equity, measured
+    c = _on(m["capex_share_lost"], onset, n, speed, float(m["capex_share_lost"][-1]))
+    w = _spread(bust_2000()["losses"], onset, n, speed)
+    return Shock(equity={r: scale * (v / eq["US"]) * e for r, v in eq.items()},
+                 capex={r: scale * c for r in eq},
                  losses={r: scale * v * w / DT for r, v in ls.items()})
 
 

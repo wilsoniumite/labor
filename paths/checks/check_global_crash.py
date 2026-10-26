@@ -53,13 +53,46 @@ check("V3 the stated bias: unemployment recovers from 2009 faster than the US's 
 
 r00, t00 = gc.run_2000(cm, fp["okun_us"]), gc.targets_2000()
 eu00 = r00["u"][1:16] - np.array(t00["unemployment"])
-check("V4 out of sample, the dot-com bust (2000-03, today's rules, measured equity, equipment and exports; not in the fit): the "
-      "unemployment peak and the output trough within 1.5 points of the data, as V2 asks of 2008-10. Stated as found on "
-      "2026-10-26: quarterly unemployment's RMS error 0.66 (0.94 on the fit before the sign fix), the gap's 1.11 (0.74 before); "
-      "it recovers after 2001 faster than the US did, as V3 says of 2009",
-      abs(r00["u"].max() - max(t00["unemployment"])) < 1.5 and abs(r00["y"].min() - min(t00["gap_change"])) < 1.5,
-      f"peak {r00['u'].max():.2f} against {max(t00['unemployment'])}; trough {r00['y'].min():.2f} against {min(t00['gap_change'])}; "
-      f"RMS unemployment {np.sqrt(np.mean(eu00 ** 2)):.2f}; 2003Q4 {r00['u'][15]:.2f} against {t00['unemployment'][-1]}")
+check("V4 out of sample, the dot-com bust (2000-03, today's rules, measured equity, all equipment and exports; not in the "
+      "fit): the unemployment peak and the output trough within 1.5 points of the data, as V2 asks of 2008-10, and "
+      "quarterly unemployment's RMS error under 0.75. Stated as found on 2026-10-26: RMS 0.66 (0.94 on the fit before the "
+      "sign fix), the gap's 1.11 (0.74 before). The timing misses: the model's unemployment peaks in 2001Q3, seven "
+      "quarters before the data's (2003Q2), and it recovers after 2001 faster than the US did, as V3 says of 2009",
+      abs(r00["u"].max() - max(t00["unemployment"])) < 1.5 and abs(r00["y"].min() - min(t00["gap_change"])) < 1.5
+      and float(np.sqrt(np.mean(eu00 ** 2))) < 0.75,
+      f"peak {r00['u'].max():.2f} (k={int(np.argmax(r00['u']))}) against {max(t00['unemployment'])} (k={1 + int(np.argmax(t00['unemployment']))}); "
+      f"trough {r00['y'].min():.2f} against {min(t00['gap_change'])}; RMS unemployment {np.sqrt(np.mean(eu00 ** 2)):.2f}; "
+      f"2003Q4 {r00['u'][15]:.2f} against {t00['unemployment'][-1]}")
+
+print("B — the 2000-02 bust, measured")
+import pandas as pd  # noqa: E402
+qd = lambda sid, end=False: (lambda x: x.groupby(x.index.to_period("Q")).last() if end else x.groupby(x.index.to_period("Q")).mean())(gc.fred(sid))  # noqa: E731
+qs = [pd.Period("2000Q1", "Q") + k for k in range(24)]
+z = qd("BOGZ1LM153064475Q", True)
+eqm = np.array([max(0.0, 1 - z[q] / z[qs[0]]) for q in qs])
+g = qd("GDP")
+net = (qd("Y034RC1Q027SBEA") + qd("B985RC1Q027SBEA") + qd("W003RC1Q027SBEA") - qd("B852RC1Q027SBEA")) / g * 100
+yr = net.dropna().groupby(net.dropna().index.year).mean().loc[1990:1994]
+sl, ic = np.polyfit(yr.index.values.astype(float), yr.values, 1)
+gp = np.array([net[q] - (sl * (q.year + (q.quarter - 1) / 4 + 0.125) + ic) for q in qs])
+ci = qd("CORBLACBS")
+base = ci[(ci.index >= pd.Period("1997Q1", "Q")) & (ci.index <= pd.Period("1999Q4", "Q"))].mean()
+ex = np.array([max(0.0, ci[q] - base) for q in qs])
+b2 = gc.bust_2000()
+hist = json.load(open(os.path.join(ROOT, "cache", "HISTORY_SOURCES.json"), encoding="utf-8"))
+import hashlib  # noqa: E402
+hashes = all(hashlib.sha256(open(os.path.join(ROOT, "cache", f"{sid}.csv"), encoding="utf-8").read().encode()).hexdigest() == v["sha256"]
+             for sid, v in hist.items())
+check("B1 the 2000-02 bust's three legs, recomputed here from the cached files (Z.1 household equity; BEA's information "
+      "processing equipment, software and power structures less computer imports, over GDP, against their 1990-94 trend; "
+      "the Fed Board's C&I charge-offs over their 1997-99 mean), equal bust_2000's; the history files written from the "
+      "publishers carry the hashes their record names (cache/HISTORY_SOURCES.json); household equity -44.7% at the trough "
+      "ten quarters after the peak, the build-out's excess 76% lost at most, the losses peaking ten quarters after",
+      np.allclose(eqm, b2["measured"]["equity_fall"], atol=1e-12) and np.allclose(1 - gp / gp[0], b2["measured"]["capex_share_lost"], atol=1e-12)
+      and np.allclose(ex / ex.sum(), b2["losses"], atol=1e-12) and hashes
+      and round(eqm.max(), 3) == 0.447 and int(np.argmax(eqm)) == 10 and round((1 - gp / gp[0]).max(), 3) == 0.762
+      and int(np.argmax(ex)) == 10,
+      f"equity trough {eqm.max():.3f} at k={int(np.argmax(eqm))}; build-out lost at most {(1 - gp / gp[0]).max():.3f}; losses peak k={int(np.argmax(ex))}")
 
 print("S — the measured shocks enter with the sign of their own change (a fall is a drag)")
 d07 = gc.demand_2007()
@@ -163,12 +196,17 @@ old_us = {r: (replace(g, ai_capex=1.5, drift=0.0) if r == "US" else replace(g, d
 new_us = {r: replace(g, drift=0.0) for r, g in regs.items()}
 a = gc.summary(gc.simulate(old_us, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24), regs, 16)
 b = gc.summary(gc.simulate(new_us, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24), regs, 16)
-check("X2 measured, the US build-out has nothing above its trend, so the bust's capex leg is zero in the US; on the 2000-02 "
-      "path the build-out kept growing three quarters after the equity peak and fell mostly after year 4, so the 1.5% of "
-      "GDP assumed before moves the US year-4 trough by under half a point. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it the measured "
-      "build-out (0.34) made the bust over a point milder than the assumed 1.5%, on the ramp",
-      abs(b["US"]["gap_min"] - a["US"]["gap_min"]) < 0.5 and regs["US"].ai_capex == 0.0,
-      f"US gap {a['US']['gap_min']} assumed -> {b['US']['gap_min']} measured")
+nof = {r: replace(gc.MODERN, fiscal="none") for r in gc.R}
+a0 = gc.summary(gc.simulate(old_us, nof, gc.ai_shock(24), cm, 24), regs, 16)
+b0 = gc.summary(gc.simulate(new_us, nof, gc.ai_shock(24), cm, 24), regs, 16)
+check("X2 measured, the US build-out has nothing above its trend, so the bust's capex leg is zero in the US. Had it been "
+      "the 1.5% of GDP assumed before, the bust would cut deeper: by over a point at year 4 without discretionary fiscal "
+      "policy, and by less with today's triggers, since the faster rise in unemployment fires the stimulus earlier. "
+      "Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured sizes, dated from the peak (Log 44): before it the gate read the year-4 trough with the triggers on (-3.09 against -3.24), which the "
+      "trigger's timing confounds (the review of 2026-10-26)",
+      regs["US"].ai_capex == 0.0 and a0["US"]["gap_min"] <= b0["US"]["gap_min"] - 1.0 and a["US"]["gap_min"] < b["US"]["gap_min"],
+      f"US gap, no fiscal response: {a0['US']['gap_min']} assumed -> {b0['US']['gap_min']} measured; with the triggers "
+      f"{a['US']['gap_min']} -> {b['US']['gap_min']}")
 dep6 = S["modern rules | bust + displacement, recessions trigger adoption x3 | two waves, robotics in 2 years"]["year6"]["US"]
 check("X3 exits hide a jobs depression from the unemployment rate: by year 6 (robotics two years out) US unemployment reads under "
       "15% while more points have left the labour force than unemployment has risen. Restated after the sign fix of 2026-10-26: "
@@ -258,10 +296,10 @@ check("C5 a funded build-out, a point of employment a year: in the labour-depres
       NW(none_) - NW(build_) >= 4 and build_["US"]["care_cost_max_pct_gdp"] <= 1.0 and build_["US"]["care_share_end"] < cm.care_ceiling - 0.5,
       f"+{NW(none_)} -> +{NW(build_)}; cost {build_['US']['care_cost_max_pct_gdp']}% of GDP; care {build_['US']['care_share_end']}%")
 fast_, open_ = y6("rules expand into care", row3, ", care absorbs, three points a year"), y6("rules expand into care", row3, ", care absorbs, three points a year, no ceiling")
-check("C6 in the US the pace binds before the ceiling: three points a year gains over a point by year 6, and without the "
-      "ceiling it gains under two more. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it the ceiling was the limit, not the pace (a point a year "
-      "+18.08, three +17.61, three without the ceiling +13.65)",
-      NW(build_) - NW(fast_) > 1 and NW(fast_) - NW(open_) < 2,
+check("C6 in the US both the pace and the ceiling bind: three points a year gains over a point by year 6, and without the "
+      "ceiling it gains over a point more. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured sizes, dated from the peak (Log 44): before it the pace bound and the ceiling barely did (a point a "
+      "year +12.21, three +10.64, three without the ceiling +8.79); before Log 42 the ceiling was the limit, not the pace",
+      NW(build_) - NW(fast_) > 1 and NW(fast_) - NW(open_) > 1,
       f"a point a year +{NW(build_)}, three +{NW(fast_)}, three without the ceiling +{NW(open_)} (care {open_['US']['care_share_end']}%)")
 struct = build_["US"]["displaced_cognitive_end"] + build_["US"]["displaced_physical_end"]
 room = cm.care_ceiling - regs["US"].care_share

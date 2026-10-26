@@ -1,0 +1,38 @@
+{
+ "Y034RC1Q027SBEA": {
+  "source": "BEA, NipaDataQ.txt, series Y034RC (Last-Modified Wed, 30 Sep 2026 12:30:02 GMT), in billions",
+  "written": "2026-10-26",
+  "sha256": "e279cb10cd5f3184f2f5a7a9141fd4568a8bc790da658e389c9f0a42e90e5169",
+  "note": "history for the fit's checks (V4) and the measured 2000-02 bust (bust_2000); FRED's format and id"
+ },
+ "CORBLACBS": {
+  "source": "Federal Reserve Board, charge-off and delinquency rates, all banks, SA (https://www.federalreserve.gov/releases/chargeoff/chgallsa.htm), column C&I",
+  "written": "2026-10-26",
+  "sha256": "de8ee79fea9904c5b997bc5ecd8aa19bc53ccc8465c86ebd86d0813b122d401c",
+  "note": "history for the fit's checks (V4) and the measured 2000-02 bust (bust_2000); FRED's format and id"
+ },
+ "NASDAQCOM": {
+  "source": "FRED, as cached in cache/october on 1 Oct 2026 (copied)",
+  "written": "2026-10-26",
+  "sha256": "99eed315fae2256e1de0ec67b807e447b2ef05943c96230269545987c1df851b",
+  "note": "history for the fit's checks (V4) and the measured 2000-02 bust (bust_2000); FRED's format and id"
+ },
+ "BOGZ1LM153064475Q": {
+  "source": "FRED, fetched 2026-10-26 (before FRED refused this machine)",
+  "written": "2026-10-26",
+  "sha256": "9bec443b16c2581d3fa2f2ae6391d3d9d9e2f239fb46dec691c4d014b112159c",
+  "note": "history for the fit's checks (V4) and the measured 2000-02 bust (bust_2000); FRED's format and id"
+ },
+ "CMDEBT": {
+  "source": "FRED, fetched 2026-10-26 (before FRED refused this machine)",
+  "written": "2026-10-26",
+  "sha256": "8ebafa61f07ff9ac434209ac50b2f72c9489c1785efa4593f1cb7f0ccecee3cb",
+  "note": "history for the fit's checks (V4) and the measured 2000-02 bust (bust_2000); FRED's format and id"
+ },
+ "BCNSDODNS": {
+  "source": "FRED, fetched 2026-10-26 (before FRED refused this machine)",
+  "written": "2026-10-26",
+  "sha256": "6e81fb65a0687d3925bf69b9535f2f86ee587d76701089fb76f9818cca631ba1",
+  "note": "history for the fit's checks (V4) and the measured 2000-02 bust (bust_2000); FRED's format and id"
+ }
+}

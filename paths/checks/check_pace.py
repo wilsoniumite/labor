@@ -56,9 +56,10 @@ check("A4 the paper's pace runs far ahead of what has been seen: over the window
 rw = P["rows"]
 b = rw["pace: trend + 2 s.e."]
 check("A5 the response to a bust, not the pace seen so far, carries the danger: at the trend's upper bound a dot-com-sized "
-      "bust under today's rules adds to US out of work (7.9% against 6.1% with no bust), and when the rules erode it takes "
-      "over 5 points more (16.1%). Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the "
-      "start to the dated vintage (Log 42): before it above 10% and 20% (11.7, 21.3); before the sign fix 16.2, 46.7, 6.8",
+      "bust under today's rules adds to US out of work (8.2% against 6.1% with no bust), and when the rules erode it takes "
+      "over 5 points more (16.7%). Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the "
+      "start to the dated vintage (Log 42): before it above 10% and 20% (11.7, 21.3); before the sign fix 16.2, 46.7, 6.8; "
+      "the values as stated on 2026-10-26 (Log 44, the measured sizes dated from the peak; 7.9 and 16.1 on Log 42's bust)",
       b["modern rules | bust + displacement"]["us_out_of_work_peak"] > b["modern rules | displacement without a bust"]["us_out_of_work_peak"]
       and b["rules erode under pressure | bust + displacement"]["us_out_of_work_peak"] > b["modern rules | bust + displacement"]["us_out_of_work_peak"] + 5
       and b["modern rules | displacement without a bust"]["us_out_of_work_peak"] < 7,

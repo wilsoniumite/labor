@@ -44,10 +44,12 @@ check("D4 AI lifts a narrow slice of manufacturing: semiconductors up over 50% s
       "manufacturing jobs down", m["semiconductors"] > 50 and abs(m["all manufacturing"]) < 3 and m["manufacturing jobs"] < 0, m)
 ch = BO["change_since_2022_pts"]
 check("D5 the build-out leaks abroad: since 2022 computer imports rose more (% of GDP) than investment in information processing "
-      "equipment; net of them the build-out is below its 2022 level and within half a point of its 2015-22 trend — the crash "
-      "model's assumed 1.5% of GDP is over three times the measure",
+      "equipment; net of them the build-out is below its 2022 level and below its 2015-22 trend, so the crash model's US "
+      "capex leg is zero (decision 68; global_crash floors it at zero). Restated 2026-10-26 on information processing "
+      "equipment (Y034RC; it had read all equipment, Y033RC): before it the build-out sat 0.34 above its trend, and the "
+      "gate's ratio to the 1.5% assumed could not fail once the measure turned negative",
       -ch["less: imports of computers, peripherals and parts"] > ch["information processing equipment"] and BO["net_above_2022_pts"] < 0
-      and abs(BO["net_above_2015_22_trend_pts"]) < 0.5 and BO["crash_model_assumed_pct_gdp"] > 3 * BO["net_above_2015_22_trend_pts"],
+      and BO["net_above_2015_22_trend_pts"] < 0,
       f"since 2022 {ch}; net above trend {BO['net_above_2015_22_trend_pts']}, above 2022 {BO['net_above_2022_pts']}")
 p = WG["prime_age_25_54"]
 now = p["since_the_employment_peak"]

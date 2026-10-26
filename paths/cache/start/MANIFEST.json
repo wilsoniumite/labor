@@ -1,6 +1,6 @@
 {
  "vintage": "2026-10-26",
- "built_utc": "2026-10-26T21:18Z",
+ "built_utc": "2026-10-26T22:50Z",
  "watcher_state_commit": "3e23410 2026-10-26T19:54:54+00:00",
  "series": {
   "UNRATE": {
@@ -61,24 +61,24 @@
   },
   "00XEFDEZ19M086NEST": {
    "for": "euro-area pi0, HICP excluding energy, food, alcohol and tobacco (y/y)",
-   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
-   "last": "2026-08-01",
-   "value": 103.03,
-   "sha256": "341e79cab206cee075ac7aab3d4cb5c66454d6259c99be90ca61678ef2056220"
+   "source": "Eurostat, prc_hicp_minr (EA19, TOT_X_NRG_FOOD, 2025 = 100)",
+   "last": "2026-09-01",
+   "value": 103.3,
+   "sha256": "f01976f118a77a55acf1529c3bb6153457a6121d20535f1f1fcc142905388369"
   },
   "CP0000EZ19M086NEST": {
    "for": "euro-area headline HICP (y/y)",
-   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
-   "last": "2026-08-01",
-   "value": 103.66,
-   "sha256": "0b7b317cf1404bcb36c83c1afda632562583c780939ed95fc05a631c13db9d7e"
+   "source": "Eurostat, prc_hicp_minr (EA19, TOTAL, 2025 = 100)",
+   "last": "2026-09-01",
+   "value": 104.29,
+   "sha256": "8e9a3e7b51e0d6728a7458b084763a7fb58ad68f4a9f67ca668a680088c8b0d5"
   },
   "00XEFDSEM086NEST": {
    "for": "Sweden pi0, HICP excluding energy, food, alcohol and tobacco (y/y)",
-   "source": "FRED as cached on 30 Sep 2026 (cache/october)",
-   "last": "2026-08-01",
-   "value": 101.52,
-   "sha256": "c67001a11628381d8c3bc8efebac5acfa9929379d6d3c7d3d194e7338a8f5d3c"
+   "source": "Eurostat, prc_hicp_minr (SE, TOT_X_NRG_FOOD, 2025 = 100)",
+   "last": "2026-09-01",
+   "value": 101.81,
+   "sha256": "268c8088767acdd6840a3c2fd19e076f4c0f40af52138fac4c3b23d068b9cea1"
   },
   "DCOILBRENTEU": {
    "for": "dated Brent, for decision 27's price leg",
@@ -93,6 +93,27 @@
    "last": "2026-10-23",
    "value": 25955.34,
    "sha256": "2dc382acf5d6e4cc9918f811c8b832a06c40ef42ef0b7d7e4fd7d2b91137b204"
+  },
+  "DGS10": {
+   "for": "the US ten-year Treasury yield, for the premium's test: its move since the start (decision 69)",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-22",
+   "value": 4.96,
+   "sha256": "10b322ba32455d7c664b6e3420353b56a3a8f5824e69119adc4ebe6ff90a5232"
+  },
+  "THREEFYTP10": {
+   "for": "the US ten-year term premium (Kim-Wright, the Fed Board), likewise",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-16",
+   "value": 0.9857,
+   "sha256": "0174c242f400308d8f8323dada3d59218e905e0d7f878b621e4a7bae26d533c1"
+  },
+  "BAA10Y": {
+   "for": "Moody's Baa over the ten-year, likewise",
+   "source": "FRED via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-22",
+   "value": 1.46,
+   "sha256": "753e6300e0d1c3968370405a81a8759cac3fb3cd90c7383152fbe16d4cac597c"
   },
   "Y034RC1Q027SBEA": {
    "for": "the AI build-out (decoupling.build_out)",
@@ -142,6 +163,20 @@
    "last": "2026-10-26",
    "value": 1.75,
    "sha256": "cfbb0c41105ccdcf6f38eb7f84991bff9bf0f9f49aae568b5c20a8f2ee01e2a3"
+  },
+  "FRGVB10Y": {
+   "for": "France's ten-year government bond yield (the Riksbank's SWEA), for France's spread over Germany",
+   "source": "the Riksbank (SWEA) via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-23",
+   "value": 5.0102,
+   "sha256": "d2f424816d506e687e4f104aad33811457bcbd2d1935130971f33590b0b0670c"
+  },
+  "DEGVB10Y": {
+   "for": "Germany's ten-year government bond yield (the Riksbank's SWEA), likewise",
+   "source": "the Riksbank (SWEA) via the watcher's copy (state 3e23410 2026-10-26T19:54:54+00:00)",
+   "last": "2026-10-23",
+   "value": 3.3468,
+   "sha256": "c3e1b04eeb8a6630f7e8a3be0f40371098a347aa3a479d63af92d651e22797e6"
   }
  }
 }
