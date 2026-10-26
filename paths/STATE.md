@@ -74,7 +74,7 @@ is right; in an extreme path the destination is what is wrong.
   interbank basis sits on top. Closed forms for zeros and forwards; the modes (what a unit
   move in each state does to the curve); the timing share `tau`; a stepwise policy rule; the
   six supervisory shapes for comparison.
-- **The theory, machine-checked** (`checks/check_curve.py`, 22/22):
+- **The theory, machine-checked** (`checks/check_curve.py`, 19/19 since 2026-10-26; 22/22 with the stylised cycle's C1-C3):
   - the cascade solves its two-stage dynamics, and the zero curve is its average (S1–S3);
   - **timing:** in the one-speed curve `dz/dk = (rbar − r0)/k · (L(kT) − e^{−kT})` — the
     Nelson–Siegel curvature loading scaled by the gap (S4, N3). A revision of *when* policy
@@ -88,9 +88,11 @@ is right; in an extreme path the destination is what is wrong.
     gives exactly 0 (N7, N7b) — so a measured `tau` near 0 means the market priced a long hold;
   - the stylised cycle through the three clocks runs **hump while the market prices the
     moves (front pinned) → front catches up as policy delivers → front-heavy, near-parallel
-    over the whole cycle** (C1–C3; parallel R² 0.94).
+    over the whole cycle** (C1–C3; parallel R² 0.94). `code/cycle.py` and C1–C3 are a record since 2026-10-26, at
+    the tag `paths-pre-cuts` (Log 43); the US cycle below shows the same sequence in the data.
 - **`code/us_modes.py` — the public test on a second cycle** (FRED, constant-maturity yields as
-  zero proxies; `results/us_modes.json`, `figures/fig_us_cycle_modes.png`):
+  zero proxies; a record since 2026-10-26, at the tag `paths-pre-cuts`: nothing read its results, and the watcher
+  computes the timing share daily; Log 43):
 
   | Phase | Fed funds | 1M | 2Y | 10Y | 30Y | Closest SOT shape | `tau` |
   |---|---|---|---|---|---|---|---|
@@ -157,7 +159,7 @@ is right; in an extreme path the destination is what is wrong.
   - and a corollary for risk: two distant worlds can show an ordinary curve — 50/50 on 1% and 5%
     is flat at 3% with ±200 bp waiting in either resolution (N9). The curve alone does not show
     the size of the move it is hiding.
-  `code/regimes_demo.py` (`figures/fig_regimes_demo.png`, **stylised, not calibrated**): recognition
+  `code/regimes_demo.py` (**stylised, not calibrated**; a record since 2026-10-26, at the tag `paths-pre-cuts`): recognition
   toward a higher-rate world (capex, fiscal strain) and a lower-rate world (wage-financed demand
   shrinking); two worlds behind one calm curve with ±112 bp at 2Y and ±186 bp at 10Y waiting; where
   recognition bites for different hazards.
@@ -170,8 +172,9 @@ is right; in an extreme path the destination is what is wrong.
   moves spreads from the back, like recognition on the common curve (N5). A safe haven losing its
   convenience value moves the whole government curve in parallel with no default risk at all
   (N6).
-- **`code/sovereign_monitor.py` — is the anchor failing now?** (Riksbank SWEA API, public;
-  `results/sovereign_monitor.json`, `figures/fig_sovereign_monitor.png`; spreads over the German
+- **`code/sovereign_monitor.py` — is the anchor failing now?** (a record since 2026-10-26, at the tag `paths-pre-cuts`:
+  the watcher computes the same spreads and both falsifiers every day, anchor.fr.crunch and anchor.contagion; Log 43.
+  Riksbank SWEA API, public; the cache stays in `cache/riksbank/`; spreads over the German
   benchmark of the same maturity, latest 2026-09-23):
   - **France +110 bp at 10Y — its widest since at least 2019, set on the latest day**; +34 bp in
     three months, +29 in twelve, with the 10Y widening 15 bp more than the 5Y: widening from the
@@ -2292,3 +2295,21 @@ the macro block lands.
     - **Blinding, for the participation thread:** the vintage reads US unemployment to September 2026 and Swedish LFS
       unemployment (seasonally adjusted, via the watcher's copy) to September 2026, already cached in this repository
       for the October unit; the long-run study's unseen cells (Europe before 1995, elsewhere 1976-2025) are untouched.
+43. **2026-10-26 — four units cut, as records at the tag `paths-pre-cuts`.** Her request (paraphrased): cut parts of the
+    model that are no longer relevant, to make it simpler, if that seems a good idea. A read-only map of all 35 code
+    files the same day (scratch: who reads each file's output in both repositories, its checks, its status) found four
+    that nothing reads and that no live result rebuilds from, and they go: `code/regimes_demo.py` (a stylised figure,
+    no check), `code/sovereign_monitor.py` (the watcher computes the same spreads and both falsifiers every day,
+    anchor.fr.crunch and anchor.contagion; its cache, `cache/riksbank/`, stays, and the falsifier text above stays word
+    for word, since the watcher quotes it), `code/cycle.py` (the stylised cycle; check_curve's C1-C3 go with it,
+    19/19), and `code/us_modes.py` (the US 2021-23 cycle test; nothing read its results). Their figures and results
+    go with them; their findings stay above as records pointing at the tag. No cache file is deleted: the participation
+    thread's blinding inventory walks `cache/` (participation/longrun/PROTOCOL.md section 7), and deleting would run it
+    the wrong way. Kept, though the map marked them records, because they are her results or her calls: the stylised
+    bank and the bank on four paths (decision 19), the Swedish household layer (Next, first), Sweden 1990-95 (the
+    openness principle's one measured extreme), the forward-rate test, speed and the digestion history (decision 18).
+    Not done, left as candidates: the crash model's 57 stored scenario rows that nothing in either repository reads
+    (her untracked video script reads 9 of the 85; the site's export six; the checks 25); the (a) and (b) comparator
+    blocks of decision 37, now that there is one version; the macro block's unread outputs (`curve_path`,
+    `c_prereview`); and the bridges refit (Next, first), which a map the same day found independent of the crash model
+    in code but not in the site's all-or-nothing export (a re-centred fiscal start fails the guide's "starts in surplus").

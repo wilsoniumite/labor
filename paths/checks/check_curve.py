@@ -17,7 +17,6 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), "code"))
 import curve as cv  # noqa: E402
-import cycle as cy  # noqa: E402
 
 RESULTS = []
 
@@ -139,34 +138,7 @@ gap = np.array([(1 - phi) ** n for n in range(1, 17)])
 cont = np.exp(-cv.PolicyRule(meetings_per_year=8, inertia=phi).implied_speed() * np.arange(1, 17) / 8)
 check("N10 the rule's implied speed -M ln(1 - inertia) matches its unrounded meeting path", np.max(np.abs(gap - cont)) < 1e-12)
 
-# ------------------------------------------------------------------ C: the stylised cycle
-print("C — a stylised cycle through the three clocks")
-d = cy.CycleDrivers()
-times, states, rates, t_first = cy.simulate(d)
-Tc = np.array([1 / 12, 0.25, 0.5, 1, 2, 3, 4, 5, 7, 10, 15, 20, 30])
-
-
-def at(tq):
-    return states[int(np.argmin(np.abs(times - tq)))]
-
-
-def dz(ta, tb):
-    return (cv.zero(Tc, at(tb)) - cv.zero(Tc, at(ta))) * 100
-
-
-A = dz(d.t_news - 0.02, t_first - 1 / 12 - 0.02)   # ends while the first move is still > 1 month away
-B = dz(t_first - 0.02, t_first + 0.75)
-W = dz(d.t_news - 0.02, 3.5)
-pol = (rates[int(np.argmin(np.abs(times - 3.5)))] - rates[int(np.argmin(np.abs(times - (d.t_news - 0.02))))]) * 100
-sh = cv.sot_shapes(Tc)
-_, r2par = cv.fit_share(W, sh["parallel"][:, None])
-check("C1 pricing phase (news -> a month before the first move): the 1M is pinned and the move is a hump",
-      abs(A[0]) < 0.5 and 0 < int(np.argmax(A)) < len(Tc) - 1, f"1M {A[0]:+.3f}, peak {A.max():+.0f} bp at {Tc[np.argmax(A)]:.2g}y, 30Y {A[-1]:+.0f}")
-check("C2 delivery phase: the front catches up — the largest move is at the short end",
-      Tc[int(np.argmax(B))] <= 1.0 and B[0] > B[-1], f"1M {B[0]:+.0f}, 2Y {B[4]:+.0f}, 30Y {B[-1]:+.0f}")
-check("C3 whole cycle: the front moves with policy and the cumulative move is close to parallel, front-heavy",
-      abs(W[0] - pol) < 10 and np.all(np.diff(W[3:]) <= 1e-9) and r2par > 0.7,
-      f"1M {W[0]:+.0f} vs policy {pol:+.0f}, 10Y {W[9]:+.0f}, 30Y {W[-1]:+.0f}, parallel R² {r2par:.2f}")
+# C — the stylised cycle (cycle.py) is a record since 2026-10-26, at the tag paths-pre-cuts (STATE Log 43)
 
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
