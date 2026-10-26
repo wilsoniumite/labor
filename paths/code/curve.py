@@ -135,7 +135,7 @@ def forward_between(a, b, c: CurveState):
 
 def timing_share(c: CurveState, front=1 / 12):
     """tau = (f(1,2) - z(front)) / (f(5,10) - z(front)): the share of the policy-to-destination gap
-    priced to close within one to two years. The empirical statistic of the SEK and US measurements."""
+    priced to close within one to two years. The empirical statistic of the US measurements."""
     r_front = zero(front, c)
     return (forward_between(1, 2, c) - r_front) / (forward_between(5, 10, c) - r_front)
 

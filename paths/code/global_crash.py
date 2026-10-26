@@ -62,12 +62,13 @@
 # is 2028Q4. One dating. Before 2026-10-01 the labels ran one quarter late (log 29's START = 2026Q4 at index 0, case.py's
 # "quarter 1 = 2026Q4" since log 28); labels only: the dynamics never depended on them.
 #
-# The October bust (her request, 2026-09-30; october.py). Two additions, each off by default:
+# Two additions for the October bust (her request, 2026-09-30; october.py, a record at the tag paths-pre-signfix since
+# 2026-10-26), each off by default:
 #   energy term  decision 27's condition (as amended 2026-10-01: dated Brent at least 1.25 times its three-year average on a
 #                day a bust rule is active; off by default until then). An exogenous oil price by region (Shock.oil,
 #                quarterly averages; Shock.oil_before, the quarter before index 0). The model's pi is core inflation (the
 #                2007-10 fit targets core PCE); headline pi_h = pi + energy's share of spending x the pass-through of crude
-#                to consumer energy prices, this quarter and the next (energy_inflation; measured in october.py). The higher
+#                to consumer energy prices, this quarter and the next (energy_inflation; measured in october.py at the tag). The higher
 #                energy bill is a tax on consumers' other spending (Region.energy_income, approximate). Rules.react_to
 #                ("core" | "headline": hands tied) is what the policy rule reacts to, the last quarter's reading
 #                (annualised); "headline4" | "core4" read the average of the last four quarters instead (y/y-like; before
@@ -187,7 +188,7 @@ class Region:
     debt_slope: float = 0.0
     debt_slope_crisis: float = 0.0
     exit_share: float = 0.0     # share of structural displacement that leaves the labour force (decoupling.py; US measured)
-    # the energy term (october.py; used only when Shock.oil carries the region): energy's share of consumer spending, the
+    # the energy term (used only when Shock.oil carries the region): energy's share of consumer spending, the
     # pass-through of crude to consumer energy prices (this quarter, the next; measured), household consumption's share of
     # GDP, spending lost per unit of a higher energy bill (approximate), and headline inflation at the start (None: pi0)
     energy_weight: float = 0.0
@@ -306,9 +307,9 @@ class Shock:
                                                      # in place of the region's constant drift (case.py: a pace that rises)
     spread: dict = field(default_factory=dict)       # an exogenous premium on borrowing by quarter, points, passed to private
                                                      # borrowers (case.py: deficit and sovereign worry)
-    spread0: dict = field(default_factory=dict)      # a spread already present at the start (index 0), points (october.py)
+    spread0: dict = field(default_factory=dict)      # a spread already present at the start (index 0), points
     oil: dict = field(default_factory=dict)          # the energy term: the oil price by quarter, quarterly averages in the
-                                                     # region's currency, index 0 = the start's quarter (october.py)
+                                                     # region's currency, index 0 = the start's quarter
     oil_before: dict = field(default_factory=dict)   # the quarter before index 0 (for crude's change into it)
 
 
@@ -760,22 +761,70 @@ def run_1929(cm: Common, okun: float, impulse: float = 0.0) -> dict:
     return simulate(regs, rules, sh, cm, n, active=["US"])["US"]
 
 
-def run_2007(cm: Common, okun: float) -> dict:
+def demand_2007(n: int = 13) -> dict:
+    """run_2007's exogenous demand levels, % of GDP, each with the sign of its own measured change (a fall is a drag):
+    housing wealth -30% (x1.5 GDP, 0.05 a krona a year) staying down; the housebuilding collapse, measured as residential
+    investment's share of GDP from 2007Q4 on (FRED PRFI / GDP); the rest of the world's slump, measured as US real exports
+    against 2007Q4, % of 2007Q4 GDP (FRED EXPGSC1 / GDPC1). check_global_crash S1 tests the signs."""
+    house = -0.05 * 1.5 * ramp(0.30, 1, 6, n) * 100
+    res = fred("PRFI") / fred("GDP").reindex(fred("PRFI").index) * 100
+    res = res.loc["2007-10-01":].values[:n]
+    build = res - res[0]           # entered as -(res - res[0]), a stimulus, until 2026-10-26 (STATE Log 40-41)
+    ex = ((fred("EXPGSC1") - fred("EXPGSC1").loc["2007-10-01"]) / fred("GDPC1").loc["2007-10-01"] * 100).loc["2007-10-01":].values[:n]
+    return {"housing wealth": house, "housebuilding": build, "exports": ex}
+
+
+def run_2007(cm: Common, okun: float, drop: tuple = ()) -> dict:
+    """`drop`: demand_2007 components left out (check_global_crash S2)."""
     n = 13                                                   # 2007Q4 .. 2010Q4
     regs = {"US": us_2007(okun), "EA": passive("EA"), "SE": passive("SE"), "CN": passive("CN")}
     rules = {r: replace(MODERN, fiscal_quarters=8) for r in regs}
-    # equity -50% by 2009Q1, back to -20% by 2010Q2; housing wealth -30% (x1.5 GDP, 0.05 a krona a year) staying down;
-    # mortgage-related credit losses ~ 3.5% of loans over two years
+    # equity -50% by 2009Q1, back to -20% by 2010Q2; mortgage-related credit losses ~ 3.5% of loans over two years
     eq = np.interp(np.arange(n), [0, 5, 10, 12], [0.0, 0.5, 0.2, 0.2])
-    house = -0.05 * 1.5 * ramp(0.30, 1, 6, n) * 100
-    # the housebuilding collapse, measured: residential investment's share of GDP from 2007Q4 on (FRED PRFI / GDP)
-    res = fred("PRFI") / fred("GDP").reindex(fred("PRFI").index) * 100
-    res = res.loc["2007-10-01":].values[:n]
-    build = -(res - res[0])
-    # the rest of the world's slump, measured: US real exports against 2007Q4, % of 2007Q4 GDP (FRED EXPGSC1 / GDPC1)
-    ex = ((fred("EXPGSC1") - fred("EXPGSC1").loc["2007-10-01"]) / fred("GDPC1").loc["2007-10-01"] * 100).loc["2007-10-01":].values[:n]
-    sh = Shock(equity={"US": eq}, losses={"US": pulse(3.5, 2, 8, n)}, demand={"US": house + build + ex})
+    dem = sum(v for k, v in demand_2007(n).items() if k not in drop)
+    sh = Shock(equity={"US": eq}, losses={"US": pulse(3.5, 2, 8, n)}, demand={"US": dem})
     return simulate(regs, rules, sh, cm, n, active=["US"])["US"]
+
+
+def _q(sid: str) -> pd.Series:
+    """A FRED series as quarterly averages, indexed by quarter."""
+    s = fred(sid)
+    return s.groupby(s.index.to_period("Q")).mean()
+
+
+def run_2000(cm: Common, okun: float) -> dict:
+    """Out of sample (not in the fit): the dot-com bust, 2000Q1 .. 2003Q4, with today's rules and measured shocks — US
+    household equity (Fed Z.1, directly and indirectly held, BOGZ1LM153064475Q) as the fall from 2000Q1; equipment
+    investment's share of GDP (Y033RC1Q027SBEA / GDP) and real exports against 2000Q1 (EXPGSC1 / GDPC1) as demand levels,
+    each with the sign of its own change. Start values measured (FRED): unemployment, the funds rate, core PCE inflation,
+    household and business debt (CMDEBT, BCNSDODNS), equity wealth and exports over GDP. No exogenous credit losses (the
+    model's own loss rule only). check_global_crash V4 compares it with the data."""
+    n, q0 = 16, pd.Period("2000Q1", "Q")
+    gdp, z1 = _q("GDP"), _q("BOGZ1LM153064475Q")
+    core = _q("PCEPILFE")
+    hh, biz = _q("CMDEBT")[q0] / 1000, _q("BCNSDODNS")[q0] / 1000             # Z.1 levels are in millions; GDP in billions
+    us = Region("US", 1.0, float(_q("UNRATE")[q0]), float(_q("DFF")[q0]), float((core[q0] / core[q0 - 4] - 1) * 100), 0.0, okun,
+                0.9, 0.35, float(hh / gdp[q0] * 100), float((hh + biz) / gdp[q0] * 100),
+                0.25, float(z1[q0] / 1000 / gdp[q0]), 0.0, 10.0, 65.0, float(_q("EXPGSC1")[q0] / _q("GDPC1")[q0]),
+                {"EA": 0.2, "CN": 0.02, "SE": 0.005, "RoW": 0.775}, 2.5, 3.0, 0.0, 0.0)
+    regs = {"US": us, "EA": passive("EA"), "SE": passive("SE"), "CN": passive("CN")}
+    rules = {r: replace(MODERN, fiscal_quarters=8) for r in regs}
+    qs = [q0 + k for k in range(n)]
+    eq = np.maximum(1 - np.array([z1[q] for q in qs]) / z1[q0], 0.0)
+    eqp = _q("Y033RC1Q027SBEA") / gdp * 100
+    x, g = _q("EXPGSC1"), _q("GDPC1")
+    dem = np.array([eqp[q] - eqp[q0] for q in qs]) + np.array([(x[q] - x[q0]) / g[q0] * 100 for q in qs])
+    return simulate(regs, rules, Shock(equity={"US": eq}, demand={"US": dem}), cm, n, active=["US"])["US"]
+
+
+def targets_2000() -> dict:
+    """The data run_2000 is compared with: quarterly US unemployment and the change in the output gap (GDPC1 / GDPPOT) from
+    2000Q1, 2000Q2 .. 2003Q4."""
+    q0 = pd.Period("2000Q1", "Q")
+    u, gap = _q("UNRATE"), (_q("GDPC1") / _q("GDPPOT") - 1) * 100
+    qs = [q0 + k for k in range(1, 16)]
+    return {"quarters": [str(q) for q in qs], "unemployment": [round(float(u[q]), 2) for q in qs],
+            "gap_change": [round(float(gap[q] - gap[q0]), 2) for q in qs]}
 
 
 def annual(x, first_q_of_1930: int = 2) -> list:

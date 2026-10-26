@@ -46,19 +46,21 @@ check("A3 the exit share is not robust: from the three bases it spans more than 
       f"endpoints {ends}; June {ob['prime_age_participation_june_2026_change']}; trends {[v['exit_share'] for v in trends.values()]}")
 pm, tg, paces = P["window_model_at_the_papers_pace"], P["non_employment_targets_lf_pts"], P["paces"]["multiples_of_the_papers"]
 check("A4 the paper's pace runs far ahead of what has been seen: over the window it would have raised US non-employment by "
-      "over three times the endpoint measure and over five times the trend's upper bound; the trend's upper bound allows at "
-      "most a fifth of the paper's pace, the endpoint under a third",
-      pm["non_employment_lf_pts"] > 3 * tg["endpoint"] and pm["non_employment_lf_pts"] > 5 * tg["trend + 2 s.e."]
-      and paces["trend + 2 s.e."] <= 0.2 and paces["endpoint"] < 1 / 3,
+      "over two and a half times the endpoint measure and over four times the trend's upper bound; the trend's upper bound "
+      "allows at most a quarter of the paper's pace, the endpoint under half. Restated after the crash model's sign fix of "
+      "2026-10-26 (a milder model lets a faster pace fit what was seen): before it, over three and five times, at most a fifth "
+      "and under a third (2.3; 0.147, 0.29)",
+      pm["non_employment_lf_pts"] > 2.5 * tg["endpoint"] and pm["non_employment_lf_pts"] > 4 * tg["trend + 2 s.e."]
+      and paces["trend + 2 s.e."] <= 0.25 and paces["endpoint"] < 0.5,
       f"paper's {pm}; targets {tg}; paces {paces}")
 rw = P["rows"]
 b = rw["pace: trend + 2 s.e."]
 check("A5 the bust, not the pace seen so far, carries the danger: at the trend's upper bound a dot-com-sized bust under today's "
-      "rules still takes US out of work above 15%, and above 40% when the rules erode; displacement without a bust stays "
-      "under 8%",
-      b["modern rules | bust + displacement"]["us_out_of_work_peak"] > 15
-      and b["rules erode under pressure | bust + displacement"]["us_out_of_work_peak"] > 40
-      and b["modern rules | displacement without a bust"]["us_out_of_work_peak"] < 8,
+      "rules still takes US out of work above 10%, and above 20% when the rules erode; displacement without a bust stays "
+      "under 7%. Restated after the crash model's sign fix of 2026-10-26: before it, above 15% and 40%, under 8% (16.2, 46.7, 6.8)",
+      b["modern rules | bust + displacement"]["us_out_of_work_peak"] > 10
+      and b["rules erode under pressure | bust + displacement"]["us_out_of_work_peak"] > 20
+      and b["modern rules | displacement without a bust"]["us_out_of_work_peak"] < 7,
       {k: v["us_out_of_work_peak"] for k, v in b.items()})
 wt, wm = P["window_model_at_each_pace"]["trend"], P["window_model_at_each_pace"]["trend + 2 s.e."]
 cbo = ob["cbo_output_gap"]["to"][1] - ob["cbo_output_gap"]["from"][1]
@@ -70,9 +72,10 @@ check("A6 the spending loop is not identified on this window: across the paces t
       f"model at the trend {wt['output_gap_change']}, at its upper bound {wm['output_gap_change']}; CBO change {cbo:+.2f} from {ob['cbo_output_gap']['from']}")
 sv = P["sensitivity"]
 check("A8 care's hiring above its trend, counted as displaced people it took in (an upper bound on what it hides), leaves the "
-      "data allowing under half the paper's pace on every measure; the build-out's own jobs are too few to matter: all of "
-      "construction's gain is under 0.1 points of the labour force, and manufacturing lost more",
-      sv["care"]["above_trend_pts_a_year"] > 0 and max(sv["care"]["paces_with_above_trend_care"].values()) < 0.5
+      "data allowing under two-thirds of the paper's pace on every measure; the build-out's own jobs are too few to matter: all "
+      "of construction's gain is under 0.1 points of the labour force, and manufacturing lost more. Restated after the crash "
+      "model's sign fix of 2026-10-26: before it, under half (0.17, 0.348, 0.472)",
+      sv["care"]["above_trend_pts_a_year"] > 0 and max(sv["care"]["paces_with_above_trend_care"].values()) < 2 / 3
       and sv["build_out"]["construction_added_lf_pts"] < 0.1
       and sv["build_out"]["manufacturing_added_lf_pts"] < -sv["build_out"]["construction_added_lf_pts"],
       sv)

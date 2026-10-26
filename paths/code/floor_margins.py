@@ -1,6 +1,6 @@
 # floor_margins.py — what Swedish banks did at the floor: lending margins and deposit rates, 2005-2026.
 #
-# The bank-side question: when the policy rate went below zero (Feb 2015 -> Dec 2019, down to -0.5%),
+# The question: when the policy rate went below zero (Feb 2015 -> Dec 2019, down to -0.5%),
 # deposit rates stuck at zero — did banks widen lending margins to make up for it, and by how much per
 # point below zero? And the other open assumption: how fast do deposit rates follow the policy rate on
 # the way up (2022-23) compared with the way down (2024-26)?
