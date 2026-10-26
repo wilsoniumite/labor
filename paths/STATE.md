@@ -32,7 +32,10 @@ checkout beside this one, and its D2 and check_case's K12 compare with git histo
 reported, not gated; README). Committed and pushed 2026-10-01, in the order of Next 13; next, refit the bridges on
 (c) (Next, first); part 2 — the bank's own balance sheet on these behaviours — stays on the internal side.
 **Since:** 2026-10-12 and 13, the splits tracker (`SPLITS.md`, `code/splits.py`, `checks/check_splits.py` 25/25; the
-unit under Where things stand, decisions 53-65, Next 14, Log 37-39), not yet fixed (decision 62).
+unit under Where things stand, decisions 53-65, Next 14, Log 37-39), frozen 2026-10-13 (tag `paths-splits-freeze`).
+**2026-10-26, the redo, under way** (Log 40; on her delegation: well calibrated, on new data, fitting the pop now seen,
+simpler): first the record before the FOMC, then a sign error in the crash model's 2008–10 fit run fixed and the
+results regenerated. Until each step lands, the stored results below stand as they were.
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -180,6 +183,13 @@ is right; in an extreme path the destination is what is wrong.
     shaped like erosion, with no broad fiscal repricing in public spreads. **Falsifiers:** the
     Netherlands and Finland widen with France; or the widening reaches the 5Y as much as the 10Y
     (a crunch, not erosion).
+  - **Read again 2026-10-26** (the monitor's method on the watcher's SWEA series, latest 23 Oct; Log 40): France 166 bp
+    at 10Y, 129 at 5Y. The shape has moved from erosion towards level. Since the reading above (23 Sep) the 5Y widened
+    +61.9 against the 10Y's +56.6, and since 30 Sep +44.5 against +38.2; over three months +82.5 against +85.7, over
+    twelve +78.0 against +86.4. The second falsifier is read on three months from now on (the window of the watcher's
+    rules): **not met, but nearly level** (3 bp apart, against 15 at the first reading). The first falsifier is not
+    met: the Netherlands +3.8 and Finland +9.6 at 10Y since 23 Sep (both, as written; the watcher's rule fires on
+    either). Still French: the Netherlands at 11 bp and Finland at 40.
 - **`code/macro.py` — the macro block** (checks `checks/check_macro.py`, 21/21 with (b)'s A1–A7; 14/14 at first).
   - **Structure: the paper's Appendix B, SSRN version of 2026-09-23** — the basket priced into
     participation, space scaling with output. ⚠ The repository's `pinning/` copy (main.tex of
@@ -1612,7 +1622,9 @@ of decisions 39, 41 and 42 stand.
     each EIA Brent
     print (it moves the late-September level, the three-year average and both oil-rule thresholds); the FOMC (27–28
     Oct, to verify against the Fed's calendar; the model hikes in 2026Q4 in every run); BEA's Q3 advance estimate (29
-    Oct).
+    Oct). **Amended 2026-10-26 (Log 40):** a print is not folded into the inputs of a run that makes a claim about it.
+    Each data vintage is frozen and committed before the prints it is scored on, and scored on them afterwards; the
+    FOMC, the Riksbank's 4 Nov decision and October employment (6 Nov) are tests of the stored runs, registered in Log 40.
 12. **(c), onward** (decisions 31–42; 39, 41 and 42 decided 2026-10-01, pending the refit of Next, first): before (c)
     carries rate stress, a land-slack corner and `rho_rate_share`; the chain's own depreciation (FA 3.1ESI / 3.4ESI)
     for sigma; WP2026-01's labour definition (the self-employed imputation) and a primary copy of its numbers; README's
@@ -2142,3 +2154,46 @@ the macro block lands.
     definitions hash; today's readings unchanged). New check S23 ties `SPLITS.md`'s table of thresholds in plain units
     to the results (`check_splits.py` 25/25). `SPLITS.md` §9.2 now runs `code/splits.py` again after the tag and commits
     and pushes `results/splits.json`, since only results written after the tag say frozen, and the website reads them.
+40. **2026-10-26 — the redo begins: the record before the FOMC.** Her request (paraphrased): redo the paths model given
+    the latest news and the likely paths — well calibrated, on new data, fitting the path of the bubble pop now seen, and
+    simpler where parts are no longer relevant; most of it left to Claude. A design review the same day (scratch, three
+    designs and three critics) found the news argues for recording, not refitting to four weeks, and found the sign
+    error below. Written before the FOMC of 27–28 Oct, so that what follows can be scored:
+    - **The 8 Oct case (fd05371) in 2026Q4, against what is seen to 23 Oct.** Its 2026Q4 claims: US equity −30%
+      (`ai_shock(25, 1.5, 2.0)` at index 1), the build-out −45%, US unemployment +1.4 points at the low end (5.48), the
+      Sahm reading past 0.5 in November. Seen: the Nasdaq −3.4% since 30 Sep and −5.96% off its high of 27,599.89 on
+      6 Oct (the watcher's NASDAQCOM, 23 Oct); unemployment 4.2% in September (index 0's last month); initial claims
+      194k (17 Oct); the build-out guided up, not down. **On course to miss; scored at the predictions' deadlines, as
+      written.** In this model the labour claim follows from the equity leg (US unemployment in 2026Q4 5.58 with it,
+      4.35 without, on the October central; scratch), so it is one miss, not two.
+    - **Credit, 30 Sep to 23 Oct:** CCC OAS 11.79 → 13.56, US high yield 3.12 → 3.38, euro high yield 3.00 → 3.64;
+      investment grade 0.84 → 0.91, Baa−10Y 1.47 → 1.46 (22 Oct), the excess bond premium −0.39 (September), STLFSI
+      −0.81 → −0.63 (16 Oct). The stress is in the borrowers on outside money; broad credit is flat (the case's
+      broad-credit rise was due from 2027Q1, so not yet a test). The CCC series on FRED is three years long, and its
+      April 2025 rise (+2.65) unwound in about six weeks.
+    - **Tests of the stored runs, registered before the data:** (i) the FOMC: every stored run raises in 2026Q4 (the
+      quarter's average 4.02 looking through, 4.21 hands tied, against 3.88); no hike on 28 Oct or in December
+      contradicts the rule. (ii) The Riksbank, 4 Nov: every stored run cuts in 2026Q4; a hike contradicts it. (iii)
+      October employment, 6 Nov: the case's low end has US unemployment 5.48 in 2026Q4; the October central without its
+      equity leg 4.35. A 2026Q4 average of 4.6 or more without the index falling would point at the pace (Next 10),
+      not the bust.
+    - **The October replay's dates are not deadlines.** "Claims about 19 Nov" and "the Nasdaq −11% by end-October"
+      (`results/october.json`) replay the watcher's rules as they stood before its edition 2 of 8 Oct (bust.credit.us
+      and bust.credit.eu retired, bust.credit.baa added). The deadlines are the predictions' in the watcher's register.
+    - **The sovereign monitor, read again** (above, under its unit): the falsifiers not met, the shape nearly level.
+    - **Found, not yet acted on: a sign error in the crash model's 2008–10 fit run.** `run_2007`
+      (`code/global_crash.py:774`) enters the housebuilding collapse as stimulus: `build = -(res - res[0])` runs +0.35
+      to +1.82% of GDP as residential investment falls from 4.20 to 2.41% of GDP (FRED PRFI/GDP), while housing wealth
+      and exports beside it enter as drags. It has been there since the model's first commit (0603e19), and no check
+      looks at signs. Refit in scratch at the stored settings with the sign corrected: loss 52.0 → 26.1; sigma 10.88 →
+      3.21; Okun 0.80 → 0.71; money 0 → 9.5 (it bites only without deposit insurance, so in 1929); a_r stays at its
+      bound, 0.03, but fixing it at 0.079 now costs +2.7 of loss (0.10: +3.9). Her case's US out of work at 2028Q4
+      (low/high) 14.4/15.7 → 10.9/11.8, with no bust 12.9 → 9.3, in 2026Q4 5.50 → 5.35 (the pace held as stored). It
+      is not the whole of the known bias ("it recovers from 2009 faster than the US did"): the corrected run's
+      unemployment peaks at 9.85 a quarter early and is 8.06 at 2010Q4 against 9.5.
+    - **Corrections to the day's first read (in chat, not committed):** the Nasdaq's high was 6 Oct, not 23 Oct; the
+      French 5Y and 10Y three-month moves were +82.5 and +85.7 bp, not +77 and +65; the sovereign falsifier is not met.
+    - **The order of the redo:** this record; the sign fix as its own step, settings unchanged, results regenerated in
+      order, the old ones reproducible at a tag; a dated data vintage, frozen before the prints it is scored on; the
+      bust's legs timed from the measured 2000–02 sequence with the onset at the pop now seen; parts no longer needed
+      cut; the watcher's site and lens moved with it. The 16 predictions of 8 Oct stay as written.
