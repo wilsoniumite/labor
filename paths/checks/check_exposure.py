@@ -33,18 +33,18 @@ check("E1 each region's shares of employment by group sum to one",
       all(abs(sum(X[r]["share"].values()) - 1) < 1e-3 for r in X), {r: X[r]["share"] for r in X})
 check("E2 the first wave's reach: cognitive work is 56-65% of employment in the US, the euro area and Sweden, 20% in China; "
       "physical work 70% in China",
-      all(0.55 <= X[r]["share"]["cognitive"] <= 0.66 for r in ("US", "EA", "SE")) and X["CN"]["share"]["cognitive"] < 0.25
+      all(0.55 <= X[r]["share"]["cognitive"] <= 0.66 for r in ("US", "EA", "FR", "SE")) and X["CN"]["share"]["cognitive"] < 0.25
       and X["CN"]["share"]["physical"] > 0.65, {r: X[r]["share"]["cognitive"] for r in X})
 check("E3 pay: cognitive work pays above the average and physical and in-person work below it, in every measured region",
-      all(X[r]["premium"]["cognitive"] > 1 > X[r]["premium"]["physical"] > X[r]["premium"]["in_person"] for r in ("US", "EA", "SE")),
-      {r: X[r]["premium"] for r in ("US", "EA", "SE")})
+      all(X[r]["premium"]["cognitive"] > 1 > X[r]["premium"]["physical"] > X[r]["premium"]["in_person"] for r in ("US", "EA", "FR", "SE")),
+      {r: X[r]["premium"] for r in ("US", "EA", "FR", "SE")})
 check("E4 recessions cut physical work at least twice as fast as all employment, and cognitive work more slowly — the US "
       "2007-10, Spain 2007-10, Sweden 2008-10",
       all(C[c]["physical"]["beta"] >= 2 and C[c]["cognitive"]["beta"] < 1 for c in C),
       {c: (C[c]["cognitive"]["beta"], C[c]["physical"]["beta"]) for c in C})
 check("E5 before robotics, the automatable share of a recession's job loss: under half in the US, euro area and Sweden, under "
       "10% in China",
-      all(X[r]["recession_loss_share"]["cognitive"] < 0.5 for r in ("US", "EA", "SE")) and X["CN"]["recession_loss_share"]["cognitive"] < 0.1,
+      all(X[r]["recession_loss_share"]["cognitive"] < 0.5 for r in ("US", "EA", "FR", "SE")) and X["CN"]["recession_loss_share"]["cognitive"] < 0.1,
       {r: X[r]["recession_loss_share"]["cognitive"] for r in X})
 check("E6 the crash model's recession betas are the measured US ones",
       all(abs(gc.Common().beta[g] - E["beta_used"][g]) < 0.005 for g in gc.GROUPS), E["beta_used"])

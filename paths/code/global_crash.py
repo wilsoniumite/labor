@@ -1,6 +1,7 @@
-# global_crash.py — could an AI shock become a Great Depression, and a systemic one? Four regions — the US, the euro
-# area, Sweden, China — each with the demand and household machinery of demand.py / households.py in reduced form, and
-# the four amplifiers the single-country layers leave out:
+# global_crash.py — could an AI shock become a Great Depression, and a systemic one? Four economies — the US, the euro
+# area, Sweden, China — with the euro area in two regions since 2026-10-27, France and the rest of the union (decision
+# 70), each with the demand and household machinery of demand.py / households.py in reduced form, and the four
+# amplifiers the single-country layers leave out:
 #   1. recessions trigger adoption: a share of cyclical job loss becomes permanent each quarter (firms that cut in a
 #      downturn automate rather than rehire — the "jobless recovery" pattern since the 1980s), on top of a slow
 #      structural displacement drift;
@@ -76,9 +77,20 @@
 #                the start, index 0's reading, which is measured y/y). Rules.expect_from is what expectations adapt to.
 #   spread0      Shock.spread0: a spread already present at the start (index 0), so it reaches spending in the first quarter.
 #
+# The monetary union and France's sovereign (her suggestion, 2026-10-26: France as its own region, "since that seems to
+# be where some of the action is happening"; decision 70). The euro area outside France (EA) and France (FR) share one
+# policy rate, set by the union's rule on its members' size-weighted expected inflation, inflation and gap (with one
+# member the rule is the region's own, so nothing else moves). France's government has a spread over the union's
+# benchmark (its ten-year over Germany's): at the start as measured, plus the price of the debt it adds (the euro area's
+# measured slope, financing.py) and any premium the run sets; a share of its rise above its calm level reaches French
+# private borrowers; French banks hold its debt, marked to the spread; and with a backstop, recapitalising the banks is
+# public debt, so the banks' losses raise the spread (the doom loop, at the measured price of debt). The union's central
+# bank can cap the spread (Rules.tpi: the ECB's Transmission Protection Instrument; off unless a run sets it).
+#
 # Each quarter, region r:
 #   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern; pi_1 headline if
-#                react_to is "headline"; the four-quarter average of headline or core if "headline4" or "core4")
+#                react_to is "headline"; the four-quarter average of headline or core if "headline4" or "core4"; in a
+#                union, on its members' size-weighted pie, pi_1 and y_1)
 #   expectations pie = anchor pi* + (1 - anchor) pi_1
 #   demand level D = wealth + capex + unemployed + rate relief + debt deflation + credit + money + trade + fiscal
 #                    (+ the energy bill, when the energy term is on)
@@ -86,7 +98,8 @@
 #   inflation    pi = pie + kappa y + tariff pass-through (core); headline pi_h = pi + the energy term (= pi when off)
 #   unemployment u moves toward u* - okun y at a regional speed; u* ratchets up by eta x (u - u*) and the drift
 #   banks        capital falls by losses above normal (a base rate plus unemployment, the gap, and shock add-ons)
-#   spreads      s = s0 + sigma x (capital lost) + global mood, capped under a backstop
+#   spreads      s = s0 + sigma x (capital lost) + global mood, capped under a backstop (France: + the pass-through
+#                of its sovereign's spread above its calm level)
 #
 # VALIDATION FIRST: the same equations, with only the institutions and the shocks changed, must reproduce the US
 # 1929-33 (the 1930s settings: gold-standard policy, no deposit insurance, no unemployment support, austerity,
@@ -100,8 +113,8 @@
 # from 2009 (and from 2001) faster than the US's did, so it is optimistic about how long joblessness lasts (V3, V4).
 # Data (FRED): real GDP annual from 1929 (GDPCA), CPI from 1913 (CPIAUCNS), unemployment from 1948 (UNRATE), real GDP
 # and CBO potential quarterly (GDPC1, GDPPOT), core PCE (PCEPILFE), policy rates (DFF, ECBDFR), euro-area HICP and
-# unemployment, China CPI, BIS credit to households and to the private non-financial sector (Q..HAM770A, Q..PAM770A).
-# 1933 unemployment 24.9% (Lebergott, the standard series; not on FRED). Region parameters not measured here are
+# unemployment, China CPI, BIS credit to households and to the private non-financial sector (Q..HAM770A, Q..PAM770A);
+# France and the rest of the euro area from Eurostat, the BIS, the ECB and the Riksbank (vintage.py). 1933 unemployment 24.9% (Lebergott, the standard series; not on FRED). Region parameters not measured here are
 # marked approximate in REGIONS.
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/global_crash.py
@@ -128,7 +141,7 @@ import lambda_compute2 as _lc  # noqa: E402
 
 _lc.CACHE = os.path.join(ROOT, "cache")
 DT = 0.25
-R = ("US", "EA", "SE", "CN")
+R = ("US", "EA", "FR", "SE", "CN")     # EA: the euro area outside France since 2026-10-27 (decision 70)
 START = "2026Q3"    # index 0, the start: the regions as measured on data to the end of 2026Q3 (the dated vintage,
                     # cache/start/: monthly series to August or September, quarterly to 2026Q2); index 1, the first
                     # simulated quarter, is 2026Q4 (decision 43)
@@ -157,7 +170,7 @@ def fred(sid: str) -> pd.Series:
 @dataclass(frozen=True)
 class Region:
     name: str
-    size: float                 # share of the four's GDP (market exchange rates, approximate)
+    size: float                 # share of the four economies' GDP (market exchange rates, approximate)
     u0: float                   # unemployment at the start, %
     i0: float                   # policy rate at the start, %
     pi0: float                  # inflation at the start, % a year
@@ -199,6 +212,17 @@ class Region:
     consumption_share: float = 0.0
     energy_income: float = 0.0
     pi_h0: float | None = None
+    # a currency union and a sovereign of its own (decision 70; France): the union whose central bank sets the rate; the
+    # government's spread over the union's benchmark at the start and in calm years (points), its debt (% of GDP), its
+    # banks' holdings of it (% of GDP), the share of the spread's rise passed to private borrowers, and the capital the
+    # banks lose per point of it per unit of holdings (duration times the share held at market value)
+    union: str = ""
+    sov0: float = 0.0
+    sov_calm: float = 0.0
+    sov_debt: float = 0.0
+    sov_banks: float = 0.0
+    sov_pass: float = 0.0
+    sov_mtm: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -286,6 +310,8 @@ class Rules:
     react_to: str = "core"            # what the policy rule reacts to: "core" (the model's pi) | "headline" (hands tied);
                                       # "headline4" | "core4": the average of the last four quarters (y/y-like)
     expect_from: str = "core"         # what expectations adapt to: "core" | "headline" (second-round effects)
+    tpi: float | None = None          # the union's central bank caps a member's sovereign spread this many points above
+                                      # its start (the ECB's Transmission Protection Instrument); None: not activated
 
 
 MODERN = Rules()
@@ -423,7 +449,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                                         "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
                                         "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care",
                                         "debt_extra", "premium", "d_fin", "room", "out",
-                                        "pi_h", "e_pi", "e_bill", "d_energy")} for r in names}
+                                        "pi_h", "e_pi", "e_bill", "d_energy", "sov")} for r in names}
     W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
@@ -438,14 +464,49 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
         o["care"][0] = g.care_share
         if r in shock.spread0:                      # a spread already present at the start
             o["s"][0] = shock.spread0[r]
+        o["sov"][0] = g.sov0
+        if g.sov_debt > 0:                          # its sovereign's spread above its calm level, passed to borrowers
+            o["s"][0] += g.sov_pass * (g.sov0 - g.sov_calm)
         if r in shock.oil:                          # the energy term: headline minus core, and the energy bill
             o["e_pi"][:], o["e_bill"][:] = energy_paths(shock.oil[r], shock.oil_before[r], g, n)
             if g.pi_h0 is not None:
                 o["pi_h"][0] = g.pi_h0
     fiscal_left = {r: 0 for r in names}
     fiscal_on = {r: False for r in names}
+
+    def partner(r, q):
+        """Whether q is another member of region r's currency union."""
+        return bool(regions[r].union) and q != r and q in regions and regions[q].union == regions[r].union
+
+    def inside(r):
+        """The share of region r's exports that go to the other members of its union (no tariffs inside it)."""
+        return sum(v for q, v in regions[r].trade.items() if partner(r, q))
+
+    def expected(r, k):
+        rl = rules[r]
+        return rl.anchor * rl.pi_star + (1 - rl.anchor) * (out[r]["pi_h"] if rl.expect_from == "headline" else out[r]["pi"])[k - 1]
+
+    def seen(r, k):
+        """The inflation the policy rule reacts to (core, the model's pi; headline when the rules say hands are tied)."""
+        rl, o = rules[r], out[r]
+        if rl.react_to in ("headline4", "core4"):   # four quarters' average; before the start, index 0's (y/y)
+            src = o["pi_h"] if rl.react_to == "headline4" else o["pi"]
+            return sum(src[max(j, 0)] for j in range(k - 4, k)) / 4
+        return (o["pi_h"] if rl.react_to == "headline" else o["pi"])[k - 1]
+
     for k in range(1, n):
         mood = cm.global_mood * sum(regions[r].size * out[r]["stress"][k - 1] for r in names)
+        rate = {}                                   # a currency union: one rate on its members' size-weighted readings
+        for u in {regions[r].union for r in names if regions[r].union}:
+            m = [r for r in names if regions[r].union == u and r in active and rules[r].policy == "taylor"]
+            wt = sum(regions[r].size for r in m)
+            if not m or wt <= 0:
+                continue
+            lead = rules[u] if u in m else rules[m[0]]
+            avg = lambda f: sum(regions[q].size * f(q) for q in m) / wt  # noqa: E731
+            target = (cm.r_star + avg(lambda q: expected(q, k)) + cm.phi_pi * (avg(lambda q: seen(q, k)) - lead.pi_star)
+                      + cm.phi_y * avg(lambda q: out[q]["y"][k - 1]))
+            rate[u] = max(min(regions[q].floor for q in m), cm.smooth * out[m[0]]["i"][k - 1] + (1 - cm.smooth) * target)
         for r in names:
             g, rl, o = regions[r], rules[r], out[r]
             if r not in active:
@@ -456,16 +517,14 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 o["Pexp"][k] = o["P"][k]
                 continue
             pis = rl.pi_star
-            pie = rl.anchor * pis + (1 - rl.anchor) * (o["pi_h"] if rl.expect_from == "headline" else o["pi"])[k - 1]
-            # policy (on core inflation, the model's pi; on headline when the rules say hands are tied)
+            pie = expected(r, k)
+            # policy (on core inflation, the model's pi; on headline when the rules say hands are tied; a union's rate)
             if rl.policy == "taylor":
-                if rl.react_to in ("headline4", "core4"):   # four quarters' average; before the start, index 0's (y/y)
-                    src = o["pi_h"] if rl.react_to == "headline4" else o["pi"]
-                    seen = sum(src[max(j, 0)] for j in range(k - 4, k)) / 4
+                if g.union in rate:
+                    i = rate[g.union]
                 else:
-                    seen = (o["pi_h"] if rl.react_to == "headline" else o["pi"])[k - 1]
-                target = cm.r_star + pie + cm.phi_pi * (seen - pis) + cm.phi_y * o["y"][k - 1]
-                i = max(g.floor, cm.smooth * o["i"][k - 1] + (1 - cm.smooth) * target)
+                    target = cm.r_star + pie + cm.phi_pi * (seen(r, k) - pis) + cm.phi_y * o["y"][k - 1]
+                    i = max(g.floor, cm.smooth * o["i"][k - 1] + (1 - cm.smooth) * target)
             else:                                   # gold: rates drift down only as far as the market takes them; no reflation
                 i = max(0.0, o["i"][k - 1] - 0.25 * max(o["i"][k - 1] - 1.0, 0.0))
                 for (q, pts) in rl.gold_hike:
@@ -505,12 +564,17 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             d_debt = -cm.debt_deflation * g.priv_debt / 100 * max(o["Pexp"][k - 1] / o["P"][k - 1] - 1, 0.0) * 100
             d_credit = -cm.a_s * o["s"][k - 1]
             d_money = 0.0 if rl.insured else -cm.money * o["stress"][k - 1]
-            partners = {"US": out["US"]["y"][k - 1], "EA": out["EA"]["y"][k - 1], "SE": out["SE"]["y"][k - 1], "CN": out["CN"]["y"][k - 1]}
+            partners = {q: out[q]["y"][k - 1] for q in names}
             partners["RoW"] = sum(regions[q].size * partners[q] for q in names)
             tariff = rl.tariff if k >= rl.tariff_q else 0.0
             # a tariff point cuts exports about a point (short-run trade elasticity ~1); imports fall too, so only part
-            # of it (tariff_net, uncertainty and broken supply chains) is lost to demand rather than switched home
-            d_trade = g.exports * (cm.trade_elasticity * sum(g.trade[q] * partners[q] for q in g.trade) - cm.tariff_net * tariff)
+            # of it (tariff_net, uncertainty and broken supply chains) is lost to demand rather than switched home.
+            # Exports inside a union pay none (the EU's single market: decision 70); rl.tariff is on the rest. And a
+            # union partner's slump reaches a member only as far as it differs from the member's own: each part keeps
+            # the whole's own dynamics, which held the union's internal trade (so a shock to all of it moves it as the
+            # one region did, E2), while a shock to one part spills over to the other
+            spill = sum(g.trade[q] * (partners[q] - o["y"][k - 1] if partner(r, q) else partners[q]) for q in g.trade)
+            d_trade = g.exports * (cm.trade_elasticity * spill - cm.tariff_net * tariff * (1 - inside(r)))
             unemp_up = o["u"][k - 1] - g.u0 + (o["out"][k - 1] if rl.trigger_on == "non-employment" else 0.0)
             if not fiscal_on[r] and unemp_up >= rl.trigger:
                 fiscal_on[r], fiscal_left[r] = True, rl.fiscal_quarters
@@ -577,7 +641,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 weight = {q: o[s][k] * g.gate[q] for q, s, _, _ in ABSORBED}
                 pool = sum(weight.values())
                 potential = cm.care_hire * pool
-                a_t = min(grow, potential)
+                a_t = max(min(grow, potential), 0.0)   # a care sector that is shrinking (France, 2019-25) takes in nobody
                 a_x = 0.0
                 if rl.care == "expand" and unemp_up >= rl.trigger:
                     built = o["ax_cog"][k - 1] + o["ax_phys"][k - 1]
@@ -608,7 +672,11 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             loss = cm.loss_base + cm.loss_u * debt_up + cm.loss_y * max(-y, 0.0) + shock.losses.get(r, np.zeros(n))[k]
             o["loss"][k] = loss
             kk = o["k"][k - 1] - (loss - cm.loss_base) * g.loans / 100 * DT
+            if g.sov_debt > 0 and k >= 2:           # the banks' holdings of their sovereign, marked to its spread
+                kk -= g.sov_banks * g.sov_mtm * (o["sov"][k - 1] - o["sov"][k - 2]) / 100
+            recap = 0.0
             if rl.backstop:
+                recap = max(rl.capital_floor * g.bank_capital - kk, 0.0)
                 kk = max(kk, rl.capital_floor * g.bank_capital)
             o["k"][k] = max(kk, 0.0)
             o["stress"][k] = max(0.0, 1.0 - o["k"][k] / g.bank_capital)
@@ -618,12 +686,20 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             # the price of the debt a guarantee and a borrowed build-out add, passed to private borrowers
             cost = max(o["care_cost"][k], 0.0)
             borrowed = o["deficit_extra"][k] + (cost if rl.care_finance == "borrowing" else max(cost - max(o["room"][k], 0.0), 0.0))
-            o["debt_extra"][k] = o["debt_extra"][k - 1] + borrowed * DT
+            # with its sovereign modelled, recapitalising the banks is public debt (the doom loop's bank-to-state leg)
+            o["debt_extra"][k] = o["debt_extra"][k - 1] + borrowed * DT + (recap if g.sov_debt > 0 else 0.0)
             slope = g.debt_slope_crisis if o["stress"][k] > cm.stress_crisis else g.debt_slope
             o["premium"][k] = slope / 100 * o["debt_extra"][k] / 10
-            s += o["premium"][k]
-            if r in shock.spread:
-                s += shock.spread[r][k]
+            if g.sov_debt > 0:                      # the sovereign's spread: at the start, plus the price of the debt added
+                sov = g.sov0 + o["premium"][k] + (shock.spread[r][k] if r in shock.spread else 0.0)
+                if rl.tpi is not None:              # the union's central bank caps it (the ECB's TPI)
+                    sov = min(sov, g.sov0 + rl.tpi)
+                o["sov"][k] = sov
+                s += g.sov_pass * (sov - g.sov_calm)
+            else:
+                s += o["premium"][k]
+                if r in shock.spread:
+                    s += shock.spread[r][k]
             o["s"][k] = s
             o["stim"][k] = d_fiscal
     return out
@@ -655,7 +731,8 @@ def summary(out: dict, regions: dict, horizon_q: int | None = None) -> dict:
                   "not_working_rise_max": round(float((o["u"][:n] - regions[r].u0 + o["out"][:n]).max()), 2),
                   "debt_premium_max_bp": round(float(100 * o["premium"][:n].max()), 1),
                   "financing_room_start_pct_gdp": None if not np.isfinite(o["room"][1]) else round(float(o["room"][1]), 2),
-                  "financing_room_end_pct_gdp": None if not np.isfinite(o["room"][n - 1]) else round(float(o["room"][n - 1]), 2)}
+                  "financing_room_end_pct_gdp": None if not np.isfinite(o["room"][n - 1]) else round(float(o["room"][n - 1]), 2),
+                  "sovereign_spread_max": round(float(o["sov"][:n].max()), 2)}
     w = {r: regions[r].size for r in out}
     tot = sum(w.values())
     nn = len(out["US"]["y"]) if horizon_q is None else horizon_q
@@ -672,8 +749,9 @@ def regions_today() -> dict:
     """The regions at the start (index 0, 2026Q3), measured on the dated vintage in cache/start/ (vintage.py; its manifest
     names each source) where a public series exists: unemployment, the policy rate and core inflation (the model's pi
     is core: the 2007-10 fit targets core PCE) for the US, the euro area and Sweden, and US household equity over GDP (Fed
-    Z.1); household and private debt from BIS (FRED). Approximate and stated: sizes, Okun slopes and speeds, the other
-    regions' equity wealth and build-out, bank capital and loans, trade, China's start."""
+    Z.1); household and private debt from BIS (FRED; the BIS itself for France and the rest of the euro area); France
+    and the rest of the union split from the euro area by difference (decision 70). Approximate and stated: sizes, Okun
+    slopes and speeds, the other regions' equity wealth and build-out, bank capital and loans, trade, China's start."""
     import vintage
     end = pd.Period(START, "Q").end_time                   # index 0 is measured on data to the end of its quarter
     at = lambda sid: vintage.read(sid).loc[:end]  # noqa: E731
@@ -685,28 +763,55 @@ def regions_today() -> dict:
     z1, gdp = at("BOGZ1LM153064475Q"), at("GDP")
     q = min(z1.index[-1], gdp.index[-1])
     us_equity = float(z1[q] / 1000 / gdp[q])                    # Z.1 levels in millions, GDP in billions (annual rate)
+    # France and the rest of the euro area (decision 70): Eurostat's unemployment, the rest of the union by difference
+    # (August, the last month both have); France's core HICP, the rest's by France's weight in the euro area's HICP
+    # (approximate: the headline basket's weight, applied to the euro area-19 core); the BIS's credit, the rest by GDP
+    # weights; the two sizes the euro area's quarter of the four economies split by GDP (2025)
+    fu, eu, fn, en = (at(x) for x in ("FR_UNEMPLOYMENT", "EA21_UNEMPLOYMENT", "FR_UNEMPLOYED", "EA21_UNEMPLOYED"))
+    mq = min(x.index[-1] for x in (fu, eu, fn, en))
+    rest_u = float((en[mq] - fn[mq]) / (en[mq] / eu[mq] - fn[mq] / fu[mq]))
+    gfr, gea = at("FR_GDP_MEUR"), at("EA21_GDP_MEUR")
+    y_ = min(gfr.index[-1], gea.index[-1])
+    share_fr = float(gfr[y_] / gea[y_])
+    w_fr = v("FR_HICP_WEIGHT") / 1000
+    fr_pi = vintage.yoy(at("FR_HICP_CORE"))
+    rest_pi = (vintage.yoy(at("00XEFDEZ19M086NEST")) - w_fr * fr_pi) / (1 - w_fr)
+    rest = lambda xm, fr: (v(xm) - share_fr * v(fr)) / (1 - share_fr)  # noqa: E731
+    sov = (at("FRGVB10Y") - at("DEGVB10Y")).dropna()                      # France's ten-year over Germany's, daily
+    fr_banks = 100 * v("FR_MFI_GOV_SECURITIES") / float(gfr[y_])
     us = Region("US", 0.44, v("UNRATE"), v("DFF"), vintage.yoy(at("PCEPILFE")), 0.0, 0.6, 0.9, 0.35, last("QUSHAM770A"),
-                last("QUSPAM770A"), 0.10, us_equity, 1.5, 8.0, 45.0, 0.11, {"EA": 0.18, "CN": 0.07, "SE": 0.005, "RoW": 0.745}, 2.5,
-                3.0, 0.05, 1.0)
-    ea = Region("EA", 0.25, v("EA_UNEMPLOYMENT"), v("ECBDFR"), vintage.yoy(at("00XEFDEZ19M086NEST")), -0.5, 0.4, 0.35,
-                0.60, last("QXMHAM770A"), last("QXMPAM770A"), 0.35, 0.6, 0.3, 10.0, 90.0, 0.20,
-                {"US": 0.20, "CN": 0.08, "SE": 0.04, "RoW": 0.68}, 1.5, 3.0, 0.03, 0.5)
+                last("QUSPAM770A"), 0.10, us_equity, 1.5, 8.0, 45.0, 0.11,
+                {"EA": 0.155, "FR": 0.025, "CN": 0.07, "SE": 0.005, "RoW": 0.745}, 2.5, 3.0, 0.05, 1.0)
+    # the rest of the union: its exports now include those to France (about 4% of its GDP: approximate)
+    ea = Region("EA", round(0.25 * (1 - share_fr), 4), rest_u, v("ECBDFR"), rest_pi, -0.5, 0.4, 0.35,
+                0.60, rest("XM_BIS_HH", "FR_BIS_HH"), rest("XM_BIS_PNF", "FR_BIS_PNF"), 0.40, 0.6, 0.3, 10.0, 90.0, 0.246,
+                {"US": 0.168, "FR": 0.16, "CN": 0.067, "SE": 0.034, "RoW": 0.571}, 1.5, 3.0, 0.03, 0.5, union="EA")
+    # France (approximate and stated: mortgages almost all fixed, so a small floating share; the big banks' CET1 about
+    # EUR 0.4tn, loans to households and firms about GDP; exports a third of GDP, about half of them to the rest of the
+    # union; a smaller discretionary response under the EU's excessive deficit procedure; half of its sovereign's spread
+    # rise passed on to private borrowers; the banks' holdings about seven years' duration, 40% of them at market value)
+    fr = Region("FR", round(0.25 * share_fr, 4), float(fu[mq]), v("ECBDFR"), fr_pi, -0.5, 0.4, 0.35, 0.65, v("FR_BIS_HH"),
+                v("FR_BIS_PNF"), 0.05, 0.6, 0.3, 13.0, 100.0, 0.32, {"US": 0.08, "EA": 0.47, "SE": 0.01, "CN": 0.04, "RoW": 0.40},
+                1.0, 3.0, 0.03, 0.5, union="EA", sov0=float(sov.iloc[-1]),
+                sov_calm=float(sov.loc["2025-07-01":"2026-06-30"].mean()), sov_debt=v("FR_GOV_DEBT"), sov_banks=fr_banks,
+                sov_pass=0.5, sov_mtm=7 * 0.4)
     sw = Region("SE", 0.01, v("SEUNRATE"), v("SECBREPOEFF"), vintage.yoy(at("00XEFDSEM086NEST")), -0.5, 0.4, 0.4, 0.65,
                 last("QSEHAM770A"), last("QSEPAM770A"), se["floating_share"], 1.4, 0.4, 15.0, 130.0, 0.50,
-                {"US": 0.09, "EA": 0.40, "CN": 0.04, "RoW": 0.47}, 2.0, 3.0, 0.03, 0.6)
+                {"US": 0.09, "EA": 0.355, "FR": 0.045, "CN": 0.04, "RoW": 0.47}, 2.0, 3.0, 0.03, 0.6)
     cn = Region("CN", 0.30, 5.2, 1.4, yoy(cn_cpi, 12), 0.0, 0.25, 0.3, 0.15, last("QCNHAM770A"), last("QCNPAM770A"),
-                0.8, 0.3, 1.0, 20.0, 180.0, 0.19, {"US": 0.15, "EA": 0.15, "SE": 0.005, "RoW": 0.695}, 3.0, 1.5, 0.04, 0.8)
+                0.8, 0.3, 1.0, 20.0, 180.0, 0.19, {"US": 0.15, "EA": 0.13, "FR": 0.02, "SE": 0.005, "RoW": 0.695}, 3.0, 1.5, 0.04, 0.8)
     # the two-wave split: occupations and pay measured (exposure.py); where support stops rising, approximate — the US
     # (half of pay up to state maxima, near 0.9 of average pay), the euro area (Germany's ceiling near 1.8, France's
     # far higher, Italy's and Spain's below average: about 1.5 weighted), Sweden (the unemployment fund's cap sits near
     # 0.85 of average pay, but most white-collar workers carry union income insurance above it for the first months:
-    # 1.5), China (support too thin for a cap to matter)
+    # 1.5), China (support too thin for a cap to matter). Since France is its own region (decision 70): France 3.0 (its
+    # cap sits far above average pay), the rest of the union 1.3
     fin = json.load(open(os.path.join(ROOT, "results", "financing.json"), encoding="utf-8"))
     tax = {r: v["labour_taxes_pct_gdp"] for r, v in fin["labour_taxes"]["regions"].items()}
     sl = fin["borrowing"]["slopes"]
     own = sl["own central bank 2010-24"]["long_rate"]["bp_per_10_points_net_debt"]       # China: taken as own central bank
-    slope = {"US": (own, own), "SE": (own, own), "CN": (own, own),
-             "EA": (sl["euro area 2010-24"]["long_rate"]["bp_per_10_points_net_debt"], sl["euro area crisis 2010-13"]["long_rate"]["bp_per_10_points_net_debt"])}
+    euro = (sl["euro area 2010-24"]["long_rate"]["bp_per_10_points_net_debt"], sl["euro area crisis 2010-13"]["long_rate"]["bp_per_10_points_net_debt"])
+    slope = {"US": (own, own), "SE": (own, own), "CN": (own, own), "EA": euro, "FR": euro}
     # the US build-out and where its displaced go, measured (decoupling.py); the other regions' approximate, as stated
     dec = json.load(open(os.path.join(ROOT, "results", "decoupling.json"), encoding="utf-8"))
     us_capex = max(dec["ai_build_out"]["net_above_2015_22_trend_pts"], 0.0)
@@ -714,11 +819,11 @@ def regions_today() -> dict:
     us = replace(us, ai_capex=us_capex, exit_share=us_exit)
     exj = json.load(open(os.path.join(ROOT, "results", "exposure.json"), encoding="utf-8"))
     ex, cr = exj["regions"], exj["care"]["regions"]
-    caps = {"US": 0.9, "EA": 1.5, "SE": 1.5, "CN": 1.0}
+    caps = {"US": 0.9, "EA": 1.3, "FR": 3.0, "SE": 1.5, "CN": 1.0}
     regs = {r: replace(g, groups=ex[r]["share"], premium=ex[r]["premium"], benefit_cap=caps[r], care_share=cr[r]["care_share_pct"],
                        care_trend=cr[r]["care_trend_pts_a_year"], gate=cr[r]["gate"], labour_tax=tax[r],
                        debt_slope=slope[r][0], debt_slope_crisis=slope[r][1])
-            for r, g in (("US", us), ("EA", ea), ("SE", sw), ("CN", cn))}
+            for r, g in (("US", us), ("EA", ea), ("FR", fr), ("SE", sw), ("CN", cn))}
     return {**regs, "_notes": {"SE_okun_measured_on_growth_changes": sw_cyc["okun"], "SE_start": se}}
 
 
@@ -891,9 +996,9 @@ def fit(tg: dict):
 # share of the above-trend build-out lost as first built (since 2026-10-26 the measured share, 76% at most); losses on
 # AI-related lending, % of loans in all (assumed, not measured: the 2000-02 C&I charge-off excess came to 3.8% of C&I
 # loans, and the model's own loss rule already produces most of a recession's bank losses: run_2000 makes 2.05% of loans)
-BUST_EQUITY = {"US": 0.40, "EA": 0.25, "SE": 0.30, "CN": 0.25}
+BUST_EQUITY = {"US": 0.40, "EA": 0.25, "FR": 0.25, "SE": 0.30, "CN": 0.25}
 BUST_CAPEX = 0.6
-BUST_LOSSES = {"US": 1.5, "EA": 0.5, "SE": 0.5, "CN": 1.0}
+BUST_LOSSES = {"US": 1.5, "EA": 0.5, "FR": 0.5, "SE": 0.5, "CN": 1.0}
 Q0_2000 = pd.Period("2000Q1", "Q")                                # the quarter of the 2000 equity peak (10 Mar 2000)
 WINDOW_2000 = 24                                                  # 2000Q1-2005Q4: household equity back to its peak
 
@@ -1082,7 +1187,7 @@ def figures(val, runs, regions):
     ax[1].set_title("US 2008-10 with today's rules: model (lines) and data (dots), quarterly"); ax[1].legend(fontsize=8)
     fig.text(0.01, 0.005, "FRED (GDPCA, CPIAUCNS, GDPC1, GDPPOT, UNRATE, PCEPILFE); 1930-33 unemployment: Lebergott. One parameter set for both episodes.", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_validation.png"), dpi=130)
-    fig, ax = plt.subplots(2, 4, figsize=(20, 8.6), layout="constrained")
+    fig, ax = plt.subplots(2, len(R), figsize=(5 * len(R), 8.6), layout="constrained")
     fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
     cases = [("modern rules", "bust only", "-"), ("modern rules", "bust + displacement", "--"),
              ("rules expand under pressure", "bust + displacement", ":"), ("rules erode under pressure", "bust + displacement", "-.")]
@@ -1097,10 +1202,10 @@ def figures(val, runs, regions):
     ax[0, 0].legend(fontsize=7)
     for a in ax.flat:
         a.set_xlabel("years from the bust")
-    fig.text(0.01, 0.005, "global_crash.py: a dot-com-shaped bust of the AI build-out in four regions linked by trade and a shared risk mood; amplifiers fitted on 1929-33 and 2007-09.", fontsize=7.5)
+    fig.text(0.01, 0.005, "global_crash.py: a dot-com-shaped bust of the AI build-out in five regions (the euro area as France and the rest) linked by trade and a shared risk mood; amplifiers fitted on 1929-33 and 2007-09.", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash.png"), dpi=120)
     # the two waves: today's rules, displacement and recessions triggering adoption (the labour-depression row)
-    fig, ax = plt.subplots(2, 4, figsize=(20, 8.6), layout="constrained")
+    fig, ax = plt.subplots(2, len(R), figsize=(5 * len(R), 8.6), layout="constrained")
     fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
     rn, an = "modern rules", "bust + displacement, recessions trigger adoption x3"
     cases = [("", "every job exposed from the start", "k", "-")] + [(f"two waves, robotics in {L} years", f"two waves, robotics in {L} years", c, s)
@@ -1120,7 +1225,7 @@ def figures(val, runs, regions):
              "(ISCO 1-4) exposed now, physical work (6-9) once robotics arrives; in-person services (5) in neither. Occupations and pay: ILOSTAT (exposure.py).", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_waves.png"), dpi=120)
     # care as the absorber: the same row, robotics two years out
-    fig, ax = plt.subplots(2, 4, figsize=(20, 8.6), layout="constrained")
+    fig, ax = plt.subplots(2, len(R), figsize=(5 * len(R), 8.6), layout="constrained")
     fig.get_layout_engine().set(rect=(0, 0.03, 1, 0.97))
     an = "bust + displacement, recessions trigger adoption x3"
     w2 = "two waves, robotics in 2 years"
@@ -1144,7 +1249,7 @@ def figures(val, runs, regions):
              "within its pace, the gate (men enter care at a quarter of women's rate) and the ceiling (Norway's 20.1% of employment). ILOSTAT (exposure.py).", fontsize=7.5)
     fig.savefig(os.path.join(ROOT, "figures", "fig_global_crash_care.png"), dpi=120)
     # the financing limit: the same row, a build-out of up to three points a year, no ceiling, three sources
-    fig, ax = plt.subplots(3, 4, figsize=(20, 11.5), layout="constrained")
+    fig, ax = plt.subplots(3, len(R), figsize=(5 * len(R), 11.5), layout="constrained")
     fig.get_layout_engine().set(rect=(0, 0.025, 1, 0.975))
     wl = "two waves, robotics in 2 years, care absorbs, financing limit, three points a year"
     cases = [("modern rules", "two waves, robotics in 2 years, care absorbs", "no build-out (care at its trend)", "k", "-"),

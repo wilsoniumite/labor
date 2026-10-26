@@ -1,4 +1,5 @@
-# check_global_crash.py — the four-region crash model (code/global_crash.py): the mechanics are what they say, the
+# check_global_crash.py — the crash model (code/global_crash.py: four economies, the euro area as France and the rest of
+# the union since 2026-10-27): the mechanics are what they say, the
 # history is reproduced (and where it is not, the bias is stated), and the findings, stated as found.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_global_crash.py
@@ -112,18 +113,22 @@ check("S2 and in the run: leaving out the housebuilding collapse or the fall in 
 
 print("M — the mechanics")
 n = 16
-calm = {r: replace(g, eta=0.0, drift=0.0, pi0=2.0, i0=cm.r_star + 2.0) for r, g in regs.items()}
+calm = {r: replace(g, eta=0.0, drift=0.0, pi0=2.0, i0=cm.r_star + 2.0, sov0=g.sov_calm) for r, g in regs.items()}
 o = gc.simulate(calm, {r: gc.MODERN for r in gc.R}, gc.Shock(), cm, n)
 check("M1 no shock, no drift, policy at neutral and inflation on target: every region stays at capacity",
       all(np.abs(o[r]["y"]).max() < 1e-9 and np.ptp(o[r]["u"]) < 1e-9 for r in gc.R))
 us_only = gc.Shock(demand={"US": gc.ramp(-5.0, 1, 2, n)})
 o = gc.simulate(calm, {r: gc.MODERN for r in gc.R}, us_only, cm, n)
-check("M2 trade carries a US slump abroad: every other region's gap falls, Sweden's (exports half of GDP) the most of the three",
-      all(o[r]["y"].min() < -0.05 for r in ("EA", "SE", "CN")) and o["SE"]["y"].min() < min(o["EA"]["y"].min(), o["CN"]["y"].min()),
+check("M2 trade carries a US slump abroad: every other region's gap falls, Sweden's (exports half of GDP) the most",
+      all(o[r]["y"].min() < -0.05 for r in ("EA", "FR", "SE", "CN"))
+      and o["SE"]["y"].min() < min(o["EA"]["y"].min(), o["FR"]["y"].min(), o["CN"]["y"].min()),
       {r: round(float(o[r]["y"].min()), 2) for r in gc.R})
 o = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24)
-check("M3 under the backstop, spreads stay under each region's cap and capital above the recapitalisation floor",
-      all(o[r]["s"].max() <= regs[r].spread_cap + 1e-9 and o[r]["k"].min() >= gc.MODERN.capital_floor * regs[r].bank_capital - 1e-9 for r in gc.R))
+outside = {r: (regs[r].sov_pass * (o[r]["sov"] - regs[r].sov_calm) if regs[r].sov_debt > 0 else o[r]["premium"]) for r in gc.R}
+check("M3 under the backstop, the banks' part of spreads stays under each region's cap (the price of debt and France's "
+      "sovereign spread are added outside it), and capital above the recapitalisation floor",
+      all((o[r]["s"] - outside[r]).max() <= regs[r].spread_cap + 1e-9
+          and o[r]["k"].min() >= gc.MODERN.capital_floor * regs[r].bank_capital - 1e-9 for r in gc.R))
 flat = {r: replace(g, groups=g.groups, premium={q: 1.0 for q in gc.GROUPS}, benefit_cap=99.0) for r, g in regs.items()}
 now = gc.Waves(split=True, robot_lag=0.0, robot_ramp=0.0)
 worst = {r: replace(g, eta=3 * g.eta) for r, g in flat.items()}
@@ -189,7 +194,7 @@ check("X1 the inputs are the measured ones: the US build-out net of computer imp
       "displaced in the labour force (not measured)",
       abs(regs["US"].ai_capex - max(dec["ai_build_out"]["net_above_2015_22_trend_pts"], 0.0)) < 1e-9
       and abs(regs["US"].exit_share - dec["where_the_displaced_go"]["prime_age_25_54"]["since_the_employment_peak"]["exit_share"]) < 1e-9
-      and all(regs[r].exit_share == 0 for r in ("EA", "SE", "CN")),
+      and all(regs[r].exit_share == 0 for r in ("EA", "FR", "SE", "CN")),
       f"US build-out {regs['US'].ai_capex}% of GDP (measured {dec['ai_build_out']['net_above_2015_22_trend_pts']}; assumed 1.5 before), "
       f"exit share {regs['US'].exit_share}")
 old_us = {r: (replace(g, ai_capex=1.5, drift=0.0) if r == "US" else replace(g, drift=0.0)) for r, g in regs.items()}
@@ -359,10 +364,12 @@ check("K3 taxes on labour lose room as displacement shrinks the wage base: the U
       f"US room {tx['US']['financing_room_start_pct_gdp']} -> {tx['US']['financing_room_end_pct_gdp']}; Sweden {tx['SE']['financing_room_start_pct_gdp']} -> "
       f"{tx['SE']['financing_room_end_pct_gdp']}; Swedish care {tx['SE']['care_share_end']}% against {lv['SE']['care_share_end']}% with the levy")
 check("K4 a levy on AI income gains room as displacement grows, and in the US, the euro area and Sweden it never binds: the same "
-      "jobs as borrowing, with no debt",
+      "jobs as borrowing, with no debt for the build-out (France's debt carries its banks' recapitalisation as well, "
+      "decision 70: the levy adds none to it)",
       all(lv[r]["financing_room_end_pct_gdp"] > lv[r]["financing_room_start_pct_gdp"] for r in ("US", "EA", "SE"))
       and all(abs(NW(lv, r) - NW(bo, r)) < 0.05 for r in ("US", "EA", "SE"))
-      and all(lv[r]["debt_added_end_pct_gdp"] == 0 for r in gc.R),
+      and all(lv[r]["debt_added_end_pct_gdp"] == 0 for r in gc.R if regs[r].sov_debt == 0)
+      and lv["FR"]["debt_added_end_pct_gdp"] <= bo["FR"]["debt_added_end_pct_gdp"],
       {r: (lv[r]["financing_room_start_pct_gdp"], lv[r]["financing_room_end_pct_gdp"], NW(lv, r), NW(bo, r)) for r in ("US", "EA", "SE")})
 check("K5 taxing workers to pay for it costs jobs: financed by labour taxes, US year-6 non-employment is at least a point above "
       "the levy's, and Sweden's at least 0.2. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 1.5 and 0.3 (15.33 against 13.65; 4.71 "
@@ -378,6 +385,87 @@ check("K7 with a point a year the pace binds before any financing limit (borrowi
       "point above the levy's and borrowing's. Restated 2026-10-26 after the bust moved to the 2000-02 bust's measured path and the start to the dated vintage (Log 42): before it at least 1.5 (15.33 against 13.65)",
       abs(NW(slow) - NW(build_)) < 0.5 and NW(tx) - max(NW(lv), NW(bo)) >= 1.0,
       f"a point a year +{NW(slow)} (capped +{NW(build_)}); three: levy +{NW(lv)}, borrowing +{NW(bo)}, labour taxes +{NW(tx)}")
+
+print("E — the euro area in two: France and the rest of the union (decision 70)")
+import vintage  # noqa: E402
+import pandas as pd  # noqa: E402
+end = pd.Period(gc.START, "Q").end_time
+at = lambda sid: vintage.read(sid).loc[:end]  # noqa: E731
+fu, eu, fn, en = (at(x) for x in ("FR_UNEMPLOYMENT", "EA21_UNEMPLOYMENT", "FR_UNEMPLOYED", "EA21_UNEMPLOYED"))
+lf_fr, lf_ea = fn.iloc[-1] / fu.iloc[-1], en.iloc[-1] / eu.iloc[-1]
+merged_u = (regs["EA"].u0 * (lf_ea - lf_fr) + regs["FR"].u0 * lf_fr) / lf_ea
+w_fr = float(at("FR_HICP_WEIGHT").iloc[-1]) / 1000
+merged_pi = (1 - w_fr) * regs["EA"].pi0 + w_fr * regs["FR"].pi0
+spr = (at("FRGVB10Y") - at("DEGVB10Y")).dropna()
+check("E1 the start measured: the two halves' unemployment recombine, on Eurostat's labour forces, into the euro area's; "
+      "their core inflation, at France's HICP weight, into the euro area's; their sizes into the euro area's quarter, split "
+      "by GDP; France's spread over Germany at 30 Sep against its mean from July 2025 to June 2026; its debt (Eurostat) "
+      "and its banks' holdings of euro-area government debt (the ECB) over GDP",
+      abs(merged_u - float(eu.iloc[-1])) < 1e-9 and abs(merged_pi - vintage.yoy(at("00XEFDEZ19M086NEST"))) < 1e-9
+      and abs(regs["EA"].size + regs["FR"].size - 0.25) < 1e-3 and regs["EA"].union == regs["FR"].union == "EA"
+      and abs(regs["FR"].sov0 - float(spr.iloc[-1])) < 1e-12 and f"{spr.index[-1]:%Y-%m-%d}" == "2026-09-30"
+      and regs["FR"].sov0 > regs["FR"].sov_calm and regs["FR"].sov_debt > 100 and 10 < regs["FR"].sov_banks < 20,
+      f"u: France {regs['FR'].u0}, the rest {regs['EA'].u0:.2f} -> {merged_u:.2f} (the euro area {float(eu.iloc[-1])}); "
+      f"core: France {regs['FR'].pi0:.2f}, the rest {regs['EA'].pi0:.2f}; sizes {regs['FR'].size} + {regs['EA'].size}; "
+      f"France's spread {regs['FR'].sov0:.2f} (calm {regs['FR'].sov_calm:.2f}), debt {regs['FR'].sov_debt}% of GDP, "
+      f"its banks' holdings {regs['FR'].sov_banks:.1f}%")
+# two identical halves in a union, trading with the world as the whole did, reproduce the one region exactly
+whole = {r: g for r, g in regs.items() if r != "FR"}
+whole["EA"] = replace(whole["EA"], size=0.25, union="", trade={q: v for q, v in regs["EA"].trade.items() if q != "FR"})
+whole = {r: (replace(g, trade={**{q: v for q, v in g.trade.items() if q != "FR"}, "EA": g.trade.get("EA", 0) + g.trade.get("FR", 0)})
+             if r != "EA" else g) for r, g in whole.items()}
+tw = sum(whole["EA"].trade.values())
+whole["EA"] = replace(whole["EA"], trade={q: v / tw for q, v in whole["EA"].trade.items()})
+mutual = 0.3                                       # each half sends 30% of its exports to the other, tariff-free
+half_trade = lambda other: {**{q: v * (1 - mutual) for q, v in whole["EA"].trade.items()}, other: mutual}  # noqa: E731
+halves = {**{r: replace(g, trade={**{q: v for q, v in g.trade.items() if q != "EA"}, "EA": g.trade["EA"] / 2, "FR": g.trade["EA"] / 2})
+             for r, g in whole.items() if r != "EA"},
+          "EA": replace(whole["EA"], size=0.125, union="EA", exports=whole["EA"].exports / (1 - mutual), trade=half_trade("FR")),
+          "FR": replace(whole["EA"], name="FR", size=0.125, union="EA", exports=whole["EA"].exports / (1 - mutual), trade=half_trade("EA"))}
+wr = {r: gc.MODERN for r in whole}
+a_ = gc.simulate(whole, wr, gc.ai_shock(24), cm, 24)
+b_ = gc.simulate(halves, {r: gc.MODERN for r in halves}, gc.ai_shock(24), cm, 24)
+d = max(float(np.abs(a_[r][k] - b_[q][k]).max()) for r, q in (("US", "US"), ("SE", "SE"), ("CN", "CN"), ("EA", "EA"), ("EA", "FR"))
+        for k in ("y", "u", "i", "k", "s"))
+apart = gc.simulate(halves, {r: gc.MODERN for r in halves}, gc.Shock(demand={"FR": gc.ramp(-3.0, 1, 2, 24)}), cm, 24)
+check("E2 the split nests the one euro area: two identical halves in a union, each half the size and trading with each "
+      "other tariff-free, reproduce the single region and every other region's path exactly (a union partner's slump "
+      "reaches a member only as far as it differs from its own); a shock to one half alone spills over to the other",
+      d < 1e-9 and apart["EA"]["y"].min() < -0.01, f"largest difference {d:.1e}; a French-only shock moves the rest "
+      f"{apart['EA']['y'].min():.2f} (France {apart['FR']['y'].min():.2f})")
+o = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24)
+oe = gc.simulate(regs, {r: gc.ERODED for r in gc.R}, gc.ai_shock(24), cm, 24)
+check("E3 one policy rate: in the union the rest of the euro area and France have the same rate every quarter, under "
+      "today's rules and eroding ones",
+      np.allclose(o["EA"]["i"], o["FR"]["i"], atol=0) and np.allclose(oe["EA"]["i"], oe["FR"]["i"], atol=0))
+# the doom loop: extra French bank losses, with and without the two links (the recapitalisation's debt, the holdings)
+hit = gc.ai_shock(24)
+hit.losses["FR"] = hit.losses["FR"] + gc.pulse(4.0, 2, 4, 24)
+loop = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, hit, cm, 24)
+cut = gc.simulate({**regs, "FR": replace(regs["FR"], sov_banks=0.0, debt_slope=0.0, debt_slope_crisis=0.0)},
+                  {r: gc.MODERN for r in gc.R}, hit, cm, 24)
+rise_loop = float(loop["FR"]["sov"].max() - regs["FR"].sov0)
+check("E4 the doom loop, at the measured price of debt: with French banks losing 4% of their loans more, the state's "
+      "recapitalisation raises France's spread and French output falls further than without the loop; stated as found "
+      "(the loop is weak at these sizes: what moves France's spread is a premium, not its banks)",
+      rise_loop > 0 and loop["FR"]["y"].min() < cut["FR"]["y"].min() and rise_loop < 0.5,
+      f"France's spread +{rise_loop:.3f} at most; French output {loop['FR']['y'].min():.2f} against {cut['FR']['y'].min():.2f} "
+      f"without the loop; capital lost {loop['FR']['stress'].max():.2f}")
+prem = gc.ai_shock(24)
+prem.spread = {"FR": np.minimum(np.arange(24) / 4, 1.0) * 2.0}
+free = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, prem, cm, 24)
+capped = gc.simulate(regs, {r: (replace(gc.MODERN, tpi=0.5) if r == "FR" else gc.MODERN) for r in gc.R}, prem, cm, 24)
+nw = lambda o_, r: float((o_[r]["u"] + o_[r]["out"]).max())  # noqa: E731
+check("E5 the ECB's backstop for France (TPI): capped half a point above its start, France's spread never passes the cap, "
+      "and with a two-point premium France's output falls less and fewer are out of work than uncapped",
+      capped["FR"]["sov"].max() <= regs["FR"].sov0 + 0.5 + 1e-12 and free["FR"]["sov"].max() > regs["FR"].sov0 + 1.9
+      and capped["FR"]["y"].min() > free["FR"]["y"].min() and nw(capped, "FR") < nw(free, "FR"),
+      f"spread {free['FR']['sov'].max():.2f} uncapped, {capped['FR']['sov'].max():.2f} capped; French output "
+      f"{free['FR']['y'].min():.2f} -> {capped['FR']['y'].min():.2f}; out of work {nw(free, 'FR'):.2f} -> {nw(capped, 'FR'):.2f}")
+check("E6 France's spread already present at the start reaches its borrowers: the private spread at index 0 is half of "
+      "its excess over the calm level, and nowhere else in the union",
+      abs(o["FR"]["s"][0] - regs["FR"].sov_pass * (regs["FR"].sov0 - regs["FR"].sov_calm)) < 1e-12 and o["EA"]["s"][0] == 0,
+      f"France {o['FR']['s'][0]:.3f}, the rest {o['EA']['s'][0]}")
 
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")

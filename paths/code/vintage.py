@@ -8,7 +8,11 @@
 # after BEA's annual update of 25 Sep); the publisher's own file where FRED republishes it. Non-FRED: euro-area
 # unemployment (ECB LFSI, 15-74, seasonally adjusted), Swedish unemployment (Statistics Sweden's labour force survey,
 # seasonally adjusted, as the watcher copies it: SEUNRATE) and the Riksbank's policy rate (its SWEA series SECBREPOEFF,
-# as the watcher copies it). The manifest names the source of every file.
+# as the watcher copies it). Since 2026-10-27, France and the rest of the euro area (decision 70): Eurostat (monthly
+# unemployment, France's HICP and its weight in the euro area's, GDP, France's government debt), the BIS (credit to
+# households and to the private non-financial sector), the ECB (French banks' holdings of euro-area government debt), and
+# France's and Germany's ten-year yields from the Riksbank's SWEA via the watcher. The manifest names the source of every
+# file.
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/vintage.py [--refresh]
 # Out: cache/start/*.csv, cache/start/MANIFEST.json
@@ -164,6 +168,78 @@ def _eurostat(coicop: str, geo: str) -> pd.Series | None:
         return None
 
 
+# France as a region of its own (decision 70, Log 45): its start and the rest of the euro area's, from the publishers.
+# Eurostat: monthly unemployment (une_rt_m: the rate and the number unemployed, France and the euro area, so that the rest
+# of the union is derived), France's HICP (prc_hicp_minr), GDP (nama_10_gdp), France's weight in the euro area's HICP
+# (prc_hicp_cow) and its government debt (gov_10q_ggdebt); the BIS: credit to households and to the private
+# non-financial sector, France and the euro area (WS_TC); the ECB: French banks' holdings of euro-area government debt
+# securities (BSI). id: (what, dataset, parameters)
+ES_API = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
+_UNE = {"s_adj": "SA", "age": "TOTAL", "sex": "T"}
+FRANCE = {
+    "FR_UNEMPLOYMENT": ("France u0, % of the labour force (SA, 15-74)", "une_rt_m", {"geo": "FR", **_UNE, "unit": "PC_ACT"}),
+    "EA21_UNEMPLOYMENT": ("the euro area's unemployment, for the rest of the union's u0", "une_rt_m",
+                          {"geo": "EA21", **_UNE, "unit": "PC_ACT"}),
+    "FR_UNEMPLOYED": ("France's unemployed, thousands (SA), to weight the rest of the union", "une_rt_m",
+                      {"geo": "FR", **_UNE, "unit": "THS_PER"}),
+    "EA21_UNEMPLOYED": ("the euro area's unemployed, thousands (SA), likewise", "une_rt_m", {"geo": "EA21", **_UNE, "unit": "THS_PER"}),
+    "FR_HICP_CORE": ("France pi0, HICP excluding energy, food, alcohol and tobacco (2025 = 100)", "prc_hicp_minr",
+                     {"geo": "FR", "coicop18": "TOT_X_NRG_FOOD", "unit": "I25"}),
+    "FR_HICP": ("France's headline HICP (2025 = 100)", "prc_hicp_minr", {"geo": "FR", "coicop18": "TOTAL", "unit": "I25"}),
+    "FR_HICP_WEIGHT": ("France's weight in the euro area's HICP, per mille, for the rest of the union's pi0", "prc_hicp_cow",
+                       {"geo": "FR", "statinfo": "COWEA"}),
+    "FR_GDP_MEUR": ("France's GDP, current prices, EUR millions, for the regions' sizes", "nama_10_gdp",
+                    {"geo": "FR", "na_item": "B1GQ", "unit": "CP_MEUR"}),
+    "EA21_GDP_MEUR": ("the euro area's GDP, likewise", "nama_10_gdp", {"geo": "EA21", "na_item": "B1GQ", "unit": "CP_MEUR"}),
+    "FR_GOV_DEBT": ("France's general government gross debt, % of GDP", "gov_10q_ggdebt",
+                    {"geo": "FR", "na_item": "GD", "sector": "S13", "unit": "PC_GDP"}),
+}
+BIS_TC = {"FR_BIS_HH": ("Q.FR.H.A.M.770.A", "credit to French households, % of GDP (the BIS, WS_TC)"),
+          "FR_BIS_PNF": ("Q.FR.P.A.M.770.A", "credit to France's private non-financial sector, % of GDP (the BIS, WS_TC)"),
+          "XM_BIS_HH": ("Q.XM.H.A.M.770.A", "credit to the euro area's households, % of GDP (the BIS, WS_TC)"),
+          "XM_BIS_PNF": ("Q.XM.P.A.M.770.A", "credit to the euro area's private non-financial sector, % of GDP (the BIS, WS_TC)")}
+ECB_BSI = {"FR_MFI_GOV_SECURITIES": ("M.FR.N.A.A30.A.1.U2.2100.Z01.E", "French banks' (MFIs excluding the central bank) "
+                                     "holdings of euro-area government debt securities, EUR millions (the ECB's BSI)")}
+
+
+def _period(t: str) -> pd.Timestamp:
+    """Eurostat's and the BIS's period labels ('2026-08', '2026-Q2', '2025') as the period's first day."""
+    if "Q" in t:
+        return pd.Period(t.replace("-", ""), "Q").start_time
+    return pd.Timestamp(t + "-01-01") if len(t) == 4 else pd.Timestamp(t + "-01")
+
+
+def _eurostat_series(ds: str, params: dict, since: str = "2019") -> pd.Series:
+    import requests
+    import truststore
+    truststore.inject_into_ssl()
+    r = requests.get(ES_API + ds, params={**params, "sinceTimePeriod": since}, headers=UA, timeout=60)
+    r.raise_for_status()
+    js = r.json()
+    ids, size = js["id"], js["size"]
+    cats = {d: {v: k for k, v in js["dimension"][d]["category"]["index"].items()} for d in ids}
+    strides = [int(np.prod(size[i + 1:])) for i in range(len(ids))]
+    out = {}
+    for k, v in js["value"].items():
+        key = {d: cats[d][(int(k) // strides[i]) % size[i]] for i, d in enumerate(ids)}
+        out[_period(key["time"])] = float(v)
+    if not out:
+        raise SystemExit(f"Eurostat {ds} {params}: no observations")
+    return pd.Series(out).sort_index()
+
+
+def _sdmx_csv(url: str) -> pd.Series:
+    """A BIS or ECB series in SDMX CSV (TIME_PERIOD, OBS_VALUE)."""
+    import requests
+    import truststore
+    truststore.inject_into_ssl()
+    r = requests.get(url, headers=UA, timeout=60)
+    r.raise_for_status()
+    d = pd.read_csv(io.StringIO(r.text))
+    return pd.Series(pd.to_numeric(d["OBS_VALUE"], errors="coerce").values,
+                     index=[_period(str(t)) for t in d["TIME_PERIOD"]]).dropna().sort_index()
+
+
 def refresh(live: bool = True) -> dict:
     """Build the vintage from the best source reachable for each series, in a folder beside cache/start/, and put it in
     place only once every series and the manifest are written (a failed refresh leaves the frozen vintage as it was).
@@ -222,6 +298,16 @@ def refresh(live: bool = True) -> dict:
             if s is None:
                 raise SystemExit(f"{key}: no source reachable")
             put(key, s, src, what)
+        # France and the rest of the euro area (no fallback: a refresh that cannot reach them leaves the vintage as it was)
+        for key, (what, ds, params) in FRANCE.items():
+            put(key, _eurostat_series(ds, params), f"Eurostat, {ds} ({', '.join(f'{k}={v}' for k, v in params.items())})",
+                what, "2019-01-01")
+        for key, (flow, what) in BIS_TC.items():
+            put(key, _sdmx_csv(f"https://stats.bis.org/api/v2/data/dataflow/BIS/WS_TC/2.0/{flow}?format=csv&startPeriod=2019"),
+                f"the BIS, WS_TC {flow}", what, "2019-01-01")
+        for key, (flow, what) in ECB_BSI.items():
+            put(key, _sdmx_csv(f"https://data-api.ecb.europa.eu/service/data/BSI/{flow}?format=csvdata&startPeriod=2019-01"),
+                f"ECB Data Portal, BSI {flow}", what, "2019-01-01")
         json.dump(man, open(os.path.join(tmp, "MANIFEST.json"), "w", encoding="utf-8"), indent=1)
     except BaseException:
         shutil.rmtree(tmp, ignore_errors=True)

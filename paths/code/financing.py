@@ -181,7 +181,8 @@ def borrowing() -> dict:
             "peers_2010_24_mean": avg.to_dict(orient="index"), "_w": w}
 
 
-REGIONS = {"US": ("USA",), "EA": ("DEU", "FRA", "ITA", "ESP", "NLD"), "SE": ("SWE",), "CN": ("CHN",)}
+REGIONS = {"US": ("USA",), "EA": ("DEU", "ITA", "ESP", "NLD"), "FR": ("FRA",), "SE": ("SWE",), "CN": ("CHN",)}   # the euro
+# area outside France, and France (a region of its own since 2026-10-27: global_crash.py, decision 70)
 OECD = ("AUS", "AUT", "BEL", "CAN", "CHE", "CHL", "COL", "CRI", "CZE", "DEU", "DNK", "ESP", "EST", "FIN", "FRA", "GBR", "GRC", "HUN",
         "IRL", "ISL", "ISR", "ITA", "JPN", "KOR", "LTU", "LUX", "LVA", "MEX", "NLD", "NOR", "NZL", "POL", "PRT", "SVK", "SVN", "SWE", "TUR", "USA")
 

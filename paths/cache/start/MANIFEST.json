@@ -1,6 +1,6 @@
 {
- "vintage": "2026-10-26",
- "built_utc": "2026-10-26T22:50Z",
+ "vintage": "2026-10-27",
+ "built_utc": "2026-10-26T23:15Z",
  "watcher_state_commit": "3e23410 2026-10-26T19:54:54+00:00",
  "series": {
   "UNRATE": {
@@ -177,6 +177,111 @@
    "last": "2026-10-23",
    "value": 3.3468,
    "sha256": "c3e1b04eeb8a6630f7e8a3be0f40371098a347aa3a479d63af92d651e22797e6"
+  },
+  "FR_UNEMPLOYMENT": {
+   "for": "France u0, % of the labour force (SA, 15-74)",
+   "source": "Eurostat, une_rt_m (geo=FR, s_adj=SA, age=TOTAL, sex=T, unit=PC_ACT)",
+   "last": "2026-08-01",
+   "value": 8.2,
+   "sha256": "82dd15844f657feb75274f5ce2a7e41d270b6d018949e364a3e04b70b4e2e164"
+  },
+  "EA21_UNEMPLOYMENT": {
+   "for": "the euro area's unemployment, for the rest of the union's u0",
+   "source": "Eurostat, une_rt_m (geo=EA21, s_adj=SA, age=TOTAL, sex=T, unit=PC_ACT)",
+   "last": "2026-08-01",
+   "value": 6.4,
+   "sha256": "c57c00ccf8e4fa3cf08f36d82c3c2c174849b5dd12edb36b807c9b8bfc85fb66"
+  },
+  "FR_UNEMPLOYED": {
+   "for": "France's unemployed, thousands (SA), to weight the rest of the union",
+   "source": "Eurostat, une_rt_m (geo=FR, s_adj=SA, age=TOTAL, sex=T, unit=THS_PER)",
+   "last": "2026-08-01",
+   "value": 2637.0,
+   "sha256": "65a71097d4529a0848a857d13531c9cb1679724e6ddc25ed699990a7c14f4503"
+  },
+  "EA21_UNEMPLOYED": {
+   "for": "the euro area's unemployed, thousands (SA), likewise",
+   "source": "Eurostat, une_rt_m (geo=EA21, s_adj=SA, age=TOTAL, sex=T, unit=THS_PER)",
+   "last": "2026-08-01",
+   "value": 11357.0,
+   "sha256": "394106e1b19759b406d7bad7a8f09c423dbc3eaa66eeaa970cfafd90d09ed731"
+  },
+  "FR_HICP_CORE": {
+   "for": "France pi0, HICP excluding energy, food, alcohol and tobacco (2025 = 100)",
+   "source": "Eurostat, prc_hicp_minr (geo=FR, coicop18=TOT_X_NRG_FOOD, unit=I25)",
+   "last": "2026-09-01",
+   "value": 101.84,
+   "sha256": "6f99dca07523a5cbf0423cca8ab2057e526fa3ed8e876ee00c07e5d32e56764b"
+  },
+  "FR_HICP": {
+   "for": "France's headline HICP (2025 = 100)",
+   "source": "Eurostat, prc_hicp_minr (geo=FR, coicop18=TOTAL, unit=I25)",
+   "last": "2026-09-01",
+   "value": 103.45,
+   "sha256": "a2321c57eee7800a8e4e1be79870a3a4202a8ae6b653bd800bc17d2a4c09d1a2"
+  },
+  "FR_HICP_WEIGHT": {
+   "for": "France's weight in the euro area's HICP, per mille, for the rest of the union's pi0",
+   "source": "Eurostat, prc_hicp_cow (geo=FR, statinfo=COWEA)",
+   "last": "2025-01-01",
+   "value": 191.08,
+   "sha256": "3319f2bd2137676238367bab4fcd4abf038880488c9fa35c4bdde938bbf6d0b6"
+  },
+  "FR_GDP_MEUR": {
+   "for": "France's GDP, current prices, EUR millions, for the regions' sizes",
+   "source": "Eurostat, nama_10_gdp (geo=FR, na_item=B1GQ, unit=CP_MEUR)",
+   "last": "2025-01-01",
+   "value": 2991055.9,
+   "sha256": "d7b51cf3ca9e47ecb3ca1b0dbae185cab6e349e369804e214ff3f7cb0da44969"
+  },
+  "EA21_GDP_MEUR": {
+   "for": "the euro area's GDP, likewise",
+   "source": "Eurostat, nama_10_gdp (geo=EA21, na_item=B1GQ, unit=CP_MEUR)",
+   "last": "2025-01-01",
+   "value": 15993332.2,
+   "sha256": "3452f8d667d2b0f9c517f8b3329d5962477d349baeba1a47ff221a68508fed35"
+  },
+  "FR_GOV_DEBT": {
+   "for": "France's general government gross debt, % of GDP",
+   "source": "Eurostat, gov_10q_ggdebt (geo=FR, na_item=GD, sector=S13, unit=PC_GDP)",
+   "last": "2026-04-01",
+   "value": 119.1,
+   "sha256": "0489c318bd29be4b927f151ad71f2813eee715c70094b729a92208bdca0e28c8"
+  },
+  "FR_BIS_HH": {
+   "for": "credit to French households, % of GDP (the BIS, WS_TC)",
+   "source": "the BIS, WS_TC Q.FR.H.A.M.770.A",
+   "last": "2026-01-01",
+   "value": 59.1,
+   "sha256": "705ee57fffb9f9a309d7cddb8bacbea99f1886197850bef5f7779e9d4eb7b0bd"
+  },
+  "FR_BIS_PNF": {
+   "for": "credit to France's private non-financial sector, % of GDP (the BIS, WS_TC)",
+   "source": "the BIS, WS_TC Q.FR.P.A.M.770.A",
+   "last": "2026-01-01",
+   "value": 214.3,
+   "sha256": "a0de0212ea4c369f2679f5c975f5206438cf7aa6ec8e2a25c6b8fe8c314fb463"
+  },
+  "XM_BIS_HH": {
+   "for": "credit to the euro area's households, % of GDP (the BIS, WS_TC)",
+   "source": "the BIS, WS_TC Q.XM.H.A.M.770.A",
+   "last": "2026-01-01",
+   "value": 50.2,
+   "sha256": "4147c146b9707c5c30fa297489131e8c2c02557164bdec55b905fb154149f027"
+  },
+  "XM_BIS_PNF": {
+   "for": "credit to the euro area's private non-financial sector, % of GDP (the BIS, WS_TC)",
+   "source": "the BIS, WS_TC Q.XM.P.A.M.770.A",
+   "last": "2026-01-01",
+   "value": 153.5,
+   "sha256": "37fd2fb9077c4bf3d33acf62a3195296dbcd55acbb5dd9a327f10185bfe1f0b6"
+  },
+  "FR_MFI_GOV_SECURITIES": {
+   "for": "French banks' (MFIs excluding the central bank) holdings of euro-area government debt securities, EUR millions (the ECB's BSI)",
+   "source": "ECB Data Portal, BSI M.FR.N.A.A30.A.1.U2.2100.Z01.E",
+   "last": "2026-08-01",
+   "value": 424386.0,
+   "sha256": "2397fc98a6c2a7ae880689fed02cedb2abeba3d5c50c64e12da0ecdee7f1bb00"
   }
  }
 }

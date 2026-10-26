@@ -440,9 +440,15 @@
     "year": 2024
    },
    "EA": {
-    "labour_taxes_pct_gdp": 24.25,
-    "all_taxes_pct_gdp": 39.99,
-    "corporate_pct_gdp": 2.59,
+    "labour_taxes_pct_gdp": 23.74,
+    "all_taxes_pct_gdp": 38.95,
+    "corporate_pct_gdp": 2.69,
+    "year": 2024
+   },
+   "FR": {
+    "labour_taxes_pct_gdp": 25.94,
+    "all_taxes_pct_gdp": 43.46,
+    "corporate_pct_gdp": 2.25,
     "year": 2024
    },
    "SE": {

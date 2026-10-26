@@ -17,7 +17,8 @@
 #               (ISCO-08; the labour force survey's annual averages), with Spain 2007-2010 and Sweden 2008-2010
 #               (ISCO-88 major groups, the same split at this level) as confirmations. Recessions cut physical work
 #               two to three times as fast as the whole; cognitive work half as fast or less.
-# The euro area is Germany, France, Italy, Spain and the Netherlands (about 80% of its employment), employment-weighted.
+# The euro area outside France is Germany, Italy, Spain and the Netherlands (about three-quarters of its employment),
+# employment-weighted; France is a region of its own since 2026-10-27 (global_crash.py, decision 70).
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/exposure.py
 # Out: results/exposure.json
@@ -34,8 +35,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 CACHE = os.path.join(ROOT, "cache", "ilo")
 ILO = "https://rplumber.ilo.org/data/indicator/?id={ind}&ref_area={area}&timefrom={t0}&format=.csv"
-EA = ("DEU", "FRA", "ITA", "ESP", "NLD")
-AREAS = {"US": ("USA",), "EA": EA, "SE": ("SWE",), "CN": ("CHN",)}
+EA = ("DEU", "ITA", "ESP", "NLD")
+AREAS = {"US": ("USA",), "EA": EA, "FR": ("FRA",), "SE": ("SWE",), "CN": ("CHN",)}
 GROUPS = {"cognitive": ("1", "2", "3", "4"), "in_person": ("5",), "physical": ("6", "7", "8", "9")}
 
 
@@ -114,7 +115,7 @@ def cyclicality() -> dict:
 
 
 def regions() -> dict:
-    """The four regions: shares of employment by group (2025), pay against the average, and the recession betas
+    """The regions: shares of employment by group (2025), pay against the average, and the recession betas
     (the US's, applied everywhere)."""
     cyc = cyclicality()
     beta = {g: cyc["USA"][g]["beta"] for g in GROUPS}
@@ -165,7 +166,7 @@ def care() -> dict:
     def eco(country: str, modelled: bool = False) -> pd.DataFrame:
         if modelled:
             d = ilo("EMP_2EMP_SEX_ECO_NB_A", country, tag="_all", t0=2008, sex=None)
-        elif country in ("SWE", "USA") + EA:
+        elif country in ("SWE", "USA", "FRA") + EA:
             d = ilo("EMP_TEMP_SEX_ECO_NB_A", country, tag="_all", t0=2008, sex=None)
         else:
             d = ilo("EMP_TEMP_SEX_ECO_NB_A", country)

@@ -27,30 +27,53 @@
   "EA": {
    "countries": [
     "DEU",
-    "FRA",
     "ITA",
     "ESP",
     "NLD"
    ],
-   "employment_thousands": 127313,
+   "employment_thousands": 97961,
    "share": {
-    "cognitive": 0.5649,
-    "in_person": 0.1619,
-    "physical": 0.2733
+    "cognitive": 0.5576,
+    "in_person": 0.1666,
+    "physical": 0.2758
    },
    "premium": {
-    "cognitive": 1.224,
-    "in_person": 0.657,
-    "physical": 0.752
+    "cognitive": 1.228,
+    "in_person": 0.66,
+    "physical": 0.764
    },
    "premium_years": [
     2022,
     2025
    ],
    "recession_loss_share": {
-    "cognitive": 0.3241,
-    "in_person": 0.0432,
-    "physical": 0.6326
+    "cognitive": 0.319,
+    "in_person": 0.0444,
+    "physical": 0.6366
+   }
+  },
+  "FR": {
+   "countries": [
+    "FRA"
+   ],
+   "employment_thousands": 29352,
+   "share": {
+    "cognitive": 0.5892,
+    "in_person": 0.146,
+    "physical": 0.2648
+   },
+   "premium": {
+    "cognitive": 1.211,
+    "in_person": 0.65,
+    "physical": 0.715
+   },
+   "premium_years": [
+    2025
+   ],
+   "recession_loss_share": {
+    "cognitive": 0.3415,
+    "in_person": 0.0394,
+    "physical": 0.6191
    }
   },
   "SE": {
@@ -88,9 +111,9 @@
     "physical": 0.7036
    },
    "premium": {
-    "cognitive": 1.194,
+    "cognitive": 1.199,
     "in_person": 0.653,
-    "physical": 0.749
+    "physical": 0.744
    },
    "premium_years": [],
    "premium_note": "no occupational earnings in ILOSTAT: the mean of the other regions' premia",
@@ -282,20 +305,36 @@
     "headroom_pts": 5.3
    },
    "EA": {
-    "care_share_pct": 12.53,
-    "care_trend_pts_a_year": 0.191,
+    "care_share_pct": 12.3,
+    "care_trend_pts_a_year": 0.256,
     "women_share": {
-     "cognitive": 0.517,
-     "in_person": 0.619,
-     "physical": 0.255
+     "cognitive": 0.512,
+     "in_person": 0.606,
+     "physical": 0.248
     },
-    "men_vs_women_in_care": 0.255,
+    "men_vs_women_in_care": 0.259,
     "gate": {
-     "cognitive": 0.64,
-     "in_person": 0.716,
-     "physical": 0.445
+     "cognitive": 0.639,
+     "in_person": 0.708,
+     "physical": 0.443
     },
-    "headroom_pts": 7.57
+    "headroom_pts": 7.8
+   },
+   "FR": {
+    "care_share_pct": 13.31,
+    "care_trend_pts_a_year": -0.026,
+    "women_share": {
+     "cognitive": 0.532,
+     "in_person": 0.668,
+     "physical": 0.277
+    },
+    "men_vs_women_in_care": 0.244,
+    "gate": {
+     "cognitive": 0.647,
+     "in_person": 0.749,
+     "physical": 0.454
+    },
+    "headroom_pts": 6.79
    },
    "SE": {
     "care_share_pct": 14.9,

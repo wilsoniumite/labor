@@ -68,13 +68,17 @@ check("K1 the model's central run reproduces its stored scenario exactly; its de
       same and shock_same and ramp_same, key)
 
 seen = P["paces"]["multiples_of_the_papers"]["trend + 2 s.e."]
-cap_ok = all(abs(st["care_cap"][r] - (regs[r].care_share + regs[r].care_trend)) < 0.006 for r in gc.R)
-tar_ok = st["tariff"]["US"] == 25.0 and all(abs(st["tariff"][r] - 25.0 * regs[r].trade.get("US", 0.0)) < 0.006 for r in ("EA", "SE", "CN"))
+cap_ok = all(abs(st["care_cap"][r] - (regs[r].care_share + max(regs[r].care_trend, 0.0))) < 0.006 for r in gc.R)
+union_in = {r: sum(v for q, v in regs[r].trade.items() if regs[r].union and q in regs and q != r and regs[q].union == regs[r].union)
+            for r in gc.R}
+tar_ok = st["tariff"]["US"] == 25.0 and all(abs(st["tariff"][r] * (1 - union_in[r]) - 25.0 * regs[r].trade.get("US", 0.0)) < 0.006
+                                            for r in ("EA", "FR", "SE", "CN")) and union_in["FR"] > 0.4 and union_in["SE"] == 0
 ig = vintage.read("BAMLC0A0CM").loc[:case.INDEX0_END]
 s0_ok = abs(st["spread0"]["US"] - round(float(ig.iloc[-1] - ig.iloc[-64]), 4)) < 1e-9 and ig.index[-1] <= pd.Timestamp(case.INDEX0_END)
 check("K2 the settings trace to their sources: the starting pace is pace.py's upper bound on what has been seen; each care "
-      "ceiling is today's share plus one year of its trend; the tariff each region's exports face is 25 points times its "
-      "export share to the US (the US: 25); the spread already present at the start is the US corporate OAS's rise over "
+      "ceiling is today's share plus one year of its trend (today's share where care is shrinking: France); the tariff "
+      "each region's exports face is 25 points times its export share to the US (the US: 25), as a tariff on what it sells "
+      "outside its union (the model's tariffs spare trade inside the euro area: decision 70); the spread already present at the start is the US corporate OAS's rise over "
       "the 63 prints to 30 Sep (decision 47; index 0 is measured on data to September)",
       st["pace"]["seen"] == seen and cap_ok and tar_ok and s0_ok,
       f"seen {st['pace']['seen']}; caps {st['care_cap']}; tariffs {st['tariff']}; spread0 {st['spread0']} (to {ig.index[-1]:%Y-%m-%d})")
@@ -168,19 +172,24 @@ check("K5 the case reproduces from code", rd["us_out_of_work_peak"] == C["case"]
 _, o_np = case.build(cm, regs, st, drop="premium")
 extra = o_h["US"]["s"][4:] - o_np["US"]["s"][4:]
 care_ok = all(float(o_h[r]["care"].max()) <= st["care_cap"][r] + 1e-9 for r in gc.R)
-check("K6 the premium reaches private borrowers (euro-area spreads at least half a point higher from the fourth quarter on; "
-      "the US carries none in the case since 2026-10-26, Log 44) and no region's care passes its own ceiling",
-      float((o_h["EA"]["s"][4:] - o_np["EA"]["s"][4:]).min()) >= 0.5 - 1e-9 and care_ok,
-      f"EA extra spread {(o_h['EA']['s'][4:] - o_np['EA']['s'][4:]).min():.2f}; care max {({r: round(float(o_h[r]['care'].max()), 2) for r in gc.R})}")
+fr_extra = float((o_h["FR"]["s"][4:] - o_np["FR"]["s"][4:]).min())
+check("K6 the premium reaches private borrowers: France's government a point more from the fourth quarter on, half of it "
+      "reaching French firms and households (decision 71; the euro area's half point on all its borrowers before "
+      "2026-10-27), none in the rest of the union or the US (Log 44); and no region's care passes its own ceiling",
+      fr_extra >= 0.5 - 1e-9 and float((o_h["FR"]["sov"][4:] - o_np["FR"]["sov"][4:]).min()) >= 1.0 - 1e-9
+      and float(np.abs(o_h["EA"]["s"] - o_np["EA"]["s"]).max()) < 0.05 and care_ok,
+      f"France's extra private spread {fr_extra:.2f}, its sovereign's +{(o_h['FR']['sov'][4:] - o_np['FR']['sov'][4:]).min():.2f}; "
+      f"the rest of the union's spread moves {np.abs(o_h['EA']['s'] - o_np['EA']['s']).max():.3f} (through the shared mood); "
+      f"care max {({r: round(float(o_h[r]['care'].max()), 2) for r in gc.R})}")
 
 lo, hi, ref = C["case"]["low"], C["case"]["high"], C["reference_central_run"]
 po = {e: C["paths"][e]["US"]["out_of_work"] for e in ("low", "high", "reference")}
 ratio = [po[e][case.END_2028] / po["reference"][case.END_2028] for e in ("low", "high")]
-FOUND.update(us28=[8.2, 8.6, 6.5], ratio=[1.25, 1.32], peak=[17.5, 23.8], us32=[17.0, 22.8], cap_gap=26.2, four=[-6.2, -6.5])
+FOUND.update(us28=[8.1, 8.5, 6.5], ratio=[1.25, 1.32], peak=[17.4, 23.6], us32=[16.9, 22.6], cap_gap=26.4, four=[-6.0, -6.3])
 check("K7 through 2028 the case is well defined and about a quarter above the model's central run (the same measured bust "
-      "at the dot-com size): US out of work 8.2-8.6% at 2028Q4 against 6.5% (1.25-1.32 times), the band under 1.5 points "
-      "wide; by 2032Q3 17.5-23.8% (17.0-22.8% at 2032Q2), still rising at both ends, the high end 26.2 under the model's "
-      "50% cap. Restated 2026-10-26 with the review's fixes (Log 44: the measured sizes, dated from the peak, the US premium an alternative): in Log 42 8.6-9.1% against 6.5%; on the corrected fit with the ramp and the stored start "
+      "at the dot-com size): US out of work 8.1-8.5% at 2028Q4 against 6.5% (1.25-1.32 times), the band under 1.5 points "
+      "wide; by 2032Q3 17.4-23.6% (16.9-22.6% at 2032Q2), still rising at both ends, the high end 26.4 under the model's "
+      "50% cap. Restated 2026-10-27 with France a region of its own (Log 45; decisions 70-71): 8.2-8.6, 17.5-23.8, 17.0-22.8, 26.2 before. Restated 2026-10-26 with the review's fixes (Log 44: the measured sizes, dated from the peak, the US premium an alternative): in Log 42 8.6-9.1% against 6.5%; on the corrected fit with the ramp and the stored start "
       "11.0-12.0% against 7.6%; at the tag paths-pre-signfix 14.4-15.7% against 10.1%",
       hi["us_out_of_work_end_2028"] - lo["us_out_of_work_end_2028"] < 1.5
       and [lo["us_out_of_work_end_2028"], hi["us_out_of_work_end_2028"], ref["us_out_of_work_end_2028"]] == FOUND["us28"]
@@ -193,7 +202,7 @@ check("K7 through 2028 the case is well defined and about a quarter above the mo
       f"(x{ratio[0]:.2f}-{ratio[1]:.2f}); 2032Q3 {lo['us_out_of_work_peak']}-{hi['us_out_of_work_peak']}; "
       f"2032Q2 {lo['us_out_of_work_2032Q2']}-{hi['us_out_of_work_2032Q2']}")
 check("K8 both ends are a labour depression with output held: US out of work past 15% while the four economies' output stays "
-      "within 10% of capacity at worst (-6.2 and -6.5)", lo["verdict"] == hi["verdict"] == "a labour depression, output held"
+      "within 10% of capacity at worst (-6.0 and -6.3; Restated 2026-10-27 with France a region of its own (Log 45; decisions 70-71): -6.2 and -6.5 before)", lo["verdict"] == hi["verdict"] == "a labour depression, output held"
       and [lo["four_output_worst"], hi["four_output_worst"]] == FOUND["four"],
       f"{lo['verdict']} {lo['four_output_worst']}; {hi['verdict']} {hi['four_output_worst']}")
 pc = {k: v for k, v in C["piece_by_piece"].items() if k != "note"}
@@ -205,33 +214,34 @@ for p_ in case.PIECES:
     unr[p_] = round(float(oow_h[case.END_2028] - (o_p["US"]["u"] + o_p["US"]["out"])[case.END_2028]), 1)
 early = sorted(pc, key=lambda k: -pc[k]["adds_to_us_out_of_work_end_2028"])[:2]
 check("K9 which piece matters depends on when: by 2028Q4 the bust and the tariffs add most (1.4 points of US out of work "
-      "each), by 2032Q3 adoption (6.3); the tariffs add 3.7 by 2032Q3; the premium, now the euro area's alone, 0.2 to the "
-      "US. Each piece is the case minus the run without it, the difference of the unrounded runs rounded once; the bust's "
+      "each), by 2032Q3 adoption (6.2); the tariffs add 3.7 by 2032Q3; the premium, now France's alone, nothing to the "
+      "US (adoption 6.3; Restated 2026-10-27 with France a region of its own (Log 45; decisions 70-71): the euro area's, 0.2, before). Each piece is the case minus the run without it, the difference of the unrounded runs rounded once; the bust's "
       "is its size alone (the run without it keeps the dot-com bust on the same dating). " + "Restated 2026-10-26 with the review's fixes (Log 44: the measured sizes, dated from the peak, the US premium an alternative): in Log 42 "
       "the premium 1.4, the tariffs 1.2, the bust 1.1 by 2028Q4, adoption 7.4",
       set(early) == {"bust", "tariffs"} and late == "adoption"
       and [pc[k]["adds_to_us_out_of_work_end_2028"] for k in ("bust", "tariffs")] == [1.4, 1.4]
-      and pc["adoption"]["adds_to_us_out_of_work"] == 6.3 and pc["tariffs"]["adds_to_us_out_of_work"] == 3.7
-      and pc["premium"]["adds_to_us_out_of_work"] == 0.2
+      and pc["adoption"]["adds_to_us_out_of_work"] == 6.2 and pc["tariffs"]["adds_to_us_out_of_work"] == 3.7
+      and pc["premium"]["adds_to_us_out_of_work"] == 0.0
       and all(unr[k] == pc[k]["adds_to_us_out_of_work_end_2028"] for k in case.PIECES),
       {k: (v["adds_to_us_out_of_work_end_2028"], v["adds_to_us_out_of_work_2032Q2"], v["adds_to_us_out_of_work"]) for k, v in pc.items()})
 check("K10 the case's rising pace is milder than the model's central assumption (the paper's pace from today): taking it back "
       "adds to US out of work, 1.2 points at 2028Q4, 2.6 by 2032Q2 and 2.7 by 2032Q3; austerity and care capping out each "
-      "add under a point to the US, and under two points to the euro area and Sweden; no run reaches the model's 50% cap",
+      "add under a point to the US, and under two points to the euro area outside France, France and Sweden; no run "
+      "reaches the model's 50% cap",
       (pc["pace"]["adds_to_us_out_of_work_end_2028"], pc["pace"]["adds_to_us_out_of_work_2032Q2"], pc["pace"]["adds_to_us_out_of_work"]) == (-1.2, -2.6, -2.7)
       and all(pc[k]["us_at_the_models_cap_from"] is None for k in case.PIECES)
       and all(pc[k]["adds_to_us_out_of_work"] < 1 for k in ("austerity", "care"))
-      and all(pc[k][f"adds_to_{r}_out_of_work"] < 2 for k in ("austerity", "care") for r in ("ea", "se")),
+      and all(pc[k][f"adds_to_{r}_out_of_work"] < 2 for k in ("austerity", "care") for r in ("ea", "fr", "se")),
       {k: pc[k] for k in ("pace", "austerity", "care")})
 sv = {k: v for k, v in C["sensitivities"].items() if k != "note"}
 anchor = sv["fiscal dominance: the US anchor loosens to the eroding rules' 0.6"]
 rate = sv["rates bite harder: a_r 0.079 (Holston-Laubach-Williams, US)"]
 check("K11 of the settings the case leaves out, only a stronger rate channel moves US out of work by more than 1.5 points: "
-      "a_r at the Holston-Laubach-Williams estimate (0.079, against the fit's bound of 0.03) takes 3.3 off the peak and 3.0 "
-      "off 2032Q2; a looser US anchor lowers US inflation's low (-0.3% against 0.5%) rather than raising inflation; no run "
+      "a_r at the Holston-Laubach-Williams estimate (0.079, against the fit's bound of 0.03) takes 3.2 off the peak and 2.9 "
+      "off 2032Q2 (Restated 2026-10-27 with France a region of its own (Log 45; decisions 70-71): 3.3 and 3.0 before); a looser US anchor lowers US inflation's low (-0.3% against 0.5%) rather than raising inflation; no run "
       "reaches the model's cap. The differences of the unrounded runs, rounded once (since the review of 2026-10-26)",
       all(abs(v["change_in_us_out_of_work"]) <= 1.5 and abs(v["change_in_us_out_of_work_2032Q2"]) <= 1.5 for v in sv.values() if v is not rate)
-      and (rate["change_in_us_out_of_work"], rate["change_in_us_out_of_work_2032Q2"]) == (-3.3, -3.0)
+      and (rate["change_in_us_out_of_work"], rate["change_in_us_out_of_work_2032Q2"]) == (-3.2, -2.9)
       and all(v["us_at_the_models_cap_from"] is None for v in sv.values())
       and (anchor["us_inflation_min"], hi["regions"]["US"]["inflation_min"]) == (-0.3, 0.5)
       and anchor["us_inflation_max"] - hi["regions"]["US"]["inflation_max"] < 0.5,
