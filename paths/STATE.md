@@ -1713,6 +1713,10 @@ is right; in an extreme path the destination is what is wrong.
     restated once it is in; the predictions of 8 October stay as written. Order: the step and dated policy (in, Log 47),
     the two fitted episodes and the held-out bust monthly, then the added crashes one at a time, then the restatement
     (the case, the website's export and its JavaScript at the new step).
+83. **Decided 2026-10-27 (Claude, under decision 81): a central bank's rate can be the rate it set** (`Rules.policy =
+    "path"`, `Shock.rate` by step): in an episode where the central bank followed no rule the model has (the Fed in
+    1973-75 and 1981-82, and as measured in 1990-91), its policy is dated as it was, so the fit tests the transmission,
+    not a rule. The forward runs keep the rule. Alternative: a rule fitted to each episode's central bank.
 
 ## Next
 
@@ -2612,3 +2616,25 @@ the macro block lands.
       The misses are the quarterly fit's: 2008-10's gap too deep in 2008Q4-2009Q1 (−6.1 and −8.1 against −4.4 and −5.8),
       unemployment rising from early 2008 a few tenths too soon; 1929-33's unemployment too high in 1930 (12.9 against
       8.7). Held out, the dot-com bust: monthly unemployment's RMS error 0.54 (0.66 quarterly), the gap's 1.28 (1.11).
+49. **2026-10-27 — the post-war US recessions added, and what they show** (decision 82's third step, under way; decision
+    83; `code/episodes.py`: `us_state`, `us_episode`, `e1973`, `e1981`, `e1990`). Each on its measured start (FRED:
+    unemployment, the funds rate, core PCE, debts, equity wealth, exports), measured shocks (Z.1 household equity,
+    housebuilding, exports; oil as a three-month average where it drove the episode: 1973-75, 1990-91), the Fed's rate
+    as set, and fiscal levers dated at their legislation at stated approximate sizes (the Tax Reduction Act of 29 March
+    1975, about 1.4% of GDP over a year; the 1981 tax cut, 13 August 1981, about 1% a year; the 1990 budget agreement,
+    5 November 1990, as consolidation). CBO's historical budget data (the deficit without automatic stabilisers, which
+    would measure each size) refuse scripted fetches (403), so the sizes are stated, not measured.
+    - **At the monthly fit on 1929-33 and 2008-10** (Log 48): 1973-75 misses (the gap −2.4 at worst against −7.3;
+      core inflation's RMS error 6.5), 1981-82 misses (the gap near zero against −5.8), 1990-91 is too mild (−1.2
+      against −3.5). Found and fixed on the way: at a monthly step the energy term read one month's oil jump, annualised
+      (January 1974's tripling), and expectations formed on headline took it into core past 20%; the oil price now
+      enters as a three-month average, the basis its pass-through was measured on.
+    - **Fitted jointly as the model stands** (the five episodes, 371 points): the search takes the spread per unit of
+      capital lost to its upper bound (15) and the money channel to zero, the rate transmission stays at its lower bound
+      (0.03), 2008-10's gap goes to −10.8 against −5.8, and the added recessions still miss (loss 466). Not adopted.
+    - **Why, as read here**: the model has no fast interest-sensitive spending (output answers the real rate with the
+      gap's quarterly persistence, a half-life near three years, so 19% rates in 1981 bring no slump within the
+      episode), no effect of oil on capacity (oil is only a tax on spending), and the relief to floating-rate borrowers
+      is measured from the start's rate, so an episode starting at a rate peak (July 1981's 19%) reads falling rates
+      as stimulus; the model was built for busts: falls in wealth, investment and banks' capital. Her call next (a
+      veto-window question): fit on the busts and check on the rest, or extend the model first.

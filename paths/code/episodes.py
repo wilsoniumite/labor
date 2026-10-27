@@ -252,6 +252,110 @@ def e2000(okun: float, fiscal: str = "stimulus") -> Episode:
                    gc.Shock(equity={"US": eq}, demand={"US": dem}), tg, fitted=False)
 
 
+# ------------------------------------------------------------------ the post-war US recessions (decision 82's additions)
+# the energy term for the US (case.ENERGY: the pass-through of crude to consumer energy prices, this quarter and the next,
+# measured on 1990Q1-2026Q2 at the tag paths-pre-signfix; consumption's share of GDP; spending lost per unit of a higher
+# energy bill), carried back to earlier decades as approximate; energy's share of spending measured at each start
+US_ENERGY = (0.2308, 0.0986, 0.675, 0.4)
+
+
+def us_state(start: str, okun: float, stimulus: float) -> gc.Region:
+    """The US at the end of month `start`, measured where a public series exists (FRED): unemployment (UNRATE), the funds
+    rate (FEDFUNDS), core PCE prices' twelve-month inflation (PCEPILFE), household and business debt over GDP (CMDEBT,
+    BCNSDODNS), household equity over GDP (Z.1), real exports over real GDP; the quarterly ones at the start's quarter.
+    Approximate, as for 2000-03: speed 0.9, replacement 0.35, floating share 0.25, bank capital 10% and loans 65% of
+    GDP, trade, the spread cap; the discretionary response `stimulus`, % of GDP a year."""
+    p0 = pd.Period(start, "M")
+    q0 = p0.asfreq("Q")
+    gdp, z1 = quarterly("GDP"), quarterly("BOGZ1LM153064475Q", end=True)
+    core = monthly("PCEPILFE")
+    hh, biz = quarterly("CMDEBT")[q0] / 1000, quarterly("BCNSDODNS")[q0] / 1000
+    return gc.Region("US", 1.0, float(monthly("UNRATE")[p0]), float(monthly("FEDFUNDS")[p0]),
+                     float((core[p0] / core[p0 - 12] - 1) * 100), 0.0, okun, 0.9, 0.35, float(hh / gdp[q0] * 100),
+                     float((hh + biz) / gdp[q0] * 100), 0.25, float(z1[q0] / 1000 / gdp[q0]), 0.0, 10.0, 65.0,
+                     float(quarterly("EXPGSC1")[q0] / quarterly("GDPC1")[q0]),
+                     {"EA": 0.2, "CN": 0.02, "SE": 0.005, "RoW": 0.775}, stimulus, 3.0, 0.0, 0.0)
+
+
+def us_episode(name: str, start: str, months: int, okun: float, *, rules: gc.Rules, stimulus: float = 2.5,
+               energy: bool = False, path: bool = True, fitted: bool = True, notes: str = "") -> Episode:
+    """A post-war US recession from the end of month `start`, by month, on the measured state (us_state) and measured
+    shocks: household equity's fall from the start's quarter (Z.1, read by month between quarter ends), the change in
+    residential investment's share of GDP and in real exports against the start's quarter (each a quarter's average in its
+    middle month), and with `energy` the oil price (FRED WTISPLC, its three-month average by month: the pass-through
+    was measured on quarters' averages), energy's share of consumer spending at the
+    start (PCE energy goods and services over PCE) and headline PCE's twelve-month inflation at the start. With `path`
+    the Fed's rate is the funds rate as set (FRED FEDFUNDS; Rules.policy "path"). No exogenous credit losses (the
+    model's own loss rule only). Targets: unemployment and core PCE's twelve-month inflation by month (the months before
+    the start from the data), the output gap's change from the start's quarter by quarter (GDPC1 / GDPPOT)."""
+    p0 = pd.Period(start, "M")
+    q0 = p0.asfreq("Q")
+    us = us_state(start, okun, stimulus)
+    z1 = quarterly("BOGZ1LM153064475Q", end=True)
+    zq = (1 - z1.loc[q0:] / z1[q0]).clip(lower=0.0)
+    eq = at_quarter_ends(zq, start, months + 1)
+    res = quarterly("PRFI") / quarterly("GDP") * 100
+    xq, gq = quarterly("EXPGSC1"), quarterly("GDPC1")
+    dem = (at_mid_quarter((res - res[q0]).loc[q0:], start, months + 1)
+           + at_mid_quarter(((xq - xq[q0]) / gq[q0] * 100).loc[q0:], start, months + 1))
+    sh = gc.Shock(equity={"US": eq}, demand={"US": dem})
+    if energy:
+        oil = monthly("WTISPLC").rolling(3).mean()          # a quarter's average, as the pass-through was measured on
+        sh.oil = {"US": np.array([float(oil[p0 + k]) for k in range(months + 1)])}
+        sh.oil_before = {"US": float(oil[p0 - 1])}
+        b0, b1, cons, inc = US_ENERGY
+        w = float(monthly("DNRGRC1M027SBEA")[p0] / monthly("PCE")[p0])
+        head = monthly("PCEPI")
+        us = replace(us, energy_weight=w, energy_pass=(b0, b1), consumption_share=cons, energy_income=inc,
+                     pi_h0=float((head[p0] / head[p0 - 12] - 1) * 100))
+    rl = rules
+    if path:
+        ff = monthly("FEDFUNDS")
+        sh.rate = {"US": np.array([float(ff[p0 + k]) for k in range(months + 1)])}
+        rl = replace(rl, policy="path")
+    regs = {"US": us, "EA": gc.passive("EA"), "SE": gc.passive("SE"), "CN": gc.passive("CN")}
+    u, core = monthly("UNRATE"), monthly("PCEPILFE")
+    gap = (quarterly("GDPC1") / quarterly("GDPPOT") - 1) * 100
+    yoy = (core / core.shift(12) - 1) * 100
+    before = {j: float(core[p0 + j] / core[p0]) for j in range(-12, 0)}
+    last_q = (p0 + months).asfreq("Q")
+    full = [q for q in [q0 + k for k in range(1, 4 * (months // 12 + 2))]
+            if q <= last_q and (q.asfreq("M", "end") <= p0 + months) and q.asfreq("M", "start") > p0]
+    tg = [Target("unemployment", "u", "M", [(p0 + k, float(u[p0 + k])) for k in range(1, months + 1)], 0.75),
+          Target("core inflation", "yoy", "M", [(p0 + k, float(yoy[p0 + k])) for k in range(1, months + 1)], 0.75),
+          Target("output gap", "y", "Q", [(q, float(gap[q] - gap[q0])) for q in full], 1.0)]
+    return Episode(name, start, months, regs, {r: rl for r in regs}, sh, tg, fitted=fitted, before=before, notes=notes)
+
+
+def e1973(okun: float) -> Episode:
+    """1973-75: the oil embargo (from 17 October 1973) and the Fed's rate as set; expectations largely adaptive
+    (anchor 0.2 on the start's own core inflation, formed on headline: second-round effects; approximate); the Tax
+    Reduction Act of 1975 (signed 29 March 1975; about 1.4% of GDP, mostly within the year: approximate) as a one-year
+    stimulus. Price controls (Phase IV ended in April 1974) are not modelled."""
+    us = us_state("1973-09", okun, 1.4)
+    rl = replace(gc.MODERN, anchor=0.2, pi_star=us.pi0, expect_from="headline", fiscal_quarters=4,
+                 fiscal_at=years_after("1973-09", "1975-03-29"))
+    return us_episode("1973-75", "1973-09", 39, okun, rules=rl, stimulus=1.4, energy=True)
+
+
+def e1981(okun: float) -> Episode:
+    """1981-82: the Fed's disinflation (the funds rate as set); expectations anchored weakly on the start's core
+    inflation (0.3: approximate); the 1981 tax cut (signed 13 August 1981; about 1% of GDP a year as it phased in:
+    approximate) as a stimulus over two years."""
+    us = us_state("1981-07", okun, 1.0)
+    rl = replace(gc.MODERN, anchor=0.3, pi_star=us.pi0, fiscal_at=years_after("1981-07", "1981-08-13"))
+    return us_episode("1981-82", "1981-07", 29, okun, rules=rl, stimulus=1.0)
+
+
+def e1990(okun: float) -> Episode:
+    """1990-91: the oil shock of August-October 1990 and the Fed's rate as set; expectations anchored on the start's
+    core inflation (0.6, the eroded rules' weight: approximate); the 1990 budget agreement (signed 5 November 1990) as
+    consolidation (the model's rule: cuts growing with unemployment's rise)."""
+    us = us_state("1990-06", okun, 2.5)
+    rl = replace(gc.MODERN, anchor=0.6, pi_star=us.pi0, fiscal="austerity", fiscal_at=years_after("1990-06", "1990-11-05"))
+    return us_episode("1990-91", "1990-06", 30, okun, rules=rl, energy=True)
+
+
 # ------------------------------------------------------------------ the fit
 PARAMS = ("sigma", "money", "debt_deflation", "kappa_1930", "okun_us", "impulse_1930_pct_gdp", "a_r")
 BOUNDS = [(0, 15), (0, 15), (0, 0.5), (0.03, 1.0), (0.4, 1.0), (0, 10), (0.03, 0.15)]
@@ -260,7 +364,7 @@ BOUNDS = [(0, 15), (0, 15), (0, 0.5), (0.03, 1.0), (0.4, 1.0), (0, 10), (0.03, 0
 @functools.lru_cache(maxsize=1)
 def _base() -> tuple:
     """The episodes with their measured parts, built once at unit Okun and no impulse."""
-    return e1929(0.7, 0.0), e2007(0.7), e2000(0.7)
+    return e1929(0.7, 0.0), e2007(0.7), e2000(0.7), e1973(0.7), e1981(0.7), e1990(0.7)
 
 
 def episodes(theta) -> list:

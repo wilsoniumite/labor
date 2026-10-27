@@ -283,7 +283,8 @@ GROUPS = ("cognitive", "in_person", "physical")
 class Rules:
     """Institutions — what changes between the 1930s and now, and what pressure could change again."""
     name: str = "modern"
-    policy: str = "taylor"      # "taylor" (with the floor) | "gold" (passive; no reflation)
+    policy: str = "taylor"      # "taylor" (with the floor) | "gold" (passive; no reflation) | "path" (the rate as set:
+                                # Shock.rate, an episode's measured policy rate; decision 83)
     gold_hike: tuple = ()       # (quarter, points) raises to defend the parity
     anchor: float = 0.9         # weight of the target in expected inflation
     pi_star: float = 2.0
@@ -347,6 +348,7 @@ class Shock:
     oil: dict = field(default_factory=dict)          # the energy term: the oil price by quarter, quarterly averages in the
                                                      # region's currency, index 0 = the start's quarter
     oil_before: dict = field(default_factory=dict)   # the quarter before index 0 (for crude's change into it)
+    rate: dict = field(default_factory=dict)         # the policy rate as set, by step, % (Rules.policy "path": decision 83)
 
 
 def ramp(total: float, start: int, quarters: int, n: int, hold: bool = True) -> np.ndarray:
@@ -608,6 +610,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 else:
                     target = cm.r_star + pie + cm.phi_pi * (seen(r, k) - pis) + cm.phi_y * o["y"][k - 1]
                     i = max(g.floor, cm.smooth * o["i"][k - 1] + (1 - cm.smooth) * target)
+            elif rl.policy == "path":               # the rate as the central bank set it (an episode's measured rate)
+                i = float(shock.rate[r][k])
             else:                                   # gold: rates drift down only as far as the market takes them; no reflation
                 i = max(0.0, o["i"][k - 1] - drift_gold * max(o["i"][k - 1] - 1.0, 0.0))
                 for (q, pts) in rl.gold_hike:
