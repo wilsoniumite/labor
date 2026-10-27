@@ -231,7 +231,7 @@ class Region:
     sov_pass: float = 0.0
     sov_mtm: float = 0.0
     # the policy rate's average over the year before the start: the rate floating-rate debt was paying, which relief is
-    # measured from when Common.reprice is on (decision 85); None: the start's rate
+    # measured from when Common.reprice is on (decision 85; with it off, from the start's rate); None: the start's rate
     i_norm: float | None = None
     # the region's neutral real rate, % (decision 88: an episode's is its era's); None: the model's (Common.r_star)
     r_star: float | None = None
@@ -419,7 +419,9 @@ def energy_paths(oil, before: float, g: Region, n: int, dt: float = DT) -> tuple
 # inflation, given the anchor. What the model counts in quarters (a stimulus's two years, the year it tapers over, the
 # four quarters a rule can average, the quarter tariffs or a gold defence arrive in) is counted in steps. At a quarter
 # every coefficient is returned untouched, so the quarterly model is the one fitted. A different step is a refit with
-# these equations, not a rewrite.
+# these equations, not a rewrite. The anchor's compounding and the Phillips slope's carrying over belong to expectations
+# on the last step's inflation; on a year's window (Common.expect_over, decision 87) the quarter's anchor and slope hold
+# at any step, and simulate uses them (T10).
 def per_step(share_q: float, dt: float) -> float:
     """A share per quarter as the same pace over a step of dt years: 1 - (1 - s)^(dt / Q)."""
     return share_q if dt == Q else 1 - (1 - share_q) ** (dt / Q)
@@ -597,8 +599,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
     def expected(r, k):
         rl = rules[r]
         src = out[r]["pi_h"] if rl.expect_from == "headline" else out[r]["pi"]
-        if cm.expect_over > 0:                      # the average of the past expect_over years; before the start, index 0's
-            return rl.anchor * rl.pi_star + (1 - rl.anchor) * (sum(src[max(j, 0)] for j in range(k - L_exp, k)) / L_exp)
+        if cm.expect_over > 0:                      # the average of the past expect_over years; before the start, index 0's.
+            # The quarter's anchor at any step: on a window of fixed length the equation is a level equation in an
+            # annualised rate, its memory the window (counted in steps), so the anchor needs no carrying over; the
+            # per-step anchor (decision 80) belongs to the last step's form only, and on the window made a month's
+            # expectations several times as persistent as a quarter's (found 2026-10-27, decision 87)
+            a = anchor_q[r]
+            return a * rl.pi_star + (1 - a) * (sum(src[max(j, 0)] for j in range(k - L_exp, k)) / L_exp)
         return rl.anchor * rl.pi_star + (1 - rl.anchor) * src[k - 1]
 
     def seen(r, k):
@@ -680,7 +687,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             o["d_fin"][k] = d_fin
             # relief to floating-rate borrowers: the rate their debt pays (repricing over cm.reprice years: the policy
             # rate's average over them, the months before the start at i_norm) against the rate it paid before the start
-            norm = g.i0 if g.i_norm is None else g.i_norm
+            norm = g.i0 if g.i_norm is None or cm.reprice <= 0 else g.i_norm          # off: from the start's rate
             paid = i
             if cm.reprice > 0:
                 L = max(int(round(cm.reprice / dt)), 1)
@@ -749,7 +756,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             y = cm.a1 * o["y"][k - 1] - cm.a_r * rgap + D - cm.a1 * o["D"][k - 1]
             y = max(y, -60.0)
             o["y"][k] = y
-            kap = phillips_step(cm.kappa_1930 if rl.kappa_1930s else cm.kappa, anchor_q[r], dt)
+            k0 = cm.kappa_1930 if rl.kappa_1930s else cm.kappa
+            kap = k0 if cm.expect_over > 0 else phillips_step(k0, anchor_q[r], dt)   # the slope as the anchor: decision 87
             # inflation answers the gap against capacity: the measured gap plus the capacity oil has idled
             pi = pie + kap * (y + o["cap"][k] if capacity else y) + (0.03 * tariff_up) / dt
             o["pi"][k] = pi

@@ -533,12 +533,14 @@ cut = gc.Shock(rate={"US": np.concatenate([[us1.i0], flat(12, us1.i0 - 1.0)])})
 o6 = gc.simulate(r1, rl1, cut, replace(cm, reprice=1.0), 13, active=["US"])["US"]
 o6b = gc.simulate({**r1, "US": replace(us1, i_norm=us1.i0 + 1.0)}, rl1, sh1, replace(cm, reprice=1.0), 13, active=["US"])["US"]
 o6c = gc.simulate(r1, rl1, cut, cm, 13, active=["US"])["US"]
+o6d = gc.simulate({**r1, "US": replace(us1, i_norm=us1.i0 + 1.0)}, rl1, cut, cm, 13, active=["US"])["US"]
 check("T6 relief from the rate debts paid before the start (decision 85): with floating-rate debt repricing over a year, a "
       "cut of a point reaches a quarter of its relief in the first quarter and all of it after four; a start a point "
       "under the year's average rate is relief already owed, passed on as the debt reprices; off, the cut's relief is "
-      "whole at once, from the start's rate",
+      "whole at once, from the start's rate, whatever the year before",
       abs(o6["d_relief"][1] - c6 / 4) < 1e-12 and abs(o6["d_relief"][4] - c6) < 1e-12 and abs(o6["d_relief"][8] - c6) < 1e-12
-      and abs(o6b["d_relief"][1] - c6 / 4) < 1e-12 and abs(o6b["d_relief"][4] - c6) < 1e-12 and abs(o6c["d_relief"][1] - c6) < 1e-12,
+      and abs(o6b["d_relief"][1] - c6 / 4) < 1e-12 and abs(o6b["d_relief"][4] - c6) < 1e-12 and abs(o6c["d_relief"][1] - c6) < 1e-12
+      and np.array_equal(o6d["d_relief"], o6c["d_relief"]),
       f"a point's relief {c6:.4f}: {o6['d_relief'][1]:.4f} after a quarter, {o6['d_relief'][4]:.4f} after a year")
 us7 = replace(us1, i0=2.0 + cm.r_star, energy_weight=0.04, energy_pass=(0.23, 0.1), consumption_share=0.68, energy_income=0.4)
 oil = gc.Shock(rate={"US": flat(21, us7.i0)}, oil={"US": np.concatenate([[80.0], flat(20, 120.0)])}, oil_before={"US": 80.0})
@@ -572,6 +574,40 @@ check("T9 a region's neutral rate (decision 88): set to the model's it changes n
       all(np.array_equal(same[r][k], base9[r][k]) for r in base9 for k in base9[r])
       and abs(up["US"]["i"][1] - base9["US"]["i"][1] - (1 - cm.smooth)) < 1e-12,
       f"the US rate in 2026Q4 {base9['US']['i'][1]:.3f}, {up['US']['i'][1]:.3f} with a neutral rate a point higher")
+
+# expectations on a year's window at a shorter step: a deviation of 4 points, the rate held at neutral, no slope
+dev = replace(us1, pi0=6.0, i0=2.0 + cm.r_star)
+an = replace(gc.MODERN, policy="path", anchor=0.6, pi_star=2.0, fiscal="none")
+c10 = replace(cm, expect_over=1.0, kappa=0.0)
+path = {}
+for name, dt in (("quarter", 0.25), ("month", 1 / 12), ("week", 1 / 52)):
+    n10 = int(round(3 / dt)) + 1
+    o10 = gc.simulate({**r1, "US": dev}, {r: an for r in gc.R}, gc.Shock(rate={"US": flat(n10, dev.i0)}), c10, n10,
+                      active=["US"], dt=dt)["US"]
+    path[name] = np.array([o10["pi"][int(round(q * 0.25 / dt))] - 2.0 for q in (1, 4, 8, 12)])
+gap_mq = np.abs(path["month"] - path["quarter"])
+gap_wm = np.abs(path["week"] - path["month"])
+check("T10 expectations on the past year's inflation keep their pace at any step (decision 87): with the quarter's anchor "
+      "on a year's window, a deviation of inflation from the target decays to under a tenth of itself within three "
+      "years by quarter, by month and by week, and the paths at each quarter's end converge as the step shrinks (the "
+      "week nearer the month than the month the quarter); with the per-step anchor on the window a month kept 17% "
+      "after three years and a shrinking step none (found 2026-10-27)",
+      all(abs(path[k][-1]) < 0.4 for k in path) and bool(np.all(gap_wm < gap_mq)),
+      "after a quarter, a year, two and three years: " + "; ".join(f"{k} " + "/".join(f"{x:.2f}" for x in v) for k, v in path.items()))
+
+# and the slope: on the window at a month inflation is the expectation plus kappa x the gap, kappa unconverted
+cs = replace(cm, expect_over=1.0)
+n11 = 37
+o11 = gc.simulate({**r1, "US": dev}, {r: an for r in gc.R},
+                  gc.Shock(rate={"US": flat(n11, dev.i0)}, demand={"US": np.r_[0.0, flat(n11 - 1, -2.0)]}), cs, n11,
+                  active=["US"], dt=1 / 12)["US"]
+pie11 = [an.anchor * an.pi_star + (1 - an.anchor) * np.mean([o11["pi"][max(j, 0)] for j in range(k - 12, k)])
+         for k in range(1, n11)]
+res11 = float(np.max(np.abs(o11["pi"][1:] - np.array(pie11) - cs.kappa * o11["y"][1:])))
+check("T11 on the window the Phillips slope is the quarter's at a month (decision 87): with a gap held open, inflation "
+      "is the expectation (the quarter's anchor on the past year) plus kappa x the gap, kappa unconverted (added after "
+      "a review found T10, run without a slope, could not catch the slope reverted)",
+      bool(np.abs(o11["y"][1:]).max() > 0.5) and res11 < 1e-12, f"largest residual {res11:.2e}; gap at the end {o11['y'][-1]:.2f}")
 
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")

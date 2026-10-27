@@ -1744,7 +1744,12 @@ is right; in an extreme path the destination is what is wrong.
     Adaptive expectations adapt to the average of the past year's inflation (core, or headline where they form on it)
     in place of the last step's, the months before the start at index 0's twelve-month reading: a month's spike no longer
     passes into expectations whole (Log 49's January 1974), and the step matters less. Not fitted (a year: households'
-    expectations track twelve-month inflation). The anchor and the Phillips slope carried over by step as decision 80.
+    expectations track twelve-month inflation). On the window the quarter's anchor and Phillips slope hold at any step
+    (T10): its memory is the window, counted in steps. Decision 80's per-step conversion belongs to the last step's form;
+    put on the window it made a month's expectations several times as persistent as a quarter's (found by review,
+    2026-10-27; Log 51). At a step under a quarter the last step's form also multiplies a one-step price impulse (a
+    tariff's pass-through, an oil spike in headline expectations) by one over the per-step anchor; the fitted model uses
+    the window, so that is left to the restatement should a forward run go monthly without it.
 88. **Decided 2026-10-27 (Claude, under decision 82): each era's neutral rate** (`Region.r_star`; T9). An episode's
     neutral real rate is its era's: the New York Fed's Holston-Laubach-Williams estimate for the start's quarter
     (current estimates, one-sided; cached), the US 4.05 (1973Q3), 3.77 (1981Q3), 3.73 (1990Q2), 3.71 (2000Q1), 2.61
@@ -1766,10 +1771,22 @@ is right; in an extreme path the destination is what is wrong.
     2000-03's equipment are: private investment in Sweden (down 10 points of GDP, 1990-93) and Japan (business investment
     down 5); the euro area's periphery spreads, half passed to borrowers (decision 70's pass-through; Greece's yields after
     its restructuring left out). No stated bank losses: for Sweden they counted the credit crunch twice once investment
-    was measured. Each region's Okun slope is fitted on its own episode, as the US's is. Stated where nothing public
+    was measured; for the same reason the model's own credit spread is off in Sweden and Japan (a cap of zero), bank
+    capital still tracked (found by review, Log 51). Property prices are the BIS's real series. Each region's Okun slope is fitted on its own episode, as the US's is. Stated where nothing public
     measures it, each in its episode's docstring: wealth, bank capital and loans, the replacement and floating shares,
     the anchors. Alternatives: investment endogenous (the model has no accelerator; without it Sweden and Japan boomed on
     their fiscal stances, Log 50); stated bank losses (Englund's for Sweden).
+90. **Decided 2026-10-27 (her call: "Add measured credit spreads (Baa against Aaa) as a target in the episodes, refit,
+    and then show me the result before restating."; the form Claude's): the credit spread measured** (`spread_target`).
+    In every US episode the model's credit spread (s, from zero at the start) is set against the change in Moody's
+    seasoned Baa corporate yield over Aaa since the start's month (FRED BAA, AAA, monthly averages from 1919), by month;
+    one standard error is half a point (set before the fit). None abroad: no such series. With it, the shared risk mood is
+    off in an episode (`Episode.run`): with one economy active, the four economies' size-weighted bank stress was its own,
+    which added the mood's coefficient (1.0) to the fitted spread per unit of capital lost. Before the refit, at Log 50's
+    parameters, the measured spreads rejected its bank channel: 1929-33's model spread reached 15 points against 4.3
+    measured (May 1932), 1973-75's 3.0 against 1.0, 2000-03's 2.1 against 0.7. With it (Log 51) the spread per unit of
+    capital lost is 2.67 and the bank-run channel 0. Alternatives: the Gilchrist-Zakrajsek spread (from 1973 only); Baa
+    over Treasuries (which moves with the term premium too).
 
 ## Next
 
@@ -2756,3 +2773,60 @@ the macro block lands.
       quarterly accounts (the euro area's exports); FRED for the rest (OECD MEI unemployment, core prices, share
       prices and interest rates; BIS credit and property prices; the NBER's 1930s monthly unemployment and Dow-Jones;
       the federal surplus); the Riksbank's three-month bill, cached by se_1990s.py.
+51. **2026-10-27 — the credit spread measured, a review, and the refit** (her call: "Add measured credit spreads (Baa
+    against Aaa) as a target in the episodes, refit, and then show me the result before restating."; decision 90; not
+    yet the model's fit: nothing restated).
+    - **The target** (decision 90). Baa over Aaa rose from each start by 4.3 points in 1929-33 (May 1932), 1.7 in
+      1937-38, 1.0 in 1973-75, 0.9 in 1981-82, 0.45 in 1990-91, 0.7 in 2000-03 and 2.2 in 2008-10 (December 2008). At
+      Log 50's parameters the model's spread reached 15 in 1929-33. Refitted with the target alone, before the review
+      below: the spread per unit of capital lost 3.18, the money channel 0, debt deflation 0.40; the spread's misfit
+      fell from 1,200 to 44, the other targets' rose from 424 to 472.
+    - **A review** (four independent readers, each finding reproduced in code by a second; then a second review of the
+      fixes), every finding below found and fixed, and the episode results of Log 50 to be read with them:
+      - Expectations on the window at a month took the per-step anchor and Phillips slope, which belong to the last
+        step's form: a month's expectations were several times as persistent as a quarter's, and the 1930s' slope was
+        fitted against a monthly slope cut to 0.36 of itself. Now the quarter's anchor and slope on the window (decision
+        87; T10, T11 new; T11 added after the second review found T10, run without a slope, could not catch the slope's
+        half reverted). Part of Log 50's "core inflation late in the busts abroad runs too high" was this.
+      - Sweden's and Japan's model credit spread counted the crunch twice with their investment measured (now off
+        there); the BIS's nominal property prices were read as real (the real series now); 1981-82's equity fall was
+        measured from the end of September, not of July (`equity_fall`); the twelve-month inflation before the start
+        abroad read indexes not seasonally adjusted (deseasonalised); relief was measured from the year before even with
+        repricing off (from the start's rate now; T6 extended); 1929-33 counted Smoot-Hawley's export loss twice (only
+        the switch from imports to home goods now: the loss is in the measured exports); 1975's tax cut was 2.16% of
+        GDP in all where about 1.4 was stated (1.46 now); 2008-10 started from stated 2007Q4 averages (measured now, as
+        every post-war episode); every US start's private debt was household plus corporate only, 19-29 points of GDP
+        under the BIS total the forward runs use (the BIS's now); the episodes' printout zeroed the Okun slopes abroad.
+      - Left for the restatement: the stored quarterly fit (`run_1929`, `run_2007`) has the trade feedback of Log 50
+        and Smoot-Hawley's double count; the forward runs' shared mood adds each region's own bank stress at its size
+        (the US's 0.44) to a spread now fitted with the mood off; by month the energy term's first two months drop the
+        lagged pass-through of oil's change before the start (one earlier price is passed); at a step under a quarter
+        the last step's form multiplies a one-step price impulse by one over the per-step anchor (the fitted model uses
+        the window); rate-sensitive spending stays on where investment is measured (moot at its fitted zero).
+    - **The refit** (966 points, the spread's 216 added; the dot-com bust held out; 13 parameters, seed 7; `episodes.fit()`
+      reproduces it): loss 452.0, of it the spread 40.0 and the other targets 412.0 (Log 50's 424 on the same targets
+      before the fixes). The parameters, with the stored quarterly fit's beside them:
+      - the spread per unit of capital lost 2.67 (3.21); the money channel 0 (9.51); debt deflation 0.50, at its bound
+        (0);
+      - the 1930s' Phillips slope 0.137 (0.136); US Okun 0.64 (0.71); 1930's spending collapse 10% of GDP, at its bound
+        (6.0); the rate transmission at its bound, 0.03 (0.03);
+      - rate-sensitive spending 0; oil's capacity effect 2.67; Okun abroad: Sweden 0.93, the euro area 1.23, Japan 0.39.
+      The worst gap and the highest unemployment, model against data:
+      - 1929-33: output 0.85, 0.87, 0.81, 0.65 of 1929's in 1930-33 on the 2% trend (0.91, 0.86, 0.75, 0.74);
+        unemployment 13.2, 13.6, 17.4, 27.6 (8.7, 15.9, 23.6, 24.9): too early, then too late.
+      - 2008-10: −6.3 (−6.3); 9.0 (10.0). 1973-75: −6.5 (−7.4); 8.9 (9.0). 1990-91: −2.1 (−3.6); 6.5 (7.8).
+      - 1981-82: −0.5 (−5.8); 7.5 (10.8). 1937-38: unemployment 12.2 (20.0).
+      - Sweden: −10.6 (−8.7); 10.2 (9.8). The euro area: −2.0 (−2.7); 12.3 (12.2). Japan: −4.5 (−7.0); 3.4 (3.4).
+      - The spread's peak: 1929-33 2.7 (4.3); 2008-10 1.1 (2.2); 1973-75 0.8 (1.0); 1981-82, 1990-91 and 1937-38 near
+        zero (0.9, 0.45, 1.7): the post-war rises were default risk without bank losses, which the model has no
+        channel for.
+      Held out, the dot-com bust: unemployment's RMS error 0.55, the gap's 1.26, its trough −2.7 (−3.9).
+    - **With the spread's effect on spending fitted too** (a check; a_s is fixed at 1.0, the low end of
+      Gilchrist-Zakrajsek's range): it goes to 1.85, inside the range, and the loss to 449.1; the spread per unit of
+      capital lost 2.54. So the fixed effect is not what holds the spread under the data; 1929-33's shape is.
+    - **Flags, hers to look at**: 1929-33 now rests on debt deflation (at its bound) and 1930's spending collapse (at
+      its bound), with the bank-run channel gone, and its unemployment path is early then late. The forward rows under
+      the 1930s' rules (uninsured deposits) would lose the bank-run channel the stored fit gave them (9.51) and gain debt
+      deflation wherever prices fall below the path debts were written for. The money and debt-deflation channels both
+      grow with the banks' and prices' fall in 1931-33 and are weakly separated by one episode, as the spread and the
+      runs were before the target.
