@@ -1670,6 +1670,49 @@ is right; in an extreme path the destination is what is wrong.
     start, half of each reaching French borrowers; none in the rest of the union, whose spreads did not move (the
     Netherlands +1 bp and Finland +6 bp in October). Before it: half a point on all euro-area borrowers. Alternatives
     (case.json): two points; the ECB capping France's spread half a point above its start (TPI).
+80. **Decided 2026-10-27 (her call: "refit monthly ... matching each target at the frequency it is measured"; the form
+    Claude's): the crash model's step is a parameter** (`global_crash.simulate(..., dt)`, `ai_shock(..., dt)`; checks
+    T1-T4; numbered after the bridges refit's 72-79, which await her call on their branch). The per-step coefficients
+    stay stated and fitted for a quarter, and at another step each is carried over to do over a quarter what it did:
+    a share per quarter (Okun's speed, the share of cyclical unemployment turning structural, care's hiring, the gold
+    standard's drift, the anchor's weight on the target) compounds, 1 − (1 − s)^(dt/Q); a persistence (the gap's, the
+    rate's smoothing) is taken to the power dt/Q; the rate transmission keeps its long-run effect on the gap, a_r/(1 −
+    a1); the Phillips slope its long-run effect on inflation given the anchor, κ·anchor_step/anchor. What the model
+    counts in quarters (the stimulus's two years, the year it tapers over, a rule's four-quarter average, the quarter
+    tariffs or a gold defence arrive, the energy term's one-quarter lag and its annualisation) is counted in steps; the
+    bust's measured path is read at each step's end, its delay still in quarters. At a quarter every coefficient comes
+    back untouched: on the stored regions and parameters, 80 runs across the rules, the bust's shapes, the energy term
+    and the spreads are bit-identical to the model before (T1; the scratch comparison in Log 47). Before a refit, the
+    quarterly fit run monthly is near itself in the central run (US out of work 15.1% at its peak against 14.4%, T4)
+    and deeper in severe ones (eroding rules 27.2% against 24.8%): the loops — lost wages, bank capital, spreads — close
+    within a month instead of a quarter. That is what the monthly refit (decision 82) settles. Alternatives: refit every
+    coefficient, the literature's included, at each step (more freedom, less anchoring); a weekly step (her first
+    leaning, challenged: outside financial prices no labour or output series is weekly, claims only from 1967, so a
+    weekly fit would fit its interpolation).
+81. **Decided 2026-10-27 (her call: "policy dated in the model instead of triggers"; the form Claude's): the
+    discretionary levers start on dates** (`Rules.fiscal_at`, `care_at`, `tariff_at`, years after index 0's end; check
+    T2). From its date the stimulus runs its programme (two years, `fiscal_quarters`) and tapers over a year, the
+    guarantee and the cuts run on (the cuts still growing with unemployment's rise, as consolidation does), the care
+    build-out hires and the tariffs apply; the step a date falls in counts the part of it after the date, so a date is
+    continuous at any step. A lever dated at the start of the quarter its trigger fires reproduces the triggered run
+    exactly (T2: today's stimulus in every region, US 2028Q2 to China 2031Q1). Until the refit is in, a lever without
+    a date still starts on its trigger, so every stored result stands; with the refit the fitted episodes are dated to
+    what governments did, the presets' dates are set, and the triggers and "what governments watch" go (one version).
+    Alternatives: keep the triggers for the forward runs (the page's dates set only by the presets); end dates as well
+    as start dates (a guarantee withdrawn, cuts reversed).
+82. **Decided 2026-10-27 (her call): the monthly refit, with more crashes.** Her words: "refit monthly, with policy dated
+    in the model instead of triggers, matching each target at the frequency it is measured. Keep the dot-com bust as
+    the held-out check, and add the crashes you listed." The plan (Claude's): the fit at a monthly step (decision 80),
+    each target compared with the model at its own frequency — monthly unemployment and twelve-month core inflation
+    against the model's monthly path, quarterly output against three months of the model, annual output and the
+    standard series' annual unemployment for 1929-33 against twelve — weighted so that each series counts by its years;
+    the inputs (shocks) monthly where measured monthly, interpolated in time where not, and stated; policy in each
+    episode dated to what governments did, with sources (decision 81). The episodes: 1929-33 and 2008-10 as now; the
+    dot-com bust held out; added, US 1937-38, 1973-75, 1981-82 and 1990-91, Sweden 1990-93, the euro area 2011-13, Japan
+    after 1990; 2020 left out (a lockdown, which the model has no channel for). Every number that rests on the fit is
+    restated once it is in; the predictions of 8 October stay as written. Order: the step and dated policy (in, Log 47),
+    the two fitted episodes and the held-out bust monthly, then the added crashes one at a time, then the restatement
+    (the case, the website's export and its JavaScript at the new step).
 
 ## Next
 
@@ -2536,3 +2579,18 @@ the macro block lands.
       and fails here only on FRED's payroll fetch.
     - **Narrow passes, hers to look at**: F4's Sweden −4.91 against 5;
       the pace seen under a quarter (0.244); E4's loop under half a point by construction of the sizes (0.15).
+47. **2026-10-27 — the step as a parameter, and dated policy** (decisions 80-82; her calls of the day: a monthly refit,
+    policy dated instead of triggered, targets at their own frequency, the dot-com bust held out, more crashes; she had
+    leaned to "a monthly or weekly system" with interpolated data, and the weekly step was challenged: decision 80).
+    - **The model** (`global_crash.py`): `simulate` and `ai_shock` take the step (`dt`, default a quarter); the per-step
+      coefficients carried over by `step_common`, `step_region`, `step_rules` and `phillips_step`, the quarter's counts
+      counted in steps (`quarter_steps`, `year_steps`, `step_index`), the measured bust read by step; dated levers
+      (`Rules.fiscal_at`, `care_at`, `tariff_at`, `after`). Nothing refitted.
+    - **The same model at a quarter**: on the stored regions and parameters, 80 runs (ten rule sets, four busts of both
+      shapes and fractional dates, the energy term, a spread at the start and a premium, uniform and split waves) are
+      bit-identical to main's (ad07564) code; the stored results stand.
+    - **check_global_crash 57/57**: T1-T4 new (the coefficients untouched at a quarter and carried over at a month; a
+      lever dated where its trigger fires reproduces the triggered run exactly; the bust by month is the bust by
+      quarter at each quarter's end, its losses' total the same; the quarterly fit run monthly near itself in the
+      central run, stated as found: 15.1% against 14.4% US out of work, output −6.5 against −5.9). T4's bounds (1.5
+      points, 1 point) were set after seeing the numbers.

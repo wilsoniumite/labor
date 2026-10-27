@@ -467,6 +467,48 @@ check("E6 France's spread already present at the start reaches its borrowers: th
       abs(o["FR"]["s"][0] - regs["FR"].sov_pass * (regs["FR"].sov0 - regs["FR"].sov_calm)) < 1e-12 and o["EA"]["s"][0] == 0,
       f"France {o['FR']['s'][0]:.3f}, the rest {o['EA']['s'][0]}")
 
+print("T — the step and dated policy (decisions 80-81)")
+# at a quarter every per-step coefficient is returned untouched; at a month each is carried over
+c_m, g_m, r_m = gc.step_common(cm, 1 / 12), gc.step_region(regs["US"], 1 / 12), gc.step_rules(gc.MODERN, 1 / 12)
+check("T1 at a quarter the step changes nothing: the coefficients come back as the same objects; at a month each does "
+      "over a quarter what it did (a share closed, compounded; a persistence, to the power of the step; the rate's "
+      "long-run effect on the gap kept), and the quarter's counts are counted in steps",
+      gc.step_common(cm, gc.Q) is cm and gc.step_region(regs["US"], gc.Q) is regs["US"] and gc.step_rules(gc.MODERN, gc.Q) is gc.MODERN
+      and abs(1 - (1 - g_m.speed) ** 3 - regs["US"].speed) < 1e-12 and abs(c_m.a1 ** 3 - cm.a1) < 1e-12
+      and abs(c_m.a_r / (1 - c_m.a1) - cm.a_r / (1 - cm.a1)) < 1e-12 and r_m.fiscal_quarters == 3 * gc.MODERN.fiscal_quarters
+      and r_m.tariff_q == 3 * (gc.MODERN.tariff_q - 1) + 1,
+      f"speed {regs['US'].speed} a quarter, {g_m.speed:.4f} a month; a1 {cm.a1} -> {c_m.a1:.4f}; a_r {cm.a_r:.4f} -> {c_m.a_r:.4f}")
+W2 = gc.Waves(split=True, robot_lag=2.0, absorb=True)
+q24 = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(24), cm, 24, waves=W2)
+fired = {}
+for r in gc.R:
+    fired[r] = next(k for k in range(1, 24) if q24[r]["u"][k - 1] - regs[r].u0 >= gc.MODERN.trigger)
+dated = gc.simulate(regs, {r: replace(gc.MODERN, fiscal_at=(fired[r] - 1) * gc.Q) for r in gc.R}, gc.ai_shock(24), cm, 24,
+                    waves=W2)
+check("T2 a lever dated where its trigger fires reproduces the triggered run exactly: today's stimulus, every region "
+      "dated at the start of the quarter its unemployment first reads two points up",
+      all(np.array_equal(dated[r][k], q24[r][k]) for r in gc.R for k in ("y", "u", "i", "s", "stim")),
+      ", ".join(f"{r} {gc.quarter_label(fired[r])}" for r in gc.R))
+sh_q, sh_m = gc.ai_shock(28, 1.3, 0.8, delay=2.4), gc.ai_shock(82, 1.3, 0.8, delay=2.4, dt=1 / 12)
+rq, rm = gc.ai_shock(28, 1.2, 1.6, delay=3, shape="ramp"), gc.ai_shock(82, 1.2, 1.6, delay=3, shape="ramp", dt=1 / 12)
+check("T3 the bust at a monthly step is the quarterly bust read by month: at each quarter's end the measured path's "
+      "equity and build-out are the quarterly ones, and the loan losses total the same; the straight-line fall reaches "
+      "the same depth in the same quarter",
+      np.allclose(sh_m.equity["US"][::3], sh_q.equity["US"], atol=1e-12) and np.allclose(sh_m.capex["EA"][::3], sh_q.capex["EA"], atol=1e-12)
+      and abs((sh_m.losses["US"] / 12).sum() - (sh_q.losses["US"] / 4).sum()) < 1e-9
+      and np.allclose(rm.equity["US"][::3], rq.equity["US"], atol=1e-12)
+      and abs((rm.losses["US"] / 12).sum() - (rq.losses["US"] / 4).sum()) < 1e-9,
+      f"losses {(sh_q.losses['US'] / 4).sum():.4f} and {(sh_m.losses['US'] / 12).sum():.4f} % of loans")
+m70 = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(70, dt=1 / 12), cm, 70, waves=W2, dt=1 / 12)
+nw_q = float((q24["US"]["u"] + q24["US"]["out"]).max())
+nw_m = float((m70["US"]["u"] + m70["US"]["out"])[::3].max())
+check("T4 before a refit, the quarterly fit run monthly stays near itself in the central run (US out of work at its "
+      "peak within 1.5 points, the four economies' worst output within 1 point); stated as found: the loops close "
+      "within a month, so a severe run is deeper monthly, which the monthly refit settles",
+      abs(nw_m - nw_q) < 1.5 and abs(m70["US"]["y"][::3].min() - q24["US"]["y"].min()) < 1.0,
+      f"US out of work {nw_q:.2f} quarterly, {nw_m:.2f} monthly; US output {q24['US']['y'].min():.2f} and "
+      f"{m70['US']['y'][::3].min():.2f}")
+
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
 sys.exit(0 if n_ok == len(RESULTS) else 1)

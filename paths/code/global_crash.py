@@ -140,7 +140,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(ROOT), "pinning", "code"))
 import lambda_compute2 as _lc  # noqa: E402
 
 _lc.CACHE = os.path.join(ROOT, "cache")
-DT = 0.25
+DT = 0.25           # the model's step, years: a quarter (simulate's dt; decision 80 makes it a parameter)
+Q = 0.25            # the step every per-step coefficient is stated and fitted for: a quarter (step_common and below)
 R = ("US", "EA", "FR", "SE", "CN")     # EA: the euro area outside France since 2026-10-27 (decision 70)
 START = "2026Q3"    # index 0, the start: the regions as measured on data to the end of 2026Q3 (the dated vintage,
                     # cache/start/: monthly series to August or September, quarterly to 2026Q2); index 1, the first
@@ -312,6 +313,12 @@ class Rules:
     expect_from: str = "core"         # what expectations adapt to: "core" | "headline" (second-round effects)
     tpi: float | None = None          # the union's central bank caps a member's sovereign spread this many points above
                                       # its start (the ECB's Transmission Protection Instrument); None: not activated
+    # dated policy (decision 81): when a discretionary lever starts, years after index 0's end; None: on its trigger, as
+    # before. From the date the stimulus runs fiscal_quarters and tapers over a year, the guarantee and the cuts run on,
+    # and the care build-out hires; the step the date falls in counts the part of it after the date
+    fiscal_at: float | None = None
+    care_at: float | None = None
+    tariff_at: float | None = None
 
 
 MODERN = Rules()
@@ -350,32 +357,101 @@ def ramp(total: float, start: int, quarters: int, n: int, hold: bool = True) -> 
     return x
 
 
-def pulse(total_pct_loans: float, start: int, quarters: int, n: int) -> np.ndarray:
+def pulse(total_pct_loans: float, start: int, quarters: int, n: int, dt: float = DT) -> np.ndarray:
+    """`quarters` steps of dt from `start` (the name kept from the quarterly model)."""
     x = np.zeros(n)
-    x[start:start + quarters] = total_pct_loans / (quarters * DT)       # % of loans a year while it lasts
+    x[start:start + quarters] = total_pct_loans / (quarters * dt)       # % of loans a year while it lasts
     return x
 
 
-def energy_inflation(oil, before: float, w, passthrough: tuple) -> np.ndarray:
+def energy_inflation(oil, before: float, w, passthrough: tuple, dt: float = DT) -> np.ndarray:
     """Headline minus core from crude oil, points a year, by quarter: energy's share of spending w times the pass-through of
     crude's change (quarterly averages, annualised log %) to consumer energy prices, this quarter (b0) and the next (b1).
     oil[j] is quarter j's price and `before` the quarter before index 0; w a number, or one per quarter (the share when the
-    change comes). Index 0 carries the change into it only (its own lag lies before the data)."""
-    g = 400 * np.diff(np.log(np.concatenate([[float(before)], np.asarray(oil, float)])))
+    change comes). Index 0 carries the change into it only (its own lag lies before the data). At a step of dt the
+    change is annualised over dt and the next quarter's pass-through comes a quarter of steps later."""
+    g = (400 if dt == Q else 100 / dt) * np.diff(np.log(np.concatenate([[float(before)], np.asarray(oil, float)])))
     w = np.broadcast_to(np.asarray(w, float), g.shape)
     b0, b1 = passthrough
     e = b0 * w * g
-    e[1:] += b1 * w[:-1] * g[:-1]
+    L = quarter_steps(dt)
+    e[L:] += b1 * w[:-L] * g[:-L]
     return e
 
 
-def energy_paths(oil, before: float, g: Region, n: int) -> tuple:
+def energy_paths(oil, before: float, g: Region, n: int, dt: float = DT) -> tuple:
     """The energy term for region g: headline minus core (points a year) and the rise in consumers' energy bill since the
     start, % of GDP (consumption's share of GDP x energy's share of spending x consumer energy prices' log change)."""
-    e = energy_inflation(np.asarray(oil, float)[:n], before, g.energy_weight, g.energy_pass)
+    e = energy_inflation(np.asarray(oil, float)[:n], before, g.energy_weight, g.energy_pass, dt)
     bill = np.zeros(n)
-    bill[1:] = g.consumption_share * np.cumsum(e[1:]) * DT
+    bill[1:] = g.consumption_share * np.cumsum(e[1:]) * dt
     return e, bill
+
+
+# ------------------------------------------------------------------ the step (decision 80)
+# The per-step coefficients are stated and fitted for a quarter. At another step each is carried over so that it does
+# over a quarter what it did: a share per quarter (a gap closed, jobs turned structural, the willing hired, the gold
+# standard's drift, the anchor's weight) compounds; a persistence (the gap's, the rate's smoothing) is taken to the power
+# of the step; the rate transmission keeps its long-run effect on the gap and the Phillips slope its long-run effect on
+# inflation, given the anchor. What the model counts in quarters (a stimulus's two years, the year it tapers over, the
+# four quarters a rule can average, the quarter tariffs or a gold defence arrive in) is counted in steps. At a quarter
+# every coefficient is returned untouched, so the quarterly model is the one fitted. A different step is a refit with
+# these equations, not a rewrite.
+def per_step(share_q: float, dt: float) -> float:
+    """A share per quarter as the same pace over a step of dt years: 1 - (1 - s)^(dt / Q)."""
+    return share_q if dt == Q else 1 - (1 - share_q) ** (dt / Q)
+
+
+def persist(a_q: float, dt: float) -> float:
+    """A persistence per quarter over a step of dt years: a^(dt / Q)."""
+    return a_q if dt == Q else a_q ** (dt / Q)
+
+
+def quarter_steps(dt: float) -> int:
+    """Steps in a quarter (1 at a quarter, 3 at a month)."""
+    return 1 if dt == Q else int(round(Q / dt))
+
+
+def year_steps(dt: float) -> int:
+    return 4 if dt == Q else int(round(1 / dt))
+
+
+def step_index(k_q: int, dt: float) -> int:
+    """The step at which a quarter index begins to act: quarter k_q runs from (k_q - 1) quarters after index 0's end."""
+    return k_q if dt == Q else (k_q - 1) * quarter_steps(dt) + 1
+
+
+def step_common(cm: Common, dt: float) -> Common:
+    if dt == Q:
+        return cm
+    a1 = persist(cm.a1, dt)
+    return replace(cm, a1=a1, a_r=cm.a_r * (1 - a1) / (1 - cm.a1), smooth=persist(cm.smooth, dt),
+                   care_hire=per_step(cm.care_hire, dt))
+
+
+def step_region(g: Region, dt: float) -> Region:
+    return g if dt == Q else replace(g, speed=per_step(g.speed, dt), eta=per_step(g.eta, dt))
+
+
+def step_rules(rl: Rules, dt: float) -> Rules:
+    if dt == Q:
+        return rl
+    return replace(rl, anchor=per_step(rl.anchor, dt), tariff_q=step_index(rl.tariff_q, dt),
+                   gold_hike=tuple((step_index(q, dt), pts) for q, pts in rl.gold_hike),
+                   fiscal_quarters=rl.fiscal_quarters * quarter_steps(dt))
+
+
+def phillips_step(kappa: float, anchor_q: float, dt: float) -> float:
+    """The Phillips slope at a step of dt: kappa x anchor_step / anchor, so that a gap held moves inflation as far in
+    the long run (dt / Q when expectations are fully adaptive)."""
+    if dt == Q:
+        return kappa
+    return kappa * (per_step(anchor_q, dt) / anchor_q if anchor_q > 0 else dt / Q)
+
+
+def after(at: float | None, k: int, dt: float) -> float:
+    """The share of step k (from (k - 1) dt to k dt after index 0's end) that lies after the date `at`, years."""
+    return min(max((k * dt - at) / dt, 0.0), 1.0)
 
 
 # ------------------------------------------------------------------ the simulation
@@ -406,11 +482,11 @@ def wave_weights(g: Region, rl: Rules, cm: Common, waves: Waves) -> dict | None:
 ABSORBED = (("cognitive", "s_cog", "at_cog", "ax_cog"), ("physical", "s_phys", "at_phys", "ax_phys"))
 
 
-def robots(k: int, waves: Waves) -> float:
-    """The share of physical work robotics can take at quarter k (1 in the uniform case)."""
+def robots(k: int, waves: Waves, dt: float = DT) -> float:
+    """The share of physical work robotics can take at step k (1 in the uniform case)."""
     if not waves.split:
         return 1.0
-    t = k * DT
+    t = k * dt
     if waves.robot_ramp <= 0:
         return float(t >= waves.robot_lag)
     return min(max((t - waves.robot_lag) / waves.robot_ramp, 0.0), 1.0)
@@ -440,10 +516,17 @@ def financing_room(o: dict, j: int, g: Region, rl: Rules, cm: Common) -> float:
 
 
 def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n: int = 24, active=None,
-             waves: Waves = UNIFORM) -> dict:
-    """regions: {code: Region}; rules: {code: Rules}; active: regions simulated (others held at zero gap)."""
+             waves: Waves = UNIFORM, dt: float = DT) -> dict:
+    """regions: {code: Region}; rules: {code: Rules}; active: regions simulated (others held at zero gap); dt: the step,
+    years (the shock's paths are by step; the coefficients are a quarter's, carried over by step_common and the rest)."""
     active = active or list(regions)
     names = list(regions)
+    Y = year_steps(dt)
+    anchor_q = {r: rules[r].anchor for r in names}             # the quarter's anchor, for the Phillips slope
+    cm = step_common(cm, dt)
+    regions = {r: step_region(g, dt) for r, g in regions.items()}
+    rules = {r: step_rules(rl, dt) for r, rl in rules.items()}
+    drift_gold = per_step(0.25, dt)
     out = {r: {k: np.zeros(n) for k in ("y", "u", "u_star", "pi", "P", "Pexp", "i", "k", "s", "D", "stress", "stim",
                                         "d_wealth", "d_capex", "d_unemp", "d_relief", "d_debt", "d_credit", "d_money",
                                         "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
@@ -468,7 +551,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
         if g.sov_debt > 0:                          # its sovereign's spread above its calm level, passed to borrowers
             o["s"][0] += g.sov_pass * (g.sov0 - g.sov_calm)
         if r in shock.oil:                          # the energy term: headline minus core, and the energy bill
-            o["e_pi"][:], o["e_bill"][:] = energy_paths(shock.oil[r], shock.oil_before[r], g, n)
+            o["e_pi"][:], o["e_bill"][:] = energy_paths(shock.oil[r], shock.oil_before[r], g, n, dt)
             if g.pi_h0 is not None:
                 o["pi_h"][0] = g.pi_h0
     fiscal_left = {r: 0 for r in names}
@@ -489,9 +572,9 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
     def seen(r, k):
         """The inflation the policy rule reacts to (core, the model's pi; headline when the rules say hands are tied)."""
         rl, o = rules[r], out[r]
-        if rl.react_to in ("headline4", "core4"):   # four quarters' average; before the start, index 0's (y/y)
+        if rl.react_to in ("headline4", "core4"):   # a year's average; before the start, index 0's (y/y)
             src = o["pi_h"] if rl.react_to == "headline4" else o["pi"]
-            return sum(src[max(j, 0)] for j in range(k - 4, k)) / 4
+            return sum(src[max(j, 0)] for j in range(k - Y, k)) / Y
         return (o["pi_h"] if rl.react_to == "headline" else o["pi"])[k - 1]
 
     for k in range(1, n):
@@ -513,7 +596,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 o["u"][k], o["u_star"][k], o["pi"][k], o["i"][k], o["k"][k] = g.u0, g.u0, g.pi0, g.i0, g.bank_capital
                 o["pi_h"][k] = g.pi0
                 o["care"][k] = g.care_share
-                o["P"][k] = o["P"][k - 1] * (1 + g.pi0 / 100 * DT)
+                o["P"][k] = o["P"][k - 1] * (1 + g.pi0 / 100 * dt)
                 o["Pexp"][k] = o["P"][k]
                 continue
             pis = rl.pi_star
@@ -526,7 +609,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                     target = cm.r_star + pie + cm.phi_pi * (seen(r, k) - pis) + cm.phi_y * o["y"][k - 1]
                     i = max(g.floor, cm.smooth * o["i"][k - 1] + (1 - cm.smooth) * target)
             else:                                   # gold: rates drift down only as far as the market takes them; no reflation
-                i = max(0.0, o["i"][k - 1] - 0.25 * max(o["i"][k - 1] - 1.0, 0.0))
+                i = max(0.0, o["i"][k - 1] - drift_gold * max(o["i"][k - 1] - 1.0, 0.0))
                 for (q, pts) in rl.gold_hike:
                     if k == q:
                         i += pts
@@ -566,7 +649,12 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             d_money = 0.0 if rl.insured else -cm.money * o["stress"][k - 1]
             partners = {q: out[q]["y"][k - 1] for q in names}
             partners["RoW"] = sum(regions[q].size * partners[q] for q in names)
-            tariff = rl.tariff if k >= rl.tariff_q else 0.0
+            if rl.tariff_at is None:
+                tariff = rl.tariff if k >= rl.tariff_q else 0.0
+                tariff_up = tariff if k == rl.tariff_q else 0.0             # the step it arrives in
+            else:                                   # dated: from the day, the step counting the part after it
+                tariff = rl.tariff * after(rl.tariff_at, k, dt)
+                tariff_up = tariff - rl.tariff * after(rl.tariff_at, k - 1, dt)
             # a tariff point cuts exports about a point (short-run trade elasticity ~1); imports fall too, so only part
             # of it (tariff_net, uncertainty and broken supply chains) is lost to demand rather than switched home.
             # Exports inside a union pay none (the EU's single market: decision 70); rl.tariff is on the rest. And a
@@ -576,17 +664,29 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             spill = sum(g.trade[q] * (partners[q] - o["y"][k - 1] if partner(r, q) else partners[q]) for q in g.trade)
             d_trade = g.exports * (cm.trade_elasticity * spill - cm.tariff_net * tariff * (1 - inside(r)))
             unemp_up = o["u"][k - 1] - g.u0 + (o["out"][k - 1] if rl.trigger_on == "non-employment" else 0.0)
-            if not fiscal_on[r] and unemp_up >= rl.trigger:
-                fiscal_on[r], fiscal_left[r] = True, rl.fiscal_quarters
             d_fiscal = 0.0
-            if rl.fiscal == "stimulus" and fiscal_on[r] and fiscal_left[r] > -4:
-                d_fiscal = 0.8 * g.stimulus * min(1.0, (fiscal_left[r] + 4) / 4)       # full for the programme, tapered over a year
-                fiscal_left[r] -= 1
-            elif rl.fiscal == "guarantee" and unemp_up >= rl.trigger:
-                d_fiscal = (cm.mpc_u - cm.mpc_rep) * cm.labour_share * owed
-                o["deficit_extra"][k] = cm.labour_share * owed
-            elif rl.fiscal == "austerity" and unemp_up >= rl.trigger:
-                d_fiscal = -0.8 * min(0.5 * unemp_up / 5, 2.0)          # consolidation as deficits grow, up to 2% of GDP
+            if rl.fiscal_at is None:                # on the trigger
+                if not fiscal_on[r] and unemp_up >= rl.trigger:
+                    fiscal_on[r], fiscal_left[r] = True, rl.fiscal_quarters
+                if rl.fiscal == "stimulus" and fiscal_on[r] and fiscal_left[r] > -Y:
+                    d_fiscal = 0.8 * g.stimulus * min(1.0, (fiscal_left[r] + Y) / Y)   # full for the programme, tapered over a year
+                    fiscal_left[r] -= 1
+                elif rl.fiscal == "guarantee" and unemp_up >= rl.trigger:
+                    d_fiscal = (cm.mpc_u - cm.mpc_rep) * cm.labour_share * owed
+                    o["deficit_extra"][k] = cm.labour_share * owed
+                elif rl.fiscal == "austerity" and unemp_up >= rl.trigger:
+                    d_fiscal = -0.8 * min(0.5 * unemp_up / 5, 2.0)      # consolidation as deficits grow, up to 2% of GDP
+            else:                                   # dated: from the day on, the step counting the part after it
+                f = after(rl.fiscal_at, k, dt)
+                if rl.fiscal == "stimulus":         # full for the programme from the day, tapered over a year
+                    since = (k - 1) * dt - rl.fiscal_at
+                    years = rl.fiscal_quarters * dt
+                    d_fiscal = 0.8 * g.stimulus * f * min(max(years + 1.0 - since, 0.0), 1.0)
+                elif rl.fiscal == "guarantee":
+                    d_fiscal = (cm.mpc_u - cm.mpc_rep) * cm.labour_share * owed * f
+                    o["deficit_extra"][k] = cm.labour_share * owed * f
+                elif rl.fiscal == "austerity":
+                    d_fiscal = -0.8 * min(0.5 * max(unemp_up, 0.0) / 5, 2.0) * f
             d_other = shock.demand.get(r, np.zeros(n))[k]
             D = d_wealth + d_capex + d_unemp + d_relief + d_debt + d_credit + d_money + d_trade + d_fiscal + d_other + d_care + d_fin
             if r in shock.oil:                      # the energy bill: a tax on consumers' other spending
@@ -600,14 +700,14 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             y = cm.a1 * o["y"][k - 1] - cm.a_r * rgap + D - cm.a1 * o["D"][k - 1]
             y = max(y, -60.0)
             o["y"][k] = y
-            kap = cm.kappa_1930 if rl.kappa_1930s else cm.kappa
-            pi = pie + kap * y + (0.03 * tariff if k == rl.tariff_q else 0.0) / DT
+            kap = phillips_step(cm.kappa_1930 if rl.kappa_1930s else cm.kappa, anchor_q[r], dt)
+            pi = pie + kap * y + (0.03 * tariff_up) / dt
             o["pi"][k] = pi
             o["pi_h"][k] = pi + o["e_pi"][k] if r in shock.oil else pi
-            o["P"][k] = o["P"][k - 1] * (1 + pi / 100 * DT)
-            o["Pexp"][k] = o["Pexp"][k - 1] * (1 + pis / 100 * DT)
+            o["P"][k] = o["P"][k - 1] * (1 + pi / 100 * dt)
+            o["Pexp"][k] = o["Pexp"][k - 1] * (1 + pis / 100 * dt)
             # unemployment: the drift and adoption in recessions act only on work that can be automated at the time
-            ap = robots(k, waves)
+            ap = robots(k, waves, dt)
             if W[r] is None:
                 m_drift = m_eta = 1.0
             else:
@@ -615,7 +715,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 m_drift = (sh["cognitive"] + sh["physical"] * ap) / (sh["cognitive"] + sh["physical"])
                 m_eta = (mix["cognitive"] + mix["physical"] * ap) / (mix["cognitive"] + mix["physical"])
             add_eta = g.eta * m_eta * max(o["u"][k - 1] - o["u_star"][k - 1], 0.0)
-            add_drift = (shock.drift[r][k] if r in shock.drift else g.drift) * m_drift * DT
+            add_drift = (shock.drift[r][k] if r in shock.drift else g.drift) * m_drift * dt
             # structural displacement: the exit share leaves the labour force, the rest stays unemployed
             x = g.exit_share
             add = min(add_eta + add_drift, max(45.0 - o["u_star"][k - 1] - o["out"][k - 1], 0.0))    # structural non-employment <= 45
@@ -635,7 +735,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 o[at][k], o[ax][k] = o[at][k - 1], o[ax][k - 1]
             # care's level (% of employment): its trend and any build-out, together never past the ceiling
             ceiling = cm.care_ceiling if rl.care_cap is None else rl.care_cap
-            grow = 0.0 if rl.care == "cut" else min(g.care_trend * DT, max(ceiling - o["care"][k - 1], 0.0))
+            grow = 0.0 if rl.care == "cut" else min(g.care_trend * dt, max(ceiling - o["care"][k - 1], 0.0))
             o["care"][k] = o["care"][k - 1] + grow
             if W[r] is not None and waves.absorb and rl.care != "cut":
                 weight = {q: o[s][k] * g.gate[q] for q, s, _, _ in ABSORBED}
@@ -643,12 +743,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 potential = cm.care_hire * pool
                 a_t = max(min(grow, potential), 0.0)   # a care sector that is shrinking (France, 2019-25) takes in nobody
                 a_x = 0.0
-                if rl.care == "expand" and unemp_up >= rl.trigger:
+                hire = (1.0 if unemp_up >= rl.trigger else 0.0) if rl.care_at is None else after(rl.care_at, k, dt)
+                if rl.care == "expand" and hire > 0:
                     built = o["ax_cog"][k - 1] + o["ax_phys"][k - 1]
                     per_point = cm.labour_share * (W[r]["w_care"] / cm.care_labour_cost
                                                    - sum(weight[q] / pool * g.premium[q] * W[r]["rep"][q] for q, _, _, _ in ABSORBED)) if pool > 0 else 1.0
                     afford = financing_room(o, k - 1, g, rl, cm) / per_point - built if per_point > 0 else float("inf")
-                    a_x = max(min(rl.care_pace * DT, potential - a_t, ceiling - o["care"][k], afford), 0.0)
+                    a_x = max(min(rl.care_pace * dt * hire, potential - a_t, ceiling - o["care"][k], afford), 0.0)
                 o["care"][k] += a_x
                 if pool > 0:
                     for q, s, at, ax in ABSORBED:
@@ -671,7 +772,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             # banks
             loss = cm.loss_base + cm.loss_u * debt_up + cm.loss_y * max(-y, 0.0) + shock.losses.get(r, np.zeros(n))[k]
             o["loss"][k] = loss
-            kk = o["k"][k - 1] - (loss - cm.loss_base) * g.loans / 100 * DT
+            kk = o["k"][k - 1] - (loss - cm.loss_base) * g.loans / 100 * dt
             if g.sov_debt > 0 and k >= 2:           # the banks' holdings of their sovereign, marked to its spread
                 kk -= g.sov_banks * g.sov_mtm * (o["sov"][k - 1] - o["sov"][k - 2]) / 100
             recap = 0.0
@@ -687,7 +788,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             cost = max(o["care_cost"][k], 0.0)
             borrowed = o["deficit_extra"][k] + (cost if rl.care_finance == "borrowing" else max(cost - max(o["room"][k], 0.0), 0.0))
             # with its sovereign modelled, recapitalising the banks is public debt (the doom loop's bank-to-state leg)
-            o["debt_extra"][k] = o["debt_extra"][k - 1] + borrowed * DT + (recap if g.sov_debt > 0 else 0.0)
+            o["debt_extra"][k] = o["debt_extra"][k - 1] + borrowed * dt + (recap if g.sov_debt > 0 else 0.0)
             slope = g.debt_slope_crisis if o["stress"][k] > cm.stress_crisis else g.debt_slope
             o["premium"][k] = slope / 100 * o["debt_extra"][k] / 10
             if g.sov_debt > 0:                      # the sovereign's spread: at the start, plus the price of the debt added
@@ -1055,7 +1156,8 @@ def _spread(w: np.ndarray, onset: float, n: int, speed: float) -> np.ndarray:
     return c((i + 1 - onset) * speed) - c((i - onset) * speed)
 
 
-def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: float = 0, shape: str = "2000") -> Shock:
+def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: float = 0, shape: str = "2000",
+             dt: float = DT) -> Shock:
     """A dot-com-sized bust of the AI build-out, from the quarter of the peak (index 1 + delay; `delay` may be
     fractional): US household equity on its measured 2000-02 fall (-44.7% at the trough, ten quarters after the peak,
     then recovering; bust_2000), the other regions at the first build's ratios to the US; the build-out losing its
@@ -1064,21 +1166,26 @@ def ai_shock(n: int, scale: float = 1.0, speed: float = 1.0, delay: float = 0, s
     losses. All times `scale`; `speed` runs the path faster. Since 2026-10-26 (STATE Logs 42-44). shape="ramp": the bust
     as first built (2026-09-24 to 2026-10-26): equity (US -40%) and the build-out (60%) down in a straight line over
     4 / speed quarters from 1 + delay and held there for good, the losses spread evenly over 8 / speed quarters from
-    2 + delay."""
+    2 + delay. The delay and the path are in quarters at every step: at a step of dt the paths are by step, the measured
+    one read at each step's end (index 1 + delay quarters is the end of the peak's quarter), the ramp's quarters counted
+    in steps (decision 80)."""
     eq, ls = BUST_EQUITY, BUST_LOSSES
     if shape == "ramp":
         qf, ql = max(1, round(4 / speed)), max(2, round(8 / speed))
-        return Shock(equity={r: ramp(scale * v, 1 + delay, qf, n) for r, v in eq.items()},
-                     capex={r: ramp(scale * 0.6 * 100, 1 + delay, qf, n) / 100 for r in eq},
-                     losses={r: pulse(scale * v, 2 + delay, ql, n) for r, v in ls.items()})
+        L = quarter_steps(dt)
+        s0, s1 = step_index(1 + delay, dt), step_index(2 + delay, dt)
+        return Shock(equity={r: ramp(scale * v, s0, qf * L, n) for r, v in eq.items()},
+                     capex={r: ramp(scale * 0.6 * 100, s0, qf * L, n) / 100 for r in eq},
+                     losses={r: pulse(scale * v, s1, ql * L, n, dt) for r, v in ls.items()})
     m = bust_2000()["measured"]
-    onset = 1 + delay
-    e = _on(m["equity_fall"], onset, n, speed, 0.0)                         # US household equity, measured
-    c = _on(m["capex_share_lost"], onset, n, speed, float(m["capex_share_lost"][-1]))
-    w = _spread(bust_2000()["losses"], onset, n, speed)
+    onset = 1 + delay if dt == Q else (1 + delay) * Q / dt                  # in steps
+    sp = speed if dt == Q else speed * dt / Q                               # measured quarters a step
+    e = _on(m["equity_fall"], onset, n, sp, 0.0)                            # US household equity, measured
+    c = _on(m["capex_share_lost"], onset, n, sp, float(m["capex_share_lost"][-1]))
+    w = _spread(bust_2000()["losses"], onset, n, sp)
     return Shock(equity={r: scale * (v / eq["US"]) * e for r, v in eq.items()},
                  capex={r: scale * c for r in eq},
-                 losses={r: scale * v * w / DT for r, v in ls.items()})
+                 losses={r: scale * v * w / dt for r, v in ls.items()})
 
 
 def scenarios(cm: Common, regions: dict) -> dict:
