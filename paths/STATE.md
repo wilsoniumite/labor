@@ -2594,3 +2594,21 @@ the macro block lands.
       quarter at each quarter's end, its losses' total the same; the quarterly fit run monthly near itself in the
       central run, stated as found: 15.1% against 14.4% US out of work, output −6.5 against −5.9). T4's bounds (1.5
       points, 1 point) were set after seeing the numbers.
+48. **2026-10-27 — the fitted episodes by month** (decision 82's second step; `code/episodes.py`, not yet the model's
+    fit: `global_crash.fit` and its stored results stand until the added crashes are in). Each episode is the model at a
+    monthly step on the economy of the time, its policy dated (1929-33: Smoot-Hawley 17 June 1930, the defence of gold
+    in October 1931, the Revenue Act 6 June 1932; 2008-10: the Recovery Act 17 February 2009; the held-out dot-com bust:
+    the tax cut of 7 June 2001, at the model's size and with none), its targets at their own frequency, each series
+    counting by its years. Inputs changed with the step, each stated: 1929-33's equity is the NBER's monthly Dow-Jones
+    index (FRED M1109BUSM293NNBR, cached; −87% by June 1932) in place of the stylised −40% then −86%; 2008-10's is
+    household equity measured (Z.1, read by month between quarter ends) in place of the stylised −50% and −20%; a
+    quarter's average enters in its middle month; 1929-33's exports are placed on the calendar (the quarterly fit read
+    them a quarter early: index 0 at mid-1929, not its end, found here); 2008-10's inflation target is twelve-month core
+    PCE against the model's own twelve-month change (before, the quarter's annualised rate against the data's year).
+    - **The fit, by month, on 1929-33 and 2008-10** (the quarterly search, seed 7): loss 37.2 over 143 points, against
+      44.0 at the quarterly fit's parameters run by month; the parameters barely move — spread per unit of capital lost
+      3.10 (3.21), the money channel 9.18 (9.51), debt deflation 0 (0), the 1930s' Phillips slope 0.162 (0.136), Okun
+      0.688 (0.713), 1930's spending collapse 6.9% of GDP (6.0), the rate transmission at its lower bound 0.03 (0.03).
+      The misses are the quarterly fit's: 2008-10's gap too deep in 2008Q4-2009Q1 (−6.1 and −8.1 against −4.4 and −5.8),
+      unemployment rising from early 2008 a few tenths too soon; 1929-33's unemployment too high in 1930 (12.9 against
+      8.7). Held out, the dot-com bust: monthly unemployment's RMS error 0.54 (0.66 quarterly), the gap's 1.28 (1.11).
