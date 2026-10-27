@@ -1717,6 +1717,59 @@ is right; in an extreme path the destination is what is wrong.
     "path"`, `Shock.rate` by step): in an episode where the central bank followed no rule the model has (the Fed in
     1973-75 and 1981-82, and as measured in 1990-91), its policy is dated as it was, so the fit tests the transmission,
     not a rule. The forward runs keep the rule. Alternative: a rule fitted to each episode's central bank.
+84. **Decided 2026-10-27 (her call: "Extend the model first: fast rate-sensitive spending, relief measured from a
+    pre-episode norm, oil's effect on capacity, expectations on smoothed inflation. Then fit all the crashes."; the
+    forms of 84-87 Claude's): rate-sensitive spending** (`Common.a_f`, `f_speed`; check T5). Housebuilding, durables and
+    business investment as a demand level moving toward −a_f × the real-rate gap (the policy rate less expected
+    inflation less the neutral rate) by the share f_speed of the way a quarter (compounded at a month), beside the gap's
+    own slow transmission (a_r); both fitted; off at a_f = 0. Measured housebuilding stays among every US episode's inputs,
+    as in 2008-10, so in the fit the channel is the rest of rate-sensitive spending (out of sample, with no housing input,
+    it carries all of it: an understatement, stated). Alternatives: the channel carrying housebuilding in the recessions
+    the rates drove, dropped from their inputs (tried, Log 50); one transmission at a faster persistence.
+85. **Decided 2026-10-27 (her call, as 84): relief measured from the rate debts paid before the start**
+    (`Common.reprice`, `Region.i_norm`; T6). Floating-rate debt reprices over a year: the rate it pays is the policy
+    rate's average over the past year, the months before the start at the year's measured average (i_norm), and relief
+    is the fall from i_norm. An episode starting at a rate peak (July 1981's 19%) no longer reads the first cuts as
+    relief: its debts paid 15% over the year before. Not fitted (a year is the floating share's definition). Off:
+    repricing at once, from the start's rate. Alternative: a norm over the years fixed-rate debts were written, for which
+    the model has no channel.
+86. **Decided 2026-10-27 (her call, as 84): oil idles capacity** (`Common.cap_oil`, `cap_speed`; T7). With the energy
+    term on, the capacity lost moves toward cap_oil × the rise in consumers' energy bill (% of GDP), a quarter of the
+    way a quarter (approximate: idled over about a year); the output lost lowers the measured gap, and with it employment
+    and the banks' losses, but not inflation: core inflation answers the gap against capacity. cap_oil fitted. The energy
+    term is off in the forward runs until decision 27's condition, so they do not move with it. Symmetric (capacity
+    returns as oil falls; the literature's asymmetry is not modelled). Alternatives: the production function's cost
+    share alone (small); none.
+87. **Decided 2026-10-27 (her call, as 84): expectations on the past year's inflation** (`Common.expect_over`; T8).
+    Adaptive expectations adapt to the average of the past year's inflation (core, or headline where they form on it)
+    in place of the last step's, the months before the start at index 0's twelve-month reading: a month's spike no longer
+    passes into expectations whole (Log 49's January 1974), and the step matters less. Not fitted (a year: households'
+    expectations track twelve-month inflation). The anchor and the Phillips slope carried over by step as decision 80.
+88. **Decided 2026-10-27 (Claude, under decision 82): each era's neutral rate** (`Region.r_star`; T9). An episode's
+    neutral real rate is its era's: the New York Fed's Holston-Laubach-Williams estimate for the start's quarter
+    (current estimates, one-sided; cached), the US 4.05 (1973Q3), 3.77 (1981Q3), 3.73 (1990Q2), 3.71 (2000Q1), 2.61
+    (2007Q4), the euro area 1.33 (2011Q1); Sweden the euro area's 2.40 (1990Q2; no estimate for Sweden); Japan 3%, stated
+    (none; the Bank of Japan's staff put it near 3-4% around 1990); 1929-33 and 1937-38 the model's 0.75 (no estimate
+    before 1961). Kept at the start's value through an episode (the one-sided estimate falls within a slump, 2.61 to 0.81
+    by 2009Q2, reading part of it as a lower neutral rate). Before, every episode ran on today's 0.75 and read each era's
+    normal real rates as tight money; fitted that way the extended model explained the post-war recessions by it (Log 50).
+    Not kept: a measurement error the fit exploits. The forward runs keep 0.75 in every region; HLW's latest (2026Q2) puts
+    the US at 1.01 and the euro area at 0.09, a question for the restatement.
+89. **Decided 2026-10-27 (Claude, under decision 82): the crashes abroad and 1937-38, measured.** Each economy one region,
+    its central bank's rate as set (decision 83): Sweden's three-month Treasury bill (the Riksbank; its 500% overnight
+    days were not what borrowers paid), Japan's call rate, the euro area's EONIA, the US's Treasury bill in 1937-38; its
+    fiscal stance measured, the OECD's underlying primary balance (Economic Outlook 119, cyclically adjusted, so the
+    model's own automatic stabilisers are not counted twice; for 1990-91 too, in place of the austerity rule dated at the
+    budget agreement), and for 1937-38 the federal surplus (actual, so fiscal 1938's tightening is understated). Targets
+    at their measured frequency; abroad the output gap is the OECD's quarterly GDP against its potential, each year's
+    average within 0.1 of the annual gap it publishes. The bust's own collapse is measured, as 2008-10's housebuilding and
+    2000-03's equipment are: private investment in Sweden (down 10 points of GDP, 1990-93) and Japan (business investment
+    down 5); the euro area's periphery spreads, half passed to borrowers (decision 70's pass-through; Greece's yields after
+    its restructuring left out). No stated bank losses: for Sweden they counted the credit crunch twice once investment
+    was measured. Each region's Okun slope is fitted on its own episode, as the US's is. Stated where nothing public
+    measures it, each in its episode's docstring: wealth, bank capital and loans, the replacement and floating shares,
+    the anchors. Alternatives: investment endogenous (the model has no accelerator; without it Sweden and Japan boomed on
+    their fiscal stances, Log 50); stated bank losses (Englund's for Sweden).
 
 ## Next
 
@@ -2638,3 +2691,68 @@ the macro block lands.
       is measured from the start's rate, so an episode starting at a rate peak (July 1981's 19%) reads falling rates
       as stimulus; the model was built for busts: falls in wealth, investment and banks' capital. Her call next (a
       veto-window question): fit on the busts and check on the rest, or extend the model first.
+50. **2026-10-27 — the model extended, and fitted on all the crashes** (her call: "Extend the model first: fast
+    rate-sensitive spending, relief measured from a pre-episode norm, oil's effect on capacity, expectations on smoothed
+    inflation. Then fit all the crashes."; decisions 84-89; `global_crash.py`, `code/episodes.py`). Not yet the model's
+    fit: `global_crash.fit` and every stored result stand until her call on adopting it and the restatement (the case,
+    the website's export and its JavaScript at the monthly step).
+    - **The extensions**, each off at its default: the 80 quarterly runs of Log 47 are bit-identical to main's
+      (ad07564). check_global_crash 62/62, T5-T9 new; T7's condition was corrected after its first run (it compared the
+      whole run's highest gap with the other run's lowest, where point by point was meant). Every battery passes (23;
+      check_chains once its gitignored BEA cache was copied into the worktree).
+    - **Each era's neutral rate** (decision 88). On today's 0.75 for every era the extended model fitted the US
+      episodes at loss 128.6 (371 points) with rate-sensitive spending at its bound (1.0), by reading the 1970s-2000s'
+      normal real rates (HLW's neutral rate 3.7-4.0) as tight money. On HLW's rate the fit sets rate-sensitive spending
+      to zero, with housebuilding among the inputs (loss 210.7) or without it (229.9), and 1981-82 misses: the model's
+      core inflation stays near 8.8% through 1982 (the data fall to 4.3%) because expectations are anchored on the
+      start's own inflation, so the cuts read as easing and the channel adds stimulus from mid-1982. A lower stated
+      target (4%) would let the channel help (1981-82's loss 117 to 61 at a_f 1). Not adopted: it would be tuning.
+    - **The added crashes** (decision 89): 1937-38, Sweden 1990-93, the euro area 2011-13, Japan 1991-95 (December 1990
+      to December 1995). Found on the way:
+      - With investment endogenous, Sweden and Japan boomed on their measured fiscal stances (the gap +8 and +6 at the
+        end, against −8 and −5).
+      - Stated bank losses on top of measured investment counted Sweden's credit crunch twice.
+      - The episodes' own trade channel read each economy's slump back to it as its partners'. The model's "rest of the
+        world" is the regions' size-weighted gap, which is the economy itself at size 1 when the others are passive. It
+        multiplied Sweden's slump about 2.2 times (−18 against −9) and fed back 0.07 and 0.16 of the gap in 1929-33
+        and 2008-10.
+      Fixed: the channel is off in every episode, whose exports are measured (`Episode.run`). The stored quarterly fit
+      (`run_1929`, `run_2007`) has the same feedback; the restatement removes it.
+    - **The joint fit** (nine episodes fitted, the dot-com bust held out; 750 points; 13 parameters; the search as
+      before, seed 7; 12 minutes; `episodes.fit()` reproduces it): loss 421.6. The parameters:
+      - the spread per unit of capital lost 15, at its bound, and the money channel 2.24 (3.10 and 9.18 at Log 48's
+        fit); debt deflation 0;
+      - the 1930s' Phillips slope 0.41; US Okun 0.64; 1930's spending collapse 7.9% of GDP;
+      - the rate transmission at its bound, 0.03; rate-sensitive spending 0;
+      - oil's capacity effect 1.77 per point of the energy bill;
+      - Okun abroad: Sweden 0.92, the euro area 0.97, Japan 0.32.
+      The worst gap and the highest unemployment, model against data:
+      - 1929-33: output in 1933 0.69 of 1929's on the 2% trend (0.74); unemployment in 1933 26.0 (24.9).
+      - 2008-10: −8.9 (−6.3); 10.3 (10.0).
+      - 1973-75: −6.5 (−7.4); 8.9 (9.0).
+      - 1981-82: −0.4 (−5.8); 7.5 (10.8).
+      - 1990-91: −2.0 (−3.6); 6.4 (7.8).
+      - 1937-38: unemployment 12.1 (20.0); output in 1939 1.06 of 1937's (1.04).
+      - Sweden: −10.6 (−8.7); 9.9 (9.8).
+      - The euro area: −2.8 (−2.7); 12.5 (12.2).
+      - Japan: −5.9 (−7.0); 3.5 (3.4).
+      Held out, the dot-com bust: unemployment's RMS error 0.42 (0.54 at Log 48), the gap's 1.10 (1.28), its trough
+      −3.6 (−3.9).
+    - **The misses, as read here**:
+      - 1981-82: expectations in a disinflation, anchored on the start's own inflation.
+      - 1937-38: the reserve requirement rises and the gold sterilisation have no channel, and the fiscal stance is
+        the actual deficit, which understates fiscal 1938's tightening.
+      - Core inflation late in the busts abroad runs too high (Sweden's fall in 1992 after the 1991 tax reform's VAT;
+        Japan's to 0.3%).
+    - **On today's 0.75 for every era**, for comparison: loss 379.6, lower by the same reading of normal real rates as
+      tight money (1981-82's trough −1.5 against −0.4; Japan's −6.8). Not adopted (decision 88).
+    - **Flag, hers to look at**: the bank channel is identified by 1929-33 alone, which cannot separate its two parts.
+      The spread per unit of capital lost sits at its bound (1929-33's loss is 193 at 3 and 26 at 15). Widened to 40,
+      the fit takes it to 19.1 and the money channel to 0, for a loss of 417.5. Under rules without a backstop the
+      forward runs' spreads per unit of capital lost would be five to six times the stored fit's 3.21. Measured credit
+      spreads as a target (Moody's Baa against Aaa, monthly from 1919, cached) would separate the two parts.
+    - **Data** (all public, cached; no email in any request): the OECD's Economic Outlook 119 (SDMX: GDP, potential,
+      the gap, the underlying primary balance, exports, investment); HLW's estimates (the New York Fed); Eurostat's
+      quarterly accounts (the euro area's exports); FRED for the rest (OECD MEI unemployment, core prices, share
+      prices and interest rates; BIS credit and property prices; the NBER's 1930s monthly unemployment and Dow-Jones;
+      the federal surplus); the Riksbank's three-month bill, cached by se_1990s.py.

@@ -509,6 +509,70 @@ check("T4 before a refit, the quarterly fit run monthly stays near itself in the
       f"US out of work {nw_q:.2f} quarterly, {nw_m:.2f} monthly; US output {q24['US']['y'].min():.2f} and "
       f"{m70['US']['y'][::3].min():.2f}")
 
+# the model extended for the monthly refit (decisions 84-88), each on its own: the US alone, its expectations pinned to the
+# target (anchor 1) and its rate as set, so a channel's arithmetic can be read off the run
+us1 = replace(regs["US"], pi0=2.0, i0=2.0 + cm.r_star + 1.0)
+pin = replace(gc.MODERN, policy="path", anchor=1.0, pi_star=2.0, fiscal="none")
+rl1 = {r: pin for r in gc.R}
+flat = lambda n, x: np.full(n, float(x))  # noqa: E731
+r1 = {**regs, "US": us1}
+sh1 = gc.Shock(rate={"US": flat(41, us1.i0)})
+cm5 = replace(cm, a_f=0.5, f_speed=0.35)
+o5q = gc.simulate(r1, rl1, sh1, cm5, 41, active=["US"])["US"]
+o5m = gc.simulate(r1, rl1, gc.Shock(rate={"US": flat(13, us1.i0)}), cm5, 13, active=["US"], dt=1 / 12)["US"]
+check("T5 rate-sensitive spending (decision 84): at a real rate a point above neutral it goes the fitted share of the way "
+      "to its long-run level a quarter (-a_f x 0.35 after one), reaches it in the long run, and a month's step compounds "
+      "to the quarter's; off (a_f 0) it is nothing",
+      abs(o5q["d_rate"][1] + 0.5 * 0.35) < 1e-12 and abs(o5q["d_rate"][40] + 0.5) < 1e-6
+      and abs(o5m["d_rate"][3] - o5q["d_rate"][1]) < 1e-12 and abs(o5m["d_rate"][12] - o5q["d_rate"][4]) < 1e-12
+      and not gc.simulate(r1, rl1, sh1, cm, 41, active=["US"])["US"]["d_rate"].any(),
+      f"after a quarter {o5q['d_rate'][1]:.4f}, a year {o5q['d_rate'][4]:.4f}, ten years {o5q['d_rate'][40]:.5f}; "
+      f"by month {o5m['d_rate'][3]:.4f} at three months")
+c6 = (cm.mpc_b - cm.mpc_rep) * us1.floating * us1.hh_debt / 100
+cut = gc.Shock(rate={"US": np.concatenate([[us1.i0], flat(12, us1.i0 - 1.0)])})
+o6 = gc.simulate(r1, rl1, cut, replace(cm, reprice=1.0), 13, active=["US"])["US"]
+o6b = gc.simulate({**r1, "US": replace(us1, i_norm=us1.i0 + 1.0)}, rl1, sh1, replace(cm, reprice=1.0), 13, active=["US"])["US"]
+o6c = gc.simulate(r1, rl1, cut, cm, 13, active=["US"])["US"]
+check("T6 relief from the rate debts paid before the start (decision 85): with floating-rate debt repricing over a year, a "
+      "cut of a point reaches a quarter of its relief in the first quarter and all of it after four; a start a point "
+      "under the year's average rate is relief already owed, passed on as the debt reprices; off, the cut's relief is "
+      "whole at once, from the start's rate",
+      abs(o6["d_relief"][1] - c6 / 4) < 1e-12 and abs(o6["d_relief"][4] - c6) < 1e-12 and abs(o6["d_relief"][8] - c6) < 1e-12
+      and abs(o6b["d_relief"][1] - c6 / 4) < 1e-12 and abs(o6b["d_relief"][4] - c6) < 1e-12 and abs(o6c["d_relief"][1] - c6) < 1e-12,
+      f"a point's relief {c6:.4f}: {o6['d_relief'][1]:.4f} after a quarter, {o6['d_relief'][4]:.4f} after a year")
+us7 = replace(us1, i0=2.0 + cm.r_star, energy_weight=0.04, energy_pass=(0.23, 0.1), consumption_share=0.68, energy_income=0.4)
+oil = gc.Shock(rate={"US": flat(21, us7.i0)}, oil={"US": np.concatenate([[80.0], flat(20, 120.0)])}, oil_before={"US": 80.0})
+o7 = gc.simulate({**r1, "US": us7}, rl1, oil, replace(cm, cap_oil=2.0), 21, active=["US"])["US"]
+o7n = gc.simulate({**r1, "US": us7}, rl1, oil, cm, 21, active=["US"])["US"]
+kap = cm.kappa
+check("T7 oil idles capacity (decision 86): with the energy term on, the capacity lost approaches cap_oil x the rise in "
+      "consumers' energy bill at a quarter's share of 0.25, lowers the measured gap, and core inflation answers the gap "
+      "against capacity (the measured gap plus the capacity lost); off, nothing moves",
+      abs(o7["cap"][1] - 0.25 * 2.0 * o7["e_bill"][1]) < 1e-12 and bool(np.all(o7["y"][1:] < o7n["y"][1:]))
+      and float(np.max(np.abs(o7["pi"][1:] - 2.0 - kap * (o7["y"][1:] + o7["cap"][1:])))) < 1e-12
+      and not o7n["cap"].any() and o7["y"][20] < o7n["y"][20] - 1.0,
+      f"energy bill +{o7['e_bill'][20]:.2f}% of GDP; capacity lost {o7['cap'][20]:.2f}; the gap {o7['y'][20]:.2f} against "
+      f"{o7n['y'][20]:.2f} without")
+ad = replace(gc.MODERN, policy="path", anchor=0.0, pi_star=2.0, fiscal="none")
+spike = gc.Shock(rate={"US": flat(13, us7.i0)}, oil={"US": np.concatenate([[80.0, 80.0, 160.0], flat(10, 160.0)])},
+                 oil_before={"US": 80.0})
+o8 = gc.simulate({**r1, "US": replace(us7, pi_h0=2.0)}, {r: replace(ad, expect_from="headline") for r in gc.R}, spike,
+                 replace(cm, expect_over=1.0), 13, active=["US"])["US"]
+pie8 = [np.mean([o8["pi_h"][max(j, 0)] for j in range(k - 4, k)]) for k in range(1, 13)]
+check("T8 expectations on smoothed inflation (decision 87): adapting to the past year's inflation, a quarter's oil spike in "
+      "headline moves expected inflation by a quarter of it the next quarter (core answers the past year's average, "
+      "the months before the start at index 0's reading)",
+      float(np.max(np.abs(o8["pi"][1:] - np.array(pie8) - kap * o8["y"][1:]))) < 1e-12,
+      f"headline in the spike's quarter {o8['pi_h'][2]:.2f}; core the quarter after {o8['pi'][3]:.2f}")
+same = gc.simulate({**regs, "US": replace(regs["US"], r_star=cm.r_star)}, {r: gc.MODERN for r in gc.R}, gc.ai_shock(12), cm, 12)
+base9 = gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(12), cm, 12)
+up = gc.simulate({**regs, "US": replace(regs["US"], r_star=cm.r_star + 1.0)}, {r: gc.MODERN for r in gc.R}, gc.ai_shock(12), cm, 12)
+check("T9 a region's neutral rate (decision 88): set to the model's it changes nothing; a point higher, the policy rule's "
+      "target is a point higher, so the first quarter's rate rises by the share the rule moves a quarter (1 - smoothing)",
+      all(np.array_equal(same[r][k], base9[r][k]) for r in base9 for k in base9[r])
+      and abs(up["US"]["i"][1] - base9["US"]["i"][1] - (1 - cm.smooth)) < 1e-12,
+      f"the US rate in 2026Q4 {base9['US']['i'][1]:.3f}, {up['US']['i'][1]:.3f} with a neutral rate a point higher")
+
 n_ok = sum(ok for _, ok, _ in RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks passed")
 sys.exit(0 if n_ok == len(RESULTS) else 1)

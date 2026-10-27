@@ -91,11 +91,17 @@
 #   policy       i = max(floor, s i_1 + (1-s) [r* + pie + phi_pi (pi_1 - pi*) + phi_y y_1])   (modern; pi_1 headline if
 #                react_to is "headline"; the four-quarter average of headline or core if "headline4" or "core4"; in a
 #                union, on its members' size-weighted pie, pi_1 and y_1)
-#   expectations pie = anchor pi* + (1 - anchor) pi_1
+#   expectations pie = anchor pi* + (1 - anchor) pi_1   (pi_1 the past year's average with Common.expect_over: decision 87)
 #   demand level D = wealth + capex + unemployed + rate relief + debt deflation + credit + money + trade + fiscal
-#                    (+ the energy bill, when the energy term is on)
-#   output gap   y = a1 y_1 - a_r (i - pie - r*) + D - a1 D_1
-#   inflation    pi = pie + kappa y + tariff pass-through (core); headline pi_h = pi + the energy term (= pi when off)
+#                    (+ the energy bill, when the energy term is on; + rate-sensitive spending, moving toward -a_f (i - pie
+#                    - r*) at f_speed a quarter: decision 84; - the capacity oil idles, cap_oil x the energy bill: decision 86)
+#   output gap   y = a1 y_1 - a_r (i - pie - r*) + D - a1 D_1   (r* the region's own when set: decision 88)
+#   inflation    pi = pie + kappa (y + capacity idled) + tariff pass-through (core); headline pi_h = pi + the energy term
+#                (= pi when off)
+#   relief       to floating-rate borrowers, from the start's rate; with Common.reprice, from the rate their debt paid in
+#                the year before the start, as it reprices (decision 85)
+#   The extensions of 2026-10-27 (decisions 84-88, her call: "Extend the model first") are each off at their defaults,
+#   which are the model before, bit for bit (T1, T5-T9).
 #   unemployment u moves toward u* - okun y at a regional speed; u* ratchets up by eta x (u - u*) and the drift
 #   banks        capital falls by losses above normal (a base rate plus unemployment, the gap, and shock add-ons)
 #   spreads      s = s0 + sigma x (capital lost) + global mood, capped under a backstop (France: + the pass-through
@@ -224,6 +230,11 @@ class Region:
     sov_banks: float = 0.0
     sov_pass: float = 0.0
     sov_mtm: float = 0.0
+    # the policy rate's average over the year before the start: the rate floating-rate debt was paying, which relief is
+    # measured from when Common.reprice is on (decision 85); None: the start's rate
+    i_norm: float | None = None
+    # the region's neutral real rate, % (decision 88: an episode's is its era's); None: the model's (Common.r_star)
+    r_star: float | None = None
 
 
 @dataclass(frozen=True)
@@ -264,6 +275,16 @@ class Common:
     mpc_taxed: float = 0.5      # workers' spending per krona of extra tax (approximate; as supporters' in households.py)
     ai_levy: float = 0.5        # share of the displaced's former pay, now owners' income, levied (approximate; a dial)
     stress_crisis: float = 0.2  # bank capital lost above which the crisis price of debt applies
+    # the model extended for the monthly refit (decisions 84-87, her call of 2026-10-27), each off at its default, which
+    # is the model before
+    a_f: float = 0.0            # rate-sensitive spending (housebuilding, durables, investment): demand level per point of
+                                # real-rate gap at its long-run level (decision 84; fitted)
+    f_speed: float = 0.35       # the share of the way to that level it goes a quarter (fitted)
+    reprice: float = 0.0        # years over which floating-rate debt reprices: relief follows the policy rate's average over
+                                # them, from the rate debts paid before the start (decision 85); 0: at once, from the start's
+    cap_oil: float = 0.0        # capacity lost per point of GDP that consumers' energy bill rises (decision 86; fitted)
+    cap_speed: float = 0.25     # the share of the way to that loss capacity goes a quarter (approximate: idled over a year)
+    expect_over: float = 0.0    # years of past inflation that expectations adapt to (decision 87; 0: the last step's)
 
 
 @dataclass(frozen=True)
@@ -428,7 +449,8 @@ def step_common(cm: Common, dt: float) -> Common:
         return cm
     a1 = persist(cm.a1, dt)
     return replace(cm, a1=a1, a_r=cm.a_r * (1 - a1) / (1 - cm.a1), smooth=persist(cm.smooth, dt),
-                   care_hire=per_step(cm.care_hire, dt))
+                   care_hire=per_step(cm.care_hire, dt), f_speed=per_step(cm.f_speed, dt),
+                   cap_speed=per_step(cm.cap_speed, dt))
 
 
 def step_region(g: Region, dt: float) -> Region:
@@ -534,7 +556,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                                         "d_trade", "d_fiscal", "loss", "deficit_extra", "s_cog", "s_phys", "pay_weighted",
                                         "at_cog", "at_phys", "ax_cog", "ax_phys", "d_care", "care_cost", "care",
                                         "debt_extra", "premium", "d_fin", "room", "out",
-                                        "pi_h", "e_pi", "e_bill", "d_energy", "sov")} for r in names}
+                                        "pi_h", "e_pi", "e_bill", "d_energy", "sov", "d_rate", "cap")} for r in names}
     W = {r: wave_weights(regions[r], rules[r], cm, waves) for r in names}
     for r in names:
         g, rl = regions[r], rules[r]
@@ -567,9 +589,17 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
         """The share of region r's exports that go to the other members of its union (no tariffs inside it)."""
         return sum(v for q, v in regions[r].trade.items() if partner(r, q))
 
+    L_exp = max(int(round(cm.expect_over / dt)), 1)
+
+    def neutral(r):
+        return cm.r_star if regions[r].r_star is None else regions[r].r_star
+
     def expected(r, k):
         rl = rules[r]
-        return rl.anchor * rl.pi_star + (1 - rl.anchor) * (out[r]["pi_h"] if rl.expect_from == "headline" else out[r]["pi"])[k - 1]
+        src = out[r]["pi_h"] if rl.expect_from == "headline" else out[r]["pi"]
+        if cm.expect_over > 0:                      # the average of the past expect_over years; before the start, index 0's
+            return rl.anchor * rl.pi_star + (1 - rl.anchor) * (sum(src[max(j, 0)] for j in range(k - L_exp, k)) / L_exp)
+        return rl.anchor * rl.pi_star + (1 - rl.anchor) * src[k - 1]
 
     def seen(r, k):
         """The inflation the policy rule reacts to (core, the model's pi; headline when the rules say hands are tied)."""
@@ -589,7 +619,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 continue
             lead = rules[u] if u in m else rules[m[0]]
             avg = lambda f: sum(regions[q].size * f(q) for q in m) / wt  # noqa: E731
-            target = (cm.r_star + avg(lambda q: expected(q, k)) + cm.phi_pi * (avg(lambda q: seen(q, k)) - lead.pi_star)
+            rs = cm.r_star if all(regions[q].r_star is None for q in m) else avg(neutral)
+            target = (rs + avg(lambda q: expected(q, k)) + cm.phi_pi * (avg(lambda q: seen(q, k)) - lead.pi_star)
                       + cm.phi_y * avg(lambda q: out[q]["y"][k - 1]))
             rate[u] = max(min(regions[q].floor for q in m), cm.smooth * out[m[0]]["i"][k - 1] + (1 - cm.smooth) * target)
         for r in names:
@@ -608,7 +639,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                 if g.union in rate:
                     i = rate[g.union]
                 else:
-                    target = cm.r_star + pie + cm.phi_pi * (seen(r, k) - pis) + cm.phi_y * o["y"][k - 1]
+                    target = neutral(r) + pie + cm.phi_pi * (seen(r, k) - pis) + cm.phi_y * o["y"][k - 1]
                     i = max(g.floor, cm.smooth * o["i"][k - 1] + (1 - cm.smooth) * target)
             elif rl.policy == "path":               # the rate as the central bank set it (an episode's measured rate)
                 i = float(shock.rate[r][k])
@@ -618,7 +649,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                     if k == q:
                         i += pts
             o["i"][k] = i
-            rgap = i - pie - cm.r_star
+            rgap = i - pie - neutral(r)
             # demand levels (% of GDP)
             eq = shock.equity.get(r, np.zeros(n))[k]
             cx = shock.capex.get(r, np.zeros(n))[k]
@@ -647,7 +678,14 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             o["room"][k] = room
             d_fin = -(cm.mpc_taxed - cm.mpc_rep) * covered if rl.care_finance == "labour taxes" else 0.0
             o["d_fin"][k] = d_fin
-            d_relief = (cm.mpc_b - cm.mpc_rep) * g.floating * g.hh_debt / 100 * (g.i0 - i)
+            # relief to floating-rate borrowers: the rate their debt pays (repricing over cm.reprice years: the policy
+            # rate's average over them, the months before the start at i_norm) against the rate it paid before the start
+            norm = g.i0 if g.i_norm is None else g.i_norm
+            paid = i
+            if cm.reprice > 0:
+                L = max(int(round(cm.reprice / dt)), 1)
+                paid = (sum(o["i"][j] for j in range(max(1, k - L + 1), k + 1)) + max(L - k, 0) * norm) / L
+            d_relief = (cm.mpc_b - cm.mpc_rep) * g.floating * g.hh_debt / 100 * (norm - paid)
             d_debt = -cm.debt_deflation * g.priv_debt / 100 * max(o["Pexp"][k - 1] / o["P"][k - 1] - 1, 0.0) * 100
             d_credit = -cm.a_s * o["s"][k - 1]
             d_money = 0.0 if rl.insured else -cm.money * o["stress"][k - 1]
@@ -696,6 +734,13 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             if r in shock.oil:                      # the energy bill: a tax on consumers' other spending
                 o["d_energy"][k] = -g.energy_income * o["e_bill"][k]
                 D += o["d_energy"][k]
+            if cm.a_f > 0:                          # rate-sensitive spending, toward its level at this real rate
+                o["d_rate"][k] = o["d_rate"][k - 1] + cm.f_speed * (-cm.a_f * rgap - o["d_rate"][k - 1])
+                D += o["d_rate"][k]
+            capacity = r in shock.oil and cm.cap_oil > 0
+            if capacity:                            # oil idles capacity: output lost that does not lower inflation
+                o["cap"][k] = o["cap"][k - 1] + cm.cap_speed * (cm.cap_oil * o["e_bill"][k] - o["cap"][k - 1])
+                D -= o["cap"][k]
             for key, v in (("d_wealth", d_wealth), ("d_capex", d_capex), ("d_unemp", d_unemp), ("d_relief", d_relief),
                            ("d_debt", d_debt), ("d_credit", d_credit), ("d_money", d_money), ("d_trade", d_trade), ("d_fiscal", d_fiscal),
                            ("d_care", d_care)):
@@ -705,7 +750,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             y = max(y, -60.0)
             o["y"][k] = y
             kap = phillips_step(cm.kappa_1930 if rl.kappa_1930s else cm.kappa, anchor_q[r], dt)
-            pi = pie + kap * y + (0.03 * tariff_up) / dt
+            # inflation answers the gap against capacity: the measured gap plus the capacity oil has idled
+            pi = pie + kap * (y + o["cap"][k] if capacity else y) + (0.03 * tariff_up) / dt
             o["pi"][k] = pi
             o["pi_h"][k] = pi + o["e_pi"][k] if r in shock.oil else pi
             o["P"][k] = o["P"][k - 1] * (1 + pi / 100 * dt)

@@ -12,11 +12,19 @@
 # measured points in time where not (household equity at each quarter's end, Fed Z.1; a quarter's average placed in its
 # middle month), as stated by each episode.
 #
+# The episodes (decision 82's list): the US 1929-33, 1937-38, 1973-75, 1981-82, 1990-91 and 2008-10, Sweden 1990-93,
+# the euro area 2011-13, Japan 1991-95; the dot-com bust (2000-03) held out. On the model extended for them (decisions
+# 84-88, her call of 2026-10-27: "Extend the model first ... Then fit all the crashes"): rate-sensitive spending, relief
+# from the rate debts paid before the start, oil's effect on capacity, expectations on the past year's inflation, and
+# each era's neutral rate (the New York Fed's HLW estimates where they exist). Abroad, each economy is one region, its
+# central bank's rate as set, its fiscal stance the OECD's measured underlying primary balance (decision 89).
+#
 # Run from paths/:  ../venv/Scripts/python.exe code/episodes.py     (prints each episode's fit at the stored parameters)
 
 from __future__ import annotations
 
 import functools
+import json
 import os
 import sys
 from dataclasses import dataclass, field, replace
@@ -70,7 +78,13 @@ class Episode:
         return [p0 + k for k in range(self.months + 1)]
 
     def run(self, cm: gc.Common) -> dict:
-        return gc.simulate(self.regions, self.rules, self.shock, cm, self.months + 1, active=self.active, dt=M)[self.region]
+        """The model on the episode. The rest of the world's slump is measured (each episode's exports), so the model's own
+        trade channel is off: with the other regions passive, its 'rest of the world' (the regions' size-weighted gap)
+        is the episode's own economy at size 1, and read the region's slump back to it as its partners' (in Sweden's
+        1990-93, exports 30% of GDP, it multiplied the slump about 2.2 times; in 1929-33 and 2008-10 it fed back 0.07
+        and 0.16 of the gap; found 2026-10-27). Tariffs still cut exports (the term needs no partner)."""
+        regions = {**self.regions, self.region: replace(self.regions[self.region], trade={})}
+        return gc.simulate(regions, self.rules, self.shock, cm, self.months + 1, active=self.active, dt=M)[self.region]
 
     def series(self, o: dict, name: str) -> np.ndarray:
         """The model's series by month: u, the gap y, the price level P relative to index 0, output relative to index 0
@@ -122,6 +136,40 @@ def quarterly(sid: str, end: bool = False) -> pd.Series:
     s = gc.fred(sid)
     g = s.groupby(s.index.to_period("Q"))
     return g.last() if end else g.mean()
+
+
+def year_before(rate: pd.Series, start: str) -> float:
+    """A monthly policy rate's average over the year to the end of month `start` (Region.i_norm: the rate floating-rate
+    debt was paying at the start, repricing within a year; decision 85)."""
+    p0 = pd.Period(start, "M")
+    return float(np.mean([rate[p0 - j] for j in range(12)]))
+
+
+HLW = os.path.join(gc.ROOT, "cache", "fed", "Holston_Laubach_Williams_current_estimates.xlsx")
+HLW_URL = ("https://www.newyorkfed.org/medialibrary/media/research/economists/williams/data/"
+           "Holston_Laubach_Williams_current_estimates.xlsx")
+
+
+@functools.lru_cache(maxsize=None)
+def hlw() -> pd.DataFrame:
+    """The natural rate of interest by quarter, % (Holston, Laubach and Williams, the New York Fed's current estimates,
+    one-sided; final data point 2026Q2): columns US and EA (the euro area, from 1972)."""
+    if not os.path.exists(HLW):
+        import requests
+        r = requests.get(HLW_URL, timeout=60)
+        r.raise_for_status()
+        open(HLW, "wb").write(r.content)
+    df = pd.read_excel(HLW, sheet_name="HLW Estimates", header=None, skiprows=6)
+    df = df[[0, 10, 12]].dropna(subset=[0])
+    df.columns = ["date", "US", "EA"]
+    return df.set_index(pd.PeriodIndex(pd.to_datetime(df["date"]), freq="Q"))[["US", "EA"]].astype(float)
+
+
+def r_star(area: str, start: str) -> float:
+    """The era's neutral real rate for an episode starting at the end of month `start` (decision 88): HLW's estimate for
+    the start's quarter, as it read before the episode (the one-sided estimate falls within a slump, reading part of it as
+    a lower neutral rate; the start's value is kept through the episode)."""
+    return float(hlw().loc[pd.Period(start, "M").asfreq("Q"), area])
 
 
 def at_quarter_ends(q: pd.Series, start: str, n: int) -> np.ndarray:
@@ -205,7 +253,8 @@ def e2007(okun: float, drop: tuple = ()) -> Episode:
     exm = at_mid_quarter(((xq - xq[q0]) / gq[q0] * 100).loc[q0:], start, n + 1)
     parts = {"housing wealth": house, "housebuilding": build, "exports": exm}
     dem = sum(v for k, v in parts.items() if k not in drop)
-    regs = {"US": gc.us_2007(okun), "EA": gc.passive("EA"), "SE": gc.passive("SE"), "CN": gc.passive("CN")}
+    us = replace(gc.us_2007(okun), i_norm=year_before(monthly("FEDFUNDS"), start), r_star=r_star("US", start))
+    regs = {"US": us, "EA": gc.passive("EA"), "SE": gc.passive("SE"), "CN": gc.passive("CN")}
     rl = replace(gc.MODERN, fiscal_at=years_after(start, "2009-02-17"))
     u, core = monthly("UNRATE"), monthly("PCEPILFE")
     gap = (quarterly("GDPC1") / quarterly("GDPPOT") - 1) * 100
@@ -237,7 +286,8 @@ def e2000(okun: float, fiscal: str = "stimulus") -> Episode:
     us = gc.Region("US", 1.0, float(um[p0]), float(monthly("DFF")[p0]), float((core[q0] / core[q0 - 4] - 1) * 100), 0.0,
                    okun, 0.9, 0.35, float(hh / gdp[q0] * 100), float((hh + biz) / gdp[q0] * 100), 0.25,
                    float(z1[q0] / 1000 / gdp[q0]), 0.0, 10.0, 65.0, float(quarterly("EXPGSC1")[q0] / quarterly("GDPC1")[q0]),
-                   {"EA": 0.2, "CN": 0.02, "SE": 0.005, "RoW": 0.775}, 2.5, 3.0, 0.0, 0.0)
+                   {"EA": 0.2, "CN": 0.02, "SE": 0.005, "RoW": 0.775}, 2.5, 3.0, 0.0, 0.0,
+                   i_norm=year_before(monthly("DFF"), start), r_star=r_star("US", start))
     zq = (1 - z1.loc[q0:] / z1[q0]).clip(lower=0.0)
     eq = at_quarter_ends(zq, start, n + 1)
     eqp = quarterly("Y033RC1Q027SBEA") / gdp * 100
@@ -257,12 +307,14 @@ def e2000(okun: float, fiscal: str = "stimulus") -> Episode:
 # measured on 1990Q1-2026Q2 at the tag paths-pre-signfix; consumption's share of GDP; spending lost per unit of a higher
 # energy bill), carried back to earlier decades as approximate; energy's share of spending measured at each start
 US_ENERGY = (0.2308, 0.0986, 0.675, 0.4)
+POSTWAR_HOUSING = True      # housebuilding among the post-war recessions' measured inputs, as in 2008-10 (decision 84)
 
 
 def us_state(start: str, okun: float, stimulus: float) -> gc.Region:
     """The US at the end of month `start`, measured where a public series exists (FRED): unemployment (UNRATE), the funds
     rate (FEDFUNDS), core PCE prices' twelve-month inflation (PCEPILFE), household and business debt over GDP (CMDEBT,
-    BCNSDODNS), household equity over GDP (Z.1), real exports over real GDP; the quarterly ones at the start's quarter.
+    BCNSDODNS), household equity over GDP (Z.1), real exports over real GDP, the quarterly ones at the start's quarter;
+    the funds rate's average over the year to the start (relief's norm, decision 85).
     Approximate, as for 2000-03: speed 0.9, replacement 0.35, floating share 0.25, bank capital 10% and loans 65% of
     GDP, trade, the spread cap; the discretionary response `stimulus`, % of GDP a year."""
     p0 = pd.Period(start, "M")
@@ -274,15 +326,18 @@ def us_state(start: str, okun: float, stimulus: float) -> gc.Region:
                      float((core[p0] / core[p0 - 12] - 1) * 100), 0.0, okun, 0.9, 0.35, float(hh / gdp[q0] * 100),
                      float((hh + biz) / gdp[q0] * 100), 0.25, float(z1[q0] / 1000 / gdp[q0]), 0.0, 10.0, 65.0,
                      float(quarterly("EXPGSC1")[q0] / quarterly("GDPC1")[q0]),
-                     {"EA": 0.2, "CN": 0.02, "SE": 0.005, "RoW": 0.775}, stimulus, 3.0, 0.0, 0.0)
+                     {"EA": 0.2, "CN": 0.02, "SE": 0.005, "RoW": 0.775}, stimulus, 3.0, 0.0, 0.0,
+                     i_norm=year_before(monthly("FEDFUNDS"), start), r_star=r_star("US", start))
 
 
 def us_episode(name: str, start: str, months: int, okun: float, *, rules: gc.Rules, stimulus: float = 2.5,
-               energy: bool = False, path: bool = True, fitted: bool = True, notes: str = "") -> Episode:
+               energy: bool = False, path: bool = True, fitted: bool = True, housing: bool | None = None,
+               fiscal: bool = False, notes: str = "") -> Episode:
     """A post-war US recession from the end of month `start`, by month, on the measured state (us_state) and measured
     shocks: household equity's fall from the start's quarter (Z.1, read by month between quarter ends), the change in
-    residential investment's share of GDP and in real exports against the start's quarter (each a quarter's average in its
-    middle month), and with `energy` the oil price (FRED WTISPLC, its three-month average by month: the pass-through
+    real exports against the start's quarter (a quarter's average in its middle month), with `housing` the change in
+    residential investment's share of GDP too (off: in a recession the rates drove, housebuilding's fall is the model's
+    rate-sensitive spending, decision 84, not a shock), and with `energy` the oil price (FRED WTISPLC, its three-month average by month: the pass-through
     was measured on quarters' averages), energy's share of consumer spending at the
     start (PCE energy goods and services over PCE) and headline PCE's twelve-month inflation at the start. With `path`
     the Fed's rate is the funds rate as set (FRED FEDFUNDS; Rules.policy "path"). No exogenous credit losses (the
@@ -296,8 +351,11 @@ def us_episode(name: str, start: str, months: int, okun: float, *, rules: gc.Rul
     eq = at_quarter_ends(zq, start, months + 1)
     res = quarterly("PRFI") / quarterly("GDP") * 100
     xq, gq = quarterly("EXPGSC1"), quarterly("GDPC1")
-    dem = (at_mid_quarter((res - res[q0]).loc[q0:], start, months + 1)
-           + at_mid_quarter(((xq - xq[q0]) / gq[q0] * 100).loc[q0:], start, months + 1))
+    dem = at_mid_quarter(((xq - xq[q0]) / gq[q0] * 100).loc[q0:], start, months + 1)
+    if POSTWAR_HOUSING if housing is None else housing:
+        dem = dem + at_mid_quarter((res - res[q0]).loc[q0:], start, months + 1)
+    if fiscal:                                              # the fiscal stance measured (OECD, from 1985)
+        dem = dem + fiscal_impulse("USA", start, months)
     sh = gc.Shock(equity={"US": eq}, demand={"US": dem})
     if energy:
         oil = monthly("WTISPLC").rolling(3).mean()          # a quarter's average, as the pass-through was measured on
@@ -349,30 +407,292 @@ def e1981(okun: float) -> Episode:
 
 def e1990(okun: float) -> Episode:
     """1990-91: the oil shock of August-October 1990 and the Fed's rate as set; expectations anchored on the start's
-    core inflation (0.6, the eroded rules' weight: approximate); the 1990 budget agreement (signed 5 November 1990) as
-    consolidation (the model's rule: cuts growing with unemployment's rise)."""
+    core inflation (0.6, the eroded rules' weight: approximate); the fiscal stance measured (the OECD's underlying
+    primary balance: the budget agreement of 5 November 1990 tightened it 0.8 points of potential GDP in 1991)."""
     us = us_state("1990-06", okun, 2.5)
-    rl = replace(gc.MODERN, anchor=0.6, pi_star=us.pi0, fiscal="austerity", fiscal_at=years_after("1990-06", "1990-11-05"))
-    return us_episode("1990-91", "1990-06", 30, okun, rules=rl, energy=True)
+    rl = replace(gc.MODERN, anchor=0.6, pi_star=us.pi0, fiscal="none")
+    return us_episode("1990-91", "1990-06", 30, okun, rules=rl, energy=True, fiscal=True)
+
+
+# ------------------------------------------------------------------ measured fiscal stances (OECD), and the crashes abroad
+EO_FILES = {"eo_episodes_annual_a.csv": "SWE+JPN+EA17+USA.GAP+GDPV+GDPVTR+UNR+NLGQ+NLGXQ.A",
+            "eo_episodes_annual_b.csv": "SWE+JPN+EA17+USA.NLGXQU+NLGQU+NLGXQ+NLGQ.A",
+            "eo_episodes_quarterly.csv": "SWE+JPN+EA17.XGSV+GDPV+IRS+CPI+PCORE.Q",
+            "eo_episodes_quarterly_b.csv": "SWE+JPN+EA17.IBV+IHV+ITV+IGV+ITISKV+CPV.Q"}
+EO_URL = "https://sdmx.oecd.org/public/rest/data/OECD.ECO.MAD,DSD_EO@DF_EO,1.5/{key}?startPeriod=1980&format=csvfile"
+
+
+@functools.lru_cache(maxsize=1)
+def eo() -> pd.DataFrame:
+    """The OECD Economic Outlook (edition 119; the OECD's SDMX API, cached in cache/oecd/): real GDP (GDPV) and potential
+    output (GDPVTR), the output gap (GAP), the government's underlying primary balance (NLGXQU, % of potential GDP:
+    cyclically adjusted), real exports (XGSV), real business and housing investment (IBV, IHV), by area (SWE, JPN, EA17,
+    USA)."""
+    frames = []
+    for f, key in EO_FILES.items():
+        fp = os.path.join(gc.ROOT, "cache", "oecd", f)
+        if not os.path.exists(fp):
+            import requests
+            r = requests.get(EO_URL.format(key=key), timeout=120)
+            r.raise_for_status()
+            open(fp, "w", encoding="utf-8").write(r.text)
+        frames.append(pd.read_csv(fp, low_memory=False)[["REF_AREA", "MEASURE", "FREQ", "TIME_PERIOD", "OBS_VALUE"]])
+    return pd.concat(frames).drop_duplicates(["REF_AREA", "MEASURE", "FREQ", "TIME_PERIOD"])
+
+
+def eo_series(area: str, measure: str, freq: str) -> pd.Series:
+    d = eo()
+    d = d[(d.REF_AREA == area) & (d.MEASURE == measure) & (d.FREQ == freq)]
+    idx = pd.PeriodIndex(d.TIME_PERIOD.astype(str).str.replace("-Q", "Q"), freq="Y" if freq == "A" else freq)
+    return pd.Series(d.OBS_VALUE.astype(float).values, index=idx).sort_index()
+
+
+def eo_gap(area: str) -> pd.Series:
+    """The output gap by quarter, %: the OECD's quarterly real GDP against its annual potential output, each year's
+    potential at mid-year and log-linear between (the report prints each year's average beside the annual gap the OECD
+    publishes)."""
+    y, pot, ya = eo_series(area, "GDPV", "Q"), eo_series(area, "GDPVTR", "A"), eo_series(area, "GDPV", "A")
+    years = [p for p in ya.index if (y.index.year == p.year).sum() == 4]
+    unit = float(np.mean([ya[p] / y[y.index.year == p.year].mean() for p in years]))     # annual against quarterly units
+    t = [q.year + (q.quarter - 0.5) / 4 for q in y.index]
+    lp = np.interp(t, [p.year + 0.5 for p in pot.index], np.log(pot.values))
+    return pd.Series(100 * (y.values * unit / np.exp(lp) - 1), index=y.index)
+
+
+def fiscal_impulse(area: str, start: str, n: int) -> np.ndarray:
+    """The discretionary fiscal stance by month from index 0, as a demand level (% of GDP): the fall in the government's
+    underlying primary balance since the start (OECD NLGXQU, % of potential GDP; cyclically adjusted, so the automatic
+    stabilisers, which the model has, are left out), each year's value at mid-year and linear between, times the 0.8 the
+    model gives a stimulus."""
+    b = eo_series(area, "NLGXQU", "A")
+    t = [m.year + m.month / 12 for m in (pd.Period(start, "M") + k for k in range(n + 1))]
+    v = np.interp(t, [p.year + 0.5 for p in b.index], b.values)
+    return -0.8 * (v - v[0])
+
+
+def riksbank_monthly(sid: str) -> pd.Series:
+    """A Riksbank series (the SWEA API, cached by se_1990s.py for 1989-96) as monthly averages."""
+    fp = os.path.join(gc.ROOT, "cache", "riksbank", f"{sid}_1989-01-01_1996-12-31.json")
+    obs = [o for o in json.load(open(fp, encoding="utf-8")) if o.get("value") is not None]
+    x = pd.Series([float(o["value"]) for o in obs], index=pd.DatetimeIndex([o["date"] for o in obs]))
+    return x.groupby(x.index.to_period("M")).mean()
+
+
+def eurostat_ea(item: str) -> pd.Series:
+    """The euro area's (EA19) quarterly national accounts in chained 2010 euros, seasonally and calendar adjusted
+    (Eurostat namq_10_gdp, cached in cache/eurostat/): B1GQ (GDP) or P6 (exports, intra-area trade included)."""
+    d = json.load(open(os.path.join(gc.ROOT, "cache", "eurostat", "namq_10_gdp_EA19_P6_B1GQ_CLV10.json"), encoding="utf-8"))
+    ix = {k: d["dimension"][k]["category"]["index"] for k in d["id"]}
+    times = sorted(ix["time"], key=ix["time"].get)
+    j = ix["na_item"][item]
+    vals = {t: d["value"].get(str(j * len(times) + i)) for i, t in enumerate(times)}
+    return pd.Series({pd.Period(t.replace("-Q", "Q"), "Q"): float(v) for t, v in vals.items() if v is not None}).sort_index()
+
+
+def episode_abroad(name: str, code: str, start: str, n: int, g: gc.Region, rl: gc.Rules, *, rate: pd.Series,
+                   equity: pd.Series, unemp: pd.Series, core: pd.Series, gap: pd.Series, house: tuple | None = None,
+                   exports: tuple | None = None, fiscal: np.ndarray | None = None, losses: np.ndarray | None = None,
+                   spread: np.ndarray | None = None, invest: tuple | None = None, fitted: bool = True,
+                   notes: str = "") -> Episode:
+    """An economy from the end of month `start`, by month, as one region (`code`; the others passive), the central bank's
+    rate as set (`rate`, monthly), on measured shocks: share prices' fall from the start (monthly); with `house` (real
+    property prices by quarter, housing wealth x GDP) housing wealth's fall at 0.05 a krona a year, as 2008-10's; with
+    `exports` (real exports and real GDP by quarter, the share of exports leaving the area) their change against the start's
+    quarter, % of its GDP, each quarter's in its middle month; with `invest` (real private investment and real GDP by
+    quarter) its change against the start's quarter likewise, the bust's own collapse as 2008-10's housebuilding and
+    2000-03's equipment are; the fiscal stance (fiscal_impulse); stated credit losses and a spread passed to borrowers. Targets: unemployment and core prices' twelve-month inflation by month, the output gap's
+    change from the start's quarter by quarter."""
+    p0 = pd.Period(start, "M")
+    q0 = p0.asfreq("Q")
+    eq = np.array([max(0.0, 1 - float(equity[p0 + k]) / float(equity[p0])) for k in range(n + 1)])
+    dem = np.zeros(n + 1)
+    if house is not None:
+        hp, wealth = house
+        dem += -0.05 * wealth * 100 * at_mid_quarter((1 - hp.loc[q0:] / hp[q0]).clip(lower=-1.0), start, n + 1)
+    if exports is not None:
+        x, gdp, share = exports
+        dem += share * at_mid_quarter(((x - x[q0]) / gdp[q0] * 100).loc[q0:], start, n + 1)
+    if invest is not None:
+        iv, gdp = invest
+        dem += at_mid_quarter(((iv - iv[q0]) / gdp[q0] * 100).loc[q0:], start, n + 1)
+    if fiscal is not None:
+        dem += fiscal
+    sh = gc.Shock(equity={code: eq}, demand={code: dem}, rate={code: np.array([float(rate[p0 + k]) for k in range(n + 1)])})
+    if losses is not None:
+        sh.losses = {code: losses}
+    if spread is not None:
+        sh.spread = {code: spread}
+    rl = replace(rl, policy="path")
+    regs = {code: g, **{r: gc.passive(r) for r in ("US", "EA", "SE", "CN") if r != code}}
+    yoy = (core / core.shift(12) - 1) * 100
+    before = {j: float(core[p0 + j] / core[p0]) for j in range(-12, 0)}
+    last = p0 + n
+    full = [q for q in (q0 + k for k in range(1, 4 * (n // 12 + 2)))
+            if q.asfreq("M", "start") > p0 and q.asfreq("M", "end") <= last and q in gap.index]
+    tg = [Target("unemployment", "u", "M", [(p0 + k, float(unemp[p0 + k])) for k in range(1, n + 1)], 0.75),
+          Target("core inflation", "yoy", "M", [(p0 + k, float(yoy[p0 + k])) for k in range(1, n + 1)], 0.75),
+          Target("output gap", "y", "Q", [(q, float(gap[q] - gap[q0])) for q in full], 1.0)]
+    return Episode(name, start, n, regs, {r: rl for r in regs}, sh, tg, fitted=fitted, active=[code], region=code,
+                   before=before, notes=notes)
+
+
+def e_se1990(okun: float = 0.4) -> Episode:
+    """Sweden, June 1990 to December 1993: the property and bank crisis, the defence of the krona's peg and the float of
+    19 November 1992. The rate as set: the Riksbank's three-month Treasury bill, monthly averages (22% in September 1992;
+    the marginal rate's days at 500% were overnight). Measured (FRED: OECD and BIS series): unemployment (harmonised),
+    core CPI (non-food non-energy), share prices, real residential property prices (housing wealth 1.5x GDP, approximate),
+    household and private credit; real exports, GDP and private investment (business and housing: down 10 points of GDP
+    by 1993), the output gap and the fiscal stance from the OECD's Economic Outlook (the underlying primary balance fell
+    4.8 points of potential GDP from 1990 to 1993). No credit losses beyond the model's own loss rule: with private
+    investment measured, the credit crunch's effect on spending is in it (stated losses on top counted it twice, the gap
+    reaching -22 against -8; found 2026-10-27). Stated, approximate: bank capital 7% and loans 100% of GDP, replacement 0.8, a floating share of 0.4, equity wealth 0.3x GDP; the backstop on throughout
+    (the state took over Nordbanken in 1991-92 and guaranteed every bank's liabilities from 24 September 1992); the neutral
+    rate the euro area's (HLW, 1990Q2: no estimate for Sweden); expectations anchored weakly (0.3) on the start's core
+    inflation."""
+    start, n = "1990-06", 42
+    p0 = pd.Period(start, "M")
+    q0 = p0.asfreq("Q")
+    rate, core, u = riksbank_monthly("SETB3MBENCH"), monthly("SWECPICORMINMEI"), monthly("LRHUTTTTSEM156S")
+    hh, pr = quarterly("QSEHAM770A"), quarterly("QSEPAM770A")
+    g = gc.Region("SE", 1.0, float(u[p0]), float(rate[p0]), float((core[p0] / core[p0 - 12] - 1) * 100), 0.0, okun, 0.4,
+                  0.8, float(hh[q0]), float(pr[q0]), 0.4, 0.3, 0.0, 7.0, 100.0, 0.30, {"US": 0.1, "RoW": 0.9}, 0.0, 3.0,
+                  0.0, 0.0, i_norm=year_before(rate, start), r_star=r_star("EA", start))
+    rl = replace(gc.MODERN, anchor=0.3, pi_star=g.pi0, fiscal="none")
+    return episode_abroad("Sweden 1990-93", "SE", start, n, g, rl, rate=rate, equity=monthly("SPASTT01SEM661N"), unemp=u,
+                          core=core, gap=eo_gap("SWE"), house=(quarterly("QSEN628BIS"), 1.5),
+                          exports=(eo_series("SWE", "XGSV", "Q"), eo_series("SWE", "GDPV", "Q"), 1.0),
+                          invest=(eo_series("SWE", "IBV", "Q") + eo_series("SWE", "IHV", "Q"), eo_series("SWE", "GDPV", "Q")),
+                          fiscal=fiscal_impulse("SWE", start, n))
+
+
+# the euro area's periphery whose ten-year yields measured a borrowing cost through 2011-13, and their shares of the
+# euro area's GDP (2011, approximate); Greece's after its restructuring (March 2012) price a defaulted claim: left out
+PERIPHERY = {"IT": 0.17, "ES": 0.115, "PT": 0.018, "IE": 0.018}
+
+
+def e_ea2011(okun: float = 0.4) -> Episode:
+    """The euro area, March 2011 to December 2013: the sovereign debt crisis and the consolidation. The rate as set: EONIA
+    (the ECB's rises of April and July 2011, the cuts from November). Measured: unemployment (harmonised), core HICP
+    (excluding energy, food, alcohol and tobacco), share prices, real residential property prices (housing wealth 1.5x
+    GDP, approximate), BIS credit (FRED); real exports (Eurostat, the euro area's, intra-area trade included, so 0.55 of
+    the change counted: the part leaving the area, approximate); the output gap and the fiscal stance from the OECD (the
+    underlying primary balance rose 1.9 points of potential GDP from 2011 to 2013); the periphery's sovereign stress, its
+    ten-year spreads over Germany's (FRED, OECD) weighted by GDP, their rise since the start, half of it passed to private
+    borrowers across the area (decision 70's pass-through). Stated, approximate: bank capital 8% and loans 100% of GDP,
+    replacement 0.6, a floating share of 0.4, equity wealth 0.5x GDP; no credit losses beyond the model's rule; the
+    neutral rate HLW's for the euro area (2011Q1); expectations anchored as today's (0.9 on 2%)."""
+    start, n = "2011-03", 33
+    p0 = pd.Period(start, "M")
+    q0 = p0.asfreq("Q")
+    rate, core, u = monthly("IRSTCI01EZM156N"), monthly("00XEFDEZ19M086NEST"), monthly("LRHUTTTTEZM156S")
+    hh, pr = quarterly("QXMHAM770A"), quarterly("QXMPAM770A")
+    g = gc.Region("EA", 1.0, float(u[p0]), float(rate[p0]), float((core[p0] / core[p0 - 12] - 1) * 100), -0.5, okun,
+                  0.35, 0.6, float(hh[q0]), float(pr[q0]), 0.4, 0.5, 0.0, 8.0, 100.0, 0.25,
+                  {"US": 0.15, "CN": 0.1, "RoW": 0.75}, 0.0, 3.0, 0.0, 0.0, i_norm=year_before(rate, start),
+                  r_star=r_star("EA", start))
+    de = monthly("IRLTLT01DEM156N")
+    sp = sum(w * (monthly(f"IRLTLT01{c}M156N") - de) for c, w in PERIPHERY.items())
+    spread = 0.5 * np.array([float(sp[p0 + k] - sp[p0]) for k in range(n + 1)])
+    return episode_abroad("euro area 2011-13", "EA", start, n, g, replace(gc.MODERN, fiscal="none"), rate=rate,
+                          equity=monthly("SPASTT01EZM661N"), unemp=u, core=core, gap=eo_gap("EA17"),
+                          house=(quarterly("QXMN628BIS"), 1.5),
+                          exports=(eurostat_ea("P6"), eurostat_ea("B1GQ"), 0.55),
+                          fiscal=fiscal_impulse("EA17", start, n), spread=spread)
+
+
+def e_jp1990(okun: float = 0.2) -> Episode:
+    """Japan, December 1990 to December 1995: the bubble's collapse, from the Nikkei's fall and the land market's turn to
+    the yen's peak. The rate as set: the call rate (8.2% to 0.5%). Measured: unemployment (harmonised), core CPI (non-food
+    non-energy), the Nikkei 225 (monthly averages), real residential property prices (land and housing wealth 2x GDP,
+    approximate), BIS credit (FRED); real exports, GDP and private investment (business and housing: business investment
+    down 5 points of GDP by 1993), the output gap and the fiscal stance from the OECD (the underlying primary balance fell
+    4.4 points of potential GDP from 1990 to 1995: the packages of 1992-95). Stated,
+    approximate: Okun 0.2 (lifetime employment), speed 0.3, replacement 0.6, a floating share of 0.3, equity wealth 0.25x
+    GDP, bank capital 6% and loans 120% of GDP, no credit losses beyond the model's rule (the banks wrote off some 4% of
+    loans over fiscal 1992-95, about what the rule gives), the backstop on (forbearance: losses were not booked against
+    capital), the neutral rate 3% (no HLW estimate; the Bank of Japan's staff put it near 3-4% around 1990),
+    expectations anchored at 0.6 on the start's core inflation."""
+    start, n = "1990-12", 60
+    p0 = pd.Period(start, "M")
+    q0 = p0.asfreq("Q")
+    rate, core, u = monthly("IRSTCI01JPM156N"), monthly("JPNCPICORMINMEI"), monthly("LRHUTTTTJPM156S")
+    hh, pr = quarterly("QJPHAM770A"), quarterly("QJPPAM770A")
+    g = gc.Region("JP", 1.0, float(u[p0]), float(rate[p0]), float((core[p0] / core[p0 - 12] - 1) * 100), 0.0, okun, 0.3,
+                  0.6, float(hh[q0]), float(pr[q0]), 0.3, 0.25, 0.0, 6.0, 120.0, 0.10, {"US": 0.3, "RoW": 0.7}, 0.0, 3.0,
+                  0.0, 0.0, i_norm=year_before(rate, start), r_star=3.0)
+    rl = replace(gc.MODERN, anchor=0.6, pi_star=g.pi0, fiscal="none")
+    return episode_abroad("Japan 1991-95", "JP", start, n, g, rl, rate=rate, equity=monthly("NIKKEI225"), unemp=u,
+                          core=core, gap=eo_gap("JPN"), house=(quarterly("QJPN628BIS"), 2.0),
+                          exports=(eo_series("JPN", "XGSV", "Q"), eo_series("JPN", "GDPV", "Q"), 1.0),
+                          invest=(eo_series("JPN", "IBV", "Q") + eo_series("JPN", "IHV", "Q"), eo_series("JPN", "GDPV", "Q")),
+                          fiscal=fiscal_impulse("JPN", start, n))
+
+
+def e1937(okun: float) -> Episode:
+    """The US, May 1937 to December 1939: the recession within the recovery. Off gold since 1933-34, with deposit
+    insurance (1934) and the RFC behind the banks; no unemployment insurance yet. The rate as set: the three-month
+    Treasury bill (FRED TB3MS; the reserve requirement rises of March and May 1937 and the gold sterilisation from
+    December 1936 have no channel of their own here). Measured, monthly: the Dow-Jones index (NBER, M1109BUSM293NNBR);
+    the fiscal stance, the federal surplus over GDP (FRED FYFSD / GDPA, each fiscal year's at its middle, 1 January, and
+    linear between: actual, not cyclically adjusted, so the tightening of fiscal 1938 is understated); the rest of the
+    world's slump, US real exports against 1937 (EXPGSCA / GDPCA, annual, placed mid-year). Stated, approximate: household
+    debt 40% and private debt 130% of GDP, equity wealth 0.6x GDP, bank capital 12% and loans 25% of GDP; the 1930s'
+    Phillips slope and expectations (0.2 on stable prices); the model's neutral rate (no estimate before 1961). Targets:
+    unemployment by month (the NBER's monthly estimate, M0892AUSM156SNBR, a point or two under Lebergott's annual series,
+    its scale 1.0 for a rougher measure), the consumer price level by month (CPIAUCNS, against May 1937), annual output in
+    1938 and 1939 against 1937 (GDPCA; the model's year on a 2% trend, against index 0)."""
+    start, n = "1937-05", 31
+    p0 = pd.Period(start, "M")
+    t = 1937 + 5 / 12 + np.arange(n + 1) * M
+    dow, tb, u, cpi = monthly("M1109BUSM293NNBR"), monthly("TB3MS"), monthly("M0892AUSM156SNBR"), monthly("CPIAUCNS")
+    eq = np.array([max(0.0, 1 - float(dow[p0 + k]) / float(dow[p0])) for k in range(n + 1)])
+    e, gq = gc.fred("EXPGSCA"), gc.fred("GDPCA")
+    ea, ga = ({d.year: float(v) for d, v in x.items()} for x in (e, gq))
+    exm = np.interp(t, [y + 0.5 for y in range(1936, 1942)], [(ea[y] - ea[1937]) / ga[1937] * 100 for y in range(1936, 1942)])
+    fy, gn = gc.fred("FYFSD"), gc.fred("GDPA")
+    gna = {d.year: float(v) for d, v in gn.items()}
+    bal = {d.year: float(v) / 1000 / ((gna[d.year - 1] + gna[d.year]) / 2) * 100 for d, v in fy.items()
+           if 1935 <= d.year <= 1942}
+    v = np.interp(t, [float(y) for y in sorted(bal)], [bal[y] for y in sorted(bal)])
+    fis = -0.8 * (v - v[0])
+    us = gc.Region("US", 1.0, float(u[p0]), float(tb[p0]), float((cpi[p0] / cpi[p0 - 12] - 1) * 100), 0.0, okun, 0.9, 0.0,
+                   40.0, 130.0, 0.2, 0.6, 0.0, 12.0, 25.0, float(ea[1937] / ga[1937]), {"EA": 0.3, "RoW": 0.7}, 0.0, 99.0,
+                   0.0, 0.0, i_norm=year_before(tb, start))
+    rl = replace(gc.THIRTIES, policy="path", insured=True, backstop=True, fiscal="none", tariff=0.0)
+    sh = gc.Shock(equity={"US": eq}, demand={"US": exm + fis}, rate={"US": np.array([float(tb[p0 + k]) for k in range(n + 1)])})
+    regs = {"US": us, "EA": gc.passive("EA"), "SE": gc.passive("SE"), "CN": gc.passive("CN")}
+    tg = [Target("unemployment", "u", "M", [(p0 + k, float(u[p0 + k])) for k in range(1, n + 1)], 1.0),
+          Target("prices", "P", "M", [(p0 + k, float(cpi[p0 + k] / cpi[p0])) for k in range(1, n + 1)], 0.03),
+          Target("output", "output", "Y", [(pd.Period(str(y), "Y"), ga[y] / ga[1937]) for y in (1938, 1939)], 0.03)]
+    return Episode("1937-38", start, n, regs, {r: rl for r in regs}, sh, tg)
 
 
 # ------------------------------------------------------------------ the fit
-PARAMS = ("sigma", "money", "debt_deflation", "kappa_1930", "okun_us", "impulse_1930_pct_gdp", "a_r")
-BOUNDS = [(0, 15), (0, 15), (0, 0.5), (0.03, 1.0), (0.4, 1.0), (0, 10), (0.03, 0.15)]
+PARAMS = ("sigma", "money", "debt_deflation", "kappa_1930", "okun_us", "impulse_1930_pct_gdp", "a_r", "a_f", "f_speed",
+          "cap_oil", "okun_se", "okun_ea", "okun_jp")
+BOUNDS = [(0, 15), (0, 15), (0, 0.5), (0.03, 1.0), (0.4, 1.0), (0, 10), (0.03, 0.15), (0, 1.0), (0.1, 1.0), (0, 4.0),
+          (0.1, 1.5), (0.1, 1.5), (0.05, 1.5)]
+OKUN = {"SE": 10, "EA": 11, "JP": 12}       # each region's Okun slope, its own episode's (as the US's)
+# the extensions' settings, not fitted (decisions 85 and 87): floating-rate debt reprices within a year, and expectations
+# adapt to the past year's inflation
+FIXED = {"reprice": 1.0, "expect_over": 1.0}
 
 
 @functools.lru_cache(maxsize=1)
 def _base() -> tuple:
     """The episodes with their measured parts, built once at unit Okun and no impulse."""
-    return e1929(0.7, 0.0), e2007(0.7), e2000(0.7), e1973(0.7), e1981(0.7), e1990(0.7)
+    return (e1929(0.7, 0.0), e2007(0.7), e2000(0.7), e1973(0.7), e1981(0.7), e1990(0.7), e1937(0.7), e_se1990(),
+            e_ea2011(), e_jp1990())
 
 
 def episodes(theta) -> list:
     """The episodes at the fit's parameters: the US Okun slope and 1930's spending collapse are the episodes' own."""
-    sigma, money, dd, k30, okun, imp, ar = theta
+    okun, imp = theta[4], theta[5]
     out = []
     for ep in _base():
         regs = {**ep.regions, "US": replace(ep.regions["US"], okun=okun)}
+        if ep.region in OKUN and len(theta) > OKUN[ep.region]:
+            regs[ep.region] = replace(regs[ep.region], okun=theta[OKUN[ep.region]])
         shock = ep.shock
         if ep.name == "1929-33":
             shock = replace(shock, demand={"US": shock.demand["US"] - imp * conf_profile(ep.months)})
@@ -382,14 +702,16 @@ def episodes(theta) -> list:
     return out
 
 
-def common(theta, cm0: gc.Common = gc.Common()) -> gc.Common:
-    sigma, money, dd, k30, okun, imp, ar = theta
-    return replace(cm0, sigma=sigma, money=money, debt_deflation=dd, kappa_1930=k30, a_r=ar)
+def common(theta, cm0: gc.Common = gc.Common(), fixed: dict | None = None) -> gc.Common:
+    sigma, money, dd, k30, okun, imp, ar = theta[:7]
+    ext = dict(zip(PARAMS[7:10], theta[7:10]))
+    return replace(cm0, sigma=sigma, money=money, debt_deflation=dd, kappa_1930=k30, a_r=ar, **ext,
+                   **(FIXED if fixed is None else fixed))
 
 
 def loss(theta, build=episodes) -> float:
-    sigma, money, dd, k30, okun, imp, ar = theta
-    if min(sigma, money, dd, k30, imp) < 0 or not 0.3 <= okun <= 1.0:
+    sigma, money, dd, k30, okun, imp, ar = theta[:7]
+    if min(sigma, money, dd, k30, imp, *theta[7:]) < 0 or not 0.3 <= okun <= 1.0:
         return 1e6
     cm = common(theta)
     e = np.concatenate([ep.errors(ep.run(cm)) for ep in build(theta) if ep.fitted])
@@ -412,7 +734,8 @@ if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     import json
     fp = json.load(open(os.path.join(gc.ROOT, "results", "global_crash.json"), encoding="utf-8"))["validation"]["fitted"]
-    theta = [fp[k] for k in PARAMS]
+    theta = [fp.get(k, 0.0) for k in PARAMS]          # the extensions off (decisions 84-87)
+    FIXED = {}
     print("the quarterly fit's parameters, run monthly:", dict(zip(PARAMS, theta)), "loss", round(loss(theta), 2))
     report(theta)
 
