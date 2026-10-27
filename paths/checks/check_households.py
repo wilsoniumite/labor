@@ -16,6 +16,15 @@
 # proxies — A1 appears on the high root and, when owners' saving dominates, on (b); A2 (the employment floor) is a
 # central-root result.
 #
+# Restated at the refit (2026-10-27, Log 46; decisions 78-79), as found. The worlds run on the bridges refit on (c) (macro.BRANCHES;
+# (b) on its own, macro.BRIDGES_B and SCEN_B); the layer's two rules are redesigned for money wages that fall 60-80%: benefits follow
+# the current money wage (the start's real wage and each cohort's real wage at exit are sensitivities), and rigid money wages fall
+# at most 4% a year with the log excess costing a share of the jobs left. A1 and A2, which disclosed the two artefacts, now gate the
+# redesign (the artefacts gone, and back under the old rules); B4 gates the new rigidity, S1 the exit rule as a sensitivity; F1-F3,
+# G1-G4 and X3 are restated (the constrained households now deepen the downturn; the old G1-G2 clauses the artefact removed hold
+# again). Thresholds set after seeing the refit's numbers (flagged): F1's bands, F3's -1.5 / -0.5, G2's 40, G3's 20 and 0.2, A1's
+# 50-90 and 200 / 100, X3's bands.
+#
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_households.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
 
@@ -57,6 +66,8 @@ S = R["scenarios"]
 DDN, OSN = "deficits dominate", "owners' saving dominates"
 HI, CB = R["sensitivity: the high root"]["scenarios"], R["comparator: calibration (b)"]["scenarios"]
 EX = R["sensitivity: benefits on the wage at exit"]["scenarios"]
+ST = R["sensitivity: benefits on the start's real wage"]["scenarios"]
+NC = R["sensitivity: rigid wages, no money-wage cut"]["scenarios"]
 
 print("D — the Swedish start (Statistics Sweden)")
 check("D1 household debt 1.6-1.9 x disposable income, floating share 0.7-0.85, mortgage margin 0.8-1.4 points",
@@ -75,7 +86,11 @@ check("B2 money debts never fall faster than amortisation", dstep.min() >= 1 - C
 tot = h["d_out"] + h["d_sup"] + h["d_debt"] + h["d_check"]
 check("B3 the demand level is the sum of its channels", np.allclose(tot, h["level"]))
 rr = hh.run(W[OSN], dmp, replace(C, rigid_wages=True), s0)
-check("B4 rigid money wages never fall", np.all(np.diff(rr["households"]["W"]) >= -1e-12))
+rr0 = hh.run(W[OSN], dmp, replace(C, rigid_wages=True, wage_fall_max=0.0), s0)
+fall_ = (1 - rr["households"]["W"][1:] / rr["households"]["W"][:-1]) / 0.25 * 100       # % a year, as the layer compounds it
+check("B4 [restated at the refit] rigid money wages fall no faster than wage_fall_max (4% a year), and with it at zero never fall",
+      fall_.max() <= C.wage_fall_max * (1 + 1e-9) and fall_.max() > 0.5 * C.wage_fall_max and np.all(np.diff(rr0["households"]["W"]) >= -1e-12),
+      f"fastest fall {fall_.max():.3f}% a year (limit {C.wage_fall_max:g})")
 syn = dict(W["status quo"])
 syn["participation"] = syn["participation"] * (1 - 0.3 * np.clip(syn["t"] / 10, 0, 1))
 d0 = replace(dmp, okun=0.0)
@@ -88,23 +103,33 @@ check("B5 the benefits-at-exit sensitivity is the layer's rule when the real wag
 
 print("F — the findings (calibration (c), the central; stated as found)")
 dd, os_ = S[f"{DDN} | central"]["y5_y8_y10_y12_y15"], S[f"{OSN} | central"]["y5_y8_y10_y12_y15"]
-check("F1 floating-rate mortgages move with the branch: debt service rises when deficits dominate, falls when owners' saving does",
-      dd["debt_service_pct_income"][3] > dd["debt_service_pct_income"][0] + 1 and os_["debt_service_pct_income"][4] < os_["debt_service_pct_income"][0] - 2,
+check("F1 [restated at the refit] floating-rate mortgages move with policy, and on the refit policy falls in both branches: debt service "
+      "falls most when owners' saving takes rates to the floor; with deficits dominating it rises a little to year 10, as money incomes "
+      "fall faster than rates, then falls (before the refit it rose by more than a point there)",
+      os_["debt_service_pct_income"][4] < os_["debt_service_pct_income"][0] - 2
+      and dd["debt_service_pct_income"][2] > dd["debt_service_pct_income"][0] and dd["debt_service_pct_income"][4] < dd["debt_service_pct_income"][0],
       f"deficits {dd['debt_service_pct_income']}; owners' saving {os_['debt_service_pct_income']}")
 g_full = S[f"{OSN} | demand layer alone (full pooling)"]["gap_min_and_year"][0]
 g_hh = S[f"{OSN} | central"]["gap_min_max"][0]
-check("F2 so in the falling-rate branch Swedish households cushion the downturn (a smaller gap than full pooling)", g_hh > g_full,
-      f"{g_hh} against {g_full}")
+g_hd, g_fd = S[f"{DDN} | central"]["gap_min_max"][0], S[f"{DDN} | demand layer alone (full pooling)"]["gap_min_and_year"][0]
+check("F2 [restated at the refit] with benefits following wages, Swedish households deepen the downturn in both branches a little (a "
+      "larger gap than full pooling) — before the refit they cushioned the falling branch, because benefits on the start's real wage "
+      "outran the collapsing wage (A1)", g_hh < g_full and g_hd < g_fd,
+      f"owners' saving {g_hh} against {g_full} pooled; deficits {g_hd} against {g_fd}")
 r0 = hh.run(W[DDN], dmp, replace(C, replacement_first=0.0, replacement_later=0.0), s0)
 rx = hh.run(W[DDN], dmp, replace(C, benefit_base="exit"), s0)
-d12 = {k: float(np.interp(12, x["t"], x["households"]["d_out"])) for k, x in (("none", r0), ("state", r), ("exit", rx))}
-check("F3 [restated] state support is what keeps the surge in dependence from cutting demand: without it the job losers' drag at year 12 "
-      "is 2.2% of GDP; with it zero — the benefit artefact (A1) — or 0.1% with benefits on the wage at exit",
-      d12["none"] < -1.5 and d12["state"] >= -1e-9 and -0.3 < d12["exit"] < -0.01 and d12["none"] < 3 * d12["exit"],
-      f"{d12['none']:.2f} without state support; {d12['state']:.2f} with it; {d12['exit']:.2f} with benefits on the wage at exit (% of GDP)")
+rs = hh.run(W[DDN], dmp, replace(C, benefit_base="start"), s0)
+d12 = {k: float(np.interp(12, x["t"], x["households"]["d_out"])) for k, x in (("none", r0), ("state", r), ("exit", rx), ("start", rs))}
+check("F3 [restated at the refit] state support halves the surge in dependence's cut to demand: without it the job losers' drag at year "
+      "12 is 2.0% of GDP, with benefits following wages 0.9%; under the rules that hold benefits in real terms (the start's real wage, "
+      "the rule before the refit, or each cohort's wage at exit) it is zero by year 12 — benefits outrun the collapsing wage",
+      d12["none"] < -1.5 and -1.5 < d12["state"] < -0.5 and d12["none"] < 1.5 * d12["state"]
+      and abs(d12["start"]) < 1e-9 and abs(d12["exit"]) < 1e-9,
+      f"{d12['none']:.2f} without state support; {d12['state']:.2f} with it; {d12['start']:.2f} / {d12['exit']:.2f} on the start's real wage / "
+      f"at exit (% of GDP)")
 rig = S[f"{OSN} | rigid money wages"]
-check("F4 [restated] rigid money wages turn the adjustment into job loss: more people out of work and a deeper gap, longer at the floor — "
-      "until employment reaches the layer's floor (A2)",
+check("F4 [restated at the refit] rigid money wages turn the adjustment into job loss: more people out of work and a deeper gap, longer "
+      "at the floor (the layer's employment floor no longer reached: A2)",
       rig["y5_y8_y10_y12_y15"]["out_of_work_pp"][2] > os_["out_of_work_pp"][2] + 5 and rig["gap_min_max"][0] < g_hh - 1 and rig["years_at_floor"] > S[f"{OSN} | central"]["years_at_floor"],
       f"out of work at year 10 {rig['y5_y8_y10_y12_y15']['out_of_work_pp'][2]}% against {os_['out_of_work_pp'][2]}%; gap {rig['gap_min_max'][0]} against {g_hh}; "
       f"{rig['years_at_floor']} years at the floor against {S[OSN + ' | central']['years_at_floor']}")
@@ -132,13 +157,11 @@ check(f"G1 {DDN}: leaning on families costs demand — a larger drag from constr
       "smaller state bill",
       g1[DDN][0] > 0.2 and g1[DDN][1] and g1[DDN][2], g1d(DDN))
 gx = {v: EX[f"{OSN} | {v}"]["y5_y8_y10_y12_y15"]["demand_level"][3] for v in ("central", "family-based support")}
-check(f"G1 [restated] {OSN}: leaning on families costs demand — a lower demand level at year 12 and a lower gap trough, for a smaller "
-      "state bill — but by 0.17% of GDP, under the 0.2 the claim had (on (b) 0.58). Both levels at year 12 are positive (the constrained "
-      "households add demand there) because of the benefit artefact (A1): with benefits on the wage at exit the family-based level is "
-      "negative and the cost is above 0.2 again",
-      0.1 <= g1[OSN][0] < 0.2 and g1[OSN][1] and g1[OSN][2] and g1[OSN][3] > 0 and g1[OSN][4] > 0 and g1b[OSN] > 0.2
-      and gx["family-based support"] < 0 and gx["central"] - gx["family-based support"] > 0.2,
-      g1d(OSN) + f"; with benefits at exit: level {gx['family-based support']} against {gx['central']} (cost {gx['central'] - gx['family-based support']:.2f})")
+check(f"G1 [restated at the refit] {OSN}: leaning on families costs demand — a lower demand level at year 12 and a lower gap trough, for a "
+      "smaller state bill — by more than the 0.2% of GDP the claim had (as on (b)); both levels are negative again (before the refit they "
+      "were positive, and the cost 0.17, because of the benefit artefact)",
+      g1[OSN][0] > 0.2 and g1[OSN][1] and g1[OSN][2] and g1[OSN][3] < 0 and g1[OSN][4] < 0 and g1b[OSN] > 0.2,
+      g1d(OSN) + f"; with benefits at exit: level {gx['family-based support']} against {gx['central']}")
 fam_run = {n: hh.run(W[n], dmp, FAM, s0) for n in (DDN, OSN)}
 nc_run = {n: hh.run(W[n], dmp, replace(FAM, private_cap=1.0), s0) for n in (DDN, OSN)}
 for name in (DDN, OSN):
@@ -148,26 +171,24 @@ for name in (DDN, OSN):
     t_ = fam_run[name]["t"]
     binds = (fam_run[name]["households"]["cap_binds"] > 0.5) & (t_ <= 15 + 1e-9)
     fb_ = CB[f"{name} | family-based support"]["y5_y8_y10_y12_y15"]
-    check(f"G2 [restated] {name}: networks run out — the cap on what family and friends give binds in the deep phase; the old second half "
-          "(less of the lost wage covered by year 15) disappears with the benefit artefact (A1), and holds with benefits on the wage at exit "
-          "only when deficits dominate; the old third clause (networks still at their cap at year 15: supporters' burden at the 10% cap) "
-          "disappears too — the burden at year 15 is below the cap — and holds with benefits at exit, as it did on (b)",
-          fa["years_network_cap_binds"] > 0 and binds.any() and yf["lost_wage_covered_pct"][4] > 80
-          and ((fx["lost_wage_covered_pct"][4] < 80) if name == DDN else (80 <= fx["lost_wage_covered_pct"][4] < 85))
-          and yf["supporters_burden_pct"][4] < 9.99 and fx["supporters_burden_pct"][4] >= 9.99 and fb_["supporters_burden_pct"][4] >= 9.99,
+    check(f"G2 [restated at the refit] {name}: networks run out — the cap on what family and friends give binds from the deep phase to "
+          "year 15, less and less of the lost wage is covered (under 40% by year 15), and the supporters' burden sits at the 10% cap at year "
+          "15, as on (b) — the clauses the benefit artefact had removed before the refit hold again",
+          fa["years_network_cap_binds"] > 0 and binds.any() and t_[binds][-1] >= 15.0 - 1e-9 and yf["lost_wage_covered_pct"][4] < 40
+          and yf["supporters_burden_pct"][4] >= 9.99 and fb_["supporters_burden_pct"][4] >= 9.99,
           f"cap binds {fa['years_network_cap_binds']} years (years {t_[binds][0]}-{t_[binds][-1]}); covered {yf['lost_wage_covered_pct']}; at exit "
           f"{fx['lost_wage_covered_pct']}; supporters' burden at year 15 {yf['supporters_burden_pct'][4]}% of income (at exit "
           f"{fx['supporters_burden_pct'][4]}; (b) {fb_['supporters_burden_pct'][4]})")
     w_ = t_ <= 15 + 1e-9
     gain = (nc_run[name]["households"]["covered"] - fam_run[name]["households"]["covered"])[binds]
     dlev = np.abs(nc_run[name]["households"]["level"] - fam_run[name]["households"]["level"])[w_]
-    check(f"G3 [restated] {name}: while the cap binds it moves who bears the loss more than it moves demand — lifting it covers more of the "
-          "lost wage, the demand level moves under 0.05% of GDP (by year 15 the cap no longer binds, so the old year-15 reading is empty)",
-          gain.max() > 0.5 and dlev.max() < 0.05,
+    check(f"G3 [restated at the refit] {name}: while the cap binds it moves who bears the loss far more than it moves demand — lifting it "
+          "covers up to about 30 points more of the lost wage and moves the demand level by under 0.2% of GDP (before the refit under 0.05)",
+          gain.max() > 20 and dlev.max() < 0.2,
           f"coverage up to +{gain.max():.2f} points without the cap; demand level within {dlev.max():.3f}% of GDP")
 tail = S[f"{OSN} | family-based, rigid money wages"]
-check("G4 [restated] the tail is family-based support with rigid money wages: the deepest downturn of every run, about twice 2009's, and the "
-      "longest at the floor (its depth set partly by the employment floor, A2)",
+check("G4 [restated at the refit] the tail is family-based support with rigid money wages: the deepest downturn of every run, more than "
+      "twice 2009's, and the longest at the floor",
       tail["gap_min_max"][0] == min(v["gap_min_max"][0] for k, v in S.items() if "gap_min_max" in v) and tail["gap_min_max"][0] < -8.0
       and tail["years_at_floor"] == max(v["years_at_floor"] for k, v in S.items() if "years_at_floor" in v),
       f"gap {tail['gap_min_max'][0]}, inflation {tail['inflation_min_max'][0]}, {tail['years_at_floor']} years at the floor; covered "
@@ -196,30 +217,39 @@ def floor_year(x):
 
 eb_, _ = bs.economy("b")
 eh_, _ = bs.economy("hi")
-Wo = {"b": {n: dm.world(*bs.SCEN[n], e=eb_) for n in (DDN, OSN)}, "hi": {n: dm.world(*bs.SCEN[n], e=eh_) for n in (DDN, OSN)}}
+Wo = {"b": {n: dm.world(*bs.SCEN_B[n], e=eb_, base=m.BRIDGES_B) for n in (DDN, OSN)}, "hi": {n: dm.world(*bs.SCEN[n], e=eh_) for n in (DDN, OSN)}}
 onset = {n: artefact_onset(r if n == DDN else hh.run(W[OSN], dmp, C, s0)) for n in (DDN, OSN)}
 on_o = {(k, n): artefact_onset(hh.run(Wo[k][n], dmp, C, s0)) for k in Wo for n in (DDN, OSN)}
-check("A1 benefits: public support is the replacement rate on the START's real net wage, so once money wages fall far enough it exceeds the "
-      "wage lost — from year 9.25 (deficits) and 8.25 (owners' saving) the job losers' drag is zero for good and coverage reaches 176% / "
-      "315% by year 15. Not the central root's alone: on the high root it comes later in both branches; on (b) it comes only when "
-      "owners' saving dominates, later still, and never within 15 years when deficits do",
-      all(o_[0] is not None and 8.0 <= o_[0] <= 10.0 and o_[1] > 150 for o_ in onset.values())
-      and all(on_o[("hi", n)][0] is not None and on_o[("hi", n)][0] > onset[n][0] for n in (DDN, OSN))
-      and on_o[("b", DDN)][0] is None and on_o[("b", OSN)][0] is not None and on_o[("b", OSN)][0] > onset[OSN][0],
-      "; ".join(f"{n}: from year {onset[n][0]}, covered {onset[n][1]:.0f}% at 15" for n in onset) + "; high root: "
-      + ", ".join(f"{on_o[('hi', n)][0]} ({on_o[('hi', n)][1]:.0f}%)" for n in (DDN, OSN)) + "; (b): "
-      + ", ".join(f"{on_o[('b', n)][0]} ({on_o[('b', n)][1]:.0f}%)" for n in (DDN, OSN)) + " (deficits, owners' saving)")
+cov = {}
+for n in (DDN, OSN):
+    x = r if n == DDN else hh.run(W[OSN], dmp, C, s0)
+    w_ = (x["t"] > 0.5) & (x["t"] <= 15 + 1e-9)
+    cov[n] = (float(x["households"]["covered"][w_].min()), float(x["households"]["covered"][w_].max()),
+              float(np.interp(15, x["t"], x["households"]["d_out"])), onset[n][0])
+st15 = {n: ST[f"{n} | central"]["y5_y8_y10_y12_y15"]["lost_wage_covered_pct"][4] for n in (DDN, OSN)}
+ex15 = {n: EX[f"{n} | central"]["y5_y8_y10_y12_y15"]["lost_wage_covered_pct"][4] for n in (DDN, OSN)}
+check("A1 [the redesign, decision 78] benefits follow the current money wage: the share of the lost wage covered stays between 50% and 90% "
+      "at every date in both branches, so the job losers' drag never goes to zero (before the refit, on the start's real wage, it did from "
+      "year 9.25 / 8.25, coverage 176% / 315% by year 15). The old rule and the wage at exit, kept as sensitivities, still outrun the "
+      "collapsing wage: coverage by year 15 over 200% on the start's real wage and over 100% at exit",
+      all(50 < c_[0] and c_[1] < 90 and c_[2] < -0.3 and c_[3] is None for c_ in cov.values())
+      and all(v > 200 for v in st15.values()) and all(v > 100 for v in ex15.values()),
+      "; ".join(f"{n}: covered {cov[n][0]:.0f}-{cov[n][1]:.0f}%, drag at 15 {cov[n][2]:.2f}% of GDP" for n in cov)
+      + "; at 15 on the start's real wage " + " / ".join(f"{st15[n]:.0f}" for n in (DDN, OSN)) + "%, at exit "
+      + " / ".join(f"{ex15[n]:.0f}" for n in (DDN, OSN)) + "% (deficits / owners' saving)")
 flo = {}
-for name, sp in ((OSN, replace(C, rigid_wages=True)), (DDN, replace(C, rigid_wages=True)), (OSN + ", family", replace(FAM, rigid_wages=True))):
+for name, sp in ((OSN, replace(C, rigid_wages=True)), (DDN, replace(C, rigid_wages=True)), (OSN + ", family", replace(FAM, rigid_wages=True)),
+                 (OSN + ", no cut", replace(C, rigid_wages=True, wage_fall_max=0.0)), (OSN + ", family, no cut", replace(FAM, rigid_wages=True, wage_fall_max=0.0))):
     flo[name] = floor_year(hh.run(W[name.split(",")[0]], dmp, sp, s0))
 flo_o = {(k, n): floor_year(hh.run(Wo[k][n], dmp, replace(C, rigid_wages=True), s0)) for k in Wo for n in (DDN, OSN)}
-check("A2 [central root only] rigid wages: job loss from rigidity is linear in the accumulated refused cut, and with money wages that would "
-      "fall 60-80% it takes employment to the layer's floor (5% of the start's) from year 10.5 when owners' saving dominates (15.5 when "
-      "deficits do) — on the central root only: on the high root and on (b) no rigid-wage run reaches the floor within 15 years",
-      10.0 <= flo[OSN] <= 11.0 and 10.0 <= flo[OSN + ", family"] <= 11.0 and flo[DDN] > 15.0
-      and all(v is None or v > 15.0 for v in flo_o.values()),
-      f"floor from year {flo[OSN]} (family-based {flo[OSN + ', family']}; deficits {flo[DDN]}); high root "
-      f"{flo_o[('hi', DDN)]} / {flo_o[('hi', OSN)]}, (b) {flo_o[('b', DDN)]} / {flo_o[('b', OSN)]} (deficits / owners' saving; None: never in the run)")
+emp_low = float(rr["households"]["employed"].min())
+check("A2 [the redesign, decision 79] rigid money wages fall at most 4% a year and the log excess over the market wage costs a share of the "
+      "jobs still there (the labour-demand elasticity 0.4): no rigid-wage run reaches the layer's floor (5% of the start's employment) on "
+      "the central, the high root or (b), nor with no money-wage cut at all (before the refit the central's owners'-saving run reached it "
+      "from year 10.5)",
+      all(v is None for v in flo.values()) and all(v is None for v in flo_o.values()) and emp_low > 0.05,
+      f"floors reached: {[k for k, v in {**flo, **{str(k): v for k, v in flo_o.items()}}.items() if v is not None]}; lowest employment "
+      f"{emp_low:.3f} of the start's (owners' saving, rigid wages)")
 
 print("S — the sensitivity: benefits on each cohort's real wage at exit (not a default)")
 ex_os, ex_dd = EX[f"{OSN} | central"], EX[f"{DDN} | central"]["y5_y8_y10_y12_y15"]
@@ -227,16 +257,14 @@ onset_x = {}
 for name in (DDN, OSN):
     x = rx if name == DDN else hh.run(W[OSN], dmp, replace(C, benefit_base="exit"), s0)
     d_, t_ = x["households"]["d_out"], x["t"]
-    k0 = next(k for k in range(len(t_)) if t_[k] > 3 and np.all(np.abs(d_[k:]) < 1e-12))
-    onset_x[name] = (float(t_[k0]), float(x["households"]["covered"][k0]) > 100)
-check("S1 with benefits on the wage at exit, F2 survives (households still cushion the falling branch), and the benefit artefact is delayed, "
-      "not removed: the job losers' drag is zero for good from year 14 rather than 9.25 when deficits dominate, and from 10.25 rather than "
-      "8.25 when owners' saving does — coverage passes 100% then (early cohorts' benefits rest on higher wages than the ones now lost)",
-      ex_os["gap_min_max"][0] > g_full and ex_dd["from_job_losers"][2] < -0.3
-      and 13.5 <= onset_x[DDN][0] <= 14.5 and 10.0 <= onset_x[OSN][0] <= 10.5 and all(onset_x[n][0] > onset[n][0] and onset_x[n][1] for n in onset_x),
-      f"owners' saving gap {ex_os['gap_min_max'][0]} against {g_full} pooled; deficits job losers {ex_dd['from_job_losers']} (years 5/8/10/12/15); drag "
-      f"zero from year {onset_x[DDN][0]} / {onset_x[OSN][0]} at exit against {onset[DDN][0]} / {onset[OSN][0]} on the start's wage; owners' saving "
-      f"covered {ex_os['y5_y8_y10_y12_y15']['lost_wage_covered_pct']}")
+    k0 = next((k for k in range(len(t_)) if t_[k] > 3 and np.all(np.abs(d_[k:]) < 1e-12)), None)
+    onset_x[name] = (float(t_[k0]), float(x["households"]["covered"][k0]) > 100) if k0 is not None else (None, False)
+check("S1 [restated at the refit] with benefits on each cohort's real wage at exit (a sensitivity) the benefit artefact comes back: the job "
+      "losers' drag goes to zero for good within 15 years in both branches, coverage passing 100% (early cohorts' benefits rest on higher "
+      "wages than the ones now lost) — on the wage rule (the default) it never does (A1)",
+      all(v[0] is not None and v[0] <= 15.0 and v[1] for v in onset_x.values()),
+      f"drag zero from year {onset_x[DDN][0]} (deficits) / {onset_x[OSN][0]} (owners' saving); owners' saving covered "
+      f"{ex_os['y5_y8_y10_y12_y15']['lost_wage_covered_pct']}; deficits job losers {ex_dd['from_job_losers']} (years 5/8/10/12/15)")
 
 print("X — the switch: (c)'s runs, the (b) comparator, the high root")
 variants = {"central": C, "rigid money wages": replace(C, rigid_wages=True), "emergency checks (4% of income for a year)": replace(C, check_size=4.0),
@@ -253,14 +281,14 @@ eb, _ = bs.economy("b")
 
 def world_b_old(bridges, truth):
     """The pre-switch demand.world (medium), with (b)'s hard-coded objects."""
-    br = m.Bridges(capital_premium=5.0, **bridges)
+    br = replace(m.BRIDGES_B, capital_premium=5.0, **bridges)
     tech = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6) if truth == "new" else m.TechPath(eta_end=1.0, lam_end=eb.lam)
     return m.macro_path(eb, tech, br, 25.0, 0.25)
 
 
 old_b = {}
 for n in (DDN, OSN):
-    mpb = world_b_old(*bs.SCEN[n])
+    mpb = world_b_old(*bs.SCEN_B[n])
     old_b |= {f"{n} | {vn}": hh.summary(hh.run(mpb, dmp, variants[vn], s0)) for vn in hh.COMPARED}
     old_b[f"{n} | demand layer alone (full pooling)"] = dm.summary(dm.run(mpb, dmp))
 check("X2 the (b) comparator is the pre-switch layer: rebuilt with (b)'s hard-coded Bridges(capital_premium=5.0) and TechPaths it equals the "
@@ -268,9 +296,10 @@ check("X2 the (b) comparator is the pre-switch layer: rebuilt with (b)'s hard-co
       f"{len(old_b)} runs; the tail {CB[OSN + ' | family-based, rigid money wages']['gap_min_max'][0]} on (b)")
 hd, ho = HI[f"{DDN} | central"]["y5_y8_y10_y12_y15"], HI[f"{OSN} | central"]
 htail = HI[f"{OSN} | family-based, rigid money wages"]
-check("X3 sensitivity, the high root: F1, F2 and G4 hold there too; its rigid-wage runs stay off the employment floor within 15 years",
-      hd["debt_service_pct_income"][3] > hd["debt_service_pct_income"][0] + 1 and ho["y5_y8_y10_y12_y15"]["debt_service_pct_income"][4] < ho["y5_y8_y10_y12_y15"]["debt_service_pct_income"][0] - 2
-      and ho["gap_min_max"][0] > HI[f"{OSN} | demand layer alone (full pooling)"]["gap_min_and_year"][0]
+check("X3 [restated at the refit] sensitivity, the high root: F1's owners'-saving branch, F2 (restated: households deepen the falling "
+      "branch) and G4 hold there too; its rigid-wage runs stay off the employment floor",
+      ho["y5_y8_y10_y12_y15"]["debt_service_pct_income"][4] < ho["y5_y8_y10_y12_y15"]["debt_service_pct_income"][0] - 2
+      and ho["gap_min_max"][0] < HI[f"{OSN} | demand layer alone (full pooling)"]["gap_min_and_year"][0]
       and htail["gap_min_max"][0] == min(v["gap_min_max"][0] for v in HI.values() if "gap_min_max" in v)
       and htail["years_at_floor"] == max(v["years_at_floor"] for v in HI.values() if "years_at_floor" in v)
       and max(v["y5_y8_y10_y12_y15"]["out_of_work_pp"][4] for v in HI.values() if "gap_min_max" in v) < 95.0,

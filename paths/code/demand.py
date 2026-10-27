@@ -31,16 +31,16 @@
 # fifth of its own lambda). The high root (the sensitivity) and (b) (the comparator; bit-identical to the pre-switch runs)
 # are stored beside it for the central learning variant.
 #
-# THE NEUTRAL RATE IS A BRIDGE READOUT. r* is the macro block's bridge, its coefficients set on (b) and not retuned. Its
-# capex channel is keyed to the pace of tasks moving to machines (alpha_capex 0.25 pp of r* per pp a year); under (c)
-# investment spending (delta Vm K / income) falls along the path, which that key cannot see. A sensitivity, not a new
-# default: the same r* with the capex term keyed to investment spending instead, alpha_inv x the change in investment /
-# income since the start (pp), at two scales, neither fitted to (c):
+# THE NEUTRAL RATE. r* is the macro block's bridge, refit on (c) (Log 46): its capex channel keyed to investment spending
+# (delta Vm K / income) at the common scale (macro.NEUTRAL_SCALE, 0.3 pp of r* per pp of income), owners' saving and deficits
+# on the same scale. A readout, not the default: the same r* with the capex term keyed to the pace of tasks moving instead
+# (alpha_capex 0.25 pp of r* per pp a year, the key as tuned on (b)). On the comparator (b), keyed to the pace, the readout
+# before the refit stays: the capex term keyed to investment at two scales —
 #   the bridge's own scale — alpha_capex converted at (b)'s start, where it was set: moving 1 pp of tasks a year at
 #     (b)'s prices needs net investment of Vm dK/dx x 0.01 / income (6.35% of income), so alpha_inv = 0.25 / 6.35 = 0.039;
 #   the demand layer's scale — investment spending not replaced by other spending is a demand level, and the IS curve
 #     above closes a held level L with a real rate L (1 - a1)/a_r higher: alpha_inv = 0.06 / 0.10 = 0.6 (an upper end).
-# The readout does not feed back into the required return (the macro path is unchanged); the demand layer is run on it.
+# The readouts do not feed back into the required return (the macro path is unchanged); the demand layer is run on them.
 # The series keyed to is replacement investment, the only investment in the quasi-static accounts. Net investment, Vm dK/dt
 # / income, is stored beside it as a diagnostic: on every deep path, (b) included, the machine stock K falls (capability
 # makes each machine do more tasks), so net investment is negative — keying to it would lower r* further, not less.
@@ -168,14 +168,15 @@ def summary(r: dict, horizon: float = 15.0) -> dict:
                                     "output": at(r["output"]), "capacity": at(r["capacity"])}}
 
 
-def world(bridges: dict, truth: str, fast: bool = False, e=None) -> dict:
+def world(bridges: dict, truth: str, fast: bool = False, e=None, base=None) -> dict:
     """The true world's macro path for one of the bank scenarios' bridge settings, on economy e (default: the central
-    (c), macro.central()); fast: automation's midpoint at year 3 over a 2-year width, instead of year 6 over 6 years."""
+    (c), macro.central()) and base bridges (default the refit; the comparator (b) passes macro.BRIDGES_B); fast:
+    automation's midpoint at year 3 over a 2-year width, instead of year 6 over 6 years."""
     e = m.central()[0] if e is None else e
     if not fast:
-        old, new, _, _, _ = bs.path(e, bridges, truth)
+        old, new, _, _, _ = bs.path(e, bridges, truth, base=base)
         return new if truth == "new" else old
-    br = m.feedback_bridges(e, **bridges)
+    br = m.feedback_bridges(e, base=base, **bridges)
     tech = m.deep_tech(e, **m.TECH_SPEEDS["fast"]) if truth == "new" else m.hold_tech(e)
     return m.macro_path(e, tech, br, 25.0, 0.25)
 
@@ -193,12 +194,20 @@ def net_investment_income(mp: dict) -> np.ndarray:
     return mp["Vm"] * np.gradient(mp["K"], mp["t"]) / mp["income"] * 100
 
 
-def capex_term(mp: dict, br) -> np.ndarray:
-    """The capex channel as macro_path computes it: alpha_capex x the pace of tasks moving (pp a year) — backward
-    differences on a feedback path (Bridges.capital_premium set), central differences otherwise."""
+def pace(mp: dict, br) -> np.ndarray:
+    """The pace of tasks moving to machines (pp a year) as macro_path computes it — backward differences on a feedback path
+    (Bridges.capital_premium set), central differences otherwise."""
     t = mp["t"]
-    pace = (np.r_[0.0, np.diff(mp["x"]) / np.diff(t) * 100] if br.capital_premium is not None else np.gradient(mp["x"], t) * 100)
-    return br.alpha_capex * pace
+    return np.r_[0.0, np.diff(mp["x"]) / np.diff(t) * 100] if br.capital_premium is not None else np.gradient(mp["x"], t) * 100
+
+
+def capex_term(mp: dict, br) -> np.ndarray:
+    """The capex channel as macro_path computes it: alpha_inv x the change in investment / income since the start (pp; the
+    investment key, the refit's) or alpha_capex x the pace of tasks moving (the pace key, as tuned on (b))."""
+    if br.capex_key == "pace":
+        return br.alpha_capex * pace(mp, br)
+    inv = mp["inv_income"] * 100
+    return br.alpha_inv * (inv - inv[0])
 
 
 def alpha_inv_bridge(e_b, alpha_capex: float = m.Bridges().alpha_capex) -> dict:
@@ -224,6 +233,12 @@ def r_star_invest_keyed(mp: dict, e, br, alpha_inv: float) -> np.ndarray:
     return mp["r_star"] - capex_term(mp, br) + alpha_inv * (inv - inv[0])
 
 
+def r_star_pace_keyed(mp: dict, e, br, alpha_capex: float) -> np.ndarray:
+    """r* with the capex channel keyed to the pace of tasks moving: r* - capex_term + alpha_capex x the pace (pp). A readout:
+    the required return and every other series of the path are left as the macro block solved them."""
+    return mp["r_star"] - capex_term(mp, br) + alpha_capex * pace(mp, br)
+
+
 def crash(t: np.ndarray, at: float = 0.5, size: float = 4.0, quarters: int = 3) -> np.ndarray:
     """A demand shock of `size` % of capacity, spread evenly over `quarters` quarters from year `at` (Sweden's GDP
     fell about 5% in 2009; the gap's persistence carries it forward)."""
@@ -235,27 +250,35 @@ def crash(t: np.ndarray, at: float = 0.5, size: float = 4.0, quarters: int = 3) 
 
 YEARS = (0, 3, 5, 6, 8, 10, 12, 15)
 CENTRAL = "central (r* learned with a 3-year half-life)"
-READOUT_WORLDS = {"default bridges (the macro block's own r*)": ({}, "new"), "deficits dominate": bs.SCEN["deficits dominate"][:2],
-                  "owners' saving dominates": bs.SCEN["owners' saving dominates"][:2]}
+def readout_worlds(scen: dict) -> dict:
+    return {"default bridges (the macro block's own r*)": ({}, "new"), "deficits dominate": scen["deficits dominate"][:2],
+            "owners' saving dominates": scen["owners' saving dominates"][:2]}
 
 
-def neutral_rate_readout(e, base: Demand, alphas: dict) -> dict:
-    """Per automated world (medium and fast): investment / income, r* with the capex channel keyed to the pace of tasks (the
-    bridge as set) and to investment spending at each scale in alphas, and the demand layer (base) on each r*."""
+def neutral_rate_readout(e, base: Demand, alphas: dict | None, which: str = "lo") -> dict:
+    """Per automated world (medium and fast): investment / income, r* as the bridge sets it and with its capex channel on the
+    other key — on the refit ('lo', 'hi': keyed to investment) the pace of tasks at alpha_capex 0.25, the key as tuned on (b);
+    on the comparator ('b': keyed to the pace) investment spending at each scale in alphas — and the demand layer (base) on
+    each r*."""
+    bb, scen = bs.base_bridges(which)
     out = {}
-    for name, (bridges, truth) in READOUT_WORLDS.items():
+    for name, (bridges, truth) in readout_worlds(scen).items():
         for fast in (False, True):
-            mp = world(bridges, truth, fast=fast, e=e)
-            br = m.feedback_bridges(e, **bridges)
+            mp = world(bridges, truth, fast=fast, e=e, base=bb)
+            br = m.feedback_bridges(e, base=bb, **bridges)
             t = mp["t"]
             at = lambda x: {str(y): float(np.interp(y, t, x)) for y in YEARS}  # noqa: E731
             w = t <= 15.0 + 1e-9
-            paths = {"task keyed (the bridge as set)": mp["r_star"],
-                     **{f"investment keyed, {k}": r_star_invest_keyed(mp, e, br, a) for k, a in alphas.items()}}
+            if br.capex_key == "investment":
+                paths = {"investment keyed (the refit)": mp["r_star"],
+                         "pace keyed (as tuned on (b))": r_star_pace_keyed(mp, e, br, br.alpha_capex)}
+            else:
+                paths = {"task keyed (the bridge as set)": mp["r_star"],
+                         **{f"investment keyed, {k}": r_star_invest_keyed(mp, e, br, a) for k, a in alphas.items()}}
             net = net_investment_income(mp)
             rec = {"inv_income_pct": at(investment_income(mp, e)), "net_investment_pct_income_diagnostic": at(net),
                    "net_investment_min_and_year_to_15": [float(net[w].min()), float(t[w][np.argmin(net[w])])],
-                   "capex_term_task_keyed_pp": at(capex_term(mp, br)),
+                   ("capex_term_task_keyed_pp" if br.capex_key == "pace" else "capex_term_pp"): at(capex_term(mp, br)),
                    "r_star": {}, "r_star_max_and_year_to_15": {}, "r_star_rise_above_start_to_15_pp": {}, "demand_layer": {}}
             for k, r_ in paths.items():
                 rec["r_star"][k] = at(r_)
@@ -312,28 +335,32 @@ def main():
     # the high root (the sensitivity) and (b) (the comparator), central learning: the three worlds and fast automation
     for which, key in (("hi", "sensitivity: the high root"), ("b", "comparator: calibration (b)")):
         e2, cal2 = bs.economy(which)
+        bb, scen = bs.base_bridges(which)
         sc = {}
-        for name, (br, truth) in bs.SCEN.items():
-            sc[f"{name} | {CENTRAL}"] = summary(run(world(br, truth, e=e2), base))
+        for name, (br, truth) in scen.items():
+            sc[f"{name} | {CENTRAL}"] = summary(run(world(br, truth, e=e2, base=bb), base))
         for name in ("deficits dominate", "owners' saving dominates"):
-            br, truth = bs.SCEN[name]
-            sc[f"{name}, fast automation | {CENTRAL}"] = summary(run(world(br, truth, fast=True, e=e2), base))
+            br, truth = scen[name]
+            sc[f"{name}, fast automation | {CENTRAL}"] = summary(run(world(br, truth, fast=True, e=e2, base=bb), base))
         out[key] = {"calibration": cal2, "scenarios": sc}
-    # the neutral rate with the capex channel keyed to investment spending (a sensitivity, not a new default)
+    # the neutral rate with the capex channel on the other key (a readout, not the default): on the central, the pace of tasks
+    # (the key as tuned on (b)); on the comparator (b), investment spending at two scales (as before the refit)
     eb, _ = bs.economy("b")
     ab = alpha_inv_bridge(eb)
     alphas = {"bridge scale": ab["alpha_inv"], "demand-layer scale": alpha_inv_is(Demand())}
-    out["neutral_rate_invest_keyed"] = {
-        "note": "a readout of the (b)-tuned bridge, not a finding and not a new default: r* with its capex term (alpha_capex x the "
-                "pace of tasks moving) replaced by alpha_inv x the change in investment / income (delta Vm K / income, %) since the "
-                "start; the macro path, and so the required return, is unchanged; the demand layer (the central variant) is run on "
-                "each r*. Bridge scale: alpha_capex converted at (b)'s start, where it was set; demand-layer scale: (1 - a1)/a_r of "
-                "the IS curve (investment not replaced by other spending, an upper end). The series keyed to is replacement "
-                "investment, the only investment in the quasi-static accounts; net investment (Vm dK/dt / income) is stored as a "
-                "diagnostic only: the machine stock falls on every deep path, (b) included, so keying to it would lower r* further.",
-        "alpha_inv": {"bridge scale": ab, "demand-layer scale": {"alpha_inv": alphas["demand-layer scale"], "a1": Demand().a1, "a_r": Demand().a_r}},
-        "central (c)": neutral_rate_readout(e, base, alphas),
-        "comparator: calibration (b)": neutral_rate_readout(eb, base, alphas)}
+    out["neutral_rate_rekeyed"] = {
+        "note": "a readout, not the default: r* with its capex term on the other key; the macro path, and so the required return, "
+                "is unchanged; the demand layer (the central variant) is run on each r*. On the central (the refit, keyed to "
+                "replacement investment / income, alpha_inv = macro.NEUTRAL_SCALE) the term is replaced by alpha_capex 0.25 x the "
+                "pace of tasks moving (the key as tuned on (b)). On the comparator (b) (keyed to the pace) by alpha_inv x the change "
+                "in investment / income at two scales: the bridge's (alpha_capex converted at (b)'s start) and the demand layer's "
+                "((1 - a1)/a_r of the IS curve). The series keyed to is replacement investment, the only investment in the "
+                "quasi-static accounts; net investment (Vm dK/dt / income) is a diagnostic only: the machine stock falls on every "
+                "deep path, (b) included, so keying to it would lower r* further.",
+        "alpha_inv": {"central (c)": m.Bridges().alpha_inv, "bridge scale": ab,
+                      "demand-layer scale": {"alpha_inv": alphas["demand-layer scale"], "a1": Demand().a1, "a_r": Demand().a_r}},
+        "central (c)": neutral_rate_readout(e, base, None, "lo"),
+        "comparator: calibration (b)": neutral_rate_readout(eb, base, alphas, "b")}
     runs = out.pop("runs")
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     with open(os.path.join(ROOT, "results", "demand.json"), "w", encoding="utf-8") as f:
@@ -344,7 +371,7 @@ def main():
     for which in ("sensitivity: the high root", "comparator: calibration (b)"):
         for k, v in out[which]["scenarios"].items():
             print(f"[{which[:14]}] {k:66s} gap min {v['gap_min_and_year']} max {v['gap_max_and_year']} infl {v['inflation_min_max']} floor {v['years_at_floor']}y")
-    for cal_, rd in ((k, out["neutral_rate_invest_keyed"][k]) for k in ("central (c)", "comparator: calibration (b)")):
+    for cal_, rd in ((k, out["neutral_rate_rekeyed"][k]) for k in ("central (c)", "comparator: calibration (b)")):
         for wn, rec in rd.items():
             print(f"[r* readout, {cal_[:14]}] {wn:58s} inv/income {[round(rec['inv_income_pct'][str(y)], 1) for y in YEARS]}"
                   f" net (diagnostic) {[round(rec['net_investment_pct_income_diagnostic'][str(y)], 1) for y in YEARS]}")
@@ -352,7 +379,7 @@ def main():
                 g = rec["demand_layer"][k]
                 print(f"      {k:40s} r* {[round(v[str(y)], 2) for y in YEARS]} max {[round(x, 2) for x in rec['r_star_max_and_year_to_15'][k]]}"
                       f" | gap {g['gap_min_and_year']} {g['gap_max_and_year']} infl {g['inflation_min_max']} floor {g['years_at_floor']}y")
-    alt = {name: r_star_invest_keyed(worlds[name], e, m.feedback_bridges(e, **bs.SCEN[name][0]), alphas["bridge scale"])
+    alt = {name: r_star_pace_keyed(worlds[name], e, m.feedback_bridges(e, **bs.SCEN[name][0]), m.Bridges().alpha_capex)
            for name in ("deficits dominate", "owners' saving dominates")}
     figure(runs, alt)
 
@@ -375,7 +402,7 @@ def figure(runs, alt=None):
         a.plot(t[w], r["real_rate"][w], color="C3", lw=1.6, label="the real policy rate")
         a.plot(t[w], r["policy"][w], color="C0", lw=1.2, label="the policy rate")
         if alt is not None:
-            a.plot(t[w], alt[name][w], color="grey", lw=1.2, ls=":", label="r* with the capex channel keyed to investment\n(a readout; the bridge's scale)")
+            a.plot(t[w], alt[name][w], color="grey", lw=1.2, ls=":", label="r* with the capex channel keyed to the pace of tasks\n(a readout; the key as tuned on (b))")
         a.axhline(-0.5, color="grey", lw=0.8, ls=":")
         a.set_title(f"{name}: rates, %\nthe gap between the red and black lines drives demand")
         y0, y1 = a.get_ylim()
@@ -399,7 +426,7 @@ def figure(runs, alt=None):
         a.set_ylim(min(-25.0, 5.0 * np.floor(lo_ / 5.0) - 2.0), max(35.0, 5.0 * np.ceil(hi_ / 5.0) + 2.0))   # the whole split in view
     for a in ax.flat:
         a.set_xlabel("years")
-    fig.text(0.01, 0.005, "The macro block's worlds on calibration (c), the central (open reading, low root), with bank_scenarios.py's bridges (set on (b)) and the demand layer (demand.py). "
+    fig.text(0.01, 0.005, "The macro block's worlds on calibration (c), the central (open reading, low root), with the bridges refit on (c) (Log 46) in bank_scenarios.py's two branches and the demand layer (demand.py). "
              "Okun and Phillips measured on Swedish data 2001-2026 (Statistics Sweden); IS slope from the literature.", fontsize=7.5)
     os.makedirs(os.path.join(ROOT, "figures"), exist_ok=True)
     fig.savefig(os.path.join(ROOT, "figures", "fig_demand.png"), dpi=130)

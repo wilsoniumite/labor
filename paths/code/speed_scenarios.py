@@ -8,11 +8,11 @@
 #
 # Worlds: calibration (c)'s central economy (her decision, 2026-09-30; macro.central(): the open (domp) reading, the low
 # root in k), the return following r* from its own rho (macro.feedback_bridges), status quo (macro.hold_tech) vs medium
-# deep automation relative to its own lambda (macro.deep_tech), on a weekly grid; bridges from the reverse stress's
-# finding that two decide direction — "deficits dominate" (alpha_fiscal 0.25, alpha_rent 0.02: the 10Y rises through
-# recognition) and "owners' saving dominates" (alpha_rent 0.12: it falls), set on (b) and not retuned. The same unit on
-# (b), the pre-switch calibration, is stored as comparator_b (the pre-switch results/speed.json: the helpers give (b)'s
-# hard-coded objects exactly). 0_worlds records each world pair's recognition window, the 10Y's move through it and the
+# deep automation relative to its own lambda (macro.deep_tech), on a weekly grid; bridges refit on (c) (Log 46), in the two
+# branches of the reverse stress's finding that two bridges decide direction (macro.BRANCHES: "deficits dominate" and
+# "owners' saving dominates", the direction bridges at the ends of their evidence ranges). The same unit on (b), the
+# pre-switch calibration, is stored as comparator_b (the pre-switch results/speed.json: on macro.BRIDGES_B and BRANCHES_B,
+# the branches as set on (b), the helpers give (b)'s hard-coded objects exactly). 0_worlds records each world pair's recognition window, the 10Y's move through it and the
 # largest rise in the required return against the central's rate headroom (beyond it solve raises NoEquilibrium; no run
 # here comes near it). Today's market: sigma 1 pp per quarterly reading, prior 5%. Digestion: for news
 # about a regime — a judgement, not a number — a human market's half-life is assumed a quarter (0.1 and
@@ -50,13 +50,13 @@ T = np.array([0.25, 2.0, 10.0, 30.0])
 LAB = ("3M", "2Y", "10Y", "30Y")
 HUMAN = rc.Learning(sigma=1.0, p0=0.05, digest=0.25)
 CAPS = (1, 3, 10, 30, 100)
-SCEN = {"deficits dominate": dict(alpha_fiscal=0.25, alpha_rent=0.02), "owners' saving dominates": dict(alpha_rent=0.12)}
+SCEN = m.BRANCHES                    # the two branches on the refit; (b)'s comparator runs m.BRANCHES_B on m.BRIDGES_B
 EVENT_T, EVENT_D = 1.5, 4.0          # a lump of evidence: +4 log odds at year 1.5 (a demonstration, a data revision)
 MEASURED_H, MEASURED_SHARE = 9.8 / 252, 0.25    # US 10Y, 1982-94 (results/digestion_history.json)
 
 
-def worlds(e, **bridges):
-    br = m.feedback_bridges(e, **bridges)
+def worlds(e, base=None, **bridges):
+    br = m.feedback_bridges(e, base=base, **bridges)
     old = m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25)
     new = m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25)
     return rc.refine(old, DT), rc.refine(new, DT)
@@ -105,7 +105,7 @@ def main():
     out, fig_in = compute(e)
     out = {"calibration": {k: info[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}, **out}
     eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
-    out["comparator_b"] = compute(eb)[0]
+    out["comparator_b"] = compute(eb, m.BRIDGES_B, m.BRANCHES_B)[0]
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     with open(os.path.join(ROOT, "results", "speed.json"), "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)
@@ -117,9 +117,10 @@ def main():
     figure(*fig_in, out["comparator_b"])
 
 
-def compute(e):
-    """The unit's outputs on one economy, and what the figure draws."""
-    W = {k: worlds(e, **v) for k, v in SCEN.items()}
+def compute(e, base=None, scen=None):
+    """The unit's outputs on one economy (base bridges and branches: default the refit's; (b) passes macro.BRIDGES_B and
+    macro.BRANCHES_B), and what the figure draws."""
+    W = {k: worlds(e, base, **v) for k, v in (SCEN if scen is None else scen).items()}
     ow, nw = W["deficits dominate"]
     t = ow["t"]
     ls = nw["labor_share"]
@@ -281,7 +282,7 @@ def figure(t, ow, nw, beliefs, event_paths, abrupt, fragile, comp):
     a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="upper left")
     fig.text(0.01, 0.005, "Calibration (c), central (open reading, low root), the return following r*; status quo vs medium deep automation; weekly grid. "
              "Today's market: 1 pp noise per quarterly reading, prior 5%;" + NL + "regime news digested with half-life a quarter (assumed); 1980s rate "
-             "news as measured. Shared error 0.5 pp (panel 6; dashed: calibration (b)). Bridges set on (b), not retuned.", fontsize=8, color=INK2)
+             "news as measured. Shared error 0.5 pp (panel 6; dashed: calibration (b)). Bridges refit on (c) (Log 46).", fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_speed.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
 

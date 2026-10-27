@@ -10,14 +10,16 @@
 # CALIBRATION (her decision, 2026-09-30): the worlds run on calibration (c)'s central economy, macro.central() — the open
 # (domp) reading, the low root in k — with the required return following r* from that economy's own rho
 # (macro.feedback_bridges: premium rho x 100 - 0.75 = 6.80 pp, not (b)'s 5.0) and deep automation relative to its own
-# lambda (macro.deep_tech: lambda to a fifth of its start, not (b)'s absolute 0.01). The bridge coefficients in SCEN
-# (alpha_fiscal, alpha_rent) and alpha_capex were set on (b) and are not retuned: r*, the policy rate and the curve are
-# readouts of (b)-tuned bridges on (c)'s economy. Also stored: the high root (the sensitivity) and (b) (the comparator,
-# bit-identical to the pre-switch runs: the helpers give (b)'s hard-coded objects exactly). No dial here moves the
-# required return; each world's largest rise in it is stored against the central's rate headroom (beyond it solve raises
-# NoEquilibrium) and checked. A readout, not a finding: the two automated branches with the new world's r* keyed to
-# investment spending instead of the pace of tasks (demand.py's r_star_invest_keyed, at the bridge's and the demand layer's
-# scale), because under (c) investment / income falls along the path.
+# lambda (macro.deep_tech: lambda to a fifth of its start, not (b)'s absolute 0.01). The bridges are the refit on (c)
+# (macro.Bridges(); Log 46): r* keyed to replacement investment / income, owners' saving and deficits on one scale from
+# published evidence, the fiscal start at Sweden's measured primary deficit. SCEN's two branches are macro.BRANCHES: the two
+# direction bridges at the ends of their evidence ranges, each against the other's opposite end (deficits dominate: owners'
+# saving gap 0.15, no Ricardian offset; owners' saving dominates: gap 0.45, offset 0.5), the scale and the investment key
+# held. Also stored: the high root (the sensitivity) and (b) (the comparator, on macro.BRIDGES_B and SCEN_B, the branches as
+# set on (b): bit-identical to the pre-switch runs). No dial here moves the required return; each world's largest rise in it
+# is stored against the central's rate headroom (beyond it solve raises NoEquilibrium) and checked. A readout, not a
+# finding: the two automated branches with the new world's r* keyed to the pace of tasks instead (demand.py's
+# r_star_pace_keyed, alpha_capex 0.25, the key as tuned on (b)).
 #
 # Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py, gated by
 # checks/check_calibration_c.py); the bank is illustrative (bank.Bank defaults), not any bank's.
@@ -46,11 +48,15 @@ import regimes as rg  # noqa: E402
 
 NL = chr(10)
 T = np.array([2.0, 3.0, 10.0])
-SCEN = {"status quo": (dict(), "old"),
-        "deficits dominate": (dict(alpha_fiscal=0.25, alpha_rent=0.02), "new"),
-        "owners' saving dominates": (dict(alpha_rent=0.12), "new")}
+SCEN = {"status quo": (dict(), "old"), **{k: (v, "new") for k, v in m.BRANCHES.items()}}       # on the refit (macro.Bridges())
+SCEN_B = {"status quo": (dict(), "old"), **{k: (v, "new") for k, v in m.BRANCHES_B.items()}}   # (b)'s, on macro.BRIDGES_B
 HORIZON = 15.0
 TIGHTEN = ((0.0, 2.75), (1.0, 2.75), (2.0, 5.25), (4.0, 5.25), (5.5, 2.75), (25.0, 2.75))   # (year, policy %)
+
+
+def base_bridges(which: str = "lo"):
+    """(base bridges, branches) for 'lo' / 'hi' (the refit: macro.Bridges(), SCEN) or 'b' (macro.BRIDGES_B, SCEN_B)."""
+    return (m.BRIDGES_B, SCEN_B) if which == "b" else (m.Bridges(), SCEN)
 
 
 def economy(which: str = "lo"):
@@ -66,8 +72,8 @@ def economy(which: str = "lo"):
                                     "participation", "labour_share_bea", "source")}
 
 
-def path(e, bridges, truth, lr=rc.Learning(sigma=1.0, p0=0.05)):
-    br = m.feedback_bridges(e, **bridges)
+def path(e, bridges, truth, lr=rc.Learning(sigma=1.0, p0=0.05), base=None):
+    br = m.feedback_bridges(e, base=base, **bridges)
     old = m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25)
     new = m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25)
     return market(old, new, truth, lr)
@@ -116,17 +122,19 @@ def summary(t, r):
     }
 
 
-def bank_runs(e):
-    """The bank on the four paths (and the wage-bill variants) on economy e: (summaries, runs, required-return rise)."""
+def bank_runs(e, which: str = "lo"):
+    """The bank on the four paths (and the wage-bill variants) on economy e ('lo', 'hi' or 'b': its bridges and branches,
+    base_bridges): (summaries, runs, required-return rise)."""
+    base, scen = base_bridges(which)
     out, runs, rise = {}, {}, {}
-    old, new, p, pol, zeros = path(e, {}, "old")
+    old, new, p, pol, zeros = path(e, {}, "old", base=base)
     t = old["t"]
     pol_t = np.interp(t, [a for a, _ in TIGHTEN], [b_ for _, b_ in TIGHTEN])
     r = bk.run(t, pol_t, bk.expectation_zeros(t, pol_t, known_from=1.0), np.zeros_like(t), old, new, truth="old")   # a surprise at year 1
     runs["a pure tightening"] = (t, r, np.zeros_like(t))
     out["a pure tightening"] = summary(t, r)
-    for name, (bridges, truth) in SCEN.items():
-        old, new, p, pol, zeros = path(e, bridges, truth)
+    for name, (bridges, truth) in scen.items():
+        old, new, p, pol, zeros = path(e, bridges, truth, base=base)
         t = old["t"]
         rise[name] = round(float(max(np.max(old["rho"]), np.max(new["rho"])) - old["rho"][0]), 4)   # pp, either world, 25 years
         for inc in ("site", "employment"):
@@ -144,25 +152,25 @@ IK_FIELDS = ("policy_start_peak_end", "nii_max", "nii_min", "nii_min_year", "hou
              "share_over_dsr_line_max", "cre_share_below_line_max", "result_start_max_min")
 
 
-def invest_keyed(e):
+def pace_keyed(e):
     """A readout, not a finding: the two automated branches with the new world's r* (and so its desired rate and the
-    market's curve) keyed to investment spending instead of the pace of tasks (demand.r_star_invest_keyed, at the bridge's
-    and the demand layer's scale); the macro path, the term premium and the required return are left as solved."""
+    market's curve) keyed to the pace of tasks at alpha_capex 0.25 — the key as tuned on (b), the default before the refit —
+    instead of investment spending (demand.r_star_pace_keyed); the macro path, the term premium and the required return are
+    left as solved."""
     import demand as dmd   # local: demand imports this module
-    eb, _ = economy("b")
-    alphas = {"bridge scale": dmd.alpha_inv_bridge(eb)["alpha_inv"], "demand-layer scale": dmd.alpha_inv_is(dmd.Demand())}
-    out = {"note": "the bank on the new world's r* keyed to investment spending (demand.py's readout); the macro path, term premium "
-                   "and required return as solved; office rents follow the site", "alpha_inv": alphas}
+    out = {"note": "the bank on the new world's r* keyed to the pace of tasks (demand.py's readout; the key as tuned on (b)); the macro "
+                   "path, term premium and required return as solved; office rents follow the site",
+           "alpha_capex": m.Bridges().alpha_capex}
     for name in ("deficits dominate", "owners' saving dominates"):
         bridges, truth = SCEN[name]
         br = m.feedback_bridges(e, **bridges)
         old = m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25)
         new = m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25)
         rec = {}
-        for k, a in (("task keyed (the bridge as set)", None), *((f"investment keyed, {k}", a) for k, a in alphas.items())):
+        for k, a in (("investment keyed (the refit)", None), ("pace keyed (as tuned on (b))", br.alpha_capex)):
             nw = new
             if a is not None:
-                alt = dmd.r_star_invest_keyed(new, e, br, a)
+                alt = dmd.r_star_pace_keyed(new, e, br, a)
                 nw = dict(new, r_star=alt, desired=new["desired"] - new["r_star"] + alt)
             o_, n_, p, pol, zeros = market(old, nw, truth)
             r = bk.run(o_["t"], pol, zeros, p, o_, n_, truth=truth, b=bk.Bank())
@@ -177,13 +185,13 @@ def main():
     out = {"bank": "illustrative Nordic-style balance sheet (bank.Bank defaults); not any bank's", "calibration": cal}
     res, runs, rise = bank_runs(e)
     out.update(res)
-    out["sensitivity: r* keyed to investment spending"] = invest_keyed(e)
+    out["sensitivity: r* keyed to the pace of tasks"] = pace_keyed(e)
     out["required_return_rise_pp"] = {"note": "largest rise in the required return over 25 years (either world, pp), against the "
                                               "central's rate headroom at the start (beyond it solve raises NoEquilibrium)",
                                       "headroom_pp": cal["headroom_pp"], **rise}
     for which, key in (("hi", "sensitivity: the high root"), ("b", "comparator: calibration (b)")):
         e2, cal2 = economy(which)
-        res2, _, rise2 = bank_runs(e2)
+        res2, _, rise2 = bank_runs(e2, which)
         out[key] = {"calibration": cal2, "required_return_rise_pp": rise2, **res2}
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     with open(os.path.join(ROOT, "results", "bank.json"), "w", encoding="utf-8") as f:
@@ -273,7 +281,7 @@ def figure(runs):
     a.set_ylim(bottom=min(0.0, a.get_ylim()[0]))   # room under the lines for the legend
     a.set_ylabel("% of assets"); a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="lower left", ncol=2)
     fig.text(0.01, 0.005, "Illustrative bank (bank.Bank): not any bank's balance sheet. Calibration (c), the central (open reading, low root; "
-             "bridges set on (b)); medium deep automation; market beliefs by Bayesian learning; house prices = belief-weighted expected "
+             "bridges refit on (c), Log 46); medium deep automation; market beliefs by Bayesian learning; house prices = belief-weighted expected "
              "site rents at the real 10Y + 2.5 pp.", fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_bank.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 

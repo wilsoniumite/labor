@@ -22,8 +22,8 @@
 # macro.central() — the open (domp) reading, the low root in k — with the required return following r* from its own rho
 # (macro.feedback_bridges) and deep automation relative to its own lambda (macro.deep_tech); the same runs on (b), the
 # pre-switch calibration, are stored beside them (layer3_model_catch_up_comparator_b, bit-identical to the pre-switch
-# layer 3: the helpers give (b)'s hard-coded objects exactly). The bridges ("deficits dominate": alpha_fiscal 0.25,
-# alpha_rent 0.02) were set on (b) and are not retuned. Layers 1 and 2 are data and do not depend on the calibration.
+# layer 3: the helpers give (b)'s hard-coded objects exactly, on macro.BRIDGES_B and BRANCHES_B). The bridges: the refit on
+# (c) (Log 46), its "deficits dominate" branch (macro.BRANCHES). Layers 1 and 2 are data and do not depend on the calibration.
 #
 # Provenance (public): layers 1-2 — the Philadelphia Fed's Survey of Professional Forecasters (median levels, cache/spf/),
 # the Federal Reserve Board's Gürkaynak–Sack–Wright zero curve (a trimmed vintage, cache/fed/), Kim–Wright term premia
@@ -185,10 +185,11 @@ def layer2(g, kw, ba):
     return out, b10, f9y, real10
 
 
-def layer3(e):
+def layer3(e, base=None, branches=None):
     """The model's consequence: slow human regime digestion, then AI adoption (deficits dominate; the return following
-    r* from the economy's own rho)."""
-    br = m.feedback_bridges(e, alpha_fiscal=0.25, alpha_rent=0.02)
+    r* from the economy's own rho; base bridges and branches default to the refit's, (b) passes macro.BRIDGES_B and
+    macro.BRANCHES_B)."""
+    br = m.feedback_bridges(e, base=base, **(m.BRANCHES if branches is None else branches)["deficits dominate"])
     old = rc.refine(m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25), 1 / 52)
     new = rc.refine(m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25), 1 / 52)
     t = old["t"]
@@ -238,7 +239,7 @@ def main():
     out["layer2_regime_anchor"], b10, f9y, real10 = layer2(g, kw, ba)
     out["layer3_calibration"] = {k: info[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}
     out["layer3_model_catch_up"], t, paths = layer3(e)
-    out["layer3_model_catch_up_comparator_b"], _, paths_b = layer3(eb)
+    out["layer3_model_catch_up_comparator_b"], _, paths_b = layer3(eb, m.BRIDGES_B, m.BRANCHES_B)
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     with open(os.path.join(ROOT, "results", "regime_digestion.json"), "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=1, default=str)
@@ -325,7 +326,7 @@ def figure(y, f, b10, f9y, real10, ba, out, t, paths, paths_b):
     a.set_xlabel("years (deficits dominate)"); a.set_ylabel("bp from the start"); a.legend(frameon=False, fontsize=8.5, labelcolor=INK, loc="best")
     fig.text(0.01, 0.005, "Coibion–Gorodnichenko slopes b -> share of news not yet absorbed per revision, b/(1+b) -> half-life. Anchors: constant-gain fits toward "
              "realized bill rates (part of any slowness is prudence). Sources: FRB (GSW), Philadelphia Fed (SPF), FRED." + NL
-             + "Panel 4: the macro block on calibration (c)'s central economy (open reading, low root), the return following r*; bridges set on (b), not retuned.",
+             + "Panel 4: the macro block on calibration (c)'s central economy (open reading, low root), the return following r*; bridges refit on (c) (Log 46), deficits dominating.",
              fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_regime_digestion.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 

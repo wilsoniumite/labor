@@ -43,6 +43,13 @@ dated from the peak's day, the Nasdaq rule on 2000's daily path, the website's w
 (Log 44; decision 69); France a region of its own, in a monetary union with the rest of the euro area, its
 government's spread over Germany's passed to French borrowers and its banks, and the euro area's premium France's (Log
 45; decisions 70-71). All 23 batteries green on 2026-10-27 (Logs 44-45 list the narrow passes).
+**2026-10-27, the bridges refit on (c)** (Next, first; Log 46; decisions 72-79, hers to review): r* keyed to investment,
+owners' saving and deficits on one evidence-based scale, the fiscal start at Sweden's measured primary balance, household
+benefits following wages, rigid money wages falling at a limited pace; the comparators (a) and (b) on their own bridges.
+On (c) the neutral rate now falls from the start at every speed (−3.0 / −5.3 / −5.3% at year 15), the curve falls a long
+way through recognition, and both of the bank's branches fall. Entries below that predate it carry a "→ On the refit"
+note where their findings moved. All 23 batteries green on 2026-10-27 after it, stderr empty; committed, not pushed
+(watch first, then this repository).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -229,6 +236,10 @@ is right; in an extreme path the destination is what is wrong.
     who save more, up with deficits; policy — the desired rate delivered by the curve layer's
     stepwise rule, with an effective lower bound; premia — term premium and sovereign loss from
     debt above thresholds.
+    → On the refit (2026-10-27, Log 46; decisions 72-75): neutral rate — down as replacement investment / income falls
+    and as income moves to owners who save more of it, up with primary deficits private saving does not offset, all at
+    one evidence-based scale (0.3 pp per point of income); fiscal — the wage tax set so the start runs Sweden's measured
+    primary deficit (0.16% of income).
   - **Deep automation at three speeds** (`code/macro_scenarios.py`, `results/macro_scenarios.json`,
     `figures/fig_macro_scenarios.png`; gated since 2026-09-30 by `checks/check_macro_scenarios.py`, 13/13; capability
     1 → 0.04, lambda to a fifth of its own start). **Restated on (c)'s central (2026-09-30), with (a) beside it — the
@@ -256,6 +267,11 @@ is right; in an extreme path the destination is what is wrong.
     the surplus makes the finding
     milder, not harsher (decision 42). On (a), a mandate that leaves out shelter would want about −8% while goods
     deflate (B5); delivery stops at the lower bound.
+    → On the refit (Log 46): r*'s highest point is the start at every speed, on both roots — no hump — and it ends at
+    −3.0 / −5.3 / −5.3% (slow / medium / fast; high root −3.1 / −5.2 / −5.3); policy reaches the floor by year 10 at the
+    medium speed. Debt rises from the start (a 0.16% primary deficit, tau_w 0.35) to 75 / 110 / 142% at year 15 (high
+    root 64 / 94 / 124%); the surplus start (now the sensitivity) would end it at 52 / 100 / 140%. Keyed back to the pace
+    of tasks (the readout), r* ends 2.4-4.0 points higher and still never rises a tenth of a point.
 - **(b) Produced capital with an interest cost** (her call, 2026-09-24; checks A1–A7 in `checks/check_macro.py`, now
   21/21; `results/capital_feedback.json`, `figures/fig_capital_feedback.png`). Machines as a stock at the paper's
   Appendix A.4 user cost — a service unit costs (required return + depreciation) × a machine's build cost — so
@@ -289,6 +305,10 @@ is right; in an extreme path the destination is what is wrong.
     years 0.5–8.75, at most 0.013 pp), then ahead: +0.23 pp of tasks by year 15 ((b) +0.14), correlation −1.00. The
     down-phase turn remains — cheaper capital speeds automation, owners' income rises, the neutral rate falls further
     — without the early lag. (The check's gate is the return's rise below 0.01 pp, a threshold, not zero.)
+  → On the refit (Log 46): with the return following the refit's r*, which never rises, there is no lag phase at all;
+    automation runs ahead from the start, 1.90 points of tasks by year 15; at year 15 interest 0.018, machine-chain land
+    0.044, the site 0.924 and labour 0.014 of income; +200 bp delays the medium path 19.3 weeks and raises labour's share
+    up to 3.24 points (3.18 on the Figure 7 basis).
 - **The machine chain, measured** (her question, 2026-09-30: is the paths model's theta off?; `code/chains.py`,
   `results/chains.json`, `figures/fig_chains.png`, `checks/check_chains.py` 23/23). Publishers' own files only: BEA's
   input-output tables (the λ thread's cached release, data to 2023), Fixed Assets, GDP by industry and the NIPA flat
@@ -380,6 +400,8 @@ is right; in an extreme path the destination is what is wrong.
     it into a fixed rent is more severe (no root at g0 0.01), so the open reading's choice there is the mild one;
     WP2026-01's labour definition is unverified (if it imputes self-employed labour, theta_V is understated against
     it, toward a more severe result), and its numbers are the repository's digitisation of its Figure 9.
+    → On the refit (Log 46): r*, the policy rate and debt rest on bridges refit against evidence, keyed to investment /
+    income; that item is closed, with the investment key's pass-through (gross, or net for a growing stock) left open.
 - **The switch to (c)** (her decision, 2026-09-30; decisions 37–42). Every module that runs the macro block now runs
   `macro.central()` (`'lo'`, the main reading; `'hi'`, the sensitivity): macro_scenarios and capital_feedback
   (`checks/check_macro_scenarios.py`, new, 13/13), recognition (14/14), reverse (21/21), regime_digestion (11/11),
@@ -403,6 +425,9 @@ is right; in an extreme path the destination is what is wrong.
   today by up to about 1e-11 in some floats; every rounded number is identical, and the re-run removes the difference.
   In plain words: on (c) deep automation is harsher for wages and for the state from the start, the rate response is
   more two-sided with a longer rise tail, and rates matter more for automation.
+  → 2026-10-27 (Log 46): the bridges are refit on (c); the comparators keep (b)'s (`macro.BRIDGES_B`). On the refit the
+  rate response is no longer two-sided: rates fall under deep automation at every speed and in both of the bank's
+  branches, and the rise tail is shorter than (b)'s.
 - **`code/recognition.py` — the recognition clock as a mixture** (her call, 2026-09-24; checks
   `checks/check_recognition.py`, 14/14 since the switch, 10 before; `code/recognition_scenarios.py`,
   `results/recognition.json`, `figures/fig_recognition.png`). Two worlds, each a full macro path with the return
@@ -433,6 +458,11 @@ is right; in an extreme path the destination is what is wrong.
     the large moves are in the real economy — wages, labour's share, the fiscal base — which is where a bank's credit
     and income risk sits, and on (c) they are larger. How big the curve moves are hinges on the bridge coefficients
     (behaviour, not structure), tuned on (b) and not refitted: the question the reverse stress test asks.
+  → On the refit (Log 46): across the window 3M −5, 2Y −70, 10Y −177, 30Y −227 bp, a bull flattening of about two
+    points; the jump waiting up to 2Y −47, 10Y −133, 30Y −174 bp; a narrative shock moves the 10Y −27 bp. The curve no
+    longer "barely moves": it moves a long way, down, once the data have persuaded the market — which is still late
+    (10% → 90% between years 1.24 and 2.12, when 3% of the fall has happened). The early warning is still in the real
+    economy; the curve's move, once it comes, is large.
 - **`code/reverse.py` — reverse stress testing, part 1: the envelope over the dials** (checks
   `checks/check_reverse.py`, 21/21 since the switch, 11 before; `code/reverse_envelope.py`,
   `results/reverse_envelope.json`, `figures/fig_reverse_envelope.png`). Twelve dials — the technology path (depth,
@@ -486,6 +516,14 @@ is right; in an extreme path the destination is what is wrong.
     fiscal-strain branch weighs more than it did.
   - Three artefacts found and fixed on the way (log 9): a destination window that ran off the path's end, a rate
     feedback that cycled quarter to quarter, and uniform ranges that made most draws mild automation.
+  → On the refit (Log 46; decision 77: the central's bridge dials the evidence's, (b) on its own): the sign is nearly
+    pinned, downward — the 10Y falls over ten years in 94% of draws and through the recognition window in 95%; it never
+    rises in 87%; policy reaches the floor in 64%. Owners' saving still drives the size most (−0.67), deficits push back
+    (+0.37), the investment scale −0.13. The rise side's 95th percentile is +124 bp (shorter than (b)'s +215), its
+    largest +754; a +100 bp rise needs fiscal strain (term premium per debt, public support) besides the two direction
+    bridges; the default dials alone reach −320 bp. The largest rise in the required return is 3.29 pp, inside the
+    headroom; on the investment key no draw cycles even undamped. The bank reading above flips with it: the fall side,
+    not the rise side, is long.
 - **Speed: markets at machine speed** (her point, 2026-09-24; `code/recognition.py` extended — capacity, trust, a
   shared error, digestion — `code/speed_scenarios.py`, `results/speed.json`, `figures/fig_speed.png`; checks
   `checks/check_speed.py`, 18/18 since the switch, 15 before). Two channels, run separately, plus a failure mode.
@@ -528,6 +566,9 @@ is right; in an extreme path the destination is what is wrong.
     abrupt repricing of the long end while the policy rate waits — inside the interval between a bank's hedging
     decisions (a monthly ALCO absorbs 73–82 bp in the scenario where a human market would have shown 16; (b) 36–41
     against 8) — and they add a new tail: correlated models producing false dawns that reverse.
+  → On the refit (Log 46): both branches move the 10Y down through recognition (deficits −44, owners' saving −194 bp);
+    a lump of news moves the 10Y down along the ladder (−0.8 / −6.1 / −12.1 / −14.7 / −14.7 bp in its first week). The
+    abrupt-repricing reading holds, in the falling direction.
 - **The forward-rate test: how slowly are regime judgements digested?** (her go, 2026-09-24;
   `code/regime_digestion.py`, `results/regime_digestion.json`, `figures/fig_regime_digestion.png`; checks
   `checks/check_regime_digestion.py`, 11/11 since the switch, 9 before; layers 1–2 are data and unchanged by it).
@@ -562,6 +603,9 @@ is right; in an extreme path the destination is what is wrong.
     fast end; the anchors say years. The human bottleneck sits in judgement about regimes, which is
     exactly where this risk lives — so the speed-up that matters is still to come, and it can arrive
     as a repricing driven by the market's tools rather than by news.
+  → On the refit (Log 46): the catch-up runs down — adopting AI around year 5 moves the 10Y −22 / −47 / −54 bp at
+    half-lives of 1 / 3 / 5 years, against −18 without AI and −16 in the evidence; even with deficits dominating the new
+    world's r* never rises (−1.12% at year 15).
 - **A stylised bank on the paths** (her question, 2026-09-24: real rate rises lift NII first — floating mortgages,
   cash at the central bank — then tightening lowers house and asset prices, then the interest income flows back into
   assets; `code/bank.py`, `code/bank_scenarios.py`, `results/bank.json`, `figures/fig_bank.png`; checks
@@ -614,6 +658,10 @@ is right; in an extreme path the destination is what is wrong.
     credit risk moves from the bank's books to households and to commercial property, and the pressure on the bank's
     earnings comes from the falling-rate branch — on (c) sooner, with its borrowers squeezed as well on the central
     root.
+  → On the refit (Log 46): the deficits branch's rates fall too — policy 2.75 → 1.0%, NII 2.11 → 1.49, house prices x10 by
+    year 10, 40% of borrowers over the debt-service line; owners' saving to the floor as before (NII low 0.88), 72% over
+    the line (18% on the high root). Keyed back to the pace of tasks, the deficits branch rises again (policy 4.75%): the
+    split rests on the capex key, and on the refit it closes downward.
 - **What Swedish banks did at the floor** (her call, 2026-09-24: test floor behaviour on public
   data; `code/floor_margins.py`, `results/floor_margins.json`,
   `figures/fig_floor_margins.png`; checks `checks/check_floor_margins.py`, 7/7). Public: Statistics
@@ -701,6 +749,10 @@ is right; in an extreme path the destination is what is wrong.
     anchored expectations. It needs the channels this layer leaves out: debt deflation (fixed nominal debts
     against falling money wages, which the macro block produces at the peak), credit crunches, confidence. Those
     are the next things to add if the tail is the question.
+  → On the refit (Log 46): the owners'-saving branch is no longer normal-sized — gap −7.2%, the floor 6.75 years from
+    year 8.5, inflation down to 0.94% (−0.09 with a weak anchor); fast automation −9.0, a steeper IS curve −10.9; the
+    deficits branch a small slump (−0.65%, inflation 1.91). The cyclical unemployment rise is 1.2 points. Keyed back to the
+    pace, the deficits branch is a mild boom again (+0.8%).
 - **Who carries the people who leave work** (her call, 2026-09-24: a surge in dependence — families, friends — and
   emergency policy such as stimulus checks; central case today's Swedish state support; `code/households.py`,
   `results/households.json`, `figures/fig_households.png`; checks `checks/check_households.py`, 25/25 since the
@@ -752,6 +804,12 @@ is right; in an extreme path the destination is what is wrong.
   - **The tail is families plus rigid money wages**: gap −9.27%, about twice 2009's ((b) −4.48), inflation 0.64% ((b)
     1.3), 6.75 years at the floor ((b) 3.5), 30.7% of the lost wage covered by year 15 ((b) a third) — the deepest run
     of all, its depth set partly by A2.
+  → On the refit (Log 46; decisions 78-79: benefits follow the current money wage; rigid money wages fall at most 4% a
+    year, the log excess costing a share of the jobs left): both artefacts are gone — coverage of the lost wage stays at
+    55–84%, and no rigid-wage run reaches the employment floor. With them gone the constrained households deepen both
+    branches a little (owners' saving −7.49 against −7.23 pooled) instead of cushioning the falling one; state support
+    halves the job losers' drag (−0.93 against −1.98% of GDP at year 12); networks run out again (at their cap to year
+    15, 28–31% of the lost wage covered); the tail is −12.1%, 7.25 years at the floor. The old rules are sensitivities.
 - **Could it become a Great Depression, worldwide?** (her call, 2026-09-24: the single-country layers look soft on
   unemployment; bring in the US, Europe and China; the big picture, not a bank; `code/global_crash.py`,
   `results/global_crash.json`, `figures/fig_global_crash.png`, `figures/fig_global_crash_validation.png`; checks
@@ -1400,6 +1458,9 @@ is right; in an extreme path the destination is what is wrong.
     → 2026-10-01 (Claude, for the website's builder, whose numpy and scipy are not pinned): `macro.central()` returns
     the stored central and refuses only a re-solve more than a relative 1e-9 off it in any parameter; the bit-for-bit
     equality is gated in check_calibration_c E1, so the stored numbers do not move.
+    → 2026-10-27 (Log 46; decisions 72-79): the bridges are refit on (c) (`macro.Bridges()`); the comparators (a) and (b)
+    keep the bridges as tuned on (b) (`macro.BRIDGES_B`, `BRANCHES_B`, `reverse.DialsB`), so they stay the pre-switch runs
+    array for array.
 38. **Labour-share bases named, not merged**: macro_scenarios' `labour_share` is the basis each calibration targets —
     Figure 7 (`labour_share_bea`, 0.47) for (b) and (c), `labor_share` for (a) — with all wages beside; recognition's
     and speed's signal, capital_feedback's split and the export's `labor_share` are all wages over income (0.554 at
@@ -1415,21 +1476,26 @@ is right; in an extreme path the destination is what is wrong.
     would be a new default set by hand, when the refit is what should set it; the site's guide states the rate path as
     an assumed link carried over from (b), and debt's dip from the surplus start, so the illustrations are honest as
     labelled, and taking them off would hide the direction the model gives.
+    → Superseded 2026-10-27 by decision 72 (the refit: the investment key is the default, the pace key the readout).
 40. **The reverse-stress premium dial is `premium_shift`**: ±2 pp around each economy's own premium (6.80 on (c), 5.0
     on (b), where it is the old 3–7); the bridge coefficients' ranges are not re-centred (they are behaviour); the
     technology dials are relative to the economy's own lambda. Alternative: re-centre every range on (c).
+    → Amended 2026-10-27 by decision 77: the bridge dials' ranges are the refit's evidence on (c); (b) keeps its own.
 41. **Decided 2026-10-01 (Claude, on her delegation): the household layer's artefacts stay disclosed and gated, not
     fixed, until the household layer is revised.** Benefits stay on the start's real wage (A1; the at-exit rule is a
     sensitivity that delays the artefact to years 14.0 / 10.25), and the layer's 5% employment floor and linear
     rigid-wage job loss stay (A2). Reason: either fix — benefits indexed to wages, job loss redesigned for money wages
     that would fall 60–80% — redesigns the layer rather than setting a parameter, and belongs with the refit (Next,
     first).
+    → Superseded 2026-10-27 by decisions 78-79 (benefits follow wages; rigid wages fall at most 4% a year, job loss
+    proportional).
 42. **Decided 2026-10-01 (Claude, on her delegation): the fiscal start is not re-centred until the bridges are refit
     on (c); its sensitivity is reported.** tau_w 0.40 on all wages (0.554 of income on (c)) starts (c) in surplus
     (−2.61% of income against (b)'s −0.10). Re-centred (tau_w 0.3547), debt at year 15 is higher (81 / 135 / 192%
     against 57 / 121 / 187%, slow / medium / fast), so the default is the milder reading. Reason: re-centring one
     (b)-tuned fiscal bridge alone would retune the block piecemeal; the refit sets the start with the rest. Alternative:
     the re-centred start as the default.
+    → Superseded 2026-10-27 by decision 75 (the start at Sweden's measured primary balance, with the rest of the refit).
 43. **Decided 2026-10-01 (Claude, on her delegation): one dating — index 0 is the measured quarter** (2026Q3; the
     October unit's decision 1). `gc.quarter_label(k)` has no other dating (the 'start' / 'measured' option is gone);
     case.py runs 25 quarters to 2032Q3 with END_2028 = 9, its checks and figure relabelled and case.json regenerated
@@ -1670,19 +1736,103 @@ is right; in an extreme path the destination is what is wrong.
     start, half of each reaching French borrowers; none in the rest of the union, whose spreads did not move (the
     Netherlands +1 bp and Finland +6 bp in October). Before it: half a point on all euro-area borrowers. Alternatives
     (case.json): two points; the ECB capping France's spread half a point above its start (TPI).
+72. **Decided 2026-10-27 (Claude, on her delegation; Next, first): the capex key is investment** — r* moves with
+    replacement investment / income (delta Vm K / income, the quasi-static accounts' only investment), one for one at
+    the common scale of decision 73: alpha_inv 0.3 pp of r* per point of income [the pace of tasks moving to machines,
+    alpha_capex 0.25 pp per pp a year: 0.039 per point of income at (b)'s start]. On (c) investment / income falls from
+    the start (medium 0.178 → 0.049 by year 15 [0.046 at a fixed return]), so r* rises at no speed on either root: the
+    build-out hump is gone [fast 0.76 → 1.35 → −0.13%]. Keyed to investment alone, the other bridges as tuned on (b)
+    (`refit_steps`, step 1), r* at year 15 is −2.13 / −4.11 / −4.17% slow / medium / fast [0.26 / −0.10 / −0.13]. What
+    it does, with the rest of the refit: the size of the cycle — the demand layer's owners'-saving gap −7.2% at the floor
+    for 6.75 years from year 8.5 [−1.85%, 4.0 years from 11.25], the deficits branch a small slump (−0.65%) [a boom,
+    +1.08%]; the bank's two-branch split — both branches' rates now fall: deficits dominating, policy 2.75 → 1.0% and
+    NII 2.11 → 1.49 [policy up to 5.75%, NII up to 2.99]; owners' saving to the floor as before (NII low 0.88 [0.88]).
+    Keyed back to the pace (the readout `r_star_capex_on_pace`) the refit's r* still rises under a tenth of a point at
+    any speed, but the deficits branch rises again (policy to 4.75%): the split rests on this key (bank R5, demand R3-R4).
+    Evidence: Rachel and Smith (2015) read gross investment against gross saving, so a fall in the investment share at a
+    given saving share is excess saving (their 4 pp fall in investment ~80 bp). Alternatives: the pace key
+    (`macro.BRIDGES_B`, the readout); only the net investment a growing stock needs (g / delta of replacement, about 0.4
+    of the term: open). Reason: the accounts' investment falls with the technology (machines cheapen); keyed to the pace,
+    the bridge saw a build-out the accounts do not have.
+73. **Decided 2026-10-27 (Claude, on her delegation): one scale for the three channels; owners' saving on evidence, no
+    new structure** — r* moves `macro.NEUTRAL_SCALE` 0.3 pp (range 0.2–0.5) per point of income by which desired saving
+    outruns desired investment: Rachel and Smith (2015, BoE WP 571; calibrated elasticities 0.5 and −0.7: 0.20–0.25),
+    Rachel and Summers (2019; 2–4 pp of GDP per point of r: 0.33, 0.25–0.5); Holston–Laubach–Williams's IS curve (0.82 in
+    output-gap units, multipliers included) an upper bound. Owners' saving: the gap between owners' and wage earners'
+    saving out of a marginal unit, retained earnings included, 0.30 (0.15–0.45) — Kaleckian estimates of C/Y per point
+    of profit share (US −0.43 Onaran–Galanis 2012, −0.14 Hein–Vogel 2008; Sweden −0.39 Onaran–Obst 2016), Mian–Straub–
+    Sufi (2021: a shift-share ~0.20; top 1% saving over 40% of income), Dynan–Skinner–Zeldes (marginal 0.03–0.43 between
+    quintiles); Fagereng–Holm–Moll–Natvik's flat net saving rates are the household-only basis (smaller). alpha_rent
+    0.09 [0.05]; Eggertsson–Mehrotra–Robbins's 8 bp per point of labour share is a cross-check. Step 2 lowers r* at year
+    15 to −3.63 / −6.18 / −6.24%. No structure added: the evidence reads the same reduced form (a gap per unit shifted).
+    Stated caveats: local estimates applied to a ~50-point shift; in the model owners fund dependants' support, so part
+    of the shift is spent through them; payout matters (Swedish MPCs out of dividends 0.4–0.6, Di Maggio et al. 2020).
+    Alternatives: the household-only gap (0.15–0.20); a gap that falls as ownership broadens.
+74. **Decided 2026-10-27 (Claude, on her delegation): deficits at their pass-through** — 0.6 (0.5–1.0) of a primary
+    deficit reaches net saving, one minus the Ricardian offset (Gale and Orszag 2004: 20–50%; Röhn 2010: ~40%; de Mello
+    et al. 2004: a third to a half): alpha_fiscal 0.18 [0.10]. The direct long-yield estimates lie above it (Laubach 2009
+    ~25 bp per point of projected deficit; Gale–Orszag 40–70 for primary deficits; Rachel–Summers's average 38); they
+    carry term premia and expected inflation, and the model's term premium already rises with debt above 60% of income.
+    Step 3 raises r* back part way (year 15: −2.70 / −4.82 / −4.87%), but investment and owners' saving outweigh it: on
+    the refit rates fall under deep automation. Alternative: alpha_fiscal on the direct estimates (0.25–0.5).
+75. **Decided 2026-10-27 (Claude, on her delegation): the fiscal start at Sweden's measured primary balance** — the wage
+    tax is set so the start runs a primary deficit of 0.16% of income (`Bridges.deficit0`, tau_w 0.35 [0.40 on all
+    wages, a surplus of 2.61%]): the general government's 2021–25 mean primary deficit, 0.14% of GDP (Eurostat
+    gov_10a_main, B9 + D41PAY, cached in `cache/fiscal/`), on the model's income basis (x 1.145: GDP net of the chain's
+    imported content over income). debt0's 40% kept: Sweden's 2025 debt, 35.1% of GDP, is 40.2% of income on that
+    basis. 2025 alone: 1.15% of income (the slowdown). Debt at year 15: 75 / 110 / 142% slow / medium / fast [57 / 121 /
+    187%; re-centred on the old r* 81 / 135 / 192%] — under the re-centring alone because the refit's r* falls (the
+    interest-growth term); debt rises from the start [dipped to 29–32% by year 6]. The site's "starts in surplus" is
+    restated (watch). Alternatives: 2025 alone; a US start (~3% of GDP); the surplus start (`sensitivity_fiscal_start`:
+    52 / 100 / 140%).
+76. **Decided 2026-10-27 (Claude, on her delegation): the bank's two branches at the evidence's ends** (`macro.BRANCHES`)
+    — the two direction bridges at the ends of their ranges, each against the other's opposite end, the scale and the
+    investment key held: deficits dominate, gap 0.15 and no offset (alpha_rent 0.045, alpha_fiscal 0.30) [0.02, 0.25];
+    owners' saving dominates, gap 0.45 and offset 0.5 (0.135, 0.15) [0.12, 0.10]. Both now fall: through recognition the
+    10Y moves −44 / −194 bp [+118 / −150 on (c); (b) +80 / −119] (speed F4). Alternative: branches that move the scale
+    too (0.2 / 0.5).
+77. **Decided 2026-10-27 (Claude, on her delegation): reverse stress on the refit's dials** (decision 40 amended: the
+    bridge ranges are re-centred now that they rest on evidence) — the central's capex dial is alpha_inv over 0.2–0.5,
+    alpha_rent over 0.03–0.225, alpha_fiscal over 0.10–0.50 (the scale's range times the gap's and the pass-through's)
+    [alpha_capex 0–1, alpha_rent 0–0.2, alpha_fiscal 0–0.4]; (b) keeps its own (`reverse.DialsB`), so comparator_b is
+    the pre-refit envelope draw for draw. Found: the 10Y falls over ten years in 94% of draws [63%] and never rises in
+    87% [54%]; policy reaches the floor in 64% [30%]; the rise side's 95th percentile +124 bp [+474; (b) +215]; a +100 bp
+    rise needs fiscal strain (a steeper term premium per point of debt, more public support) besides the two direction
+    bridges, and lies farther from the defaults (0.823 [0.511]; (b) 0.608). Alternative: draw the scale, gap and
+    pass-through as three dials (the shared scale kept).
+78. **Decided 2026-10-27 (Claude, on her delegation): household benefits follow wages** — public support is the
+    replacement rate on the current net money wage (`Support.benefit_base` 'wage') [the start's real net wage, indexed to
+    prices]. Evidence: Sweden's a-kassa pays 80/70/65% of the person's own previous wage over 300 days, the base fixed for
+    the spell, the ceiling not indexed (frozen nominally 2002–2015); the OECD's net replacement rates are measured against
+    own previous earnings (Sweden at 67% of the average wage: 71% in month 2, 63% at 12, 59% at 60 with social
+    assistance); minimum benefits follow wages in the Netherlands, Denmark and 35 US states. A1's artefact is gone:
+    coverage 55–84% at every date, the job losers' drag never zero (−0.88 / −0.55% of GDP at year 15) [coverage 176% /
+    315% by year 15, the drag zero from year 9.25 / 8.25]. A challenge to the earlier framing: Sweden's own long-term
+    floor (riksnorm) is set on prices, so the old rule is also what a price-indexed floor does when money wages collapse,
+    not only an artefact; kept as a sensitivity (coverage 245% / 492% by year 15) beside each cohort's real wage at exit
+    (128% / 219%). Alternative: a hybrid (the first year on the wage at exit in money terms, then a price-indexed floor).
+79. **Decided 2026-10-27 (Claude, on her delegation): rigid money wages fall at a limited pace, and job loss is
+    proportional** — money wages fall at most 4% a year (`Support.wage_fall_max`; Schmitt-Grohé and Uribe 2016: W at
+    least 0.99 of last quarter's; Greece's average wage −22% over 2009–15; the euro periphery's fall at most 5.1% in
+    2008–11) [no cut at all]; the log excess over the market wage lowers log employment by the labour-demand elasticity
+    0.4, a share of the jobs still there (Lichter, Peichl and Siegloch 2015: median 0.39, bias-corrected 0.25) [linear in
+    the summed refused cut, a share of the start's employment]. A2's floor binds nowhere [from year 10.5, central root,
+    owners' saving]; employment's low is 0.096 of the start's (owners' saving). Alternatives: no cut at all
+    (`wage_fall_max` 0, a sensitivity: the gap −12.0% against −10.0%); rigidity that erodes (Fallick et al.'s ~24% a
+    year; the Wage Dynamics Network's deep-shock erosion).
 
 ## Next
 
-**First — refit the bridges on (c)** (decisions 37, 39, 41 and 42, as decided 2026-10-01). Every bridge from the real
-paths to rates, debt and households was tuned on (b) and carried over (decision 37), so on (c) r*, policy and debt are
-readouts. To refit, each against evidence: the capex key to investment (on (c) replacement investment falls from the
-start, so keyed to it r* rises at no speed: the neutral-rate hump, the size of the cycle and the bank's two-branch split
-would change, and the site's r* and debt would become results rather than illustrations); owners' saving (how rentier
-and profit income is spent: the bridge that decides whether deficits or owners' saving dominate, and so the direction
-of rates under deep automation); the fiscal start (re-centred near balance, debt at year 15 is 81 / 135 / 192% rather
-than 57 / 121 / 187%); the household benefit rule and job loss (benefits on wages rather than the start's real wage
-would move the A1 artefact; job loss redesigned for falling money wages, the 5% floor of A2). Until then the defaults
-of decisions 39, 41 and 42 stand.
+~~**First — refit the bridges on (c)**~~ — **done 2026-10-27** (Log 46; decisions 72-79, hers to review; not pushed: the
+order is watch first, then this repository, as in Next 13). Every bridge from the real paths to rates, debt and households
+now rests on published evidence: the capex key on investment, one scale for investment, owners' saving and deficits, the
+fiscal start at Sweden's measured primary balance, benefits following wages, rigid wages falling at a limited pace. Left
+open by it: the investment key's pass-through (gross replacement, as Rachel and Smith read it, or only the net investment a
+growing stock needs, about 0.4 of the term: it sets the size of the fall); linear bridges applied to a shift of half of
+income from wages to owners, far beyond the evidence's range (a gap that falls as ownership broadens; a scale that is
+not constant); the benefit rule's long-term floor (Sweden's riksnorm is price-indexed: a hybrid rule); rigidity that
+erodes with time (a reset rate); and the reverse stress's three bridge dials drawn independently, though they share a
+scale.
 
 1. ~~Measure an extreme first: Sweden 1990–95~~ — **done 2026-09-24**, above. What survives: the
    identity (the curve as an average of expected policy) and the shapes of ordinary moves, even
@@ -2536,3 +2686,85 @@ the macro block lands.
       and fails here only on FRED's payroll fetch.
     - **Narrow passes, hers to look at**: F4's Sweden −4.91 against 5;
       the pace seen under a quarter (0.244); E4's loop under half a point by construction of the sizes (0.15).
+46. **2026-10-27 — the bridges refit on (c).** The task of Next, first (decisions 37, 39, 41 and 42), on her delegation:
+    every bridge from the real paths to rates, debt and households refit against published evidence, one at a time, with
+    checks. Decisions 72-79 (veto window). Values as found, the old ones in brackets.
+    - **The method.** One version: `macro.Bridges()` is the refit; the bridges as tuned on (b) are kept only for the
+      named comparators (`macro.BRIDGES_B`, `BRANCHES_B`, `reverse.DialsB`), which stay the pre-switch runs array for array
+      (check_macro byte-identical; every comparator section of the results equal to HEAD's). The evidence was gathered
+      from the papers themselves (two literature searches: the saving gap, the scale and the Ricardian offset; benefit
+      indexation and wage rigidity) and from Eurostat; it is recorded in `macro_scenarios.py` (`EVIDENCE`,
+      `fiscal_start_evidence`) and `results/macro_scenarios.json` (`evidence`). `refit_steps` applies the bridges one at a
+      time on the central (both roots), r* at year 15 slow / medium / fast: as tuned on (b) 0.26 / −0.10 / −0.13 (the
+      fast hump to 1.35); (1) the capex key on investment −2.13 / −4.11 / −4.17, no hump at any speed; (2) owners' saving
+      −3.63 / −6.18 / −6.24; (3) deficits −2.70 / −4.82 / −4.87; (4) the fiscal start −3.03 / −5.28 / −5.34 (the deficit
+      rises less from a balanced start: +14.4 against +17.0 points), debt at year 15 75 / 110 / 142% [57 / 121 / 187%].
+    - **The macro block** (`macro.py`: `Bridges.capex_key`, `alpha_inv`, `deficit0`, `fiscal_start`; check_macro_scenarios
+      16/16, R4, F4-F6 and F9 restated, V1-V3 new): r*'s highest point is the start at every speed on both roots; it ends
+      at −3.0 / −5.3 / −5.3% (high root −3.1 / −5.2 / −5.3) [0.26 / −0.10 / −0.13], below (a)'s at every speed; policy
+      reaches the −0.5% floor by year 10 at the medium speed [2.0% at year 15]. The wage tax 0.35 runs the measured
+      primary deficit, 0.16% of income [a surplus of 2.61%]; debt rises from the start [dipped to 29–32%]; the surplus
+      start would end it lower (52 / 100 / 140%). The capital block, the return following r*: r* never rises, so the loop
+      has no lag phase at all [two years, under a thousandth of a point of tasks]; automation runs 1.90 points of tasks
+      ahead of the fixed-return path by year 15 [0.23]; at year 15 interest 0.018, the site 0.924, labour 0.014 of
+      income [0.060 / 0.870 / 0.033]; +200 bp delays the medium path 19.3 weeks [18.9] and raises labour's share up to
+      3.24 points [2.98]. calibration_c's (c) tags run on the refit, its (a)/(b) tags on (b)'s bridges (47/47; S6
+      restated).
+    - **Recognition** (14/14; M3 and S4 restated): the market wakes as before (10% → 90% between years 1.24 and 2.12
+      [1.26, 2.16]), but the curve now moves a long way, down, the long end most: across the window 3M −5, 2Y −70, 10Y
+      −177, 30Y −227 bp [−0.3 / −5.4 / −15.3 / −20.0]; the jump waiting at any date up to 10Y −133 bp [−11]; a narrative
+      shock −27 bp [−2.5]. The desired rate falls below the floor (policy holds at −0.5%). The early warning still sits
+      in the real economy (the curve moves only once the data have persuaded the market), but the claim that the
+      risk-free curve "barely moves" is withdrawn.
+    - **Reverse stress** (21/21; R3, R5c, R6, F1-F6 restated; decision 77): the sign is nearly pinned, downward — the 10Y
+      falls over ten years in 94% of draws [63%] and through the recognition window in 95% (its 95th percentile −0.5 bp
+      [+171]); never rises in 87% [54%]; policy at the floor in 64% [30%]. Owners' saving drives every curve outcome most
+      (−0.67 in the window [−0.82]), deficits push back (+0.37 [+0.48]), the investment key's scale −0.13. The rise side's
+      95th percentile +124 bp [+474; (b) +215], its largest +754 [+1,378]. A +100 bp rise (draw 3522, distance 0.823
+      [0.511]) needs owners' saving low, deficits high and fiscal strain (term premium per debt, public support); a
+      −100 bp fall needs nothing, the default dials reach −320 [−72]. No draw loses its equilibrium; the largest rise in
+      the required return 3.29 pp [7.38], inside the headroom. On the investment key no draw's r* cycles even undamped;
+      the pace key's cycling stays gated on (b)'s dials.
+    - **Speed, digestion** (18/18, F2 and F4 restated; 11/11, F6-F7 restated): both branches move the 10Y down through
+      recognition (deficits −44, owners' saving −194 bp [+118 / −150]); a lump of news moves the 10Y −0.8 / −6.1 / −12.1 /
+      −14.7 / −14.7 bp in its first week along the ladder [+4 / +33 / +67 / +81 / +81]; adopting AI around year 5 moves
+      the 10Y −22 / −47 / −54 bp at half-lives 1 / 3 / 5 years [+47 / +108 / +126], the catch-up now down.
+    - **The bank** (24/24; F2, F4, F5, R5, R6, X4 restated): deficits dominating, policy 2.75 → 1.0% [5.75], NII
+      2.11 → 1.49 [up to 2.99], house prices x10 by year 10 [x2.8], the real wage 0.21 of its start by year 15 [0.29],
+      40% of borrowers over the debt-service line [70%]; owners' saving: NII low 0.88 [0.88], house prices x19.6, 72% over
+      the line [39.7%], and 18% on the high root [its start]. Keyed back to the pace, the deficits branch rises again
+      (policy 4.75%, NII 2.74). The export's (b) table is now built on (b)'s own bridges (`export_paths.build(..., which)`).
+    - **The demand layer** (23/23; M3, F2-F4, F6, R1-R5, X3 restated): when owners' saving dominates the cycle is no
+      longer normal-sized — the gap −7.2% [−1.85] (fast automation −9.0, a steeper IS curve −10.9, a flatter −3.6), the
+      floor 6.75 years from year 8.5 [4.0 from 11.25], inflation down to 0.94% (−0.09 with a weak anchor); deficits
+      dominating, a small slump (−0.65%, inflation 1.91) [a boom, +1.08, 2.16]; the cyclical unemployment rise 1.21
+      points [0.31].
+    - **Households** (25/25; decisions 78-79; A1, A2, B4, S1 now gate the redesign; F1-F4, G1-G4, X3 restated): coverage
+      of the lost wage 55–84% at every date [176% / 315% by year 15]; with benefits following wages the constrained
+      households deepen both branches a little (owners' saving −7.49 against −7.23 pooled; deficits −1.14 against −0.65)
+      [they cushioned it, −1.24 against −1.85, through the artefact]; state support halves the job losers' drag (−0.93
+      against −1.98% of GDP at year 12) [zero, A1]; no rigid-wage run reaches the 5% employment floor [from year 10.5];
+      the tail (families, rigid wages) −12.1% [−9.3], 7.25 years at the floor; networks at their cap to year 15 and 28–31%
+      of the lost wage covered — the clauses the artefact had removed are back; lifting the cap covers ~32 points more
+      and moves demand under 0.2% of GDP [0.014].
+    - **The website** (watch, committed, not pushed: `web/facts.py`, `web/guide.py`, `lens/econ.md`): section 4 says the
+      model starts near a balanced budget, as Sweden's (0.16% of income), debt rises from the start, the neutral rate is
+      linked to investment, owners' saving and deficits by published estimates and falls from the start at every speed,
+      that the estimates were measured on far smaller shifts, and that a surplus start would end debt lower; section 5
+      that yields move a long way once the market learns (the 10Y −177 bp across the window) and fall in nine variations
+      in ten. The claims restated to match ("starts near a balanced budget", "debt rises from the start", "the neutral
+      rate does not rise at any speed", "the long rate falls in nine variations in ten", the start's deficit Sweden's);
+      the export reproduces the stored paths; the build's facts pass every model claim (checked with `facts.compute`;
+      the full build stops here on FRED's payroll fetch, a wait).
+    - **Restatements made after seeing the results, hers to review**: every check marked "[restated at the refit]" in
+      check_macro_scenarios, check_calibration_c (S6), check_recognition, check_reverse, check_speed,
+      check_regime_digestion, check_bank, check_demand and check_households, each battery's header flagging its
+      thresholds. **Narrow passes**: demand F3's flatter IS curve (−3.63 against −3.5; inflation 1.47 against 1.5);
+      households G3's demand move (0.176 against 0.2); reverse F1's falling share (0.936 against 0.9); bank R6's F4 on the
+      high root, by 0.46 rather than the central's half point.
+    - **What the refit says, and how far to trust it.** `[inferred]` On evidence-based bridges the direction of rates
+      under deep automation on (c) is down: cheaper machines (falling investment) and income moving to owners who save
+      more outweigh deficits at every setting the evidence allows except the fiscal-strain corner. The size (r* near
+      −5%) is a linear reading of estimates measured on shifts a tenth as large; the direction is the finding. For a bank
+      this moves the weight from the rising-rate branch to the floor: the owners'-saving branch, the bank's worst path,
+      is the central reading's neighbour now, and the deficits branch no longer lifts NII.

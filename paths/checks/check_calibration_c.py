@@ -198,11 +198,11 @@ check("N3 at 60 random economies inside Appendix B's assumption the new solve eq
       "AssertionError and the new one returns x* < x_ceiling < 1 or raises NoEquilibrium", ok_in and ok_out,
       f"inside: 60 solved identical, {n_in_raise} no-equilibrium with identical messages; outside: {n_out_solved}/20 solve below the ceiling")
 tp_b = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
-new_b = m.macro_path(eb, tp_b, m.Bridges(capital_premium=5.0, rho_shift=2.0))
-new_a = m.macro_path(ea, tp_b)
+new_b = m.macro_path(eb, tp_b, replace(m.BRIDGES_B, capital_premium=5.0, rho_shift=2.0))
+new_a = m.macro_path(ea, tp_b, m.BRIDGES_B)
 with legacy():
-    old_b = m.macro_path(eb, tp_b, m.Bridges(capital_premium=5.0, rho_shift=2.0))
-    old_a = m.macro_path(ea, tp_b)
+    old_b = m.macro_path(eb, tp_b, replace(m.BRIDGES_B, capital_premium=5.0, rho_shift=2.0))
+    old_a = m.macro_path(ea, tp_b, m.BRIDGES_B)
 keys4 = ("labor_share", "x", "r_star", "debt")
 check("N4 (b)'s medium path with the return following r* and a sustained +200 bp, and (a)'s medium path: labour share, "
       "tasks, r* and debt identical to the legacy solve's", all(np.array_equal(new_b[k], old_b[k]) and np.array_equal(new_a[k], old_a[k]) for k in keys4),
@@ -636,19 +636,18 @@ br = m.Bridges()
 s6, s6d = True, []
 for t in ("c_central_lo", "c_central_hi"):
     mp = runs[(t, "medium")]
-    pace = np.gradient(mp["x"], mp["t"]) * 100
-    rs_ = br.r0_star + br.alpha_capex * pace - br.alpha_rent * (mp["nonwage_share"] - mp["nonwage_share"][0]) \
-        + br.alpha_fiscal * (mp["deficit"] - mp["deficit"][0])
+    iv = mp["inv_income"] * 100
+    rs_ = br.r0_star + br.alpha_inv * (iv - iv[0]) - br.alpha_rent * (mp["nonwage_share"] - mp["nonwage_share"][0])         + br.alpha_fiscal * (mp["deficit"] - mp["deficit"][0])
     inv = sc[t]["medium"]["inv_income"]
-    s6 &= float(np.max(np.abs(rs_ - mp["r_star"]))) < 1e-12 and br.alpha_capex * pace[24] > 0 and inv["6.0"] < inv["0.0"] \
-        and inv["10.0"] < 0.5 * inv["0.0"] and int(np.argmax(mp["r_star"])) == 0
-    s6d.append(f"{t} inv/income {inv['0.0']:.3f} -> {inv['6.0']:.3f} (y6) -> {inv['10.0']:.3f} (y10), capex term at y6 "
-               f"{br.alpha_capex * pace[24]:+.3f}")
+    cap6 = br.alpha_inv * (iv[24] - iv[0])
+    s6 &= float(np.max(np.abs(rs_ - mp["r_star"]))) < 1e-12 and cap6 < 0 and inv["6.0"] < inv["0.0"]         and inv["10.0"] < 0.5 * inv["0.0"] and int(np.argmax(mp["r_star"])) == 0 and br.capex_key == "investment"
+    s6d.append(f"{t} inv/income {inv['0.0']:.3f} -> {inv['6.0']:.3f} (y6) -> {inv['10.0']:.3f} (y10), capex term at y6 {cap6:+.3f}")
 ib = sc["b"]["medium"]["inv_income"]
-check("S6 bridge readout, not a finding — r* under (c) central is the (b)-tuned bridge's formula (capex keyed to the pace of task "
-      "automation, rent, fiscal) and is highest at the start; the capex term stays positive while the model's own investment / "
-      "income falls below half its start by year 10, which the bridge does not see; under (b) investment / income rises to year 6",
-      s6 and ib["6.0"] > ib["0.0"] and "does not see" in H["bridge_readouts"]["note"],
+check("S6 [restated at the refit, Log 46] r* under (c) central is the refit bridge's formula (the capex channel keyed to replacement "
+      "investment / income at the common scale, owners' saving, deficits) and is highest at the start: the capex term is negative from "
+      "the start as the model's own investment / income falls below half its start by year 10; under (b), on the bridges as tuned on "
+      "(b) (the pace key), investment / income rises to year 6",
+      s6 and ib["6.0"] > ib["0.0"] and "refit on (c)" in H["bridge_readouts"]["note"],
       "; ".join(s6d) + f"; (b) {ib['0.0']:.3f} -> {ib['6.0']:.3f}; r* max (b) {sc['b']['medium']['r_star_max']:.2f}, (c) "
       f"{sc['c_central_lo']['medium']['r_star_max']:.2f}; debt y15 (b) {bm['debt']['15.0']:.0f}%, (c) {cl['debt']['15.0']:.0f}% / "
       f"{chh['debt']['15.0']:.0f}%")
@@ -867,8 +866,9 @@ check("E1 macro.central() — the entry point the downstream modules call — is
       "and refuses only a re-solve more than a relative 1e-9 off them (CENTRAL_RTOL; a moved re-solve: 1e-12 accepted, 1e-8 "
       "refused), so another platform's last bits do not stop it; it is cached (the same economy object again, an equal copy of "
       "its info) and rejects an unknown root", e1, "; ".join(e1d))
-e2, e2d = m.capital_premium(eb) == 5.0 and m.feedback_bridges(eb) == m.Bridges(capital_premium=5.0) \
-    and m.feedback_bridges(eb, alpha_fiscal=0.25, alpha_rent=0.02) == m.Bridges(capital_premium=5.0, alpha_fiscal=0.25, alpha_rent=0.02), []
+e2, e2d = m.capital_premium(eb) == 5.0 and m.feedback_bridges(eb, base=m.BRIDGES_B) == replace(m.BRIDGES_B, capital_premium=5.0) \
+    and m.feedback_bridges(eb, base=m.BRIDGES_B, alpha_fiscal=0.25, alpha_rent=0.02) == replace(m.BRIDGES_B, capital_premium=5.0, alpha_fiscal=0.25, alpha_rent=0.02) \
+    and m.feedback_bridges(eb) == replace(m.Bridges(), capital_premium=5.0), []
 try:
     m.feedback_bridges(eb, capital_premium=5.0)
     e2 = False
@@ -885,7 +885,7 @@ check("E2 capital_premium / feedback_bridges: the premium is rho x 100 - r0_star
       "refused", e2, "; ".join(e2d))
 tp_fast = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=3, width=2)
 e3 = m.deep_tech(eb) == tp_b and m.deep_tech(eb, **m.TECH_SPEEDS["fast"]) == tp_fast and m.hold_tech(eb) == m.TechPath(eta_end=1.0, lam_end=eb.lam)
-hb_ = m.macro_path(eb, m.deep_tech(eb), m.feedback_bridges(eb, rho_shift=2.0))
+hb_ = m.macro_path(eb, m.deep_tech(eb), m.feedback_bridges(eb, base=m.BRIDGES_B, rho_shift=2.0))
 e3 &= all(np.array_equal(hb_[k], new_b[k]) for k in keys4)
 e3d = []
 for r in m.CENTRAL_ROOTS:

@@ -6,7 +6,10 @@
 # (the old -> new table is in the switch's report). The market's signal is all wages over income (solve's labor_share,
 # machine-chain labour included), not the paper's Figure 7 basis (labour_share_bea): S3 names the basis and gates the
 # Figure 7 sensitivity (results/recognition.json sensitivity_signal_fig7) by re-running it here.
-# Thresholds set after seeing (c)'s numbers: S4's 25 bp, S3's 0.05 years for "the bases coincide on (b)" (flagged here).
+# Thresholds set after seeing (c)'s numbers: S3's 0.05 years for "the bases coincide on (b)" (flagged here).
+# Restated at the refit (2026-10-27, Log 46; the bridges refit on (c), (b) and (a) on their own), as found: M3 compares policy with
+# the desired rate where the lower bound lets it follow (the refit's desired rate falls below the floor); S4's bull flattening is
+# now of about two points at the long end (before the refit under 25 bp), its threshold (-100 bp at 10Y) set after seeing it.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_recognition.py
 # Exit status 0 only if every check passes.
@@ -75,20 +78,24 @@ check("M2 revealing the truth jumps the curve by (1 - p)(z_new - z_old) — at e
       max(np.max(np.abs(jumps[j] - (1 - p[j]) * (cv.zero(T, news[j]) - cv.zero(T, olds[j])))) for j in range(len(t))) < 1e-12,
       f"at year {t[i]:g} (p {p[i]:.2f}): 2Y {jump[3]*100:+.1f}, 10Y {jump[5]*100:+.1f}, 30Y {jump[6]*100:+.1f} bp")
 desired = (1 - p) * old["desired"] + p * new["desired"]
-check("M3 the policy rate is common to both worlds' curves, sits on the 25 bp grid, and tracks the probability-weighted desired rate",
+floor_ = m.Recognition().elb
+check("M3 [restated at the refit] the policy rate is common to both worlds' curves, sits on the 25 bp grid, and tracks the "
+      "probability-weighted desired rate down to the lower bound (-0.5%), below which it holds there",
       all(o.r0 == n.r0 for o, n in zip(olds, news)) and np.allclose(pol / 0.25, np.round(pol / 0.25))
-      and np.max(np.abs(pol - desired)) < 0.5, f"max gap to desired {np.max(np.abs(pol - desired)):.2f} pp")
+      and np.max(np.abs(pol - np.maximum(desired, floor_))) < 0.5 and pol.min() >= floor_ - 1e-12,
+      f"max gap to the desired rate floored at {floor_:g}: {np.max(np.abs(pol - np.maximum(desired, floor_))):.2f} pp; the desired rate's "
+      f"low {desired.min():+.2f}%, policy's {pol.min():+.2f}%")
 
 print("B — the comparators")
 eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
 ea, _, _, _ = m.calibrate()
 arr = lambda d: {k: v for k, v in d.items() if isinstance(v, np.ndarray)}  # noqa: E731
 same = lambda a, b: all(np.array_equal(a[k], b[k]) for k in arr(a)) and arr(a).keys() == arr(b).keys()  # noqa: E731
-brb = m.Bridges(capital_premium=5.0)
+brb = replace(m.BRIDGES_B, capital_premium=5.0)
 old_b = m.macro_path(eb, m.TechPath(eta_end=1.0, lam_end=eb.lam), brb, 15.0, 0.25)
 new_b = m.macro_path(eb, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), brb, 15.0, 0.25)
-old_a = m.macro_path(ea, m.TechPath(eta_end=1.0, lam_end=ea.lam), m.Bridges(), 15.0, 0.25)
-new_a = m.macro_path(ea, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), m.Bridges(), 15.0, 0.25)
+old_a = m.macro_path(ea, m.TechPath(eta_end=1.0, lam_end=ea.lam), m.BRIDGES_B, 15.0, 0.25)
+new_a = m.macro_path(ea, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), m.BRIDGES_B, 15.0, 0.25)
 _, o_b, n_b = rc.worlds(calibration="b")
 _, o_a, n_a = rc.worlds(capital=False)
 ec, info = m.central()
@@ -132,9 +139,10 @@ check("S3 on (c) the market wakes up earlier than on (b): (c)'s labour share fal
       f"{R['labour_share_pp']['3'][1] - R['labour_share_pp']['3'][0]:+.1f} vs {Rb['labour_share_pp']['3'][1] - Rb['labour_share_pp']['3'][0]:+.1f} pp, "
       f"Figure 7 basis {F7S['c'][FB]['fall_pp_at_year3']:+.2f} vs {F7S['b'][FB]['fall_pp_at_year3']:+.2f} pp")
 cw, cwb = R["recognition_window"]["curve_move_bp"], Rb["recognition_window"]["curve_move_bp"]
-check("S4 across the recognition window the whole curve edges down, the long end most (a bull flattening under 25 bp); on (b) "
-      "the 2Y rose while the long end fell — the front's sign flips",
-      all(cw[k] < 0 for k in ("2Y", "10Y", "30Y")) and cw["30Y"] <= cw["10Y"] <= cw["2Y"] and max(abs(v) for v in cw.values()) < 25
+check("S4 [restated at the refit] across the recognition window the whole curve falls, the long end most — a bull flattening of "
+      "nearly two points at 10Y (before the refit, on the bridges as tuned on (b), under 25 bp); on (b) the 2Y rose while the long end "
+      "fell — the front's sign flips",
+      all(cw[k] < 0 for k in ("2Y", "10Y", "30Y")) and cw["30Y"] <= cw["10Y"] <= cw["2Y"] and cw["10Y"] < -100
       and cwb["2Y"] > 0 > cwb["10Y"],
       "(c): " + " ".join(f"{k} {v:+.1f}" for k, v in cw.items()) + " bp; (b): " + " ".join(f"{k} {v:+.1f}" for k, v in cwb.items()) + " bp")
 

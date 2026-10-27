@@ -12,8 +12,15 @@
 # start; F7 the import-as-land channel; F8 both labour-share bases and the 1/sigma_V scaling; F9 the lag phase as found
 # (it shrinks, it does not vanish). If a capital run has a date with no land-scarce equilibrium, R3 fails and F7-F9 report
 # it rather than raising.
-# Thresholds set after seeing (c)'s numbers (flagged here): F2's 1.02 on (a)/(b)'s rise; F4's +0.3 (fast hump) and +0.1
-# ((a)'s medium rise); F6's 0.2 fall in the wage-tax share; F7's 0.8 for the site; F8's 1.5x and 3x; F9's tenfold.
+# Thresholds set after seeing (c)'s numbers (flagged here): F2's 1.02 on (a)/(b)'s rise; F4's +0.1 ((a)'s medium rise); F6's
+# 0.2 fall in the wage-tax share; F7's 0.8 for the site; F8's 1.5x and 3x.
+# Restated at the refit (2026-10-27, Log 46; decisions 72-75), as found: the central and its high root run on the refit
+# (macro.Bridges()), the comparators on macro.BRIDGES_B. R4 gates the readout that keys the capex channel back to the pace;
+# F4 the refit's neutral rate (no hump at any speed; before the refit a hump on the fast path only, now the readout's); F5 the
+# investment fall and (b)'s readout (unchanged); F6 the fiscal start at the measured primary deficit (before: a surplus start,
+# with the re-centred start as the sensitivity; now the surplus start is the sensitivity); F9 the loop with no lag phase at
+# all (before: shrunk to negligible). V (new) gates the evidence and the refit one bridge at a time. Thresholds set after
+# seeing the refit's numbers (flagged): V3's step-by-step orderings are the found ones, not set in advance.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_macro_scenarios.py
 # Exit status 0 only if every check passes.
@@ -23,6 +30,8 @@ from __future__ import annotations
 import json
 import os
 import sys
+
+from dataclasses import replace
 
 import numpy as np
 
@@ -58,12 +67,12 @@ check("R1 results/macro_scenarios.json and results/capital_feedback.json equal a
 ec, info = m.central()
 ea, _, _, _ = m.calibrate()
 eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
-old_a = all(same(m.macro_path(ea, m.TechPath(eta_end=0.04, lam_end=0.01, **kw)), m.macro_path(ea, m.deep_tech(ea, **kw)))
+old_a = all(same(m.macro_path(ea, m.TechPath(eta_end=0.04, lam_end=0.01, **kw), m.BRIDGES_B), m.macro_path(ea, m.deep_tech(ea, **kw), m.BRIDGES_B))
             for kw in m.TECH_SPEEDS.values())
 tb = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
-old_b = (same(m.macro_path(eb, tb, m.Bridges(capital_premium=5.0)), m.macro_path(eb, m.deep_tech(eb), m.feedback_bridges(eb)))
-         and same(m.macro_path(eb, tb, m.Bridges(capital_premium=5.0, rho_shift=2.0)),
-                  m.macro_path(eb, m.deep_tech(eb), m.feedback_bridges(eb, rho_shift=2.0))))
+old_b = (same(m.macro_path(eb, tb, replace(m.BRIDGES_B, capital_premium=5.0)), m.macro_path(eb, m.deep_tech(eb), m.feedback_bridges(eb, base=m.BRIDGES_B)))
+         and same(m.macro_path(eb, tb, replace(m.BRIDGES_B, capital_premium=5.0, rho_shift=2.0)),
+                  m.macro_path(eb, m.deep_tech(eb), m.feedback_bridges(eb, base=m.BRIDGES_B, rho_shift=2.0))))
 tc = m.deep_tech(ec)
 check("R2 the comparators are the pre-switch runs array for array — (a)'s three speeds with the hard-coded TechPath(0.04, 0.01, ...), "
       "(b)'s capital runs with Bridges(capital_premium=5.0) — and the central is macro.central() with lambda to a fifth of its own start",
@@ -84,16 +93,22 @@ inv = ms.investment_income(ec, mp)
 q_inv = np.array([m.solve(e_)["inv_income"] for e_ in (tc.at(t_, ec) for t_ in mp["t"])])
 import demand as dmd  # noqa: E402
 SC = {"bridge scale": dmd.alpha_inv_bridge(eb)["alpha_inv"], "demand-layer scale": dmd.alpha_inv_is(dmd.Demand())}
-err4 = max(float(np.max(np.abs((ms.r_star_capex_on_investment(ec, mp, a) - mp["r_star"])
-                               - (a * (inv - inv[0]) * 100 - br.alpha_capex * mp["automation_pace"])))) for a in SC.values())
-check("R4 the investment-keyed readout differs from the default r* only in the capex channel (alpha_inv x the change in investment / "
-      "income in place of alpha_capex x the pace), at the two scales demand.py and bank_scenarios.py use (demand.alpha_inv_bridge, "
-      "demand.alpha_inv_is: one source), and its investment is solve's inv_income at every date",
-      err4 < 1e-12 and np.max(np.abs(inv - q_inv)) < 1e-12 and S["capex_on_investment"]["alpha_inv"] == SC,
-      f"max error {err4:.1e} / {np.max(np.abs(inv - q_inv)):.1e}; scales {SC['bridge scale']:.4f} (bridge) and "
-      f"{SC['demand-layer scale']:.2f} (demand layer)")
+err4 = float(np.max(np.abs((ms.r_star_capex_on_pace(ec, mp, br) - mp["r_star"])
+                           - (br.alpha_capex * mp["automation_pace"] - br.alpha_inv * (inv - inv[0]) * 100))))
+mpb = m.macro_path(eb, tb, m.BRIDGES_B)
+invb = ms.investment_income(eb, mpb)
+err4b = max(float(np.max(np.abs((ms.r_star_capex_on_investment(eb, mpb, a, m.BRIDGES_B) - mpb["r_star"])
+                                - (a * (invb - invb[0]) * 100 - m.BRIDGES_B.alpha_capex * mpb["automation_pace"])))) for a in SC.values())
+check("R4 [restated at the refit] the central's r* is keyed to investment (alpha_inv x the change in replacement investment / income), "
+      "and its readout keyed to the pace differs from it only in the capex channel (alpha_capex 0.25 x the pace in its place); (b)'s "
+      "readout keyed to investment at the two scales demand.py and bank_scenarios.py use differs from (b)'s pace-keyed r* only there "
+      "too; the investment is solve's inv_income at every date",
+      br.capex_key == "investment" and m.BRIDGES_B.capex_key == "pace" and err4 < 1e-12 and err4b < 1e-12
+      and np.max(np.abs(inv - q_inv)) < 1e-12 and np.max(np.abs(mp["inv_income"] - q_inv)) < 1e-15 and S["capex_on_investment"]["alpha_inv"] == SC,
+      f"max error {err4:.1e} (central) / {err4b:.1e} ((b)) / {np.max(np.abs(inv - q_inv)):.1e}; alpha_inv {br.alpha_inv:g}; (b)'s scales "
+      f"{SC['bridge scale']:.4f} (bridge) and {SC['demand-layer scale']:.2f} (demand layer)")
 
-print("F — findings (the central against the pre-switch runs; bridges set on (a)/(b), not retuned; stated as found)")
+print("F — findings (the central on the refit against the pre-switch runs on their own bridges; stated as found)")
 c, a, b, h = S["scenarios"], S["comparators"]["a"]["scenarios"], S["comparators"]["b"]["scenarios"], S["sensitivity_c_hi"]["scenarios"]
 sp3 = ("slow", "medium", "fast")
 hv = [c[k]["labour_share_halves_year"] for k in sp3]
@@ -124,51 +139,52 @@ check("F3 the fork, medium speed, with the basket on target: shelter inflation p
       f"shelter peak {c['medium']['pi_shelter_max']:+.1f}% a year ((a) {a['medium']['pi_shelter_max']:+.1f}), goods trough "
       f"{c['medium']['pi_goods_min']:+.1f}% ((a) {a['medium']['pi_goods_min']:+.1f})")
 rc_, ra_ = {k: c[k]["r_star_start_peak_end"] for k in sp3}, {k: a[k]["r_star_start_peak_end"] for k in sp3}
-check("F4 the neutral rate (the default bridge, capex keyed to the pace of tasks moving): up then down only on the fast path, a smaller "
-      "hump than (a)'s; on the medium and slow paths it never rises above its start (in (a) the medium path rose too)",
-      rc_["fast"][1] > rc_["fast"][0] + 0.3 and rc_["fast"][2] < rc_["fast"][0] and rc_["fast"][1] - rc_["fast"][0] < ra_["fast"][1] - ra_["fast"][0]
-      and all(c[k]["r_star_peak_year"] == 0.0 for k in ("slow", "medium")) and ra_["medium"][1] > ra_["medium"][0] + 0.1,
-      "start/peak/end: fast " + "/".join(f"{v:+.2f}" for v in rc_["fast"]) + " ((a) " + "/".join(f"{v:+.2f}" for v in ra_["fast"])
-      + "), medium " + "/".join(f"{v:+.2f}" for v in rc_["medium"]) + " ((a) " + "/".join(f"{v:+.2f}" for v in ra_["medium"]) + ")")
+rp_ = {k: c[k]["r_star_capex_on_pace_start_peak_end"] for k in sp3}
+check("F4 [restated at the refit] the neutral rate on the refit (capex keyed to investment): its highest point is the start at every "
+      "speed, on both roots — the build-out hump is gone — and it ends below (a)'s at every speed, lower the faster the change; "
+      "keyed back to the pace of tasks (the readout), it ends higher at every speed but still never rises a tenth of a point (before the "
+      "refit the pace-keyed r* rose on the fast path, 0.76 -> 1.35%); in (a) the medium and fast paths rose",
+      all(x[k]["r_star_peak_year"] == 0.0 for x in (c, h) for k in sp3)
+      and all(rc_[k][2] < ra_[k][2] for k in sp3) and rc_["slow"][2] > rc_["medium"][2] > rc_["fast"][2]
+      and all(rp_[k][2] > rc_[k][2] and rp_[k][1] - rp_[k][0] < 0.1 for k in sp3)
+      and ra_["medium"][1] > ra_["medium"][0] + 0.1 and ra_["fast"][1] > ra_["fast"][0] + 0.1,
+      "start/peak/end: " + ", ".join(f"{k} " + "/".join(f"{v:+.2f}" for v in rc_[k]) for k in sp3) + "; keyed to the pace: "
+      + ", ".join("/".join(f"{v:+.2f}" for v in rp_[k]) for k in sp3) + "; (a) " + ", ".join("/".join(f"{v:+.2f}" for v in ra_[k]) for k in sp3)
+      + f"; high root ends " + " / ".join(f"{h[k]['r_star_start_peak_end'][2]:+.2f}" for k in sp3))
 BSC, DSC = "bridge scale", "demand-layer scale"
-gapk = {sc: [c[k]["r_star_capex_on_investment_end_below_pace_keyed_pp"][sc] for k in sp3] for sc in (BSC, DSC)}
-ri = {sc: {k: c[k]["r_star_capex_on_investment_start_peak_end"][sc] for k in sp3} for sc in (BSC, DSC)}
-mps = {k: m.macro_path(ec, m.deep_tech(ec, **kw)) for k, kw in m.TECH_SPEEDS.items()}
-gap_u = [float(mps[k]["r_star"][-1] - ms.r_star_capex_on_investment(ec, mps[k], ms.ALPHA_UNCONVERTED)[-1]) for k in sp3]  # the first report's 0.25
-check("F5 a sensitivity, the capex channel keyed to investment / income at the two scales demand.py and bank_scenarios.py use: (c)'s "
-      "investment / income falls from the start at every speed, and the investment-keyed neutral rate then never rises above its start, "
-      "at either scale, on either root; how far it ends below the pace-keyed r* depends on the scale — about half a point at the "
-      "bridge's, several points at the demand layer's (the first report's 'at least a point' held only at alpha_capex's 0.25 used "
-      "unconverted). On (b), at a fixed return, investment / income first rises, and the readout rises at the demand layer's scale "
-      "but not at the bridge's — the same split as demand R3's (b) with the return following r*",
+gapp = [c[k]["r_star_capex_on_pace_end_above_investment_keyed_pp"] for k in sp3]
+check("F5 [restated at the refit] (c)'s replacement investment / income falls from the start at every speed, on both roots — the series "
+      "the refit keys r* to — and keyed back to the pace of tasks instead, r* ends 2-4 points higher (the investment term at the common "
+      "scale, 0.3). On (b), on its own bridges at a fixed return, investment / income first rises, and its readout keyed to investment "
+      "rises at the demand layer's scale but not at the bridge's (unchanged since the switch)",
       all(c[k]["investment_income"]["15.0"] < c[k]["investment_income"]["3.0"] < c[k]["investment_income"]["0.0"] for k in sp3)
       and all(x[k]["investment_income_peak_and_year"][1] == 0.0 for x in (c, h) for k in sp3)
-      and all(x[k]["r_star_capex_on_investment_peak_year"][sc] == 0.0 for x in (c, h) for k in sp3 for sc in (BSC, DSC))
-      and all(0.0 < g < 1.0 for g in gapk[BSC]) and all(g > 1.0 for g in gapk[DSC]) and all(g > 1.0 for g in gap_u)
+      and all(2.0 < g < 4.5 for g in gapp)
       and all(b[k]["investment_income"]["3.0"] > b[k]["investment_income"]["0.0"] and b[k]["investment_income_peak_and_year"][1] > 0.0 for k in sp3)
       and all(b[k]["r_star_capex_on_investment_rise_bp"][DSC] > 0.0 and b[k]["r_star_capex_on_investment_rise_bp"][BSC] == 0.0 for k in sp3),
       "investment / income, medium: " + " ".join(f"{v:.3f}" for v in c["medium"]["investment_income"].values())
-      + f"; end below the pace-keyed r*, slow/medium/fast: bridge scale ({SC[BSC]:.4f}) " + " / ".join(f"{g:.2f}" for g in gapk[BSC])
-      + f" pp, demand-layer scale ({SC[DSC]:.2f}) " + " / ".join(f"{g:.2f}" for g in gapk[DSC]) + " pp, at 0.25 unconverted "
-      + " / ".join(f"{g:.2f}" for g in gap_u) + " pp; ends " + ", ".join(f"{ri[BSC][k][2]:+.2f} / {ri[DSC][k][2]:+.2f}" for k in sp3)
-      + f" (pace-keyed {rc_['slow'][2]:+.2f} / {rc_['medium'][2]:+.2f} / {rc_['fast'][2]:+.2f}); (b): investment / income medium "
-      + f"{b['medium']['investment_income']['0.0']:.4f} -> {b['medium']['investment_income_peak_and_year'][0]:.4f} at year "
+      + "; keyed to the pace, r* ends higher by " + " / ".join(f"{g:.2f}" for g in gapp) + " pp (slow/medium/fast); (b): investment / "
+      + f"income medium {b['medium']['investment_income']['0.0']:.4f} -> {b['medium']['investment_income_peak_and_year'][0]:.4f} at year "
       + f"{b['medium']['investment_income_peak_and_year'][1]:g}, readout rise " + "/".join(f"{b[k]['r_star_capex_on_investment_rise_bp'][DSC]:.1f}" for k in sp3)
       + " bp at the demand layer's scale, " + "/".join(f"{b[k]['r_star_capex_on_investment_rise_bp'][BSC]:.1f}" for k in sp3) + " at the bridge's")
 FS = S["sensitivity_fiscal_start"]
 fs = FS["scenarios"]
-check("F6 the fiscal corollary: the wage-tax share of revenue falls and debt climbs further than in (a) — from a start in surplus (the "
-      "bridges' wage tax on all wages); with the wage tax re-centred so the central starts at (b)'s deficit, debt climbs further still, "
-      "so the surplus start makes the finding milder, not harsher",
+check("F6 [restated at the refit] the fiscal corollary: the wage-tax share of revenue falls and debt climbs further than in (a) — from "
+      "the measured start, a primary deficit of macro.START_DEFICIT (0.16% of income) on both roots at every speed, the wage tax set to "
+      "give it (0.35; before the refit 0.40 on all wages, a surplus of 2.61%); debt rises from the start, without the dip the surplus "
+      "start gave. With the wage tax as tuned on (b) (the sensitivity: a surplus start), debt ends lower at every speed, so the "
+      "surplus start was the milder reading",
       all(c[k]["wage_tax_share_start_end"][1] < c[k]["wage_tax_share_start_end"][0] - 0.2 for k in sp3)
       and all(c[k]["debt"]["15.0"] > a[k]["debt"]["15.0"] for k in ("medium", "fast"))
-      and c["medium"]["deficit_start_end"][0] < 0 and all(abs(fs[k]["deficit_start_end"][0] - FS["target_start_deficit_pct"]) < 0.01 for k in sp3)
-      and FS["target_start_deficit_pct"] == round(b["medium"]["deficit_start_end"][0], 4)
-      and all(fs[k]["debt"]["15.0"] > c[k]["debt"]["15.0"] for k in sp3),
+      and all(x[k]["deficit_start_end"][0] == m.START_DEFICIT for x in (c, h) for k in sp3)
+      and all(c[k]["debt"]["3.0"] > c[k]["debt"]["0.0"] for k in ("slow", "medium")) and c["fast"]["debt"]["6.0"] > c["fast"]["debt"]["0.0"]
+      and FS["tau_w"] == 0.40 and abs(FS["tau_w_default"] - c["medium"]["tau_w"]) < 1e-4
+      and all(fs[k]["deficit_start_end"][0] < 0 and fs[k]["debt"]["15.0"] < c[k]["debt"]["15.0"] for k in sp3),
       f"wage-tax share, medium {c['medium']['wage_tax_share_start_end'][0]:.2f} -> {c['medium']['wage_tax_share_start_end'][1]:.2f}; debt by year 15, "
-      f"medium {c['medium']['debt']['15.0']:.0f}% ((a) {a['medium']['debt']['15.0']:.0f}), fast {c['fast']['debt']['15.0']:.0f}% ((a) {a['fast']['debt']['15.0']:.0f}); "
-      f"start deficit {c['medium']['deficit_start_end'][0]:+.2f}% ((b) {b['medium']['deficit_start_end'][0]:+.2f}); re-centred (tau_w {FS['tau_w']:.4f} "
-      f"for {FS['tau_w_default']:.2f}): medium {fs['medium']['debt']['15.0']:.0f}%, fast {fs['fast']['debt']['15.0']:.0f}%")
+      f"slow / medium / fast {c['slow']['debt']['15.0']:.0f} / {c['medium']['debt']['15.0']:.0f} / {c['fast']['debt']['15.0']:.0f}% ((a) "
+      f"{a['medium']['debt']['15.0']:.0f} / {a['fast']['debt']['15.0']:.0f} medium / fast); start deficit {c['medium']['deficit_start_end'][0]:+.2f}% "
+      f"(tau_w {c['medium']['tau_w']:.4f}); with tau_w {FS['tau_w']:.2f} (start {fs['medium']['deficit_start_end'][0]:+.2f}%): "
+      + " / ".join(f"{fs[k]['debt']['15.0']:.0f}" for k in sp3) + "%")
 F7_ = ("F7 under deep automation capital does not capture the gains, the fixed site does — more so than in (b): along the medium path "
        "(return following r*) interest and machine-chain land fall and the housing site rises to most of income. Part of 'more so' is "
        "the import-as-land channel: the chain's imported content (its share of sigma_V from results/calibration_c.json) is modelled "
@@ -178,10 +194,10 @@ F8_ = ("F8 a sustained +200 bp on the required return slows automation at every 
        "wages and on the paper's Figure 7 basis — more strongly than in (b) (labour's share by over half as much again, the delay three "
        "times and more); the rate elasticity of w/r, 1/sigma_V, is higher, and the response's size scales with it (sigma_V's "
        "construction is an open item of (c): a fixed point, with delta_chain not the chain's own depreciation)")
-F9_ = ("F9 the loop: the return follows r*; on the central r* barely rises along the medium path (the gate: the return's largest rise "
-       "under 0.01 pp, a threshold, not zero), so the lag phase shrinks to negligible — automation runs behind the fixed-return path "
-       "for about two years by under a thousandth of a point of tasks, against (b)'s eight years and a hundredth of a point — and then "
-       "runs ahead ((b): lagged while the build-out held rates up, then ran ahead)")
+F9_ = ("F9 [restated at the refit] the loop: the return follows r*; on the refit r* never rises along the medium path (the return's "
+       "largest rise under 0.01 pp), so there is no lag phase at all — automation runs ahead of the fixed-return path from the start, "
+       "cheaper capital speeding it (before the refit a lag phase of two years by under a thousandth of a point; (b): lagged while the "
+       "build-out held rates up, then ran ahead)")
 if CAP:
     s0, s15, b0, b15 = C["split_start"], C["split_year15"], C["comparator_b"]["split_start"], C["comparator_b"]["split_year15"]
     ch, chb = C["chain_share_of_land_rent_start_year15"], C["comparator_b"]["chain_share_of_land_rent_start_year15"]
@@ -201,16 +217,66 @@ if CAP:
           f"((b) {shb['max_tasks_pp']:+.2f}), delay at year 6 {sh['delay_at_year6_weeks']:.1f} weeks ((b) {shb['delay_at_year6_weeks']:.1f})")
     lg, lgb = C["loop_lag_phase"], C["comparator_b"]["loop_lag_phase"]
     check(F9_, rise["follow"] < 0.01 and C["loop_corr_return_vs_tasks"] < -0.5 and C["loop_year15_tasks_ahead_pp"] > 0
-          and C["comparator_b"]["max_rho_rise_pp"]["follow"] > 0.1 and lg is not None and lgb is not None
-          and lg["deepest_tasks_pp"] < 0 and abs(lg["deepest_tasks_pp"]) * 10 < abs(lgb["deepest_tasks_pp"]) and lg["to_year"] < lgb["to_year"],
-          f"largest rise in the return {rise['follow']:+.3f} pp ((b) {C['comparator_b']['max_rho_rise_pp']['follow']:+.3f}); lag phase years "
-          f"{lg['from_year']:g}-{lg['to_year']:g}, at most {lg['deepest_tasks_pp']:+.5f} pp of tasks (year {lg['deepest_year']:g}) against (b)'s "
-          f"{lgb['from_year']:g}-{lgb['to_year']:g}, {lgb['deepest_tasks_pp']:+.4f} pp; correlation {C['loop_corr_return_vs_tasks']:.2f}; automation "
-          f"{C['loop_year15_tasks_ahead_pp']:+.2f} pp ahead by year 15 ((b) {C['comparator_b']['loop_year15_tasks_ahead_pp']:+.2f})")
+          and C["comparator_b"]["max_rho_rise_pp"]["follow"] > 0.1 and lg is None and lgb is not None,
+          f"largest rise in the return {rise['follow']:+.3f} pp ((b) {C['comparator_b']['max_rho_rise_pp']['follow']:+.3f}); lag phase: none "
+          f"((b) years {lgb['from_year']:g}-{lgb['to_year']:g}, {lgb['deepest_tasks_pp']:+.4f} pp); correlation {C['loop_corr_return_vs_tasks']:.2f}; "
+          f"automation {C['loop_year15_tasks_ahead_pp']:+.2f} pp ahead by year 15 ((b) {C['comparator_b']['loop_year15_tasks_ahead_pp']:+.2f})")
 else:
     for name_ in (F7_, F8_, F9_):
         check(name_, False, f"not computed: a capital run has a date with no land-scarce equilibrium — central {C['errors']}, (b) "
                             f"{C['comparator_b']['errors']}")
+
+print("V — the refit: the evidence, the fiscal start, one bridge at a time (Log 46)")
+br0 = m.Bridges()
+ev = S["evidence"]
+fse = ev["fiscal_start"]
+check("V1 the refit's coefficients are the evidence's: alpha_inv the common scale, alpha_rent the scale times owners' saving gap, "
+      "alpha_fiscal the scale times the deficit's pass-through; each central inside its stated range; the two branches the direction "
+      "bridges at the ends of their ranges, each against the other's opposite end; the comparators' bridges and branches are (b)'s "
+      "(macro.BRIDGES_B: the pace key, the wage tax 0.40, 0.05 and 0.10; BRANCHES_B: 0.25 / 0.02 and 0.12); the stored evidence "
+      "lists the literature behind each number",
+      br0.alpha_inv == m.NEUTRAL_SCALE and br0.alpha_rent == m.NEUTRAL_SCALE * m.OWNERS_SAVING_GAP
+      and br0.alpha_fiscal == m.NEUTRAL_SCALE * m.DEFICIT_PASS_THROUGH
+      and m.NEUTRAL_SCALE_RANGE[0] <= m.NEUTRAL_SCALE <= m.NEUTRAL_SCALE_RANGE[1]
+      and m.OWNERS_SAVING_GAP_RANGE[0] <= m.OWNERS_SAVING_GAP <= m.OWNERS_SAVING_GAP_RANGE[1]
+      and m.DEFICIT_PASS_THROUGH_RANGE[0] <= m.DEFICIT_PASS_THROUGH <= m.DEFICIT_PASS_THROUGH_RANGE[1]
+      and m.BRANCHES["deficits dominate"] == dict(alpha_rent=m.NEUTRAL_SCALE * m.OWNERS_SAVING_GAP_RANGE[0],
+                                                  alpha_fiscal=m.NEUTRAL_SCALE * m.DEFICIT_PASS_THROUGH_RANGE[1])
+      and m.BRANCHES["owners' saving dominates"] == dict(alpha_rent=m.NEUTRAL_SCALE * m.OWNERS_SAVING_GAP_RANGE[1],
+                                                         alpha_fiscal=m.NEUTRAL_SCALE * m.DEFICIT_PASS_THROUGH_RANGE[0])
+      and (m.BRIDGES_B.capex_key, m.BRIDGES_B.tau_w, m.BRIDGES_B.alpha_rent, m.BRIDGES_B.alpha_fiscal) == ("pace", 0.40, 0.05, 0.10)
+      and m.BRANCHES_B == {"deficits dominate": dict(alpha_fiscal=0.25, alpha_rent=0.02), "owners' saving dominates": dict(alpha_rent=0.12)}
+      and all(len(ev["literature"][k]) >= 3 for k in ("neutral_scale", "owners_saving_gap", "deficit_pass_through")),
+      f"scale {m.NEUTRAL_SCALE:g} {m.NEUTRAL_SCALE_RANGE}, gap {m.OWNERS_SAVING_GAP:g} {m.OWNERS_SAVING_GAP_RANGE}, pass-through "
+      f"{m.DEFICIT_PASS_THROUGH:g} {m.DEFICIT_PASS_THROUGH_RANGE}: alpha_inv {br0.alpha_inv:g}, alpha_rent {br0.alpha_rent:.3f}, alpha_fiscal "
+      f"{br0.alpha_fiscal:.3f}; branches " + "; ".join(f"{k} " + ", ".join(f"{kk} {vv:.3f}" for kk, vv in v.items()) for k, v in m.BRANCHES.items()))
+fd = ms.fiscal_data()["values"]
+se_mean = float(np.mean([-(fd[f"SE|B9|{y}"] + fd[f"SE|D41PAY|{y}"]) for y in ms.FISCAL_YEARS]))
+check("V2 the fiscal start is Sweden's: macro.START_DEFICIT is the general government's 2021-25 mean primary deficit (Eurostat, cached "
+      "in cache/fiscal/; 0.14% of GDP) on the model's income basis (GDP net of the chain's imported content over income, from "
+      "calibration_c.json's central), to two decimals; debt0's 40% of income lies within 1.5 pp of Sweden's 2025 debt on that basis",
+      round(se_mean * fse["gdp_over_income"], 2) == m.START_DEFICIT == fse["sweden_mean_pct_income"]
+      and abs(fse["sweden_debt_latest_pct_income"] - br0.debt0) < 1.5 and fse["updated"]["gov_10a_main"].startswith("2026"),
+      f"Sweden {se_mean:.3f}% of GDP x {fse['gdp_over_income']:.4f} = {se_mean * fse['gdp_over_income']:.3f}% of income (2025 alone "
+      f"{fse['sweden_latest_pct_income']:.2f}); debt 2025 {fse['gross_debt_pct_gdp']['SE']['2025']}% of GDP = "
+      f"{fse['sweden_debt_latest_pct_income']}% of income against debt0 {br0.debt0:g}; Eurostat of {fse['updated']['gov_10a_main'][:10]}")
+st, sth = S["refit_steps"], S["refit_steps_c_hi"]
+nm = ms.REFIT_STEPS
+end = {j: [st[nm[j]][k]["r_star_start_peak_end"][2] for k in sp3] for j in range(5)}
+hump = {j: st[nm[j]][k]["r_star_start_peak_end"] for j in range(5) for k in ("fast",)}
+d15 = {j: [st[nm[j]][k]["debt_low_and_year15"][1] for k in sp3] for j in range(5)}
+check("V3 the refit one bridge at a time, on the central (both roots), as found: step 0, the bridges as tuned on (b), is the pre-refit "
+      "central as STATE recorded it (the fast path 0.76 -> 1.35 -> -0.13%, debt at year 15 57 / 121 / 187%); keying the capex channel to investment (1) removes the hump at every speed and lowers r* "
+      "at year 15 at every speed; owners' saving at the evidence's gap (2) lowers it further; deficits at their pass-through (3) raise it "
+      "back part way; the measured fiscal start (4) lowers it again (the deficit rises less from a balanced start) and raises debt at "
+      "year 15 at every speed; step 4 is the refit itself",
+      ms.refit_bridges(0) == m.BRIDGES_B and ms.refit_bridges(4) == m.Bridges()
+      and st[nm[0]]["fast"]["r_star_start_peak_end"] == [0.76, 1.35, -0.13] and d15[0] == [56.8, 121.3, 186.8]
+      and all(x[nm[j]][k]["r_star_peak_year"] == 0.0 for x in (st, sth) for j in (1, 2, 3, 4) for k in sp3)
+      and all(end[1][i] < end[0][i] and end[2][i] < end[1][i] and end[3][i] > end[2][i] and end[4][i] < end[3][i] for i in range(3))
+      and all(d15[4][i] > d15[3][i] for i in range(3)) and [st[nm[4]][k]["r_star_start_peak_end"] for k in sp3] == [rc_[k] for k in sp3],
+      "r* at year 15, slow/medium/fast: " + "; ".join(f"step {j} " + " / ".join(f"{v:+.2f}" for v in end[j]) for j in range(5))
+      + f"; fast peak at step 0 {hump[0][1]:+.2f}; debt at year 15: " + "; ".join(f"{j} " + " / ".join(f"{v:.0f}" for v in d15[j]) for j in (0, 3, 4)))
 
 fails = [n for n, ok, _ in RESULTS if not ok]
 print(f"\n{len(RESULTS) - len(fails)}/{len(RESULTS)} checks passed")

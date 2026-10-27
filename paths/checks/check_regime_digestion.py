@@ -3,6 +3,8 @@
 # Layer 3 (the model's catch-up) runs on calibration (c)'s central economy since her decision of 2026-09-30, with (b), the
 # pre-switch calibration, stored beside it; M1 rebuilds both and gates the comparator as the pre-switch run. Layers 1 and 2
 # are data (F1-F5) and do not depend on the calibration.
+# Restated at the refit (2026-10-27, Log 46; the central on the bridges refit on (c), its "deficits dominate" branch; (b) on its
+# own), as found: F6 compares sizes (the catch-up is now down), F7 states the catch-up running the other way from (b)'s.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_regime_digestion.py
 # Exit status 0 only if every check passes.
@@ -12,6 +14,8 @@ from __future__ import annotations
 import json
 import os
 import sys
+
+from dataclasses import replace
 
 import numpy as np
 import pandas as pd
@@ -86,17 +90,23 @@ check("F5 the survey anchor was too high in over 90% of surveys 1992–2016 and 
       f"{rec['too_high_share']:.0%}; RMSE {rec['rmse_pp']}")
 cu = R["layer3_model_catch_up"]
 k0, k1 = "human regime digestion 3y", "human regime digestion 3y, AI adopted around year 5 (x30)"
-check("F6 in the model, with people digesting regime news over 3 years, adopting AI moves the 10Y far more in its year than "
-      "the news does",
-      cu[k1]["10Y_move_years_4.5_to_5.5_bp"] > 2 * max(cu[k0]["10Y_move_years_4.5_to_5.5_bp"], cu["instant (the evidence)"]["10Y_move_years_4.5_to_5.5_bp"]),
+check("F6 [restated at the refit] in the model, with people digesting regime news over 3 years, adopting AI moves the 10Y far more "
+      "in its year than the news does — in size; on the refit the move is down (before the refit, up)",
+      abs(cu[k1]["10Y_move_years_4.5_to_5.5_bp"]) > 2 * max(abs(cu[k0]["10Y_move_years_4.5_to_5.5_bp"]),
+                                                            abs(cu["instant (the evidence)"]["10Y_move_years_4.5_to_5.5_bp"]))
+      and cu[k1]["10Y_move_years_4.5_to_5.5_bp"] < 0,
       f"adoption year: {cu[k1]['10Y_move_years_4.5_to_5.5_bp']:+.0f} bp with AI, {cu[k0]['10Y_move_years_4.5_to_5.5_bp']:+.0f} without, "
       f"{cu['instant (the evidence)']['10Y_move_years_4.5_to_5.5_bp']:+.0f} in the evidence")
 cb = R["layer3_model_catch_up_comparator_b"]
 hls = (1, 3, 5)
 ai = lambda d, h: d[f"human regime digestion {h}y, AI adopted around year 5 (x30)"]["10Y_move_years_4.5_to_5.5_bp"]  # noqa: E731
-check("F7 on the central the catch-up is larger than on (b), the pre-switch run, at every human half-life, and the new world "
-      "(deficits dominate) raises r* further, its required return staying inside the rate headroom",
-      all(ai(cu, h) > ai(cb, h) for h in hls) and cu["worlds"]["new_world_r_star_start_max_year15"][1] > cb["worlds"]["new_world_r_star_start_max_year15"][1]
+check("F7 [restated at the refit] on the central the catch-up runs the other way from (b)'s, the pre-switch run: down at every human "
+      "half-life, where (b)'s is up, and smaller in size — even with deficits dominating, the refit's new world never raises r* above its "
+      "start ((b)'s rises to 2.5%), so its required return never rises (before the refit the central's catch-up was larger than (b)'s "
+      "and up)",
+      all(ai(cu, h) < 0 < ai(cb, h) and abs(ai(cu, h)) < ai(cb, h) for h in hls)
+      and cu["worlds"]["new_world_r_star_start_max_year15"][1] == cu["worlds"]["new_world_r_star_start_max_year15"][0]
+      and cb["worlds"]["new_world_r_star_start_max_year15"][1] > cb["worlds"]["new_world_r_star_start_max_year15"][0] + 1
       and cu["worlds"]["new_world_required_return_rise_max_pp"] < cu["worlds"]["rate_headroom_pp"],
       "adoption year with AI, half-life 1/3/5 years: " + " / ".join(f"{ai(cu, h):+.0f}" for h in hls) + " bp ((b) "
       + " / ".join(f"{ai(cb, h):+.0f}" for h in hls) + f"); r* start/peak (to year 15)/year 15 {cu['worlds']['new_world_r_star_start_max_year15']} "
@@ -107,12 +117,13 @@ print("M — layer 3 on the central, (b) the comparator")
 ec, _ = m.central()
 eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
 rt = lambda o: json.loads(json.dumps(o, default=str))  # noqa: E731
-same_objects = (m.feedback_bridges(eb, alpha_fiscal=0.25, alpha_rent=0.02) == m.Bridges(capital_premium=5.0, alpha_fiscal=0.25, alpha_rent=0.02)
+same_objects = (m.feedback_bridges(eb, base=m.BRIDGES_B, **m.BRANCHES_B["deficits dominate"])
+                == replace(m.BRIDGES_B, capital_premium=5.0, alpha_fiscal=0.25, alpha_rent=0.02)
                 and m.deep_tech(eb) == m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
                 and m.hold_tech(eb) == m.TechPath(eta_end=1.0, lam_end=eb.lam))
 check("M1 layer 3 as stored equals a rebuild on the central and on (b), and (b)'s runs use the pre-switch objects exactly "
       "(Bridges(capital_premium=5.0, ...), TechPath(0.04, 0.01, 6, 6))",
-      rt(rd.layer3(ec)[0]) == cu and rt(rd.layer3(eb)[0]) == cb and same_objects
+      rt(rd.layer3(ec)[0]) == cu and rt(rd.layer3(eb, m.BRIDGES_B, m.BRANCHES_B)[0]) == cb and same_objects
       and R["layer3_calibration"]["tag"] == "c_central_lo",
       f"central rho {ec.rho:.4f}, premium {m.capital_premium(ec):.2f} pp; (b) premium {m.capital_premium(eb):.2f} pp")
 

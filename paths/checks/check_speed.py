@@ -8,6 +8,9 @@
 # two differ (check_recognition S3), on (b) they coincide.
 # Thresholds set after seeing (c)'s numbers: F4's "more than a year earlier" (1.0) and "under half the rate headroom" (0.5)
 # (flagged here). F1's 0.2, F3's five times and 1%, L- and H-tolerances predate the switch.
+# Restated at the refit (2026-10-27, Log 46; the central on the bridges refit on (c) in macro.BRANCHES, (b) on its own), as
+# found: F2 reads the ladder in size (the news world's 10Y now falls); F4 states that the two branches no longer split the
+# direction on the central — both move the 10Y down through recognition.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_speed.py
 # Exit status 0 only if every check passes.
@@ -158,8 +161,10 @@ for hh, sh in ((0.25, 1.0), (0.025, 1.0), (9.8 / 252, 0.25), (0.0025, 1.0), (0.0
     z0 = np.array([rg.zero(T10, mx)[0] for mx in rc.market_curves(od, nd, rc.learn(od, nd, lj))[0]])
     i0 = int(np.searchsorted(tw, 1.5)) - 1
     week.append(float(((z1 - z0)[i0 + 1] - (z1 - z0)[i0]) * 100))
-check("F2 the week after a lump of news, the 10Y's move rises along the ladder: human regime news, x10, 1980s rate news, x100, instant",
-      np.all(np.diff(week) > 0), " ".join(f"{x:.1f}" for x in week) + " bp")
+check("F2 [restated at the refit] the week after a lump of news, the 10Y moves further along the ladder (down, on the refit): human "
+      "regime news, x10, 1980s rate news, x100, instant — the x100 market as far as the instant one within the week",
+      np.all(np.diff(np.abs(week))[:3] > 0) and abs(abs(week[4]) - abs(week[3])) < 0.1 and np.all(np.asarray(week) < 0),
+      " ".join(f"{x:.1f}" for x in week) + " bp")
 fd = {}
 for aware in (True, False):
     for cc in (1, 30):
@@ -176,14 +181,14 @@ eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
 arr = lambda d: {k: v for k, v in d.items() if isinstance(v, np.ndarray)}  # noqa: E731
 same = lambda a, b: arr(a).keys() == arr(b).keys() and all(np.array_equal(a[k], b[k]) for k in arr(a))  # noqa: E731
 pre_b = []
-for bkw in ss.SCEN.values():
-    br = m.Bridges(capital_premium=5.0, **bkw)
+for bkw in m.BRANCHES_B.values():
+    br = replace(m.BRIDGES_B, capital_premium=5.0, **bkw)
     o0 = rc.refine(m.macro_path(eb, m.TechPath(eta_end=1.0, lam_end=eb.lam), br, 25.0, 0.25), ss.DT)
     n0 = rc.refine(m.macro_path(eb, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6), br, 25.0, 0.25), ss.DT)
-    o1, n1 = ss.worlds(eb, **bkw)
+    o1, n1 = ss.worlds(eb, m.BRIDGES_B, **bkw)
     pre_b.append(same(o0, o1) and same(n0, n1))
 Wc = {k: ss.worlds(e, **v) for k, v in ss.SCEN.items()}
-Wb = {k: ss.worlds(eb, **v) for k, v in ss.SCEN.items()}
+Wb = {k: ss.worlds(eb, m.BRIDGES_B, **v) for k, v in m.BRANCHES_B.items()}
 rt = lambda o: json.loads(json.dumps(o))  # noqa: E731
 wc, wb = rt(ss.world_readouts(e, Wc)), rt(ss.world_readouts(eb, Wb))
 check("W1 the (b) comparator's worlds are the pre-switch worlds array for array (Bridges(capital_premium=5.0, ...), TechPath(0.04, "
@@ -191,15 +196,18 @@ check("W1 the (b) comparator's worlds are the pre-switch worlds array for array 
       all(pre_b) and SJ["calibration"]["tag"] == "c_central_lo" and SJ["0_worlds"] == wc and SJ["comparator_b"]["0_worlds"] == wb,
       "central: " + "; ".join(f"{k} window {v['window']}" for k, v in wc.items()))
 _, info_c = m.central()
-full_c, full_b = rt(ss.compute(e)[0]), rt(ss.compute(eb)[0])
+full_c, full_b = rt(ss.compute(e)[0]), rt(ss.compute(eb, m.BRIDGES_B, m.BRANCHES_B)[0])
 check("W2 results/speed.json equals a rebuild by code/speed_scenarios.py, block for block, on the central and on (b)",
       {k: v for k, v in SJ.items() if k not in ("calibration", "comparator_b")} == full_c and SJ["comparator_b"] == full_b
       and SJ["calibration"] == rt({k: info_c[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}),
       "blocks: " + ", ".join(full_c))
 dd, ds = "deficits dominate", "owners' saving dominates"
-check("F4 the two bridge settings still decide the direction on the central, and the 10Y moves further through recognition than on (b) "
-      "both ways, in a window that opens more than a year earlier; no world's required return rises by half the rate headroom",
-      wc[dd]["10Y_through_recognition_bp"] > wb[dd]["10Y_through_recognition_bp"] > 0 > wb[ds]["10Y_through_recognition_bp"] > wc[ds]["10Y_through_recognition_bp"]
+check("F4 [restated at the refit] the two bridge settings no longer decide the direction on the central: on the refit both move the "
+      "10Y down through recognition, the deficits branch least and owners' saving further than on (b), where they split (before the "
+      "refit they split on the central too); the window opens more than a year earlier than (b)'s; no world's required return rises by "
+      "half the rate headroom",
+      wc[ds]["10Y_through_recognition_bp"] < wc[dd]["10Y_through_recognition_bp"] < 0 < wb[dd]["10Y_through_recognition_bp"]
+      and wc[ds]["10Y_through_recognition_bp"] < wb[ds]["10Y_through_recognition_bp"] < 0
       and all(wb[k]["window"][0] - wc[k]["window"][0] > 1.0 for k in (dd, ds))
       and max(v["required_return_rise_max_pp"] for v in wc.values()) < 0.5 * SJ["calibration"]["headroom_pp"],
       f"through recognition: deficits {wc[dd]['10Y_through_recognition_bp']:+.0f} bp ((b) {wb[dd]['10Y_through_recognition_bp']:+.0f}), saving "

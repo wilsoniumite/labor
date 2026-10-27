@@ -19,8 +19,10 @@
 # cyclical job loss adds to the people out of work, and inflation sets money wages and prices.
 #
 # Money wages follow the macro block's real wage and the demand layer's inflation. At the automation peak that asks
-# for money-wage CUTS of 10-15% a year; the "rigid wages" variant floors money-wage growth at zero, holds wages flat
-# until market wage growth catches up, and sends the adjustment into job loss meanwhile.
+# for money-wage CUTS of 10-15% a year; the "rigid wages" variant lets money wages fall no faster than 4% a year
+# (Schmitt-Grohé and Uribe 2016's limit, gamma 0.99 a quarter; Greece's average wage fell 22% over 2009-15), closes the gap
+# to the market wage as fast as that allows, and sends the rest into job loss: log employment falls by the labour-demand
+# elasticity times the log excess of the wage over its market level, a share of the jobs still there.
 #
 # Calibration. Measured (Statistics Sweden, 2026): household debt 1.74 x disposable income; 76.8% of housing loans
 # repricing within three months; mortgage rates 1.05 points over policy; deposits 0.91 x income; wages 0.84 of
@@ -31,21 +33,27 @@
 # savings while they last (0.5); spending per krona — job losers 0.8, supporters 0.5, borrowers squeezed 0.6, checks
 # 0.4, a representative household 0.05 (Nordic lottery studies put the average near 0.5 in the first year and higher
 # for households with little cash; approximate); the tax on wages 0.30; amortisation 2% of the debt a year; the
-# labour-demand elasticity for rigid wages 0.4 (the literature's range 0.25-0.5). Debts follow income up (new borrowing
+# labour-demand elasticity for rigid wages 0.4 (Lichter, Peichl and Siegloch 2015: median across studies 0.39, their
+# bias-corrected long-run estimate 0.25). Debts follow income up (new borrowing
 # keeps the debt-to-income ratio) and only amortise down: money debts are fixed, which is what debt deflation needs.
 #
 # The worlds (her decision, 2026-09-30): calibration (c)'s central economy, macro.central() — the open (domp) reading, the
-# low root — through demand.world (bank_scenarios' bridges, set on (b), not retuned). The high root (the sensitivity) and
-# (b) (the comparator; bit-identical to the pre-switch runs) are stored beside it for the main variants.
+# low root — through demand.world (the bridges refit on (c), Log 46, in bank_scenarios' two branches). The high root (the
+# sensitivity) and (b) (the comparator, on its own bridges; bit-identical to the pre-switch runs) are stored beside it.
 #
-# Two artefacts of this layer that (c)'s larger wage fall exposes, both disclosed and checked rather than changed:
-#   benefits — public support is the replacement rate on the START's real net wage, indexed to prices; with flexible
-#     money wages falling faster than prices (the real wage below the replacement rate: from about year 9 on (c)'s
-#     paths) it exceeds the wage lost and the job losers' drag is zero. The sensitivity benefit_base='exit' pays each
-#     cohort the replacement rate on its own real net wage when it left work (indexed to prices after), not a new default;
-#     it delays the artefact (the drag zero from year 14 rather than 9.25, deficits dominating), it does not remove it;
-#   rigid wages — job loss from rigidity is linear in the accumulated refused cut (elasticity x excess); with money
-#     wages that would fall 60-80%, it takes employment to the layer's floor (5% of the start's) from year 10.5.
+# The two rules redesigned at the refit (Log 46; decisions 78-79), for money wages that fall 60-80%:
+#   benefits — public support is the replacement rate on the current net money wage: benefits follow wages. Unemployment
+#     insurance pays a share of the person's own previous wage (Sweden's a-kassa: 80/70/65% over 300 days, the base fixed for
+#     the spell, the ceiling not indexed), the OECD's net replacement rates are measured against own previous earnings, and
+#     minimum benefits follow wages in the Netherlands, Denmark and 35 US states. Before the refit the base was the START's
+#     real net wage, indexed to prices: once money wages fell far enough it exceeded the wage lost and the job losers' drag
+#     went to zero (coverage 176-315% by year 15). That rule (benefit_base='start') and each cohort's real wage at exit
+#     ('exit') are kept as sensitivities: Sweden's own long-term floor, social assistance (riksnorm), is set on prices, so the
+#     'start' rule is the price-indexed floor, not only an artefact;
+#   rigid wages — money wages fall at most wage_fall_max a year, and log employment falls by the elasticity times the log
+#     excess (above). Before the refit wages could not fall at all and job loss was linear in the summed refused cut, a share
+#     of the START's employment, which took employment to the layer's floor (5% of the start's) from year 10.5; the floor
+#     stays as a guard and does not bind.
 #
 # Public data only: Statistics Sweden (above); the economy from results/calibration_c.json (BEA; code/calibration_c.py).
 # Run from paths/:  ../venv/Scripts/python.exe code/households.py
@@ -104,13 +112,15 @@ class Support:
     amort: float = 2.0                  # % of the debt a year
     refix_years: float = 3.0            # the fixed-rate share reprices over this many years
     rigid_wages: bool = False
-    labour_demand_elasticity: float = 0.4   # employment lost per unit of wage held above its market level (literature 0.25-0.5)
+    wage_fall_max: float = 4.0          # % a year: under rigid wages, the fastest money wages fall (a limit on the pace of cuts)
+    labour_demand_elasticity: float = 0.4   # log employment lost per log point of wage held above its market level
     check_size: float = 0.0             # % of household disposable income a year, paid while the check runs
     check_quarters: int = 4
     check_trigger: float = 3.0          # checks start when unemployment is this many points above the start
     private_cap: float = 1.0            # most that family and friends can give, share of the net wages of those in work
-    benefit_base: str = "start"         # "start": the start's real net wage, indexed to prices (the layer's rule); "exit": each
-                                        # cohort's real net wage when it left work, indexed to prices after (a sensitivity)
+    benefit_base: str = "wage"          # "wage": the current net money wage (benefits follow wages; the rule since the refit);
+                                        # "exit": each cohort's real net wage when it left work, indexed to prices after; "start":
+                                        # the start's real net wage, indexed to prices (the rule before the refit) — sensitivities
 
 
 # A family-based regime: the state replaces less, family and friends cover half of the rest — but a network can carry a
@@ -153,17 +163,17 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
         rec["P"][k] = rec["P"][k - 1] * (1 + pi[k - 1] / 100 * dt)
         pw = float(mp["pi_wage"][k] + (pi[k - 1] - mp["pi_star"]))
         if sp.rigid_wages:
-            if pw < 0:                                              # a cut is refused: the wage stays above its market level ...
-                state["wage_excess"] += -pw / 100 * dt
-                pw = 0.0
-            elif state["wage_excess"] > 0:                          # ... until market wage growth catches up, wages flat meanwhile
-                use = min(state["wage_excess"], pw / 100 * dt)
-                state["wage_excess"] -= use
-                pw -= use / dt * 100
+            # money wages close the gap to their market level as fast as they may, but fall no faster than wage_fall_max a year;
+            # the excess, log(actual / market), grows while the market falls faster and closes once it does not
+            pa = max(pw - state["wage_excess"] * 100 / dt, -sp.wage_fall_max)
+            state["wage_excess"] += (pa - pw) / 100 * dt
+            pw = pa
         rec["W"][k] = rec["W"][k - 1] * (1 + pw / 100 * dt)
-        rec["extra_job_loss"][k] = sp.labour_demand_elasticity * state["wage_excess"]   # ... and costs employment meanwhile
         du = -dmp.okun * gap[k - 1] / 100                            # cyclical job loss, share of the labour force
-        emp = max(part[k] - du - rec["extra_job_loss"][k], 0.05)
+        base_emp = part[k] - du
+        rigid = np.exp(-sp.labour_demand_elasticity * state["wage_excess"])   # the excess costs a share of the jobs left
+        rec["extra_job_loss"][k] = base_emp * (1.0 - rigid)
+        emp = max(base_emp * rigid, 0.05)
         rec["employed"][k] = emp
         out_new = max(1.0 - emp, 0.0)                                # out of work since the start, share of start employment
         cohorts[k] = max(out_new - rec["out_new"][k - 1], 0.0)
@@ -176,8 +186,12 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
             rep = np.where(np.arange(k + 1) > k - int(round(1 / dt)), sp.replacement_first, sp.replacement_later)
             wr = rec["W"][: k + 1] / rec["P"][: k + 1]
             public = net0 * rec["P"][k] * float(np.sum(c_ * wr * rep)) * out_new / tot if tot > 1e-15 else 0.0
-        else:
+        elif sp.benefit_base == "start":                            # the start's real net wage, indexed to prices
             public = net0 * rec["P"][k] * (sp.replacement_first * min(first, out_new) + sp.replacement_later * max(out_new - first, 0.0))
+        elif sp.benefit_base == "wage":                             # the current net money wage: benefits follow wages
+            public = net_w * (sp.replacement_first * min(first, out_new) + sp.replacement_later * max(out_new - first, 0.0))
+        else:
+            raise ValueError(f"benefit_base {sp.benefit_base!r}: 'wage', 'exit' or 'start'")
         uncovered = max(lost_wage - public, 0.0)
         private = min(sp.private * uncovered, sp.private_cap * net0 * rec["W"][k] * emp)   # a network's capacity is finite
         # savings: each new exit brings buffer_months of net wage; draw a share of the remaining loss while they last
@@ -279,19 +293,33 @@ def main():
             out["scenarios"][f"{name} | {vn}"] = summary(r)
             runs[(name, vn)] = r
         out["scenarios"][f"{name} | demand layer alone (full pooling)"] = dm.summary(dm.run(mp, dmp))
-    # benefits on each cohort's wage at exit (a sensitivity: the benefit artefact delayed, not removed), the two automated worlds
-    out["sensitivity: benefits on the wage at exit"] = {
-        "note": "benefit_base='exit': public support on each cohort's real net wage when it left work, indexed to prices after; "
-                "the layer's rule pays it on the start's real net wage. Not a new default.",
-        "scenarios": {f"{name} | {vn}": summary(run(worlds[name], dmp, replace(variants[vn], benefit_base="exit"), s0))
-                      for name in ("deficits dominate", "owners' saving dominates") for vn in EXIT_COMPARED}}
+    # the benefit rule's alternatives (sensitivities, not defaults): each cohort's real wage at exit, and the start's real wage
+    # (the rule before the refit, whose benefits outran the collapsing wage), the two automated worlds
+    for base_, key, note in (
+            ("exit", "sensitivity: benefits on the wage at exit",
+             "benefit_base='exit': public support on each cohort's real net wage when it left work, indexed to prices after; the "
+             "layer's rule (since the refit) pays it on the current net money wage. Not the default."),
+            ("start", "sensitivity: benefits on the start's real wage",
+             "benefit_base='start': public support on the start's real net wage, indexed to prices — the rule before the refit, "
+             "whose benefits exceed the wage lost once money wages fall far enough. Not the default.")):
+        out[key] = {"note": note,
+                    "scenarios": {f"{name} | {vn}": summary(run(worlds[name], dmp, replace(variants[vn], benefit_base=base_), s0))
+                                  for name in ("deficits dominate", "owners' saving dominates") for vn in EXIT_COMPARED}}
+    # rigid wages with no money-wage cut at all (the rule before the refit allowed none), the two automated worlds
+    out["sensitivity: rigid wages, no money-wage cut"] = {
+        "note": "wage_fall_max=0: money wages never fall (the rigidity before the refit), with the refit's job loss (log employment "
+                "falls by the labour-demand elasticity times the log excess). Not the default.",
+        "scenarios": {f"{name} | {vn}": summary(run(worlds[name], dmp, replace(variants[vn], wage_fall_max=0.0), s0))
+                      for name in ("deficits dominate", "owners' saving dominates")
+                      for vn in ("rigid money wages", "family-based, rigid money wages")}}
     # the high root (the sensitivity) and (b) (the comparator): the two automated worlds, the main variants
     for which, key in (("hi", "sensitivity: the high root"), ("b", "comparator: calibration (b)")):
         e2, cal2 = bs.economy(which)
+        bb, scen = bs.base_bridges(which)
         sc = {}
         for name in ("deficits dominate", "owners' saving dominates"):
-            br, truth = bs.SCEN[name]
-            mp = dm.world(br, truth, e=e2)
+            br, truth = scen[name]
+            mp = dm.world(br, truth, e=e2, base=bb)
             for vn in COMPARED:
                 sc[f"{name} | {vn}"] = summary(run(mp, dmp, variants[vn], s0))
             sc[f"{name} | demand layer alone (full pooling)"] = dm.summary(dm.run(mp, dmp))
@@ -346,9 +374,9 @@ def figure(runs):
         a.set_title(f"{name}: debt service and people out of work"); a.legend(fontsize=7.5)
     for a in ax.flat:
         a.set_xlabel("years")
-    fig.text(0.01, 0.004, "households.py on the demand layer and the macro block's worlds on calibration (c), the central (open reading, low root; bridges set on (b)). "
+    fig.text(0.01, 0.004, "households.py on the demand layer and the macro block's worlds on calibration (c), the central (open reading, low root; bridges refit on (c), Log 46). "
              "Swedish household debt, fixation, margins, deposits and GDP from Statistics Sweden; replacement rates, private support and spending shares approximate or assumed.\n"
-             "Coverage above 100%: benefits on the start's real wage exceed the fallen wage; the flat 95%: rigid-wage job loss at the layer's 5% employment floor (both artefacts; see the header).", fontsize=7.5)
+             "Benefits follow the current money wage; under rigid wages money wages fall at most 4% a year and the excess costs a share of the jobs left (decisions 78-79; see the header).", fontsize=7.5)
     os.makedirs(os.path.join(ROOT, "figures"), exist_ok=True)
     fig.savefig(os.path.join(ROOT, "figures", "fig_households.png"), dpi=120)
 

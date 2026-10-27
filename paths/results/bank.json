@@ -74,11 +74,11 @@
    2.75,
    2.75
   ],
-  "nii_start": 2.11,
+  "nii_start": 2.1,
   "nii_max": 2.11,
   "nii_max_year": 5.25,
-  "nii_min": 2.11,
-  "nii_min_year": 1.25,
+  "nii_min": 2.1,
+  "nii_min_year": 1.0,
   "deposit_spread_start_max": [
    0.98,
    0.98
@@ -87,12 +87,12 @@
   "deposit_beta_at_policy_extreme": null,
   "deposit_beta_year_after": null,
   "house_real_y5_y10_y15": [
-   0.82,
-   0.82,
-   0.82
+   0.79,
+   0.79,
+   0.79
   ],
   "house_real_min_and_year": [
-   0.818,
+   0.795,
    5.25
   ],
   "wage_real_y5_y10_y15": [
@@ -107,16 +107,16 @@
   ],
   "dsr_mean_max": 0.194,
   "share_over_dsr_line_max": 0.076,
-  "ltv_y10": 0.441,
-  "mortgage_loss_rate_max_pct": 0.008,
+  "ltv_y10": 0.453,
+  "mortgage_loss_rate_max_pct": 0.009,
   "cre_icr_min": 2.5,
   "cre_share_below_line_max": 0.099,
   "losses_max": 0.1,
   "losses_max_year": 0.0,
   "result_start_max_min": [
-   2.01,
+   2.0,
    2.03,
-   2.01
+   2.0
   ],
   "result_max_year_min_year": [
    15.0,
@@ -126,43 +126,43 @@
  "deficits dominate": {
   "policy_start_peak_end": [
    2.75,
-   5.75,
-   5.75
+   1.0,
+   1.0
   ],
   "nii_start": 2.11,
-  "nii_max": 2.99,
-  "nii_max_year": 15.0,
-  "nii_min": 2.11,
-  "nii_min_year": 0.0,
+  "nii_max": 2.11,
+  "nii_max_year": 0.0,
+  "nii_min": 1.49,
+  "nii_min_year": 14.25,
   "deposit_spread_start_max": [
    0.98,
-   1.7
+   0.98
   ],
-  "mortgage_margin_min": 0.4,
-  "deposit_beta_at_policy_extreme": 0.46,
-  "deposit_beta_year_after": 0.5,
+  "mortgage_margin_min": 0.46,
+  "deposit_beta_at_policy_extreme": 0.32,
+  "deposit_beta_year_after": 0.33,
   "house_real_y5_y10_y15": [
-   2.95,
-   2.79,
-   2.46
+   6.9,
+   9.98,
+   7.65
   ],
   "house_real_min_and_year": [
    1.0,
    0.0
   ],
   "wage_real_y5_y10_y15": [
-   0.9,
-   0.47,
-   0.29
+   0.89,
+   0.4,
+   0.21
   ],
   "employed_y5_y10_y15": [
    0.94,
-   0.63,
-   0.45
+   0.56,
+   0.35
   ],
-  "dsr_mean_max": 0.514,
-  "share_over_dsr_line_max": 0.698,
-  "ltv_y10": 0.129,
+  "dsr_mean_max": 0.348,
+  "share_over_dsr_line_max": 0.397,
+  "ltv_y10": 0.036,
   "mortgage_loss_rate_max_pct": 0.005,
   "cre_icr_min": 2.5,
   "cre_share_below_line_max": 0.099,
@@ -170,67 +170,67 @@
   "losses_max_year": 0.0,
   "result_start_max_min": [
    2.01,
-   2.92,
-   2.01
+   2.02,
+   1.42
   ],
   "result_max_year_min_year": [
-   15.0,
-   0.0
+   2.0,
+   14.25
   ]
  },
  "deficits dominate, office rents follow the wage bill": {
   "policy_start_peak_end": [
    2.75,
-   5.75,
-   5.75
+   1.0,
+   1.0
   ],
   "nii_start": 2.11,
-  "nii_max": 2.99,
-  "nii_max_year": 15.0,
-  "nii_min": 2.11,
-  "nii_min_year": 0.0,
+  "nii_max": 2.11,
+  "nii_max_year": 0.0,
+  "nii_min": 1.49,
+  "nii_min_year": 14.25,
   "deposit_spread_start_max": [
    0.98,
-   1.7
+   0.98
   ],
-  "mortgage_margin_min": 0.4,
-  "deposit_beta_at_policy_extreme": 0.46,
-  "deposit_beta_year_after": 0.5,
+  "mortgage_margin_min": 0.46,
+  "deposit_beta_at_policy_extreme": 0.32,
+  "deposit_beta_year_after": 0.33,
   "house_real_y5_y10_y15": [
-   2.95,
-   2.79,
-   2.46
+   6.9,
+   9.98,
+   7.65
   ],
   "house_real_min_and_year": [
    1.0,
    0.0
   ],
   "wage_real_y5_y10_y15": [
-   0.9,
-   0.47,
-   0.29
+   0.89,
+   0.4,
+   0.21
   ],
   "employed_y5_y10_y15": [
    0.94,
-   0.63,
-   0.45
+   0.56,
+   0.35
   ],
-  "dsr_mean_max": 0.514,
-  "share_over_dsr_line_max": 0.698,
-  "ltv_y10": 0.129,
+  "dsr_mean_max": 0.348,
+  "share_over_dsr_line_max": 0.397,
+  "ltv_y10": 0.036,
   "mortgage_loss_rate_max_pct": 0.005,
-  "cre_icr_min": 0.26,
+  "cre_icr_min": 0.36,
   "cre_share_below_line_max": 1.0,
   "losses_max": 0.35,
   "losses_max_year": 15.0,
   "result_start_max_min": [
    2.01,
-   2.64,
-   2.01
+   2.01,
+   1.14
   ],
   "result_max_year_min_year": [
-   15.0,
-   0.0
+   1.5,
+   14.25
   ]
  },
  "owners' saving dominates": {
@@ -243,36 +243,36 @@
   "nii_max": 2.1,
   "nii_max_year": 0.0,
   "nii_min": 0.88,
-  "nii_min_year": 10.75,
+  "nii_min_year": 8.75,
   "deposit_spread_start_max": [
    0.98,
    0.98
   ],
   "mortgage_margin_min": 0.46,
-  "deposit_beta_at_policy_extreme": 0.18,
+  "deposit_beta_at_policy_extreme": 0.17,
   "deposit_beta_year_after": 0.18,
   "house_real_y5_y10_y15": [
-   18.93,
-   19.34,
-   19.38
+   19.19,
+   19.59,
+   19.62
   ],
   "house_real_min_and_year": [
    1.0,
    0.0
   ],
   "wage_real_y5_y10_y15": [
-   0.88,
-   0.35,
-   0.17
+   0.87,
+   0.28,
+   0.11
   ],
   "employed_y5_y10_y15": [
    0.93,
-   0.51,
-   0.28
+   0.43,
+   0.2
   ],
-  "dsr_mean_max": 0.348,
-  "share_over_dsr_line_max": 0.397,
-  "ltv_y10": 0.019,
+  "dsr_mean_max": 0.531,
+  "share_over_dsr_line_max": 0.72,
+  "ltv_y10": 0.018,
   "mortgage_loss_rate_max_pct": 0.005,
   "cre_icr_min": 2.5,
   "cre_share_below_line_max": 0.099,
@@ -280,12 +280,12 @@
   "losses_max_year": 0.0,
   "result_start_max_min": [
    2.0,
-   2.02,
+   2.01,
    0.81
   ],
   "result_max_year_min_year": [
    1.5,
-   10.75
+   8.75
   ]
  },
  "owners' saving dominates, office rents follow the wage bill": {
@@ -298,145 +298,114 @@
   "nii_max": 2.1,
   "nii_max_year": 0.0,
   "nii_min": 0.88,
-  "nii_min_year": 10.75,
+  "nii_min_year": 8.75,
   "deposit_spread_start_max": [
    0.98,
    0.98
   ],
   "mortgage_margin_min": 0.46,
-  "deposit_beta_at_policy_extreme": 0.18,
+  "deposit_beta_at_policy_extreme": 0.17,
   "deposit_beta_year_after": 0.18,
   "house_real_y5_y10_y15": [
-   18.93,
-   19.34,
-   19.38
+   19.19,
+   19.59,
+   19.62
   ],
   "house_real_min_and_year": [
    1.0,
    0.0
   ],
   "wage_real_y5_y10_y15": [
-   0.88,
-   0.35,
-   0.17
+   0.87,
+   0.28,
+   0.11
   ],
   "employed_y5_y10_y15": [
    0.93,
-   0.51,
-   0.28
+   0.43,
+   0.2
   ],
-  "dsr_mean_max": 0.348,
-  "share_over_dsr_line_max": 0.397,
-  "ltv_y10": 0.019,
+  "dsr_mean_max": 0.531,
+  "share_over_dsr_line_max": 0.72,
+  "ltv_y10": 0.018,
   "mortgage_loss_rate_max_pct": 0.005,
-  "cre_icr_min": 0.43,
+  "cre_icr_min": 0.19,
   "cre_share_below_line_max": 1.0,
   "losses_max": 0.35,
   "losses_max_year": 15.0,
   "result_start_max_min": [
    2.0,
-   2.01,
+   2.0,
    0.54
   ],
   "result_max_year_min_year": [
-   1.25,
-   12.25
+   1.0,
+   11.0
   ]
  },
- "sensitivity: r* keyed to investment spending": {
-  "note": "the bank on the new world's r* keyed to investment spending (demand.py's readout); the macro path, term premium and required return as solved; office rents follow the site",
-  "alpha_inv": {
-   "bridge scale": 0.039357487358937716,
-   "demand-layer scale": 0.6000000000000005
-  },
+ "sensitivity: r* keyed to the pace of tasks": {
+  "note": "the bank on the new world's r* keyed to the pace of tasks (demand.py's readout; the key as tuned on (b)); the macro path, term premium and required return as solved; office rents follow the site",
+  "alpha_capex": 0.25,
   "deficits dominate": {
-   "task keyed (the bridge as set)": {
+   "investment keyed (the refit)": {
     "policy_start_peak_end": [
      2.75,
-     5.75,
-     5.75
-    ],
-    "nii_max": 2.99,
-    "nii_min": 2.11,
-    "nii_min_year": 0.0,
-    "house_real_y5_y10_y15": [
-     2.95,
-     2.79,
-     2.46
-    ],
-    "dsr_mean_max": 0.514,
-    "share_over_dsr_line_max": 0.698,
-    "cre_share_below_line_max": 0.099,
-    "result_start_max_min": [
-     2.01,
-     2.92,
-     2.01
-    ],
-    "z10_y5_y10_y15": [
-     4.98,
-     5.99,
-     7.0
-    ]
-   },
-   "investment keyed, bridge scale": {
-    "policy_start_peak_end": [
-     2.75,
-     5.25,
-     5.25
-    ],
-    "nii_max": 2.87,
-    "nii_min": 2.11,
-    "nii_min_year": 0.0,
-    "house_real_y5_y10_y15": [
-     3.29,
-     3.09,
-     2.64
-    ],
-    "dsr_mean_max": 0.486,
-    "share_over_dsr_line_max": 0.658,
-    "cre_share_below_line_max": 0.099,
-    "result_start_max_min": [
-     2.01,
-     2.79,
-     2.01
-    ],
-    "z10_y5_y10_y15": [
-     4.46,
-     5.35,
-     6.46
-    ]
-   },
-   "investment keyed, demand-layer scale": {
-    "policy_start_peak_end": [
-     2.75,
-     -0.5,
-     -0.5
+     1.0,
+     1.0
     ],
     "nii_max": 2.11,
-    "nii_min": 0.88,
-    "nii_min_year": 11.0,
+    "nii_min": 1.49,
+    "nii_min_year": 14.25,
     "house_real_y5_y10_y15": [
-     17.61,
-     18.01,
-     15.68
+     6.9,
+     9.98,
+     7.65
     ],
-    "dsr_mean_max": 0.201,
-    "share_over_dsr_line_max": 0.088,
+    "dsr_mean_max": 0.348,
+    "share_over_dsr_line_max": 0.397,
     "cre_share_below_line_max": 0.099,
     "result_start_max_min": [
-     2.0,
+     2.01,
      2.02,
-     0.81
+     1.42
     ],
     "z10_y5_y10_y15": [
-     0.45,
-     -0.31,
-     0.65
+     2.1,
+     1.41,
+     2.0
+    ]
+   },
+   "pace keyed (as tuned on (b))": {
+    "policy_start_peak_end": [
+     2.75,
+     4.75,
+     4.75
+    ],
+    "nii_max": 2.74,
+    "nii_min": 2.11,
+    "nii_min_year": 0.0,
+    "house_real_y5_y10_y15": [
+     3.53,
+     3.34,
+     2.98
+    ],
+    "dsr_mean_max": 0.625,
+    "share_over_dsr_line_max": 0.819,
+    "cre_share_below_line_max": 0.099,
+    "result_start_max_min": [
+     2.01,
+     2.67,
+     2.01
+    ],
+    "z10_y5_y10_y15": [
+     4.38,
+     5.21,
+     5.99
     ]
    }
   },
   "owners' saving dominates": {
-   "task keyed (the bridge as set)": {
+   "investment keyed (the refit)": {
     "policy_start_peak_end": [
      2.75,
      -0.5,
@@ -444,70 +413,14 @@
     ],
     "nii_max": 2.1,
     "nii_min": 0.88,
-    "nii_min_year": 10.75,
+    "nii_min_year": 8.75,
     "house_real_y5_y10_y15": [
-     18.93,
-     19.34,
-     19.38
+     19.19,
+     19.59,
+     19.62
     ],
-    "dsr_mean_max": 0.348,
-    "share_over_dsr_line_max": 0.397,
-    "cre_share_below_line_max": 0.099,
-    "result_start_max_min": [
-     2.0,
-     2.02,
-     0.81
-    ],
-    "z10_y5_y10_y15": [
-     0.31,
-     -0.31,
-     0.34
-    ]
-   },
-   "investment keyed, bridge scale": {
-    "policy_start_peak_end": [
-     2.75,
-     -0.5,
-     -0.5
-    ],
-    "nii_max": 2.1,
-    "nii_min": 0.88,
-    "nii_min_year": 9.75,
-    "house_real_y5_y10_y15": [
-     18.86,
-     19.27,
-     19.31
-    ],
-    "dsr_mean_max": 0.348,
-    "share_over_dsr_line_max": 0.397,
-    "cre_share_below_line_max": 0.099,
-    "result_start_max_min": [
-     2.0,
-     2.02,
-     0.81
-    ],
-    "z10_y5_y10_y15": [
-     0.18,
-     -0.31,
-     0.34
-    ]
-   },
-   "investment keyed, demand-layer scale": {
-    "policy_start_peak_end": [
-     2.75,
-     -0.5,
-     -0.5
-    ],
-    "nii_max": 2.1,
-    "nii_min": 0.88,
-    "nii_min_year": 8.25,
-    "house_real_y5_y10_y15": [
-     18.58,
-     18.97,
-     19.02
-    ],
-    "dsr_mean_max": 0.348,
-    "share_over_dsr_line_max": 0.397,
+    "dsr_mean_max": 0.531,
+    "share_over_dsr_line_max": 0.72,
     "cre_share_below_line_max": 0.099,
     "result_start_max_min": [
      2.0,
@@ -515,9 +428,37 @@
      0.81
     ],
     "z10_y5_y10_y15": [
-     -0.26,
-     -0.31,
-     0.34
+     -0.06,
+     -0.21,
+     0.32
+    ]
+   },
+   "pace keyed (as tuned on (b))": {
+    "policy_start_peak_end": [
+     2.75,
+     -0.5,
+     -0.5
+    ],
+    "nii_max": 2.1,
+    "nii_min": 0.88,
+    "nii_min_year": 10.0,
+    "house_real_y5_y10_y15": [
+     19.38,
+     19.78,
+     19.81
+    ],
+    "dsr_mean_max": 0.531,
+    "share_over_dsr_line_max": 0.72,
+    "cre_share_below_line_max": 0.099,
+    "result_start_max_min": [
+     2.0,
+     2.02,
+     0.81
+    ],
+    "z10_y5_y10_y15": [
+     0.23,
+     -0.21,
+     0.32
     ]
    }
   }
@@ -525,8 +466,8 @@
  "required_return_rise_pp": {
   "note": "largest rise in the required return over 25 years (either world, pp), against the central's rate headroom at the start (beyond it solve raises NoEquilibrium)",
   "headroom_pp": 7.184086560752992,
-  "status quo": 0.003,
-  "deficits dominate": 3.1039,
+  "status quo": 0.0,
+  "deficits dominate": 0.0,
   "owners' saving dominates": 0.0
  },
  "sensitivity: the high root": {
@@ -544,8 +485,8 @@
    "source": "results/calibration_c.json calibrations['c_central_hi']['targets'], re-solved by macro.calibrate_c; equal to the stored params bit for bit"
   },
   "required_return_rise_pp": {
-   "status quo": 0.0017,
-   "deficits dominate": 2.6082,
+   "status quo": 0.0,
+   "deficits dominate": 0.0,
    "owners' saving dominates": 0.0
   },
   "a pure tightening": {
@@ -609,11 +550,11 @@
     2.75,
     2.75
    ],
-   "nii_start": 2.11,
+   "nii_start": 2.1,
    "nii_max": 2.11,
    "nii_max_year": 5.5,
-   "nii_min": 2.11,
-   "nii_min_year": 1.5,
+   "nii_min": 2.1,
+   "nii_min_year": 1.25,
    "deposit_spread_start_max": [
     0.98,
     0.98
@@ -622,12 +563,12 @@
    "deposit_beta_at_policy_extreme": null,
    "deposit_beta_year_after": null,
    "house_real_y5_y10_y15": [
-    0.83,
-    0.83,
-    0.83
+    0.8,
+    0.8,
+    0.8
    ],
    "house_real_min_and_year": [
-    0.828,
+    0.803,
     5.25
    ],
    "wage_real_y5_y10_y15": [
@@ -642,16 +583,16 @@
    ],
    "dsr_mean_max": 0.194,
    "share_over_dsr_line_max": 0.076,
-   "ltv_y10": 0.435,
-   "mortgage_loss_rate_max_pct": 0.007,
+   "ltv_y10": 0.449,
+   "mortgage_loss_rate_max_pct": 0.008,
    "cre_icr_min": 2.5,
    "cre_share_below_line_max": 0.099,
    "losses_max": 0.1,
    "losses_max_year": 0.0,
    "result_start_max_min": [
-    2.01,
+    2.0,
     2.03,
-    2.01
+    2.0
    ],
    "result_max_year_min_year": [
     15.0,
@@ -661,43 +602,43 @@
   "deficits dominate": {
    "policy_start_peak_end": [
     2.75,
-    5.25,
-    5.25
+    0.75,
+    0.75
    ],
    "nii_start": 2.11,
-   "nii_max": 2.85,
-   "nii_max_year": 15.0,
-   "nii_min": 2.11,
-   "nii_min_year": 0.0,
+   "nii_max": 2.11,
+   "nii_max_year": 0.0,
+   "nii_min": 1.34,
+   "nii_min_year": 13.0,
    "deposit_spread_start_max": [
     0.98,
-    1.6
+    0.98
    ],
-   "mortgage_margin_min": 0.4,
-   "deposit_beta_at_policy_extreme": 0.45,
-   "deposit_beta_year_after": 0.49,
+   "mortgage_margin_min": 0.46,
+   "deposit_beta_at_policy_extreme": 0.29,
+   "deposit_beta_year_after": 0.29,
    "house_real_y5_y10_y15": [
-    3.07,
-    2.89,
-    2.64
+    8.01,
+    13.28,
+    9.57
    ],
    "house_real_min_and_year": [
     1.0,
     0.0
    ],
    "wage_real_y5_y10_y15": [
-    0.94,
-    0.62,
-    0.45
+    0.93,
+    0.55,
+    0.36
    ],
    "employed_y5_y10_y15": [
     0.96,
-    0.75,
-    0.61
+    0.7,
+    0.53
    ],
-   "dsr_mean_max": 0.32,
-   "share_over_dsr_line_max": 0.334,
-   "ltv_y10": 0.124,
+   "dsr_mean_max": 0.195,
+   "share_over_dsr_line_max": 0.077,
+   "ltv_y10": 0.027,
    "mortgage_loss_rate_max_pct": 0.005,
    "cre_icr_min": 2.5,
    "cre_share_below_line_max": 0.099,
@@ -705,67 +646,67 @@
    "losses_max_year": 0.0,
    "result_start_max_min": [
     2.01,
-    2.78,
-    2.01
+    2.02,
+    1.27
    ],
    "result_max_year_min_year": [
-    15.0,
-    0.0
+    2.0,
+    13.0
    ]
   },
   "deficits dominate, office rents follow the wage bill": {
    "policy_start_peak_end": [
     2.75,
-    5.25,
-    5.25
+    0.75,
+    0.75
    ],
    "nii_start": 2.11,
-   "nii_max": 2.85,
-   "nii_max_year": 15.0,
-   "nii_min": 2.11,
-   "nii_min_year": 0.0,
+   "nii_max": 2.11,
+   "nii_max_year": 0.0,
+   "nii_min": 1.34,
+   "nii_min_year": 13.0,
    "deposit_spread_start_max": [
     0.98,
-    1.6
+    0.98
    ],
-   "mortgage_margin_min": 0.4,
-   "deposit_beta_at_policy_extreme": 0.45,
-   "deposit_beta_year_after": 0.49,
+   "mortgage_margin_min": 0.46,
+   "deposit_beta_at_policy_extreme": 0.29,
+   "deposit_beta_year_after": 0.29,
    "house_real_y5_y10_y15": [
-    3.07,
-    2.89,
-    2.64
+    8.01,
+    13.28,
+    9.57
    ],
    "house_real_min_and_year": [
     1.0,
     0.0
    ],
    "wage_real_y5_y10_y15": [
-    0.94,
-    0.62,
-    0.45
+    0.93,
+    0.55,
+    0.36
    ],
    "employed_y5_y10_y15": [
     0.96,
-    0.75,
-    0.61
+    0.7,
+    0.53
    ],
-   "dsr_mean_max": 0.32,
-   "share_over_dsr_line_max": 0.334,
-   "ltv_y10": 0.124,
+   "dsr_mean_max": 0.195,
+   "share_over_dsr_line_max": 0.077,
+   "ltv_y10": 0.027,
    "mortgage_loss_rate_max_pct": 0.005,
-   "cre_icr_min": 0.6,
-   "cre_share_below_line_max": 0.997,
-   "losses_max": 0.35,
+   "cre_icr_min": 1.08,
+   "cre_share_below_line_max": 0.866,
+   "losses_max": 0.313,
    "losses_max_year": 15.0,
    "result_start_max_min": [
     2.01,
-    2.5,
-    2.01
+    2.01,
+    1.03
    ],
    "result_max_year_min_year": [
-    15.0,
-    0.0
+    1.5,
+    15.0
    ]
   },
   "owners' saving dominates": {
@@ -774,39 +715,39 @@
     -0.5,
     -0.5
    ],
-   "nii_start": 2.11,
-   "nii_max": 2.11,
+   "nii_start": 2.1,
+   "nii_max": 2.1,
    "nii_max_year": 0.0,
    "nii_min": 0.88,
-   "nii_min_year": 12.0,
+   "nii_min_year": 8.75,
    "deposit_spread_start_max": [
     0.98,
     0.98
    ],
    "mortgage_margin_min": 0.46,
-   "deposit_beta_at_policy_extreme": 0.18,
+   "deposit_beta_at_policy_extreme": 0.17,
    "deposit_beta_year_after": 0.18,
    "house_real_y5_y10_y15": [
-    16.88,
-    18.62,
-    18.68
+    18.68,
+    19.09,
+    19.13
    ],
    "house_real_min_and_year": [
     1.0,
     0.0
    ],
    "wage_real_y5_y10_y15": [
-    0.92,
-    0.52,
-    0.32
+    0.91,
+    0.44,
+    0.24
    ],
    "employed_y5_y10_y15": [
-    0.96,
-    0.67,
-    0.48
+    0.95,
+    0.6,
+    0.38
    ],
-   "dsr_mean_max": 0.194,
-   "share_over_dsr_line_max": 0.076,
+   "dsr_mean_max": 0.249,
+   "share_over_dsr_line_max": 0.177,
    "ltv_y10": 0.019,
    "mortgage_loss_rate_max_pct": 0.005,
    "cre_icr_min": 2.5,
@@ -815,12 +756,12 @@
    "losses_max_year": 0.0,
    "result_start_max_min": [
     2.0,
-    2.02,
+    2.01,
     0.81
    ],
    "result_max_year_min_year": [
-    1.75,
-    12.0
+    1.5,
+    8.75
    ]
   },
   "owners' saving dominates, office rents follow the wage bill": {
@@ -829,53 +770,53 @@
     -0.5,
     -0.5
    ],
-   "nii_start": 2.11,
-   "nii_max": 2.11,
+   "nii_start": 2.1,
+   "nii_max": 2.1,
    "nii_max_year": 0.0,
    "nii_min": 0.88,
-   "nii_min_year": 12.0,
+   "nii_min_year": 8.75,
    "deposit_spread_start_max": [
     0.98,
     0.98
    ],
    "mortgage_margin_min": 0.46,
-   "deposit_beta_at_policy_extreme": 0.18,
+   "deposit_beta_at_policy_extreme": 0.17,
    "deposit_beta_year_after": 0.18,
    "house_real_y5_y10_y15": [
-    16.88,
-    18.62,
-    18.68
+    18.68,
+    19.09,
+    19.13
    ],
    "house_real_min_and_year": [
     1.0,
     0.0
    ],
    "wage_real_y5_y10_y15": [
-    0.92,
-    0.52,
-    0.32
+    0.91,
+    0.44,
+    0.24
    ],
    "employed_y5_y10_y15": [
-    0.96,
-    0.67,
-    0.48
+    0.95,
+    0.6,
+    0.38
    ],
-   "dsr_mean_max": 0.194,
-   "share_over_dsr_line_max": 0.076,
+   "dsr_mean_max": 0.249,
+   "share_over_dsr_line_max": 0.177,
    "ltv_y10": 0.019,
    "mortgage_loss_rate_max_pct": 0.005,
-   "cre_icr_min": 1.49,
-   "cre_share_below_line_max": 0.579,
-   "losses_max": 0.233,
+   "cre_icr_min": 0.83,
+   "cre_share_below_line_max": 0.97,
+   "losses_max": 0.342,
    "losses_max_year": 15.0,
    "result_start_max_min": [
     2.0,
     2.01,
-    0.66
+    0.56
    ],
    "result_max_year_min_year": [
-    1.5,
-    15.0
+    1.25,
+    14.25
    ]
   }
  },

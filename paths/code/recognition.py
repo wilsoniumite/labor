@@ -46,8 +46,9 @@
 # CALIBRATION (her decision, 2026-09-30). worlds() runs on calibration (c)'s central economy, macro.central() — the open
 # (domp) reading, the low root in k — with the required return following r* from that economy's own rho
 # (macro.feedback_bridges) and deep automation relative to its own lambda (macro.deep_tech); (b) and (c)'s high root are
-# kept by name (calibration="b", "c_hi"), and capital=False stays the flow benchmark (a), which (c) has no analogue of. The
-# bridge coefficients were set on (b) and are not retuned. The market's signal stays solve's labor_share — all wages over
+# kept by name (calibration="b", "c_hi"), and capital=False stays the flow benchmark (a), which (c) has no analogue of. (c)
+# runs on the bridges refit on (c) (macro.Bridges(); Log 46), (a) and (b) on the bridges as tuned on (b) (macro.BRIDGES_B).
+# The market's signal stays solve's labor_share — all wages over
 # income, the machine chain's labour included (0.554 at (c)'s start, against labour_share_bea's 0.47, the consumption
 # chain only, which is (c)'s target; in (b) the two coincide to 0.001). The basis matters on (c): the machine chain's
 # labour is the part deep automation removes fastest, so the all-wages signal falls faster early and the market wakes up
@@ -211,10 +212,10 @@ def economy(calibration: str = "c"):
         return e, m.feedback_bridges(e)
     if calibration == "b":
         e, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
-        return e, m.feedback_bridges(e)                  # == Bridges(capital_premium=5.0), bit for bit
+        return e, m.feedback_bridges(e, base=m.BRIDGES_B)   # == the pre-switch Bridges(capital_premium=5.0), bit for bit
     if calibration == "a":
         e, _, _, _ = m.calibrate(base=m.CALIBRATION_BASE)
-        return e, m.Bridges()
+        return e, m.BRIDGES_B
     raise ValueError(f"calibration {calibration!r}: one of {CALIBRATIONS}")
 
 

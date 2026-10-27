@@ -12,8 +12,9 @@
 # (domp) reading, the low root in k — and the same draws on (b), the pre-switch calibration, as the comparator
 # (comparator_b: the pre-switch results/reverse_envelope.json, the premium dial renamed; reverse.py's header says how the
 # dials are relative to the economy). The capital-premium dial is a shift of +-2 pp from the economy's own premium (6.80 pp
-# on the central, 5.0 on (b)); the bridge coefficients' ranges were set around (b)'s defaults and are not re-centred: they
-# are behaviour, not calibration. A draw whose required return climbs past the central's rate headroom has a date with no
+# on the central, 5.0 on (b)). Since the refit (2026-10-27, Log 46; decision 77) the central's bridge dials are the refit's
+# (rv.Dials: alpha_inv, owners' saving and deficits over the evidence's ranges), (b)'s stay its own (rv.DialsB, the ranges
+# set around (b)'s defaults): the same unit draws, so comparator_b is the pre-refit envelope exactly. A draw whose required return climbs past the central's rate headroom has a date with no
 # land-scarce equilibrium: it is caught (macro.NoEquilibrium), counted, dated (reverse.first_failure) and its dials
 # profiled against the solved draws — not dropped silently — and the envelope is stated as conditional on solving. Any other
 # failure is counted separately.
@@ -53,11 +54,12 @@ PICKS_NOTE = ("dials_moved_default_to_draw lists the dials a pick moves by more 
               "only the listed dials moved, each dial reset alone; 'needed' names the dials whose reset alone loses the breach.")
 
 
-def draws(e, U):
-    """Run every draw; (rows of the solved draws, their unit points, the failures)."""
+def draws(e, U, cls=rv.Dials):
+    """Run every draw in dial space cls (rv.Dials, the refit's; rv.DialsB, (b)'s); (rows of the solved draws, their unit
+    points, the failures)."""
     rows, ok, no_eq, other = [], [], [], []
     for j, u in enumerate(U):
-        d = rv.from_unit(u)
+        d = rv.from_unit(u, cls)
         try:
             rows.append(rv.run(e, d))
             ok.append(j)
@@ -69,21 +71,22 @@ def draws(e, U):
     return rows, np.array(ok, dtype=int), no_eq, other
 
 
-def envelope(e, U):
-    """The envelope's JSON block for one economy, and what the figure draws."""
-    rows, ok, no_eq, other = draws(e, U)
+def envelope(e, U, cls=rv.Dials):
+    """The envelope's JSON block for one economy in dial space cls, and what the figure draws."""
+    NAMES = rv.space(cls)[0]
+    rows, ok, no_eq, other = draws(e, U, cls)
     Uk = U[ok]
     R = {k: np.array([r[k] if r[k] is not None else np.nan for r in rows]) for k in rows[0]}
-    du = rv.to_unit(rv.Dials())
+    du = rv.to_unit(cls())
     out = {"draws": len(U), "solved": int(len(ok)), "no_equilibrium": len(no_eq), "other_failures": len(other)}
     fail = np.zeros(len(U), dtype=bool)
     fail[[f["draw"] for f in no_eq]] = True
     out["no_equilibrium_detail"] = {
         "draws": no_eq, "other": other,
         "within_reported_horizon": int(sum(1 for f in no_eq if f["year"] is not None and f["year"] <= 15.0)),
-        "dial_mean_unit_failed_vs_all": ({k: [round(float(U[fail, j].mean()), 3), round(float(U[:, j].mean()), 3)] for j, k in enumerate(rv.NAMES)}
+        "dial_mean_unit_failed_vs_all": ({k: [round(float(U[fail, j].mean()), 3), round(float(U[:, j].mean()), 3)] for j, k in enumerate(NAMES)}
                                          if fail.any() else None),
-        "dial_rank_corr_with_failure": ({k: round(rv.rank_corr(U[:, j], fail.astype(float)), 3) for j, k in enumerate(rv.NAMES)}
+        "dial_rank_corr_with_failure": ({k: round(rv.rank_corr(U[:, j], fail.astype(float)), 3) for j, k in enumerate(NAMES)}
                                         if fail.any() else None),
         "note": "the envelope below is over the solved draws only (conditional on a land-scarce equilibrium at every date)"}
     out["envelope"] = {k: {"p5": round(float(np.nanpercentile(R[k], 5)), 2), "p50": round(float(np.nanpercentile(R[k], 50)), 2),
@@ -98,22 +101,22 @@ def envelope(e, U):
     for o in OUTCOMES:
         y = R[o]
         good = np.isfinite(y)
-        drivers[o] = {k: round(rv.rank_corr(Uk[good, j], y[good]), 2) for j, k in enumerate(rv.NAMES)}
+        drivers[o] = {k: round(rv.rank_corr(Uk[good, j], y[good]), 2) for j, k in enumerate(NAMES)}
     out["drivers_rank_corr"] = drivers
     picks = {}
     for name, key, thr in (("most plausible +100 bp 10Y", "max_up_10Y", 100.0), ("most plausible -100 bp 10Y", "max_down_10Y", -100.0),
                            ("most plausible +50 bp 10Y in the recognition window", "recog_10Y", 50.0)):
         j, dist = rv.nearest_breach(Uk, np.nan_to_num(R[key]), thr, du)
         if j is not None:
-            d = rv.from_unit(Uk[j])
-            moved = {k: [round(getattr(rv.Dials(), k), 3), round(getattr(d, k), 3)] for k in rv.NAMES
-                     if abs(Uk[j][rv.NAMES.index(k)] - du[rv.NAMES.index(k)]) > LISTED}
+            d = rv.from_unit(Uk[j], cls)
+            moved = {k: [round(getattr(cls(), k), 3), round(getattr(d, k), 3)] for k in NAMES
+                     if abs(Uk[j][NAMES.index(k)] - du[NAMES.index(k)]) > LISTED}
             picks[name] = {"distance": round(dist, 3), "value": round(float(R[key][j]), 1), "dials_moved_default_to_draw": moved,
                            "cause_by_subset": rv.attribute(e, d, key, thr, listed=tuple(moved)), "_j": j}
         else:
             picks[name] = None
     jb, jl = int(np.nanargmax(R["max_up_10Y"])), int(np.nanargmin(R["max_down_10Y"]))
-    dials = lambda j: {k: round(getattr(rv.from_unit(Uk[j]), k), 3) for k in rv.NAMES}  # noqa: E731
+    dials = lambda j: {k: round(getattr(rv.from_unit(Uk[j], cls), k), 3) for k in NAMES}  # noqa: E731
     picks["largest 10Y rise"] = {"value": round(float(R["max_up_10Y"][jb]), 1), "dials": dials(jb),
                                  "debt_max": round(float(R["debt_max"][jb]), 1), "r_star_max": round(float(R["r_star_max"][jb]), 2), "_j": jb}
     picks["largest 10Y fall"] = {"value": round(float(R["max_down_10Y"][jl]), 1), "dials": dials(jl),
@@ -123,7 +126,7 @@ def envelope(e, U):
     out["picks"] = {k: ({kk: vv for kk, vv in v.items() if kk != "_j"} | {"draw": int(ok[v["_j"]])} if v else None)
                     for k, v in picks.items()}             # draw: the index in rv.sample(N), so a check can re-run it
     out["picks_note"] = PICKS_NOTE
-    base = rv.run(e, rv.Dials())
+    base = rv.run(e, cls())
     out["default_dials"] = {k: round(float(base[k]), 2) if base[k] is not None else None
                             for k in ("recog_10Y", "ten_year_10Y", "max_up_10Y", "max_down_10Y", "c50", "debt_max", "real_wage_min_rel",
                                       "policy_min", "policy_max", "rho_rise_max_pp")}
@@ -135,14 +138,18 @@ def results():
     ec, info = m.central()
     eb, _, _, _ = m.calibrate(base=m.CAPITAL_BASE)
     U = rv.sample(N)
-    out, fig_c = envelope(ec, U)
+    out, fig_c = envelope(ec, U, rv.Dials)
     res = {"calibration": {k: info[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")},
            "ranges": rv.RANGES,
+           "ranges_note": "the refit's (Log 46): the capex dial is the investment key's alpha_inv over macro.NEUTRAL_SCALE_RANGE; "
+                          "owners' saving and deficits over that range times the evidence's ranges of the saving gap and the "
+                          "deficit's pass-through; comparator_b keeps (b)'s dials and ranges (ranges_b)",
+           "ranges_b": rv.RANGES_B,
            "premium_dial": f"premium_shift: pp added to the economy's own capital premium (central {info['capital_premium']:.2f}, (b) "
                            f"{m.capital_premium(eb):.2f}); on (b) the pre-switch capital_premium dial's "
                            f"{m.capital_premium(eb) + rv.RANGES['premium_shift'][0]:g}-{m.capital_premium(eb) + rv.RANGES['premium_shift'][1]:g} pp",
            **out}
-    outb, fig_b = envelope(eb, U)
+    outb, fig_b = envelope(eb, U, rv.DialsB)
     res["comparator_b"] = {"calibration": {"tag": "b", "rho": eb.rho, "capital_premium": m.capital_premium(eb), "k": eb.k,
                                            "source": "macro.calibrate(base=macro.CAPITAL_BASE)"}, **outb}
     return res, (ec, U, fig_c, eb, fig_b)
@@ -212,7 +219,7 @@ def figure(e, U, R, drivers, picks, Rb):
     a.set_xticks(range(len(OUTCOMES)))
     a.set_xticklabels([f"10Y{NL}recog.", f"10Y{NL}max rise", f"10Y{NL}max fall", f"2Y{NL}10 yrs", f"debt{NL}peak", f"wage{NL}low"], fontsize=8.5)
     a.set_yticks(range(len(rv.NAMES)))
-    a.set_yticklabels(["automation depth (eta end)", "automation width (yrs)", "automation midpoint (yr)", "build-out -> r*",
+    a.set_yticklabels(["automation depth (eta end)", "automation width (yrs)", "automation midpoint (yr)", "investment -> r*",
                        "owners' saving -> r*", "deficits -> r*", "term premium per debt", "debt threshold",
                        "public support share", "capital premium (shift)", "data noise", "prior belief"], fontsize=8.5)
     for i in range(M.shape[0]):
@@ -250,7 +257,7 @@ def figure(e, U, R, drivers, picks, Rb):
              f"{s_lo:+g} to {s_hi:+g} pp from its own {m.capital_premium(e):.2f} pp. Dials drawn by Latin hypercube over broad stated ranges (reverse.RANGES), "
              "not estimates;" + NL
              + "'most plausible' = nearest the defaults in the unit cube among draws reaching the threshold. The pile at the left of panel 2 is the "
-             "lower bound: expected policy cannot go below -0.5%. Bridge ranges set around (b)'s defaults, not re-centred.", fontsize=8, color=INK2)
+             "lower bound: expected policy cannot go below -0.5%. Bridge ranges from the refit's evidence (Log 46); (b) on its own dials.", fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_reverse_envelope.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
 

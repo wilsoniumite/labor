@@ -81,7 +81,7 @@ check("C3 deep automation: the basket's site share rises throughout, the real wa
 
 print("B — the bridges")
 tech = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
-mp = m.macro_path(e0, tech)
+mp = m.macro_path(e0, tech, m.BRIDGES_B)
 basket = mp["pi_star"] + np.gradient(np.log(mp["Ps"] / mp["Ps"]), mp["t"]) * 100
 check("B1 the fork: with the basket on target, goods inflation sits below it and shelter above it while automation runs",
       np.allclose(basket, 2.0) and np.mean(mp["pi_goods"][8:40]) < 2.0 < np.mean(mp["pi_shelter"][8:40]),
@@ -89,14 +89,14 @@ check("B1 the fork: with the basket on target, goods inflation sits below it and
 check("B2 the fiscal corollary: the wage-tax share of revenue falls and the deficit rises",
       mp["wage_tax_share"][-1] < mp["wage_tax_share"][0] - 0.2 and mp["deficit"][-1] > mp["deficit"][0] + 2,
       f"wage-tax share {mp['wage_tax_share'][0]:.2f} -> {mp['wage_tax_share'][-1]:.2f}; deficit {mp['deficit'][0]:+.1f} -> {mp['deficit'][-1]:+.1f}% of income")
-base_br = m.Bridges()
+base_br = m.BRIDGES_B
 r_cap = m.macro_path(e0, tech, replace(base_br, alpha_rent=0, alpha_fiscal=0))["r_star"]
 r_rent = m.macro_path(e0, tech, replace(base_br, alpha_capex=0, alpha_fiscal=0))["r_star"]
 r_fis = m.macro_path(e0, tech, replace(base_br, alpha_capex=0, alpha_rent=0))["r_star"]
 check("B3 the neutral rate's channels have their stated signs: the build-out raises it, the shift to owners lowers it, "
       "deficits raise it", r_cap.max() > base_br.r0_star + 0.1 and r_rent[-1] < base_br.r0_star - 0.1 and r_fis[-1] > base_br.r0_star + 0.1,
       f"build-out peak +{r_cap.max() - base_br.r0_star:.2f}, owners {r_rent[-1] - base_br.r0_star:+.2f}, fiscal {r_fis[-1] - base_br.r0_star:+.2f} pp")
-fast = m.macro_path(e0, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=3, width=2))
+fast = m.macro_path(e0, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=3, width=2), m.BRIDGES_B)
 check("B4 on a fast path the neutral rate rises during the build-out and ends below where it started: up now, down later",
       fast["r_star"].max() > fast["r_star"][0] + 0.3 and fast["r_star"][-1] < fast["r_star"][0],
       f"start {fast['r_star'][0]:.2f}, peak {fast['r_star'].max():.2f}, end {fast['r_star'][-1]:.2f}%")
@@ -142,9 +142,9 @@ check("A5 a higher required return makes machines dearer: fewer tasks automated,
       up["x"] < sb["x"] and up["v"] > sb["v"] and up["labor_share"] > sb["labor_share"],
       f"+100 bp: tasks automated {(up['x'] - sb['x']) * 100:+.2f} pp, labour share {(up['labor_share'] - sb['labor_share']) * 100:+.2f} pp")
 tech_b = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
-fixed = m.macro_path(eb, tech_b)
-follow = m.macro_path(eb, tech_b, m.Bridges(capital_premium=5.0))
-shock = m.macro_path(eb, tech_b, m.Bridges(capital_premium=5.0, rho_shift=2.0))
+fixed = m.macro_path(eb, tech_b, m.BRIDGES_B)
+follow = m.macro_path(eb, tech_b, replace(m.BRIDGES_B, capital_premium=5.0))
+shock = m.macro_path(eb, tech_b, replace(m.BRIDGES_B, capital_premium=5.0, rho_shift=2.0))
 dx_shock = (shock["x"] - follow["x"])[1:]
 check("A6 a sustained +200 bp on the required return slows automation at every date and raises labour's share",
       np.all(dx_shock < 0) and np.all((shock["labor_share"] - follow["labor_share"])[1:] > 0),

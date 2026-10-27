@@ -18,8 +18,8 @@
 # Since 2026-09-30 (her decision: the downstream modules run on (c)) the table carries a last column, `calibration`, the
 # economy's tag (c_central_lo); every earlier column keeps its name, order and meaning. `labor_share` stays the model's
 # traced share v n / income (wages of all hours, the machine chain's included: 0.554 at the start on (c), 0.47 on (b)); (c)'s
-# 0.47 target is the consumption chain's (Figure 7) share, macro.solve's labour_share_bea. The rates are readouts of
-# bridges set on (b) (bank_scenarios.py, demand.py's readout of r* keyed to investment spending).
+# 0.47 target is the consumption chain's (Figure 7) share, macro.solve's labour_share_bea. The rates rest on the bridges
+# refit on (c) (macro.Bridges(); Log 46) and bank_scenarios.py's two branches (macro.BRANCHES).
 #
 # Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py); the market from recognition.py.
 # Run from paths/:  ../venv/Scripts/python.exe code/export_paths.py
@@ -53,8 +53,10 @@ def curves(old, new, p):
     return pol, z
 
 
-def build(e, tag: str) -> pd.DataFrame:
-    """The table on economy e, its `calibration` column set to tag."""
+def build(e, tag: str, which: str = "lo") -> pd.DataFrame:
+    """The table on economy e, its `calibration` column set to tag; which ('lo', 'hi' or 'b') picks its bridges and branches
+    (bank_scenarios.base_bridges: the refit, or (b)'s for the comparator)."""
+    base, scen = bs.base_bridges(which)
     rows = []
 
     def add(name, t, pol, z, world, old, new, p):
@@ -73,16 +75,16 @@ def build(e, tag: str) -> pd.DataFrame:
                          **{lab: round(float(z[i, k]), 4) for k, lab in enumerate(LABELS)}, "wage_bill_real": round(float(wb[i]), 5),
                          **{k: round(float(np.broadcast_to(v, t.shape)[i]), 5) for k, v in extra.items()}, "calibration": tag})
 
-    for name, (bridges, truth) in bs.SCEN.items():
-        old, new, p, _, _ = bs.path(e, bridges, truth)
+    for name, (bridges, truth) in scen.items():
+        old, new, p, _, _ = bs.path(e, bridges, truth, base=base)
         pol, z = curves(old, new, p)
         add(name, old["t"], pol, z, new if truth == "new" else old, old, new, p)
-    old, new, p, _, _ = bs.path(e, {}, "old")
+    old, new, p, _, _ = bs.path(e, {}, "old", base=base)
     t = old["t"]
     pol_t = np.interp(t, [a for a, _ in bs.TIGHTEN], [b for _, b in bs.TIGHTEN])
     zz = bk.expectation_zeros(t, pol_t, maturities=TENORS, known_from=1.0)
     add("a pure tightening", t, pol_t, np.column_stack([zz[f"{T:g}Y"] for T in TENORS]), old, old, new, np.zeros_like(t))
-    br = m.feedback_bridges(e, **bs.SCEN["deficits dominate"][0])
+    br = m.feedback_bridges(e, base=base, **scen["deficits dominate"][0])
     old = rc.refine(m.macro_path(e, m.hold_tech(e), br, 25.0, 0.25), 1 / 12)
     new = rc.refine(m.macro_path(e, m.deep_tech(e), br, 25.0, 0.25), 1 / 12)
     lr = rc.Learning(sigma=1.0, p0=0.05, digest=3.0, trust=(5.0, 1.0), capacity_end=30.0)

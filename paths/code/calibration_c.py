@@ -70,8 +70,10 @@
 # LABELS. Labour's share on the paper's Figure 7 basis is v(1 - x)/Ps under A.4's capital (labour_share_bea) and v n / income
 # in (a)'s flow benchmark (rho 0, delta 1: the machine chain is a within-period intermediate), so (a) is shown on labor_share.
 # chain_share is the chain's share of compensation (effective labour: the model has one wage); the measured hours share is
-# quoted beside it. r*, the policy rate and debt are readouts of the (b)-tuned bridges; the capex bridge is keyed to the pace
-# of task automation and does not see (c)'s fall in investment / income.
+# quoted beside it. BRIDGES. The (c) tags run on the bridges refit on (c) (macro.Bridges(); Log 46: r* keyed to replacement
+# investment / income, owners' saving and deficits on one evidence-based scale, the fiscal start at the measured primary
+# deficit); (a), (b) and (b)'s variants on the bridges as tuned on (b) (macro.BRIDGES_B: the pace key), so they stay the
+# pre-switch runs (bridges_for).
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/calibration_c.py   (clean under -W error: every file is closed)
 # Out: results/calibration_c.json, figures/fig_calibration_c.png
@@ -378,6 +380,12 @@ def flow_benchmark(e):
     return e.rho == 0.0 and e.delta == 1.0
 
 
+def bridges_for(tag):
+    """The bridges a tag runs on: (a), (b) and (b)'s variants on the bridges as tuned on (b) (macro.BRIDGES_B), so they stay the
+    pre-switch runs; every (c) tag on the refit (macro.Bridges(); Log 46)."""
+    return m.BRIDGES_B if tag.split("_")[0] in ("a", "b") else m.Bridges()
+
+
 def describe(e, theta_data=None, imports=0.0, cfc_data=None):
     """The calibrated start in national-accounts terms (GDP_m = income + replacement investment; GDP net of the chain's
     imported content, which NIPA's GDP excludes, for the open reading)."""
@@ -462,14 +470,15 @@ def premium(e, br=m.Bridges()):
 
 def rate_tests(tag, e):
     tp = tech(tag, e, "medium")
-    prem = premium(e)
+    br = bridges_for(tag)
+    prem = premium(e, br)
     out = {"static": {f"{bp:+d}bp": static_shock(e, bp) for bp in (-100, 100, 200)}, "headroom_pp": m.rate_headroom(e),
            "capital_premium_pp": prem}
-    fixed = m.macro_path(e, tp)
-    follow, yrs_f, err_f = path_prefix(e, tp, m.Bridges(capital_premium=prem))
+    fixed = m.macro_path(e, tp, br)
+    follow, yrs_f, err_f = path_prefix(e, tp, replace(br, capital_premium=prem))
     out["follow_solved_years"], out["follow_error"] = yrs_f, err_f
     for bp in (100, 200):
-        sh, yrs, err = path_prefix(e, tp, m.Bridges(capital_premium=prem, rho_shift=bp / 100))
+        sh, yrs, err = path_prefix(e, tp, replace(br, capital_premium=prem, rho_shift=bp / 100))
         rec = dict(solved_years=yrs, error=err)
         if sh is not None and follow is not None:
             n = min(len(sh["t"]), len(follow["t"]))
@@ -586,15 +595,15 @@ def build():
         speeds = SPEEDS if tag in ("a", "b", "c_central_lo", "c_central_hi") else ("medium",)
         scen[tag] = {}
         for sp in speeds:
-            mp = m.macro_path(d["e"], tech(tag, d["e"], sp))
+            mp = m.macro_path(d["e"], tech(tag, d["e"], sp), bridges_for(tag))
             runs[(tag, sp)] = mp
             scen[tag][sp] = summarise(d["e"], mp)
     dec = {}
     for tag in ("b", "c_central_lo", "c_central_hi"):
         e = EC[tag]["e"]
         lam_end = e.lam / m.LAM_END_DIVISOR                  # 0.01 exactly for (b)
-        cap = m.macro_path(e, tech(tag, e, "medium", lam_end=e.lam))
-        lam = m.macro_path(e, tech(tag, e, "medium", eta_end=1.0, lam_end=lam_end))
+        cap = m.macro_path(e, tech(tag, e, "medium", lam_end=e.lam), bridges_for(tag))
+        lam = m.macro_path(e, tech(tag, e, "medium", eta_end=1.0, lam_end=lam_end), bridges_for(tag))
         dec[tag] = {"capability_only": summarise(e, cap), "lambda_only": summarise(e, lam)}
         runs[(tag, "lambda_only")] = lam
     rate = {tag: rate_tests(tag, EC[tag]["e"]) for tag in RATE_TAGS}
@@ -751,8 +760,8 @@ def headline(I, V, cal, scen, dec, rate, sweep, bounds, g0b, runs):
                                       g0_share_of_gap=(pb - pb1) / (pb - pc))
         attribution[r] = rec
     bridge = dict(
-        note="r*, the policy rate and debt are readouts of the (b)-tuned bridges, not findings: the capex bridge is keyed to the pace "
-             "of task automation, so it does not see that under (c) investment / income falls along the path.",
+        note="(c)'s r*, policy rate and debt on the bridges refit on (c) (Log 46: the capex channel keyed to replacement investment / "
+             "income, which falls along the path); (b)'s on the bridges as tuned on (b) (the pace key).",
         inv_income={tg: scen[tg]["medium"]["inv_income"] for tg in ("b", "b_hi", "c_central_lo", "c_central_hi", "c_mixed_lo", "c_tot_lo")},
         r_star_max={tg: scen[tg]["medium"]["r_star_max"] for tg in ("b", "c_central_lo", "c_central_hi")},
         r_star_max_year={tg: scen[tg]["medium"]["r_star_max_year"] for tg in ("b", "c_central_lo", "c_central_hi")},
@@ -812,7 +821,7 @@ def pce_import_probe(I, V):
         rec, part = {}, {}
         for name, sols in econ.items():
             e = sols[j][0]
-            mp = m.macro_path(e, tech(name, e, "medium"))
+            mp = m.macro_path(e, tech(name, e, "medium"), bridges_for(name))
             S = summarise(e, mp)
             part[name] = mp["participation"]
             rec[name] = dict(k=e.k, rho=e.rho, participation_y6=S["participation"]["6.0"], participation_y15=S["participation"]["15.0"],
@@ -1065,7 +1074,7 @@ def figure(EC, V, runs, out, I):
     for tag, col, ls, lw, lab in lines:
         mp, e = runs[(tag, "medium")], EC[tag]["e"]
         a.plot(mp["t"], e.delta * mp["Vm"] * mp["K"] / mp["income"] * 100, color=col, ls=ls, lw=lw)
-    a.set_title("9. Replacement investment / income\nthe fall the r* bridge does not see (medium)"); a.set_ylabel("% of income")
+    a.set_title("9. Replacement investment / income\nthe series (c)'s r* is keyed to (medium)"); a.set_ylabel("% of income")
     a.set_xlabel("years")
     fig.text(0.01, 0.004, "Medium automation (capability 1 → 0.04, labour per machine-service hour to a fifth) unless stated. (c) central: the chain that builds "
              f"equipment, IPP and private structures on the domp basis (US labour only), θ_V {c.theta_V:.3f}, {c.chain_share * 100:.1f}% of compensation; "

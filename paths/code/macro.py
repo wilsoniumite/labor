@@ -60,13 +60,17 @@
 # labour embodied in machine services (lambda: recursive automation) along a path; each date is solved
 # as an equilibrium (quasi-static: no build lags, no adjustment costs — a stated simplification).
 #
-# BRIDGES (behaviour, swappable; every coefficient is a named default to be varied, not an estimate):
+# BRIDGES (behaviour, swappable; reduced forms with named coefficients). Refit on (c) against published evidence
+# (2026-10-27, Log 46; decisions 72-75): the neutral rate's three channels on one scale, the fiscal start at Sweden's measured
+# primary balance. The comparators (a) and (b) keep the bridges as tuned on (b) (BRIDGES_B), so they stay the pre-switch runs.
 #   nominal — the central bank holds the basket's price on its target pi*, so goods, rents and wages
 #             inflate at pi* plus the change in their real price against the basket: the fork appears
 #             as goods deflation and shelter inflation around an on-target CPI;
-#   fiscal  — a labour tax, a rent tax, spending, and a public share of dependants' support;
-#   neutral — r* moves up with the machine build-out (capex), down as income shifts to rent owners
-#             who save more, up with fiscal deficits;
+#   fiscal  — a labour tax, a rent tax, spending, and a public share of dependants' support; the labour tax set so the start
+#             runs the measured primary deficit (deficit0; BRIDGES_B: tau_w 0.40, on (c) a surplus start);
+#   neutral — r* moves with investment demand (replacement investment / income; BRIDGES_B: the pace of tasks moving to
+#             machines), down as income shifts to owners who save more of it, up with primary deficits private saving
+#             does not offset, each at NEUTRAL_SCALE times its pass-through;
 #   policy  — the desired nominal rate r* + pi* (+ reaction to measured inflation under mandates that
 #             exclude shelter); the curve layer's stepwise rule delivers it;
 #   premia  — term premium and sovereign loss rate rise with debt above thresholds.
@@ -215,17 +219,35 @@ class TechPath:
 
 
 # ------------------------------------------------------------------ the bridges (behaviour; swappable)
+# THE REFIT ON (c) (Log 46; decisions 72-75). The three neutral-rate channels share one scale: r* moves NEUTRAL_SCALE pp per
+# pp of income by which desired saving falls short of desired investment, so each channel's coefficient is that scale times
+# how much of its shift reaches net saving — investment demand one for one (alpha_inv), income moved from wages to owners
+# by the gap between their saving rates (alpha_rent), a primary deficit by the part private saving does not offset
+# (alpha_fiscal). The evidence for each number is in code/macro_scenarios.py's EVIDENCE and results/macro_scenarios.json.
+NEUTRAL_SCALE = 0.3            # pp of r* per pp of income in desired saving net of investment (Rachel and Smith 2015: 0.20-0.25;
+NEUTRAL_SCALE_RANGE = (0.2, 0.5)  # Rachel and Summers 2019: 0.33, 0.25-0.5)
+OWNERS_SAVING_GAP = 0.3        # owners' saving out of a marginal unit of income less wage earners', retained earnings included
+OWNERS_SAVING_GAP_RANGE = (0.15, 0.45)   # (Kaleckian estimates: US 0.14-0.43, Sweden 0.39; Mian, Straub and Sufi 2021: ~0.20)
+DEFICIT_PASS_THROUGH = 0.6     # the share of a primary deficit not offset by private saving (1 - the Ricardian offset, 0.4:
+DEFICIT_PASS_THROUGH_RANGE = (0.5, 1.0)  # Gale and Orszag 2004 0.2-0.5, Röhn 2010 ~0.4); 1.0: no offset
+START_DEFICIT = 0.16           # % of income: the primary deficit at the start (Sweden 2021-25, Eurostat; macro_scenarios.fiscal_start_evidence)
+
+
 @dataclass(frozen=True)
 class Bridges:
     pi_star: float = 2.0            # % a year: the basket's price on target
-    tau_w: float = 0.40             # tax on wage income
+    tau_w: float | None = None      # tax on wage income; None: set at the path's start so that it runs deficit0 (fiscal_start)
+    deficit0: float | None = START_DEFICIT   # % of income: the primary deficit at the start (with tau_w None)
     tau_r: float = 0.10             # tax on non-wage income (land rent; in this benchmark also standing in for capital income)
     gov_share: float = 0.20         # spending, share of income
     public_support: float = 0.30    # public share of dependants' baskets
     r0_star: float = 0.75           # % real neutral rate at the start
-    alpha_capex: float = 0.25       # pp of r* per pp a year of tasks moving to machines (the build-out's investment demand)
-    alpha_rent: float = 0.05        # pp of r* per pp rise in the non-wage share of income (owners save more)
-    alpha_fiscal: float = 0.10      # pp of r* per pp of deficit / income
+    capex_key: str = "investment"   # "investment": r* moves with replacement investment / income (alpha_inv); "pace": with
+                                    # the pace of tasks moving to machines (alpha_capex; the key as tuned on (b))
+    alpha_inv: float = NEUTRAL_SCALE   # pp of r* per pp of investment / income
+    alpha_capex: float = 0.25       # pp of r* per pp a year of tasks moving to machines (the pace key)
+    alpha_rent: float = NEUTRAL_SCALE * OWNERS_SAVING_GAP      # pp of r* per pp rise in the non-wage share of income
+    alpha_fiscal: float = NEUTRAL_SCALE * DEFICIT_PASS_THROUGH  # pp of r* per pp of deficit / income
     tp0: float = 0.30               # % term premium at the start
     tp_per_debt: float = 0.02       # pp of term premium per pp of debt/income above the threshold
     debt_threshold: float = 60.0    # % of income
@@ -239,6 +261,20 @@ class Bridges:
     rho_halflife: float = 1.0       # years: the required return follows r* with partial adjustment (0: at once, last quarter's r*)
 
 
+BRIDGES_B = Bridges(tau_w=0.40, deficit0=None, capex_key="pace", alpha_rent=0.05, alpha_fiscal=0.10)
+# The bridges as tuned on (a)/(b): the pace key, the wage tax at 0.40 (on (c) a surplus start), owners' saving 0.05, deficits
+# 0.10. Only the named comparators (a) and (b) run on them, so that they stay the pre-switch runs array for array.
+
+# The two branches a bank is shown (bank_scenarios, demand, households, speed, regime_digestion, export_paths): the two
+# direction bridges at the ends of their evidence ranges, each against the other's opposite end, the scale and the
+# investment key held. BRANCHES_B: the same two as set on (b), for the comparators.
+BRANCHES = {"deficits dominate": dict(alpha_rent=NEUTRAL_SCALE * OWNERS_SAVING_GAP_RANGE[0],
+                                      alpha_fiscal=NEUTRAL_SCALE * DEFICIT_PASS_THROUGH_RANGE[1]),
+            "owners' saving dominates": dict(alpha_rent=NEUTRAL_SCALE * OWNERS_SAVING_GAP_RANGE[1],
+                                             alpha_fiscal=NEUTRAL_SCALE * DEFICIT_PASS_THROUGH_RANGE[0])}
+BRANCHES_B = {"deficits dominate": dict(alpha_fiscal=0.25, alpha_rent=0.02), "owners' saving dominates": dict(alpha_rent=0.12)}
+
+
 def _deficit(br, e: Economy, q: dict):
     """Deficit, % of income: spending plus the public share of dependants' baskets, less a wage tax and a
     tax on non-wage income (land rent and interest)."""
@@ -246,6 +282,20 @@ def _deficit(br, e: Economy, q: dict):
     revenue = br.tau_w * q["v"] * q["n"] + br.tau_r * (e.T + interest)
     spending = br.gov_share * q["income"] + br.public_support * (e.N - q["n"]) * q["Ps"]
     return (spending - revenue) / q["income"] * 100, br.tau_w * q["v"] * q["n"] / revenue
+
+
+def fiscal_start(br: Bridges, e: Economy) -> Bridges:
+    """br with its wage tax set: unchanged when br.tau_w is given; otherwise the tau_w at which economy e's own
+    equilibrium (its start) runs the primary deficit br.deficit0 (% of income; the deficit is linear in tau_w)."""
+    if br.tau_w is not None:
+        if br.deficit0 is not None:
+            raise ValueError("Bridges: give tau_w or deficit0, not both")
+        return br
+    if br.deficit0 is None:
+        raise ValueError("Bridges: give tau_w or deficit0")
+    q = solve(e)
+    d0, d1 = (_deficit(replace(br, tau_w=tw), e, q)[0] for tw in (0.0, 1.0))
+    return replace(br, tau_w=float((br.deficit0 - d0) / (d1 - d0)), deficit0=None)
 
 
 def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: float = 15.0, dt: float = 0.25):
@@ -256,6 +306,9 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
     so rates feed back into automation. (Following last quarter's r* at once can cycle: near full
     automation a small change in rho moves x a lot, the quarterly pace swings and r* with it.) The pace of
     automation then uses backward differences, as it must when r* at t depends on the past."""
+    if br.capex_key not in ("investment", "pace"):
+        raise ValueError(f"capex_key {br.capex_key!r}: 'investment' or 'pace'")
+    br = fiscal_start(br, base)
     t = np.arange(0.0, years + 1e-9, dt)
     feedback = br.capital_premium is not None
     econ, sol, r_seq = [], [], []
@@ -276,10 +329,11 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
             nonwage = (1.0 - q["labor_share"]) * 100
             dfc, _ = _deficit(br, e, q)
             if i == 0:
-                nw0, d0, pace = nonwage, dfc, 0.0
+                nw0, d0, inv0, pace = nonwage, dfc, q["inv_income"] * 100, 0.0
             else:
                 pace = (q["x"] - sol[i - 1]["x"]) / dt * 100
-            r_prev = br.r0_star + br.alpha_capex * pace - br.alpha_rent * (nonwage - nw0) + br.alpha_fiscal * (dfc - d0)
+            capex = br.alpha_capex * pace if br.capex_key == "pace" else br.alpha_inv * (q["inv_income"] * 100 - inv0)
+            r_prev = br.r0_star + capex - br.alpha_rent * (nonwage - nw0) + br.alpha_fiscal * (dfc - d0)
             r_seq.append(r_prev)
     get = lambda k: np.array([q[k] for q in sol])  # noqa: E731
     v, Ps, p, n, inc, X, Y, x = get("v"), get("Ps"), get("p"), get("n"), get("income"), get("X"), get("Y"), get("x")
@@ -297,10 +351,13 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
     # neutral real rate
     automation_pace = np.gradient(x, t) * 100                    # pp of tasks moving to machines, a year
     nonwage_share = (1.0 - ls) * 100
+    inv_income = get("inv_income")
     if feedback:
         r_star = np.array(r_seq)
     else:
-        r_star = (br.r0_star + br.alpha_capex * automation_pace - br.alpha_rent * (nonwage_share - nonwage_share[0])
+        capex = (br.alpha_capex * automation_pace if br.capex_key == "pace"
+                 else br.alpha_inv * (inv_income * 100 - inv_income[0] * 100))
+        r_star = (br.r0_star + capex - br.alpha_rent * (nonwage_share - nonwage_share[0])
                   + br.alpha_fiscal * (deficit - deficit[0]))
     # debt and premia
     debt = np.empty_like(t)
@@ -321,6 +378,7 @@ def macro_path(base: Economy, tech: TechPath, br: Bridges = Bridges(), years: fl
                 pi_goods=pi_goods, pi_shelter=pi_shelter, pi_wage=pi_wage, deficit=deficit,
                 wage_tax_share=wage_tax_share, debt=debt, r_star=r_star, tp=tp, loss_longrun=loss_longrun,
                 desired=desired, automation_pace=automation_pace, nonwage_share=nonwage_share, pi_star=br.pi_star,
+                tau_w=br.tau_w, inv_income=inv_income,
                 # (c) additions: the machine chain along the path (BEA basis; see solve)
                 labour_share_bea=get("labour_share_bea"), chain_share=get("chain_share"), theta_V=get("theta_V"),
                 sigma_V=get("sigma_V"), multiplier=get("multiplier"), x_ceiling=get("x_ceiling"),
@@ -681,10 +739,11 @@ def capital_premium(e: Economy, br: Bridges | None = None) -> float:
     return e.rho * 100 - br.r0_star
 
 
-def feedback_bridges(e: Economy, **overrides) -> Bridges:
-    """Bridges(**overrides) with the required return following r* from the economy's own rho (capital_premium against the
-    overrides' own r0_star). The premium is computed, so it may not be passed."""
+def feedback_bridges(e: Economy, base: Bridges | None = None, **overrides) -> Bridges:
+    """base (default Bridges(): the refit) with overrides, and the required return following r* from the economy's own rho
+    (capital_premium against the result's own r0_star). The premium is computed, so it may not be passed. The named
+    comparators (a) and (b) pass base=BRIDGES_B."""
     if "capital_premium" in overrides:
         raise TypeError("feedback_bridges computes capital_premium; pass Bridges(...) directly to set it by hand")
-    br = Bridges(**overrides)
+    br = replace(Bridges() if base is None else base, **overrides)
     return replace(br, capital_premium=capital_premium(e, br))

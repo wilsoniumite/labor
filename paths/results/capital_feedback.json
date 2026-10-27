@@ -36,41 +36,36 @@
   "interest": 0.258
  },
  "split_year15": {
-  "labour": 0.033,
-  "housing site": 0.87,
-  "machine-chain land": 0.037,
-  "interest": 0.06
+  "labour": 0.014,
+  "housing site": 0.924,
+  "machine-chain land": 0.044,
+  "interest": 0.018
  },
  "split_basis": "labour = all wages over income (solve's labor_share); housing site = h Y / income; machine-chain land = b delta X / income; interest = capital_share",
  "chain_share_of_land_rent_start_year15": [
   0.311,
-  0.041
+  0.045
  ],
  "capital_output_start": 3.41,
  "shock_200bp": {
-  "max_labour_share_pp": 2.98,
-  "max_tasks_pp": -0.61,
-  "delay_at_year6_weeks": 18.9,
+  "max_labour_share_pp": 3.24,
+  "max_tasks_pp": -0.88,
+  "delay_at_year6_weeks": 19.3,
   "slows_every_date": true,
   "raises_labour_share_every_date": true,
-  "max_labour_share_bea_pp": 2.9,
+  "max_labour_share_bea_pp": 3.18,
   "labour_basis": "max_labour_share_pp: all wages over income (solve's labor_share); max_labour_share_bea_pp: the paper's Figure 7 basis (labour_share_bea)"
  },
- "loop_year15_tasks_ahead_pp": 0.23,
- "loop_lag_phase": {
-  "from_year": 0.5,
-  "to_year": 2.5,
-  "deepest_tasks_pp": -0.00059,
-  "deepest_year": 1.25
- },
+ "loop_year15_tasks_ahead_pp": 1.9,
+ "loop_lag_phase": null,
  "loop_corr_return_vs_tasks": -0.998,
  "max_rho_rise_pp": {
-  "follow": 0.003,
-  "shock_200bp": 2.003
+  "follow": 0.0,
+  "shock_200bp": 2.0
  },
  "investment_income_start_year15": [
   0.178,
-  0.0458
+  0.0493
  ],
  "comparator_b": {
   "calibration_b": {

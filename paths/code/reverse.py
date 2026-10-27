@@ -22,6 +22,11 @@
 # re-running the draw with dial subsets — only the two direction bridges moved from the defaults, those two reset in the
 # draw, only the listed dials moved, and each dial reset alone — and names the dials whose reset alone loses the breach.
 #
+# THE REFIT (2026-10-27, Log 46; decision 77). The central's dials are the refit's bridges (Dials: the investment key's alpha_inv
+# in place of alpha_capex; owners' saving and deficits over the evidence's ranges, macro.NEUTRAL_SCALE_RANGE times the saving gap's
+# and the pass-through's), (b)'s the bridges as tuned on (b) (DialsB, the ranges set around (b)'s defaults). Decision 40's "not
+# re-centred" held until the bridges had evidence; the other dials' ranges are unchanged.
+#
 # Gated by checks/check_reverse.py.
 
 from __future__ import annotations
@@ -39,9 +44,31 @@ T = np.array([0.25, 2.0, 10.0, 30.0])
 LABELS = ("3M", "2Y", "10Y", "30Y")
 
 
+_REFIT = m.Bridges()
+
+
 @dataclass(frozen=True)
 class Dials:
-    """One point in the scenario space; each field carries (default, low, high) in RANGES."""
+    """One point in the scenario space on the refit bridges (the central's; Log 46); each field carries (default, low,
+    high) in RANGES. The capex dial is the investment key's coefficient, alpha_inv."""
+    eta_end: float = 0.04
+    width: float = 6.0
+    t_mid: float = 6.0
+    alpha_inv: float = _REFIT.alpha_inv
+    alpha_rent: float = _REFIT.alpha_rent
+    alpha_fiscal: float = _REFIT.alpha_fiscal
+    tp_per_debt: float = 0.02
+    debt_threshold: float = 60.0
+    public_support: float = 0.30
+    premium_shift: float = 0.0       # pp added to the economy's own capital premium (macro.capital_premium)
+    sigma: float = 1.0
+    p0: float = 0.05
+
+
+@dataclass(frozen=True)
+class DialsB:
+    """The same space on the bridges as tuned on (b) (macro.BRIDGES_B: the pace key, alpha_capex), for the comparator (b):
+    the pre-refit envelope, draw for draw. The fourth dial is the pace key's coefficient."""
     eta_end: float = 0.04
     width: float = 6.0
     t_mid: float = 6.0
@@ -51,45 +78,68 @@ class Dials:
     tp_per_debt: float = 0.02
     debt_threshold: float = 60.0
     public_support: float = 0.30
-    premium_shift: float = 0.0       # pp added to the economy's own capital premium (macro.capital_premium)
+    premium_shift: float = 0.0
     sigma: float = 1.0
     p0: float = 0.05
 
 
-RANGES = {"eta_end": (0.02, 0.5), "width": (1.0, 12.0), "t_mid": (2.0, 8.0), "alpha_capex": (0.0, 1.0),
-          "alpha_rent": (0.0, 0.2), "alpha_fiscal": (0.0, 0.4), "tp_per_debt": (0.0, 0.05),
-          "debt_threshold": (40.0, 90.0), "public_support": (0.1, 0.6), "premium_shift": (-2.0, 2.0),
-          "sigma": (0.5, 4.0), "p0": (0.01, 0.3)}
+_COMMON = {"eta_end": (0.02, 0.5), "width": (1.0, 12.0), "t_mid": (2.0, 8.0), "tp_per_debt": (0.0, 0.05),
+           "debt_threshold": (40.0, 90.0), "public_support": (0.1, 0.6), "premium_shift": (-2.0, 2.0),
+           "sigma": (0.5, 4.0), "p0": (0.01, 0.3)}
+# The refit's bridge ranges are the evidence's (macro.NEUTRAL_SCALE_RANGE, OWNERS_SAVING_GAP_RANGE, DEFICIT_PASS_THROUGH_RANGE):
+# the scale over its range, each direction bridge the scale's range times its own.
+_A = m.NEUTRAL_SCALE_RANGE
+RANGES = {**{k: _COMMON[k] for k in ("eta_end", "width", "t_mid")},
+          "alpha_inv": _A, "alpha_rent": (_A[0] * m.OWNERS_SAVING_GAP_RANGE[0], _A[1] * m.OWNERS_SAVING_GAP_RANGE[1]),
+          "alpha_fiscal": (_A[0] * m.DEFICIT_PASS_THROUGH_RANGE[0], _A[1] * m.DEFICIT_PASS_THROUGH_RANGE[1]),
+          **{k: _COMMON[k] for k in ("tp_per_debt", "debt_threshold", "public_support", "premium_shift", "sigma", "p0")}}
+RANGES_B = {**{k: _COMMON[k] for k in ("eta_end", "width", "t_mid")}, "alpha_capex": (0.0, 1.0), "alpha_rent": (0.0, 0.2),
+            "alpha_fiscal": (0.0, 0.4), **{k: _COMMON[k] for k in ("tp_per_debt", "debt_threshold", "public_support",
+                                                                     "premium_shift", "sigma", "p0")}}
 LOG = {"eta_end", "sigma", "p0"}          # scale parameters: drawn uniform in logs, so each factor of two gets equal weight
 NAMES = tuple(f.name for f in fields(Dials))
+NAMES_B = tuple(f.name for f in fields(DialsB))
+_SPACE = {Dials: (NAMES, RANGES), DialsB: (NAMES_B, RANGES_B)}
+
+
+def space(cls=Dials):
+    """(names, ranges) of a dial space: Dials (the refit's) or DialsB ((b)'s)."""
+    return _SPACE[cls]
 
 
 def _fwd(k, v):
     return np.log(v) if k in LOG else v
 
 
-def to_unit(d: Dials):
-    return np.array([(_fwd(k, getattr(d, k)) - _fwd(k, RANGES[k][0])) / (_fwd(k, RANGES[k][1]) - _fwd(k, RANGES[k][0]))
-                     for k in NAMES])
+def to_unit(d):
+    names, ranges = space(type(d))
+    return np.array([(_fwd(k, getattr(d, k)) - _fwd(k, ranges[k][0])) / (_fwd(k, ranges[k][1]) - _fwd(k, ranges[k][0]))
+                     for k in names])
 
 
-def from_unit(u):
+def from_unit(u, cls=Dials):
+    names, ranges = space(cls)
     out = {}
-    for k, x in zip(NAMES, u):
-        lo, hi = _fwd(k, RANGES[k][0]), _fwd(k, RANGES[k][1])
+    for k, x in zip(names, u):
+        lo, hi = _fwd(k, ranges[k][0]), _fwd(k, ranges[k][1])
         v = lo + float(x) * (hi - lo)
         out[k] = float(np.exp(v)) if k in LOG else v
-    return Dials(**out)
+    return cls(**out)
 
 
-def bridges(econ: m.Economy, d: Dials, **extra) -> m.Bridges:
-    """The dials' bridges, the required return following r* from the economy's own rho shifted by d.premium_shift."""
-    br = m.Bridges(alpha_capex=d.alpha_capex, alpha_rent=d.alpha_rent, alpha_fiscal=d.alpha_fiscal, tp_per_debt=d.tp_per_debt,
-                   debt_threshold=d.debt_threshold, public_support=d.public_support, r0_star=0.75, **extra)
+def bridges(econ: m.Economy, d, **extra) -> m.Bridges:
+    """The dials' bridges, the required return following r* from the economy's own rho shifted by d.premium_shift: the refit
+    (macro.Bridges()) for Dials, the bridges as tuned on (b) (macro.BRIDGES_B) for DialsB."""
+    common = dict(alpha_rent=d.alpha_rent, alpha_fiscal=d.alpha_fiscal, tp_per_debt=d.tp_per_debt, debt_threshold=d.debt_threshold,
+                  public_support=d.public_support, r0_star=0.75, **extra)
+    if isinstance(d, DialsB):
+        br = replace(m.BRIDGES_B, alpha_capex=d.alpha_capex, **common)
+    else:
+        br = replace(m.Bridges(), alpha_inv=d.alpha_inv, **common)
     return replace(br, capital_premium=m.capital_premium(econ, br) + d.premium_shift)
 
 
-def techs(econ: m.Economy, d: Dials):
+def techs(econ: m.Economy, d):
     """(status quo, new world): capability and lambda held; deep automation relative to the economy's own start."""
     return m.hold_tech(econ), m.deep_tech(econ, t_mid=d.t_mid, width=d.width, eta_end=d.eta_end)
 
@@ -121,7 +171,7 @@ def failure_year(econ: m.Economy, tech: m.TechPath, br: m.Bridges, years: float,
     return hi * dt, err
 
 
-def first_failure(econ: m.Economy, d: Dials, years: float = 15.0, dt: float = 0.25, lookahead: float = 10.0):
+def first_failure(econ: m.Economy, d, years: float = 15.0, dt: float = 0.25, lookahead: float = 10.0):
     """None if both worlds of a run solve at every date; otherwise {world, year, error} for the first date with no
     land-scarce equilibrium (failure_year), the status quo checked first."""
     br = bridges(econ, d)
@@ -132,7 +182,7 @@ def first_failure(econ: m.Economy, d: Dials, years: float = 15.0, dt: float = 0.
     return None
 
 
-def run(econ: m.Economy, d: Dials, years: float = 15.0, dt: float = 0.25, keep_paths: bool = False, lookahead: float = 10.0):
+def run(econ: m.Economy, d, years: float = 15.0, dt: float = 0.25, keep_paths: bool = False, lookahead: float = 10.0):
     """Both worlds under the dials, recognition, the market curve; the outcomes the envelope reports over
     `years` (and, if asked, the time paths behind them). The worlds are simulated `lookahead` years
     further, so the curve's ten-year average neutral rate never runs off the end of the path. Raises
@@ -204,19 +254,20 @@ def nearest_breach(U, values, threshold, default_u):
 DIRECTION = ("alpha_rent", "alpha_fiscal")     # the two neutral-rate bridges that decide the curve's direction (owners' saving, deficits)
 
 
-def attribute(econ: m.Economy, d: Dials, key: str, threshold: float, listed=()):
+def attribute(econ: m.Economy, d, key: str, threshold: float, listed=()):
     """What a draw's breach of `threshold` in outcome `key` needs, found by re-running it with dial subsets (not by which
     dials moved far): the outcome at the draw; with only the direction bridges moved from the defaults (every other dial at
     its default); with the direction bridges reset to their defaults in the draw; with only the `listed` dials moved; and
     with each dial reset alone. `needed`: the dials whose reset alone loses the breach. Outcomes in bp, rounded to 0.1."""
-    d0 = Dials()
+    d0 = type(d)()
+    names = space(type(d))[0]
     hit = (lambda v: v >= threshold) if threshold >= 0 else (lambda v: v <= threshold)
     val = lambda dd: round(float(run(econ, dd)[key]), 1)  # noqa: E731
     only = lambda ks: replace(d0, **{k: getattr(d, k) for k in ks})  # noqa: E731
     reset = lambda ks: replace(d, **{k: getattr(d0, k) for k in ks})  # noqa: E731
-    each = {k: val(reset([k])) for k in NAMES}
+    each = {k: val(reset([k])) for k in names}
     return {"outcome": key, "threshold": threshold, "at_draw": val(d),
             "direction_bridges": {k: [getattr(d0, k), round(getattr(d, k), 4)] for k in DIRECTION},
             "direction_bridges_only": val(only(DIRECTION)), "direction_bridges_reset": val(reset(DIRECTION)),
             "listed_dials_only": val(only(listed)) if listed else None, "each_dial_reset": each,
-            "needed": [k for k in NAMES if not hit(each[k])]}
+            "needed": [k for k in names if not hit(each[k])]}

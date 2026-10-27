@@ -12,7 +12,7 @@
 # a new world that is not coming; the market curve through recognition; the jump still waiting; and a
 # narrative shock (+3 log odds at year 1.5) under each truth. The same outputs for calibration (b), the pre-switch default
 # (comparator_b: bit-identical to the pre-switch results/recognition.json's numbers, which it reproduces), and for (c)'s
-# high root (sensitivity_c_hi). The bridge coefficients were set on (b) and are not retuned.
+# high root (sensitivity_c_hi). (c) on the bridges refit on (c) (Log 46), (b) on the bridges as tuned on (b).
 #
 # Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py, gated by
 # checks/check_calibration_c.py). Gated by checks/check_recognition.py.
@@ -223,7 +223,7 @@ def figure(t, old, new, base, zmix, jump, p, cn, nar, comp):
     a.legend(frameon=False, fontsize=8.5, labelcolor=INK, loc="center right")
     fig.text(0.01, 0.005, "Worlds: calibration (c) central (open reading, low root), required return following r* from its own rho; new world = capability "
              "1 → 0.04 and lambda to a fifth, medium speed; dashed: calibration (b)." + NL + "Bayesian learning on quarterly labour-share data "
-             "(all wages over income). Bridge coefficients set on (b), not retuned.", fontsize=8, color=INK2)
+             "(all wages over income). Bridges refit on (c) (Log 46).", fontsize=8, color=INK2)
     fig.tight_layout(rect=(0, 0.035, 1, 1))
     pth = os.path.join(ROOT, "figures", "fig_recognition.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
