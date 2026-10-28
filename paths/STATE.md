@@ -2124,9 +2124,11 @@ scale.
 11. **Her case, onward** (decisions 23-27): the case on the website (a page stating it, with the watcher's signs for
     and against each leaning); the US fiscal arithmetic (revenue with the wage base, interest as debt rolls over) so
     that deficits are computed, not priced; the crash model's displacement on the dated clock (one dating since
-    2026-10-01, decision 43). The prints ahead: the FOMC (27–28 Oct, to verify against the Fed's calendar; the model
-    raised in 2026Q4 in every run; restated 2026-10-28 (decisions 91-92): by month the case and its central run raise in
-    October, 3.96 against 3.88, and cut by December), US core PCE for September and BEA's Q3 advance estimate (29 Oct), the Riksbank (4
+    2026-10-01, decision 43). The prints ahead: the FOMC (27–28 Oct, to verify against the Fed's calendar; every stored
+    run raises in 2026Q4, the test registered in Log 40 and scored as registered; beside it the monthly model's own call
+    (decisions 91-92), a new registration committed 2026-10-28 before the announcement: the case and its central run
+    raise in October, 3.96 against 3.88, and cut by December; "restated" here until the evening of 2026-10-28, corrected
+    after the announcement, without reading it, to the case's A3 as it stood from 14:27 CET, 93d5ff1), US core PCE for September and BEA's Q3 advance estimate (29 Oct), the Riksbank (4
     Nov), October employment (6 Nov). (Until 2026-10-26 this item said to re-run `code/october.py` after each print;
     that unit is retired to the tag `paths-pre-signfix`, Log 41.) **Amended 2026-10-26 (Log 40):** a print is not folded into the inputs of a run that makes a claim about it.
     Each data vintage is frozen and committed before the prints it is scored on, and scored on them afterwards; the
