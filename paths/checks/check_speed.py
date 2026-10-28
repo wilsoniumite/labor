@@ -23,6 +23,13 @@
 # revision's hybrid world the move turned up (+0.2 ... +4.0 bp): the old construction no longer read the branch's direction. F4's
 # headroom clause holds vacuously on the refit (no world's required return rises, 0.00 pp): a regression guard (checks:V1); the
 # headroom's live tests on (c) are check_reverse F6 and check_macro_scenarios R3.
+# Restated at the verification (2026-10-28, Log 54's last bullet; the verifiers' finding that her call (1) wants every claim that
+# rests on the investment key's pass-through stated conditionally, and that F4 stated the deficits branch's direction outright while
+# gating only the gross reading; flagged): F4's label says "at the gross reading of the investment key (the central)", its gate
+# unchanged; F5 new, set after seeing, a readout as bank R7 is: the deficits branch through recognition at a pass-through of 1 / 0.6
+# / 0.4 / 0, its 10Y -25.9 / -0.2 / +12.8 / +38.8 bp (over ten years -64 / +22 / +65 / +151), its r* peaking at its start (0.75%) at
+# gross and at 0.79 / 1.11 / 2.04% below it, the required return up 0.00 / 0.03 / 0.36 / 1.30 pp; the owners'-saving branch -158 bp
+# netted. Gated on the found direction: the 10Y's move rising as the pass-through falls, down at gross, up at 0.4 and below.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_speed.py
 # Exit status 0 only if every check passes.
@@ -225,10 +232,11 @@ check("W2 results/speed.json equals a rebuild by code/speed_scenarios.py, block 
       and SJ["calibration"] == rt({k: info_c[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}),
       "blocks: " + ", ".join(full_c))
 dd, ds = "deficits dominate", "owners' saving dominates"
-check("F4 [restated at the refit; its label at the revision] the two bridge settings no longer decide the direction on the central: on "
-      "the refit both move the 10Y down through recognition, the deficits branch least and owners' saving further than on (b), where they "
-      "split (before the refit they split on the central too); the window opens more than a year earlier than (b)'s; no world's required "
-      "return rises by half the rate headroom (on the refit none rises at all: a regression guard)",
+check("F4 [restated at the refit; its label at the revision and at the verification] at the gross reading of the investment key (the "
+      "central) the two bridge settings no longer decide the direction: both move the 10Y down through recognition, the deficits branch "
+      "least and owners' saving further than on (b), where they split (before the refit they split on the central too; below a "
+      "pass-through of about 0.6 they split again: F5); the window opens more than a year earlier than (b)'s; no world's required return "
+      "rises by half the rate headroom (at the gross reading none rises at all: a regression guard)",
       wc[ds]["10Y_through_recognition_bp"] < wc[dd]["10Y_through_recognition_bp"] < 0 < wb[dd]["10Y_through_recognition_bp"]
       and wc[ds]["10Y_through_recognition_bp"] < wb[ds]["10Y_through_recognition_bp"] < 0
       and all(wb[k]["window"][0] - wc[k]["window"][0] > 1.0 for k in (dd, ds))
@@ -236,6 +244,27 @@ check("F4 [restated at the refit; its label at the revision] the two bridge sett
       f"through recognition: deficits {wc[dd]['10Y_through_recognition_bp']:+.0f} bp ((b) {wb[dd]['10Y_through_recognition_bp']:+.0f}), saving "
       f"{wc[ds]['10Y_through_recognition_bp']:+.0f} ((b) {wb[ds]['10Y_through_recognition_bp']:+.0f}); windows {wc[dd]['window']} ((b) {wb[dd]['window']}); "
       f"required return up to {max(v['required_return_rise_max_pp'] for v in wc.values()):+.2f} pp of {SJ['calibration']['headroom_pp']:.2f}")
+
+PTS = (1.0, 0.6, 0.4, 0.0)            # the investment key's pass-through (decision 93): 1 gross (the central) to 0 netted
+pt_w = {p_: ss.worlds(e, **dict(ss.SCEN[dd], alpha_inv=m.investment_key(p_))) for p_ in PTS}
+pt_r = {p_: rt(ss.world_readouts(e, {dd: pt_w[p_]}))[dd] for p_ in PTS}
+k15 = int(round(15 / ss.DT))
+pk_ = {p_: float(pt_w[p_][1]["r_star"][: k15 + 1].max()) for p_ in PTS}
+r0_ = float(pt_w[1.0][1]["r_star"][0])
+rec_ = [pt_r[p_]["10Y_through_recognition_bp"] for p_ in PTS]
+rho_ = [pt_r[p_]["required_return_rise_max_pp"] for p_ in PTS]
+os0 = rt(ss.world_readouts(e, {ds: ss.worlds(e, **dict(ss.SCEN[ds], alpha_inv=m.investment_key(0.0)))}))[ds]
+check("F5 [new at the verification, set after seeing] readout, the investment key's pass-through (decision 93; as bank R7): the deficits "
+      "branch's direction rests on it — through recognition its 10Y moves down at the gross reading (the central, F4, equal to the stored "
+      "world), about nothing at 0.6 and up below it, rising as less of the investment fall counts, and once the pass-through is below gross "
+      "its r* peaks above its start and its required return rises; the owners'-saving branch moves the 10Y down netted too",
+      pt_r[1.0] == wc[dd] and np.all(np.diff(rec_) > 0) and rec_[0] < 0 < rec_[2]
+      and abs(pk_[1.0] - r0_) < 1e-9 and all(pk_[p_] > r0_ for p_ in PTS[1:]) and np.all(np.diff([pk_[p_] for p_ in PTS]) > 0)
+      and rho_[0] == 0 and all(x > 0 for x in rho_[1:]) and os0["10Y_through_recognition_bp"] < 0,
+      "at a pass-through of 1 / 0.6 / 0.4 / 0: the deficits branch's 10Y through recognition " + " / ".join(f"{x:+.1f}" for x in rec_)
+      + " bp, over ten years " + " / ".join(f"{pt_r[p_]['10Y_over_ten_years_bp']:+.0f}" for p_ in PTS) + "; its r* peak to year 15 "
+      + " / ".join(f"{pk_[p_]:.2f}" for p_ in PTS) + f"% (start {r0_:.2f}); the required return up " + " / ".join(f"{x:.2f}" for x in rho_)
+      + f" pp; owners' saving netted {os0['10Y_through_recognition_bp']:+.0f} bp")
 
 fails = [n for n, ok, _ in RESULTS if not ok]
 print(f"\n{len(RESULTS) - len(fails)}/{len(RESULTS)} checks passed")

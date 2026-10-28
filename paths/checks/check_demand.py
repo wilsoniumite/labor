@@ -38,6 +38,13 @@
 # 1.88 against 1.75; F6's first year 9.25 against < 9.5 (one quarter); R3's pace-keyed deficits rise 1.37 against > 1.25; R4's
 # pace-keyed deficits inflation high 2.07 against > 2.0. Of the six checks:N1 named at the refit, F3's no-floor gap (-2.23 against
 # 3%) and F4's participation (0.464 against 0.4) are no longer narrow.
+# Restated at the verification (2026-10-28, Log 54's last bullet; the verifiers' findings, flagged): M3's and F2's labels say "at the
+# gross reading of the investment key (the central)", their gates unchanged (her call (1) wants claims that rest on the pass-through
+# stated conditionally); R7 new, set after seeing, a readout as bank R7 is: the deficits branch at a pass-through of 1 / 0.6 / 0.4 /
+# 0, its gap's low -0.35 / -0.05 / 0.00 / 0.00 and high 0.00 / +0.02 / +0.11 / +0.42%, a slump at gross turning to a mild boom netted;
+# the owners'-saving branch a slump at the floor at both ends (netted -1.77%, 4.5 years at the floor); gated on the found direction.
+# X1 extended to every stored scenario (43, where it rebuilt the 5 central-learning runs) and to the high-root block, which F3 and X3
+# gate (the stored blocks were equal to the code before the extension: a coverage gap, not stale data).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_demand.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
@@ -85,8 +92,9 @@ check("M2 a central bank that knows r* at once, without smoothing or a floor, ke
       np.abs(r["gap"]).max() < 0.3, f"largest gap {np.abs(r['gap']).max():.3f}%")
 for name in (DDN, OSN):
     g = [abs(S[f"{name} | {v}"]["gap_min_and_year"][0]) for v in ("fast learning (1 year)", C, "slow learning (8 years, pre-2021 anchors)")]
-    check(f"M3 {name}: the slower the central bank learns r*, the larger the gap (1, 3, 8 years; on the refit r* falls in both branches, "
-          f"so both gaps are troughs)", g[0] < g[1] < g[2], str(g))
+    check(f"M3 {name}: the slower the central bank learns r*, the larger the gap (1, 3, 8 years; at the gross reading of the investment key, "
+          f"the central, r* falls in both branches, so both gaps are troughs; below a pass-through of about 0.6 the deficits branch's r* "
+          f"rises: R7)", g[0] < g[1] < g[2], str(g))
 r = dm.run(W[OSN], base)
 r0 = dm.run(W[OSN], replace(base, elb=-99.0))
 check("M4 the floor holds, and where it binds the gap is no smaller than without it",
@@ -108,9 +116,10 @@ print("F — the findings (calibration (c), the central; stated as found)")
 os_c, dd_c = S[f"{OSN} | {C}"], S[f"{DDN} | {C}"]
 check("F1 owners' saving dominates: policy too tight on the way down — a negative gap and inflation below target",
       os_c["gap_min_and_year"][0] < -0.5 and os_c["inflation_min_max"][0] < 2.0, f"gap {os_c['gap_min_and_year']}, inflation {os_c['inflation_min_max']}")
-check("F2 [restated at the refit] deficits dominate: on the refit r* falls in this branch too (keyed to investment), so policy is a "
-      "little too tight on the way down — a small negative gap and inflation just below target (before the refit, too loose on the way "
-      "up: a positive gap of 1.1% and inflation to 2.16%)",
+check("F2 [restated at the refit; its label at the verification] deficits dominate: at the gross reading of the investment key (the "
+      "central) r* falls in this branch too (keyed to investment), so policy is a little too tight on the way down — a small negative gap "
+      "and inflation just below target (before the refit, too loose on the way up: a positive gap of 1.1% and inflation to 2.16%; below a "
+      "pass-through of about 0.6 a mild boom again: R7)",
       -1.0 < dd_c["gap_min_and_year"][0] < -0.3 and dd_c["gap_max_and_year"][0] == 0.0 and dd_c["inflation_min_max"][1] == 2.0
       and dd_c["inflation_min_max"][0] < 2.0, f"gap {dd_c['gap_min_and_year']}, inflation {dd_c['inflation_min_max']}")
 cyc_runs = {k: v for k, v in S.items() if "2009-size" not in k}
@@ -275,15 +284,53 @@ check("R6 [readout] the series keyed to is replacement investment; net investmen
       f"{cc[DDN][NI]['8']:.1f}% at years 3 / 5 / 8 against replacement {cc[DDN]['inv_income_pct']['3']:.1f} / {cc[DDN]['inv_income_pct']['5']:.1f} / "
       f"{cc[DDN]['inv_income_pct']['8']:.1f}%")
 
+PTS = (1.0, 0.6, 0.4, 0.0)            # the investment key's pass-through (decision 93): 1 gross (the central) to 0 netted
+dpt = {p_: dm.summary(dm.run(dm.world({**bs.SCEN[DDN][0], "alpha_inv": m.investment_key(p_)}, bs.SCEN[DDN][1], e=e), base)) for p_ in PTS}
+opt = {p_: dm.summary(dm.run(dm.world({**bs.SCEN[OSN][0], "alpha_inv": m.investment_key(p_)}, bs.SCEN[OSN][1], e=e), base)) for p_ in (1.0, 0.0)}
+gmax = [dpt[p_]["gap_max_and_year"][0] for p_ in PTS]
+gmin = [dpt[p_]["gap_min_and_year"][0] for p_ in PTS]
+check("R7 [new at the verification, set after seeing] readout, the investment key's pass-through (decision 93; as bank R7): the deficits "
+      "branch is a small slump at the gross reading (the central, F2, equal to the stored run) and turns as less of the investment fall "
+      "counts — its gap's high rising and its low no longer negative, a mild boom with the fall netted against capital consumption; the "
+      "owners'-saving branch stays a slump at the floor at both ends",
+      json.loads(json.dumps(dpt[1.0])) == dd_c and json.loads(json.dumps(opt[1.0])) == os_c
+      and np.all(np.diff(gmax) > 0) and np.all(np.diff(gmin) >= 0) and gmax[0] == 0.0 and gmin[0] < -0.3 and gmin[-1] == 0.0 and gmax[-1] > 0.3
+      and all(v["gap_min_and_year"][0] < -1.0 and v["years_at_floor"] > 0 for v in opt.values()),
+      "the deficits branch at a pass-through of 1 / 0.6 / 0.4 / 0: gap low " + " / ".join(f"{x:+.2f}" for x in gmin) + ", high "
+      + " / ".join(f"{x:+.2f}" for x in gmax) + "%, inflation " + " / ".join(f"{dpt[p_]['inflation_min_max'][0]}-{dpt[p_]['inflation_min_max'][1]}"
+                                                                              for p_ in PTS)
+      + "%; owners' saving gross / netted " + " / ".join(f"{opt[p_]['gap_min_and_year'][0]}% ({opt[p_]['years_at_floor']} years at the floor)"
+                                                         for p_ in (1.0, 0.0)))
+
 print("X — the switch: (c)'s runs, the (b) comparator, the high root")
 fresh = {}
 for name, mp_ in W.items():
-    fresh[f"{name} | {C}"] = dm.summary(dm.run(mp_, base))
+    for vn, dv in VAR.items():
+        fresh[f"{name} | {vn}"] = dm.summary(dm.run(mp_, dv))
 for name in (DDN, OSN):
-    fresh[f"{name}, fast automation | {C}"] = dm.summary(dm.run(dm.world(bs.SCEN[name][0], "new", fast=True), base))
-check("X1 demand.json's central-learning runs equal a fresh rebuild on macro.central(), and its calibration record is the central's",
-      all(json.loads(json.dumps(v)) == S[k] for k, v in fresh.items()) and R["calibration"] == json.loads(json.dumps(cal)),
-      f"{len(fresh)} runs; {cal['tag']}")
+    mpf_ = dm.world(bs.SCEN[name][0], "new", fast=True)
+    for vn in (C, "slow learning (8 years, pre-2021 anchors)", "weak anchor (expectations follow inflation)"):
+        fresh[f"{name}, fast automation | {vn}"] = dm.summary(dm.run(mpf_, VAR[vn]))
+RESP = {"textbook rule": base, "the Riksbank's 2008 strength": replace(base, phi_y=1.0, smooth=0.5)}
+for name in ("status quo", OSN):
+    mp_ = W[name]
+    neutral = float(mp_["r_star"][0] + mp_["pi_star"])
+    for room_name, room in (("2008's room (5.25 points)", 5.25), ("today's room (2.25 points)", 2.25)):
+        for resp, d0_ in RESP.items():
+            for anch, a_ in (("anchored", d0_.anchor), ("weak anchor", 0.5)):
+                fresh[f"{name} + a 2009-size demand shock, {room_name} | {resp}, {anch}"] = dm.summary(
+                    dm.run(mp_, replace(d0_, elb=neutral - room, anchor=a_), shock=dm.crash(mp_["t"])), horizon=6.0)
+eh_, calh_ = bs.economy("hi")
+bbh_, sch_ = bs.base_bridges("hi")
+fresh_hi = {f"{name} | {C}": dm.summary(dm.run(dm.world(br_, tr_, e=eh_, base=bbh_), base)) for name, (br_, tr_) in sch_.items()}
+fresh_hi |= {f"{name}, fast automation | {C}": dm.summary(dm.run(dm.world(sch_[name][0], sch_[name][1], fast=True, e=eh_, base=bbh_), base))
+             for name in (DDN, OSN)}
+check("X1 [extended at the verification] demand.json's runs equal a fresh rebuild on macro.central() — every stored scenario (the three "
+      "worlds under every variant, fast automation, the 2009-size shocks; until the verification only the five central-learning runs) and "
+      "the high-root block F3 and X3 read (its calibration record too) — and its calibration record is the central's",
+      json.loads(json.dumps(fresh)) == S and R["calibration"] == json.loads(json.dumps(cal))
+      and json.loads(json.dumps(fresh_hi)) == HI and R["sensitivity: the high root"]["calibration"] == json.loads(json.dumps(calh_)),
+      f"{len(fresh)} of {len(S)} runs; the high root {len(fresh_hi)} of {len(HI)}; {cal['tag']} / {calh_['tag']}")
 
 
 def world_b_old(bridges, truth, fast=False):

@@ -36,6 +36,13 @@
 # at 0.6 (low root) / 0.4 (high root)", equalities on the 25 bp policy grid; X4's bands, set around the found values, closest
 # the status quo's site price 0.800 against < 0.81, the deficits branch's employment 0.569 against < 0.58 and households' income
 # 0.944 against > 0.90. F4's margin is 0.92 against its half point (at the refit 0.61: checks:L1), no longer narrow.
+# Restated at the verification (2026-10-28, Log 54's last bullet; the verifiers' findings, flagged): R1 extended to rebuild every
+# stored block the R checks read — the pass-through readout on both roots (R7), the readout keyed to the pace (R5) and the high
+# root's runs, calibration and rate rises (R4, R6, F5, F6) — where it rebuilt the central's main runs only (the blocks were equal to
+# the code before the extension: a coverage gap, not stale data); R7's label says policy rates (its 0.6 / 0.4 are the policy rate's)
+# and R7 gains a clause set after seeing, read off the export (X2 gates it against a fresh build): at the gross reading the deficits
+# branch's 10Y falls (to 2.22% at year 8.5 from 2.93%) but is back above its start by year 15 (3.03%; 4.84% by year 25) as the term
+# premium rises with debt (150% of income at year 15, the premium 2.09 against 0.30), so "both branches fall" is the policy rate's.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_bank.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
@@ -170,9 +177,24 @@ check("F6 [new on (c)] with office rents following the wage bill, commercial pro
 print("R — the switch to (c), the sensitivities and the readouts")
 e, cal = bs.economy("lo")
 res, _, rise = bs.bank_runs(e)
-check("R1 results/bank.json's (c) runs equal a fresh rebuild on macro.central() (every summary; the calibration record and rate rises)",
-      all(R[k] == v for k, v in res.items()) and R["calibration"] == json.loads(json.dumps(cal))
-      and all(R["required_return_rise_pp"][k] == v for k, v in rise.items()), f"{len(res)} paths; {cal['tag']}, rho {cal['rho']:.6f}")
+rt = lambda o: json.loads(json.dumps(o))  # noqa: E731
+eh, calh = bs.economy("hi")
+res_h, _, rise_h = bs.bank_runs(eh, "hi")
+pace_ = rt(bs.pace_keyed(e))
+ptr_ = {"central (c)": rt(bs.pass_through_readout(e, "lo")), "high root": rt(bs.pass_through_readout(eh, "hi"))}
+HB = R["sensitivity: the high root"]
+check("R1 [extended at the verification] results/bank.json equals a fresh rebuild on macro.central(): the (c) runs (every summary; the "
+      "calibration record and rate rises), and every stored block the R checks read — the readout keyed to the pace (R5), the "
+      "pass-through readout on both roots (R7), and the high root's runs, calibration and rate rises (R4, R6; F5, F6); until the "
+      "verification only the (c) runs were rebuilt",
+      all(R[k] == rt(v) for k, v in res.items()) and R["calibration"] == rt(cal)
+      and all(R["required_return_rise_pp"][k] == v for k, v in rise.items())
+      and R["sensitivity: r* keyed to the pace of tasks"] == pace_
+      and all(R["sensitivity: the investment key's pass-through"][r_] == ptr_[r_] for r_ in ptr_)
+      and R["sensitivity: the investment key's pass-through"]["pass_throughs"] == list(bs.PASS_THROUGHS)
+      and HB == rt({"calibration": calh, "required_return_rise_pp": rise_h, **res_h}),
+      f"{len(res)} paths; {cal['tag']}, rho {cal['rho']:.6f}; the pace-keyed readout, the pass-through readout on {len(ptr_)} roots, the "
+      f"high root's {len(res_h)} paths ({calh['tag']})")
 
 
 def path_b_old(e_, bridges, truth, lr=rc.Learning(sigma=1.0, p0=0.05)):
@@ -240,20 +262,30 @@ pol15 = {r_: [PTR[r_][p_]["policy_start_peak_end"][2] for p_ in PTS] for r_ in (
 st0 = {r_: PTR[r_]["1"]["policy_start_peak_end"][0] for r_ in pol15}
 main_dd = {"central (c)": dd, "high root": HI["deficits dominate"]}
 main_os = {"central (c)": os_, "high root": HI["owners' saving dominates"]}
-check("R7 [new at the revision, set after seeing] readout, the investment key's pass-through (decision 93: the share of the investment "
-      "fall counted as excess saving, 1 gross to 0 netted against capital consumption), the deficits branch on both roots: at the gross "
-      "reading (the central, the main runs) both branches' rates fall; the deficits branch's policy rate at year 15 rises as less of the "
-      "fall counts — flat at a pass-through of 0.6 on the low root and 0.4 on the high root — and stands at or above its start from 0.4 "
-      "down; with the fall netted it rises (to 4.0% on the low root, 3.5% on the high root). The bank's two-branch split rests on the "
-      "pass-through, which the evidence does not pin",
+XP = pd.read_csv(os.path.join(ROOT, "results", "paths_for_banks.csv"))
+xd = XP[XP.scenario == "deficits dominate"]
+z10, tz = xd["z10Y"].to_numpy(), xd["t_years"].to_numpy()
+i_lo = int(np.argmin(z10[tz <= 15 + 1e-9]))
+z10_15, z10_25 = float(z10[np.abs(tz - 15) < 1e-9][0]), float(z10[np.abs(tz - 25) < 1e-9][0])
+check("R7 [new at the revision, set after seeing; its label and its 10Y clause at the verification] readout, the investment key's "
+      "pass-through (decision 93: the share of the investment fall counted as excess saving, 1 gross to 0 netted against capital "
+      "consumption), the deficits branch on both roots: at the gross reading (the central, the main runs) both branches' policy rates "
+      "fall — the deficits branch's 10Y falls too, but only for a time: it is back above its start by year 15 as the term premium rises "
+      "with debt (the export, set after seeing); the deficits branch's policy rate at year 15 rises as less of the fall counts — flat at "
+      "a pass-through of 0.6 on the low root and 0.4 on the high root — and stands at or above its start from 0.4 down; with the fall "
+      "netted it rises (to 4.0% on the low root, 3.5% on the high root). The bank's two-branch split rests on the pass-through, which "
+      "the evidence does not pin",
       PTR["pass_throughs"] == [1.0, 0.6, 0.4, 0.0] and all(PTR[r_][p_]["alpha_inv"] == m.investment_key(float(p_)) for r_ in pol15 for p_ in PTS)
       and all(PTR[r_]["1"][k] == main_dd[r_][k] for r_ in pol15 for k in ("policy_start_peak_end", "nii_min", "nii_max"))
       and all(pol15[r_][0] < st0[r_] and main_os[r_]["policy_start_peak_end"][2] == -0.5 for r_ in pol15)
       and all(np.all(np.diff(pol15[r_]) >= 0) and pol15[r_][2] >= st0[r_] and pol15[r_][3] > st0[r_] for r_ in pol15)
       and pol15["central (c)"][1] == st0["central (c)"] and pol15["high root"][2] == st0["high root"]
-      and all(np.all(np.diff([PTR[r_][p_]["r_star_y15"] for p_ in PTS]) > 0) for r_ in pol15),
+      and all(np.all(np.diff([PTR[r_][p_]["r_star_y15"] for p_ in PTS]) > 0) for r_ in pol15)
+      and z10[i_lo] < z10[0] < z10_15 < z10_25 and 5 < tz[i_lo] < 15,
       "policy at year 15 at pass-through 1 / 0.6 / 0.4 / 0: " + "; ".join(f"{r_} " + " / ".join(f"{v:g}" for v in pol15[r_]) + f" (start {st0[r_]:g})"
                                                                      for r_ in pol15)
+      + f"; the deficits branch's 10Y at the gross reading {z10[0]:.2f}% at the start, {z10[i_lo]:.2f}% at its low (year {tz[i_lo]:g}), "
+      f"{z10_15:.2f}% at year 15, {z10_25:.2f}% at 25"
       + "; r* at year 15 " + "; ".join(" / ".join(f"{PTR[r_][p_]['r_star_y15']:+.2f}" for p_ in PTS) for r_ in pol15)
       + "; NII high " + "; ".join(" / ".join(f"{PTR[r_][p_]['nii_max']:.2f}" for p_ in PTS) for r_ in pol15))
 

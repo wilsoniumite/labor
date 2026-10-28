@@ -57,6 +57,24 @@
 # wage-alternative clauses are bookkeeping, both the band and the drag that never goes to zero (coverage under 100% leaves a loss);
 # A2's floor is a result that rests on the elasticity (its label gives the margin). The high-elasticity sensitivity households:H6
 # suggests is not stored: A2 reads the elasticity that would reach the floor off the stored rigid runs (1.02; 0.69 with no cut).
+# Restated at the verification (2026-10-28, Log 54's last bullet; the verifiers' findings on the revision). The layer's Sweden's
+# rules amended (decision 94, as found, no threshold moved by it): the first year is paid on each cohort's mean money wage over the
+# four quarters before its exit (Lag 2024:506's base, the 12 months before the claim; it was the exit quarter's wage) and topped up
+# to the price-indexed floor where it falls short (social assistance; it was never topped up, so that from year 8.0 / 8.5 a first-year
+# job loser got less than one out of work longer). Moved, old -> new: A1's onsets 10.75 / 9.75 -> 10.5 / 9.5, coverage at year 15
+# 163 / 294 -> 164 / 298%, on the high root 11.75 -> 11.5 (133 -> 135%) and its deficits branch 95.75 -> 96.35% against 100 (the
+# narrow pass named above); F2's gaps -0.60 / -4.02 -> -0.57 / -4.03 (pooled -0.35 / -4.65); F4's central at the floor 6.0 -> 5.75
+# years (the rigid run's 6.5 unchanged); (b)'s owners'-saving central row -1.49 -> -1.47; the family-based rows (pinned to the wage
+# rule) unchanged. Flagged, restated after seeing: G1 (both branches) — it compared the family-based regime, pinned to the wage rule,
+# with the central on Sweden's rules, so most of its cost was the benefit rule, not the families (at the revision 1.61 / 1.47 gated,
+# 0.56 / 0.48 on one rule); now gated like for like on the wage rule (the stored wage alternative's central against the pinned
+# family runs: 0.56 / 0.48 > 0.2, the claim's own threshold; (b) on the same rule 0.25 / 0.34, computed here; the gap trough and the
+# state bill clauses on the same pair), the cross-rule difference reported (1.62 / 1.49, more than half of it the rule: gated > twice
+# the like-for-like cost), and the pair on Sweden's structure (the stored sensitivity, the family regime's floor 0.25) gated as found:
+# positive but under 0.2 (0.15 / 0.08; 0.24 / 0.07 on the rule before its amendment: the owners'-saving claim fails 0.2 there either
+# way). F1's label says "at the gross reading of the investment key (the central)" (her call (1); bank R7), its gate unchanged. X1
+# extended to the high-root block X3 reads (its label had said every sensitivity block; the block was equal to the code: a coverage
+# gap, not stale data).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_households.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
@@ -162,9 +180,10 @@ check("B7 [new at the revision; set in advance] rigid money wages' excess is tra
 
 print("F — the findings (calibration (c), the central; stated as found)")
 dd, os_ = S[f"{DDN} | central"]["y5_y8_y10_y12_y15"], S[f"{OSN} | central"]["y5_y8_y10_y12_y15"]
-check("F1 [restated at the refit] floating-rate mortgages move with policy, and on the refit policy falls in both branches: debt service "
-      "falls most when owners' saving takes rates to the floor; with deficits dominating it rises a little to year 10, as money incomes "
-      "fall faster than rates, then falls (before the refit it rose by more than a point there)",
+check("F1 [restated at the refit; its label at the verification] floating-rate mortgages move with policy, and at the gross reading of "
+      "the investment key (the central) policy falls in both branches (below a pass-through of about 0.6 the deficits branch's rises: bank "
+      "R7): debt service falls most when owners' saving takes rates to the floor; with deficits dominating it rises a little to year 10, as "
+      "money incomes fall faster than rates, then falls (before the refit it rose by more than a point there)",
       os_["debt_service_pct_income"][4] < os_["debt_service_pct_income"][0] - 2
       and dd["debt_service_pct_income"][2] > dd["debt_service_pct_income"][0] and dd["debt_service_pct_income"][4] < dd["debt_service_pct_income"][0],
       f"deficits {dd['debt_service_pct_income']}; owners' saving {os_['debt_service_pct_income']}")
@@ -209,26 +228,45 @@ check("F6 under today's Swedish state support, family and friends change little 
 
 print("G — family-based support against today's Swedish state support")
 FAM = replace(C, **hh.FAMILY)
+ALT = R["alternative: benefits follow the current money wage"]["scenarios"]
+SWS = R["sensitivity: the family-based regime on Sweden's structure"]["scenarios"]
+eb_, _ = bs.economy("b")
+y12 = lambda b_, k_: b_["y5_y8_y10_y12_y15"][k_][3]  # noqa: E731
 g1 = {}
 for name in (DDN, OSN):
-    st, fa = S[f"{name} | central"], S[f"{name} | family-based support"]
-    ys, yf = st["y5_y8_y10_y12_y15"], fa["y5_y8_y10_y12_y15"]
-    g1[name] = (ys["demand_level"][3] - yf["demand_level"][3], fa["gap_min_max"][0] <= st["gap_min_max"][0], yf["support_cost_pct_gdp"][3] < ys["support_cost_pct_gdp"][3],
-                yf["demand_level"][3], ys["demand_level"][3], yf["support_cost_pct_gdp"][3], ys["support_cost_pct_gdp"][3])
-g1b = {n: CB[f"{n} | central"]["y5_y8_y10_y12_y15"]["demand_level"][3] - CB[f"{n} | family-based support"]["y5_y8_y10_y12_y15"]["demand_level"][3]
-       for n in (DDN, OSN)}
-g1d = lambda n: f"level {g1[n][3]} against {g1[n][4]} (cost {g1[n][0]:.2f}; (b) {g1b[n]:.2f}), state bill {g1[n][5]} against {g1[n][6]} % of GDP"  # noqa: E731
-check(f"G1 {DDN}: leaning on families costs demand — a larger drag from constrained households at year 12 and a lower gap trough, for a "
-      "smaller state bill",
-      g1[DDN][0] > 0.2 and g1[DDN][1] and g1[DDN][2], g1d(DDN))
+    st, al, fa, sw = S[f"{name} | central"], ALT[f"{name} | central"], S[f"{name} | family-based support"], SWS[f"{name} | family-based support"]
+    xb = hh.summary(hh.run(dm.world(*bs.SCEN_B[name], e=eb_, base=m.BRIDGES_B), dmp, replace(C, benefit_base="wage"), s0))   # (b) on the wage rule
+    fb = CB[f"{name} | family-based support"]
+    g1[name] = {"cost": y12(al, "demand_level") - y12(fa, "demand_level"), "trough": fa["gap_min_max"][0] <= al["gap_min_max"][0],
+                "bill": y12(fa, "support_cost_pct_gdp") < y12(al, "support_cost_pct_gdp"),
+                "b": y12(xb, "demand_level") - y12(fb, "demand_level"), "cross": y12(st, "demand_level") - y12(fa, "demand_level"),
+                "sweden": y12(st, "demand_level") - y12(sw, "demand_level"), "state": y12(st, "demand_level"),
+                "txt": f"on the wage rule: level {y12(fa, 'demand_level')} against {y12(al, 'demand_level')}, gap trough {fa['gap_min_max'][0]} "
+                       f"against {al['gap_min_max'][0]}, state bill {y12(fa, 'support_cost_pct_gdp')} against {y12(al, 'support_cost_pct_gdp')}% "
+                       f"of GDP"}
+g1d = lambda n: (f"{g1[n]['txt']} (cost {g1[n]['cost']:.2f}; (b) on the same rule {g1[n]['b']:.2f}); against the central on Sweden's rules "  # noqa: E731
+                 f"{g1[n]['cross']:.2f} (the rule {g1[n]['cross'] - g1[n]['cost']:.2f} of it); both on Sweden's structure {g1[n]['sweden']:.2f}")
+check(f"G1 [restated at the verification] {DDN}: leaning on families costs demand — compared on one benefit rule, the wage rule on which "
+      "the family-based regime is pinned (decision 94), against state support on that rule (the named alternative): a lower demand level "
+      "at year 12, by more than the claim's 0.2% of GDP, and a lower gap trough, for a smaller state bill. Against the central on Sweden's "
+      "rules the difference is more than twice that, most of it the benefit rule (the price-indexed floor), not the families (until the "
+      "verification G1 gated that difference: 1.61); with both regimes on Sweden's structure (the family regime's floor 0.25, a stored "
+      "sensitivity) leaning on families still costs demand, but less than 0.2 (as found)",
+      g1[DDN]["cost"] > 0.2 and g1[DDN]["trough"] and g1[DDN]["bill"] and g1[DDN]["cross"] > 2 * g1[DDN]["cost"]
+      and 0 < g1[DDN]["sweden"] < 0.2, g1d(DDN))
 gx = {v: EX[f"{OSN} | {v}"]["y5_y8_y10_y12_y15"]["demand_level"][3] for v in ("central", "family-based support")}
-check(f"G1 [restated at the refit and at the revision] {OSN}: leaning on families costs demand — a lower demand level at year 12 and a "
-      "lower gap trough, for a smaller state bill — by more than the 0.2% of GDP the claim had (as on (b)); the family-based level is "
-      "negative, while under Sweden's rules the state's is positive (the job losers' drag zero by then, the floor above the wage lost, and "
-      "falling rates easing debt service; at the refit, benefits following wages, both were negative, cost 0.42; before it both positive, "
-      "cost 0.17, through the benefit artefact)",
-      g1[OSN][0] > 0.2 and g1[OSN][1] and g1[OSN][2] and g1[OSN][3] < 0 < g1[OSN][4] and g1b[OSN] > 0.2,
-      g1d(OSN) + f"; with benefits at exit: level {gx['family-based support']} against {gx['central']}")
+check(f"G1 [restated at the refit, at the revision and at the verification] {OSN}: leaning on families costs demand — on one benefit rule, "
+      "the wage rule (the pinned family-based regime against state support on it): a lower demand level at year 12, by more than the 0.2% "
+      "of GDP the claim had, and a lower gap trough, for a smaller state bill, as on (b) on the same rule. Against the central on Sweden's "
+      "rules the difference is more than twice that, most of it the benefit rule: under Sweden's rules the state's own level is positive "
+      "at year 12 (the job losers' drag zero by then, the floor above the wage lost, and falling rates easing debt service); with both "
+      "regimes on Sweden's structure the cost is positive but under 0.2 (as found). (At the revision G1 gated the difference across the "
+      "two rules, 1.47; at the refit, benefits following wages in both, 0.42; before it both positive, cost 0.17, through the benefit "
+      "artefact)",
+      g1[OSN]["cost"] > 0.2 and g1[OSN]["trough"] and g1[OSN]["bill"] and g1[OSN]["b"] > 0.2 and g1[OSN]["state"] > 0
+      and g1[OSN]["cross"] > 2 * g1[OSN]["cost"] and 0 < g1[OSN]["sweden"] < 0.2,
+      g1d(OSN) + f"; the state's own level under Sweden's rules {g1[OSN]['state']}; with benefits at exit: level "
+      f"{gx['family-based support']} against {gx['central']}")
 fam_run = {n: hh.run(W[n], dmp, FAM, s0) for n in (DDN, OSN)}
 nc_run = {n: hh.run(W[n], dmp, replace(FAM, private_cap=1.0), s0) for n in (DDN, OSN)}
 for name in (DDN, OSN):
@@ -397,15 +435,24 @@ blocks = {"alternative: benefits follow the current money wage":
           {f"{n} | {vn}": replace(variants[vn], wage_fall_max=0.0) for n in AUT for vn in ("rigid money wages", "family-based, rigid money wages")}}
 same_blocks = all(json.loads(json.dumps({k: hh.summary(hh.run(W[k.split(" | ")[0]], dmp, sp_, s0)) for k, sp_ in bl.items()})) == R[key]["scenarios"]
                   for key, bl in blocks.items())
-check("X1 [extended at the revision] households.json's (c) runs equal a fresh rebuild on macro.central() — the scenarios and every "
-      "sensitivity block (the wage alternative, the floor's level, the first year at the aggregate a-kassa rate, the family-based regime on "
-      "Sweden's structure, benefits at exit and on the start's real wage, rigid wages with no cut) — its calibration record is the "
-      "central's, and its stored evidence and support are the code's (benefit_evidence; the central's floor 0.36 is the evidence's 0.3616 "
-      "to two decimals)",
+eh2, calh2 = bs.economy("hi")
+bbh, sch = bs.base_bridges("hi")
+hi_fresh = {}
+for n in AUT:
+    mp_ = dm.world(*sch[n], e=eh2, base=bbh)
+    hi_fresh |= {f"{n} | {vn}": hh.summary(hh.run(mp_, dmp, variants[vn], s0)) for vn in hh.COMPARED}
+    hi_fresh[f"{n} | demand layer alone (full pooling)"] = dm.summary(dm.run(mp_, dmp))
+same_hi = json.loads(json.dumps(hi_fresh)) == HI and R["sensitivity: the high root"]["calibration"] == json.loads(json.dumps(calh2))
+check("X1 [extended at the revision and at the verification] households.json's (c) runs equal a fresh rebuild on macro.central() — the "
+      "scenarios and every sensitivity block (the wage alternative, the floor's level, the first year at the aggregate a-kassa rate, the "
+      "family-based regime on Sweden's structure, benefits at exit and on the start's real wage, rigid wages with no cut, and since the "
+      "verification the high root, its calibration record included) — its calibration record is the central's, and its stored evidence "
+      "and support are the code's (benefit_evidence; the central's floor 0.36 is the evidence's 0.3616 to two decimals)",
       all(json.loads(json.dumps(v)) == S[k] for k, v in fresh.items()) and R["calibration"] == json.loads(json.dumps(bs.economy("lo")[1]))
-      and same_blocks and R["evidence"] == json.loads(json.dumps(hh.benefit_evidence(s0))) and R["support"] == json.loads(json.dumps(C.__dict__))
-      and round(R["evidence"]["floor_share"]["derived"], 2) == C.floor_share,
-      f"{len(fresh)} runs and {sum(len(b_) for b_ in blocks.values())} sensitivity runs; {R['calibration']['tag']}; the floor "
+      and same_blocks and same_hi and R["evidence"] == json.loads(json.dumps(hh.benefit_evidence(s0)))
+      and R["support"] == json.loads(json.dumps(C.__dict__)) and round(R["evidence"]["floor_share"]["derived"], 2) == C.floor_share,
+      f"{len(fresh)} runs, {sum(len(b_) for b_ in blocks.values())} sensitivity runs and the high root's {len(hi_fresh)}; "
+      f"{R['calibration']['tag']}; the floor "
       f"{R['evidence']['floor_share']['derived']} (cross-checks " + " / ".join(f"{v:.3f}" for v in R["evidence"]["floor_share"]
       ["cross_checks_on_the_layer_s_wage_bill"].values()) + f"), the a-kassa's aggregate first-year rate "
       f"{R['evidence']['replacement_first']['aggregate_gross_rate_under_the_ceiling']}")

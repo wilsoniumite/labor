@@ -34,7 +34,10 @@
 # medians below -50 bp, deficits second in all four [exactly three]); F2 (the rise side shorter than (b)'s: never falls 4%, floor
 # 64%, ten-year 95th percentile +20 bp, the largest rise's +124 -> the fall side still dominates but the rise side is longer than
 # (b)'s: never falls 14% against (b)'s 24%, floor 41%
-# against 21%, +167 against +147, +324 against +215); F5 (the +100 bp pick, draw 3522 at distance 0.823, needed the two direction
+# against 21%, +167 against +147, +324 against +215; its thresholds, old -> new, named at the verification below: never falls
+# < 0.1 and below (b)'s -> below one half and below (b)'s; policy at the floor > 0.5 and above (b)'s -> above (b)'s, 0.21; never
+# rises, not gated -> above one half and above (b)'s; the ten-year and largest-rise 95th percentiles below (b)'s -> above them; the
+# single largest rise above (b)'s, kept); F5 (the +100 bp pick, draw 3522 at distance 0.823, needed the two direction
 # bridges, the term premium and public support -> draw 880 at 0.729 needs the two bridges and the term premium only; the +50 bp
 # window pick needed the investment key and the two bridges -> draw 572 needs six dials; the -100 bp pick was (b)'s draw 1836 ->
 # draw 1773); F6 put on one basis, the required return's peak above the economy's own rho (Log 46's 3.29 was the rise above a draw's
@@ -49,6 +52,16 @@
 # (gated > 0), and deficits are second in the window by 0.36 against the transition's width 0.24 (the near-tie, 0.246 against
 # 0.233 unrounded, is now the largest rise's, against the term premium). The required return's rise in F6 is the headroom's live
 # test on (c) (with macro_scenarios R3's +200 bp run).
+# Restated at the verification (2026-10-28, Log 54's last bullet; the verifiers' findings on the revision, each flagged here, old ->
+# new): F2's label (its "each more than on (b)" was false for never-falls, 14% against (b)'s 24%, which the gate already checked as
+# "<"; now: never rises more often and never falls less often than on (b), policy at the floor more often), its thresholds listed
+# above; R5c (its label said "in both it has turned up from its low", which the gate did not test once the 10 bp range was dropped:
+# a draw flat at its low would pass; now gated: the 10Y at the end at least 1 bp above the path's low in both draws, set after seeing
+# R5's draw 19.5 bp above its low at year 8.5 and draw 3552 5.5 bp above its low at year 9.25); R6 (with the refit's bridges read at
+# the start's required return, decision 96, r* no longer depends on the return's half-life, so its refit clauses could not fail;
+# now its refit draws run with the bridges read along the path, bridges_at 'path', the comparators' mode, in which r* responds to
+# the rate (by up to 0.9 pp against the start's reading on these draws): none cycles, damped or undamped, as found; and the
+# central's own reading gated as what it is, r* identical at every half-life, set in advance).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_reverse.py
 # Exit status 0 only if every check passes.
@@ -177,17 +190,20 @@ jf = E["picks"]["largest 10Y fall"]["draw"]
 oc = rv.run(e, rv.from_unit(U4[jf]), keep_paths=True)
 oc_d = rv.run(e, deep_c, keep_paths=True)
 stops = lambda o_: float(np.min(o_["_paths"]["z"][-12:, 2]) - np.min(o_["_paths"]["z"][:-12, 2])) * 100 >= -1.0  # noqa: E731
+turned = lambda o_: float(o_["_paths"]["z"][-1, 2] - np.min(o_["_paths"]["z"][:, 2])) * 100  # noqa: E731  the end above the path's low, bp
+low_at = lambda o_: float(o_["_paths"]["t"][int(np.argmin(o_["_paths"]["z"][:, 2]))])  # noqa: E731
 last3 = lambda o_: " to ".join(f"{(f_(o_['_paths']['z'][-12:, 2]) - o_['_paths']['z'][0, 2]) * 100:+.1f}" for f_ in (np.min, np.max))  # noqa: E731
-check("R5c [restated at the refit and at the revision] on the central the same holds in R5's draw taken to the refit's dial space and in "
-      "the envelope's largest-fall draw: policy stops at the lower bound and the 10Y falls no further over the last three years — no more "
-      "than 1 bp below its earlier low — in both it has turned up from its low (R5's draw was flat at the refit, its range 8.0 bp against "
-      "the 10 bp R5 keeps on (b); on the revised dials — the investment key at Rachel and Smith's coefficient, every coefficient per point "
-      "of income — its r* falls less, -4.5% rather than -8.5%, and its 10Y turns up 11.9 bp: the criterion is now the largest-fall "
-      "draw's)",
-      all(o_["policy_min"] >= -0.5 - 1e-12 and o_["r_star_min"] + 2.0 < -0.5 and stops(o_) for o_ in (oc, oc_d)),
-      f"draw {jf}: r* low {oc['r_star_min']:+.2f}%, policy low {oc['policy_min']:+.2f}%, 10Y over the last 3 years {last3(oc)} bp from the start; "
-      f"R5's draw on the central: r* low {oc_d['r_star_min']:+.2f}%, policy low {oc_d['policy_min']:+.2f}%, 10Y over the last 3 years "
-      f"{last3(oc_d)} bp from the start (range {np.ptp(oc_d['_paths']['z'][-12:, 2]) * 100:.1f} bp)")
+check("R5c [restated at the refit, at the revision and at the verification] on the central the same holds in R5's draw taken to the "
+      "refit's dial space and in the envelope's largest-fall draw: policy stops at the lower bound and the 10Y falls no further over the "
+      "last three years — no more than 1 bp below its earlier low — and in both it has turned up from its low, ending at least 1 bp above "
+      "it (gated since the verification; R5's draw was flat at the refit, its range 8.0 bp against the 10 bp R5 keeps on (b); on the "
+      "revised dials — the investment key at Rachel and Smith's coefficient, every coefficient per point of income — its r* falls less, "
+      "-4.5% rather than -8.5%, and its 10Y turns up 11.9 bp: the criterion is now the largest-fall draw's)",
+      all(o_["policy_min"] >= -0.5 - 1e-12 and o_["r_star_min"] + 2.0 < -0.5 and stops(o_) and turned(o_) >= 1.0 for o_ in (oc, oc_d)),
+      f"draw {jf}: r* low {oc['r_star_min']:+.2f}%, policy low {oc['policy_min']:+.2f}%, 10Y over the last 3 years {last3(oc)} bp from the start, "
+      f"its end {turned(oc):.1f} bp above its low (year {low_at(oc):g}); R5's draw on the central: r* low {oc_d['r_star_min']:+.2f}%, policy "
+      f"low {oc_d['policy_min']:+.2f}%, 10Y over the last 3 years {last3(oc_d)} bp from the start (range "
+      f"{np.ptp(oc_d['_paths']['z'][-12:, 2]) * 100:.1f} bp), its end {turned(oc_d):.1f} bp above its low (year {low_at(oc_d):g})")
 
 
 def flips(rs, thr=0.25):
@@ -195,19 +211,26 @@ def flips(rs, thr=0.25):
     return int(np.sum((d[1:] * d[:-1] < 0) & (np.minimum(np.abs(d[1:]), np.abs(d[:-1])) > thr)))
 
 
-def rstar(d, hl):
-    return m.macro_path(e, rv.techs(e, d)[1], rv.bridges(e, d, rho_halflife=hl), 25, 0.25)["r_star"]
+def rstar(d, hl, **kw):
+    return m.macro_path(e, rv.techs(e, d)[1], rv.bridges(e, d, rho_halflife=hl, **kw), 25, 0.25)["r_star"]
 
 
-f1 = np.array([flips(rstar(rv.from_unit(u), 1.0)) for u in U[:300]])
-f1u = np.array([flips(rstar(rv.from_unit(u), 0.0)) for u in U[:100]])
+# the refit's draws with their bridges read along the path (bridges_at 'path', the comparators' mode), where r* responds to the rate
+f1 = np.array([flips(rstar(rv.from_unit(u), 1.0, bridges_at="path")) for u in U[:300]])
+f1u = np.array([flips(rstar(rv.from_unit(u), 0.0, bridges_at="path")) for u in U[:100]])
+live = max(float(np.max(np.abs(rstar(rv.from_unit(u), 0.0, bridges_at="path") - rstar(rv.from_unit(u), 0.0)))) for u in U[:100])
+same_hl = max(float(np.max(np.abs(rstar(rv.from_unit(u), 0.0) - rstar(rv.from_unit(u), 1.0)))) for u in U[:100])
 f0 = flips(rstar(deep, 0.0))
-check("R6 [restated at the refit; its label at the revision] with the required return adjusting (half-life 1 year) no draw cycles quarter "
-      "to quarter; on the refit none does even following last quarter's r* at once — the cycling was the pace key's (the pace swings near "
-      "full automation): on (b)'s dials the deep draw, undamped, still cycles. Since the revision the refit's bridges read at the start's "
-      "required return (decision 96), so its r* does not respond to the rate and cannot cycle: the refit's clauses hold by construction",
-      f1.max() <= 1 and f1u.max() <= 1 and f0 >= 10,
-      f"300 draws damped / 100 undamped: at most {f1.max()} / {f1u.max()} reversal(s) of more than 25 bp; the deep draw on (b)'s dials undamped: {f0}")
+check("R6 [restated at the refit; its label at the revision; restated at the verification] with the required return adjusting (half-life "
+      "1 year) no draw cycles quarter to quarter; on the refit's dials none does even following last quarter's r* at once — the cycling "
+      "was the pace key's (the pace swings near full automation): on (b)'s dials the deep draw, undamped, still cycles. Since the "
+      "verification the refit's draws run here with their bridges read along the path (the comparators' mode, in which r* responds to the "
+      "rate), so the claim is a live test; on the central's own reading, at the start's required return (decision 96), r* does not "
+      "respond to the rate at all: it is the same at every half-life (set in advance)",
+      f1.max() <= 1 and f1u.max() <= 1 and f0 >= 10 and live > 0.1 and same_hl < 1e-12,
+      f"300 draws damped / 100 undamped, bridges along the path: at most {f1.max()} / {f1u.max()} reversal(s) of more than 25 bp (their r* "
+      f"up to {live:.2f} pp from the start's reading); at the start's return r* differs across half-lives by {same_hl:.1e}; the deep draw "
+      f"on (b)'s dials undamped: {f0}")
 
 print("N — the guard: a run with no land-scarce equilibrium is caught, dated and counted, not dropped")
 d8 = rv.Dials(premium_shift=8.0)                     # past the central's rate headroom at its start
@@ -319,11 +342,12 @@ check("F1 [restated at the revision] the sign of the curve's move leans down on 
       f"{drb['recog_10Y']['alpha_capex']:+.2f}); second for the largest rise / fall / the 2Y: " + " / ".join(
           f"{top2(dr, o)[1]} {dr[o][top2(dr, o)[1]]:+.2f}" for o in ("max_up_10Y", "max_down_10Y", "ten_year_2Y"))
       + f" (the term premium for the largest rise {dr['max_up_10Y']['tp_per_debt']:+.2f})")
-check("F2 [restated at the revision] the tails: the fall side still dominates — the 10Y never rises in about two draws in three and "
-      "never falls in about one in seven, and policy reaches the floor in about two in five, each more than on (b) — but the rise side is "
-      "longer than (b)'s at its 95th percentile, over ten years and at its largest move, and its single largest draw goes further (at the "
-      "refit, the pass-through gross: never falls 4%, the floor 64%, the rise side shorter than (b)'s, +20 and +124 bp at the 95th "
-      "percentile)",
+check("F2 [restated at the revision; its label at the verification] the tails: the fall side still dominates — the 10Y never rises "
+      "in about two draws in three, more often than on (b), and never falls in about one in seven, less often than on (b), and policy "
+      "reaches the floor in about two in five, more often than on (b) — but the rise side is longer than (b)'s at its 95th percentile, over "
+      "ten years and at its largest move, and its single largest draw goes further (at the refit, the pass-through gross: never falls 4%, "
+      "the floor 64%, the rise side shorter than (b)'s, +20 and +124 bp at the 95th percentile; the thresholds, old -> new, in the "
+      "header)",
       sh["10Y_never_rises"] > 0.5 > sh["10Y_never_falls"] and sh["10Y_never_rises"] > shb["10Y_never_rises"]
       and sh["10Y_never_falls"] < shb["10Y_never_falls"] and sh["policy_reaches_floor"] > shb["policy_reaches_floor"]
       and ev["ten_year_10Y"]["p95"] > evb["ten_year_10Y"]["p95"] and ev["max_up_10Y"]["p95"] > evb["max_up_10Y"]["p95"]

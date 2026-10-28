@@ -5,6 +5,13 @@
 # are data (F1-F5) and do not depend on the calibration.
 # Restated at the refit (2026-10-27, Log 46; the central on the bridges refit on (c), its "deficits dominate" branch; (b) on its
 # own), as found: F6 compares sizes (the catch-up is now down), F7 states the catch-up running the other way from (b)'s.
+# Restated at the verification (2026-10-28, Log 54's last bullet; the verifiers' finding that her call (1) wants every claim that
+# rests on the investment key's pass-through stated conditionally; flagged): F6's and F7's labels say "at the gross reading of the
+# investment key (the central)", their gates unchanged — at a pass-through of 0.6 the new world's r* already peaks above its start
+# (0.79% against 0.75), so F7's "never raises r* above its start" is the gross reading's; F8 new, set after seeing, a readout as bank
+# R7 is: the catch-up (AI adopted around year 5, half-lives 1 / 3 / 5 years) -13 / -27 / -31 bp gross, -1.0 / -1.3 / -1.3 at 0.6,
+# +4.9 / +11.6 / +13.6 at 0.4 and +17 / +38 / +44 netted; the new world's r* peak 0.75 / 0.79 / 1.11 / 2.04%. Gated on the found
+# direction: rising as the pass-through falls at every half-life, down at gross, up at 0.4 and below.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_regime_digestion.py
 # Exit status 0 only if every check passes.
@@ -90,8 +97,9 @@ check("F5 the survey anchor was too high in over 90% of surveys 1992–2016 and 
       f"{rec['too_high_share']:.0%}; RMSE {rec['rmse_pp']}")
 cu = R["layer3_model_catch_up"]
 k0, k1 = "human regime digestion 3y", "human regime digestion 3y, AI adopted around year 5 (x30)"
-check("F6 [restated at the refit] in the model, with people digesting regime news over 3 years, adopting AI moves the 10Y far more "
-      "in its year than the news does — in size; on the refit the move is down (before the refit, up)",
+check("F6 [restated at the refit; its label at the verification] in the model, with people digesting regime news over 3 years, adopting "
+      "AI moves the 10Y far more in its year than the news does — in size; at the gross reading of the investment key (the central) the "
+      "move is down (before the refit, up; below a pass-through of about 0.6, up again: F8)",
       abs(cu[k1]["10Y_move_years_4.5_to_5.5_bp"]) > 2 * max(abs(cu[k0]["10Y_move_years_4.5_to_5.5_bp"]),
                                                             abs(cu["instant (the evidence)"]["10Y_move_years_4.5_to_5.5_bp"]))
       and cu[k1]["10Y_move_years_4.5_to_5.5_bp"] < 0,
@@ -100,10 +108,11 @@ check("F6 [restated at the refit] in the model, with people digesting regime new
 cb = R["layer3_model_catch_up_comparator_b"]
 hls = (1, 3, 5)
 ai = lambda d, h: d[f"human regime digestion {h}y, AI adopted around year 5 (x30)"]["10Y_move_years_4.5_to_5.5_bp"]  # noqa: E731
-check("F7 [restated at the refit] on the central the catch-up runs the other way from (b)'s, the pre-switch run: down at every human "
-      "half-life, where (b)'s is up, and smaller in size — even with deficits dominating, the refit's new world never raises r* above its "
-      "start ((b)'s rises to 2.5%), so its required return never rises (before the refit the central's catch-up was larger than (b)'s "
-      "and up)",
+check("F7 [restated at the refit; its label at the verification] at the gross reading of the investment key (the central) the catch-up "
+      "runs the other way from (b)'s, the pre-switch run: down at every human half-life, where (b)'s is up, and smaller in size — even "
+      "with deficits dominating, the refit's new world at that reading never raises r* above its start ((b)'s rises to 2.5%), so its "
+      "required return never rises (before the refit the central's catch-up was larger than (b)'s and up; at a pass-through of 0.6 its r* "
+      "already peaks above its start: F8)",
       all(ai(cu, h) < 0 < ai(cb, h) and abs(ai(cu, h)) < ai(cb, h) for h in hls)
       and cu["worlds"]["new_world_r_star_start_max_year15"][1] == cu["worlds"]["new_world_r_star_start_max_year15"][0]
       and cb["worlds"]["new_world_r_star_start_max_year15"][1] > cb["worlds"]["new_world_r_star_start_max_year15"][0] + 1
@@ -112,6 +121,27 @@ check("F7 [restated at the refit] on the central the catch-up runs the other way
       + " / ".join(f"{ai(cb, h):+.0f}" for h in hls) + f"); r* start/peak (to year 15)/year 15 {cu['worlds']['new_world_r_star_start_max_year15']} "
       f"((b) {cb['worlds']['new_world_r_star_start_max_year15']}); required return up to {cu['worlds']['new_world_required_return_rise_max_pp']:+.2f} pp "
       f"of headroom {cu['worlds']['rate_headroom_pp']:.2f}")
+
+PTS = (1.0, 0.6, 0.4, 0.0)            # the investment key's pass-through (decision 93): 1 gross (the central) to 0 netted
+ec_, _ = m.central()
+lay = {}
+for p_ in PTS:
+    br_ = {k: dict(v) for k, v in m.BRANCHES.items()}
+    br_["deficits dominate"]["alpha_inv"] = m.investment_key(p_)
+    lay[p_] = json.loads(json.dumps(rd.layer3(ec_, None, br_)[0], default=str))
+mv = {h: [ai(lay[p_], h) for p_ in PTS] for h in hls}
+wpk = {p_: lay[p_]["worlds"]["new_world_r_star_start_max_year15"] for p_ in PTS}
+rr_ = [lay[p_]["worlds"]["new_world_required_return_rise_max_pp"] for p_ in PTS]
+check("F8 [new at the verification, set after seeing] readout, the investment key's pass-through (decision 93; as bank R7): the catch-up's "
+      "direction rests on it — down at the gross reading (the central, F6-F7, equal to the stored run), about nothing at 0.6 and up below "
+      "it, rising as less of the investment fall counts at every human half-life; below gross the new world's r* peaks above its start "
+      "and its required return rises",
+      lay[1.0] == cu and all(np.all(np.diff(mv[h]) > 0) and mv[h][0] < 0 < mv[h][2] for h in hls)
+      and wpk[1.0][1] == wpk[1.0][0] and all(wpk[p_][1] > wpk[p_][0] for p_ in PTS[1:]) and rr_[0] == 0 and all(x > 0 for x in rr_[1:]),
+      "adoption year with AI at a pass-through of 1 / 0.6 / 0.4 / 0, half-life 1 / 3 / 5 years: "
+      + "; ".join(f"{h}y " + " / ".join(f"{x:+.1f}" for x in mv[h]) for h in hls) + " bp; the new world's r* start / peak "
+      + " / ".join(f"{wpk[p_][0]:.2f} / {wpk[p_][1]:.2f}" for p_ in PTS) + "%; the required return up " + " / ".join(f"{x:.2f}" for x in rr_)
+      + " pp")
 
 print("M — layer 3 on the central, (b) the comparator")
 ec, _ = m.central()
