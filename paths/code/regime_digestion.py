@@ -327,7 +327,7 @@ def figure(y, f, b10, f9y, real10, ba, out, t, paths, paths_b):
     a.set_xlabel("years (deficits dominate)"); a.set_ylabel("bp from the start"); a.legend(frameon=False, fontsize=8.5, labelcolor=INK, loc="best")
     fig.text(0.01, 0.005, "Coibion–Gorodnichenko slopes b -> share of news not yet absorbed per revision, b/(1+b) -> half-life. Anchors: constant-gain fits toward "
              "realized bill rates (part of any slowness is prudence). Sources: FRB (GSW), Philadelphia Fed (SPF), FRED." + NL
-             + "Panel 4: the macro block on calibration (c)'s central economy (open reading, low root), the return following r*; bridges refit on (c) (Log 46), deficits dominating.",
+             + "Panel 4: the macro block on calibration (c)'s central economy (open reading, low root), the return following r*; bridges refit on (c) (Logs 46, 54), deficits dominating.",
              fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_regime_digestion.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 

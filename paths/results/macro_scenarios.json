@@ -4382,7 +4382,7 @@
    "investment_key": {
     "Rachel and Smith (2015), BoE Staff WP 571, Box D1": "a 4 pp of GDP fall in investment lowers the neutral rate ~80 bp: 0.2 pp of r* per pp of GDP \u2014 their short-termism scenario, an upper bound on what an investment fall alone does; they read gross investment against gross saving",
     "Rachel and Summers (2019), NBER WP 26198 / BPEA": "the saving-investment gap's scale, 1 pp lower r per 2-4 pp of GDP (A ~0.33)",
-    "the model's fall": "replacement investment / income falls ~13 points by year 15 on every deep path, far outside Rachel and Smith's 4 pp: the coefficient is extrapolated (a linear bridge far beyond its evidence)",
+    "the model's fall": "replacement investment / income falls ~13 points by year 15 at the medium and fast speeds (17.8 -> 4.5 and 4.4% of income) and ~7 at the slow (to 10.5%; 8 on the high root), far outside Rachel and Smith's 4 pp: the coefficient is extrapolated (a linear bridge far beyond its evidence)",
     "pass_through": "how much of the investment fall counts as excess saving: gross 1.0 (Rachel and Smith's reading, the central), net for a growing stock ~0.4 (g / delta of replacement), netted against capital consumption 0 (the model's income is net of replacement investment). The evidence does not pin it: the central is gross and the reverse envelope draws it over 0-1 (macro.INVESTMENT_PASS_THROUGH_RANGE); sensitivity_investment_pass_through runs 1 / 0.4 / 0 on the fixed-return table",
     "note": "alpha_inv = macro.INVESTMENT_KEY = 0.2 x the pass-through per point of GDP, 0.175 per point of the model's income at the central (gross); before the revision (Log 46) the investment key was the common scale, 0.3, applied per point of income unconverted"
    }

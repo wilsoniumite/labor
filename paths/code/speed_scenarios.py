@@ -283,7 +283,7 @@ def figure(t, ow, nw, beliefs, event_paths, abrupt, fragile, comp):
     a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="upper left")
     fig.text(0.01, 0.005, "Calibration (c), central (open reading, low root), the return following r*; status quo vs medium deep automation; weekly grid. "
              "Today's market: 1 pp noise per quarterly reading, prior 5%;" + NL + "regime news digested with half-life a quarter (assumed); 1980s rate "
-             "news as measured. Shared error 0.5 pp (panel 6; dashed: calibration (b)). Bridges refit on (c) (Log 46).", fontsize=8, color=INK2)
+             "news as measured. Shared error 0.5 pp (panel 6; dashed: calibration (b)). Bridges refit on (c) (Logs 46, 54).", fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_speed.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
 

@@ -208,7 +208,7 @@ def figure(e, U, R, drivers, picks, Rb):
                          "axes.titlesize": 10.5, "axes.titleweight": "bold", "axes.titlecolor": INK,
                          "axes.titlelocation": "left"})
     fig = plt.figure(figsize=(17.5, 10.2), facecolor=SURF, layout="constrained")
-    fig.get_layout_engine().set(rect=(0, 0.035, 1, 0.965), h_pad=0.12, w_pad=0.1)
+    fig.get_layout_engine().set(rect=(0, 0.05, 1, 0.95), h_pad=0.12, w_pad=0.1)        # (left, bottom, width, height): room for the three-line footer
     gs = fig.add_gridspec(2, 3, width_ratios=[1, 1, 1.35])
     ax1, ax2, ax3 = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1]), fig.add_subplot(gs[:, 2])
     ax4, ax5 = fig.add_subplot(gs[1, 0]), fig.add_subplot(gs[1, 1])
@@ -282,7 +282,10 @@ def figure(e, U, R, drivers, picks, Rb):
              f"{s_lo:+g} to {s_hi:+g} pp from its own {m.capital_premium(e):.2f} pp. Dials drawn by Latin hypercube over broad stated ranges (reverse.RANGES), "
              "not estimates;" + NL
              + "'most plausible' = nearest the defaults in the unit cube among draws reaching the threshold. The pile at the left of panel 2 is the "
-             "lower bound: expected policy cannot go below -0.5%. Bridge ranges from the refit's evidence (Log 46); (b) on its own dials.", fontsize=8, color=INK2)
+             "lower bound: expected policy cannot go below -0.5%." + NL
+             + "Bridge ranges: owners' saving and deficits from the refit's evidence, per point of income; the investment dial the "
+             "pass-through, 0 netted to 1 gross, at Rachel and Smith's coefficient (Logs 46, 54; decision 93); (b) on its own dials.",
+             fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_reverse_envelope.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 
 

@@ -224,7 +224,7 @@ def figure(t, old, new, base, zmix, jump, p, cn, nar, comp):
     a.legend(frameon=False, fontsize=8.5, labelcolor=INK, loc="center right")
     fig.text(0.01, 0.005, "Worlds: calibration (c) central (open reading, low root), required return following r* from its own rho; new world = capability "
              "1 → 0.04 and lambda to a fifth, medium speed; dashed: calibration (b)." + NL + "Bayesian learning on quarterly labour-share data "
-             "(all wages over income). Bridges refit on (c) (Log 46).", fontsize=8, color=INK2)
+             "(all wages over income). Bridges refit on (c) (Logs 46, 54).", fontsize=8, color=INK2)
     fig.tight_layout(rect=(0, 0.035, 1, 1))
     pth = os.path.join(ROOT, "figures", "fig_recognition.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 

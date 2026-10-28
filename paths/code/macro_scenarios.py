@@ -372,8 +372,9 @@ EVIDENCE = {   # the published numbers behind macro.NEUTRAL_SCALE, OWNERS_SAVING
             "a 4 pp of GDP fall in investment lowers the neutral rate ~80 bp: 0.2 pp of r* per pp of GDP — their short-termism "
             "scenario, an upper bound on what an investment fall alone does; they read gross investment against gross saving",
         "Rachel and Summers (2019), NBER WP 26198 / BPEA": "the saving-investment gap's scale, 1 pp lower r per 2-4 pp of GDP (A ~0.33)",
-        "the model's fall": "replacement investment / income falls ~13 points by year 15 on every deep path, far outside Rachel and "
-                            "Smith's 4 pp: the coefficient is extrapolated (a linear bridge far beyond its evidence)",
+        "the model's fall": "replacement investment / income falls ~13 points by year 15 at the medium and fast speeds (17.8 -> 4.5 "
+                            "and 4.4% of income) and ~7 at the slow (to 10.5%; 8 on the high root), far outside Rachel and Smith's "
+                            "4 pp: the coefficient is extrapolated (a linear bridge far beyond its evidence)",
         "pass_through": "how much of the investment fall counts as excess saving: gross 1.0 (Rachel and Smith's reading, the "
                         "central), net for a growing stock ~0.4 (g / delta of replacement), netted against capital consumption 0 "
                         "(the model's income is net of replacement investment). The evidence does not pin it: the central is gross "
@@ -808,7 +809,7 @@ def capital():
     fig.text(0.01, 0.01, f"Calibration (c), central: required return {e.rho * 100:.2f}% (r0* {m.Bridges().r0_star:.2f}% + premium {m.capital_premium(e):.2f} pp), "
              f"depreciation {e.delta * 100:.1f}%, capital/income {res['capital_output_start']:.2f} (implied); machine-chain land includes the chain's "
              "imported content (modelled as land)." + NL + f"Dashed: calibration (b), return {eb.rho * 100:.2f}%, depreciation {eb.delta * 100:.0f}%. "
-             "Bridges refit on (c) (Log 46); (b) on its own, as tuned.", fontsize=8, color=INK2)
+             "Bridges refit on (c) (Logs 46, 54); (b) on its own, as tuned.", fontsize=8, color=INK2)
     fig.tight_layout(rect=(0, 0.07, 1, 1))
     p = os.path.join(ROOT, "figures", "fig_capital_feedback.png"); fig.savefig(p, dpi=150, facecolor=SURF); print(p)
 

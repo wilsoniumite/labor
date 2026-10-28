@@ -7,7 +7,8 @@
 # This layer measures the departures from it that a representative household cannot see, as the extra demand of
 # budget-constrained groups (their spending out of a krona, less a representative household's):
 #   people who lose work    their net wage is replaced by public support (Sweden's rules: the a-kassa on their own
-#                           money wage at exit for the first year, then a price-indexed floor), private support from
+#                           money wage of the year before exit for the first year, topped up to a price-indexed floor,
+#                           then the floor alone), private support from
 #                           family and friends (a share of what the state leaves uncovered), and their own savings
 #                           while they last; the rest is a spending cut;
 #   their supporters        pay the private support and cut their own spending by part of it;
@@ -31,9 +32,10 @@
 # Calibration. Measured (Statistics Sweden, 2026): household debt 1.74 x disposable income; 76.8% of housing loans
 # repricing within three months; mortgage rates 1.05 points over policy; deposits 0.91 x income; wages 0.84 of
 # disposable income; GDP (current prices, last four quarters). Public support on Sweden's rules (decision 94; the primary
-# sources in benefit_evidence, stored under "evidence"): 0.65 of the net money wage at exit in the first year (the layer's
-# rate since September; the a-kassa's aggregate gross rate under its 34,000 SEK ceiling is about 0.51, a sensitivity), then
-# a floor of 0.36 of the start's mean net wage indexed to prices (the riksnorm plus a one-room rent, 10,860 SEK a month, over
+# sources in benefit_evidence, stored under "evidence"): 0.65 of the net money wage of the four quarters before exit in the
+# first year (the layer's rate since September; the a-kassa's aggregate gross rate under its 34,000 SEK ceiling is about 0.51,
+# a sensitivity), topped up to and then followed by a floor of 0.36 of the start's mean net wage indexed to prices (the
+# riksnorm plus a one-room rent, 10,860 SEK a month, over
 # SCB's 2025 mean net wage; 0.27 and 0.43 sensitivities); the 'wage' alternative's 0.50 after the first year (OECD-style net
 # replacement rates for Sweden, approximate). Not measured here, stated: what families and friends cover (0.10 of the uncovered income under today's Swedish state support —
 # no Swedish measure; a dial); savings of new job losers (3 months of net wage); the share of a loss drawn from
@@ -52,9 +54,12 @@
 #
 # The two rules, for money wages that fall 71-84% by year 15 (decisions 78-79, revised 2026-10-28: decision 94, Log 54):
 #   benefits — Sweden's rules (benefit_base 'sweden', her call of 2026-10-28): the first year on the person's own net money
-#     wage at exit, fixed for the spell (the a-kassa: Lag 2024:506 sets the base at 1/12 of the year before the claim; 80/70/65%
-#     over 300 days; the 34,000 SEK ceiling a fixed sum, not modelled), then a floor indexed to prices (social assistance: the
-#     riksnorm plus reasonable housing). Once money wages fall far enough the floor exceeds the wage lost, so coverage passes
+#     wage over the four quarters before exit, fixed for the spell (the a-kassa: Lag 2024:506 sets the base at 1/12 of the
+#     earnings of the 12 months before the claim; 80/70/65% over 300 days; the 34,000 SEK ceiling a fixed sum, not modelled),
+#     topped up to a floor indexed to prices where it falls short of it, then the floor alone (social assistance: the riksnorm
+#     plus reasonable housing, paid whatever other income falls short of it; amended 2026-10-28 on the verifiers' finding: the
+#     first year had been paid on the exit quarter's wage and never topped up, so that from year 8 a first-year job loser got
+#     less than one out of work longer). Once money wages fall far enough the floor exceeds the wage lost, so coverage passes
 #     100% and the job losers' drag goes to zero: a consequence of the price-indexed floor, not an artefact. The named
 #     alternative, 'wage' (the rule from the refit to the revision): the replacement rate on the current net money wage, so
 #     benefits follow wages (minimum benefits follow wages in the Netherlands and Denmark; in about 35 US jurisdictions the
@@ -135,8 +140,9 @@ class Support:
     check_trigger: float = 3.0          # checks start when unemployment is this many points above the start
     private_cap: float = 1.0            # most that family and friends can give, share of the net wages of those in work
     benefit_base: str = "sweden"        # "sweden" (decision 94, her call of 2026-10-28): Sweden's rules — the first year on the
-                                        # person's own net money wage at exit, fixed for the spell (the a-kassa), then a floor of
-                                        # floor_share of the start's mean net wage indexed to prices (the riksnorm plus rent);
+                                        # person's own net money wage of the four quarters before exit, fixed for the spell (the
+                                        # a-kassa), topped up to, then followed by, a floor of floor_share of the start's mean net
+                                        # wage indexed to prices (the riksnorm plus rent);
                                         # "wage": the current net money wage (benefits follow wages; the rule from the refit to the
                                         # revision, the named alternative); "exit": each cohort's real net wage when it left work,
                                         # indexed to prices after; "start": the start's real net wage, indexed to prices (the rule
@@ -150,14 +156,15 @@ class Support:
 # (approximate); the half, the 10% cap and the 0.6 are assumptions — there is no Swedish measure of private support.
 # Its benefits follow the current money wage (benefit_base "wage", pinned): her call of 2026-10-28 put Sweden's rules in the
 # central run only, so every family variant keeps the rule it was set on until she decides otherwise (decision 94); the
-# alternative, the lean state on Sweden's structure (a-kassa at exit, then a floor at its own later rate, 0.25), is stored as
+# alternative, the lean state on Sweden's structure (a-kassa on the year before exit, topped up to and then followed by a floor
+# at its own later rate, 0.25), is stored as
 # a sensitivity — under it the networks' cap binds only a few years before the floor outruns the wage.
 FAMILY = dict(name="family-based support", replacement_first=0.40, replacement_later=0.25, benefit_base="wage", private=0.5,
               private_cap=0.10, mpc_supporter=0.6)
 
 # Sweden's rules (decision 94): the primary sources, each read on 28 Oct 2026, and the numbers taken from them.
 AKASSA = {"law": "Lag (2024:506) om arbetslöshetsförsäkring (decisions from 1 Oct 2025): 5 kap. 2 § and 3 kap. 12 § — the base is 1/12 of "
-                 "earned income in the 12 months before the claim month (the person's own money wage at exit), set once for the "
+                 "earned income in the 12 months before the claim month (the person's own money wage before exit), set once for the "
                  "benefit period; 5 kap. 4-6 §§ — 80% for a member of at least 12 months (60% for 6-11, 50% otherwise); 5 kap. 10 § — "
                  "down 10 pp after 100 benefit days and 5 pp more after 200; 4 kap. 4 § — at most 300 days. "
                  "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-2024506-om-arbetsloshetsforsakring_sfs-2024-506/",
@@ -201,9 +208,11 @@ def benefit_evidence(s0: dict) -> dict:
     c = AKASSA["ceiling_sek_month"]
     capped = (mean * norm.cdf((np.log(c) - mu - sig ** 2) / sig) + c * (1 - norm.cdf((np.log(c) - mu) / sig))) / mean
     return {"note": "decision 94 (her call of 2026-10-28: 'Sweden's rules'): the first year out of work on the person's own net money wage "
-                    "at exit, fixed for the spell (the a-kassa); after it a floor indexed to prices (social assistance: the riksnorm plus "
-                    "reasonable housing). The layer pays support on net0 (the aggregate net wage bill) times the share out of work, so a "
-                    "share acts on the MEAN net wage; the floor is flat, so its bill does not depend on whom it replaces",
+                    "of the four quarters before exit (the a-kassa's base, 1/12 of the 12 months' earnings before the claim), fixed for "
+                    "the spell, topped up to a floor indexed to prices where it falls short; after it the floor alone (social "
+                    "assistance: the riksnorm plus reasonable housing, paid whatever other income falls short of it). The layer pays "
+                    "support on net0 (the aggregate net wage bill) times the share out of work, so a share acts on the MEAN net wage; "
+                    "the floor is flat, so its bill does not depend on whom it replaces",
             "a_kassa": AKASSA, "riksnorm_2026": RIKSNORM_2026, "rent_2026": RENT_2026, "wages_2025": WAGES_2025,
             "employment_ths": EMPLOYMENT_THS,
             "floor_share": {"central": Support().floor_share,
@@ -295,12 +304,17 @@ def run(mp: dict, dmp: dm.Demand, sp: Support, s0: dict) -> dict:
             rep = np.where(np.arange(k + 1) > k - int(round(1 / dt)), sp.replacement_first, sp.replacement_later)
             wr = rec["W"][: k + 1] / rec["P"][: k + 1]
             public = net0 * rec["P"][k] * float(np.sum(c_ * wr * rep)) * out_new / tot if tot > 1e-15 else 0.0
-        elif sp.benefit_base == "sweden":                           # the a-kassa on the money wage at exit, then a price-indexed floor
-            k1 = max(0, k - int(round(1 / dt)) + 1)                  # the cohorts still in their first year out of work
+        elif sp.benefit_base == "sweden":                           # the a-kassa on the wage before exit, topped up to a price-indexed floor
+            q = int(round(1 / dt))
+            k1 = max(0, k - q + 1)                                   # the cohorts still in their first year out of work
             c1 = cohorts[k1: k + 1]
-            exit_money = float(np.sum(c1 * rec["W"][k1: k + 1])) / c1.sum() if c1.sum() > 1e-15 else rec["W"][k]
-            public = net0 * (sp.replacement_first * min(first, out_new) * exit_money
-                             + sp.floor_share * rec["P"][k] * max(out_new - first, 0.0))
+            # the a-kassa's base: each cohort's mean money wage over the four quarters before its exit quarter (Lag 2024:506: 1/12
+            # of the earnings of the 12 months before the claim); social assistance tops a payment below the floor up to it, in
+            # the first year too (the floor is the riksnorm's, paid whatever other income falls short of it)
+            base = np.array([rec["W"][max(0, j - q): j].mean() if j > 0 else rec["W"][0] for j in range(k1, k + 1)])
+            pay1 = np.maximum(sp.replacement_first * base, sp.floor_share * rec["P"][k])          # per person, the first year
+            first_rate = float(np.sum(c1 * pay1)) / c1.sum() if c1.sum() > 1e-15 else 0.0
+            public = net0 * (first_rate * min(first, out_new) + sp.floor_share * rec["P"][k] * max(out_new - first, 0.0))
         elif sp.benefit_base == "start":                            # the start's real net wage, indexed to prices
             public = net0 * rec["P"][k] * (sp.replacement_first * min(first, out_new) + sp.replacement_later * max(out_new - first, 0.0))
         elif sp.benefit_base == "wage":                             # the current net money wage: benefits follow wages
@@ -429,9 +443,9 @@ def main():
                 "the layer's 0.65. Not the default.",
         "scenarios": {f"{name} | central": summary(run(worlds[name], dmp, replace(central, replacement_first=0.51), s0)) for name in AUTOMATED}}
     out["sensitivity: the family-based regime on Sweden's structure"] = {
-        "note": "the family-based regime on Sweden's structure — its first year (0.40) on the money wage at exit, then a price-indexed floor "
-                "at its own later rate (0.25) — in place of its pinned rule (benefits follow the current money wage): the open question "
-                "for her under decision 94. Not the default.",
+        "note": "the family-based regime on Sweden's structure — its first year (0.40) on the money wage of the year before exit, topped "
+                "up to and then followed by a price-indexed floor at its own later rate (0.25) — in place of its pinned rule (benefits "
+                "follow the current money wage): the open question for her under decision 94. Not the default.",
         "scenarios": {f"{name} | {vn}": summary(run(worlds[name], dmp, replace(variants[vn], benefit_base="sweden", floor_share=0.25), s0))
                       for name in AUTOMATED for vn in ("family-based support", "family-based, no cap on what networks give",
                                                        "family-based, rigid money wages")}}
@@ -440,7 +454,8 @@ def main():
     for base_, key, note in (
             ("exit", "sensitivity: benefits on the wage at exit",
              "benefit_base='exit': public support on each cohort's real net wage when it left work, indexed to prices after; the "
-             "layer's rule (Sweden's, decision 94) pays the first year on the money wage at exit and then a price-indexed floor. "
+             "layer's rule (Sweden's, decision 94) pays the first year on the money wage of the year before exit, topped up to a "
+             "price-indexed floor, and then the floor. "
              "Not the default."),
             ("start", "sensitivity: benefits on the start's real wage",
              "benefit_base='start': public support on the start's real net wage, indexed to prices — the rule before the refit, "
@@ -519,7 +534,7 @@ def figure(runs):
         a.set_xlabel("years")
     fig.text(0.01, 0.004, "households.py on the demand layer and the macro block's worlds on calibration (c), the central (open reading, low root; bridges refit on (c), Logs 46 and 54). "
              "Swedish household debt, fixation, margins, deposits and GDP from Statistics Sweden; replacement rates, private support and spending shares approximate or assumed.\n"
-             "Benefits on Sweden's rules (the a-kassa on the money wage at exit, then a price-indexed floor; decision 94); under rigid wages money wages fall at most 4% a year and the log excess costs a share of the jobs left (decision 79; see the header).", fontsize=7.5)
+             "Benefits on Sweden's rules (the a-kassa on the money wage of the year before exit, topped up to a price-indexed floor, then the floor; decision 94); under rigid wages money wages fall at most 4% a year and the log excess costs a share of the jobs left (decision 79; see the header).", fontsize=7.5)
     os.makedirs(os.path.join(ROOT, "figures"), exist_ok=True)
     fig.savefig(os.path.join(ROOT, "figures", "fig_households.png"), dpi=120)
 
