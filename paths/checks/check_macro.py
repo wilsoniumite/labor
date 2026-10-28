@@ -1,6 +1,11 @@
 # check_macro.py — the macro block's battery: the paper's Appendix B (SSRN version) reproduced, its
 # identities, the calibration, and the bridges' signs.
 #
+# The B section runs on calibration (a) (m.calibrate(), the paper's instance) with the comparators' bridges (macro.BRIDGES_B:
+# pace-keyed, as tuned on (b)), pinned there since the bridges refit on (c) (Log 46); the refit's signs are gated in
+# check_macro_scenarios (V1, V3, F4) and check_reverse (R3). Labels said so at the revision (2026-10-28, Log 54; checks:C1): the
+# output is otherwise byte-identical to the refit's.
+#
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_macro.py
 # Exit status 0 only if every check passes.
 
@@ -79,7 +84,8 @@ check("C3 deep automation: the basket's site share rises throughout, the real wa
       np.all(np.diff(site) > 0) and rw[-1] < 0.5 * rw[0] and np.all(rw <= bound + 1e-12),
       "real wage " + " ".join(f"{v:.2f}" for v in rw))
 
-print("B — the bridges")
+print("B — the bridges as tuned on (b), on (a) (macro.BRIDGES_B: the comparators' pace-keyed bridges; the refit's signs are gated in "
+      "check_macro_scenarios V1, V3, F4 and check_reverse R3)")
 tech = m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=6, width=6)
 mp = m.macro_path(e0, tech, m.BRIDGES_B)
 basket = mp["pi_star"] + np.gradient(np.log(mp["Ps"] / mp["Ps"]), mp["t"]) * 100
@@ -93,11 +99,12 @@ base_br = m.BRIDGES_B
 r_cap = m.macro_path(e0, tech, replace(base_br, alpha_rent=0, alpha_fiscal=0))["r_star"]
 r_rent = m.macro_path(e0, tech, replace(base_br, alpha_capex=0, alpha_fiscal=0))["r_star"]
 r_fis = m.macro_path(e0, tech, replace(base_br, alpha_capex=0, alpha_rent=0))["r_star"]
-check("B3 the neutral rate's channels have their stated signs: the build-out raises it, the shift to owners lowers it, "
-      "deficits raise it", r_cap.max() > base_br.r0_star + 0.1 and r_rent[-1] < base_br.r0_star - 0.1 and r_fis[-1] > base_br.r0_star + 0.1,
+check("B3 on (a), with the comparators' pace-keyed bridges, the neutral rate's channels have their stated signs: the build-out raises it, "
+      "the shift to owners lowers it, deficits raise it", r_cap.max() > base_br.r0_star + 0.1 and r_rent[-1] < base_br.r0_star - 0.1 and r_fis[-1] > base_br.r0_star + 0.1,
       f"build-out peak +{r_cap.max() - base_br.r0_star:.2f}, owners {r_rent[-1] - base_br.r0_star:+.2f}, fiscal {r_fis[-1] - base_br.r0_star:+.2f} pp")
 fast = m.macro_path(e0, m.TechPath(eta_end=0.04, lam_end=0.01, t_mid=3, width=2), m.BRIDGES_B)
-check("B4 on a fast path the neutral rate rises during the build-out and ends below where it started: up now, down later",
+check("B4 on (a), with the comparators' pace-keyed bridges, on a fast path the neutral rate rises during the build-out and ends below "
+      "where it started: up now, down later",
       fast["r_star"].max() > fast["r_star"][0] + 0.3 and fast["r_star"][-1] < fast["r_star"][0],
       f"start {fast['r_star'][0]:.2f}, peak {fast['r_star'].max():.2f}, end {fast['r_star'][-1]:.2f}%")
 goods = m.macro_path(e0, tech, replace(base_br, mandate="goods"))

@@ -10,7 +10,19 @@
 # (flagged here). F1's 0.2, F3's five times and 1%, L- and H-tolerances predate the switch.
 # Restated at the refit (2026-10-27, Log 46; the central on the bridges refit on (c) in macro.BRANCHES, (b) on its own), as
 # found: F2 reads the ladder in size (the news world's 10Y now falls); F4 states that the two branches no longer split the
-# direction on the central — both move the 10Y down through recognition.
+# direction on the central — both move the 10Y down through recognition. Unflagged at the refit (checks:T1, S1): F2's "x100 as
+# far as instant" read |x100 - instant| < 0.1 bp, and its world was not the stored deficits branch but the refit's base with
+# (b)'s deficits dials (alpha_fiscal 0.25, alpha_rent 0.02), a ladder about half the branch's (-0.8 ... -14.7 against -1.5 ...
+# -28.1 bp); on the branch the 0.1 bp clause failed (0.136).
+# Restated at the revision (2026-10-28, Log 54; decisions 93-96): F2 is rebuilt on the stored deficits branch
+# (speed_scenarios.SCEN, macro.BRANCHES) and gated equal to speed.json's first-week 10Y (to its 0.1 bp rounding); its "x100 as far
+# as instant" is the digestion rung's arithmetic, set in advance — in its first week the x100 market prices 1 - 0.5^((1/52)/0.0025)
+# = 99.52% of the news, and the 10Y's move is proportional to the belief's (L6 carried to the curve) — replacing the 0.1 bp
+# tolerance; its sign (down) and the strict rise of |the move| along the ladder were seen in the revision's planning run (flagged:
+# -0.87 / -6.96 / -13.85 / -16.76 / -16.84 bp; at the refit, on the hybrid world, -0.8 / -6.1 / -12.1 / -14.7 / -14.7). On the
+# revision's hybrid world the move turned up (+0.2 ... +4.0 bp): the old construction no longer read the branch's direction. F4's
+# headroom clause holds vacuously on the refit (no world's required return rises, 0.00 pp): a regression guard (checks:V1); the
+# headroom's live tests on (c) are check_reverse F6 and check_macro_scenarios R3.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_speed.py
 # Exit status 0 only if every check passes.
@@ -152,19 +164,30 @@ for cc in (3, 10, 30, 100):
     trust_at.append(float(rc.trust_path(ow, nw, lrc)[int(np.searchsorted(tw, rc.crossing(tw, p, 0.5)))]))
 check("F1 with trust following the economy's own automation, the market is past one half while trust in AI is still below 0.2",
       max(trust_at) < 0.2, "trust at recognition, capacity 3/10/30/100: " + " ".join(f"{x:.2f}" for x in trust_at))
-od, nd = worlds(1 / 52, alpha_fiscal=0.25, alpha_rent=0.02)
+od, nd = worlds(1 / 52, **ss.SCEN["deficits dominate"])       # the stored deficits branch (macro.BRANCHES), not (b)'s dials
 T10 = np.array([10.0])
 week = []
-for hh, sh in ((0.25, 1.0), (0.025, 1.0), (9.8 / 252, 0.25), (0.0025, 1.0), (0.0, 1.0)):
+RUNGS = (("human, regime news (assumed)", 0.25, 1.0), ("x10", 0.025, 1.0), ("1980s rate news (measured)", 9.8 / 252, 0.25),
+         ("x100", 0.0025, 1.0), ("instant", 0.0, 1.0))
+for _, hh, sh in RUNGS:
     lj = replace(base, digest=hh, digest_share=sh)
     z1 = np.array([rg.zero(T10, mx)[0] for mx in rc.market_curves(od, nd, rc.learn(od, nd, replace(lj, jumps=((1.5, 4.0),))))[0]])
     z0 = np.array([rg.zero(T10, mx)[0] for mx in rc.market_curves(od, nd, rc.learn(od, nd, lj))[0]])
     i0 = int(np.searchsorted(tw, 1.5)) - 1
     week.append(float(((z1 - z0)[i0 + 1] - (z1 - z0)[i0]) * 100))
-check("F2 [restated at the refit] the week after a lump of news, the 10Y moves further along the ladder (down, on the refit): human "
-      "regime news, x10, 1980s rate news, x100, instant — the x100 market as far as the instant one within the week",
-      np.all(np.diff(np.abs(week))[:3] > 0) and abs(abs(week[4]) - abs(week[3])) < 0.1 and np.all(np.asarray(week) < 0),
-      " ".join(f"{x:.1f}" for x in week) + " bp")
+with open(os.path.join(os.path.dirname(HERE), "results", "speed.json"), encoding="utf-8") as fh:
+    LADDER = json.load(fh)["2_abrupt_event_effect_bp"]["deficits dominate"]
+stored_w = [LADDER[r_[0]]["1w"]["10Y"] for r_ in RUNGS]
+x100_share = 1 - 0.5 ** ((1 / 52) / 0.0025)              # the x100 rung's first week: the share of the news priced (L6)
+check("F2 [restated at the revision] the week after a lump of news, on the stored deficits branch, the 10Y moves further along the ladder "
+      "(down, on the refit): human regime news, x10, 1980s rate news, x100, instant — and the x100 market moves 1 - 0.5^((1/52)/0.0025) "
+      "= 99.52% of the instant one's move within the week, the digestion rung's arithmetic (set in advance); the ladder equals "
+      "speed.json's first-week 10Y (at the refit the check ran a hybrid world, the refit's base with (b)'s deficits dials, about half the "
+      "branch's ladder, and read 'as far as' to 0.1 bp)",
+      np.all(np.diff(np.abs(week)) > 0) and np.all(np.asarray(week) < 0) and abs(week[3] / week[4] - x100_share) < 1e-3
+      and all(abs(w_ - s_) <= 0.05 + 1e-9 for w_, s_ in zip(week, stored_w)),
+      " ".join(f"{x:.2f}" for x in week) + f" bp (stored {' '.join(f'{x:.1f}' for x in stored_w)}); x100 / instant {week[3] / week[4]:.5f} "
+      f"against {x100_share:.5f}")
 fd = {}
 for aware in (True, False):
     for cc in (1, 30):
@@ -202,10 +225,10 @@ check("W2 results/speed.json equals a rebuild by code/speed_scenarios.py, block 
       and SJ["calibration"] == rt({k: info_c[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")}),
       "blocks: " + ", ".join(full_c))
 dd, ds = "deficits dominate", "owners' saving dominates"
-check("F4 [restated at the refit] the two bridge settings no longer decide the direction on the central: on the refit both move the "
-      "10Y down through recognition, the deficits branch least and owners' saving further than on (b), where they split (before the "
-      "refit they split on the central too); the window opens more than a year earlier than (b)'s; no world's required return rises by "
-      "half the rate headroom",
+check("F4 [restated at the refit; its label at the revision] the two bridge settings no longer decide the direction on the central: on "
+      "the refit both move the 10Y down through recognition, the deficits branch least and owners' saving further than on (b), where they "
+      "split (before the refit they split on the central too); the window opens more than a year earlier than (b)'s; no world's required "
+      "return rises by half the rate headroom (on the refit none rises at all: a regression guard)",
       wc[ds]["10Y_through_recognition_bp"] < wc[dd]["10Y_through_recognition_bp"] < 0 < wb[dd]["10Y_through_recognition_bp"]
       and wc[ds]["10Y_through_recognition_bp"] < wb[ds]["10Y_through_recognition_bp"] < 0
       and all(wb[k]["window"][0] - wc[k]["window"][0] > 1.0 for k in (dd, ds))

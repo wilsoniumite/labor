@@ -31,6 +31,10 @@
 # (the pre-review 0.2 no longer holds under the open central: 0.127 / 0.136). The other tolerances are the pre-review
 # battery's, which were also set by its author with the data in view (M8's 10% / 0.02 / 0.04).
 #
+# At the revision of the bridges refit (2026-10-28, Log 54; decisions 93-96): the (c) tags run on the revised bridges, the (a)/(b)
+# tags on (b)'s; E1 bit for bit and every calibration parameter unchanged; S6's label names the investment key's coefficient (its
+# gate unchanged, its numbers moved: the capex term at year 6 -0.892 -> -0.519, debt at year 15 110 / 94% -> 131 / 115%).
+#
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_calibration_c.py   (clean under -W error: stderr empty)
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
 
@@ -643,10 +647,11 @@ for t in ("c_central_lo", "c_central_hi"):
     s6 &= float(np.max(np.abs(rs_ - mp["r_star"]))) < 1e-12 and cap6 < 0 and inv["6.0"] < inv["0.0"]         and inv["10.0"] < 0.5 * inv["0.0"] and int(np.argmax(mp["r_star"])) == 0 and br.capex_key == "investment"
     s6d.append(f"{t} inv/income {inv['0.0']:.3f} -> {inv['6.0']:.3f} (y6) -> {inv['10.0']:.3f} (y10), capex term at y6 {cap6:+.3f}")
 ib = sc["b"]["medium"]["inv_income"]
-check("S6 [restated at the refit, Log 46] r* under (c) central is the refit bridge's formula (the capex channel keyed to replacement "
-      "investment / income at the common scale, owners' saving, deficits) and is highest at the start: the capex term is negative from "
-      "the start as the model's own investment / income falls below half its start by year 10; under (b), on the bridges as tuned on "
-      "(b) (the pace key), investment / income rises to year 6",
+check("S6 [restated at the refit, Log 46; its label at the revision, Log 54] r* under (c) central is the refit bridge's formula (the capex "
+      "channel keyed to replacement investment / income at Rachel and Smith's coefficient times the gross pass-through, per point of "
+      "income — at the refit the common scale, 0.3, unconverted — owners' saving, deficits) and is highest at the start: the capex term is "
+      "negative from the start as the model's own investment / income falls below half its start by year 10; under (b), on the bridges "
+      "as tuned on (b) (the pace key), investment / income rises to year 6",
       s6 and ib["6.0"] > ib["0.0"] and "refit on (c)" in H["bridge_readouts"]["note"],
       "; ".join(s6d) + f"; (b) {ib['0.0']:.3f} -> {ib['6.0']:.3f}; r* max (b) {sc['b']['medium']['r_star_max']:.2f}, (c) "
       f"{sc['c_central_lo']['medium']['r_star_max']:.2f}; debt y15 (b) {bm['debt']['15.0']:.0f}%, (c) {cl['debt']['15.0']:.0f}% / "

@@ -17,7 +17,33 @@
 # key's, still gated on (b)'s dials); F1-F6 restated: the sign is now nearly pinned, downward; the fall side dominates the tails;
 # a +100 bp rise needs fiscal strain as well as the two direction bridges; the largest rise in the required return stays inside
 # the headroom. Thresholds set after seeing the refit's numbers (flagged): F1's 0.9 shares, F2's bands, R3's dial values (the
-# branches' ends).
+# branches' ends); R5c's criterion, loosened after the pre-refit 10 bp range failed at 24.6 bp on the largest-fall draw (to "falls
+# no further than 1 bp below its earlier low", the 10 bp range kept on R5's draw; unflagged at the refit, checks:T1). Two of F1's
+# clauses passed by a hair at the refit, unnamed (checks:R1): the window's 95th percentile -0.47 bp against < 0, and deficits
+# second over the transition's width in the window by 0.008 unrounded (0.3651 / 0.3570; the gate read two decimals).
+# Restated at the revision (2026-10-28, Log 54; decision 93, decision 77 corrected): the envelope with the investment key's
+# pass-through drawn — alpha_inv over 0-0.175 per point of income, Rachel and Smith's 0.2 per pp of GDP times 0 (netted against
+# capital consumption) to 1 (gross, the default, at the range's top) — every coefficient per point of income, every draw starting
+# at the measured deficit, the debt's rate floored and the bridges read at the start's required return; the same unit draws, so
+# comparator_b is unchanged. Set in advance: U1 restated (the investment dial's default at its range's top, u = 1, by her call; its
+# range built from the pass-through's own). Restated after seeing the revision's results (its planning runs count as seeing;
+# flagged, old -> new): F1 (the sign nearly pinned down: over ten years 94% fall, in the window 95%, its 95th percentile -0.5 bp,
+# deficits second in three of four -> the sign leans down: 80% over ten years, by thirds of the pass-through 74 / 80 / 87%, 86% in
+# the window, its 95th percentile +50 bp, deficits second in all four — for the largest rise by 0.25 against the term premium's
+# 0.23, a near-tie; gated: over ten years > 0.75 [> 0.9], in the window > 0.8, the window's 95th percentile > 0 [< 0], both
+# medians below -50 bp, deficits second in all four [exactly three]); F2 (the rise side shorter than (b)'s: never falls 4%, floor
+# 64%, ten-year 95th percentile +20 bp, the largest rise's +124 -> the fall side still dominates but the rise side is longer than
+# (b)'s: never falls 14% against (b)'s 24%, floor 41%
+# against 21%, +167 against +147, +324 against +215); F5 (the +100 bp pick, draw 3522 at distance 0.823, needed the two direction
+# bridges, the term premium and public support -> draw 880 at 0.729 needs the two bridges and the term premium only; the +50 bp
+# window pick needed the investment key and the two bridges -> draw 572 needs six dials; the -100 bp pick was (b)'s draw 1836 ->
+# draw 1773); F6 put on one basis, the required return's peak above the economy's own rho (Log 46's 3.29 was the rise above a draw's
+# own start, draw 77, against the 7.18 headroom and the old entry's 7.38 above the central's rho: record:A6) -> 5.74, draw 3034;
+# R5c (R5's draw, mapped to the refit's space, is no longer flat: its 10Y range over the last three years 8.0 -> 11.9 bp against the
+# 10 bp gate; restated to "falls no further", the criterion the largest-fall draw already had); F7 new (the falling shares rise with
+# the pass-through: 74 / 80 / 87% over ten years by thirds). R6's label: on the refit r* no longer reads the rate (its gate holds
+# trivially). Narrow passes: F3's debt driver (public support 0.60 against the midpoint's -0.49), F1's second driver for the largest
+# rise (above). The required return's rise in F6 is the headroom's live test on (c) (with macro_scenarios R3's +200 bp run).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_reverse.py
 # Exit status 0 only if every check passes.
@@ -62,13 +88,20 @@ for cls, d0_ in ((rv.Dials, D0), (rv.DialsB, D0B)):
     names_ = rv.space(cls)[0]
     u0 = rv.to_unit(d0_)
     back = rv.from_unit(u0, cls)
-    ok_u1 &= bool(np.all((u0 > 0) & (u0 < 1))) and all(abs(getattr(back, k) - getattr(d0_, k)) < 1e-12 for k in names_)
+    inner = [x for k, x in zip(names_, u0) if not (cls is rv.Dials and k == "alpha_inv")]
+    ok_u1 &= bool(np.all((np.array(inner) > 0) & (np.array(inner) < 1))) and all(abs(getattr(back, k) - getattr(d0_, k)) < 1e-12 for k in names_)
     txt_u1.append(f"{cls.__name__}: " + " ".join(f"{k} {x:.2f}" for k, x in zip(names_, u0)))
-check("U1 in both dial spaces (the refit's and (b)'s) the defaults sit inside the ranges, and unit -> dials -> unit is the identity "
-      "(log dials included); the two spaces differ only in the bridge dials (the refit's capex dial is alpha_inv)",
-      ok_u1 and [k for k in rv.NAMES if k not in rv.NAMES_B] == ["alpha_inv"] and len(rv.NAMES) == len(rv.NAMES_B)
+u_inv = rv.to_unit(D0)[rv.NAMES.index("alpha_inv")]
+check("U1 [restated at the revision; set in advance] in both dial spaces (the refit's and (b)'s) the defaults sit inside the ranges — "
+      "but for the investment key's, which sits at its range's top (u = 1: the pass-through gross, the central, by her call of "
+      "2026-10-28, decision 93) — and unit -> dials -> unit is the identity (log dials included); the investment dial's range is Rachel and "
+      "Smith's coefficient times the pass-through's own range (0 netted to 1 gross, per point of income), as stored; the two spaces "
+      "differ only in the bridge dials (the refit's capex dial is alpha_inv)",
+      ok_u1 and abs(u_inv - 1.0) < 1e-12 and D0.alpha_inv == m.INVESTMENT_KEY
+      and rv.RANGES["alpha_inv"] == tuple(m.investment_key(p_) for p_ in m.INVESTMENT_PASS_THROUGH_RANGE) == tuple(E["ranges"]["alpha_inv"])
+      and [k for k in rv.NAMES if k not in rv.NAMES_B] == ["alpha_inv"] and len(rv.NAMES) == len(rv.NAMES_B)
       and all(rv.RANGES[k] == rv.RANGES_B[k] for k in rv.NAMES if k not in ("alpha_inv", "alpha_rent", "alpha_fiscal")),
-      "; ".join(txt_u1))
+      "; ".join(txt_u1) + f"; alpha_inv over {rv.RANGES['alpha_inv'][0]:g}-{rv.RANGES['alpha_inv'][1]:.4f}, default {D0.alpha_inv:.4f}")
 ok_u2 = True
 for cls in (rv.Dials, rv.DialsB):
     names_, ranges_ = rv.space(cls)
@@ -139,15 +172,17 @@ jf = E["picks"]["largest 10Y fall"]["draw"]
 oc = rv.run(e, rv.from_unit(U4[jf]), keep_paths=True)
 oc_d = rv.run(e, deep_c, keep_paths=True)
 stops = lambda o_: float(np.min(o_["_paths"]["z"][-12:, 2]) - np.min(o_["_paths"]["z"][:-12, 2])) * 100 >= -1.0  # noqa: E731
-check("R5c [restated at the refit] on the central the same holds in R5's draw taken to the refit's dial space and in the envelope's "
-      "largest-fall draw: policy stops at the lower bound and the 10Y falls no further over the last three years (in R5's draw it is "
-      "flat; in the largest-fall draw it has turned up from its low)",
-      all(o_["policy_min"] >= -0.5 - 1e-12 and o_["r_star_min"] + 2.0 < -0.5 and stops(o_) for o_ in (oc, oc_d))
-      and np.ptp(oc_d["_paths"]["z"][-12:, 2]) * 100 < 10.0,
-      f"draw {jf}: r* low {oc['r_star_min']:+.2f}%, policy low {oc['policy_min']:+.2f}%, 10Y over the last 3 years "
-      f"{np.min(oc['_paths']['z'][-12:, 2]) * 100 - oc['_paths']['z'][0, 2] * 100:+.1f} to {np.max(oc['_paths']['z'][-12:, 2]) * 100 - oc['_paths']['z'][0, 2] * 100:+.1f} bp from the start; "
-      f"R5's draw on the central: r* low {oc_d['r_star_min']:+.2f}%, policy low {oc_d['policy_min']:+.2f}%, 10Y range over the last 3 years "
-      f"{np.ptp(oc_d['_paths']['z'][-12:, 2]) * 100:.1f} bp")
+last3 = lambda o_: " to ".join(f"{(f_(o_['_paths']['z'][-12:, 2]) - o_['_paths']['z'][0, 2]) * 100:+.1f}" for f_ in (np.min, np.max))  # noqa: E731
+check("R5c [restated at the refit and at the revision] on the central the same holds in R5's draw taken to the refit's dial space and in "
+      "the envelope's largest-fall draw: policy stops at the lower bound and the 10Y falls no further over the last three years — no more "
+      "than 1 bp below its earlier low — in both it has turned up from its low (R5's draw was flat at the refit, its range 8.0 bp against "
+      "the 10 bp R5 keeps on (b); on the revised dials — the investment key at Rachel and Smith's coefficient, every coefficient per point "
+      "of income — its r* falls less, -4.5% rather than -8.5%, and its 10Y turns up 11.9 bp: the criterion is now the largest-fall "
+      "draw's)",
+      all(o_["policy_min"] >= -0.5 - 1e-12 and o_["r_star_min"] + 2.0 < -0.5 and stops(o_) for o_ in (oc, oc_d)),
+      f"draw {jf}: r* low {oc['r_star_min']:+.2f}%, policy low {oc['policy_min']:+.2f}%, 10Y over the last 3 years {last3(oc)} bp from the start; "
+      f"R5's draw on the central: r* low {oc_d['r_star_min']:+.2f}%, policy low {oc_d['policy_min']:+.2f}%, 10Y over the last 3 years "
+      f"{last3(oc_d)} bp from the start (range {np.ptp(oc_d['_paths']['z'][-12:, 2]) * 100:.1f} bp)")
 
 
 def flips(rs, thr=0.25):
@@ -162,9 +197,10 @@ def rstar(d, hl):
 f1 = np.array([flips(rstar(rv.from_unit(u), 1.0)) for u in U[:300]])
 f1u = np.array([flips(rstar(rv.from_unit(u), 0.0)) for u in U[:100]])
 f0 = flips(rstar(deep, 0.0))
-check("R6 [restated at the refit] with the required return adjusting (half-life 1 year) no draw cycles quarter to quarter; on the refit's "
-      "investment key none does even following last quarter's r* at once — the cycling was the pace key's (the pace swings near full "
-      "automation): on (b)'s dials the deep draw, undamped, still cycles",
+check("R6 [restated at the refit; its label at the revision] with the required return adjusting (half-life 1 year) no draw cycles quarter "
+      "to quarter; on the refit none does even following last quarter's r* at once — the cycling was the pace key's (the pace swings near "
+      "full automation): on (b)'s dials the deep draw, undamped, still cycles. Since the revision the refit's bridges read at the start's "
+      "required return (decision 96), so its r* does not respond to the rate and cannot cycle: the refit's clauses hold by construction",
       f1.max() <= 1 and f1u.max() <= 1 and f0 >= 10,
       f"300 draws damped / 100 undamped: at most {f1.max()} / {f1u.max()} reversal(s) of more than 25 bp; the deep draw on (b)'s dials undamped: {f0}")
 
@@ -256,25 +292,36 @@ dr, drb = E["drivers_rank_corr"], EB["drivers_rank_corr"]
 top2 = lambda d, o: [k for k, _ in sorted(d[o].items(), key=lambda kv: -abs(kv[1]))[:2]]  # noqa: E731
 q3 = lambda d, k, f="+.0f": " / ".join(format(d[k][q], f) for q in ("p5", "p50", "p95"))  # noqa: E731
 sh, shb = E["shares"], EB["shares"]
-check("F1 [restated at the refit] the sign of the curve's move is nearly pinned on the refit, downward: the 10Y falls through the "
-      "recognition window in 95% of draws (its 95th percentile below zero) and over ten years in more than nine in ten, where on (b) and "
-      "before the refit the sign was open; owners' saving still drives every curve outcome most (down), deficits push the other way "
-      "(up) — second in three of the four, behind the market's prior for the largest fall; the investment key's scale ranks below both",
-      ev["recog_10Y"]["p95"] < 0 < evb["recog_10Y"]["p95"] and sh["ten_year_10Y_negative"] > 0.9 and evb["ten_year_10Y"]["p5"] < 0 < evb["ten_year_10Y"]["p95"]
+TH = E["shares_by_investment_pass_through"]
+win_neg = sum(TH[k]["recog_10Y_negative"] * TH[k]["draws"] for k in ("0 to 1/3", "1/3 to 2/3", "2/3 to 1")) / E["solved"]
+check("F1 [restated at the revision] the sign of the curve's move leans down on the refit but is not pinned once the investment key's "
+      "pass-through is drawn: the 10Y falls over ten years in about eight draws in ten (more than three in four; nearer nine when most of "
+      "the investment fall counts, F7) and through the recognition window in more than four in five, its median well below zero, but its "
+      "95th percentile is above zero, as on (b) (at the refit, the pass-through gross in every draw: 94% over ten years, 95% in the window, "
+      "its 95th percentile -0.5 bp); owners' saving still drives every curve outcome most (down), deficits push the other way (up) and "
+      "come second in all four (at the refit in three, behind the market's prior for the largest fall); the investment key's "
+      "pass-through ranks below both",
+      0 < ev["recog_10Y"]["p95"] and evb["recog_10Y"]["p95"] > 0 and ev["recog_10Y"]["p50"] < -50 and ev["ten_year_10Y"]["p50"] < -50
+      and sh["ten_year_10Y_negative"] > 0.75 and win_neg > 0.8 and evb["ten_year_10Y"]["p5"] < 0 < evb["ten_year_10Y"]["p95"]
       and all(top2(dr, o)[0] == "alpha_rent" and dr[o]["alpha_rent"] < 0 < dr[o]["alpha_fiscal"] for o in CURVE)
-      and sum(top2(dr, o)[1] == "alpha_fiscal" for o in CURVE) == 3
+      and all(top2(dr, o)[1] == "alpha_fiscal" for o in CURVE)
       and all(abs(dr[o]["alpha_inv"]) < min(abs(dr[o]["alpha_rent"]), abs(dr[o]["alpha_fiscal"])) for o in CURVE),
       f"10Y over ten years 5/50/95%: {q3(ev, 'ten_year_10Y')} bp ((b) {q3(evb, 'ten_year_10Y')}); recognition window "
-      f"{q3(ev, 'recog_10Y')} ((b) {q3(evb, 'recog_10Y')}); falls over ten years in {sh['ten_year_10Y_negative']:.0%} ((b) "
-      f"{shb['ten_year_10Y_negative']:.0%}); rank corr. in the window: owners' saving {dr['recog_10Y']['alpha_rent']:+.2f} ((b) "
-      f"{drb['recog_10Y']['alpha_rent']:+.2f}), deficits {dr['recog_10Y']['alpha_fiscal']:+.2f} ({drb['recog_10Y']['alpha_fiscal']:+.2f}), "
-      f"investment {dr['recog_10Y']['alpha_inv']:+.2f} ((b)'s pace key {drb['recog_10Y']['alpha_capex']:+.2f}); second for the largest fall: "
-      f"{top2(dr, 'max_down_10Y')[1]}")
-check("F2 [restated at the refit] the tails turn: the fall side dominates — the 10Y never falls in under one draw in ten (on (b) a "
-      "quarter; before the refit a third) and policy reaches the floor in more than half ((b) a fifth); the rise side is shorter than "
-      "(b)'s at its 95th percentile, over ten years and at its largest move, though its single largest draw goes further",
-      sh["10Y_never_falls"] < 0.1 < shb["10Y_never_falls"] and sh["policy_reaches_floor"] > 0.5 > shb["policy_reaches_floor"]
-      and ev["ten_year_10Y"]["p95"] < evb["ten_year_10Y"]["p95"] and ev["max_up_10Y"]["p95"] < evb["max_up_10Y"]["p95"]
+      f"{q3(ev, 'recog_10Y')} ((b) {q3(evb, 'recog_10Y')}); falls over ten years in {sh['ten_year_10Y_negative']:.1%} ((b) "
+      f"{shb['ten_year_10Y_negative']:.1%}), in the window in {win_neg:.1%}; rank corr. in the window: owners' saving "
+      f"{dr['recog_10Y']['alpha_rent']:+.2f} ((b) {drb['recog_10Y']['alpha_rent']:+.2f}), deficits {dr['recog_10Y']['alpha_fiscal']:+.2f} "
+      f"({drb['recog_10Y']['alpha_fiscal']:+.2f}), the investment key's pass-through {dr['recog_10Y']['alpha_inv']:+.2f} ((b)'s pace key "
+      f"{drb['recog_10Y']['alpha_capex']:+.2f}); second for the largest rise / fall / the 2Y: " + " / ".join(
+          f"{top2(dr, o)[1]} {dr[o][top2(dr, o)[1]]:+.2f}" for o in ("max_up_10Y", "max_down_10Y", "ten_year_2Y"))
+      + f" (the term premium for the largest rise {dr['max_up_10Y']['tp_per_debt']:+.2f})")
+check("F2 [restated at the revision] the tails: the fall side still dominates — the 10Y never rises in about two draws in three and "
+      "never falls in about one in seven, and policy reaches the floor in about two in five, each more than on (b) — but the rise side is "
+      "longer than (b)'s at its 95th percentile, over ten years and at its largest move, and its single largest draw goes further (at the "
+      "refit, the pass-through gross: never falls 4%, the floor 64%, the rise side shorter than (b)'s, +20 and +124 bp at the 95th "
+      "percentile)",
+      sh["10Y_never_rises"] > 0.5 > sh["10Y_never_falls"] and sh["10Y_never_rises"] > shb["10Y_never_rises"]
+      and sh["10Y_never_falls"] < shb["10Y_never_falls"] and sh["policy_reaches_floor"] > shb["policy_reaches_floor"]
+      and ev["ten_year_10Y"]["p95"] > evb["ten_year_10Y"]["p95"] and ev["max_up_10Y"]["p95"] > evb["max_up_10Y"]["p95"]
       and ev["max_up_10Y"]["max"] > evb["max_up_10Y"]["max"],
       f"10Y over ten years, 95%: {ev['ten_year_10Y']['p95']:+.0f} bp ((b) {evb['ten_year_10Y']['p95']:+.0f}); largest rise 95%: "
       f"{ev['max_up_10Y']['p95']:+.0f} ((b) {evb['max_up_10Y']['p95']:+.0f}), max {ev['max_up_10Y']['max']:+.0f} ({evb['max_up_10Y']['max']:+.0f}); "
@@ -299,18 +346,21 @@ att = {(lab, nm): rv.attribute(econ, rv.from_unit(U4[blk[nm]["draw"]], cls), KEY
        for lab, econ, blk, cls in (("c", e, pk, rv.Dials), ("b", eb, pkb, rv.DialsB)) for nm, thr in ((P100, 100.0), (M100, -100.0), (P50, 50.0))}
 a1, a1b, am, a50 = att[("c", P100)], att[("b", P100)], att[("c", M100)], att[("c", P50)]
 FISCAL = ("tp_per_debt", "public_support")
-check("F5 [restated at the refit] a +100 bp rise lies farther from the defaults on the refit than on (b), and what it needs — found by "
-      "re-running the draw with dial subsets, not by the listing of dials moved more than 0.15 of their range — is the two direction "
-      "bridges together with fiscal strain: owners' saving below its default, deficits above it, and a larger term premium per point of "
-      "debt and more public support; the direction bridges alone, or reset, give no rise, the listed dials alone give it. The +50 bp in "
-      "the recognition window needs the investment key's scale below its default as well as the two bridges. A -100 bp fall needs "
-      "nothing: the default dials already reach it, and its most plausible draw is the same as (b)'s",
+check("F5 [restated at the revision] a +100 bp rise lies farther from the defaults on the refit than on (b), and what it needs — found "
+      "by re-running the draw with dial subsets, not by the listing of dials moved more than 0.15 of their range — is the two direction "
+      "bridges together with fiscal strain: owners' saving below its default, deficits above it, and a steeper term premium per point of "
+      "debt (no longer more public support as well, as at the refit); the direction bridges alone, or reset, give no rise, the listed "
+      "dials alone give it. The +50 bp in the recognition window needs six dials: the two bridges, the investment key's pass-through "
+      "below gross, a shorter transition, more public support and a higher premium (at the refit the investment key and the two bridges). "
+      "A -100 bp fall needs nothing: the default dials already reach it (its most plausible draw is no longer (b)'s, the investment "
+      "dial's default now at its range's top)",
       up["distance"] > upb["distance"] and a1["at_draw"] >= 100.0 and a1["direction_bridges_only"] < 100.0 and a1["direction_bridges_reset"] < 100.0
-      and a1["listed_dials_only"] >= 100.0 and set(rv.DIRECTION) | set(FISCAL) <= set(a1["needed"])
+      and a1["listed_dials_only"] >= 100.0 and set(a1["needed"]) == {*rv.DIRECTION, "tp_per_debt"}
       and a1["direction_bridges"]["alpha_rent"][1] < a1["direction_bridges"]["alpha_rent"][0]
       and a1["direction_bridges"]["alpha_fiscal"][1] > a1["direction_bridges"]["alpha_fiscal"][0]
-      and a50["at_draw"] >= 50.0 and set(a50["needed"]) == {"alpha_inv", *rv.DIRECTION}
-      and dn["draw"] == pkb[M100]["draw"] and am["needed"] == [] and E["default_dials"]["max_down_10Y"] <= -100.0
+      and a50["at_draw"] >= 50.0 and set(a50["needed"]) == {"width", "alpha_inv", *rv.DIRECTION, "public_support", "premium_shift"}
+      and rv.from_unit(U4[pk[P50]["draw"]]).alpha_inv < D0.alpha_inv
+      and am["needed"] == [] and E["default_dials"]["max_down_10Y"] <= -100.0
       and all(blk[nm]["cause_by_subset"] == att[(lab, nm)] for lab, blk in (("c", pk), ("b", pkb)) for nm in (P100, M100, P50)),
       f"+100: draw {up['draw']}, distance {up['distance']:.3f} ((b) {upb['distance']:.3f}), {a1['at_draw']:+.1f} bp; owners' saving "
       f"{a1['direction_bridges']['alpha_rent'][0]:g} -> {a1['direction_bridges']['alpha_rent'][1]:.3f}, deficits "
@@ -319,14 +369,33 @@ check("F5 [restated at the refit] a +100 bp rise lies farther from the defaults 
       f"{a1['needed']}. (b)'s +100 (draw {upb['draw']}, {a1b['at_draw']:+.1f}): needed {a1b['needed']}. +50 in the window: draw {pk[P50]['draw']}, "
       f"{a50['at_draw']:+.1f}, needed {a50['needed']}. -100: draw {dn['draw']}, {am['at_draw']:+.1f} bp ((b) {att[('b', M100)]['at_draw']:+.1f}); "
       f"default dials {E['default_dials']['max_down_10Y']:+.1f}")
-rr, prr = ev["rho_rise_max_pp"], pk["largest rise in the required return"]
-check("F6 [restated at the refit] every draw has a land-scarce equilibrium at every date, on the central and on (b): none is lost to "
-      "NoEquilibrium, and the largest rise in the required return stays inside the central's headroom at its start (before the refit it "
-      "went past it, solving because deep automation had moved the machine chain's ceiling out)",
+rr, prr, ra = ev["rho_rise_max_pp"], pk["largest rise in the required return"], E["rho_above_economy"]
+dra = rv.from_unit(U4[ra["draw"]])
+ora = rv.run(e, dra)
+check("F6 [restated at the revision] every draw has a land-scarce equilibrium at every date, on the central and on (b): none is lost to "
+      "NoEquilibrium, and the required return's highest point above the central's own rho — a draw's own rise plus its shifted premium, "
+      "the basis of the central's headroom — stays inside that headroom (before the refit it went past it, 7.38 pp, draw 1315, solving "
+      "because deep automation had moved the machine chain's ceiling out; Log 46 quoted 3.29, the largest rise above a draw's own start, "
+      "about 4.33 above the central's rho: record:A6). The largest rise above a draw's own start is stored beside it; the draw that "
+      "reaches the highest required return is re-run here",
       E["no_equilibrium"] == 0 and EB["no_equilibrium"] == 0 and E["other_failures"] == 0 and EB["other_failures"] == 0
-      and E["solved"] == E["draws"] and prr["value_pp"] == rr["max"] and rr["max"] < info["headroom_pp"],
-      f"solved {E['solved']}/{E['draws']} ((b) {EB['solved']}/{EB['draws']}); the largest rise in the required return {rr['max']:.2f} pp "
-      f"(draw {prr['draw']}) against a headroom of {info['headroom_pp']:.2f} pp at the start")
+      and E["solved"] == E["draws"] and prr["value_pp"] == rr["max"] and ra["max"] < info["headroom_pp"]
+      and round(ora["rho_above_economy_max_pp"], 2) == ra["max"] and round(dra.premium_shift, 3) == ra["premium_shift"]
+      and round(ora["rho_rise_max_pp"], 2) == ra["rise_above_own_start"],
+      f"solved {E['solved']}/{E['draws']} ((b) {EB['solved']}/{EB['draws']}); the required return's peak above the central's rho {ra['max']:.2f} pp "
+      f"(draw {ra['draw']}: premium shifted {ra['premium_shift']:+.2f}, its own rise {ra['rise_above_own_start']:.2f}; 95th percentile "
+      f"{ra['p95']:.2f}) against a headroom of {info['headroom_pp']:.2f} pp at the start; the largest rise above a draw's own start "
+      f"{rr['max']:.2f} pp (draw {prr['draw']}, premium shifted {rv.from_unit(U4[prr['draw']]).premium_shift:+.2f})")
+TH3 = [TH[k] for k in ("0 to 1/3", "1/3 to 2/3", "2/3 to 1")]
+check("F7 [new at the revision, set after seeing] the investment key's pass-through drawn (decision 93: the alpha_inv dial's unit draw, 0 "
+      "the investment fall netted against capital consumption, 1 gross): by thirds of it, the more of the fall counts as excess saving "
+      "the more often the 10Y falls — over ten years, through the recognition window, and never rising at all; the thirds hold the "
+      "solved draws",
+      all(TH3[i][q] < TH3[i + 1][q] for i in (0, 1) for q in ("ten_year_10Y_negative", "recog_10Y_negative", "10Y_never_rises"))
+      and sum(x["draws"] for x in TH3) == E["solved"] and min(x["draws"] for x in TH3) > 0.33 * E["solved"],
+      "by thirds (netted to gross): over ten years " + " / ".join(f"{x['ten_year_10Y_negative']:.1%}" for x in TH3) + "; in the window "
+      + " / ".join(f"{x['recog_10Y_negative']:.1%}" for x in TH3) + "; never rises " + " / ".join(f"{x['10Y_never_rises']:.1%}" for x in TH3)
+      + "; draws " + " / ".join(str(x["draws"]) for x in TH3))
 
 fails = [nm for nm, ok, _ in RESULTS if not ok]
 print(f"\n{len(RESULTS) - len(fails)}/{len(RESULTS)} checks passed")

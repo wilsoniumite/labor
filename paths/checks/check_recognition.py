@@ -10,6 +10,8 @@
 # Restated at the refit (2026-10-27, Log 46; the bridges refit on (c), (b) and (a) on their own), as found: M3 compares policy with
 # the desired rate where the lower bound lets it follow (the refit's desired rate falls below the floor); S4's bull flattening is
 # now of about two points at the long end (before the refit under 25 bp), its threshold (-100 bp at 10Y) set after seeing it.
+# Numbers updated at the revision (2026-10-28, Log 54; decisions 93-96), no gate moved: across the window 3M -5, 2Y -57, 10Y -141,
+# 30Y -179 bp [Log 46 -5 / -70 / -177 / -227]; S4's label "about 1.4 points" [nearly two]; its -100 bp gate holds by 41 bp.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_recognition.py
 # Exit status 0 only if every check passes.
@@ -139,9 +141,9 @@ check("S3 on (c) the market wakes up earlier than on (b): (c)'s labour share fal
       f"{R['labour_share_pp']['3'][1] - R['labour_share_pp']['3'][0]:+.1f} vs {Rb['labour_share_pp']['3'][1] - Rb['labour_share_pp']['3'][0]:+.1f} pp, "
       f"Figure 7 basis {F7S['c'][FB]['fall_pp_at_year3']:+.2f} vs {F7S['b'][FB]['fall_pp_at_year3']:+.2f} pp")
 cw, cwb = R["recognition_window"]["curve_move_bp"], Rb["recognition_window"]["curve_move_bp"]
-check("S4 [restated at the refit] across the recognition window the whole curve falls, the long end most — a bull flattening of "
-      "nearly two points at 10Y (before the refit, on the bridges as tuned on (b), under 25 bp); on (b) the 2Y rose while the long end "
-      "fell — the front's sign flips",
+check("S4 [restated at the refit; numbers updated at the revision] across the recognition window the whole curve falls, the long end "
+      "most — a bull flattening of about 1.4 points at 10Y (at the refit nearly two; before the refit, on the bridges as tuned on (b), "
+      "under 25 bp); on (b) the 2Y rose while the long end fell — the front's sign flips",
       all(cw[k] < 0 for k in ("2Y", "10Y", "30Y")) and cw["30Y"] <= cw["10Y"] <= cw["2Y"] and cw["10Y"] < -100
       and cwb["2Y"] > 0 > cwb["10Y"],
       "(c): " + " ".join(f"{k} {v:+.1f}" for k, v in cw.items()) + " bp; (b): " + " ".join(f"{k} {v:+.1f}" for k, v in cwb.items()) + " bp")

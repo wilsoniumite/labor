@@ -14,7 +14,23 @@
 # Restated at the refit (2026-10-27, Log 46; the central on the bridges refit on (c), its two branches macro.BRANCHES; (b) on its
 # own, macro.BRIDGES_B and SCEN_B), as found: F5 now holds on the high root too (smaller); R5 is the readout keyed back to the pace
 # (the investment key's readout before); F1-F4, F6 hold as stated, numbers moved (STATE Log 46). F5's 0.5 and R5's +1.0 / +0.3 set
-# after seeing the refit's numbers (flagged).
+# after seeing the refit's numbers (flagged). Corrected at the revision (checks:L1, B1, N2): F1, F3 and F6 held as stated at the
+# refit; F2 and F4 were restated (the deficits branch no longer raised rates; F4's label changed without the tag, its gate kept, its
+# margin 1.23 -> 0.61); R6 was restated after two of its high-root clauses failed — F2's borrowers clause inverted (8% over the
+# line, gated < 0.1) and F4's half-point margin dropped (0.46) — not a narrow pass; X4's bands were all re-set at the refit to its
+# values (households' income floor 0.95 -> 0.90, status quo year 5 0.80-0.83 -> 0.78-0.81, the year-10 bands), unflagged.
+# Restated at the revision (2026-10-28, Log 54; decisions 93-96: the investment key at Rachel and Smith's coefficient times its
+# pass-through, every coefficient per point of income, the start net of the state's asset income, the debt's rate floored, the
+# bridges at the start's required return), as found; flagged where set or restated after seeing (the revision's planning runs count
+# as seeing; old -> new): F5's high-root clause (18% against its start 7.6% + 5 points -> 10.6%, gated 2 points over its start); R5's
+# owners'-saving NII clause (equal under both keys, 0.88 -> 0.90 against 0.89, now within 0.05); R6 restated back to F2-F4's own
+# clauses on the high root (its deficits branch 11.6% over the line, F2's 10% met again; F4's half point met, 0.82); X4's bands
+# re-set (the deficits branch's site x10 -> x6.75 at year 10, band 9.5-10.5 -> 6.5-7.0; owners' saving's wage bill 0.12 -> 0.143,
+# 0.10-0.14 -> 0.12-0.16; its employment 0.43 -> 0.464, 0.41-0.45 -> 0.44-0.48); R7 new (the deficits branch at the investment
+# key's pass-through 1 / 0.6 / 0.4 / 0: planning values policy at year 15 1.75 / 2.75 / 3.0 / 4.0%, high root 1.5 / 2.5 / 2.75 /
+# 3.5). F2 and F4 carry the moved numbers in their labels. Narrow passes: R5's pace-keyed deficits peak 4.0% against its start +
+# 1.0 (one 25 bp step) and NII high 2.54 against 2.41; R6's high-root borrowers clause, 11.6% against 10%. R4 holds vacuously on the
+# refit (no world's required return rises: 0.00 pp; (b) 1.80), a regression guard (checks:V1).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_bank.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
@@ -114,8 +130,9 @@ check("F1 a pure tightening: NII rises first, the deposit windfall decays while 
       and pt["house_real_min_and_year"][0] < 0.9 and pt["losses_max_year"] > pt["nii_max_year"],
       f"NII {pt['nii_start']} -> {pt['nii_max']} (year {pt['nii_max_year']}); pass-through {pt['deposit_beta_at_policy_extreme']} -> {pt['deposit_beta_year_after']}; "
       f"houses {pt['house_real_min_and_year'][0]}; losses peak year {pt['losses_max_year']}")
-check("F2 [restated at the refit] in the paper's world with deficits dominating (on the refit real rates no longer rise there: policy "
-      "falls to 1.0%), house prices rise while wages fall: the collateral boom protects the bank, not the borrowers",
+check("F2 [restated at the refit; numbers at the revision] in the paper's world with deficits dominating (on the refit real rates no "
+      "longer rise there: policy falls to 1.75%, at the refit's first run 1.0%), house prices rise while wages fall: the collateral boom "
+      "protects the bank, not the borrowers",
       dd["house_real_y5_y10_y15"][1] > 2 and dd["wage_real_y5_y10_y15"][2] < 0.7 and dd["mortgage_loss_rate_max_pct"] < 0.05
       and dd["share_over_dsr_line_max"] > 0.1,
       f"houses x{dd['house_real_y5_y10_y15'][1]} real by year 10; real wage {dd['wage_real_y5_y10_y15'][2]} by 15; "
@@ -123,15 +140,15 @@ check("F2 [restated at the refit] in the paper's world with deficits dominating 
 check("F3 commercial property hangs on one assumption: rents following the wage bill put most of the book below 1.5x cover, following the site almost none",
       dw["cre_share_below_line_max"] > 0.5 and dd["cre_share_below_line_max"] < 0.15,
       f"{dw['cre_share_below_line_max']:.0%} against {dd['cre_share_below_line_max']:.0%}")
-check("F4 the bank's worst path is the one where owners' saving pulls rates to the floor, not the deficits branch (where rates rose before "
-      "the refit and now fall less)",
+check("F4 [restated at the refit] the bank's worst path is the one where owners' saving pulls rates to the floor, not the deficits branch "
+      "(where rates rose before the refit and now fall less)",
       os_["nii_min"] < min(dd["nii_min"], pt["nii_min"]) - 0.5, f"NII low {os_['nii_min']} (year {os_['nii_min_year']}) against {dd['nii_min']} and {pt['nii_min']}")
-check("F5 [new on (c); restated at the refit] the falling-rate branch squeezes borrowers too: money wages fall faster than mortgage rates, "
-      "so the share over the debt-service line rises from its start (7.6%) to 72% on the central root and 18% on the high root (before "
-      "the refit 40% and, on the high root, its start); on (b) it stays at its start",
+check("F5 [new on (c); restated at the refit and at the revision] the falling-rate branch squeezes borrowers too: money wages fall faster "
+      "than mortgage rates, so the share over the debt-service line rises from its start (7.6%) to 60% on the central root and about 11% "
+      "on the high root (at the refit 72% and 18%; before it 40% and, on the high root, its start); on (b) it stays at its start",
       os_["share_over_dsr_line_max"] > 0.5 and sq["share_over_dsr_line_max"] < 0.1
       and CB["owners' saving dominates"]["share_over_dsr_line_max"] == CB["status quo"]["share_over_dsr_line_max"]
-      and HI["owners' saving dominates"]["share_over_dsr_line_max"] > HI["status quo"]["share_over_dsr_line_max"] + 0.05,
+      and HI["owners' saving dominates"]["share_over_dsr_line_max"] > HI["status quo"]["share_over_dsr_line_max"] + 0.02,
       f"{os_['share_over_dsr_line_max']:.1%} over the line at most against {sq['share_over_dsr_line_max']:.1%} at the start; debt service "
       f"{os_['dsr_mean_max']:.3f} of income at most; (b) {CB[OSN]['share_over_dsr_line_max']:.1%}; "
       f"high root {HI[OSN]['share_over_dsr_line_max']:.1%}")
@@ -178,37 +195,62 @@ check("R2 the (b) comparator is the pre-switch bank: rebuilt with (b)'s hard-cod
 check("R3 the pure tightening is the same on every calibration (its world is the status quo, steady on any economy)",
       pt == HI["a pure tightening"] == CB["a pure tightening"], f"NII peak {pt['nii_max']} on (c), the high root and (b)")
 rr = R["required_return_rise_pp"]
-check("R4 no world's required return leaves the central's rate headroom (beyond it solve raises NoEquilibrium): the largest rise, deficits "
-      "dominating, uses under half of it",
+check("R4 [its label at the revision] no world's required return leaves the central's rate headroom (beyond it solve raises "
+      "NoEquilibrium): the largest rise, deficits dominating, uses under half of it — on the refit no world's required return rises at "
+      "all (0.00 pp; (b) 1.80), so the check is a regression guard against leaving the headroom",
       max(rr[k] for k in bs.SCEN) < 0.5 * rr["headroom_pp"] and max(HI["required_return_rise_pp"].values()) < 0.5 * HI["calibration"]["headroom_pp"],
       f"{rr['deficits dominate']:.2f} pp of {rr['headroom_pp']:.2f} (high root {HI['required_return_rise_pp']['deficits dominate']:.2f} of "
       f"{HI['calibration']['headroom_pp']:.2f}; (b) {CB['required_return_rise_pp']['deficits dominate']:.2f})")
 IK = R["sensitivity: r* keyed to the pace of tasks"]
 ikd, iko = IK["deficits dominate"], IK["owners' saving dominates"]
 IV, PK = "investment keyed (the refit)", "pace keyed (as tuned on (b))"
-check("R5 [restated at the refit] readout (the capex channel keyed back to the pace of tasks, alpha_capex 0.25, not a finding): the "
-      "investment-keyed rows are the main runs; keyed to the pace, deficits lift rates again (policy to 4.75%, the bank's NII up) where "
-      "on the refit they fall (to 1.0%); the owners'-saving branch goes to the floor either way — the two branches' split rests on the "
-      "capex key",
+check("R5 [restated at the refit and at the revision] readout (the capex channel keyed back to the pace of tasks, alpha_capex 0.25, not "
+      "a finding): the investment-keyed rows are the main runs; keyed to the pace, deficits lift rates again (policy to 4.0%, the bank's "
+      "NII up; at the refit 4.75%) where on the refit they fall (to 1.75%; at the refit 1.0%); the owners'-saving branch goes to the floor "
+      "either way, its NII low within a twentieth of a point (0.90 against 0.89; at the refit equal) — the two branches' split rests on "
+      "the capex key",
       all(ikd[IV][k] == dd[k] for k in bs.IK_FIELDS) and all(iko[IV][k] == os_[k] for k in bs.IK_FIELDS)
       and ikd[PK]["policy_start_peak_end"][1] > ikd[PK]["policy_start_peak_end"][0] + 1.0 > ikd[IV]["policy_start_peak_end"][1] + 1.0
       and ikd[PK]["nii_max"] > ikd[IV]["nii_max"] + 0.3
-      and iko[PK]["policy_start_peak_end"][2] == iko[IV]["policy_start_peak_end"][2] == -0.5 and iko[PK]["nii_min"] == os_["nii_min"],
+      and iko[PK]["policy_start_peak_end"][2] == iko[IV]["policy_start_peak_end"][2] == -0.5 and abs(iko[PK]["nii_min"] - os_["nii_min"]) < 0.05,
       f"deficits: policy peak {ikd[IV]['policy_start_peak_end'][1]} (investment) / {ikd[PK]['policy_start_peak_end'][1]} (pace); NII high "
       f"{ikd[IV]['nii_max']} / {ikd[PK]['nii_max']}, low {ikd[IV]['nii_min']} / {ikd[PK]['nii_min']}; 10Y at year 10 "
       f"{ikd[IV]['z10_y5_y10_y15'][1]} / {ikd[PK]['z10_y5_y10_y15'][1]}; owners' saving NII low {iko[IV]['nii_min']} / {iko[PK]['nii_min']}")
-check("R6 [restated at the refit] sensitivity, the high root: F2-F4 hold there too, but for F2's borrowers — on the high root the deficits "
-      "branch's share over the debt-service line stays near its start (8%; before the refit above 10%), and F4's worst path is still the "
-      "owners'-saving branch but by under the half point it is gated at on the central (the deficits branch's NII now falls too) — and "
-      "F5 holds, smaller",
+check("R6 [restated at the refit and at the revision] sensitivity, the high root: F2-F4 hold there too, as gated on the central — the "
+      "deficits branch's borrowers over the debt-service line more than one in ten (12%; at the refit 8%, its start, the clause inverted), "
+      "and the owners'-saving branch the worst path by more than half a point (at the refit by 0.46, the margin dropped) — and F5 holds, "
+      "smaller",
       HI["deficits dominate"]["house_real_y5_y10_y15"][1] > 2 and HI["deficits dominate"]["wage_real_y5_y10_y15"][2] < 0.7
-      and HI["deficits dominate"]["share_over_dsr_line_max"] < 0.1 and HI["deficits dominate, office rents follow the wage bill"]["cre_share_below_line_max"] > 0.5
+      and HI["deficits dominate"]["mortgage_loss_rate_max_pct"] < 0.05
+      and HI["deficits dominate"]["share_over_dsr_line_max"] > 0.1 and HI["deficits dominate, office rents follow the wage bill"]["cre_share_below_line_max"] > 0.5
       and HI["deficits dominate"]["cre_share_below_line_max"] < 0.15
-      and HI["owners' saving dominates"]["nii_min"] < HI["deficits dominate"]["nii_min"] < pt["nii_min"],
+      and HI["owners' saving dominates"]["nii_min"] < min(HI["deficits dominate"]["nii_min"], pt["nii_min"]) - 0.5,
       f"houses x{HI['deficits dominate']['house_real_y5_y10_y15'][1]}; real wage {HI['deficits dominate']['wage_real_y5_y10_y15'][2]}; "
       f"{HI['deficits dominate']['share_over_dsr_line_max']:.0%} over the line; wage-bill offices "
       f"{HI['deficits dominate, office rents follow the wage bill']['cre_share_below_line_max']:.0%}; NII low {HI[OSN]['nii_min']} against "
       f"{HI['deficits dominate']['nii_min']} (deficits) and {pt['nii_min']}")
+PTR = R["sensitivity: the investment key's pass-through"]
+PTS = ("1", "0.6", "0.4", "0")
+pol15 = {r_: [PTR[r_][p_]["policy_start_peak_end"][2] for p_ in PTS] for r_ in ("central (c)", "high root")}
+st0 = {r_: PTR[r_]["1"]["policy_start_peak_end"][0] for r_ in pol15}
+main_dd = {"central (c)": dd, "high root": HI["deficits dominate"]}
+main_os = {"central (c)": os_, "high root": HI["owners' saving dominates"]}
+check("R7 [new at the revision, set after seeing] readout, the investment key's pass-through (decision 93: the share of the investment "
+      "fall counted as excess saving, 1 gross to 0 netted against capital consumption), the deficits branch on both roots: at the gross "
+      "reading (the central, the main runs) both branches' rates fall; the deficits branch's policy rate at year 15 rises as less of the "
+      "fall counts — flat at a pass-through of 0.6 on the low root and 0.4 on the high root — and stands at or above its start from 0.4 "
+      "down; with the fall netted it rises (to 4.0% on the low root, 3.5% on the high root). The bank's two-branch split rests on the "
+      "pass-through, which the evidence does not pin",
+      PTR["pass_throughs"] == [1.0, 0.6, 0.4, 0.0] and all(PTR[r_][p_]["alpha_inv"] == m.investment_key(float(p_)) for r_ in pol15 for p_ in PTS)
+      and all(PTR[r_]["1"][k] == main_dd[r_][k] for r_ in pol15 for k in ("policy_start_peak_end", "nii_min", "nii_max"))
+      and all(pol15[r_][0] < st0[r_] and main_os[r_]["policy_start_peak_end"][2] == -0.5 for r_ in pol15)
+      and all(np.all(np.diff(pol15[r_]) >= 0) and pol15[r_][2] >= st0[r_] and pol15[r_][3] > st0[r_] for r_ in pol15)
+      and pol15["central (c)"][1] == st0["central (c)"] and pol15["high root"][2] == st0["high root"]
+      and all(np.all(np.diff([PTR[r_][p_]["r_star_y15"] for p_ in PTS]) > 0) for r_ in pol15),
+      "policy at year 15 at pass-through 1 / 0.6 / 0.4 / 0: " + "; ".join(f"{r_} " + " / ".join(f"{v:g}" for v in pol15[r_]) + f" (start {st0[r_]:g})"
+                                                                     for r_ in pol15)
+      + "; r* at year 15 " + "; ".join(" / ".join(f"{PTR[r_][p_]['r_star_y15']:+.2f}" for p_ in PTS) for r_ in pol15)
+      + "; NII high " + "; ".join(" / ".join(f"{PTR[r_][p_]['nii_max']:.2f}" for p_ in PTS) for r_ in pol15))
 
 print("X — the export (results/paths_for_banks.csv, code/export_paths.py)")
 X = pd.read_csv(os.path.join(ROOT, "results", "paths_for_banks.csv"))
@@ -248,14 +290,15 @@ SH = ("mean_1996_2025", "mean_2015_2025")
 hi_ = [hh_income(sc_, 10.0, hs[s_]) for s_ in SH for sc_ in (DDn, OSN)]
 hib = [hh_income(sc_, 10.0, hs[s_], Xb) for s_ in SH for sc_ in (DDn, OSN)]
 vb = {k: (at(DDn, k, 10.0, Xb), at(OSN, k, 10.0, Xb)) for k in v}           # (b), from the (b) export built in X3
-check("X4 [restated at the refit] what the export says at year 10, deficits / owners' saving (as found on the refit; (b)'s numbers, which "
-      "STATE log 15-16 quoted, are computed from the (b) export beside them): site prices x10 / x20 (x19 by year 5 in the owners' branch; "
-      "before the refit x2.8 / x19); the wage bill 0.22 / 0.12 (0.30 / 0.18); employment 0.56 / 0.43 (0.63 / 0.51); real income x1.34 / x1.32 "
-      "(x1.35 / x1.33) — the wage bill, employment and income below (b)'s, both site prices above them — so households' income, wages "
-      "plus the measured share of non-wage income, is about flat (0.93-1.07 of the start) where on (b) it rose by half or more",
-      9.5 < v["site_price_real"][0] < 10.5 and 19.0 < v["site_price_real"][1] < 20.0 and at(OSN, "site_price_real", 5.0) > 18.5
-      and 0.20 < v["wage_bill_real"][0] < 0.25 and 0.10 < v["wage_bill_real"][1] < 0.14
-      and 0.54 < v["employed"][0] < 0.58 and 0.41 < v["employed"][1] < 0.45
+check("X4 [restated at the refit and at the revision] what the export says at year 10, deficits / owners' saving (as found on the "
+      "revised refit; (b)'s numbers, which STATE log 15-16 quoted, are computed from the (b) export beside them): site prices x6.75 / x20 "
+      "(x19 by year 5 in the owners' branch; at the refit x10 / x20; before it x2.8 / x19); the wage bill 0.23 / 0.14 (at the refit 0.22 / "
+      "0.12; before it 0.30 / 0.18); employment 0.57 / 0.46 (0.56 / 0.43; 0.63 / 0.51); real income x1.34 / x1.33 (x1.34 / x1.32; x1.35 / "
+      "x1.33) — the wage bill, employment and income below (b)'s, both site prices above them — so households' income, wages plus the "
+      "measured share of non-wage income, is about flat (0.94-1.07 of the start) where on (b) it rose by half or more",
+      6.5 < v["site_price_real"][0] < 7.0 and 19.0 < v["site_price_real"][1] < 20.0 and at(OSN, "site_price_real", 5.0) > 18.5
+      and 0.20 < v["wage_bill_real"][0] < 0.25 and 0.12 < v["wage_bill_real"][1] < 0.16
+      and 0.54 < v["employed"][0] < 0.58 and 0.44 < v["employed"][1] < 0.48
       and 1.3 < v["income_real"][1] < v["income_real"][0] < 1.4 and all(0.90 < x < 1.10 for x in hi_) and all(x > 1.45 for x in hib)
       and 0.78 < at("status quo", "site_price_real", 5.0) < 0.81
       and all(v[k][j] < vb[k][j] for k in ("wage_bill_real", "employed", "income_real") for j in (0, 1))
