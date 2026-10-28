@@ -377,7 +377,7 @@ check("A3 what the watcher would see at the high end: the Nasdaq rule (20% under
       "own daily path at the case's size (24 days after the high; at the dot-com size 33 days, 8 Nov), the late bounds by "
       "month January 2027 (the 2000-02 ratio) and July 2027 (one for one); the US Sahm rule, as the watcher reads it on "
       "the model's months after the measured ones, in February 2027; the model's spread, fitted to Baa over Aaa (decision "
-      "90), never rises 0.56 in three months; the Fed raises in October (3.96 against 3.88; the FOMC test, Log 40) and "
+      "90), never rises 0.56 in three months; the Fed raises in October (3.96 against 3.88; a new registration beside Log 40's FOMC test) and "
       "cuts by December (3.78; 3.87 on 2026Q4's average), the Riksbank cuts (1.63 in October, 1.66 in November, against "
       "1.75). " + RESTATED + ": 2027Q1 and 2027Q3 by quarter, the Sahm rule 2027Q1 on quarters, the Baa rule unmeasured, "
       "the Fed 4.02 and the Riksbank 1.63 at the end of 2026Q4; the same on the refit (decision 92), after seeing its run. "

@@ -48,8 +48,8 @@ owners' saving and deficits on one evidence-based scale, the fiscal start at Swe
 benefits following wages, rigid money wages falling at a limited pace; the comparators (a) and (b) on their own bridges.
 On (c) the neutral rate now falls from the start at every speed (−3.0 / −5.3 / −5.3% at year 15), the curve falls a long
 way through recognition, and both of the bank's branches fall. Entries below that predate it carry a "→ On the refit"
-note where their findings moved. All 23 batteries green on 2026-10-27 after it, stderr empty; pushed with the monthly
-refit (origin/main 93d5ff1). Revised 2026-10-28, below.
+note where their findings moved. All 23 batteries green on 2026-10-27 after it, stderr empty; pushed 2026-10-28 with
+the monthly refit (watch f1bd8e3, then this repository 93d5ff1). Revised 2026-10-28, below.
 **2026-10-27 and 28, the monthly refit** (her calls; Logs 47-53; decisions 80-92): the crash model's step a parameter and
 policy dated instead of triggered; the model extended (rate-sensitive spending, relief from the year-before rate, oil
 idling capacity, expectations on the past year's inflation, each era's neutral rate) and fitted on nine crashes by month,
@@ -60,7 +60,11 @@ JavaScript are restated on it (her case's US out of work 7.7–8.1% on 2028Q4's 
 2032Q2 [16.9–22.6%]; the four economies' worst year-6 gap on the page's central run −8.5% [−3.9%]). Built on its own
 branch beside the bridges refit (the crash model and the macro block do not read each other's results) and merged with
 it 2026-10-28 (06b1293): all 23 batteries green on the merged tree, stderr empty (check_macro_scenarios 16/16 with the
-refit's checks), and the site's 241 tests pass on it; committed, not pushed (watch first, then this repository).
+refit's checks), and the site's 241 tests pass on it; pushed 2026-10-28, watch first (f1bd8e3), then this repository
+(93d5ff1). The site server was updated the same day (its builder rebuilt with Node, by Claude through its own account
+on hal, each command approved by her) and built on watch dfc6e7b, the review fixes of the page's engine: on hal the
+page's JavaScript reproduces 183 runs of the Python, 3,495,409 numbers, to 1.3e-13, and the model page runs the
+model.
 **2026-10-28, the bridges refit revised** (her four calls of 28 Oct and four fixes; Log 54; decisions 93-96 new, 72-79
 amended, hers to review): the investment key at Rachel and Smith's coefficient, its pass-through (how much of the fall in
 investment counts as excess saving) drawn in the reverse envelope; household benefits on Sweden's rules; a fiscal start with
@@ -2389,8 +2393,8 @@ is right; in an extreme path the destination is what is wrong.
 
 ## Next
 
-~~**First — refit the bridges on (c)**~~ — **done 2026-10-27** (Log 46; decisions 72-79, hers to review; pushed with the
-monthly refit, origin/main 93d5ff1), **revised 2026-10-28** (Log 54; her four calls, decisions 93-96, and four fixes in
+~~**First — refit the bridges on (c)**~~ — **done 2026-10-27** (Log 46; decisions 72-79, hers to review; pushed
+2026-10-28, watch first, then this repository, as in Next 13), **revised 2026-10-28** (Log 54; her four calls, decisions 93-96, and four fixes in
 72-79; committed on `fix/bridges-revised`, not pushed). Every bridge from the real paths to rates, debt and households
 rests on published evidence: the capex key on investment at Rachel and Smith's coefficient, one scale for owners' saving
 and deficits, every coefficient per point of the model's income, the fiscal start at Sweden's measured primary deficit net
@@ -2458,9 +2462,11 @@ macro_scenarios.json, no number moved).
 11. **Her case, onward** (decisions 23-27): the case on the website (a page stating it, with the watcher's signs for
     and against each leaning); the US fiscal arithmetic (revenue with the wage base, interest as debt rolls over) so
     that deficits are computed, not priced; the crash model's displacement on the dated clock (one dating since
-    2026-10-01, decision 43). The prints ahead: the FOMC (27–28 Oct, to verify against the Fed's calendar; the model
-    raised in 2026Q4 in every run; restated 2026-10-28 (decisions 91-92): by month the case and its central run raise in
-    October, 3.96 against 3.88, and cut by December), US core PCE for September and BEA's Q3 advance estimate (29 Oct), the Riksbank (4
+    2026-10-01, decision 43). The prints ahead: the FOMC (27–28 Oct, to verify against the Fed's calendar; every stored
+    run raises in 2026Q4, the test registered in Log 40 and scored as registered; beside it the monthly model's own call
+    (decisions 91-92), a new registration committed 2026-10-28 before the announcement: the case and its central run
+    raise in October, 3.96 against 3.88, and cut by December; "restated" here until the evening of 2026-10-28, corrected
+    after the announcement, without reading it, to the case's A3 as it stood from 14:27 CET, 93d5ff1), US core PCE for September and BEA's Q3 advance estimate (29 Oct), the Riksbank (4
     Nov), October employment (6 Nov). (Until 2026-10-26 this item said to re-run `code/october.py` after each print;
     that unit is retired to the tag `paths-pre-signfix`, Log 41.) **Amended 2026-10-26 (Log 40):** a print is not folded into the inputs of a run that makes a claim about it.
     Each data vintage is frozen and committed before the prints it is scored on, and scored on them afterwards; the
