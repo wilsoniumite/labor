@@ -48,8 +48,8 @@ owners' saving and deficits on one evidence-based scale, the fiscal start at Swe
 benefits following wages, rigid money wages falling at a limited pace; the comparators (a) and (b) on their own bridges.
 On (c) the neutral rate now falls from the start at every speed (−3.0 / −5.3 / −5.3% at year 15), the curve falls a long
 way through recognition, and both of the bank's branches fall. Entries below that predate it carry a "→ On the refit"
-note where their findings moved. All 23 batteries green on 2026-10-27 after it, stderr empty; committed, not pushed
-(watch first, then this repository).
+note where their findings moved. All 23 batteries green on 2026-10-27 after it, stderr empty; pushed 2026-10-28 with
+the monthly refit (watch f1bd8e3, then this repository 93d5ff1).
 **2026-10-27 and 28, the monthly refit** (her calls; Logs 47-53; decisions 80-92): the crash model's step a parameter and
 policy dated instead of triggered; the model extended (rate-sensitive spending, relief from the year-before rate, oil
 idling capacity, expectations on the past year's inflation, each era's neutral rate) and fitted on nine crashes by month,
@@ -60,7 +60,11 @@ JavaScript are restated on it (her case's US out of work 7.7–8.1% on 2028Q4's 
 2032Q2 [16.9–22.6%]; the four economies' worst year-6 gap on the page's central run −8.5% [−3.9%]). Built on its own
 branch beside the bridges refit (the crash model and the macro block do not read each other's results) and merged with
 it 2026-10-28 (06b1293): all 23 batteries green on the merged tree, stderr empty (check_macro_scenarios 16/16 with the
-refit's checks), and the site's 241 tests pass on it; committed, not pushed (watch first, then this repository).
+refit's checks), and the site's 241 tests pass on it; pushed 2026-10-28, watch first (f1bd8e3), then this repository
+(93d5ff1). The site server was updated the same day (its builder rebuilt with Node, by Claude through its own account
+on hal, each command approved by her) and built on watch dfc6e7b, the review fixes of the page's engine: on hal the
+page's JavaScript reproduces 183 runs of the Python, 3,495,409 numbers, to 1.3e-13, and the model page runs the
+model.
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -2063,8 +2067,8 @@ is right; in an extreme path the destination is what is wrong.
 
 ## Next
 
-~~**First — refit the bridges on (c)**~~ — **done 2026-10-27** (Log 46; decisions 72-79, hers to review; not pushed: the
-order is watch first, then this repository, as in Next 13). Every bridge from the real paths to rates, debt and households
+~~**First — refit the bridges on (c)**~~ — **done 2026-10-27** (Log 46; decisions 72-79, hers to review; pushed
+2026-10-28, watch first, then this repository, as in Next 13). Every bridge from the real paths to rates, debt and households
 now rests on published evidence: the capex key on investment, one scale for investment, owners' saving and deficits, the
 fiscal start at Sweden's measured primary balance, benefits following wages, rigid wages falling at a limited pace. Left
 open by it: the investment key's pass-through (gross replacement, as Rachel and Smith read it, or only the net investment a
