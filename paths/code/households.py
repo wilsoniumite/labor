@@ -20,7 +20,7 @@
 # cyclical job loss adds to the people out of work, and inflation sets money wages and prices.
 #
 # Money wages follow the macro block's real wage and the demand layer's inflation. At the automation peak that asks
-# for money-wage CUTS of up to about 21% a year (deficits) and 30% (owners' saving), and money wages fall 71-84% by year 15;
+# for money-wage CUTS of up to about 20% a year (deficits) and 29% (owners' saving), and money wages fall 71-84% by year 15;
 # the "rigid wages" variant lets money wages fall no faster than 4% a year (a calibration choice: Schmitt-Grohé and Uribe
 # 2016's loose bound, gamma 0.99 a quarter, from Lithuania's 5.1% fall over 13 quarters, pegged, not in the euro; Greece's
 # compensation per employee fell about 20% over 2009-15, 8.3% in 2013 alone), closes the gap to the market wage as fast as

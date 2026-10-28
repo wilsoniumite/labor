@@ -325,29 +325,48 @@ EVIDENCE = {   # the published numbers behind macro.NEUTRAL_SCALE, OWNERS_SAVING
             "saving rates top 10% 25.3%, next 40% 8.2%, bottom 50% 2.6%; the top 10%'s income share +11.8 pp raised saving 2.4 pp of "
             "national income: ~0.20 per unit shifted (average group rates)",
         "Mian, Straub and Sufi (2025), NBER WP 26941":
-            "top 1% saving rate over 40% of disposable income (retained earnings attributed), bottom 50% ~0",
+            "top 1% saving rate over 40% of disposable income (retained earnings attributed; by wealth group), bottom 50% ~0",
         "Dynan, Skinner and Zeldes (2004), JPE 112(2), Fig. 3 and Table 9":
-            "marginal saving between income quintiles 0.03-0.43; time-series MPS Q5 0.25 (change in wealth)",
+            "marginal saving between income quintiles 0.03-0.43: cross-section levels on the change in wealth, capital gains "
+            "included, which they flag as biased up at the top; their time-series estimates (MPS Q5 0.25, change in wealth) put "
+            "the gap between the top quintile and the bottom three at ~0.16-0.18, which supports the household-only end "
+            "(0.15-0.20) rather than 0.30",
         "Fagereng, Holm, Moll and Natvik (2019), NBER WP 26588":
             "net saving rates flat at ~6-8% across wealth (retained earnings in capital gains, outside net saving): the household-only "
             "basis gives a smaller gap",
         "Di Maggio, Kermani and Majlesi (2020), JF 75(6), Table III": "Swedish MPC out of dividends 0.40-0.60; out of capital gains ~0.03 at the top",
         "basis": "the non-wage share includes all owners' income, retained earnings included: the gap on that basis 0.30 (0.15-0.45); "
-                 "household-only 0.15-0.20; all local estimates, applied here to a ~50 pp shift"},
+                 "household-only 0.15-0.20; all local estimates, applied here to a ~50 pp shift. The horizon as well as the size: the "
+                 "Kaleckian C/Y estimates above (Onaran and Galanis, Hein and Vogel, Onaran and Obst, Stockhammer and Wildauer) are "
+                 "short-run first-difference responses, one on gross profits, whose authors found no long-run level relation; the "
+                 "long-run evidence is mixed — Mian, Straub and Sufi 2021 (~0.20) and Dynan, Skinner and Zeldes's time-series gap "
+                 "(~0.16-0.18) point lower, Mian, Straub and Sufi 2025's top-1% saving rates higher (corrected in Log 54, "
+                 "evidence:A5-A6)"},
     "deficit_pass_through": {
         "Gale and Orszag (2004), BPEA 2004:2, pp. 102-103, 147":
             "$1 of deficit cuts national saving 50-80 cents (offset 0.2-0.5); a projected primary deficit raises long rates 40-70 bp per pp",
-        "Röhn (2010), OECD ECO WP 762": "private saving offsets ~40% of a deficit on average",
+        "Röhn (2010), OECD ECO WP 762":
+            "private saving offsets ~40% of a change in the budget balance on average; changes in current revenues almost fully, "
+            "changes in current spending one third to one half; the offset is stronger the higher the government's debt",
         "de Mello, Kongsrud and Price (2004), OECD ECO WP 397": "offset one-third to one-half",
         "Laubach (2009), JEEA 7(4)": "~25 bp per pp of projected deficit / GDP, 3-4 bp per pp of debt, on 5-year-ahead long nominal rates",
         "Rachel and Summers (2019), Table 2": "literature averages 38 bp per pp of deficit, 3.5 bp per pp of debt",
         "note": "the common scale gives alpha_fiscal = 0.3 x 0.6 = 0.18 pp of r* per pp of GDP of primary deficit, 0.157 per pp of "
-                "income, below the direct long-yield estimates (0.25-0.70 per pp of GDP), which also carry term premia and expected "
-                "inflation; the model's term premium rises with debt above 60% of income on its own (tp_per_debt 0.02: illustrative "
-                "defaults since the macro block's first commit, 24 Sep 2026, per point of income and never sourced; as the 60%-of-GDP "
-                "reference the threshold would be ~69% of income, and Laubach's 3-4 bp per pp of debt / GDP is 0.026-0.035 per pp of "
-                "income, on long nominal yields). The deficits branch takes no offset at all (pass-through 1.0: 0.30 per pp of GDP, "
-                "0.262 per pp of income)"},
+                "income: it rests on the saving-offset evidence alone (Gale and Orszag, Röhn, de Mello et al.: offsets of a fifth to "
+                "a half). It lies below every direct long-yield estimate (0.25-0.70 per pp of GDP: Laubach ~25 bp, Rachel and "
+                "Summers's average 38, Gale and Orszag 40-70), and the sources do not set those aside for carrying term premia and "
+                "expected inflation: Rachel and Summers apply their 38 bp to R* directly (corrected in Log 54, evidence:A3: the note "
+                "gave that reason); the direct estimates are decision 74's alternative (0.25-0.5 per pp of GDP). The model's term "
+                "premium rises with debt above 60% of income on its own (tp_per_debt 0.02: illustrative defaults since the macro "
+                "block's first commit, 24 Sep 2026, per point of income and never sourced; as the 60%-of-GDP reference the threshold "
+                "would be ~69% of income, and Laubach's 3-4 bp per pp of debt / GDP is 0.026-0.035 per pp of income, on long nominal "
+                "yields), which adds to the long-rate response once debt passes it. Röhn's composition and debt-level results pull "
+                "the other way: this model's deficits are mostly revenue lost as the wage tax's base shrinks (at medium the wage tax's "
+                "share of revenue falls 0.80 -> 0.11) while debt passes 100% of income, which those results offset more than the "
+                "average: a pass-through below 0.6 (evidence:A4). The deficits leg is bounded by two strands pulling opposite ways, "
+                "the yield evidence up and the offset evidence down, and pinned by neither. The deficits branch takes no offset at "
+                "all (pass-through 1.0: 0.30 per pp of GDP, 0.262 per pp of income): beyond the saving-offset estimates, whose "
+                "largest pass-through is 0.8 (Gale and Orszag's 80 cents), it stands on the direct yield evidence only"},
     "investment_key": {   # decision 93 (her call of 2026-10-28: "R&S's own 0.2 + dial"); Log 54
         "Rachel and Smith (2015), BoE Staff WP 571, Box D1":
             "a 4 pp of GDP fall in investment lowers the neutral rate ~80 bp: 0.2 pp of r* per pp of GDP — their short-termism "

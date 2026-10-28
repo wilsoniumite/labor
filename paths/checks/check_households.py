@@ -49,7 +49,14 @@
 # root deepened the falling branch -> cushions it, -3.46 against -4.08); S1's label (on the wage rule, the default, the artefact never
 # comes back -> on the wage alternative; under Sweden's rules coverage passes 100% too); S2 new (the wage alternative deepens both
 # branches: planning values -0.96 against -0.35, -4.95 against -4.65). A2's label carries its margin (households:H6). X2 relabelled.
-# G2, G3 and G4 hold on the pinned family rule. Narrow pass: G3's demand move, 0.164 / 0.177% of GDP against < 0.2.
+# G2, G3 and G4 hold on the pinned family rule. Narrow pass: G3's demand move, 0.164 / 0.177% of GDP against < 0.2. Named later
+# (2026-10-28, the record's corrections against the final results, checks:N3 and households:H6 recomputed): A1's "on the high root
+# not when deficits dominate", coverage 95.75% at year 15 against 100 (96.9 at 16: rising slowly). Of the two checks:N3 named at
+# the refit (F2 0.26 against a pooled -7.23; F4 one 0.25-year step), F2 now differs from pooling by 0.63 / 0.25 points against
+# pooled gaps of -4.65 / -0.35, and F4 is 6.5 years at the floor against 6.0 (two steps): no longer narrow. A1's
+# wage-alternative clauses are bookkeeping, both the band and the drag that never goes to zero (coverage under 100% leaves a loss);
+# A2's floor is a result that rests on the elasticity (its label gives the margin). The high-elasticity sensitivity households:H6
+# suggests is not stored: A2 reads the elasticity that would reach the floor off the stored rigid runs (1.02; 0.69 with no cut).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_households.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.
@@ -296,7 +303,8 @@ check("A1 [restated at the refit and at the revision, decision 94] under Sweden'
       "wages fall below the price-indexed floor — a consequence of the floor, not an artefact — and the job losers' drag goes to zero for "
       "good: on the central in both branches, on the high root when owners' saving dominates (not when deficits do), on (b) in neither "
       "within 15 years. Under the wage alternative (the rule from the refit to the revision) coverage stays between 50% and 90% at every "
-      "date — bookkeeping: the rule's own rates bound it, 55-84.25% — and the drag never goes to zero. The old rule and the wage at exit, "
+      "date — bookkeeping: the rule's own rates bound it, 55-84.25% — and the drag never goes to zero (bookkeeping too: coverage under "
+      "100% leaves a loss). The old rule and the wage at exit, "
       "kept as sensitivities, still outrun the collapsing wage: coverage by year 15 over 200% on the start's real wage and over 100% at exit "
       "(before the refit, on the start's real wage, the drag was zero from year 9.25 / 8.25, coverage 176% / 315% by year 15)",
       all(onset[n][0] is not None and onset[n][1] > 100 for n in (DDN, OSN))

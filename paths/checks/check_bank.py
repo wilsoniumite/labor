@@ -30,7 +30,12 @@
 # key's pass-through 1 / 0.6 / 0.4 / 0: planning values policy at year 15 1.75 / 2.75 / 3.0 / 4.0%, high root 1.5 / 2.5 / 2.75 /
 # 3.5). F2 and F4 carry the moved numbers in their labels. Narrow passes: R5's pace-keyed deficits peak 4.0% against its start +
 # 1.0 (one 25 bp step) and NII high 2.54 against 2.41; R6's high-root borrowers clause, 11.6% against 10%. R4 holds vacuously on the
-# refit (no world's required return rises: 0.00 pp; (b) 1.80), a regression guard (checks:V1).
+# refit (no world's required return rises: 0.00 pp; (b) 1.80), a regression guard (checks:V1). Narrow passes named later
+# (2026-10-28, the record's corrections against the final results, checks:N2 recomputed): F5's high root, 10.6% against its start
+# + 2 points (9.6%); F6's high root, 90.8% of the book against the central's 100% ("not all of it"; at the refit 97%); R7's "flat
+# at 0.6 (low root) / 0.4 (high root)", equalities on the 25 bp policy grid; X4's bands, set around the found values, closest
+# the status quo's site price 0.800 against < 0.81, the deficits branch's employment 0.569 against < 0.58 and households' income
+# 0.944 against > 0.90. F4's margin is 0.92 against its half point (at the refit 0.61: checks:L1), no longer narrow.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_bank.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.

@@ -33,7 +33,11 @@
 # 15 -1.1 against < -1.0 -> -0.28 against < 0); F4's cyclical rise tightened with its label (about a point, 1.2 against < 1.5 -> under
 # a point, 0.78 against < 1.0). R4's label carries the moved numbers, its gate unchanged. Narrow passes: F2's deficits gap -0.35
 # inside (-1.0, -0.3); F3's floor clause, slow learning 5.0 years against >= 5.0 (zero margin); F6's years, 6.0 against >= 6.0 (zero
-# margin).
+# margin). Narrow passes named later (2026-10-28, the record's corrections against the final results, checks:N1 recomputed):
+# F3's "inflation below 1.7% in every run", the flatter IS curve's 1.66 against 1.7 (set after seeing); F3's deficits inflation low
+# 1.88 against 1.75; F6's first year 9.25 against < 9.5 (one quarter); R3's pace-keyed deficits rise 1.37 against > 1.25; R4's
+# pace-keyed deficits inflation high 2.07 against > 2.0. Of the six checks:N1 named at the refit, F3's no-floor gap (-2.23 against
+# 3%) and F4's participation (0.464 against 0.4) are no longer narrow.
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_demand.py
 # Exit status 0 only if every check passes; prints "ALL GREEN (n)" or the failures.

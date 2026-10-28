@@ -72,7 +72,8 @@ logs. The direction holds and the size shrinks by about a quarter: r* at year 15
 rising from the start at every speed. The long rate falls over ten years in about eight variations in ten (about nine when
 two-thirds or more of the investment fall counts, seven when under a third does) [94%]. Both of the bank's branches fall at
 the gross reading; the deficits branch's rates rise once less than about 0.6 of the investment fall counts (0.4 on the
-high root). All 23 batteries green, stderr empty; committed on `fix/bridges-revised`, not pushed.
+high root). All 23 batteries green, stderr empty; committed on `fix/bridges-revised`, with the record and the batteries'
+headers corrected against the final results (the review's record findings; Log 54, its last bullet), not pushed.
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -737,8 +738,9 @@ is right; in an extreme path the destination is what is wrong.
     at year 15 is 1.75 / 2.75 / 3.0 / 4.0% at a pass-through of 1 / 0.6 / 0.4 / 0 (high root 1.5 / 2.5 / 2.75 / 3.5) —
     flat at about 0.6 on the low root and 0.4 on the high root, rising below that, and with the fall netted against capital
     consumption up to 4.0%; keyed back to the pace of tasks it rises to 4.0% [4.75], NII 2.54 [2.74]. In the status quo
-    house prices fall to 0.80 of their start by year 5 and 0.75 by year 15 [0.795, then flat]: the 2.06% start deficit held
-    there takes debt to 77% of income by year 15 (105% by 25), past the 60% threshold, and the term premium with it.
+    the 5% prior on the new world is worth about 20% of house value [18% before the refit; (b) 15%]: house prices fall to
+    0.80 of their start by year 5 as the market learns, and on to 0.75 by year 15 [0.795, then flat]: the 2.06% start deficit
+    held there takes debt to 77% of income by year 15 (105% by 25), past the 60% threshold, and the term premium with it.
 - **What Swedish banks did at the floor** (her call, 2026-09-24: test floor behaviour on public
   data; `code/floor_margins.py`, `results/floor_margins.json`,
   `figures/fig_floor_margins.png`; checks `checks/check_floor_margins.py`, 7/7). Public: Statistics
@@ -899,7 +901,7 @@ is right; in an extreme path the destination is what is wrong.
     refit's money wages fell 73-87% by year 15, not 60-80%; and every (b) figure above was the pre-refit layer's: the
     rules apply to (b)'s runs too, so 10 of its 12 runs moved at the refit; households:H1-H5, record:A2.)
   → As revised 2026-10-28 (Log 54; decision 94, her call "Sweden's rules"; decision 79 corrected; the worlds on the revised
-    bridges, in which money wages fall 71-84% by year 15, cuts of up to 21% / 30% a year): public support pays the first
+    bridges, in which money wages fall 71-84% by year 15, cuts of up to 20% / 29% a year): public support pays the first
     year on the person's own money wage at exit (the a-kassa) and then a floor of 0.36 of the start's mean net wage,
     indexed to prices (the riksnorm plus a one-room rent). Once money wages fall below the floor, coverage of the lost
     wage passes 100% — a consequence of the floor, not an artefact: from year 10.75 / 9.75 (deficits / owners' saving;
@@ -1993,7 +1995,9 @@ is right; in an extreme path the destination is what is wrong.
     capital gains included, which they flag as biased up at the top; their time-series gap, about 0.16–0.18, supports the
     household-only end (evidence:A6). The Kaleckian estimates are short-run first-difference responses, one on gross
     profits, whose authors found no long-run level relation: the caveat is the horizon as well as the shift's size
-    (evidence:A5). Alternative added: a GDP / income ratio that varies along the path (it falls toward ~1.04 as
+    (evidence:A5). The household-only alternative on the revised refit (a scratch run, Log 54): a gap of 0.15 / 0.20 ends
+    medium r* at year 15 at −1.61 / −2.28% [−3.64]. The EVIDENCE entries are restated to match (DSZ's basis, the horizon,
+    MSS 2025 by wealth group). Alternative added: a GDP / income ratio that varies along the path (it falls toward ~1.04 as
     replacement investment falls; on Log 46's alphas medium r* at year 15 −4.94 against −4.52 at the constant ratio).]
 74. **Decided 2026-10-27 (Claude, on her delegation): deficits at their pass-through** — 0.6 (0.5–1.0) of a primary
     deficit reaches net saving, one minus the Ricardian offset (Gale and Orszag 2004: 20–50%; Röhn 2010: ~40%; de Mello
@@ -2005,8 +2009,13 @@ is right; in an extreme path the destination is what is wrong.
     [Corrected 2026-10-28, Log 54. The sources do not set their estimates aside for carrying term premia and expected
     inflation: Rachel and Summers apply their 38 bp to R* directly. The default 0.18 rests on the saving-offset evidence
     alone; with the model's own debt term premium its long-rate response per point of deficit comes to about Laubach's 25
-    bp, the low end of the direct estimates (evidence:A3). Units (decision 73): 0.18 per point of GDP is 0.157 per point
-    of income [0.10, (b)'s], the alternative 0.25–0.5 per point of GDP 0.22–0.44 per point of income. The term premium's
+    bp, the low end of the direct estimates (evidence:A3) [recomputed on the revised refit, 2026-10-28: by year 15 r*'s
+    fiscal term plus the term premium's rise with debt is 27 / 31 / 38 bp per point of GDP of deficit (slow / medium /
+    fast), from about Laubach's 25 to Rachel and Summers's 38; the term premium rises only with debt above 60% of income].
+    Units (decision 73): 0.18 per point of GDP is 0.157 per point of income [0.10, (b)'s], the alternative 0.25–0.5 per
+    point of GDP 0.22–0.44 per point of income (on the revised refit, a scratch run: medium r* at year 15 −2.86 / −1.43 /
+    −0.10% at 0.25 / 0.38 / 0.5 [−3.64], never rising; debt 132 / 140 / 149% [131]). The EVIDENCE note is restated to match
+    (Log 54, the record's corrections). The term premium's
     "60% of income" and its slope (`tp_per_debt` 0.02, `debt_threshold` 60, `loss_per_debt` 0.015) are illustrative
     defaults from the macro block's first commit (24 Sep 2026), stated per point of income and never sourced, so not
     converted: read as GDP-based, the 60%-of-GDP reference would be ~69% of income and Laubach's 3-4 bp per point of debt /
@@ -2396,9 +2405,12 @@ floored; a GDP / income ratio that varies along the path; linear bridges applied
 owners and a ~13-point fall in investment, far beyond the evidence's range (a gap that falls as ownership broadens; a scale
 that is not constant); rigidity that erodes with time (a reset rate); the reverse stress's three bridge dials drawn
 independently, though two share a scale. Not yet done for the revision: the website's facts, guide and lens/econ.md (watch:
-"starts near a balanced budget" and "nine variations in ten" fail against the revised results), the EVIDENCE notes the
+"starts near a balanced budget" and "nine variations in ten" fail against the revised results; with them the watch-side parts
+of the review's record findings — facts.py's docstring, the guide's dates and three of its sentences, the lens's dial row,
+its "no early dip" and its false-dawn range: record:A4, A8-A10, checks:M1, record:A12). Done since: the EVIDENCE notes the
 review faulted (evidence:A3-A6: the deficit note's term-premium reason, Röhn's composition reading, the Kaleckian horizon,
-Dynan-Skinner-Zeldes's basis; text only, stored verbatim in macro_scenarios.json, no number moves).
+Dynan-Skinner-Zeldes's basis), restated 2026-10-28 with the record's other corrections (Log 54; text only, stored verbatim in
+macro_scenarios.json, no number moved).
 
 1. ~~Measure an extreme first: Sweden 1990–95~~ — **done 2026-09-24**, above. What survives: the
    identity (the curve as an average of expected policy) and the shapes of ordinary moves, even
@@ -3335,7 +3347,16 @@ the macro block lands.
       in ten. The claims restated to match ("starts near a balanced budget", "debt rises from the start", "the neutral
       rate does not rise at any speed", "the long rate falls in nine variations in ten", the start's deficit Sweden's);
       the export reproduces the stored paths; the build's facts pass every model claim (checked with `facts.compute`;
-      the full build stops here on FRED's payroll fetch, a wait).
+      the full build stops here on FRED's payroll fetch, a wait). [Corrected 2026-10-28 (checks:M1, record:A3-A4): on the
+      0.16 start "debt rises from the start" held at the slow and medium speeds only — on the fast path debt dipped 1.0 / 2.6
+      points below its start around year 3 (low / high root; refit_steps' step 4) — while section 4 attached "from the start"
+      to the fast path's year-15 level too; facts.py gates the medium speed only (on the revision's 2.06 start it holds at
+      every speed). The claims' thresholds, found at the refit [and on the revision]: the start near balance, 0 < deficit <
+      0.5% of income at every speed and root, 0.16 [2.06: fails]; the deficit widens at medium by more than 5 points, +14.4
+      / +12.3 low / high root [+12.7 / +10.7]; keyed to the pace r* rises under 0.1 pp at any speed, 0.76 bp at most [1.13];
+      at medium and fast r* ends more than 2 points below its start, 6.0-6.1 [4.3-4.4]; the long rate falls over ten years
+      in at least nine draws in ten, 0.9355, a narrow pass [0.8035: fails]. facts.py's docstring (watch) does not yet list
+      them.]
     - **Restatements made after seeing the results, hers to review**: every check marked "[restated at the refit]" in
       check_macro_scenarios, check_calibration_c (S6), check_recognition, check_reverse, check_speed,
       check_regime_digestion, check_bank, check_demand and check_households, each battery's header flagging its
@@ -3347,8 +3368,9 @@ the macro block lands.
       criterion, loosened after its 10 bp range failed at 24.6 bp on the largest-fall draw; macro_scenarios F5's 2.0-4.5
       band and F6's fast path gated at year 6 (a carve-out); speed F2's 0.1 bp tolerance on a hybrid world; bank X4's bands,
       all re-set (the households' income floor 0.95 → 0.90, the status quo band 0.80-0.83 → 0.78-0.81), and F4's label
-      changed without the tag, its margin 1.23 → 0.61. Narrow passes unnamed then (checks:R1, N1, N2, N3): reverse F1's
-      window 95th percentile −0.47 bp against < 0, and deficits second over the transition's width by 0.008 unrounded
+      changed without the tag, its margin 1.23 → 0.61 against the half point (a narrow pass). Narrow passes unnamed then
+      (checks:R1, N1, N2, N3): reverse F1's window 95th percentile −0.47 bp against < 0, and deficits second over the
+      transition's width by 0.008 unrounded
       (0.3651 / 0.3570, a pass that rested on rounding to two decimals); demand F3's no-floor gap −2.90 against 3% (a
       pre-refit claim surviving by 0.10), F3's deficits inflation low 1.78 against 1.75, F4's participation 0.428 against
       0.4, F6's first floor year 8.5 against 9, R3's pace-keyed deficits rise 2.15 against 2.0, R4's pace-keyed inflation
@@ -3720,9 +3742,16 @@ the macro block lands.
       high-root borrowers 11.6% against 10%; households G3's demand move 0.164 / 0.177 against 0.2; reverse F3's debt driver
       (public support 0.60 against the midpoint's −0.49) and F1's second driver for the largest rise (deficits 0.246
       against the term premium's 0.233, unrounded: a scratch re-run of the 4,000 draws reproduces every stored correlation
-      to two decimals).
+      to two decimals). [Named later, with the record's corrections (below), each finding's margins recomputed on the final
+      results: demand F3's "inflation below 1.7% in every run" (the flatter IS curve 1.66), F3's deficits inflation low 1.88
+      against 1.75, F6's first year 9.25 against < 9.5, R3's pace-keyed rise 1.37 against > 1.25 and R4's pace-keyed
+      inflation high 2.07 against > 2.0; bank F5's high root 10.6% against 9.6%, F6's high root 90.8% against the whole book,
+      R7's "flat at 0.6 / 0.4" (equalities on the 25 bp grid) and X4's bands around their found values (closest the status
+      quo's site price 0.800 against < 0.81); macro_scenarios V3's step 7 on the fast path, debt 160.8 against 159.1 (1.7
+      points, low root); reverse F1's shares, 0.804 against > 0.75 and 0.861 against > 0.8; households A1's high-root
+      deficits branch, coverage 95.75% at year 15 against 100.]
     - **Not done here.** The website (above); the EVIDENCE notes the review faulted (evidence:A3-A6; text only, no number
-      moves); paths/README.md's findings (its layout rows are updated).
+      moves) [done in the record's corrections, below]; paths/README.md's findings (its layout rows are updated).
     - **What the revision says.** `[inferred]` The direction holds: under deep automation r* falls from the start at every
       speed, on both roots and at every pass-through of the investment fall from netted to gross. Its size shrinks by about
       a quarter — at medium 4.4 points by year 15 against 6.0 — and the size rests on the pass-through, 2.1 points netted
@@ -3730,3 +3759,26 @@ the macro block lands.
       back, longer than (b)'s at its 95th percentile, and the deficits branch's sign rests on a pass-through the evidence
       does not pin: a two-sided rate stress again, the falling side the more likely. Sweden's rules make the household
       cushion in the falling branch real, and unfinanced: the layer's next question.
+    - **The record and batteries corrected** (a third commit on `fix/bridges-revised`: the review's record and battery
+      findings, each checked against the final results; no model number moved). Most were resolved by the revision itself:
+      speed F2 on the stored branch and the ladder restated (checks:S1, record:A1); the households' (b) comparator stated as
+      what runs, its figures restated and A1 gating (b) and the high root again (checks:H1, households:H1, record:A2); F2's
+      sign the benefit rule's (households:H2); the flags and labels of the restated checks (checks:B1, C1, L1, T1, V1);
+      macro_scenarios F6 on every path's low at every speed and root (checks:M1, record:A3, rstar-fiscal:A6); the citations
+      and numbers in decisions 72-79 (evidence:A8-A9, households:H4-H5, record:A6-A7); the older entries' moved numbers and
+      README's rows (record:A11-A12). Corrected here: the EVIDENCE notes (evidence:A3-A6) — the deficit note's reason (the
+      sources apply the direct estimates to R*; the default rests on the offset evidence alone), Röhn's composition and
+      debt-level results (current revenues almost fully offset, more at high debt: a pass-through below 0.6 for this model's
+      revenue-loss deficits), the deficits branch's 1.0 beyond the offset estimates' 0.8, the Kaleckian horizon (short-run
+      first differences, no long-run level relation), Dynan-Skinner-Zeldes's basis and Mian-Straub-Sufi 2025's wealth groups;
+      macro_scenarios.json regenerated, only those five evidence strings changed (capital_feedback.json and both figures
+      byte-identical), and macro.py's two comments to match. Decisions 73-74 gain the alternatives' sizes on the revised refit
+      (scratch runs) and the model's long-rate response per point of deficit (27 / 31 / 38 bp per point of GDP by year 15,
+      the debt term premium included); Log 46's website bullet the facts' thresholds and the fast path's dip; the bank's
+      refit note the prior's worth; the fastest money-wage cuts on the revised worlds, 20% / 29% a year (deficits / owners'
+      saving) [the revision's record said 21 / 30: households:H5 recomputed]; the narrow passes above, named in each
+      battery's header too; A1's wage-alternative drag labelled bookkeeping (households:H6). Deferred: the stored
+      sensitivities the findings leave optional — a higher
+      labour-demand elasticity (households:H6: A2 reads the elasticity that would reach the floor off the stored runs, 1.02,
+      0.69 with no cut) and a faster money-wage cut (evidence:A8) — and every watch-side part (Next, first). All 23
+      batteries green, stderr empty.

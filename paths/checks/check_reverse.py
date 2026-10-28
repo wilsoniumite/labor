@@ -43,7 +43,12 @@
 # 10 bp gate; restated to "falls no further", the criterion the largest-fall draw already had); F7 new (the falling shares rise with
 # the pass-through: 74 / 80 / 87% over ten years by thirds). R6's label: on the refit r* no longer reads the rate (its gate holds
 # trivially). Narrow passes: F3's debt driver (public support 0.60 against the midpoint's -0.49), F1's second driver for the largest
-# rise (above). The required return's rise in F6 is the headroom's live test on (c) (with macro_scenarios R3's +200 bp run).
+# rise (above). Named later (2026-10-28, the record's corrections against the final results, checks:R1 recomputed): F1's shares,
+# set after seeing, 0.804 over ten years against > 0.75 and 0.861 in the window against > 0.8 (8.5 and 11 binomial standard errors
+# over 4,000 draws). The two refit clauses checks:R1 named are no longer narrow: the window's 95th percentile is +49.6 bp
+# (gated > 0), and deficits are second in the window by 0.36 against the transition's width 0.24 (the near-tie, 0.246 against
+# 0.233 unrounded, is now the largest rise's, against the term premium). The required return's rise in F6 is the headroom's live
+# test on (c) (with macro_scenarios R3's +200 bp run).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_reverse.py
 # Exit status 0 only if every check passes.

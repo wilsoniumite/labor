@@ -41,8 +41,14 @@
 # at year 3 and the path's low the start; fast debt at year 3 44.2 / 43.4 against 40; before: slow and medium at year 3, fast at
 # year 6); F10 new (the pass-through readout: planning values medium r* at year 15 -3.64 / -2.25 / -1.32, high root -3.53 /
 # -2.13 / -1.20, never rising). F9's label states the one-way loop (its gate unchanged). Narrow pass: F4's "lower the faster the
-# change", medium -3.64 against fast -3.67 (0.03 pp; Log 46 0.06, checks:N3). The rate headroom's live test here is R3's +200 bp
-# run (2.00 of 7.18 pp); the follow path's own rise (0.00) is a regression guard, as is check_reverse F6's.
+# change", medium -3.64 against fast -3.67 (0.03 pp; Log 46 0.06, checks:N3). Named later (2026-10-28, the record's corrections
+# against the final results, checks:N3 recomputed): V3's step 7 raising debt at year 15 on the fast path, 160.8 against 159.1 on
+# the low root (1.7 points; high root 142.9 against 138.7); Log 46's 1.8-point fast debt steps (V3's step 4 over 3, F6's surplus
+# start) are no longer gated as orderings (steps 0-4 are equalities with Log 46's table) or narrow (the surplus start 161 against
+# 172.5). F6's "the path's low is the start" reads debt_low_and_year15 rounded to 0.1; unrounded, every path's low is its start
+# exactly (a scratch run). The rate headroom's live tests on (c) are R3's +200 bp run here (2.00 of 7.18 pp) and check_reverse F6
+# (the required return's peak 5.74 of 7.18); the follow path's own rise (0.00) is a regression guard (corrected 2026-10-28: this
+# line said check_reverse F6's was one too, checks:V1).
 #
 # Run from paths/:  ../venv/Scripts/python.exe checks/check_macro_scenarios.py
 # Exit status 0 only if every check passes.

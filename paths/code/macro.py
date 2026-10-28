@@ -260,9 +260,11 @@ def investment_key(pass_through: float) -> float:
 
 INVESTMENT_KEY = investment_key(INVESTMENT_PASS_THROUGH)          # the central (gross)
 OWNERS_SAVING_GAP = 0.3       # owners' saving out of a marginal unit of income less wage earners', retained earnings included
-OWNERS_SAVING_GAP_RANGE = (0.15, 0.45)   # (Kaleckian estimates: US 0.14-0.43, Sweden 0.39; Mian, Straub and Sufi 2021: ~0.20)
+OWNERS_SAVING_GAP_RANGE = (0.15, 0.45)   # (Kaleckian estimates, short-run: US 0.14-0.43, Sweden 0.39; Mian, Straub and Sufi 2021:
+                                         # ~0.20; the horizon caveat in macro_scenarios.EVIDENCE)
 DEFICIT_PASS_THROUGH = 0.6     # the share of a primary deficit not offset by private saving (1 - the Ricardian offset, 0.4:
-DEFICIT_PASS_THROUGH_RANGE = (0.5, 1.0)  # Gale and Orszag 2004 0.2-0.5, Röhn 2010 ~0.4); 1.0: no offset
+DEFICIT_PASS_THROUGH_RANGE = (0.5, 1.0)  # Gale and Orszag 2004 0.2-0.5, Röhn 2010 ~0.4); 1.0: no offset — beyond the offset
+                                         # estimates (a pass-through of at most 0.8), on the direct yield evidence only
 START_DEFICIT = 2.06           # % of income: the primary deficit at the start, net of property income received (decision 95: the
                                # model's government has gross debt and no assets): Sweden 2021-25, -(B9 + D41PAY - D4REC), 1.80% of
                                # GDP (Eurostat gov_10a_main; macro_scenarios.fiscal_start_evidence)
