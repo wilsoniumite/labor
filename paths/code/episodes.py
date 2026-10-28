@@ -19,7 +19,7 @@
 # each era's neutral rate (the New York Fed's HLW estimates where they exist). Abroad, each economy is one region, its
 # central bank's rate as set, its fiscal stance the OECD's measured underlying primary balance (decision 89).
 #
-# Run from paths/:  ../venv/Scripts/python.exe code/episodes.py     (prints each episode's fit at the stored parameters)
+# Run from paths/:  ../venv/Scripts/python.exe code/episodes.py     (fits the model: results/episodes.json, figures/fig_episodes.png)
 
 from __future__ import annotations
 
@@ -211,6 +211,20 @@ def conf_profile(n: int) -> np.ndarray:
     return np.array([max(0.0, 1 - max(x - 0.5, 0) / 2.0) if k >= 1 else 0.0 for k, x in enumerate(t)])
 
 
+def bank_runs(start: str, n: int) -> np.ndarray:
+    """The bank runs of 1930-33, measured (decision 92): the money stock's fall from the month of the start (commercial
+    banks' deposits plus currency held by the public, Friedman and Schwartz's, seasonally adjusted, monthly: NBER
+    macrohistory, FRED M1444AUSM027SNBR), over its largest fall in the episode (35.8%, April 1933), so that the trough
+    reads as all the banks' capital lost, where the model's own stress stands by then. The money channel reads it in
+    place of the model's stress (which rises in a straight line from the crash, the money stock late and in steps:
+    a seventh of its fall by December 1930, half by December 1931, three-quarters by August 1932, the last quarter in
+    the 1933 panic and holiday, February to April)."""
+    p0 = pd.Period(start, "M")
+    m = monthly("M1444AUSM027SNBR")
+    lost = np.array([max(0.0, 1 - float(m[p0 + k]) / float(m[p0])) for k in range(n + 1)])
+    return lost / lost.max()
+
+
 def us_1929(okun: float) -> gc.Region:
     return gc.us_1929(okun)
 
@@ -223,7 +237,8 @@ def e1929(okun: float, impulse: float) -> Episode:
     M1109BUSM293NNBR; −87% by June 1932). The rest of the world's slump: US real exports against 1929, % of 1929 GDP
     (FRED EXPGSCA / GDPCA), annual values placed mid-year and read by month. The post-crash collapse of spending on
     durables and building (Romer 1990) as a demand level fading over two years from the first half-year: its size is
-    fitted. Smoot-Hawley's switch from imports to home goods from its date, (1 - tariff_net) x the tariff x exports'
+    fitted. The bank runs measured, by month (bank_runs: the money stock's fall), as the money channel's driver.
+    Smoot-Hawley's switch from imports to home goods from its date, (1 - tariff_net) x the tariff x exports'
     share of GDP (the model's own split of a tariff; its export loss is in the measured exports). Targets: annual output
     (FRED GDPCA, against the model's year on a 2% trend) and unemployment (Lebergott, the standard series) for 1930-33;
     the consumer price level by month (FRED CPIAUCNS, against September 1929); the credit spread by month
@@ -242,6 +257,7 @@ def e1929(okun: float, impulse: float) -> Episode:
                  fiscal_at=years_after(start, "1932-06-06"))
     switch = ((1 - gc.Common().tariff_net) * rl.tariff * regs["US"].exports
               * np.array([gc.after(rl.tariff_at, k, M) if k >= 1 else 0.0 for k in range(n + 1)]))
+    runs = bank_runs(start, n)
     gdp = gc.fred("GDPCA")
     ga = {d.year: float(v) for d, v in gdp.items()}
     cpi = monthly("CPIAUCNS")
@@ -250,7 +266,7 @@ def e1929(okun: float, impulse: float) -> Episode:
           Target("prices", "P", "M", [(p0 + k, float(cpi[p0 + k] / cpi[p0])) for k in range(1, n + 1)], 0.03),
           spread_target(start, n)]
     return Episode("1929-33", start, n, regs, {r: rl for r in regs},
-                   gc.Shock(equity={"US": eq}, demand={"US": conf + exm + switch}), tg)
+                   gc.Shock(equity={"US": eq}, demand={"US": conf + exm + switch}, runs={"US": runs}), tg)
 
 
 # ------------------------------------------------------------------ 2008-10
@@ -733,9 +749,12 @@ def e1937(okun: float) -> Episode:
 
 # ------------------------------------------------------------------ the fit
 PARAMS = ("sigma", "money", "debt_deflation", "kappa_1930", "okun_us", "impulse_1930_pct_gdp", "a_r", "a_f", "f_speed",
-          "cap_oil", "okun_se", "okun_ea", "okun_jp")
+          "cap_oil", "okun_se", "okun_ea", "okun_jp", "dd_sat")
 BOUNDS = [(0, 15), (0, 15), (0, 0.5), (0.03, 1.0), (0.4, 1.0), (0, 10), (0.03, 0.15), (0, 1.0), (0.1, 1.0), (0, 4.0),
-          (0.1, 1.5), (0.1, 1.5), (0.05, 1.5)]
+          (0.1, 1.5), (0.1, 1.5), (0.05, 1.5), (0.01, 1.0)]
+# dd_sat, the shortfall at which debt deflation levels off (decision 92), is weakly separated from its slope: with the
+# slope's bound widened to 2 the search turns the pair into a fixed drag from a 1% shortfall (Log 53); the bounds stated
+# here (the slope's 0.5, as since the quarterly fit) are a judgement, kept and stated
 OKUN = {"SE": 10, "EA": 11, "JP": 12}       # each region's Okun slope, its own episode's (as the US's)
 # the extensions' settings, not fitted (decisions 85 and 87): floating-rate debt reprices within a year, and expectations
 # adapt to the past year's inflation
@@ -769,7 +788,7 @@ def episodes(theta) -> list:
 def common(theta, cm0: gc.Common = gc.Common(), fixed: dict | None = None) -> gc.Common:
     sigma, money, dd, k30, okun, imp, ar = theta[:7]
     ext = dict(zip(PARAMS[7:10], theta[7:10]))
-    ext.update(zip(PARAMS[13:], theta[13:]))       # any further Common field fitted by name (a variant: the spread's a_s)
+    ext.update(zip(PARAMS[13:], theta[13:]))       # any further Common field fitted by name (dd_sat; a variant: a_s)
     return replace(cm0, sigma=sigma, money=money, debt_deflation=dd, kappa_1930=k30, a_r=ar, **ext,
                    **(FIXED if fixed is None else fixed))
 
@@ -795,20 +814,82 @@ def report(theta) -> None:
                   f"data {[round(d, 2) for _, d in pts][:6]}...")
 
 
-if __name__ == "__main__":
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    import json
-    fp = json.load(open(os.path.join(gc.ROOT, "results", "global_crash.json"), encoding="utf-8"))["validation"]["fitted"]
-    theta = [fp.get(k, 0.0) for k in PARAMS[:10]]     # the extensions off (decisions 84-87); abroad, each region's own
-                                                      # Okun slope (episodes() keeps it when theta has no slot for it)
-    FIXED = {}
-    print("the quarterly fit's parameters, run monthly:", dict(zip(PARAMS, theta)), "loss", round(loss(theta), 2))
-    report(theta)
-
-
 def fit():
-    """The monthly fit: the quarterly fit's search (global_crash.fit) on the episodes marked fitted."""
+    """The fit (decision 82; the model's since 2026-10-28, Log 52): a global search (differential evolution, seed 7) on the
+    episodes marked fitted. Returns the parameters, the loss and the number of target points."""
     from scipy.optimize import differential_evolution
     best = differential_evolution(loss, BOUNDS, seed=7, popsize=20, maxiter=150, tol=1e-7, polish=True)
     n = sum(len(ep.where()) for ep in episodes(best.x) if ep.fitted)
     return best.x, float(best.fun), n
+
+
+def fitted() -> dict:
+    """The stored fit (results/episodes.json, written by main): the parameters by name, the fixed settings, the loss."""
+    return json.load(open(os.path.join(gc.ROOT, "results", "episodes.json"), encoding="utf-8"))
+
+
+def stored_common(fp: dict | None = None) -> gc.Common:
+    """The model's common parameters at the stored fit: the fitted ones and the fixed settings (reprice, expect_over)."""
+    fp = fitted() if fp is None else fp
+    return common([fp["fitted"][k] for k in PARAMS], fixed=fp["fixed"])
+
+
+def record(theta, loss_value: float, n_points: int) -> dict:
+    """Each episode at the parameters: every target's model and data by period, its RMS error, the episode's loss."""
+    cm = common(theta)
+    eps = {}
+    for ep in episodes(theta):
+        o = ep.run(cm)
+        cmp_ = ep.compare(o)
+        tg = {}
+        for t in ep.targets:
+            pts = [(str(p), m, d) for tt, p, m, d in cmp_ if tt is t]
+            tg[t.name] = {"freq": t.freq, "scale": t.scale, "periods": [p for p, _, _ in pts],
+                          "model": [round(m, 4) for _, m, _ in pts], "data": [round(d, 4) for _, _, d in pts],
+                          "rms": round(float(np.sqrt(np.mean([(m - d) ** 2 for _, m, d in pts]))), 4)}
+        eps[ep.name] = {"fitted": ep.fitted, "start": ep.start, "months": ep.months, "region": ep.region,
+                        "loss": round(float(np.sum(np.square(ep.errors(o)))), 3), "targets": tg,
+                        "bank_capital_lost_max": round(float(o["stress"].max()), 3)}
+    return {"fitted": dict(zip(PARAMS, [float(v) for v in theta])), "fixed": dict(FIXED),
+            "bounds": dict(zip(PARAMS, [list(b) for b in BOUNDS])), "loss": round(float(loss_value), 3),
+            "points": int(n_points), "housing": POSTWAR_HOUSING, "episodes": eps}
+
+
+def figure(rec: dict) -> None:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    names = list(rec["episodes"])
+    fig, axes = plt.subplots(len(names), 2, figsize=(12, 2.3 * len(names)), layout="constrained")
+    for row, nm in zip(axes, names):
+        e = rec["episodes"][nm]
+        for ax, keys in zip(row, (("output gap", "output"), ("unemployment",))):
+            t = next((e["targets"][k] for k in keys if k in e["targets"]), None)
+            if t is None:
+                ax.axis("off")
+                continue
+            x = np.arange(len(t["data"]))
+            ax.plot(x, t["data"], color="0.2", lw=1.6, label="data")
+            ax.plot(x, t["model"], color="#c0392b", lw=1.4, label="model")
+            ax.set_title(f"{nm} ({'fitted' if e['fitted'] else 'held out'}): {next(k for k in keys if k in e['targets'])}"
+                         f" by {dict(M='month', Q='quarter', Y='year')[t['freq']]}, RMS {t['rms']:.2f}", fontsize=9)
+            ax.set_xticks(x[::max(1, len(x) // 6)])
+            ax.set_xticklabels([t["periods"][i] for i in x[::max(1, len(x) // 6)]], fontsize=7)
+    axes[0][0].legend(fontsize=8)
+    fig.savefig(os.path.join(gc.ROOT, "figures", "fig_episodes.png"), dpi=110)
+
+
+def main():
+    """Fit the model on the episodes and store it: results/episodes.json (the model's fit, read by global_crash.main)
+    and figures/fig_episodes.png."""
+    x, f, n = fit()
+    rec = record(x, f, n)
+    json.dump(rec, open(os.path.join(gc.ROOT, "results", "episodes.json"), "w", encoding="utf-8"), indent=1)
+    figure(rec)
+    print(json.dumps({k: v for k, v in rec.items() if k != "episodes"}, indent=1))
+    report(x)
+
+
+if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    main()

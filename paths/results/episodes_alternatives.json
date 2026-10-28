@@ -1,0 +1,266 @@
+{
+ "note": "The fits compared in Log 53 (2026-10-28), as found; the model's fit is results/episodes.json. Bounds: episodes.BOUNDS without dd_sat's entry for the linear fits, with debt deflation's bound set to the value where it is held; with dd_sat's entry for the levelling-off fits, debt deflation's bound 2 in the last. The first, Log 51's fit, was fitted by the code at db6d6b4 (no measured runs); today's episodes.fit() on its bounds gives the second, the same loss and forward runs (they differ only in f_speed, which does nothing at a_f 0). Forward: the four economies' worst year-6 gap (quarterly readings), each fit on its own preset dates, today's regions with its Okun slopes.",
+ "fits": [
+  {
+   "fit": "linear, as adopted 27 October (Log 51)",
+   "note": "debt deflation linear, bounds as stated",
+   "parameters": {
+    "sigma": 2.665129,
+    "money": 0.0,
+    "debt_deflation": 0.5,
+    "kappa_1930": 0.137115,
+    "okun_us": 0.639235,
+    "impulse_1930_pct_gdp": 10.0,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.314552,
+    "cap_oil": 2.673566,
+    "okun_se": 0.931169,
+    "okun_ea": 1.224591,
+    "okun_jp": 0.388914
+   },
+   "loss": 452.016,
+   "episodes": {
+    "1929-33": 66.883,
+    "2008-10": 21.392,
+    "2000-03": 9.372,
+    "1973-75": 22.284,
+    "1981-82": 117.604,
+    "1990-91": 30.774,
+    "1937-38": 118.695,
+    "Sweden 1990-93": 46.117,
+    "euro area 2011-13": 1.443,
+    "Japan 1991-95": 26.824
+   },
+   "forward": {
+    "today's rules, the page's central run": -9.1,
+    "rules erode, bust + displacement": -39.21,
+    "the 1930s' rules, bust + displacement": -60.0
+   }
+  },
+  {
+   "fit": "linear, the runs measured",
+   "note": "the runs measured; the same as the adopted fit",
+   "parameters": {
+    "sigma": 2.667033,
+    "money": 0.0,
+    "debt_deflation": 0.5,
+    "kappa_1930": 0.137118,
+    "okun_us": 0.639166,
+    "impulse_1930_pct_gdp": 10.0,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.1,
+    "cap_oil": 2.674278,
+    "okun_se": 0.931238,
+    "okun_ea": 1.223044,
+    "okun_jp": 0.38885
+   },
+   "loss": 452.014,
+   "episodes": {
+    "1929-33": 66.883,
+    "2008-10": 21.396,
+    "2000-03": 9.372,
+    "1973-75": 22.287,
+    "1981-82": 117.603,
+    "1990-91": 30.769,
+    "1937-38": 118.693,
+    "Sweden 1990-93": 46.117,
+    "euro area 2011-13": 1.442,
+    "Japan 1991-95": 26.824
+   },
+   "forward": {
+    "today's rules, the page's central run": -9.1,
+    "rules erode, bust + displacement": -39.21,
+    "the 1930s' rules, bust + displacement": -60.0
+   }
+  },
+  {
+   "fit": "debt deflation held at 0.30",
+   "note": "the runs measured",
+   "parameters": {
+    "sigma": 2.768452,
+    "money": 2.281456,
+    "debt_deflation": 0.3,
+    "kappa_1930": 0.169944,
+    "okun_us": 0.671445,
+    "impulse_1930_pct_gdp": 9.749339,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.438971,
+    "cap_oil": 2.524145,
+    "okun_se": 1.022037,
+    "okun_ea": 1.308051,
+    "okun_jp": 0.477429
+   },
+   "loss": 463.915,
+   "episodes": {
+    "1929-33": 54.969,
+    "2008-10": 24.404,
+    "2000-03": 9.971,
+    "1973-75": 23.072,
+    "1981-82": 117.863,
+    "1990-91": 32.548,
+    "1937-38": 118.953,
+    "Sweden 1990-93": 44.868,
+    "euro area 2011-13": 1.704,
+    "Japan 1991-95": 45.534
+   },
+   "forward": {
+    "today's rules, the page's central run": -6.82,
+    "rules erode, bust + displacement": -28.34,
+    "the 1930s' rules, bust + displacement": -60.0
+   }
+  },
+  {
+   "fit": "debt deflation held at 0.15",
+   "note": "the runs measured",
+   "parameters": {
+    "sigma": 2.817827,
+    "money": 8.867691,
+    "debt_deflation": 0.15,
+    "kappa_1930": 0.181308,
+    "okun_us": 0.680541,
+    "impulse_1930_pct_gdp": 9.162483,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.657971,
+    "cap_oil": 2.479262,
+    "okun_se": 1.092863,
+    "okun_ea": 1.374069,
+    "okun_jp": 0.526313
+   },
+   "loss": 477.748,
+   "episodes": {
+    "1929-33": 47.859,
+    "2008-10": 28.075,
+    "2000-03": 10.748,
+    "1973-75": 23.333,
+    "1981-82": 117.945,
+    "1990-91": 33.651,
+    "1937-38": 119.007,
+    "Sweden 1990-93": 45.744,
+    "euro area 2011-13": 1.949,
+    "Japan 1991-95": 60.185
+   },
+   "forward": {
+    "today's rules, the page's central run": -5.5,
+    "rules erode, bust + displacement": -21.08,
+    "the 1930s' rules, bust + displacement": -60.0
+   }
+  },
+  {
+   "fit": "debt deflation held at 0",
+   "note": "the runs measured; the bank runs at their bound",
+   "parameters": {
+    "sigma": 2.890068,
+    "money": 15.0,
+    "debt_deflation": 0.0,
+    "kappa_1930": 0.197459,
+    "okun_us": 0.712868,
+    "impulse_1930_pct_gdp": 8.301623,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.789599,
+    "cap_oil": 2.332617,
+    "okun_se": 1.165931,
+    "okun_ea": 1.441892,
+    "okun_jp": 0.553652
+   },
+   "loss": 493.694,
+   "episodes": {
+    "1929-33": 41.231,
+    "2008-10": 31.08,
+    "2000-03": 11.155,
+    "1973-75": 24.258,
+    "1981-82": 118.209,
+    "1990-91": 35.156,
+    "1937-38": 119.3,
+    "Sweden 1990-93": 47.811,
+    "euro area 2011-13": 2.214,
+    "Japan 1991-95": 74.435
+   },
+   "forward": {
+    "today's rules, the page's central run": -4.59,
+    "rules erode, bust + displacement": -15.63,
+    "the 1930s' rules, bust + displacement": -59.46
+   }
+  },
+  {
+   "fit": "levelling off, within the stated bounds (adopted, decision 92)",
+   "note": "the runs measured",
+   "parameters": {
+    "sigma": 2.686971,
+    "money": 6.917525,
+    "debt_deflation": 0.5,
+    "kappa_1930": 0.195156,
+    "okun_us": 0.681059,
+    "impulse_1930_pct_gdp": 7.495218,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.425267,
+    "cap_oil": 2.496725,
+    "okun_se": 0.9531,
+    "okun_ea": 1.225528,
+    "okun_jp": 0.400324,
+    "dd_sat": 0.114251
+   },
+   "loss": 424.543,
+   "episodes": {
+    "1929-33": 35.982,
+    "2008-10": 20.189,
+    "2000-03": 8.759,
+    "1973-75": 23.272,
+    "1981-82": 117.931,
+    "1990-91": 31.356,
+    "1937-38": 118.985,
+    "Sweden 1990-93": 45.065,
+    "euro area 2011-13": 1.452,
+    "Japan 1991-95": 30.311
+   },
+   "forward": {
+    "today's rules, the page's central run": -8.51,
+    "rules erode, bust + displacement": -28.78,
+    "the 1930s' rules, bust + displacement": -59.47
+   }
+  },
+  {
+   "fit": "levelling off, the slope's bound widened to 2",
+   "note": "degenerate: a fixed drag from a 1.1% shortfall; not adopted",
+   "parameters": {
+    "sigma": 2.390777,
+    "money": 14.441179,
+    "debt_deflation": 2.0,
+    "kappa_1930": 0.183879,
+    "okun_us": 0.63782,
+    "impulse_1930_pct_gdp": 6.519411,
+    "a_r": 0.03,
+    "a_f": 0.0,
+    "f_speed": 0.4942,
+    "cap_oil": 2.703088,
+    "okun_se": 0.795914,
+    "okun_ea": 0.775809,
+    "okun_jp": 0.187255,
+    "dd_sat": 0.010945
+   },
+   "loss": 388.529,
+   "episodes": {
+    "1929-33": 38.588,
+    "2008-10": 18.739,
+    "2000-03": 6.122,
+    "1973-75": 22.078,
+    "1981-82": 117.475,
+    "1990-91": 20.074,
+    "1937-38": 118.555,
+    "Sweden 1990-93": 45.707,
+    "euro area 2011-13": 1.885,
+    "Japan 1991-95": 5.428
+   },
+   "forward": {
+    "today's rules, the page's central run": -10.68,
+    "rules erode, bust + displacement": -20.58,
+    "the 1930s' rules, bust + displacement": -60.0
+   }
+  }
+ ]
+}
