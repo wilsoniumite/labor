@@ -9,18 +9,21 @@
 # seen): one start for the case and the model (gc.regions_today on the dated vintage in cache/start/, vintage.py), and
 # the bust's three legs timed and shaped as the 2000-02 bust measured them, from the quarter of today's peak.
 #
-# The case, in the model's terms (one dating, gc.quarter_label: index 0 is the state measured on data to September 2026,
-# 2026Q3; index 1, the first simulated quarter, 2026Q4; six years, to 2032Q3 at index 24):
+# Restated 2026-10-28 on the adopted monthly fit (decision 91): the model runs by month. Index 0 is the state measured on
+# data to September 2026 (the end of 2026Q3); index k the end of the k-th month after; 73 months, to the end of 2032Q3.
+# Every input is built by month; every reading named by a quarter is that quarter's average of its months
+# (gc.to_quarters), as quarterly data are measured, on the one quarterly dating (gc.quarter_label: quarter 1 is 2026Q4,
+# quarter 9 2028Q4, quarter 24 2032Q3). The case, in the model's terms:
 #   the bust        1.5x the dot-com bust's size (ai_shock's US equity 0.40 -> 0.60 at the trough, 60% of the above-trend
 #                   build-out -> 90%, 1.5x its losses on AI lending), on the 2000-02 bust's measured path (global_crash.bust_2000:
-#                   household equity, the build-out, bank losses, each by quarter from the quarter of the equity peak),
-#                   starting in the quarter of today's peak (the Nasdaq's and the S&P's high, 6 Oct 2026: 2026Q4). The
-#                   8 Oct case ran ai_shock's ramps instead: all three legs at full size within two quarters, held
-#                   forever; that timing is an alternative here. October's data fit the measured path's first quarter
-#                   (US equity at about its Q3 level, the periphery and the lowest credit tier breaking, the build-out
-#                   still rising) and not the ramp's (equity -30% in 2026Q4);
+#                   household equity, the build-out, bank losses, each by quarter from the quarter of the equity peak,
+#                   read at each month's end), starting in the quarter of today's peak (the Nasdaq's and the S&P's high,
+#                   6 Oct 2026: 2026Q4). The 8 Oct case ran ai_shock's ramps instead: all three legs at full size within
+#                   two quarters, held forever; that timing is an alternative here. October's data fit the measured path's
+#                   first quarter (US equity at about its Q3 level, the periphery and the lowest credit tier breaking, the
+#                   build-out still rising) and not the ramp's (equity -30% in 2026Q4);
 #   the pace        displacement starts at the upper bound seen so far (pace.py) and rises on a logistic to the paper's
-#                   pace, half the rise by 2028Q2 (index 7);
+#                   pace, half the rise by the end of 2028Q2 (quarter 7; month 21);
 #   adoption        a range: firms automate the usual share of the jobs they cut in the downturn (the low end) or twice
 #                   it (the high end, the case as quoted); the model's largest single lever, so the case is a band;
 #   robotics        two years out (her call, 2026-09-24);
@@ -34,7 +37,12 @@
 #                   of the union since 2026-10-27 (decision 70): France's government a point more over the first year on
 #                   top of the spread already there at the start, half of it reaching French borrowers, none elsewhere
 #                   (decision 71); the ECB capping it (TPI) an alternative;
-#   China           the US tariff through its exports to the US; today's response (stimulus).
+#   China           the US tariff through its exports to the US; today's response (stimulus);
+#   the levers      policy dated, not triggered (decisions 81 and 91): each region's fiscal lever (the US's and China's
+#                   stimulus, Europe's and Sweden's cuts) starts the month after its unemployment first reads two
+#                   points above its start (acting from the next month, as a trigger did), found by gc.trigger_dates on the case's low end and on its high end; the case's date
+#                   is the midpoint of the two, to the month; the same dates in every piece, sensitivity and alternative;
+#                   either end's dates are alternatives (lever_dates).
 # The energy term (decision 27) is off until its condition is met (dated Brent at least 1.25 times its three-year average
 # on a day a bust rule is active); its run is an alternative, on the pass-through measured at the tag paths-pre-signfix.
 # The attribution runs take one piece of the case back to the model's central setting at a time; the sensitivities change
@@ -59,38 +67,47 @@ sys.path.insert(0, HERE)
 import global_crash as gc  # noqa: E402
 import vintage  # noqa: E402
 
-N = 25                # 2026Q3 (index 0, the start) .. 2032Q3 (index 24): six years of simulated quarters
+DT = gc.DT            # the model's step: a month (decision 91)
+NQ = 25               # quarterly indices: 2026Q3 (index 0, the start) .. 2032Q3 (24): six years of simulated quarters
+N = gc.months(NQ)     # 73 months: index 0 the start (the end of September 2026) .. 72 (the end of September 2032)
 START = gc.START
-END_2028 = 9          # the quarter index of 2028Q4 (gc.quarter_label(9))
-Q2032Q2 = N - 2       # 2032Q2, quoted where a run is at the model's cap by 2032Q3
+END_2028 = 9          # the quarter index of 2028Q4 (gc.quarter_label(9)): its reading is October-December 2028's average
+Q2032Q2 = NQ - 2      # 2032Q2, quoted where a run is at the model's cap by 2032Q3
 CAP = 50.0            # the model's ceiling on non-employment (u + out), %
 US_TARIFF = 25.0
 PIECES = ("bust", "pace", "adoption", "premium", "tariffs", "austerity", "care")
 INDEX0_END = "2026-09-30"                # index 0 is measured on data to September (decision 43): what the start reads
-                                         # stops here; October's moves belong to index 1, the bust's first quarter
+                                         # stops here; October's moves belong to index 1, the bust's first month
 # the energy term's run (decision 27), on the pass-through measured at the tag paths-pre-signfix (october.json, Brent,
 # US PCE 1990Q1-2026Q2, euro-area and Swedish HICP 2000Q1-2026Q2; not refitted): b0, b1, energy's share of spending,
-# household consumption over GDP, the spending lost per unit of a higher energy bill (0.8; the US spends half back)
+# household consumption over GDP, the spending lost per unit of a higher energy bill (0.8; the US spends half back).
+# Measured on quarterly averages: by month the term reads three-month averages (oil_high), whose monthly changes over a
+# quarter sum to its average's, and the next quarter's pass-through comes three months later (gc.energy_inflation)
 ENERGY = {"US": (0.2308, 0.0986, 0.0385, 0.675, 0.4), "EA": (0.1707, 0.0834, 0.094, 0.52, 0.8),
           "FR": (0.1707, 0.0834, 0.094, 0.52, 0.8), "SE": (0.1425, 0.0148, 0.0781, 0.45, 0.8)}   # France: the euro area's
                                                                                                # (approximate)
 
 
 def stored():
+    """The crash model as stored (results/global_crash.json): the common, the regions, and the presets' dates by region
+    (years after index 0's end; None: never)."""
     j = json.load(open(os.path.join(ROOT, "results", "global_crash.json"), encoding="utf-8"))
-    return gc.Common(**j["common"]), {r: gc.Region(**j["regions"][r]) for r in gc.R}
+    dates = {nm: {r: None if d is None else d["years"] for r, d in ds.items()} for nm, ds in j["preset_dates"].items()}
+    return gc.Common(**j["common"]), {r: gc.Region(**j["regions"][r]) for r in gc.R}, dates
 
 
-def logistic_pace(paper: float, seen: float, mid_q: float, width_q: float, n: int = N) -> np.ndarray:
-    """From `seen` x the paper's pace now to the paper's pace, half the rise by quarter mid_q."""
-    k = np.arange(n)
+def logistic_pace(paper: float, seen: float, mid_q: float, width_q: float, n: int = N, dt: float = DT) -> np.ndarray:
+    """From `seen` x the paper's pace now to the paper's pace, half the rise by quarter mid_q; by step, each step at its
+    end (mid_q and width_q in quarters)."""
+    k = np.arange(n) * dt / gc.Q                     # quarters after index 0's end
     w = 1 / (1 + np.exp(-(k - mid_q) / (width_q / 4)))
     w0 = 1 / (1 + np.exp(mid_q / (width_q / 4)))
     return paper * (seen + (1 - seen) * (w - w0) / (1 - w0))
 
 
-def ramp_to(total: float, quarters: int, n: int = N) -> np.ndarray:
-    return np.array([total * min(k / quarters, 1.0) for k in range(n)])
+def ramp_to(total: float, quarters: int, n: int = N, dt: float = DT) -> np.ndarray:
+    """`total` reached in a straight line over `quarters` quarters from index 0's end, by step."""
+    return np.array([total * min(k * dt / (quarters * gc.Q), 1.0) for k in range(n)])
 
 
 # ------------------------------------------------------------------ the bust
@@ -110,18 +127,19 @@ def peak_shift(b: dict) -> float:
 
 
 def bust_delay(b: dict) -> float:
-    """gc.ai_shock's delay for the case's bust: its onset quarter, read on the peak's own date (peak_shift)."""
+    """gc.ai_shock's delay for the case's bust, in quarters at any step: its onset quarter, read on the peak's own date
+    (peak_shift)."""
     return b["onset"] - 1 - (peak_shift(b) if b.get("peak") else 0.0)
 
 
-def bust_shock(n: int, b: dict) -> gc.Shock:
+def bust_shock(n: int, b: dict, dt: float = DT) -> gc.Shock:
     """The case's bust: gc.ai_shock at b["scale"] times the 2000-02 bust's measured sizes, on its measured path, dated
     from the peak (bust_delay); with b["ramp"] = (scale, speed), the bust as first built (the 8 Oct case's timing).
     b["held"]: equity never recovers from any low it reaches (a running maximum of the fall); b["no_equity"]: the core
     holds (no fall in household equity; the build-out and the losses only)."""
     if "ramp" in b:
-        return gc.ai_shock(n, *b["ramp"], shape="ramp")
-    sh = gc.ai_shock(n, b["scale"], delay=bust_delay(b))
+        return gc.ai_shock(n, *b["ramp"], shape="ramp", dt=dt)
+    sh = gc.ai_shock(n, b["scale"], delay=bust_delay(b), dt=dt)
     if b.get("held"):
         sh.equity = {r: np.maximum.accumulate(v) for r, v in sh.equity.items()}
     if b.get("no_equity"):
@@ -167,7 +185,8 @@ def _q2000_daily() -> pd.Series:
 
 
 def settings(regs, pace_seen: float) -> dict:
-    """The case's settings, piece by piece, so that each can be taken back to the model's central setting."""
+    """The case's settings, piece by piece, so that each can be taken back to the model's central setting (the levers'
+    dates are set on the case's runs: lever_dates)."""
     # care capped one year of its trend above today's share; a care sector that is shrinking (France) at today's
     care_cap = {r: round(regs[r].care_share + max(regs[r].care_trend, 0.0), 2) for r in gc.R}
     # the US tariff on what each region sells to the US, as a tariff on what it sells outside its union (the model's
@@ -202,8 +221,10 @@ SENSITIVITIES = {
         {"rules": {"EA": {"fiscal": "none"}, "FR": {"fiscal": "none"}}},
     "the euro area stimulates": {"rules": {"EA": {"fiscal": "stimulus"}, "FR": {"fiscal": "stimulus"}}},
     "the US exit share at decision 21's proposal (0.36)": {"regions": {"US": {"exit_share": 0.36}}},
-    "fiscal triggers watch non-employment": {"rules": {r: {"trigger_on": "non-employment"} for r in gc.R}},
     "rates bite harder: a_r 0.079 (Holston-Laubach-Williams, US)": {"common": {"a_r": 0.079}},
+    # the fit's debt deflation (slope 0.5, at its bound, levelling off at a shortfall of 11.4%: decision 92) acts wherever
+    # the price level runs below the path expected at the region's target (decision 91): how much of the case is its drag
+    "no debt deflation: the fit's 0.5 (at its bound) set to 0": {"common": {"debt_deflation": 0.0}},
 }
 # the alternatives: the bust changed, on the case at its high end (paths for the watcher's vocabulary; not scored)
 ALTERNATIVES = {
@@ -219,27 +240,33 @@ ALTERNATIVES = {
     "the bust a quarter later (from 2027Q1)": {"bust": {"onset": 2}},
     "the bust dated by its quarter, not the peak's day (k = 0 at 2026Q4's end)": {"bust": {"peak": None}},
     "oil stays high and policy reads four quarters' headline (decision 27's run)": {"energy": True},
+    "the levers on the low end's dates (where its unemployment first rose two points), not the midpoint": {"levers": "low"},
+    "the levers on the high end's dates (where its unemployment first rose two points), not the midpoint": {"levers": "high"},
 }
 
 
 def oil_high(n: int = N) -> tuple:
-    """Decision 27's oil path, "stays high": dated Brent held at its last five prints for four quarters, a quarter at the
-    geometric midpoint, then its three-year average (the watcher's reference); 2026Q2's average before index 0, 2026Q3's
-    at it. In dollars for every region, the exchange rates held (crude enters through its log change)."""
+    """Decision 27's oil path, "stays high", by month: dated Brent held at its last five prints for four quarters from
+    October 2026, a quarter at the geometric midpoint, then its three-year average (the watcher's reference); the months
+    to September as measured. Each step reads the average of its three months, as the pass-through was measured on
+    quarterly averages (index 0 is 2026Q3's average, index 3 2026Q4's); before index 0, the three months to August. In
+    dollars for every region, the exchange rates held (crude enters through its log change)."""
     br = vintage.read("DCOILBRENTEU")
-    qa = br.groupby(br.index.to_period("Q")).mean()
+    ma = br.groupby(br.index.to_period("M")).mean()
     hold, avg = float(br.iloc[-5:].mean()), float(br.iloc[-757:-1].mean())
-    path = [float(qa[pd.Period("2026Q3", "Q")])] + [hold] * 4 + [float(np.sqrt(hold * avg))] + [avg] * (n - 6)
-    return float(qa[pd.Period("2026Q2", "Q")]), np.array(path[:n])
+    sep = pd.Period("2026-09", "M")
+    price = [float(ma[sep - j]) for j in (3, 2, 1, 0)] + [hold] * 12 + [float(np.sqrt(hold * avg))] * 3 + [avg] * n
+    m3 = np.convolve(price, np.ones(3) / 3, "valid")         # m3[i]: the average of months i .. i + 2 (from June)
+    return float(m3[0]), m3[1:1 + n]
 
 
-def build(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", sens: dict | None = None, n: int = N):
-    """The case, or the case with one piece (`drop`) taken back to the model's central setting, or with one sensitivity
-    or alternative (`sens`)."""
+def setup(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", sens: dict | None = None, n: int = N):
+    """The case's run before its levers are dated: (regions, rules, shock, common, waves) for the case, or the case with
+    one piece (`drop`) taken back to the model's central setting, or with one sensitivity or alternative (`sens`)."""
     sens = sens or {}
     central = {"adoption_multiple": 1.0}
     b = {**st["bust"], **sens.get("bust", {})}
-    shock = gc.ai_shock(n, delay=bust_delay(b)) if drop == "bust" else bust_shock(n, b)   # the piece: the size alone
+    shock = gc.ai_shock(n, delay=bust_delay(b), dt=DT) if drop == "bust" else bust_shock(n, b)   # the piece: the size alone
     pace = st["pace"]
     if drop != "pace":
         shock.drift = {r: logistic_pace(regs[r].drift, pace["seen"], pace["mid_quarter"], pace["width_quarters"], n) for r in gc.R}
@@ -273,14 +300,51 @@ def build(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", s
             rl = replace(rl, care_cap=st["care_cap"][r])
         rules[r] = replace(rl, **sens.get("rules", {}).get(r, {}))
     waves = gc.Waves(split=True, robot_lag=st["robot_lag_years"], absorb=True)
-    return rg, gc.simulate(rg, rules, shock, replace(cm, **sens.get("common", {})), n, waves=waves)
+    return rg, rules, shock, replace(cm, **sens.get("common", {})), waves
 
 
-def reference(cm, regs, n: int = N):
-    """The model's central run: today's policies, a dot-com-sized bust (ai_shock's default), the paper's pace, robotics
-    in two years — the website's model page default (watch web/case.py checks they are the same path)."""
-    return regs, gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.ai_shock(n), cm, n,
-                             waves=gc.Waves(split=True, robot_lag=2.0, absorb=True))
+def years(levers: dict, which: str = "case") -> dict:
+    """The levers' dates by region, years after index 0's end (None: never), from settings["levers"]."""
+    return {r: None if d is None else d["years"] for r, d in levers[which].items()}
+
+
+def build(cm, regs, st: dict, drop: str | None = None, adoption: str = "high", sens: dict | None = None, n: int = N):
+    """The case (setup) with its levers on the case's dates (settings["levers"]; sens["levers"]: either end's), run by
+    month."""
+    sens = sens or {}
+    rg, rules, shock, cm_, waves = setup(cm, regs, st, drop, adoption, sens, n)
+    rules = gc.dated(rules, years(st["levers"], sens.get("levers", "case")))
+    return rg, gc.simulate(rg, rules, shock, cm_, n, waves=waves, dt=DT)
+
+
+def lever_dates(cm, regs, st: dict, n: int = N) -> dict:
+    """The levers' dates by region (decisions 81 and 91: policy dated, not triggered): gc.trigger_dates on the case's
+    low end and on its high end (from the month after each region's unemployment first reads its rules' trigger, two
+    points, above its start, the earlier responses' spillovers counted, as the triggered model started them), and the case's the
+    midpoint of the two to the month (a half to the later month; where only one end reaches the trigger, that end's).
+    Each {years after index 0's end, the month the lever starts in} or None (never)."""
+    ends = {}
+    for end in ("low", "high"):
+        rg, rules, shock, cm_, waves = setup(cm, regs, st, adoption=end, n=n)
+        ends[end] = gc.trigger_dates(rg, rules, shock, cm_, n, DT, waves)
+    mid = {}
+    for r in gc.R:
+        d = [ends[e][r] for e in ("low", "high") if ends[e][r] is not None]
+        mid[r] = None if not d else int(np.floor(sum(d) / len(d) / DT + 0.5)) * DT
+    stamp = lambda ds: {r: None if d is None else {"years": d, "from": gc.month_label(round(d / DT) + 1)}  # noqa: E731
+                        for r, d in ds.items()}
+    return {"trigger": gc.MODERN.trigger, "low": stamp(ends["low"]), "high": stamp(ends["high"]), "case": stamp(mid),
+            "note": "the month each region's fiscal lever starts: the month after its unemployment first reads two points "
+                    "above its start in the case's low end and in its high end (gc.trigger_dates), the case's the midpoint to the "
+                    "month; the same dates in every piece, sensitivity and alternative"}
+
+
+def reference(cm, regs, dates: dict, n: int = N):
+    """The model's central run: today's policies on their stored dates (preset_dates' "modern rules"), a dot-com-sized
+    bust (ai_shock's default), the paper's pace, robotics in two years — the website's model page default (watch
+    web/case.py checks they are the same path)."""
+    return regs, gc.simulate(regs, gc.dated(gc.MODERN, dates["modern rules"]), gc.ai_shock(n, dt=DT), cm, n,
+                             waves=gc.CENTRAL_WAVES, dt=DT)
 
 
 # ------------------------------------------------------------------ readouts
@@ -289,37 +353,55 @@ def four(rg, o) -> np.ndarray:
     return np.array([sum(size[r] * o[r]["y"][k] for r in gc.R) / sum(size.values()) for k in range(len(o["US"]["y"]))])
 
 
+def out_of_work(o, r: str = "US") -> np.ndarray:
+    """Region r's unemployed plus those who left the workforce, %, by quarter (its months' averages)."""
+    return gc.to_quarters(o[r]["u"] + o[r]["out"], DT)
+
+
 def read(rg, o) -> dict:
-    f = four(rg, o)
-    us = o["US"]
+    """A monthly run's readings, each on quarterly averages (gc.to_quarters); the model's cap on the monthly path."""
+    q = gc.quarterly_out(o, DT)
+    f = four(rg, q)
+    us = q["US"]
     oow = us["u"] + us["out"]
     k = int(np.argmax(oow))
+    # the quarter of the first month a region's out of work is at the cap
+    capped = lambda r: next((gc.quarter_label(-(-j // 3)) for j, v in enumerate(o[r]["u"] + o[r]["out"])  # noqa: E731
+                             if v >= CAP - 1e-9), None)
     res = {"four_output_worst": round(float(f.min()), 1), "four_output_worst_year": round(float(f.argmin()) / 4, 2),
            "four_output_end_2028": round(float(f[END_2028]), 1),
            "us_out_of_work_peak": round(float(oow.max()), 1), "us_out_of_work_peak_year": round(k / 4, 2),
            "us_unemployment_at_peak": round(float(us["u"][k]), 1), "us_left_at_peak": round(float(us["out"][k]), 1),
+           "us_out_of_work_2026Q4": round(float(oow[1]), 2), "us_unemployment_2026Q4": round(float(us["u"][1]), 2),
            "us_out_of_work_end_2028": round(float(oow[END_2028]), 1),
            "us_output_end_2028": round(float(us["y"][END_2028]), 1),
            "us_out_of_work_2032Q2": round(float(oow[Q2032Q2]), 1),
-           "us_at_the_models_cap_from": next((gc.quarter_label(j) for j in range(len(oow)) if oow[j] >= CAP - 1e-9), None),
+           "us_at_the_models_cap_from": capped("US"),
            "still_rising_at_end": bool(oow[-1] > oow[-2]),
            "regions": {}}
     for r in gc.R:
-        x = o[r]
+        x = q[r]
         res["regions"][r] = {"output_worst": round(float(x["y"].min()), 1),
                              "out_of_work_peak": round(float((x["u"] + x["out"]).max()), 1),
                              "out_of_work_end_2028": round(float((x["u"] + x["out"])[END_2028]), 1),
+                             "at_the_models_cap_from": capped(r),
                              "unemployment_peak": round(float(x["u"].max()), 1),
                              "bank_capital_lost_max_pct": round(float(x["stress"].max()) * 100),
                              "inflation_min": round(float(x["pi"].min()), 1), "inflation_max": round(float(x["pi"].max()), 1),
                              "policy_rate_min": round(float(x["i"].min()), 2),
                              "policy_rate_2026Q4": round(float(x["i"][1]), 2),
                              "credit_spread_max": round(float(x["s"].max()), 2),
-                             "care_end": round(float(x["care"][-1]), 1)}
+                             "care_end": round(float(x["care"][-1]), 1),
+                             # debt deflation (the fit's slope 0.5, levelling off at a shortfall of 11.4%: decision 92):
+                             # the largest drag on demand while the price level runs below the path expected at the
+                             # target, % of GDP
+                             "debt_deflation_drag_max_pct_gdp": round(max(0.0, -float(x["d_debt"].min())), 2)}
+    res["verdict"] = verdict(float(f.min()), float(oow.max()))      # on the unrounded readings
     return res
 
 
 def paths(rg, o) -> dict:
+    """The run's paths by month (index 0 the start, index k the end of the k-th month)."""
     out = {"four_output": [round(float(v), 2) for v in four(rg, o)]}
     for r in gc.R:
         x = o[r]
@@ -330,14 +412,17 @@ def paths(rg, o) -> dict:
     return out
 
 
-def verdict(r: dict) -> str:
-    if r["four_output_worst"] <= -20:
+def verdict(four_worst: float, us_peak: float) -> str:
+    """The run's name, from the four economies' worst output against capacity and the US out-of-work peak (%, both on
+    quarterly averages), read unrounded: a run on a line is named by where it is, not by its rounding (since
+    2026-10-28: the high end's -19.99 read as the rounded -20.0 named it a depression)."""
+    if four_worst <= -20:
         return "a depression"
-    if r["us_out_of_work_peak"] >= 15:
-        return "a labour depression, output held" if r["four_output_worst"] > -10 else "a labour depression"
-    if r["four_output_worst"] <= -4:
+    if us_peak >= 15:
+        return "a labour depression, output held" if four_worst > -10 else "a labour depression"
+    if four_worst <= -4:
         return "a 2008-scale recession"
-    return "a recession" if r["four_output_worst"] <= -2 else "a slowdown"
+    return "a recession" if four_worst <= -2 else "a slowdown"
 
 
 def short(x: dict) -> dict:
@@ -349,114 +434,136 @@ def short(x: dict) -> dict:
             "us_inflation_min": x["regions"]["US"]["inflation_min"], "us_inflation_max": x["regions"]["US"]["inflation_max"]}
 
 
+def sahm(u: np.ndarray) -> np.ndarray:
+    """The Sahm rule by month, as the watcher reads it (watch/tripwires.sahm): the three-month average unemployment rate
+    less its lowest over the twelve months before, on the model's US path (index 0, September 2026, the vintage's
+    reading) after the vintage's fourteen readings before it."""
+    h = vintage.read("UNRATE").loc[:INDEX0_END].dropna()
+    x = np.concatenate([h.values[-15:-1], u])
+    a = np.convolve(x, np.ones(3) / 3, "valid")                  # a[j]: readings j .. j + 2 of x
+    return np.array([a[m + 12] - a[m:m + 12].min() for m in range(len(u))])
+
+
 def signals(o, shock, onset: float, st_peak: str, scale: float) -> dict:
-    """The case's high end against the watcher's rules. bust.us.equity (the Nasdaq 20% under its 52-week high, daily):
-    on the 2000 Nasdaq's own daily path from its high (10 Mar 2000), the day its drawdown, times the case's scale, first
-    reaches 20%, counted from the 2026 high (6 Oct) — the reading the case's own dating implies; beside it two quarterly
-    late bounds (the model's fall in household equity read as the Nasdaq's on the 2000-02 ratio of the two falls at the
-    same quarter from the peak, 1.7 to 3.9 then, and one for one). labour.us.sahm: US unemployment 0.5 above its lowest
-    of the four quarters before (quarterly: a late bound). bust.credit.baa (Baa-10Y up 0.56 in three months): the model's
-    US spread up 0.56 in a quarter, labelled unmeasured (the model's spread is not validated against an observed one)."""
+    """The case's high end against the watcher's rules, by month. bust.us.equity (the Nasdaq 20% under its 52-week high,
+    daily): on the 2000 Nasdaq's own daily path from its high (10 Mar 2000), the day its drawdown, times the case's
+    scale, first reaches 20%, counted from the 2026 high (6 Oct) — the reading the case's own dating implies; beside it
+    two late bounds by month (the model's fall in household equity at a month's end read as the Nasdaq's on the 2000-02
+    ratio of the two falls at the nearest quarter from the peak, 1.6 to 3.85 then, and one for one). labour.us.sahm: the
+    watcher's Sahm rule on the model's monthly US unemployment, after the measured months (sahm). bust.credit.baa (Baa over the ten-year Treasury up 0.56 in 63 days): the model's US spread up 0.56 in
+    three months; the spread is fitted to Moody's Baa over Aaa by month in the US episodes (decision 90), not to the
+    rule's Baa over the Treasury, which moves with the Treasury's term premium too."""
     nq = _q("NASDAQCOM", end=True)
     eq_meas = gc.bust_2000()["measured"]["equity_fall"]
     ratio = [float((1 - nq[gc.Q0_2000 + k] / nq[gc.Q0_2000]) / eq_meas[k]) if eq_meas[k] > 0.03 else None
              for k in range(len(eq_meas))]
     eq = shock.equity["US"]
-    first = lambda cond: next((gc.quarter_label(k) for k in range(len(eq)) if cond(k)), None)  # noqa: E731
+    first = lambda cond: next((gc.month_label(m) for m in range(len(eq)) if cond(m)), None)  # noqa: E731
     u = o["US"]["u"]
     s = o["US"]["s"]
-    rk = lambda k: (ratio[int(round(k - onset))] if 0 <= int(round(k - onset)) < len(ratio) and ratio[int(round(k - onset))]
-                    else None)  # noqa: E731
+    L = gc.quarter_steps(DT)
+
+    def rk(m):
+        """The 2000-02 ratio at month m: the nearest quarter of the measured path (onset in quarters)."""
+        j = int(round(m * DT / gc.Q - onset))
+        return ratio[j] if 0 <= j < len(ratio) and ratio[j] else None
     h0 = _q2000_daily()
     dd = 1 - h0 / h0.cummax()                         # the drawdown from the high to date (the high is 10 Mar 2000)
     day = lambda scale: int((dd[scale * dd >= 0.20].index[0] - pd.Timestamp("2000-03-10")).days)  # noqa: E731
     peak = pd.Timestamp(st_peak)
+    sa = sahm(u)
     return {"bust.us.equity, on the 2000 Nasdaq's daily path": {
                 "days_after_the_high_at_the_dot_com_size": day(1.0), "days_after_the_high_at_the_case_size": day(scale),
                 "dates_from_the_2026_high": [f"{peak + pd.Timedelta(days=day(scale)):%Y-%m-%d}",
                                              f"{peak + pd.Timedelta(days=day(1.0)):%Y-%m-%d}"]},
-            "bust.us.equity, quarterly, the 2000-02 ratio (a late bound)": first(lambda k: rk(k) is not None and rk(k) * eq[k] >= 0.20),
-            "bust.us.equity, quarterly, one for one (a late bound)": first(lambda k: eq[k] >= 0.20),
-            "labour.us.sahm": first(lambda k: k >= 1 and u[k] - min(u[max(0, k - 4):k]) >= 0.5),
-            "bust.credit.baa (unmeasured)": first(lambda k: k >= 1 and s[k] - s[k - 1] >= 0.56),
+            "bust.us.equity, by month, the 2000-02 ratio (a late bound)": first(lambda m: rk(m) is not None and rk(m) * eq[m] >= 0.20),
+            "bust.us.equity, by month, one for one (a late bound)": first(lambda m: eq[m] >= 0.20),
+            "labour.us.sahm": first(lambda m: m >= 1 and sa[m] >= 0.5),
+            "bust.credit.baa (the model's spread, fitted to Baa over Aaa)": first(lambda m: m >= L and s[m] - s[m - L] >= 0.56),
             "nasdaq_over_household_equity_2000_02_by_quarter": [None if x is None else round(x, 2) for x in ratio[:17]]}
 
 
-def run_all(cm, regs, st) -> dict:
+def run_all(cm, regs, pdates, st) -> dict:
     ends = {}
     for end in ("low", "high"):
-        x = read(*build(cm, regs, st, adoption=end))
-        x["verdict"] = verdict(x)
-        ends[end] = x
-    hi = ends["high"]
-    ref = read(*reference(cm, regs))
-    ref["verdict"] = verdict(ref)
+        ends[end] = read(*build(cm, regs, st, adoption=end))
+    ref = read(*reference(cm, regs, pdates))
     _, o_hi = build(cm, regs, st)
-    oow_hi = o_hi["US"]["u"] + o_hi["US"]["out"]
+    q_hi = gc.quarterly_out(o_hi, DT)
+    oow_hi = out_of_work(o_hi)
     drops = {}
     for d in PIECES:
         rg_d, o_d = build(cm, regs, st, d)
         x = short(read(rg_d, o_d))
-        oow = o_d["US"]["u"] + o_d["US"]["out"]
-        # each 'adds' is the difference of the unrounded runs, rounded once
+        q_d = gc.quarterly_out(o_d, DT)
+        oow = out_of_work(o_d)
+        # each 'adds' is the difference of the unrounded runs' quarterly readings, rounded once
         x.update({"adds_to_us_out_of_work": round(float(oow_hi.max() - oow.max()), 1),
                   "adds_to_us_out_of_work_end_2028": round(float(oow_hi[END_2028] - oow[END_2028]), 1),
                   "adds_to_us_out_of_work_2032Q2": round(float(oow_hi[Q2032Q2] - oow[Q2032Q2]), 1),
-                  "adds_to_four_output": round(float(four(regs, o_hi).min() - four(rg_d, o_d).min()), 1),
-                  "adds_to_ea_out_of_work": round(float((o_hi["EA"]["u"] + o_hi["EA"]["out"]).max() - (o_d["EA"]["u"] + o_d["EA"]["out"]).max()), 1),
-                  "adds_to_fr_out_of_work": round(float((o_hi["FR"]["u"] + o_hi["FR"]["out"]).max() - (o_d["FR"]["u"] + o_d["FR"]["out"]).max()), 1),
-                  "adds_to_se_out_of_work": round(float((o_hi["SE"]["u"] + o_hi["SE"]["out"]).max() - (o_d["SE"]["u"] + o_d["SE"]["out"]).max()), 1)})
+                  "adds_to_four_output": round(float(four(regs, q_hi).min() - four(rg_d, q_d).min()), 1),
+                  "adds_to_ea_out_of_work": round(float(out_of_work(o_hi, "EA").max() - out_of_work(o_d, "EA").max()), 1),
+                  "adds_to_fr_out_of_work": round(float(out_of_work(o_hi, "FR").max() - out_of_work(o_d, "FR").max()), 1),
+                  "adds_to_se_out_of_work": round(float(out_of_work(o_hi, "SE").max() - out_of_work(o_d, "SE").max()), 1)})
         drops[d] = x
-    ea_hi = o_hi["EA"]["u"] + o_hi["EA"]["out"]
-    fr_hi = o_hi["FR"]["u"] + o_hi["FR"]["out"]
+    ea_hi, fr_hi = out_of_work(o_hi, "EA"), out_of_work(o_hi, "FR")
     sens = {}
     for name, s in SENSITIVITIES.items():
         rg_s, o_s = build(cm, regs, st, sens=s)
         x = short(read(rg_s, o_s))
-        oow = o_s["US"]["u"] + o_s["US"]["out"]
+        oow = out_of_work(o_s)
         # differences of the unrounded runs, rounded once (as the pieces)
         x["change_in_us_out_of_work"] = round(float(oow.max() - oow_hi.max()), 1)
         x["change_in_us_out_of_work_2032Q2"] = round(float(oow[Q2032Q2] - oow_hi[Q2032Q2]), 1)
-        x["change_in_four_output"] = round(float(four(rg_s, o_s).min() - four(regs, o_hi).min()), 1)
-        x["change_in_ea_out_of_work"] = round(float((o_s["EA"]["u"] + o_s["EA"]["out"]).max() - ea_hi.max()), 1)
-        x["change_in_fr_out_of_work"] = round(float((o_s["FR"]["u"] + o_s["FR"]["out"]).max() - fr_hi.max()), 1)
+        x["change_in_four_output"] = round(float(four(rg_s, gc.quarterly_out(o_s, DT)).min() - four(regs, q_hi).min()), 1)
+        x["change_in_ea_out_of_work"] = round(float(out_of_work(o_s, "EA").max() - ea_hi.max()), 1)
+        x["change_in_fr_out_of_work"] = round(float(out_of_work(o_s, "FR").max() - fr_hi.max()), 1)
         sens[name] = x
     alts = {}
     for name, s in ALTERNATIVES.items():
         rg_a, o_a = build(cm, regs, st, sens=s)
         x = short(read(rg_a, o_a))
-        oow = o_a["US"]["u"] + o_a["US"]["out"]
+        q_a = gc.quarterly_out(o_a, DT)
+        oow = out_of_work(o_a)
         x["us_out_of_work_2026Q4"] = round(float(oow[1]), 2)
-        x["us_unemployment_2026Q4"] = round(float(o_a["US"]["u"][1]), 2)
+        x["us_unemployment_2026Q4"] = round(float(q_a["US"]["u"][1]), 2)
         x["us_out_of_work_2027Q3"] = round(float(oow[4]), 1)
         x["change_in_us_out_of_work_end_2028"] = round(float(oow[END_2028] - oow_hi[END_2028]), 1)
         x["change_in_us_out_of_work_2032Q2"] = round(float(oow[Q2032Q2] - oow_hi[Q2032Q2]), 1)
-        x["us_policy_rate_2026Q4"] = round(float(o_a["US"]["i"][1]), 2)
+        x["us_policy_rate_2026Q4"] = round(float(q_a["US"]["i"][1]), 2)
         alts[name] = x
     return {"case": ends, "reference_central_run": ref,
             "piece_by_piece": {"note": "each row takes one piece of the case (at its high end) back to the model's central "
-                                       "setting; 'adds' is the case minus that run, the difference of the unrounded runs "
-                                       "rounded once: at 2028Q4, at 2032Q2, and at the peak (2032Q3 while still rising)", **drops},
-            "sensitivities": {"note": "each changes one setting the case does not carry, on the case at its high end; at the "
-                                      "peak and at 2032Q2", **sens},
-            "alternatives": {"note": "each changes the bust (or switches decision 27's energy term on), on the case at its "
-                                     "high end; paths for the watcher's vocabulary, not scored", **alts}}
+                                       "setting, the levers on the case's dates; 'adds' is the case minus that run, the "
+                                       "difference of the unrounded runs' quarterly averages rounded once: at 2028Q4, at "
+                                       "2032Q2, and at the peak (2032Q3 while still rising)", **drops},
+            "sensitivities": {"note": "each changes one setting the case does not carry, on the case at its high end, the "
+                                      "levers on the case's dates; at the peak and at 2032Q2", **sens},
+            "alternatives": {"note": "each changes the bust (or switches decision 27's energy term on, or puts the levers "
+                                     "on either end's dates), on the case at its high end; paths for the watcher's "
+                                     "vocabulary, not scored", **alts}}
 
 
 def main():
-    cm, regs = stored()
+    cm, regs, pdates = stored()
     pace = json.load(open(os.path.join(ROOT, "results", "pace.json"), encoding="utf-8"))
     seen = pace["paces"]["multiples_of_the_papers"]["trend + 2 s.e."]
     st = settings(regs, seen)
+    st["levers"] = lever_dates(cm, regs, st)
     bp = gc.bust_2000()
     rg_h, o_h = build(cm, regs, st)
     shock_h = bust_shock(N, st["bust"])
     eq_us = shock_h.equity["US"]
+    eq_q = gc.to_quarters(eq_us, DT)
+    qlab = lambda m: gc.quarter_label(-(-m // 3))      # the quarter month m falls in  # noqa: E731
     man = vintage.manifest()
-    res = {"start": START, "quarters": N,
-           "dating": f"index 0 = {gc.quarter_label(0)}, the state measured on data to September 2026; index 1 = "
-                     f"{gc.quarter_label(1)}, the first simulated quarter; index {END_2028} = {gc.quarter_label(END_2028)}; "
-                     f"index {N - 1} = {gc.quarter_label(N - 1)} (decision 43)",
+    res = {"start": START, "step": "month", "steps": N, "quarters": NQ,
+           "dating": f"index 0 = the end of {gc.month_label(0)} ({gc.quarter_label(0)}), the state measured on data to "
+                     f"September 2026; index k = the end of the k-th month after (index 1 = {gc.month_label(1)}, the first "
+                     f"simulated month); index {N - 1} = {gc.month_label(N - 1)}. A reading named by a quarter is its "
+                     f"months' average (gc.to_quarters): quarter 1 = {gc.quarter_label(1)}, the first simulated quarter; "
+                     f"quarter {END_2028} = {gc.quarter_label(END_2028)}; quarter {NQ - 1} = {gc.quarter_label(NQ - 1)} "
+                     f"(decisions 43 and 91)",
            "vintage": {"date": man["vintage"], "built_utc": man["built_utc"], "watcher_state_commit": man["watcher_state_commit"],
                        "last_observations": {k: v["last"] for k, v in man["series"].items()}, "observed": observed()},
            "settings": st,
@@ -468,20 +575,22 @@ def main():
                                       "capex_excess_2000Q1_pts_of_gdp": round(bp["measured"]["capex_excess_2000Q1"], 2),
                                       "chargeoff_base_1997_99": round(bp["measured"]["chargeoff_base_1997_99"], 3)},
                          "us_equity_fall": [round(float(x), 4) for x in eq_us]},
+           # by quarter (the quarterly averages; the levers by month)
            "dates": {"bust_onset": gc.quarter_label(st["bust"]["onset"]), "peak": st["bust"]["peak"],
                      "peak_shift_quarters": round(peak_shift(st["bust"]), 3),
-                     "equity_first_falls": gc.quarter_label(int(np.argmax(eq_us > 0))),
-                     "equity_trough": gc.quarter_label(int(np.argmax(eq_us))),
-                     "losses_peak": gc.quarter_label(int(np.argmax(shock_h.losses["US"]))),
-                     "build_out_last_above_its_start": gc.quarter_label(int(np.flatnonzero(shock_h.capex["EA"] < 0).max())),
+                     "equity_first_falls": gc.quarter_label(int(np.argmax(eq_q > 0))),
+                     "equity_trough": gc.quarter_label(int(np.argmax(eq_q))),
+                     "losses_peak": gc.quarter_label(int(np.argmax(gc.to_quarters(shock_h.losses["US"], DT)))),
+                     "build_out_last_above_its_start": gc.quarter_label(int(np.flatnonzero(gc.to_quarters(shock_h.capex["EA"], DT) < 0).max())),
                      "tariffs": gc.quarter_label(st["tariff_quarter"]),
                      "premium_builds": f"{gc.quarter_label(1)}-{gc.quarter_label(st['premium_quarters'])}",
                      "pace_half_way": gc.quarter_label(st["pace"]["mid_quarter"]),
-                     "robotics_begins": gc.quarter_label(int(round(st["robot_lag_years"] / gc.DT)) + 1)},
-           **run_all(cm, regs, st),
+                     "robotics_begins": qlab(next(m for m in range(N) if gc.robots(m, gc.Waves(split=True, robot_lag=st["robot_lag_years"]), DT) > 0)),
+                     "levers_from": {r: None if d is None else d["from"] for r, d in st["levers"]["case"].items()}},
+           **run_all(cm, regs, pdates, st),
            "signals": signals(o_h, shock_h, 1 + bust_delay(st["bust"]), st["bust"]["peak"], st["bust"]["scale"]),
            "paths": {end: paths(*build(cm, regs, st, adoption=end)) for end in ("low", "high")}}
-    res["paths"]["reference"] = paths(*reference(cm, regs))
+    res["paths"]["reference"] = paths(*reference(cm, regs, pdates))
     json.dump(res, open(os.path.join(ROOT, "results", "case.json"), "w", encoding="utf-8"), indent=1)
     print(json.dumps({k: v for k, v in res.items() if k not in ("paths", "bust_path")}, indent=1))
     figure(res)
@@ -492,11 +601,14 @@ def figure(res):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     plt.rcParams["axes.titlesize"] = 10
-    t = gc.quarter_mid(np.arange(N))             # each quarter at its middle
+    p0 = pd.Period(START, "Q")
+    t0 = p0.year + p0.quarter / 4                  # index 0: the end of the start's quarter, in years (2026.75)
+    t = t0 + np.arange(N) * DT                     # each month at its end
     lo, hi, ref = res["paths"]["low"], res["paths"]["high"], res["paths"]["reference"]
     fig, ax = plt.subplots(1, 3, figsize=(15, 4.6), layout="constrained")
-    fig.get_layout_engine().set(rect=(0, 0.06, 1, 0.94))
+    fig.get_layout_engine().set(rect=(0, 0.11, 1, 0.89))
     cols = {"US": "C0", "EA": "C1", "FR": "C4", "SE": "C2", "CN": "C3"}
+    q28 = t0 + (END_2028 - 1) * gc.Q               # 2028Q4's months
     for a, key, title in ((ax[0], "out_of_work", "1. Out of work (unemployed + left the workforce), %"),
                           (ax[1], "output", "2. Output against capacity, %")):
         for r in gc.R:
@@ -504,20 +616,26 @@ def figure(res):
             a.plot(t, hi[r][key], color=cols[r], label=r)
             a.plot(t, lo[r][key], color=cols[r], lw=0.8)
         a.plot(t, ref["US"][key], color="C0", ls=":", label="US, the model's central run")
-        a.axvline(t[END_2028], color="grey", lw=0.6, ls="--")
+        a.axvspan(q28, q28 + gc.Q, color="grey", alpha=0.15, lw=0)
         a.set_title(title); a.legend(fontsize=8)
+    lv = res["settings"]["levers"]["case"]
+    for r in gc.R:                                 # each region's lever, from its month (at the panel's foot)
+        if lv[r] is not None:
+            ax[0].plot(t0 + lv[r]["years"], 0.03, marker="^", color=cols[r], ms=7, transform=ax[0].get_xaxis_transform())
     ax[1].axhline(0, color="grey", lw=0.8)
     a = ax[2]
     a.plot(t, [100 * x for x in res["bust_path"]["us_equity_fall"]], color="C0", label="US household equity, fall from the start, %")
     for r in gc.R:
         a.plot(t, hi[r]["spread"], color=cols[r], ls="--", lw=0.9, label=f"{r} credit spread, points" if r == "US" else None)
     a.set_title("3. The bust's path (equity) and the credit spread (high end)"); a.legend(fontsize=8)
-    fig.text(0.01, 0.01, "Her case: a bust 1.5x the dot-com size on the 2000-02 bust's measured path from the quarter of today's "
-             "peak (2026Q4); displacement rising from the pace seen so far to the paper's by 2029; care capping out; US "
-             "tariffs 25 points; spending cuts in Europe and Sweden; France's government spread a point higher over the "
+    when = ", ".join(f"{r} {lv[r]['from']}" for r in gc.R if lv[r] is not None)
+    fig.text(0.01, 0.01, "Her case, by month: a bust 1.5x the dot-com size on the 2000-02 bust's measured path from the quarter "
+             "of today's peak (2026Q4); displacement rising from the pace seen so far to the paper's by 2029; care capping out;\n"
+             "US tariffs 25 points; spending cuts in Europe and Sweden; France's government spread a point higher over the "
              "first year (half reaching French borrowers).\n"
-             "Bands: firms automate the usual share of the jobs they cut in the downturn (lower line) or twice it (upper "
-             "line). Index 0 = 2026Q3, the start measured to September 2026 (a dated vintage); dashed line: 2028Q4.", fontsize=8)
+             f"The fiscal levers from their months (triangles: {when}). Bands: firms automate the usual share of the jobs "
+             "they cut in the downturn (lower line) or twice it (upper line).\nIndex 0 = the end of September 2026, the start "
+             "measured to September 2026 (a dated vintage); shaded: 2028Q4, whose average the case quotes.", fontsize=8)
     p = os.path.join(ROOT, "figures", "fig_case.png"); fig.savefig(p, dpi=150); print(p)
 
 

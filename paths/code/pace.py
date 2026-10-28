@@ -20,6 +20,14 @@
 #      jobs: construction's gain over the window, all of it counted as data centres (an upper bound), against
 #      manufacturing's change.
 #
+# At the model's step, a month, since 2026-10-28 (decision 91): the runs are 70 months (to 2032Q2, the crash model's
+# runs); the window is read on the monthly path, its length in months; the rows' readings are quarterly averages, as
+# summary's; the rows' presets have their levers on the dates stored with the crash model (preset_dates). The window's
+# runs have no discretionary lever: none was made over the window measured. The presets' dates are their bust's (the US
+# stimulus from 2028-02, 1.33 years in, inside the 1.91-year window, on the refit of decision 92), and with them the
+# window would be matched against a stimulus that was never made (before the monthly step, the stimulus's trigger was
+# not reached in the window).
+#
 # Run from paths/:  ../venv/Scripts/python.exe code/pace.py
 # Out: results/pace.json, figures/fig_pace.png
 
@@ -39,14 +47,17 @@ sys.path.insert(0, HERE)
 import decoupling as dc  # noqa: E402
 import global_crash as gc  # noqa: E402
 
-N = 24                                                            # quarters, as the crash model's runs
+N = gc.months(24)                                                 # months (70), to 2032Q2, as the crash model's runs
 WAVES_NOW = gc.Waves(split=True, robot_lag=99.0, absorb=True)     # the window: robotics not arrived, care at its trend
 WAVES_ROWS = gc.Waves(split=True, robot_lag=2.0, absorb=True)     # the model's rows: robotics two years out
 
 
 def stored():
+    """The crash model as stored (results/global_crash.json): the common, the regions, the presets' dates by region (years
+    after index 0's end; None: never), and the whole file."""
     j = json.load(open(os.path.join(ROOT, "results", "global_crash.json"), encoding="utf-8"))
-    return gc.Common(**j["common"]), {r: gc.Region(**j["regions"][r]) for r in gc.R}, j
+    dates = {nm: {r: None if d is None else d["years"] for r, d in ds.items()} for nm, ds in j["preset_dates"].items()}
+    return gc.Common(**j["common"]), {r: gc.Region(**j["regions"][r]) for r in gc.R}, dates, j
 
 
 def prime_age() -> pd.DataFrame:
@@ -112,24 +123,28 @@ def observed() -> dict:
             "_d": d, "_m": m, "_peak": peak, "_gap": gap}
 
 
-def at(x: np.ndarray, q: float) -> float:
-    return float(np.interp(q, np.arange(len(x)), x))
+def at(x: np.ndarray, w: float) -> float:
+    """The path x read w steps after index 0 (w may be fractional: linear between the months' ends)."""
+    return float(np.interp(w, np.arange(len(x)), x))
 
 
 def run(regs, cm, mult: float, rules=gc.MODERN, shock=None, waves=WAVES_NOW, n=N):
+    """The model at the monthly step with every region's drift `mult` times the paper's. `rules`: one Rules for every
+    region or {region: Rules}; the default, today's rules with no lever dated, is the window's."""
     rg = {r: replace(g, drift=g.drift * mult) for r, g in regs.items()}
-    return rg, gc.simulate(rg, {r: rules for r in gc.R}, shock or gc.Shock(), cm, n, waves=waves)
+    rl = rules if isinstance(rules, dict) else {r: rules for r in gc.R}
+    return rg, gc.simulate(rg, rl, shock or gc.Shock(), cm, n, waves=waves, dt=gc.DT)
 
 
-def nonemp(o: dict, u0: float, q: float) -> float:
+def nonemp(o: dict, u0: float, w: float) -> float:
     us = o["US"]
-    return at(us["u"], q) - u0 + at(us["out"], q)
+    return at(us["u"], w) - u0 + at(us["out"], w)
 
 
-def pace_for(regs, cm, target: float, q: float) -> float:
-    """The multiple of the paper's pace at which the model's US non-employment rise after q quarters equals the target."""
+def pace_for(regs, cm, target: float, w: float) -> float:
+    """The multiple of the paper's pace at which the model's US non-employment rise after w months equals the target."""
     u0 = regs["US"].u0
-    f = lambda m: nonemp(run(regs, cm, m)[1], u0, q) - target  # noqa: E731
+    f = lambda m: nonemp(run(regs, cm, m)[1], u0, w) - target  # noqa: E731
     lo, hi = 0.0, 3.0
     if f(lo) >= 0:
         return 0.0
@@ -139,37 +154,41 @@ def pace_for(regs, cm, target: float, q: float) -> float:
     return (lo + hi) / 2
 
 
-def window_reading(o: dict, u0: float, q: float) -> dict:
+def window_reading(o: dict, u0: float, w: float) -> dict:
     us = o["US"]
-    return {"non_employment_lf_pts": round(nonemp(o, u0, q), 2), "exits_lf_pts": round(at(us["out"], q), 2),
-            "unemployment_change": round(at(us["u"], q) - u0, 2), "output_gap_change": round(at(us["y"], q), 2)}
+    return {"non_employment_lf_pts": round(nonemp(o, u0, w), 2), "exits_lf_pts": round(at(us["out"], w), 2),
+            "unemployment_change": round(at(us["u"], w) - u0, 2), "output_gap_change": round(at(us["y"], w), 2)}
 
 
-def rows(regs, cm, mult: float) -> dict:
+def rows(regs, cm, mult: float, dates: dict) -> dict:
+    """The crash model's main rows at a pace: each preset's levers on its stored dates, read as quarterly averages."""
     out = {}
-    for name, rl, shock in (("modern rules | bust + displacement", gc.MODERN, gc.ai_shock(N)),
-                            ("rules expand under pressure | bust + displacement", gc.EXPANDED, gc.ai_shock(N)),
-                            ("rules erode under pressure | bust + displacement", gc.ERODED, gc.ai_shock(N)),
-                            ("modern rules | displacement without a bust", gc.MODERN, None)):
-        rg, o = run(regs, cm, mult, rl, shock, WAVES_ROWS)
-        s4 = gc.summary(o, rg, 16)
-        us = o["US"]
+    for name, preset, shock in (("modern rules | bust + displacement", "modern rules", gc.ai_shock(N, dt=gc.DT)),
+                                ("rules expand under pressure | bust + displacement", "rules expand under pressure", gc.ai_shock(N, dt=gc.DT)),
+                                ("rules erode under pressure | bust + displacement", "rules erode under pressure", gc.ai_shock(N, dt=gc.DT)),
+                                ("modern rules | displacement without a bust", "modern rules", None)):
+        rg, o = run(regs, cm, mult, gc.dated(gc.PRESETS[preset], dates[preset]), shock, WAVES_ROWS)
+        s4 = gc.summary(o, rg, 16, gc.DT)
+        us = gc.quarterly_out(o, gc.DT)["US"]
         k = int(np.argmax(us["u"] + us["out"]))
+        # debt deflation (the fitted slope 0.5, levelling off at the fitted shortfall: decision 92): the drag on demand
+        # while the price level runs below the path expected at the target, largest over the run, % of GDP
         out[name] = {"us_out_of_work_peak": round(float((us["u"] + us["out"])[k]), 1), "us_unemployment_at_peak": round(float(us["u"][k]), 1),
-                     "year4_us_gap_min": s4["US"]["gap_min"], "year4_four_gap_min": s4["four_weighted_gap_min"]}
+                     "year4_us_gap_min": s4["US"]["gap_min"], "year4_four_gap_min": s4["four_weighted_gap_min"],
+                     "us_debt_deflation_drag_max_pct_gdp": round(max(0.0, -float(us["d_debt"].min())), 2)}
     return out
 
 
 def main():
-    cm, regs, stored_json = stored()
+    cm, regs, dates, stored_json = stored()
     ob = observed()
-    q = ob["years"] * 4
+    w = ob["years"] / gc.DT                                       # the window, in months (22.9)
     u0 = regs["US"].u0
     tr = ob["trends"]["since the peak"]["non_employment"]
     targets = {"trend": tr["pts_a_year"] * ob["years"],
                "trend + 2 s.e.": (tr["pts_a_year"] + 2 * tr["se"]) * ob["years"],
                "endpoint": ob["endpoints_from"]["the peak (3-month average)"]["non_employment_lf_pts"]}
-    paces = {k: round(pace_for(regs, cm, v, q), 3) for k, v in targets.items()}
+    paces = {k: round(pace_for(regs, cm, v, w), 3) for k, v in targets.items()}
     _, o_paper = run(regs, cm, 1.0)
     peak, yrs = ob["_peak"], ob["years"]
     lf0 = float(dc.fred("CLF16OV").loc[peak])
@@ -182,38 +201,50 @@ def main():
         "care": {"added_lf_pts": round(care, 2), "added_lf_pts_a_year": round(care / yrs, 2), "model_trend_pts_a_year": trend,
                  "above_trend_pts_a_year": round(excess, 2),
                  "targets_with_above_trend_care_lf_pts": {k: round(v, 2) for k, v in with_care.items()},
-                 "paces_with_above_trend_care": {k: round(pace_for(regs, cm, v, q), 3) for k, v in with_care.items()},
+                 "paces_with_above_trend_care": {k: round(pace_for(regs, cm, v, w), 3) for k, v in with_care.items()},
                  "note": "an upper bound on what care hides: the hiring above its trend counted as displaced people it took in"},
         "build_out": {"construction_added_lf_pts": round(added("USCONS"), 3), "manufacturing_added_lf_pts": round(added("MANEMP"), 3),
                       "note": "all of construction's gain counted as data centres (an upper bound); against manufacturing's change"}}
+    # debt deflation (fitted at 0.5, at its bound, levelling off at a shortfall of dd_sat: decision 92) acts in the forward
+    # runs wherever the price level runs below the path expected at the target: the rows with it off, the paces held,
+    # show how much of each row is its drag
+    off = replace(cm, debt_deflation=0.0)
+    sensitivity["debt_deflation_off"] = {
+        "fitted": cm.debt_deflation, "levels_off_at_shortfall": cm.dd_sat,
+        "us_out_of_work_peak": {lab: {k: v["us_out_of_work_peak"] for k, v in rows(regs, off, mult, dates).items()}
+                                for lab, mult in (("papers_pace", 1.0), ("pace: trend + 2 s.e.", paces["trend + 2 s.e."]))},
+        "note": "the rows with debt deflation off (the fit's value set to 0), the paces held; against rows' us_out_of_work_peak"}
     res = {"observed": {k: v for k, v in ob.items() if not k.startswith("_")},
            "non_employment_targets_lf_pts": {k: round(v, 2) for k, v in targets.items()},
            "paces": {"multiples_of_the_papers": paces, "us_drift_papers_pts_a_year": regs["US"].drift,
                      "note": "the multiple of the paper's pace at which the model's own US non-employment over the window "
-                             "(today's rules, no bust, robotics not arrived, care at its trend, the exit share as stored) "
+                             "(today's rules with no lever dated, as none was made over it; no bust, robotics not arrived, care at "
+                             "its trend, the exit share as stored; at the model's monthly step, read the window's length in months "
+                             "after the start) "
                              "matches each measure of the data; all of the observed change attributed to displacement, so each "
                              "is an upper bound on AI's"},
-           "window_model_at_the_papers_pace": window_reading(o_paper, u0, q),
-           "window_model_at_each_pace": {k: window_reading(run(regs, cm, v)[1], u0, q) for k, v in paces.items()},
+           "window_model_at_the_papers_pace": window_reading(o_paper, u0, w),
+           "window_model_at_each_pace": {k: window_reading(run(regs, cm, v)[1], u0, w) for k, v in paces.items()},
            "loop": {"note": "not identifiable on this window: at the paces the trends allow, the model's own output gap barely "
                             "moves, while the CBO gap fell from an overheated start; the fall is other forces"},
            "sensitivity": sensitivity,
-           "rows": {"papers_pace": rows(regs, cm, 1.0), **{f"pace: {k}": rows(regs, cm, v) for k, v in paces.items()}}}
-    mine = gc.summary(gc.simulate(regs, {r: gc.MODERN for r in gc.R}, gc.Shock(), cm, N), regs, 16)["US"]
+           "rows": {"papers_pace": rows(regs, cm, 1.0, dates), **{f"pace: {k}": rows(regs, cm, v, dates) for k, v in paces.items()}}}
+    # the stored row as the crash model ran it: today's rules on their dates, the uniform case, at the monthly step
+    mine = gc.summary(gc.simulate(regs, gc.dated(gc.MODERN, dates["modern rules"]), gc.Shock(), cm, N, dt=gc.DT), regs, 16, gc.DT)["US"]
     theirs = stored_json["scenarios"]["modern rules | displacement without a bust"]["year4"]["US"]
     res["reproduces_stored"] = {f: [mine[f], theirs[f]] for f in ("gap_min", "unemployment_max", "not_working_rise_max")}
     json.dump(res, open(os.path.join(ROOT, "results", "pace.json"), "w", encoding="utf-8"), indent=1)
     print(json.dumps(res, indent=1))
-    figure(ob, regs, cm, paces, u0)
+    figure(ob, regs, cm, paces, u0, dates)
 
 
-def figure(ob, regs, cm, paces, u0):
+def figure(ob, regs, cm, paces, u0, dates):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     plt.rcParams["axes.titlesize"] = 10
     fig, ax = plt.subplots(1, 3, figsize=(15, 4.6), layout="constrained")
-    fig.get_layout_engine().set(rect=(0, 0.05, 1, 0.95))
+    fig.get_layout_engine().set(rect=(0, 0.07, 1, 0.93))
     d, m, peak = ob["_d"], ob["_m"], ob["_peak"]
     a = ax[0]
     s = d.loc["2023":]
@@ -237,23 +268,26 @@ def figure(ob, regs, cm, paces, u0):
     tr = ob["trends"]["since the peak"]["non_employment"]
     tt = np.linspace(0, ob["years"], 20)
     a.plot(tt, tr["pts_a_year"] * tt, color="k", ls="--", lw=1, label=f"observed trend ({tr['pts_a_year']:+.2f} ± {tr['se']:.2f} a year)")
-    tq = np.arange(N) / 4
+    tq = np.arange(N) * gc.DT                                      # years after the start, by month
+    seen = tq <= 3.0                                               # the panel's span (its scale on what is shown)
     for (k, mult), c in zip((("the paper's pace", 1.0),) + tuple((f"pace: {k} (x{v:.2f})", v) for k, v in paces.items()),
                             ("C3", "C2", "C1", "C0")):
         _, o = run(regs, cm, mult)
-        a.plot(tq, o["US"]["u"] - u0 + o["US"]["out"], color=c, label="model, " + k)
+        a.plot(tq[seen], (o["US"]["u"] - u0 + o["US"]["out"])[seen], color=c, label="model, " + k)
     a.axhline(0, color="grey", lw=0.8); a.set_xlim(0, 3)
     a.set_title("2. Non-employment since the 2024 peak (points of the labour force)"); a.set_xlabel("years from the peak")
     a.legend(fontsize=7.5)
     a = ax[2]
     rows_ = {"the paper's pace": (1.0, "C3")} | {f"{k} (x{v:.2f})": (v, c) for (k, v), c in zip(paces.items(), ("C2", "C1", "C0"))}
     for k, (mult, c) in rows_.items():
-        _, o = run(regs, cm, mult, gc.MODERN, gc.ai_shock(N), WAVES_ROWS)
+        _, o = run(regs, cm, mult, gc.dated(gc.MODERN, dates["modern rules"]), gc.ai_shock(N, dt=gc.DT), WAVES_ROWS)
         a.plot(tq, o["US"]["u"] + o["US"]["out"], color=c, label=k)
     a.set_title("3. US out of work after a dot-com-sized bust, today's rules, %"); a.set_xlabel("years")
     a.legend(fontsize=8)
-    fig.text(0.01, 0.01, f"Window {ob['window']}. Model: today's rules, no bust (panel 2), robotics not arrived, care hiring at its trend, "
-             "the exit share as stored. All of the observed change attributed to displacement (upper bounds).", fontsize=8)
+    fig.text(0.01, 0.01, f"Window {ob['window']}. Model, by month: today's rules with no lever dated and no bust (panel 2), robotics not arrived, "
+             "care hiring at its trend, the exit share as stored;\npanel 3 today's rules' levers on their stored dates (the US stimulus from "
+             f"{gc.month_label(round(dates['modern rules']['US'] / gc.DT) + 1)}). All of the observed change attributed to "
+             "displacement (upper bounds).", fontsize=8)
     p = os.path.join(ROOT, "figures", "fig_pace.png"); fig.savefig(p, dpi=150); print(p)
 
 
