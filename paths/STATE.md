@@ -50,6 +50,17 @@ On (c) the neutral rate now falls from the start at every speed (−3.0 / −5.3
 way through recognition, and both of the bank's branches fall. Entries below that predate it carry a "→ On the refit"
 note where their findings moved. All 23 batteries green on 2026-10-27 after it, stderr empty; committed, not pushed
 (watch first, then this repository).
+**2026-10-27 and 28, the monthly refit** (her calls; Logs 47-53; decisions 80-92): the crash model's step a parameter and
+policy dated instead of triggered; the model extended (rate-sensitive spending, relief from the year-before rate, oil
+idling capacity, expectations on the past year's inflation, each era's neutral rate) and fitted on nine crashes by month,
+each target at the frequency it is measured, the dot-com bust held out; the credit spread measured (Baa over Aaa);
+1929-33's bank runs on the money stock's measured fall, and debt deflation levelling off (weakly identified: decision
+92). Adopted 2026-10-28: the model runs by month with no triggers, and her case, the pace, the export and the website's
+JavaScript are restated on it (her case's US out of work 7.7–8.1% on 2028Q4's average [8.1–8.5%] and 21.6–29.9% at
+2032Q2 [16.9–22.6%]; the four economies' worst year-6 gap on the page's central run −8.5% [−3.9%]). Built on its own
+branch beside the bridges refit (the crash model and the macro block do not read each other's results) and merged with
+it 2026-10-28 (06b1293): all 23 batteries green on the merged tree, stderr empty (check_macro_scenarios 16/16 with the
+refit's checks), and the site's 241 tests pass on it; committed, not pushed (watch first, then this repository).
 
 ## Design principle — stay open to a more extreme path (her call, 2026-09-24)
 
@@ -1205,7 +1216,9 @@ is right; in an extreme path the destination is what is wrong.
     the US Sahm rule in February 2027 (on the model's months after the measured ones); the model's spread, fitted to
     Baa over Aaa since decision 90, never rises 0.56 in three months. The Fed raises in October (3.96 against 3.88) and
     cuts by December (3.78; 3.87 on 2026Q4's average), and the Riksbank cuts (1.63 in October, 1.66 in November,
-    against 1.75): the tests registered in Log 40, on the case's own start (A3).
+    against 1.75), on the case's own start (A3): the monthly model's calls, a new registration, committed 2026-10-28
+    12:07 CET, before the FOMC's announcement. The tests registered in Log 40 are scored on the runs as registered:
+    the Fed raising in 2026Q4 (the quarter's average 4.02 against 3.88), the Riksbank cutting.
   - `[inferred]` Care capping out matters little because care at its trend absorbs about a point of employment over six
     years; what would matter is a funded build-out. The deficit worry works in the model only as a price: it has no
     revenue side and no default, so the case says what a premium does to borrowers, not whether one comes.
