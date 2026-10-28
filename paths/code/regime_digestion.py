@@ -23,7 +23,8 @@
 # (macro.feedback_bridges) and deep automation relative to its own lambda (macro.deep_tech); the same runs on (b), the
 # pre-switch calibration, are stored beside them (layer3_model_catch_up_comparator_b, bit-identical to the pre-switch
 # layer 3: the helpers give (b)'s hard-coded objects exactly, on macro.BRIDGES_B and BRANCHES_B). The bridges: the refit on
-# (c) (Log 46), its "deficits dominate" branch (macro.BRANCHES). Layers 1 and 2 are data and do not depend on the calibration.
+# (c) (Log 46, revised in Log 54: the bridges read at the start's required return, decision 96), its "deficits dominate"
+# branch (macro.BRANCHES). Layers 1 and 2 are data and do not depend on the calibration.
 #
 # Provenance (public): layers 1-2 — the Philadelphia Fed's Survey of Professional Forecasters (median levels, cache/spf/),
 # the Federal Reserve Board's Gürkaynak–Sack–Wright zero curve (a trimmed vintage, cache/fed/), Kim–Wright term premia

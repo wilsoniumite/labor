@@ -53,24 +53,24 @@
    },
    "r_star": {
     "0.0": 0.75,
-    "3.0": 0.57,
-    "6.0": 0.16,
-    "10.0": -0.96,
-    "15.0": -3.03
+    "3.0": 0.6,
+    "6.0": 0.28,
+    "10.0": -0.59,
+    "15.0": -2.12
    },
    "policy": {
     "0.0": 2.75,
     "3.0": 2.75,
-    "6.0": 2.25,
-    "10.0": 1.25,
-    "15.0": -0.5
+    "6.0": 2.5,
+    "10.0": 1.5,
+    "15.0": 0.0
    },
    "debt": {
     "0.0": 40.0,
-    "3.0": 41.4,
-    "6.0": 44.2,
-    "10.0": 52.5,
-    "15.0": 75.3
+    "3.0": 47.1,
+    "6.0": 55.1,
+    "10.0": 68.6,
+    "15.0": 94.8
    },
    "ois_curve": {
     "0.0": [
@@ -88,55 +88,55 @@
     ],
     "3.0": [
      2.753,
-     2.734,
-     2.69,
-     2.664,
-     2.675,
-     2.698,
-     2.743,
-     2.778,
-     2.816,
-     2.877,
-     2.9
+     2.739,
+     2.706,
+     2.688,
+     2.703,
+     2.727,
+     2.77,
+     2.804,
+     2.841,
+     2.9,
+     2.923
     ],
     "6.0": [
-     2.253,
-     2.246,
-     2.231,
-     2.233,
-     2.269,
-     2.308,
-     2.372,
-     2.421,
-     2.472,
-     2.552,
-     2.582
+     2.503,
+     2.479,
+     2.424,
+     2.391,
+     2.403,
+     2.432,
+     2.485,
+     2.527,
+     2.572,
+     2.644,
+     2.671
     ],
     "10.0": [
-     1.253,
-     1.231,
-     1.186,
-     1.17,
-     1.213,
-     1.267,
-     1.36,
-     1.429,
-     1.502,
-     1.615,
-     1.657
+     1.505,
+     1.503,
+     1.496,
+     1.516,
+     1.584,
+     1.649,
+     1.756,
+     1.834,
+     1.917,
+     2.046,
+     2.095
     ],
     "15.0": [
-     -0.494,
-     -0.481,
-     -0.459,
-     -0.413,
-     -0.328,
-     -0.254,
-     -0.138,
-     -0.053,
-     0.036,
-     0.176,
-     0.23
+     0.01,
+     0.014,
+     0.014,
+     0.059,
+     0.184,
+     0.301,
+     0.49,
+     0.63,
+     0.778,
+     1.01,
+     1.099
     ]
    },
    "gov_spread": {
@@ -180,30 +180,30 @@
      0.0
     ],
     "10.0": [
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0
+     0.003,
+     0.008,
+     0.015,
+     0.028,
+     0.048,
+     0.062,
+     0.082,
+     0.094,
+     0.104,
+     0.117,
+     0.121
     ],
     "15.0": [
-     0.005,
-     0.014,
-     0.027,
-     0.049,
-     0.085,
+     0.011,
+     0.031,
+     0.06,
      0.111,
-     0.146,
-     0.166,
-     0.184,
-     0.207,
-     0.215
+     0.192,
+     0.251,
+     0.33,
+     0.377,
+     0.418,
+     0.469,
+     0.487
     ]
    },
    "labour_share_basis": "labour_share_bea (v (1 - x) / Ps)",
@@ -224,17 +224,17 @@
    "pi_shelter_max": 15.64,
    "pi_shelter_max_year": 9.5,
    "wage_tax_share_start_end": [
-    0.813,
-    0.434
+    0.797,
+    0.409
    ],
    "deficit_start_end": [
-    0.16,
-    9.95
+    2.06,
+    10.57
    ],
    "r_star_start_peak_end": [
     0.75,
     0.75,
-    -3.03
+    -2.12
    ],
    "r_star_peak_year": 0.0,
    "x_start_end": [
@@ -257,7 +257,7 @@
     0.0
    ],
    "capex_key": "investment",
-   "tau_w": 0.35,
+   "tau_w": 0.3156,
    "r_star_capex_on_pace": {
     "0.0": 0.76,
     "3.0": 0.68,
@@ -272,7 +272,7 @@
    ],
    "r_star_capex_on_pace_peak_year": 0.0,
    "r_star_capex_on_pace_rise_bp": 0.0,
-   "r_star_capex_on_pace_end_above_investment_keyed_pp": 2.39
+   "r_star_capex_on_pace_end_above_investment_keyed_pp": 1.48
   },
   "medium": {
    "labour_share": {
@@ -298,24 +298,24 @@
    },
    "r_star": {
     "0.0": 0.75,
-    "3.0": 0.41,
-    "6.0": -0.99,
-    "10.0": -4.15,
-    "15.0": -5.28
+    "3.0": 0.48,
+    "6.0": -0.62,
+    "10.0": -2.89,
+    "15.0": -3.64
    },
    "policy": {
     "0.0": 2.75,
     "3.0": 2.5,
-    "6.0": 1.25,
+    "6.0": 1.5,
     "10.0": -0.5,
     "15.0": -0.5
    },
    "debt": {
     "0.0": 40.0,
-    "3.0": 41.3,
-    "6.0": 44.8,
-    "10.0": 65.4,
-    "15.0": 110.1
+    "3.0": 46.9,
+    "6.0": 54.5,
+    "10.0": 77.4,
+    "15.0": 131.2
    },
    "ois_curve": {
     "0.0": [
@@ -333,55 +333,55 @@
     ],
     "3.0": [
      2.503,
-     2.497,
-     2.483,
-     2.486,
-     2.521,
-     2.558,
-     2.62,
-     2.666,
-     2.715,
-     2.792,
-     2.821
+     2.507,
+     2.512,
+     2.531,
+     2.573,
+     2.61,
+     2.67,
+     2.713,
+     2.759,
+     2.831,
+     2.859
     ],
     "6.0": [
-     1.253,
-     1.227,
-     1.175,
-     1.163,
-     1.23,
-     1.307,
-     1.437,
-     1.534,
-     1.634,
-     1.789,
-     1.846
+     1.503,
+     1.494,
+     1.477,
+     1.491,
+     1.56,
+     1.63,
+     1.743,
+     1.825,
+     1.912,
+     2.044,
+     2.094
     ],
     "10.0": [
-     -0.496,
-     -0.487,
-     -0.472,
-     -0.437,
-     -0.373,
-     -0.317,
-     -0.229,
-     -0.165,
-     -0.098,
-     0.007,
-     0.047
+     -0.493,
+     -0.479,
+     -0.454,
+     -0.396,
+     -0.285,
+     -0.19,
+     -0.041,
+     0.068,
+     0.182,
+     0.36,
+     0.427
     ],
     "15.0": [
-     -0.487,
-     -0.46,
-     -0.422,
-     -0.35,
-     -0.221,
-     -0.112,
-     0.062,
-     0.191,
-     0.328,
-     0.549,
-     0.634
+     -0.482,
+     -0.447,
+     -0.396,
+     -0.301,
+     -0.13,
+     0.015,
+     0.245,
+     0.417,
+     0.599,
+     0.892,
+     1.005
     ]
    },
    "gov_spread": {
@@ -425,30 +425,30 @@
      0.0
     ],
     "10.0": [
-     0.002,
      0.005,
-     0.009,
-     0.017,
+     0.016,
      0.03,
-     0.039,
-     0.051,
-     0.058,
-     0.065,
-     0.072,
-     0.075
+     0.056,
+     0.096,
+     0.126,
+     0.165,
+     0.188,
+     0.209,
+     0.235,
+     0.243
     ],
     "15.0": [
-     0.015,
-     0.045,
-     0.087,
-     0.16,
-     0.276,
-     0.362,
-     0.475,
-     0.543,
-     0.602,
+     0.022,
+     0.064,
+     0.123,
+     0.227,
+     0.393,
+     0.515,
      0.676,
-     0.701
+     0.772,
+     0.856,
+     0.961,
+     0.996
     ]
    },
    "labour_share_basis": "labour_share_bea (v (1 - x) / Ps)",
@@ -469,17 +469,17 @@
    "pi_shelter_max": 28.71,
    "pi_shelter_max_year": 5.75,
    "wage_tax_share_start_end": [
-    0.813,
-    0.118
+    0.797,
+    0.108
    ],
    "deficit_start_end": [
-    0.16,
-    14.6
+    2.06,
+    14.72
    ],
    "r_star_start_peak_end": [
     0.75,
     0.75,
-    -5.28
+    -3.64
    ],
    "r_star_peak_year": 0.0,
    "x_start_end": [
@@ -502,22 +502,22 @@
     0.0
    ],
    "capex_key": "investment",
-   "tau_w": 0.35,
+   "tau_w": 0.3156,
    "r_star_capex_on_pace": {
     "0.0": 0.76,
     "3.0": 0.64,
     "6.0": 0.19,
-    "10.0": -0.78,
-    "15.0": -1.27
+    "10.0": -0.79,
+    "15.0": -1.29
    },
    "r_star_capex_on_pace_start_peak_end": [
     0.76,
     0.76,
-    -1.27
+    -1.29
    ],
    "r_star_capex_on_pace_peak_year": 0.0,
    "r_star_capex_on_pace_rise_bp": 0.0,
-   "r_star_capex_on_pace_end_above_investment_keyed_pp": 4.01
+   "r_star_capex_on_pace_end_above_investment_keyed_pp": 2.35
   },
   "fast": {
    "labour_share": {
@@ -543,24 +543,24 @@
    },
    "r_star": {
     "0.0": 0.75,
-    "3.0": -1.03,
-    "6.0": -5.28,
-    "10.0": -5.34,
-    "15.0": -5.34
+    "3.0": -0.64,
+    "6.0": -3.64,
+    "10.0": -3.67,
+    "15.0": -3.67
    },
    "policy": {
     "0.0": 2.75,
-    "3.0": 1.0,
+    "3.0": 1.5,
     "6.0": -0.5,
     "10.0": -0.5,
     "15.0": -0.5
    },
    "debt": {
     "0.0": 40.0,
-    "3.0": 39.3,
-    "6.0": 59.0,
-    "10.0": 100.7,
-    "15.0": 141.9
+    "3.0": 44.2,
+    "6.0": 66.3,
+    "10.0": 116.3,
+    "15.0": 172.5
    },
    "ois_curve": {
     "0.0": [
@@ -577,56 +577,56 @@
      3.01
     ],
     "3.0": [
-     1.003,
-     1.008,
-     1.027,
-     1.096,
-     1.246,
-     1.378,
-     1.585,
-     1.734,
-     1.886,
-     2.117,
-     2.203
+     1.503,
+     1.491,
+     1.472,
+     1.498,
+     1.603,
+     1.706,
+     1.871,
+     1.992,
+     2.116,
+     2.306,
+     2.377
     ],
     "6.0": [
-     -0.497,
-     -0.49,
-     -0.476,
-     -0.44,
-     -0.371,
-     -0.312,
-     -0.218,
-     -0.151,
-     -0.08,
-     0.028,
-     0.069
+     -0.496,
+     -0.486,
+     -0.467,
+     -0.421,
+     -0.332,
+     -0.255,
+     -0.135,
+     -0.047,
+     0.044,
+     0.184,
+     0.237
     ],
     "10.0": [
-     -0.488,
-     -0.466,
-     -0.433,
-     -0.37,
-     -0.258,
-     -0.163,
-     -0.012,
-     0.1,
-     0.22,
-     0.411,
-     0.485
+     -0.485,
+     -0.456,
+     -0.414,
+     -0.334,
+     -0.191,
+     -0.07,
+     0.124,
+     0.267,
+     0.42,
+     0.665,
+     0.759
     ],
     "15.0": [
-     -0.48,
-     -0.441,
-     -0.384,
-     -0.277,
-     -0.087,
-     0.075,
-     0.332,
-     0.523,
-     0.727,
-     1.053,
-     1.18
+     -0.474,
+     -0.422,
+     -0.347,
+     -0.206,
+     0.043,
+     0.256,
+     0.595,
+     0.846,
+     1.114,
+     1.544,
+     1.711
     ]
    },
    "gov_spread": {
@@ -657,43 +657,43 @@
      0.0
     ],
     "6.0": [
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0,
-     0.0
+     0.002,
+     0.006,
+     0.011,
+     0.02,
+     0.035,
+     0.045,
+     0.06,
+     0.068,
+     0.075,
+     0.085,
+     0.088
     ],
     "10.0": [
-     0.013,
-     0.037,
-     0.07,
-     0.13,
-     0.225,
-     0.295,
-     0.387,
-     0.442,
-     0.49,
-     0.55,
-     0.57
+     0.017,
+     0.051,
+     0.097,
+     0.18,
+     0.311,
+     0.407,
+     0.535,
+     0.611,
+     0.677,
+     0.76,
+     0.788
     ],
     "15.0": [
-     0.025,
-     0.074,
-     0.142,
-     0.262,
-     0.452,
-     0.592,
-     0.777,
-     0.888,
-     0.984,
-     1.106,
-     1.146
+     0.035,
+     0.101,
+     0.194,
+     0.359,
+     0.621,
+     0.813,
+     1.068,
+     1.22,
+     1.352,
+     1.519,
+     1.575
     ]
    },
    "labour_share_basis": "labour_share_bea (v (1 - x) / Ps)",
@@ -714,17 +714,17 @@
    "pi_shelter_max": 79.88,
    "pi_shelter_max_year": 3.0,
    "wage_tax_share_start_end": [
-    0.813,
-    0.11
+    0.797,
+    0.1
    ],
    "deficit_start_end": [
-    0.16,
-    14.71
+    2.06,
+    14.82
    ],
    "r_star_start_peak_end": [
     0.75,
     0.75,
-    -5.34
+    -3.67
    ],
    "r_star_peak_year": 0.0,
    "x_start_end": [
@@ -747,22 +747,22 @@
     0.0
    ],
    "capex_key": "investment",
-   "tau_w": 0.35,
+   "tau_w": 0.3156,
    "r_star_capex_on_pace": {
     "0.0": 0.76,
     "3.0": 0.75,
-    "6.0": -1.21,
-    "10.0": -1.31,
-    "15.0": -1.31
+    "6.0": -1.23,
+    "10.0": -1.33,
+    "15.0": -1.33
    },
    "r_star_capex_on_pace_start_peak_end": [
     0.76,
-    0.76,
-    -1.31
+    0.77,
+    -1.33
    ],
    "r_star_capex_on_pace_peak_year": 2.75,
-   "r_star_capex_on_pace_rise_bp": 0.7644,
-   "r_star_capex_on_pace_end_above_investment_keyed_pp": 4.03
+   "r_star_capex_on_pace_rise_bp": 1.126,
+   "r_star_capex_on_pace_end_above_investment_keyed_pp": 2.35
   }
  },
  "labour_share_basis": "scenarios.*.labour_share is the basis each calibration targets: labour_share_bea (the paper's Figure 7 object, v (1 - x) / Ps) on (b) and (c), labor_share (v n / income) on the flow benchmark (a); labour_share_all_wages (v n / income) beside it on every calibration",
@@ -2344,24 +2344,24 @@
     },
     "r_star": {
      "0.0": 0.75,
-     "3.0": 0.55,
-     "6.0": 0.11,
-     "10.0": -1.08,
-     "15.0": -3.13
+     "3.0": 0.6,
+     "6.0": 0.27,
+     "10.0": -0.6,
+     "15.0": -2.07
     },
     "policy": {
      "0.0": 2.75,
      "3.0": 2.75,
-     "6.0": 2.25,
-     "10.0": 1.0,
-     "15.0": -0.5
+     "6.0": 2.5,
+     "10.0": 1.5,
+     "15.0": 0.0
     },
     "debt": {
      "0.0": 40.0,
-     "3.0": 41.2,
-     "6.0": 43.2,
-     "10.0": 48.4,
-     "15.0": 63.8
+     "3.0": 46.9,
+     "6.0": 54.2,
+     "10.0": 65.0,
+     "15.0": 84.7
     },
     "ois_curve": {
      "0.0": [
@@ -2379,55 +2379,55 @@
      ],
      "3.0": [
       2.753,
-      2.732,
-      2.684,
-      2.654,
-      2.663,
-      2.687,
-      2.732,
-      2.767,
-      2.806,
-      2.868,
-      2.891
+      2.739,
+      2.705,
+      2.686,
+      2.701,
+      2.725,
+      2.769,
+      2.803,
+      2.839,
+      2.898,
+      2.921
      ],
      "6.0": [
-      2.253,
-      2.24,
-      2.209,
-      2.199,
-      2.23,
-      2.268,
-      2.333,
-      2.382,
-      2.434,
-      2.516,
-      2.547
+      2.503,
+      2.477,
+      2.421,
+      2.386,
+      2.397,
+      2.426,
+      2.479,
+      2.521,
+      2.566,
+      2.638,
+      2.666
      ],
      "10.0": [
-      1.003,
-      0.999,
-      0.991,
-      1.009,
-      1.075,
-      1.137,
-      1.238,
-      1.313,
-      1.39,
-      1.509,
-      1.553
+      1.504,
+      1.499,
+      1.487,
+      1.5,
+      1.559,
+      1.618,
+      1.714,
+      1.786,
+      1.86,
+      1.977,
+      2.022
      ],
      "15.0": [
-      -0.496,
-      -0.488,
-      -0.474,
-      -0.443,
-      -0.386,
-      -0.336,
-      -0.258,
-      -0.2,
-      -0.14,
-      -0.046,
-      -0.011
+      0.008,
+      0.015,
+      0.024,
+      0.07,
+      0.181,
+      0.281,
+      0.443,
+      0.561,
+      0.686,
+      0.882,
+      0.957
      ]
     },
     "gov_spread": {
@@ -2471,30 +2471,30 @@
       0.0
      ],
      "10.0": [
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0
-     ],
-     "15.0": [
-      0.001,
-      0.003,
-      0.007,
-      0.012,
-      0.021,
+      0.002,
+      0.005,
+      0.009,
+      0.016,
       0.028,
       0.036,
-      0.041,
-      0.046,
-      0.051,
-      0.053
+      0.048,
+      0.055,
+      0.061,
+      0.068,
+      0.071
+     ],
+     "15.0": [
+      0.008,
+      0.022,
+      0.043,
+      0.079,
+      0.136,
+      0.178,
+      0.234,
+      0.268,
+      0.297,
+      0.333,
+      0.345
      ]
     },
     "labour_share_basis": "labour_share_bea (v (1 - x) / Ps)",
@@ -2515,17 +2515,17 @@
     "pi_shelter_max": 14.93,
     "pi_shelter_max_year": 9.5,
     "wage_tax_share_start_end": [
-     0.813,
-     0.541
+     0.797,
+     0.515
     ],
     "deficit_start_end": [
-     0.16,
-     7.66
+     2.06,
+     8.52
     ],
     "r_star_start_peak_end": [
      0.75,
      0.75,
-     -3.13
+     -2.07
     ],
     "r_star_peak_year": 0.0,
     "x_start_end": [
@@ -2548,22 +2548,22 @@
      0.0
     ],
     "capex_key": "investment",
-    "tau_w": 0.35,
+    "tau_w": 0.3156,
     "r_star_capex_on_pace": {
      "0.0": 0.76,
      "3.0": 0.69,
-     "6.0": 0.53,
-     "10.0": 0.16,
-     "15.0": -0.46
+     "6.0": 0.54,
+     "10.0": 0.17,
+     "15.0": -0.45
     },
     "r_star_capex_on_pace_start_peak_end": [
      0.76,
      0.76,
-     -0.46
+     -0.45
     ],
     "r_star_capex_on_pace_peak_year": 0.0,
     "r_star_capex_on_pace_rise_bp": 0.0,
-    "r_star_capex_on_pace_end_above_investment_keyed_pp": 2.67
+    "r_star_capex_on_pace_end_above_investment_keyed_pp": 1.62
    },
    "medium": {
     "labour_share": {
@@ -2589,24 +2589,24 @@
     },
     "r_star": {
      "0.0": 0.75,
-     "3.0": 0.39,
-     "6.0": -1.12,
-     "10.0": -4.15,
-     "15.0": -5.2
+     "3.0": 0.48,
+     "6.0": -0.63,
+     "10.0": -2.8,
+     "15.0": -3.53
     },
     "policy": {
      "0.0": 2.75,
      "3.0": 2.5,
-     "6.0": 1.0,
+     "6.0": 1.5,
      "10.0": -0.5,
      "15.0": -0.5
     },
     "debt": {
      "0.0": 40.0,
-     "3.0": 41.0,
-     "6.0": 42.5,
-     "10.0": 56.5,
-     "15.0": 93.9
+     "3.0": 46.6,
+     "6.0": 52.5,
+     "10.0": 69.6,
+     "15.0": 115.2
     },
     "ois_curve": {
      "0.0": [
@@ -2624,55 +2624,55 @@
      ],
      "3.0": [
       2.503,
-      2.494,
-      2.471,
-      2.468,
-      2.5,
-      2.537,
-      2.6,
-      2.647,
-      2.697,
-      2.776,
-      2.805
+      2.506,
+      2.511,
+      2.528,
+      2.57,
+      2.607,
+      2.666,
+      2.71,
+      2.756,
+      2.829,
+      2.856
      ],
      "6.0": [
-      1.003,
-      0.994,
-      0.979,
-      1.003,
-      1.093,
-      1.181,
-      1.322,
-      1.425,
-      1.532,
-      1.696,
-      1.757
+      1.503,
+      1.493,
+      1.472,
+      1.483,
+      1.551,
+      1.62,
+      1.733,
+      1.816,
+      1.902,
+      2.034,
+      2.084
      ],
      "10.0": [
-      -0.497,
-      -0.49,
-      -0.478,
-      -0.451,
-      -0.4,
-      -0.355,
-      -0.286,
-      -0.235,
-      -0.182,
+      -0.495,
+      -0.484,
+      -0.463,
+      -0.412,
+      -0.315,
+      -0.231,
       -0.099,
-      -0.067
+      -0.003,
+      0.096,
+      0.251,
+      0.309
      ],
      "15.0": [
-      -0.49,
-      -0.47,
-      -0.441,
-      -0.387,
-      -0.291,
-      -0.209,
-      -0.078,
-      0.019,
-      0.122,
-      0.288,
-      0.352
+      -0.485,
+      -0.457,
+      -0.416,
+      -0.337,
+      -0.198,
+      -0.08,
+      0.109,
+      0.249,
+      0.397,
+      0.636,
+      0.729
      ]
     },
     "gov_spread": {
@@ -2716,30 +2716,30 @@
       0.0
      ],
      "10.0": [
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0
+      0.003,
+      0.009,
+      0.017,
+      0.031,
+      0.053,
+      0.069,
+      0.091,
+      0.104,
+      0.115,
+      0.129,
+      0.134
      ],
      "15.0": [
-      0.01,
-      0.03,
-      0.059,
-      0.108,
-      0.187,
-      0.245,
-      0.321,
-      0.367,
-      0.407,
-      0.457,
-      0.474
+      0.017,
+      0.05,
+      0.095,
+      0.176,
+      0.305,
+      0.399,
+      0.524,
+      0.599,
+      0.663,
+      0.745,
+      0.773
      ]
     },
     "labour_share_basis": "labour_share_bea (v (1 - x) / Ps)",
@@ -2760,17 +2760,17 @@
     "pi_shelter_max": 27.35,
     "pi_shelter_max_year": 5.75,
     "wage_tax_share_start_end": [
-     0.813,
-     0.261
+     0.797,
+     0.242
     ],
     "deficit_start_end": [
-     0.16,
-     12.45
+     2.06,
+     12.76
     ],
     "r_star_start_peak_end": [
      0.75,
      0.75,
-     -5.2
+     -3.53
     ],
     "r_star_peak_year": 0.0,
     "x_start_end": [
@@ -2793,12 +2793,12 @@
      0.0
     ],
     "capex_key": "investment",
-    "tau_w": 0.35,
+    "tau_w": 0.3156,
     "r_star_capex_on_pace": {
      "0.0": 0.76,
      "3.0": 0.65,
      "6.0": 0.26,
-     "10.0": -0.65,
+     "10.0": -0.64,
      "15.0": -1.17
     },
     "r_star_capex_on_pace_start_peak_end": [
@@ -2808,7 +2808,7 @@
     ],
     "r_star_capex_on_pace_peak_year": 0.0,
     "r_star_capex_on_pace_rise_bp": 0.0,
-    "r_star_capex_on_pace_end_above_investment_keyed_pp": 4.03
+    "r_star_capex_on_pace_end_above_investment_keyed_pp": 2.36
    },
    "fast": {
     "labour_share": {
@@ -2834,24 +2834,24 @@
     },
     "r_star": {
      "0.0": 0.75,
-     "3.0": -1.15,
-     "6.0": -5.2,
-     "10.0": -5.25,
-     "15.0": -5.25
+     "3.0": -0.65,
+     "6.0": -3.53,
+     "10.0": -3.57,
+     "15.0": -3.57
     },
     "policy": {
      "0.0": 2.75,
-     "3.0": 1.0,
+     "3.0": 1.5,
      "6.0": -0.5,
      "10.0": -0.5,
      "15.0": -0.5
     },
     "debt": {
      "0.0": 40.0,
-     "3.0": 38.4,
-     "6.0": 52.9,
-     "10.0": 88.4,
-     "15.0": 123.5
+     "3.0": 43.4,
+     "6.0": 60.6,
+     "10.0": 103.9,
+     "15.0": 152.4
     },
     "ois_curve": {
      "0.0": [
@@ -2868,56 +2868,56 @@
       3.01
      ],
      "3.0": [
-      1.003,
-      0.99,
-      0.973,
-      1.013,
-      1.152,
-      1.285,
-      1.498,
-      1.653,
-      1.812,
-      2.054,
-      2.144
+      1.503,
+      1.49,
+      1.468,
+      1.491,
+      1.595,
+      1.698,
+      1.863,
+      1.984,
+      2.109,
+      2.299,
+      2.37
      ],
      "6.0": [
       -0.497,
       -0.49,
-      -0.476,
-      -0.441,
-      -0.374,
-      -0.316,
-      -0.224,
-      -0.158,
-      -0.089,
-      0.017,
-      0.057
+      -0.474,
+      -0.434,
+      -0.355,
+      -0.287,
+      -0.181,
+      -0.104,
+      -0.025,
+      0.098,
+      0.144
      ],
      "10.0": [
-      -0.491,
-      -0.473,
-      -0.448,
-      -0.399,
-      -0.311,
-      -0.237,
-      -0.119,
-      -0.031,
-      0.062,
-      0.212,
-      0.27
+      -0.488,
+      -0.464,
+      -0.429,
+      -0.362,
+      -0.244,
+      -0.143,
+      0.017,
+      0.136,
+      0.262,
+      0.465,
+      0.544
      ],
      "15.0": [
-      -0.484,
-      -0.452,
-      -0.406,
-      -0.319,
-      -0.165,
-      -0.034,
-      0.174,
-      0.329,
-      0.494,
-      0.759,
-      0.862
+      -0.478,
+      -0.434,
+      -0.371,
+      -0.252,
+      -0.042,
+      0.137,
+      0.422,
+      0.634,
+      0.86,
+      1.222,
+      1.362
      ]
     },
     "gov_spread": {
@@ -2949,42 +2949,42 @@
      ],
      "6.0": [
       0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0
+      0.001,
+      0.001,
+      0.002,
+      0.004,
+      0.005,
+      0.006,
+      0.007,
+      0.008,
+      0.009,
+      0.009
      ],
      "10.0": [
-      0.009,
-      0.026,
-      0.049,
-      0.091,
-      0.156,
-      0.205,
-      0.269,
-      0.307,
-      0.341,
-      0.383,
-      0.397
+      0.014,
+      0.039,
+      0.076,
+      0.14,
+      0.242,
+      0.317,
+      0.416,
+      0.476,
+      0.527,
+      0.592,
+      0.614
      ],
      "15.0": [
-      0.02,
-      0.057,
-      0.11,
-      0.203,
-      0.35,
-      0.459,
-      0.603,
-      0.689,
-      0.763,
-      0.857,
-      0.889
+      0.028,
+      0.083,
+      0.16,
+      0.295,
+      0.51,
+      0.668,
+      0.877,
+      1.002,
+      1.111,
+      1.247,
+      1.294
      ]
     },
     "labour_share_basis": "labour_share_bea (v (1 - x) / Ps)",
@@ -3005,17 +3005,17 @@
     "pi_shelter_max": 76.02,
     "pi_shelter_max_year": 3.0,
     "wage_tax_share_start_end": [
-     0.813,
-     0.251
+     0.797,
+     0.232
     ],
     "deficit_start_end": [
-     0.16,
-     12.59
+     2.06,
+     12.89
     ],
     "r_star_start_peak_end": [
      0.75,
      0.75,
-     -5.25
+     -3.57
     ],
     "r_star_peak_year": 0.0,
     "x_start_end": [
@@ -3038,10 +3038,10 @@
      0.0
     ],
     "capex_key": "investment",
-    "tau_w": 0.35,
+    "tau_w": 0.3156,
     "r_star_capex_on_pace": {
      "0.0": 0.75,
-     "3.0": 0.67,
+     "3.0": 0.68,
      "6.0": -1.12,
      "10.0": -1.21,
      "15.0": -1.21
@@ -3053,15 +3053,15 @@
     ],
     "r_star_capex_on_pace_peak_year": 0.0,
     "r_star_capex_on_pace_rise_bp": 0.0,
-    "r_star_capex_on_pace_end_above_investment_keyed_pp": 4.04
+    "r_star_capex_on_pace_end_above_investment_keyed_pp": 2.35
    }
   }
  },
  "sensitivity_fiscal_start": {
-  "note": "the wage tax at 0.40 as tuned on (b) (on all wages, 0.554 of income: a surplus start), the rest of the refit held; a sensitivity, not the default (the default starts at the measured primary deficit, macro.START_DEFICIT); fixed return, the three speeds",
+  "note": "the wage tax at 0.40 as tuned on (b) (on all wages, 0.554 of income: a surplus start), the rest of the refit held; a sensitivity, not the default (the default starts at the measured primary deficit net of property income received, macro.START_DEFICIT: decision 95); fixed return, the three speeds",
   "tau_w": 0.4,
-  "tau_w_default": 0.35,
-  "start_deficit_default_pct": 0.16,
+  "tau_w_default": 0.3156,
+  "start_deficit_default_pct": 2.06,
   "scenarios": {
    "slow": {
     "deficit_start_end": [
@@ -3071,13 +3071,13 @@
     "debt": {
      "0.0": 40.0,
      "3.0": 33.2,
-     "6.0": 28.6,
-     "10.0": 30.1,
-     "15.0": 51.7
+     "6.0": 28.7,
+     "10.0": 30.5,
+     "15.0": 53.4
     },
     "r_star_start_end": [
      0.75,
-     -2.7
+     -1.63
     ]
    },
    "medium": {
@@ -3087,14 +3087,14 @@
     ],
     "debt": {
      "0.0": 40.0,
-     "3.0": 33.2,
-     "6.0": 31.2,
-     "10.0": 51.5,
-     "15.0": 100.0
+     "3.0": 33.3,
+     "6.0": 31.4,
+     "10.0": 53.1,
+     "15.0": 108.5
     },
     "r_star_start_end": [
      0.75,
-     -4.82
+     -2.95
     ]
    },
    "fast": {
@@ -3104,15 +3104,135 @@
     ],
     "debt": {
      "0.0": 40.0,
-     "3.0": 32.1,
-     "6.0": 52.6,
-     "10.0": 96.2,
-     "15.0": 140.1
+     "3.0": 32.2,
+     "6.0": 54.3,
+     "10.0": 104.4,
+     "15.0": 160.7
     },
     "r_star_start_end": [
      0.75,
-     -4.87
+     -2.99
     ]
+   }
+  }
+ },
+ "sensitivity_investment_pass_through": {
+  "note": "alpha_inv = Rachel and Smith's 0.2 per point of GDP times the pass-through of the investment fall, per point of income (macro.investment_key): 1 gross (the central), 0.4 net for a growing stock (g / delta), 0 netted against capital consumption; the rest of the refit held; fixed return, the three speeds",
+  "pass_throughs": [
+   1.0,
+   0.4,
+   0.0
+  ],
+  "central (c)": {
+   "1": {
+    "alpha_inv": 0.17464198393293748,
+    "slow": {
+     "r_star_year15": -2.12,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 94.8
+    },
+    "medium": {
+     "r_star_year15": -3.64,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 131.2
+    },
+    "fast": {
+     "r_star_year15": -3.67,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 172.5
+    }
+   },
+   "0.4": {
+    "alpha_inv": 0.06985679357317501,
+    "slow": {
+     "r_star_year15": -1.36,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 97.2
+    },
+    "medium": {
+     "r_star_year15": -2.25,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 134.3
+    },
+    "fast": {
+     "r_star_year15": -2.27,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 175.4
+    }
+   },
+   "0": {
+    "alpha_inv": 0.0,
+    "slow": {
+     "r_star_year15": -0.85,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 98.8
+    },
+    "medium": {
+     "r_star_year15": -1.32,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 139.8
+    },
+    "fast": {
+     "r_star_year15": -1.33,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 186.1
+    }
+   }
+  },
+  "high root": {
+   "1": {
+    "alpha_inv": 0.17464198393293748,
+    "slow": {
+     "r_star_year15": -2.07,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 84.7
+    },
+    "medium": {
+     "r_star_year15": -3.53,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 115.2
+    },
+    "fast": {
+     "r_star_year15": -3.57,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 152.4
+    }
+   },
+   "0.4": {
+    "alpha_inv": 0.06985679357317501,
+    "slow": {
+     "r_star_year15": -1.19,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 87.4
+    },
+    "medium": {
+     "r_star_year15": -2.13,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 119.0
+    },
+    "fast": {
+     "r_star_year15": -2.15,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 156.2
+    }
+   },
+   "0": {
+    "alpha_inv": 0.0,
+    "slow": {
+     "r_star_year15": -0.61,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 89.4
+    },
+    "medium": {
+     "r_star_year15": -1.2,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 124.2
+    },
+    "fast": {
+     "r_star_year15": -1.21,
+     "r_star_rise_pp": 0.0,
+     "debt_year15": 165.9
+    }
    }
   }
  },
@@ -3379,6 +3499,271 @@
     "deficit_start_end": [
      0.16,
      14.71
+    ]
+   }
+  },
+  "5 the investment key at Rachel and Smith's coefficient": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.31
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.25,
+    "debt_low_and_year15": [
+     40.0,
+     77.1
+    ],
+    "deficit_start_end": [
+     0.16,
+     9.95
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.96
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     116.1
+    ],
+    "deficit_start_end": [
+     0.16,
+     14.6
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -4.0
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     39.1,
+     153.5
+    ],
+    "deficit_start_end": [
+     0.16,
+     14.71
+    ]
+   }
+  },
+  "6 the scale per point of income": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -1.92
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.25,
+    "debt_low_and_year15": [
+     40.0,
+     78.2
+    ],
+    "deficit_start_end": [
+     0.16,
+     9.95
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.36
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     119.1
+    ],
+    "deficit_start_end": [
+     0.16,
+     14.6
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.39
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     39.1,
+     159.1
+    ],
+    "deficit_start_end": [
+     0.16,
+     14.71
+    ]
+   }
+  },
+  "7 the fiscal start with no assets": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.12
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.0,
+    "debt_low_and_year15": [
+     40.0,
+     94.8
+    ],
+    "deficit_start_end": [
+     2.06,
+     10.57
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.64
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     126.7
+    ],
+    "deficit_start_end": [
+     2.06,
+     14.72
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.67
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     160.8
+    ],
+    "deficit_start_end": [
+     2.06,
+     14.82
+    ]
+   }
+  },
+  "8 the debt's rate at the lower bound": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.12
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.0,
+    "debt_low_and_year15": [
+     40.0,
+     94.8
+    ],
+    "deficit_start_end": [
+     2.06,
+     10.57
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.64
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     131.2
+    ],
+    "deficit_start_end": [
+     2.06,
+     14.72
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.67
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     172.5
+    ],
+    "deficit_start_end": [
+     2.06,
+     14.82
+    ]
+   }
+  },
+  "9 the bridges at the start's required return": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.12
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.0,
+    "debt_low_and_year15": [
+     40.0,
+     94.8
+    ],
+    "deficit_start_end": [
+     2.06,
+     10.57
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.64
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     131.2
+    ],
+    "deficit_start_end": [
+     2.06,
+     14.72
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.67
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     172.5
+    ],
+    "deficit_start_end": [
+     2.06,
+     14.82
     ]
    }
   }
@@ -3648,14 +4033,279 @@
      12.59
     ]
    }
+  },
+  "5 the investment key at Rachel and Smith's coefficient": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.29
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.25,
+    "debt_low_and_year15": [
+     40.0,
+     65.7
+    ],
+    "deficit_start_end": [
+     0.16,
+     7.66
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.86
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     99.3
+    ],
+    "deficit_start_end": [
+     0.16,
+     12.45
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.9
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     37.6,
+     133.8
+    ],
+    "deficit_start_end": [
+     0.16,
+     12.59
+    ]
+   }
+  },
+  "6 the scale per point of income": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -1.91
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.25,
+    "debt_low_and_year15": [
+     40.0,
+     66.7
+    ],
+    "deficit_start_end": [
+     0.16,
+     7.66
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.28
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     101.9
+    ],
+    "deficit_start_end": [
+     0.16,
+     12.45
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.31
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     37.6,
+     138.7
+    ],
+    "deficit_start_end": [
+     0.16,
+     12.59
+    ]
+   }
+  },
+  "7 the fiscal start with no assets": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.07
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.0,
+    "debt_low_and_year15": [
+     40.0,
+     84.7
+    ],
+    "deficit_start_end": [
+     2.06,
+     8.52
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.53
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     111.7
+    ],
+    "deficit_start_end": [
+     2.06,
+     12.76
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.57
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     142.9
+    ],
+    "deficit_start_end": [
+     2.06,
+     12.89
+    ]
+   }
+  },
+  "8 the debt's rate at the lower bound": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.07
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.0,
+    "debt_low_and_year15": [
+     40.0,
+     84.7
+    ],
+    "deficit_start_end": [
+     2.06,
+     8.52
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.53
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     115.2
+    ],
+    "deficit_start_end": [
+     2.06,
+     12.76
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.57
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     152.4
+    ],
+    "deficit_start_end": [
+     2.06,
+     12.89
+    ]
+   }
+  },
+  "9 the bridges at the start's required return": {
+   "slow": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -2.07
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": 0.0,
+    "debt_low_and_year15": [
+     40.0,
+     84.7
+    ],
+    "deficit_start_end": [
+     2.06,
+     8.52
+    ]
+   },
+   "medium": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.53
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     115.2
+    ],
+    "deficit_start_end": [
+     2.06,
+     12.76
+    ]
+   },
+   "fast": {
+    "r_star_start_peak_end": [
+     0.75,
+     0.75,
+     -3.57
+    ],
+    "r_star_peak_year": 0.0,
+    "policy_min": -0.5,
+    "debt_low_and_year15": [
+     40.0,
+     152.4
+    ],
+    "deficit_start_end": [
+     2.06,
+     12.89
+    ]
+   }
   }
  },
  "evidence": {
   "bridges": {
-   "neutral_scale": 0.3,
+   "neutral_scale": 0.2619629758994062,
    "neutral_scale_range": [
-    0.2,
-    0.5
+    0.17464198393293748,
+    0.4366049598323437
    ],
    "owners_saving_gap": 0.3,
    "owners_saving_gap_range": [
@@ -3667,19 +4317,40 @@
     0.5,
     1.0
    ],
-   "alpha_inv": 0.3,
-   "alpha_rent": 0.09,
-   "alpha_fiscal": 0.18,
+   "alpha_inv": 0.17464198393293748,
+   "alpha_rent": 0.07858889276982185,
+   "alpha_fiscal": 0.1571777855396437,
    "branches": {
     "deficits dominate": {
-     "alpha_rent": 0.045,
-     "alpha_fiscal": 0.3
+     "alpha_rent": 0.039294446384910926,
+     "alpha_fiscal": 0.2619629758994062
     },
     "owners' saving dominates": {
-     "alpha_rent": 0.135,
-     "alpha_fiscal": 0.15
+     "alpha_rent": 0.1178833391547328,
+     "alpha_fiscal": 0.1309814879497031
     }
    }
+  },
+  "units": {
+   "note": "the literature's coefficients are per point of GDP; the model applies them per point of its income, divided once by gdp_over_income (decision 73's units, corrected in Log 54: until then the GDP numbers were applied per point of income unconverted). Not converted: tp_per_debt, debt_threshold, loss_per_debt (illustrative, per point of income since the macro block's first commit, never sourced)",
+   "gdp_over_income": 1.1452,
+   "scale_gdp": 0.3,
+   "scale_gdp_range": [
+    0.2,
+    0.5
+   ],
+   "scale_income": 0.2619629758994062,
+   "scale_income_range": [
+    0.17464198393293748,
+    0.4366049598323437
+   ],
+   "investment_key_gdp": 0.2,
+   "investment_pass_through": 1.0,
+   "investment_pass_through_range": [
+    0.0,
+    1.0
+   ],
+   "investment_key_income": 0.17464198393293748
   },
   "literature": {
    "neutral_scale": {
@@ -3706,12 +4377,48 @@
     "de Mello, Kongsrud and Price (2004), OECD ECO WP 397": "offset one-third to one-half",
     "Laubach (2009), JEEA 7(4)": "~25 bp per pp of projected deficit / GDP, 3-4 bp per pp of debt, on 5-year-ahead long nominal rates",
     "Rachel and Summers (2019), Table 2": "literature averages 38 bp per pp of deficit, 3.5 bp per pp of debt",
-    "note": "the common scale gives alpha_fiscal = 0.3 x 0.6 = 0.18 pp of r* per pp of primary deficit, below the direct long-yield estimates (0.25-0.70), which also carry term premia and expected inflation; the model's term premium rises with debt above 60% of income on its own (tp_per_debt). The deficits branch takes no offset at all (pass-through 1.0: 0.30)"
+    "note": "the common scale gives alpha_fiscal = 0.3 x 0.6 = 0.18 pp of r* per pp of GDP of primary deficit, 0.157 per pp of income, below the direct long-yield estimates (0.25-0.70 per pp of GDP), which also carry term premia and expected inflation; the model's term premium rises with debt above 60% of income on its own (tp_per_debt 0.02: illustrative defaults since the macro block's first commit, 24 Sep 2026, per point of income and never sourced; as the 60%-of-GDP reference the threshold would be ~69% of income, and Laubach's 3-4 bp per pp of debt / GDP is 0.026-0.035 per pp of income, on long nominal yields). The deficits branch takes no offset at all (pass-through 1.0: 0.30 per pp of GDP, 0.262 per pp of income)"
    },
-   "investment_key": "replacement investment / income one for one, as Rachel and Smith read gross investment against gross saving: a fall in the investment share at a given saving share is excess saving. The alternative \u2014 only the net investment a growing stock needs, g / delta of replacement \u2014 would scale the term by about 0.4 (an open item)"
+   "investment_key": {
+    "Rachel and Smith (2015), BoE Staff WP 571, Box D1": "a 4 pp of GDP fall in investment lowers the neutral rate ~80 bp: 0.2 pp of r* per pp of GDP \u2014 their short-termism scenario, an upper bound on what an investment fall alone does; they read gross investment against gross saving",
+    "Rachel and Summers (2019), NBER WP 26198 / BPEA": "the saving-investment gap's scale, 1 pp lower r per 2-4 pp of GDP (A ~0.33)",
+    "the model's fall": "replacement investment / income falls ~13 points by year 15 on every deep path, far outside Rachel and Smith's 4 pp: the coefficient is extrapolated (a linear bridge far beyond its evidence)",
+    "pass_through": "how much of the investment fall counts as excess saving: gross 1.0 (Rachel and Smith's reading, the central), net for a growing stock ~0.4 (g / delta of replacement), netted against capital consumption 0 (the model's income is net of replacement investment). The evidence does not pin it: the central is gross and the reverse envelope draws it over 0-1 (macro.INVESTMENT_PASS_THROUGH_RANGE); sensitivity_investment_pass_through runs 1 / 0.4 / 0 on the fixed-return table",
+    "note": "alpha_inv = macro.INVESTMENT_KEY = 0.2 x the pass-through per point of GDP, 0.175 per point of the model's income at the central (gross); before the revision (Log 46) the investment key was the common scale, 0.3, applied per point of income unconverted"
+   }
   },
   "fiscal_start": {
    "primary_deficit_pct_gdp": {
+    "SE": {
+     "2021": 1.3,
+     "2022": 0.4,
+     "2023": 1.9,
+     "2024": 2.6,
+     "2025": 2.8
+    },
+    "EA20": {
+     "2021": 4.3,
+     "2022": 2.4,
+     "2023": 2.5,
+     "2024": 2.0,
+     "2025": 1.9
+    },
+    "FR": {
+     "2021": 5.8,
+     "2022": 3.4,
+     "2023": 4.2,
+     "2024": 4.6,
+     "2025": 3.7
+    },
+    "DE": {
+     "2021": 3.0,
+     "2022": 1.7,
+     "2023": 2.1,
+     "2024": 2.5,
+     "2025": 2.5
+    }
+   },
+   "primary_deficit_with_asset_income_pct_gdp": {
     "SE": {
      "2021": 0.0,
      "2022": -1.5,
@@ -3739,6 +4446,36 @@
      "2023": 1.3,
      "2024": 1.7,
      "2025": 1.8
+    }
+   },
+   "property_income_received_pct_gdp": {
+    "SE": {
+     "2021": 1.3,
+     "2022": 1.9,
+     "2023": 1.6,
+     "2024": 1.7,
+     "2025": 1.8
+    },
+    "EA20": {
+     "2021": 0.6,
+     "2022": 0.7,
+     "2023": 0.8,
+     "2024": 0.9,
+     "2025": 0.8
+    },
+    "FR": {
+     "2021": 0.6,
+     "2022": 0.6,
+     "2023": 0.7,
+     "2024": 0.8,
+     "2025": 0.8
+    },
+    "DE": {
+     "2021": 0.4,
+     "2022": 0.5,
+     "2023": 0.8,
+     "2024": 0.8,
+     "2025": 0.7
     }
    },
    "gross_debt_pct_gdp": {
@@ -3775,14 +4512,17 @@
     "gov_10a_main": "2026-10-21T11:00:00+0200",
     "gov_10dd_edpt1": "2026-10-21T11:00:00+0200"
    },
-   "sweden_mean_pct_gdp": 0.14,
+   "sweden_mean_pct_gdp": 1.8,
    "gdp_over_income": 1.1452,
-   "sweden_mean_pct_income": 0.16,
-   "start_deficit_default": 0.16,
-   "sweden_latest_pct_income": 1.15,
+   "sweden_mean_pct_income": 2.06,
+   "start_deficit_default": 2.06,
+   "sweden_mean_with_asset_income_pct_gdp": 0.14,
+   "sweden_mean_with_asset_income_pct_income": 0.16,
+   "start_deficit_alternative": 0.16,
+   "sweden_latest_pct_income": 3.21,
    "sweden_debt_latest_pct_income": 40.2,
    "debt0_default": 40.0,
-   "note": "the model's deficit is primary (interest enters debt through r* + pi* - growth) and in % of income (GDP net of the chain's imported content and of replacement investment); the start is an equilibrium at capacity, so the five-year mean stands in for a structural balance (2022's surplus and 2023-25's slowdown both in it)"
+   "note": "the model's deficit is primary and net of property income received (decision 95): interest paid enters debt through r* + pi* - growth, and the model's government has gross debt and no assets, so it receives none; the alternative (start_deficit_alternative) keeps the state's asset income in revenue. In % of income (GDP net of the chain's imported content and of replacement investment); the start is an equilibrium at capacity, so the five-year mean stands in for a structural balance (2022's surplus and 2023-25's slowdown both in it)"
   }
  }
 }

@@ -1,7 +1,8 @@
 # bank_scenarios.py — the stylised bank (bank.py) on four paths: the status quo; a pure tightening (no
 # automation: announced at year 1, policy +250 bp over a year, held two years, then back — the first half of her question in
-# isolation); deep automation with deficits dominating (real rates rise); deep automation with owners'
-# saving dominating (rates fall — her second half, the interest income flowing back as saving).
+# isolation); deep automation with deficits dominating and with owners' saving dominating (her second half, the interest
+# income flowing back as saving). At the central reading of the investment key rates fall in both branches; in the deficits
+# branch they rise once little of the investment fall counts as excess saving (decision 93: the pass-through readout).
 #
 # The bank's rates come from the market's curve (the belief-weighted mixture, recognition.py); its
 # borrowers and tenants live in the true world's macro path. Commercial rents follow the site (the
@@ -11,15 +12,19 @@
 # (domp) reading, the low root in k — with the required return following r* from that economy's own rho
 # (macro.feedback_bridges: premium rho x 100 - 0.75 = 6.80 pp, not (b)'s 5.0) and deep automation relative to its own
 # lambda (macro.deep_tech: lambda to a fifth of its start, not (b)'s absolute 0.01). The bridges are the refit on (c)
-# (macro.Bridges(); Log 46): r* keyed to replacement investment / income, owners' saving and deficits on one scale from
-# published evidence, the fiscal start at Sweden's measured primary deficit. SCEN's two branches are macro.BRANCHES: the two
+# (macro.Bridges(); Log 46, revised in Log 54): r* keyed to replacement investment / income at Rachel and Smith's coefficient
+# times its pass-through (decision 93), owners' saving and deficits on one scale from published evidence (per point of the
+# model's income), the fiscal start at Sweden's measured primary deficit net of the state's asset income (decision 95), the
+# debt's rate floored at the policy floor, and on these feedback paths the bridges read at the start's required return
+# (decision 96). SCEN's two branches are macro.BRANCHES: the two
 # direction bridges at the ends of their evidence ranges, each against the other's opposite end (deficits dominate: owners'
 # saving gap 0.15, no Ricardian offset; owners' saving dominates: gap 0.45, offset 0.5), the scale and the investment key
 # held. Also stored: the high root (the sensitivity) and (b) (the comparator, on macro.BRIDGES_B and SCEN_B, the branches as
 # set on (b): bit-identical to the pre-switch runs). No dial here moves the required return; each world's largest rise in it
 # is stored against the central's rate headroom (beyond it solve raises NoEquilibrium) and checked. A readout, not a
 # finding: the two automated branches with the new world's r* keyed to the pace of tasks instead (demand.py's
-# r_star_pace_keyed, alpha_capex 0.25, the key as tuned on (b)).
+# r_star_pace_keyed, alpha_capex 0.25, the key as tuned on (b)). A second readout (pass_through_readout): the deficits branch
+# with the investment key's pass-through at 1 / 0.6 / 0.4 / 0, on both roots.
 #
 # Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py, gated by
 # checks/check_calibration_c.py); the bank is illustrative (bank.Bank defaults), not any bank's.
@@ -180,12 +185,39 @@ def pace_keyed(e):
     return out
 
 
+PASS_THROUGHS = (1.0, 0.6, 0.4, 0.0)     # the investment key's pass-through: gross (the central) to netted
+
+
+def pass_through_readout(e, which: str = "lo") -> dict:
+    """The deficits branch with the investment key at each pass-through of the investment fall (decision 93: 1 gross, the
+    central; 0 netted against capital consumption), on economy e with the refit's bridges ('lo' or 'hi'): the policy rate's
+    start, peak and year 15, NII's low and high, the 10Y at years 5 / 10 / 15 and r* at year 15; office rents follow the site."""
+    base, scen = base_bridges(which)
+    bridges, truth = scen["deficits dominate"]
+    out = {}
+    for pt in PASS_THROUGHS:
+        a = m.investment_key(pt)
+        old, new, p, pol, zeros = path(e, dict(bridges, alpha_inv=a), truth, base=base)
+        t = old["t"]
+        sm = summary(t, bk.run(t, pol, zeros, p, old, new, truth=truth, b=bk.Bank()))
+        out[f"{pt:g}"] = {"alpha_inv": a, "policy_start_peak_end": sm["policy_start_peak_end"], "nii_min": sm["nii_min"],
+                          "nii_max": sm["nii_max"], "z10_y5_y10_y15": [round(at(t, zeros["10Y"], y), 2) for y in (5, 10, 15)],
+                          "r_star_y15": round(at(t, new["r_star"], 15), 2)}
+    return out
+
+
 def main():
     e, cal = economy("lo")
     out = {"bank": "illustrative Nordic-style balance sheet (bank.Bank defaults); not any bank's", "calibration": cal}
     res, runs, rise = bank_runs(e)
     out.update(res)
     out["sensitivity: r* keyed to the pace of tasks"] = pace_keyed(e)
+    out["sensitivity: the investment key's pass-through"] = {
+        "note": "the deficits branch with alpha_inv at Rachel and Smith's 0.2 per point of GDP times the pass-through of the investment "
+                "fall, per point of income (macro.investment_key; decision 93): 1 gross (the central), 0 netted against capital "
+                "consumption; the rest of the branch held; the central and its high root",
+        "pass_throughs": list(PASS_THROUGHS), "central (c)": pass_through_readout(e, "lo"),
+        "high root": pass_through_readout(economy("hi")[0], "hi")}
     out["required_return_rise_pp"] = {"note": "largest rise in the required return over 25 years (either world, pp), against the "
                                               "central's rate headroom at the start (beyond it solve raises NoEquilibrium)",
                                       "headroom_pp": cal["headroom_pp"], **rise}
@@ -281,7 +313,7 @@ def figure(runs):
     a.set_ylim(bottom=min(0.0, a.get_ylim()[0]))   # room under the lines for the legend
     a.set_ylabel("% of assets"); a.set_xlabel("years"); a.legend(frameon=False, fontsize=8, labelcolor=INK, loc="lower left", ncol=2)
     fig.text(0.01, 0.005, "Illustrative bank (bank.Bank): not any bank's balance sheet. Calibration (c), the central (open reading, low root; "
-             "bridges refit on (c), Log 46); medium deep automation; market beliefs by Bayesian learning; house prices = belief-weighted expected "
+             "bridges refit on (c), Logs 46 and 54); medium deep automation; market beliefs by Bayesian learning; house prices = belief-weighted expected "
              "site rents at the real 10Y + 2.5 pp.", fontsize=8, color=INK2)
     pth = os.path.join(ROOT, "figures", "fig_bank.png"); fig.savefig(pth, dpi=150, facecolor=SURF); print(pth)
 

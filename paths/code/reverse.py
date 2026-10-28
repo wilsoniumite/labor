@@ -25,7 +25,13 @@
 # THE REFIT (2026-10-27, Log 46; decision 77). The central's dials are the refit's bridges (Dials: the investment key's alpha_inv
 # in place of alpha_capex; owners' saving and deficits over the evidence's ranges, macro.NEUTRAL_SCALE_RANGE times the saving gap's
 # and the pass-through's), (b)'s the bridges as tuned on (b) (DialsB, the ranges set around (b)'s defaults). Decision 40's "not
-# re-centred" held until the bridges had evidence; the other dials' ranges are unchanged.
+# re-centred" held until the bridges had evidence; the other dials' ranges are unchanged. Revised 2026-10-28 (Log 54; decision 93):
+# the investment dial draws the investment key's pass-through — Rachel and Smith's coefficient (macro.INVESTMENT_KEY_GDP) times
+# 0 (netted against capital consumption) to 1 (gross, the central, so the default sits at the range's top); the same 12-dial Latin
+# hypercube, so (b)'s comparator stays draw for draw. Every draw on the refit starts at the measured primary deficit: macro_path
+# solves the wage tax on the draw's own start, its shifted premium included (decision 77 corrected); on (b) (DialsB) the wage tax
+# is given (0.40), so its start still moves with the premium and public support. On the refit the bridges read at the start's
+# required return (decision 96), so r* does not respond to the rate and cannot cycle.
 #
 # Gated by checks/check_reverse.py.
 
@@ -50,7 +56,8 @@ _REFIT = m.Bridges()
 @dataclass(frozen=True)
 class Dials:
     """One point in the scenario space on the refit bridges (the central's; Log 46); each field carries (default, low,
-    high) in RANGES. The capex dial is the investment key's coefficient, alpha_inv."""
+    high) in RANGES. The capex dial is the investment key's coefficient, alpha_inv: Rachel and Smith's coefficient times the
+    pass-through, drawn from netted (0) to gross (1); the default is the central, gross (decision 93)."""
     eta_end: float = 0.04
     width: float = 6.0
     t_mid: float = 6.0
@@ -87,10 +94,13 @@ _COMMON = {"eta_end": (0.02, 0.5), "width": (1.0, 12.0), "t_mid": (2.0, 8.0), "t
            "debt_threshold": (40.0, 90.0), "public_support": (0.1, 0.6), "premium_shift": (-2.0, 2.0),
            "sigma": (0.5, 4.0), "p0": (0.01, 0.3)}
 # The refit's bridge ranges are the evidence's (macro.NEUTRAL_SCALE_RANGE, OWNERS_SAVING_GAP_RANGE, DEFICIT_PASS_THROUGH_RANGE):
-# the scale over its range, each direction bridge the scale's range times its own.
+# each direction bridge the scale's range times its own. The investment dial is the pass-through (decision 93): Rachel and Smith's
+# coefficient times macro.INVESTMENT_PASS_THROUGH_RANGE (netted 0 to gross 1), built from the pass-through's own range, so the dial
+# spans netted to gross whatever the central pass-through is; the default (the central, gross) sits at its top.
 _A = m.NEUTRAL_SCALE_RANGE
 RANGES = {**{k: _COMMON[k] for k in ("eta_end", "width", "t_mid")},
-          "alpha_inv": _A, "alpha_rent": (_A[0] * m.OWNERS_SAVING_GAP_RANGE[0], _A[1] * m.OWNERS_SAVING_GAP_RANGE[1]),
+          "alpha_inv": tuple(m.investment_key(p) for p in m.INVESTMENT_PASS_THROUGH_RANGE),
+          "alpha_rent": (_A[0] * m.OWNERS_SAVING_GAP_RANGE[0], _A[1] * m.OWNERS_SAVING_GAP_RANGE[1]),
           "alpha_fiscal": (_A[0] * m.DEFICIT_PASS_THROUGH_RANGE[0], _A[1] * m.DEFICIT_PASS_THROUGH_RANGE[1]),
           **{k: _COMMON[k] for k in ("tp_per_debt", "debt_threshold", "public_support", "premium_shift", "sigma", "p0")}}
 RANGES_B = {**{k: _COMMON[k] for k in ("eta_end", "width", "t_mid")}, "alpha_capex": (0.0, 1.0), "alpha_rent": (0.0, 0.2),
@@ -221,6 +231,8 @@ def run(econ: m.Economy, d, years: float = 15.0, dt: float = 0.25, keep_paths: b
     out["shelter_infl_max"] = float(new["pi_shelter"].max())
     out["r_star_min"], out["r_star_max"] = float(new["r_star"].min()), float(new["r_star"].max())
     out["rho_rise_max_pp"] = float(new["rho"].max() - new["rho"][0])
+    # the required return's peak over the horizon above the economy's own rho: the draw's own rise plus its premium_shift
+    out["rho_above_economy_max_pp"] = float(new["rho"].max() - 100 * econ.rho)
     if keep_paths:
         out["_paths"] = {"t": t, "p": p, "z": z, "policy": pol, "real_wage": new["real_wage"], "debt": new["debt"]}
     return out

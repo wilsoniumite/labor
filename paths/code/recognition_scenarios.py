@@ -12,7 +12,8 @@
 # a new world that is not coming; the market curve through recognition; the jump still waiting; and a
 # narrative shock (+3 log odds at year 1.5) under each truth. The same outputs for calibration (b), the pre-switch default
 # (comparator_b: bit-identical to the pre-switch results/recognition.json's numbers, which it reproduces), and for (c)'s
-# high root (sensitivity_c_hi). (c) on the bridges refit on (c) (Log 46), (b) on the bridges as tuned on (b).
+# high root (sensitivity_c_hi). (c) on the bridges refit on (c) (Log 46, revised in Log 54: the bridges read at the start's
+# required return, decision 96), (b) on the bridges as tuned on (b).
 #
 # Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py, gated by
 # checks/check_calibration_c.py). Gated by checks/check_recognition.py.

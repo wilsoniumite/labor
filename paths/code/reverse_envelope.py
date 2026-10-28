@@ -14,7 +14,10 @@
 # dials are relative to the economy). The capital-premium dial is a shift of +-2 pp from the economy's own premium (6.80 pp
 # on the central, 5.0 on (b)). Since the refit (2026-10-27, Log 46; decision 77) the central's bridge dials are the refit's
 # (rv.Dials: alpha_inv, owners' saving and deficits over the evidence's ranges), (b)'s stay its own (rv.DialsB, the ranges
-# set around (b)'s defaults): the same unit draws, so comparator_b is the pre-refit envelope exactly. A draw whose required return climbs past the central's rate headroom has a date with no
+# set around (b)'s defaults): the same unit draws, so comparator_b is the pre-refit envelope exactly. Revised 2026-10-28 (Log 54;
+# decision 93): alpha_inv draws the investment key's pass-through, netted (0) to gross (1, the default); the central's block alone
+# also stores the shares by thirds of the pass-through (shares_by_investment_pass_through) and the required return's peak above
+# the economy's own rho (rho_above_economy), so comparator_b keeps its keys. A draw whose required return climbs past the central's rate headroom has a date with no
 # land-scarce equilibrium: it is caught (macro.NoEquilibrium), counted, dated (reverse.first_failure) and its dials
 # profiled against the solved draws — not dropped silently — and the envelope is stated as conditional on solving. Any other
 # failure is counted separately.
@@ -46,7 +49,7 @@ NL = chr(10)
 OUTCOMES = ("recog_10Y", "max_up_10Y", "max_down_10Y", "ten_year_2Y", "debt_max", "real_wage_min_rel")
 ENVELOPE = ("recog_2Y", "recog_10Y", "recog_30Y", "ten_year_3M", "ten_year_2Y", "ten_year_10Y", "max_up_10Y", "max_down_10Y",
             "max_jump_10Y", "c50", "debt_max", "real_wage_min_rel", "shelter_infl_max", "policy_min", "policy_max", "rho_rise_max_pp")
-FLOOR = -0.5                      # the effective lower bound (macro.Recognition.elb)
+FLOOR = m.ELB                     # the effective lower bound (macro.ELB: macro.Recognition.elb)
 LISTED = 0.15                     # a pick lists the dials it moves by more than this share of their range: a listing, not the cause
 PICKS_NOTE = ("dials_moved_default_to_draw lists the dials a pick moves by more than 0.15 of their range: a description of the "
               "draw, not the cause of its outcome. cause_by_subset (reverse.attribute) re-runs the draw with dial subsets: only the "
@@ -97,6 +100,25 @@ def envelope(e, U, cls=rv.Dials):
                      "policy_reaches_floor": round(float(np.mean(R["policy_min"] <= FLOOR + 1e-9)), 4),
                      "ten_year_10Y_negative": round(float(np.mean(R["ten_year_10Y"] < 0)), 4),
                      "never_recognised_c50": round(float(np.mean(~np.isfinite(R["c50"]))), 4)}
+    if cls is rv.Dials:          # the refit's space only, so comparator_b keeps its keys (decision 93; Log 54)
+        u = Uk[:, NAMES.index("alpha_inv")]                    # the investment key's pass-through: its unit draw (0 netted, 1 gross)
+        thirds = {"0 to 1/3": u < 1 / 3, "1/3 to 2/3": (u >= 1 / 3) & (u < 2 / 3), "2/3 to 1": u >= 2 / 3}
+        out["shares_by_investment_pass_through"] = {
+            "note": "the shares of the solved draws by thirds of the investment key's pass-through (the alpha_inv dial's unit draw: "
+                    "0 the investment fall netted against capital consumption, 1 gross): the 10Y lower after ten years, lower across "
+                    "the recognition window, and never rising (largest rise at most 0.5 bp)",
+            **{k: {"draws": int(msk.sum()), "ten_year_10Y_negative": round(float(np.mean(R["ten_year_10Y"][msk] < 0)), 4),
+                   "recog_10Y_negative": round(float(np.mean(R["recog_10Y"][msk] < 0)), 4),
+                   "10Y_never_rises": round(float(np.mean(up[msk] <= 0.5)), 4)} for k, msk in thirds.items()}}
+        ra = R["rho_above_economy_max_pp"]
+        ja = int(np.nanargmax(ra))
+        da = rv.from_unit(Uk[ja], cls)
+        out["rho_above_economy"] = {
+            "note": "the required return's peak over the 15 years above the economy's own rho (reverse.run's rho_above_economy_max_pp: "
+                    "a draw's own rise plus its premium_shift), against the central's rate headroom at its start; draw: the index in "
+                    "rv.sample(N)",
+            "max": round(float(ra[ja]), 2), "p95": round(float(np.nanpercentile(ra, 95)), 2), "draw": int(ok[ja]),
+            "premium_shift": round(float(da.premium_shift), 3), "rise_above_own_start": round(float(R["rho_rise_max_pp"][ja]), 2)}
     drivers = {}
     for o in OUTCOMES:
         y = R[o]
@@ -141,9 +163,12 @@ def results():
     out, fig_c = envelope(ec, U, rv.Dials)
     res = {"calibration": {k: info[k] for k in ("tag", "root", "rho", "capital_premium", "headroom_pp", "k", "source")},
            "ranges": rv.RANGES,
-           "ranges_note": "the refit's (Log 46): the capex dial is the investment key's alpha_inv over macro.NEUTRAL_SCALE_RANGE; "
-                          "owners' saving and deficits over that range times the evidence's ranges of the saving gap and the "
-                          "deficit's pass-through; comparator_b keeps (b)'s dials and ranges (ranges_b)",
+           "ranges_note": "the refit's (Log 46), revised 2026-10-28 (Log 54; decision 93): the capex dial is the investment key's "
+                          "alpha_inv, Rachel and Smith's coefficient (macro.INVESTMENT_KEY_GDP) times the pass-through over "
+                          "macro.INVESTMENT_PASS_THROUGH_RANGE (0 netted against capital consumption, 1 gross: the default, at the "
+                          "range's top), per point of income; owners' saving and deficits over macro.NEUTRAL_SCALE_RANGE times the "
+                          "evidence's ranges of the saving gap and the deficit's pass-through; comparator_b keeps (b)'s dials and "
+                          "ranges (ranges_b)",
            "ranges_b": rv.RANGES_B,
            "premium_dial": f"premium_shift: pp added to the economy's own capital premium (central {info['capital_premium']:.2f}, (b) "
                            f"{m.capital_premium(eb):.2f}); on (b) the pre-switch capital_premium dial's "

@@ -12,14 +12,16 @@
 # income as wages plus the share of non-wage income households receive (deposits_wages.py measures it).
 # A user applies the CHANGES from t = 0 to their own curve; the levels are the model's, not a market's.
 # Scenarios: the status quo; a pure tightening (+250 bp, announced at year 1 — bank_scenarios.py);
-# deep automation with deficits dominating (real rates rise) and with owners' saving dominating
-# (rates fall), market beliefs by Bayesian learning; and deficits dominating with people digesting
+# deep automation with deficits dominating (rates fall at the central reading; they rise when little of the investment fall
+# counts, decision 93) and with owners' saving dominating (rates fall), market beliefs by Bayesian learning; and deficits
+# dominating with people digesting
 # regime news over three years and AI adopted around year 5 (regime_digestion.py).
 # Since 2026-09-30 (her decision: the downstream modules run on (c)) the table carries a last column, `calibration`, the
 # economy's tag (c_central_lo); every earlier column keeps its name, order and meaning. `labor_share` stays the model's
 # traced share v n / income (wages of all hours, the machine chain's included: 0.554 at the start on (c), 0.47 on (b)); (c)'s
 # 0.47 target is the consumption chain's (Figure 7) share, macro.solve's labour_share_bea. The rates rest on the bridges
-# refit on (c) (macro.Bridges(); Log 46) and bank_scenarios.py's two branches (macro.BRANCHES).
+# refit on (c) (macro.Bridges(); Log 46, revised in Log 54: the bridges read at the start's required return, decision 96) and
+# bank_scenarios.py's two branches (macro.BRANCHES).
 #
 # Provenance: the economy from results/calibration_c.json (BEA; code/calibration_c.py); the market from recognition.py.
 # Run from paths/:  ../venv/Scripts/python.exe code/export_paths.py

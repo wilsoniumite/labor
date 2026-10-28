@@ -7,7 +7,8 @@
 # error, which a market unaware of it takes for independent confirmation.
 #
 # Worlds: calibration (c)'s central economy (her decision, 2026-09-30; macro.central(): the open (domp) reading, the low
-# root in k), the return following r* from its own rho (macro.feedback_bridges), status quo (macro.hold_tech) vs medium
+# root in k), the return following r* from its own rho (macro.feedback_bridges; the bridges read at the start's required
+# return, decision 96), status quo (macro.hold_tech) vs medium
 # deep automation relative to its own lambda (macro.deep_tech), on a weekly grid; bridges refit on (c) (Log 46), in the two
 # branches of the reverse stress's finding that two bridges decide direction (macro.BRANCHES: "deficits dominate" and
 # "owners' saving dominates", the direction bridges at the ends of their evidence ranges). The same unit on (b), the

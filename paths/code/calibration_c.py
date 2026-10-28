@@ -70,10 +70,12 @@
 # LABELS. Labour's share on the paper's Figure 7 basis is v(1 - x)/Ps under A.4's capital (labour_share_bea) and v n / income
 # in (a)'s flow benchmark (rho 0, delta 1: the machine chain is a within-period intermediate), so (a) is shown on labor_share.
 # chain_share is the chain's share of compensation (effective labour: the model has one wage); the measured hours share is
-# quoted beside it. BRIDGES. The (c) tags run on the bridges refit on (c) (macro.Bridges(); Log 46: r* keyed to replacement
-# investment / income, owners' saving and deficits on one evidence-based scale, the fiscal start at the measured primary
-# deficit); (a), (b) and (b)'s variants on the bridges as tuned on (b) (macro.BRIDGES_B: the pace key), so they stay the
-# pre-switch runs (bridges_for).
+# quoted beside it. BRIDGES. The (c) tags run on the bridges refit on (c) (macro.Bridges(); Log 46, revised in Log 54: r* keyed
+# to replacement investment / income at Rachel and Smith's coefficient, owners' saving and deficits on one evidence-based
+# scale, each per point of the model's income, the fiscal start at the measured primary deficit net of the state's asset
+# income, the debt's rate floored at the policy floor, and on feedback paths the bridges read at the start's required
+# return, decision 96); (a), (b) and (b)'s variants on the bridges as tuned on (b) (macro.BRIDGES_B: the pace key), so they
+# stay the pre-switch runs (bridges_for).
 #
 # Run from paths/:  ../venv/Scripts/python.exe code/calibration_c.py   (clean under -W error: every file is closed)
 # Out: results/calibration_c.json, figures/fig_calibration_c.png

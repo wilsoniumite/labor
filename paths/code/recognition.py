@@ -47,7 +47,8 @@
 # (domp) reading, the low root in k — with the required return following r* from that economy's own rho
 # (macro.feedback_bridges) and deep automation relative to its own lambda (macro.deep_tech); (b) and (c)'s high root are
 # kept by name (calibration="b", "c_hi"), and capital=False stays the flow benchmark (a), which (c) has no analogue of. (c)
-# runs on the bridges refit on (c) (macro.Bridges(); Log 46), (a) and (b) on the bridges as tuned on (b) (macro.BRIDGES_B).
+# runs on the bridges refit on (c) (macro.Bridges(); Log 46, revised in Log 54: on these feedback paths the bridges read at the
+# start's required return, decision 96), (a) and (b) on the bridges as tuned on (b) (macro.BRIDGES_B).
 # The market's signal stays solve's labor_share — all wages over
 # income, the machine chain's labour included (0.554 at (c)'s start, against labour_share_bea's 0.47, the consumption
 # chain only, which is (c)'s target; in (b) the two coincide to 0.001). The basis matters on (c): the machine chain's
@@ -154,7 +155,7 @@ def learn(old: dict, new: dict, lr: Learning = Learning(), return_logodds: bool 
 
 
 def _world_state(mp: dict, i: int, r0: float, delay: float, rule: cv.PolicyRule, horizon: float = 10.0,
-                 k2: float = 0.3, elb: float = -0.5):
+                 k2: float = 0.3, elb: float = m.ELB):
     t = mp["t"]
     ahead = np.linspace(t[i], t[i] + horizon, 81)          # a full window always; past the path's end, its last value holds
     rbar = max(float(np.mean(np.interp(ahead, t, mp["r_star"]))) + mp["pi_star"], elb)   # expectations respect the lower bound
@@ -162,7 +163,7 @@ def _world_state(mp: dict, i: int, r0: float, delay: float, rule: cv.PolicyRule,
     return cv.CurveState(r0=r0, m0=m0, rbar=rbar, k1=rule.implied_speed(), k2=k2, tp=float(mp["tp"][i]), delay=delay)
 
 
-def market_curves(old: dict, new: dict, p: np.ndarray, rule: cv.PolicyRule | None = None, elb: float = -0.5):
+def market_curves(old: dict, new: dict, p: np.ndarray, rule: cv.PolicyRule | None = None, elb: float = m.ELB):
     """Per date: the market's mixture, the two worlds' own curves, and the common policy rate."""
     rule = rule or cv.PolicyRule()
     t = old["t"]

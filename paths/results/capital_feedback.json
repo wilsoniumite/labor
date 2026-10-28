@@ -36,37 +36,55 @@
   "interest": 0.258
  },
  "split_year15": {
-  "labour": 0.014,
-  "housing site": 0.924,
-  "machine-chain land": 0.044,
-  "interest": 0.018
+  "labour": 0.019,
+  "housing site": 0.909,
+  "machine-chain land": 0.041,
+  "interest": 0.03
  },
  "split_basis": "labour = all wages over income (solve's labor_share); housing site = h Y / income; machine-chain land = b delta X / income; interest = capital_share",
  "chain_share_of_land_rent_start_year15": [
   0.311,
-  0.045
+  0.044
  ],
  "capital_output_start": 3.41,
  "shock_200bp": {
-  "max_labour_share_pp": 3.24,
-  "max_tasks_pp": -0.88,
-  "delay_at_year6_weeks": 19.3,
+  "max_labour_share_pp": 3.12,
+  "max_tasks_pp": -0.73,
+  "delay_at_year6_weeks": 18.8,
   "slows_every_date": true,
   "raises_labour_share_every_date": true,
-  "max_labour_share_bea_pp": 3.18,
+  "max_labour_share_bea_pp": 3.05,
   "labour_basis": "max_labour_share_pp: all wages over income (solve's labor_share); max_labour_share_bea_pp: the paper's Figure 7 basis (labour_share_bea)"
  },
- "loop_year15_tasks_ahead_pp": 1.9,
+ "loop_year15_tasks_ahead_pp": 1.37,
  "loop_lag_phase": null,
- "loop_corr_return_vs_tasks": -0.998,
+ "loop_corr_return_vs_tasks": -0.997,
  "max_rho_rise_pp": {
   "follow": 0.0,
   "shock_200bp": 2.0
  },
  "investment_income_start_year15": [
   0.178,
-  0.0493
+  0.0481
  ],
+ "loop_bridges_at_path": {
+  "note": "r* with the bridges read at the start's required return (the refit, decision 96) less r* with them read along the path (the rate's own effect on investment, owners' income and the deficit fed back), the central's medium path, the return following r*; tasks ahead: x less the fixed-return path's x, pp",
+  "r_star_start_minus_path_max_abs_pp": 0.066,
+  "r_star_start_minus_path_at_max_pp": -0.066,
+  "max_year": 7.25,
+  "r_star_start_minus_path_y4_y6_y8_y10_y15_pp": [
+   -0.024,
+   -0.056,
+   -0.063,
+   -0.045,
+   -0.038
+  ],
+  "tasks_ahead_year15_pp": {
+   "start (the refit)": 1.37,
+   "path": 1.35
+  },
+  "max_rho_rise_pp_path": 0.0
+ },
  "comparator_b": {
   "calibration_b": {
    "T": 0.008682088762976842,

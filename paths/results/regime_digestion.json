@@ -281,52 +281,52 @@
  },
  "layer3_model_catch_up": {
   "instant (the evidence)": {
-   "p_0.5": 1.9396214412097952,
-   "max_10Y_move_in_a_month_bp": 6.4,
-   "max_10Y_move_in_a_quarter_bp": 18.5,
-   "10Y_move_years_4.5_to_5.5_bp": -15.9
+   "p_0.5": 1.941029044614316,
+   "max_10Y_move_in_a_month_bp": 3.8,
+   "max_10Y_move_in_a_quarter_bp": 11.0,
+   "10Y_move_years_4.5_to_5.5_bp": -9.0
   },
   "human regime digestion 1y": {
-   "p_0.5": 2.8524764773706734,
-   "max_10Y_move_in_a_month_bp": 2.5,
-   "max_10Y_move_in_a_quarter_bp": 6.6,
-   "10Y_move_years_4.5_to_5.5_bp": -20.7
+   "p_0.5": 2.8538839686321755,
+   "max_10Y_move_in_a_month_bp": 1.5,
+   "max_10Y_move_in_a_quarter_bp": 4.4,
+   "10Y_move_years_4.5_to_5.5_bp": -11.8
   },
   "human regime digestion 1y, AI adopted around year 5 (x30)": {
-   "p_0.5": 2.8510957684019944,
-   "max_10Y_move_in_a_month_bp": 3.3,
-   "max_10Y_move_in_a_quarter_bp": 8.4,
-   "10Y_move_years_4.5_to_5.5_bp": -22.1
+   "p_0.5": 2.8524967698465793,
+   "max_10Y_move_in_a_month_bp": 1.9,
+   "max_10Y_move_in_a_quarter_bp": 4.9,
+   "10Y_move_years_4.5_to_5.5_bp": -12.7
   },
   "human regime digestion 3y": {
-   "p_0.5": 4.686279738880395,
-   "max_10Y_move_in_a_month_bp": 2.3,
-   "max_10Y_move_in_a_quarter_bp": 6.0,
-   "10Y_move_years_4.5_to_5.5_bp": -17.5
+   "p_0.5": 4.6876510602244705,
+   "max_10Y_move_in_a_month_bp": 1.4,
+   "max_10Y_move_in_a_quarter_bp": 4.2,
+   "10Y_move_years_4.5_to_5.5_bp": -10.0
   },
   "human regime digestion 3y, AI adopted around year 5 (x30)": {
-   "p_0.5": 4.278115781456723,
-   "max_10Y_move_in_a_month_bp": 5.4,
-   "max_10Y_move_in_a_quarter_bp": 15.2,
-   "10Y_move_years_4.5_to_5.5_bp": -46.6
+   "p_0.5": 4.278645643444184,
+   "max_10Y_move_in_a_month_bp": 3.1,
+   "max_10Y_move_in_a_quarter_bp": 8.8,
+   "10Y_move_years_4.5_to_5.5_bp": -27.0
   },
   "human regime digestion 5y": {
-   "p_0.5": 6.534414823578407,
-   "max_10Y_move_in_a_month_bp": 2.0,
-   "max_10Y_move_in_a_quarter_bp": 5.2,
-   "10Y_move_years_4.5_to_5.5_bp": -13.2
+   "p_0.5": 6.535779260318021,
+   "max_10Y_move_in_a_month_bp": 1.2,
+   "max_10Y_move_in_a_quarter_bp": 3.8,
+   "10Y_move_years_4.5_to_5.5_bp": -7.6
   },
   "human regime digestion 5y, AI adopted around year 5 (x30)": {
-   "p_0.5": 4.681858749672432,
-   "max_10Y_move_in_a_month_bp": 5.7,
-   "max_10Y_move_in_a_quarter_bp": 16.5,
-   "10Y_move_years_4.5_to_5.5_bp": -53.9
+   "p_0.5": 4.682039655665441,
+   "max_10Y_move_in_a_month_bp": 3.3,
+   "max_10Y_move_in_a_quarter_bp": 9.6,
+   "10Y_move_years_4.5_to_5.5_bp": -31.2
   },
   "worlds": {
    "new_world_r_star_start_max_year15": [
     0.75,
     0.75,
-    -1.12
+    -0.28
    ],
    "new_world_required_return_rise_max_pp": 0.0,
    "rate_headroom_pp": 7.184

@@ -27,14 +27,18 @@
 # the forward-rate test measured (results/regime_digestion.json): regime anchors 7-11 years before 2021, 2-3 since.
 #
 # The worlds (her decision, 2026-09-30): calibration (c)'s central economy, macro.central() — the open (domp) reading, low
-# root — through bank_scenarios.path (the required return following r* from the economy's own rho; deep automation to a
-# fifth of its own lambda). The high root (the sensitivity) and (b) (the comparator; bit-identical to the pre-switch runs)
-# are stored beside it for the central learning variant.
+# root — through bank_scenarios.path (the required return following r* from the economy's own rho, the bridges read at the
+# start's required return, decision 96; deep automation to a fifth of its own lambda). The high root (the sensitivity) and
+# (b) (the comparator; bit-identical to the pre-switch runs) are stored beside it for the central learning variant.
 #
-# THE NEUTRAL RATE. r* is the macro block's bridge, refit on (c) (Log 46): its capex channel keyed to investment spending
-# (delta Vm K / income) at the common scale (macro.NEUTRAL_SCALE, 0.3 pp of r* per pp of income), owners' saving and deficits
-# on the same scale. A readout, not the default: the same r* with the capex term keyed to the pace of tasks moving instead
-# (alpha_capex 0.25 pp of r* per pp a year, the key as tuned on (b)). On the comparator (b), keyed to the pace, the readout
+# THE NEUTRAL RATE. r* is the macro block's bridge, refit on (c) (Log 46) and revised (Log 54): its capex channel keyed to
+# investment spending (delta Vm K / income) at Rachel and Smith's coefficient times the investment fall's pass-through
+# (macro.INVESTMENT_KEY: 0.2 per pp of GDP, 0.175 per pp of income at the central, gross; decision 93), owners' saving and
+# deficits on the common scale (macro.NEUTRAL_SCALE: 0.3 pp of r* per pp of GDP, 0.262 per pp of income). On the refit's
+# feedback paths the bridges read at the start's required return (decision 96), so the readouts take the capex term exactly as
+# the bridge added it (macro_path's r_star_capex) and the pace the pace key would use (pace_key). A readout, not the default:
+# the same r* with the capex term keyed to the pace of tasks moving instead (alpha_capex 0.25 pp of r* per pp a year, the key
+# as tuned on (b)). On the comparator (b), keyed to the pace, the readout
 # before the refit stays: the capex term keyed to investment at two scales —
 #   the bridge's own scale — alpha_capex converted at (b)'s start, where it was set: moving 1 pp of tasks a year at
 #     (b)'s prices needs net investment of Vm dK/dx x 0.01 / income (6.35% of income), so alpha_inv = 0.25 / 6.35 = 0.039;
@@ -43,7 +47,10 @@
 # The readouts do not feed back into the required return (the macro path is unchanged); the demand layer is run on them.
 # The series keyed to is replacement investment, the only investment in the quasi-static accounts. Net investment, Vm dK/dt
 # / income, is stored beside it as a diagnostic: on every deep path, (b) included, the machine stock K falls (capability
-# makes each machine do more tasks), so net investment is negative — keying to it would lower r* further, not less.
+# makes each machine do more tasks), so net investment is negative — keying to it would lower r* further, not less. That
+# diagnostic is the stock's own net investment: it is neither the net investment a growing stock needs (g / delta of
+# replacement, the pass-through's 0.4 reading) nor the fall netted against capital consumption (the pass-through's 0), both of
+# which scale the replacement series (decision 93).
 #
 # Public data only: Statistics Sweden (GDP volume, seasonally adjusted; labour force survey, quarterly, seasonally
 # adjusted; CPIF excluding energy); the economy from results/calibration_c.json (BEA; code/calibration_c.py).
@@ -114,7 +121,7 @@ class Demand:
     phi_y: float = 0.5
     smooth: float = 0.7       # policy smoothing per quarter
     h: float = 3.0            # years: half-life of the central bank's r* learning
-    elb: float = -0.5
+    elb: float = m.ELB        # the effective lower bound (macro.ELB)
 
 
 def run(mp: dict, dm: Demand = Demand(), shock: np.ndarray | None = None, i0: float | None = None, extra=None) -> dict:
@@ -195,19 +202,18 @@ def net_investment_income(mp: dict) -> np.ndarray:
 
 
 def pace(mp: dict, br) -> np.ndarray:
-    """The pace of tasks moving to machines (pp a year) as macro_path computes it — backward differences on a feedback path
-    (Bridges.capital_premium set), central differences otherwise."""
-    t = mp["t"]
-    return np.r_[0.0, np.diff(mp["x"]) / np.diff(t) * 100] if br.capital_premium is not None else np.gradient(mp["x"], t) * 100
+    """The pace of tasks moving to machines (pp a year) the pace key uses, as macro_path stores it (pace_key): backward
+    differences on a feedback path whose bridges read along the path (the comparators); central differences on a fixed-return
+    path, and on a feedback path whose bridges read at the start's required return (the refit, decision 96: the start's
+    fixed-return path's own pace)."""
+    return mp["pace_key"]
 
 
 def capex_term(mp: dict, br) -> np.ndarray:
-    """The capex channel as macro_path computes it: alpha_inv x the change in investment / income since the start (pp; the
-    investment key, the refit's) or alpha_capex x the pace of tasks moving (the pace key, as tuned on (b))."""
-    if br.capex_key == "pace":
-        return br.alpha_capex * pace(mp, br)
-    inv = mp["inv_income"] * 100
-    return br.alpha_inv * (inv - inv[0])
+    """The capex channel exactly as macro_path added it to r* (its stored r_star_capex): alpha_inv x the change in investment /
+    income since the start (the investment key, the refit's) or alpha_capex x the pace of tasks moving (the pace key, as tuned
+    on (b)); on the refit's feedback paths the start's fixed-return path's (decision 96)."""
+    return mp["r_star_capex"]
 
 
 def alpha_inv_bridge(e_b, alpha_capex: float = m.Bridges().alpha_capex) -> dict:
@@ -351,8 +357,10 @@ def main():
     out["neutral_rate_rekeyed"] = {
         "note": "a readout, not the default: r* with its capex term on the other key; the macro path, and so the required return, "
                 "is unchanged; the demand layer (the central variant) is run on each r*. On the central (the refit, keyed to "
-                "replacement investment / income, alpha_inv = macro.NEUTRAL_SCALE) the term is replaced by alpha_capex 0.25 x the "
-                "pace of tasks moving (the key as tuned on (b)). On the comparator (b) (keyed to the pace) by alpha_inv x the change "
+                "replacement investment / income, alpha_inv = macro.INVESTMENT_KEY: Rachel and Smith's 0.2 per point of GDP at the "
+                "central pass-through, per point of income; decision 93) the term the bridge added is replaced by alpha_capex 0.25 x "
+                "the pace of tasks moving (the key as tuned on (b)); on its feedback paths both are the start's fixed-return path's "
+                "(decision 96). On the comparator (b) (keyed to the pace) by alpha_inv x the change "
                 "in investment / income at two scales: the bridge's (alpha_capex converted at (b)'s start) and the demand layer's "
                 "((1 - a1)/a_r of the IS curve). The series keyed to is replacement investment, the only investment in the "
                 "quasi-static accounts; net investment (Vm dK/dt / income) is a diagnostic only: the machine stock falls on every "
@@ -426,7 +434,7 @@ def figure(runs, alt=None):
         a.set_ylim(min(-25.0, 5.0 * np.floor(lo_ / 5.0) - 2.0), max(35.0, 5.0 * np.ceil(hi_ / 5.0) + 2.0))   # the whole split in view
     for a in ax.flat:
         a.set_xlabel("years")
-    fig.text(0.01, 0.005, "The macro block's worlds on calibration (c), the central (open reading, low root), with the bridges refit on (c) (Log 46) in bank_scenarios.py's two branches and the demand layer (demand.py). "
+    fig.text(0.01, 0.005, "The macro block's worlds on calibration (c), the central (open reading, low root), with the bridges refit on (c) (Logs 46, 54) in bank_scenarios.py's two branches and the demand layer (demand.py). "
              "Okun and Phillips measured on Swedish data 2001-2026 (Statistics Sweden); IS slope from the literature.", fontsize=7.5)
     os.makedirs(os.path.join(ROOT, "figures"), exist_ok=True)
     fig.savefig(os.path.join(ROOT, "figures", "fig_demand.png"), dpi=130)

@@ -13,22 +13,31 @@
 # fifth of its start (macro.deep_tech: 0.05 -> 0.01 in (a)/(b), 10.36 -> 2.07 in (c)'s model units) over 15 years, at the
 # three speeds of macro.TECH_SPEEDS: slow (centred year 10, 12 years wide), medium (year 6, 6 wide), fast (year 3, 2 wide).
 # The required return is held at the economy's own (no rate feedback, as before). Bridges: the refit on (c) (macro.Bridges();
-# Log 46, decisions 72-75) on the central and its high root; the comparators (a) and (b) on the bridges as tuned on (b)
+# Log 46, decisions 72-75, revised in Log 54, decisions 93-96) on the central and its high root; the comparators (a) and (b)
+# on the bridges as tuned on (b)
 # (macro.BRIDGES_B), so they stay the pre-switch runs. The curves come from macro.curve_path: a stepwise central
 # bank, a market learning the destination with a one-year half-life. Labour's share is reported on the basis each
 # calibration targets, the paper's Figure 7 object: v n / income in (a)'s flow benchmark, labour_share_bea = v (1 - x) / Ps
 # under A.4's capital ((b), (c)); all wages over income (v n / income) beside it.
 #
 # THE REFIT, BRIDGE BY BRIDGE (refit_steps; the evidence in EVIDENCE and fiscal_start_evidence, stored under "evidence").
-# The neutral rate's three channels share one scale, macro.NEUTRAL_SCALE (0.3 pp of r* per pp of income in desired saving
-# net of investment): the capex channel keyed to replacement investment / income (delta Vm K / income) one for one; owners'
-# saving at the scale times the gap between owners' and wage earners' saving rates (0.30); deficits at the scale times the
-# share of a primary deficit private saving does not offset (0.6). The fiscal start: the wage tax set so the start runs
-# Sweden's 2021-25 mean primary deficit (Eurostat, cached in cache/fiscal/; 0.16% of income). refit_steps applies them one
-# at a time on the central, in that order. The readout r_star_capex_on_pace keys the capex channel back to the pace of tasks
-# moving (alpha_capex 0.25, as tuned on (b)); on the comparators the old readout r_star_capex_on_investment stays, at the
-# two scales demand.py and bank_scenarios.py used (the bridge's 0.039, the demand layer's 0.6). sensitivity_fiscal_start:
-# the refit with the wage tax at 0.40 as tuned on (b) (a surplus start).
+# The literature's coefficients are per point of GDP and the model's shifts per point of its income: each is divided once by
+# macro.GDP_OVER_INCOME (1.1452; decision 73's units, corrected in Log 54 — until then applied per point of income
+# unconverted). The capex channel is keyed to replacement investment / income (delta Vm K / income) at Rachel and Smith's
+# coefficient, 0.2 per pp of GDP, times the share of the investment fall that counts as excess saving (the pass-through: 1
+# gross, the central; 0 netted against capital consumption; decision 93): 0.175 per pp of income. Owners' saving and
+# deficits share one scale, macro.NEUTRAL_SCALE (0.3 pp of r* per pp of GDP of desired saving net of investment, 0.262 per pp
+# of income): owners' saving at the scale times the gap between owners' and wage earners' saving rates (0.30); deficits at
+# the scale times the share of a primary deficit private saving does not offset (0.6). The fiscal start: the wage tax set so
+# the start runs Sweden's 2021-25 mean primary deficit net of property income received (Eurostat, cached in cache/fiscal/;
+# 2.06% of income; decision 95: the model's government has gross debt and no assets); with the state's asset income in revenue
+# it is 0.16 (the alternative). The debt's rate is floored at the policy floor (decision 75 corrected), and on feedback paths
+# the bridges read at the start's required return (decision 96). refit_steps applies them one at a time on the central: steps
+# 0-4 the refit as first run (Log 46), steps 5-9 its revision (Log 54). The readout r_star_capex_on_pace keys the capex
+# channel back to the pace of tasks moving (alpha_capex 0.25, as tuned on (b)); on the comparators the old readout
+# r_star_capex_on_investment stays, at the two scales demand.py and bank_scenarios.py used (the bridge's 0.039, the demand
+# layer's 0.6). sensitivity_fiscal_start: the refit with the wage tax at 0.40 as tuned on (b) (a surplus start);
+# sensitivity_investment_pass_through: the investment key at the pass-through's three readings (1 / 0.4 / 0).
 #
 # CAPITAL (capital(); results/capital_feedback.json, figures/fig_capital_feedback.png). Along the medium path on the central:
 # the income split (labour, the housing site, the machine chains' land — under the open reading including the chain's
@@ -37,11 +46,14 @@
 # +200 bp; each run's largest rise in it is stored against the central's rate headroom (7.18 pp), and a date with no
 # land-scarce equilibrium is recorded — the error, the years the run solves (its longest solved prefix,
 # calibration_c.path_prefix) and the first failing date — not dropped. The loop's lag phase (automation behind the
-# fixed-return path) is stored as its dates and its depth. Labour's share in capital_feedback.json is all wages over income
-# (solve's labor_share) unless a key says _bea (the Figure 7 basis); the +200 bp readout gives both.
+# fixed-return path) is stored as its dates and its depth. Since the revision (decision 96) the refit's bridges read at the
+# start's required return, so r* along the loop is the fixed-return r* and the loop runs one way, from r* through the
+# required return to automation; loop_bridges_at_path stores the same path with the bridges read along it (as the
+# comparators read them), against it. Labour's share in capital_feedback.json is all wages over income (solve's labor_share)
+# unless a key says _bea (the Figure 7 basis); the +200 bp readout gives both.
 #
 # Provenance: the central economy from results/calibration_c.json (BEA; code/calibration_c.py, gated by
-# checks/check_calibration_c.py); the fiscal start from Eurostat (gov_10a_main, gov_10dd_edpt1), cached in
+# checks/check_calibration_c.py); the fiscal start from Eurostat (gov_10a_main: B9, D41PAY, D4REC; gov_10dd_edpt1), cached in
 # cache/fiscal/eurostat_gov.json and fetched again only with --refresh-fiscal. Gated by checks/check_macro_scenarios.py;
 # checks/check_macro.py gates (a) and (b) themselves and is unchanged.
 # Run from paths/:  ../venv/Scripts/python.exe code/macro_scenarios.py [--refresh-fiscal]
@@ -127,10 +139,10 @@ def r_star_capex_on_investment(e: m.Economy, mp: dict, alpha_invest: float, br: 
 def r_star_capex_on_pace(e: m.Economy, mp: dict, br: m.Bridges, alpha_capex: float | None = None):
     """The neutral rate of an investment-keyed path with its capex channel keyed to the pace of tasks moving instead —
     alpha_capex (default br's, 0.25: the key as tuned on (b)) pp of r* per pp of tasks a year — the owners' and fiscal
-    channels as macro_path's (fixed-return paths). The readout of a path keyed to investment (the central's)."""
-    inv = investment_income(e, mp) * 100
+    channels as macro_path's: r* less the capex term the bridge added, plus alpha_capex x the pace the pace key would use
+    (macro_path's r_star_capex and pace_key). The readout of a path keyed to investment (the central's)."""
     a = br.alpha_capex if alpha_capex is None else alpha_capex
-    return mp["r_star"] - br.alpha_inv * (inv - inv[0]) + a * mp["automation_pace"]
+    return mp["r_star"] - mp["r_star_capex"] + a * mp["pace_key"]
 
 
 # ------------------------------------------------------------------ the evidence behind the refit bridges (Log 46)
@@ -160,17 +172,18 @@ def _eurostat_table(ds: str, params: list) -> tuple[dict, str]:
 
 
 def fiscal_data(refresh: bool = False) -> dict:
-    """General government (S13), % of GDP, 2015 on: net lending B9 and interest payable D41PAY (gov_10a_main), gross debt GD
-    (gov_10dd_edpt1), for Sweden, the euro area, France and Germany; cached in cache/fiscal/ (fetched only with refresh)."""
+    """General government (S13), % of GDP, 2015 on: net lending B9, interest payable D41PAY and property income received D4REC
+    (gov_10a_main), gross debt GD (gov_10dd_edpt1), for Sweden, the euro area, France and Germany; cached in cache/fiscal/
+    (fetched only with refresh)."""
     if refresh or not os.path.exists(FISCAL_CACHE):
         geo = [("geo", g) for g in FISCAL_GEOS]
         a, ua = _eurostat_table("gov_10a_main", [("unit", "PC_GDP"), ("sector", "S13"), ("na_item", "B9"), ("na_item", "D41PAY"),
-                                                 *geo, ("sinceTimePeriod", "2015")])
+                                                 ("na_item", "D4REC"), *geo, ("sinceTimePeriod", "2015")])
         d, ud = _eurostat_table("gov_10dd_edpt1", [("unit", "PC_GDP"), ("sector", "S13"), ("na_item", "GD"), *geo,
                                                    ("sinceTimePeriod", "2015")])
         os.makedirs(os.path.dirname(FISCAL_CACHE), exist_ok=True)
         with open(FISCAL_CACHE, "w", encoding="utf-8") as f:
-            json.dump({"source": "Eurostat: gov_10a_main (B9, D41PAY) and gov_10dd_edpt1 (GD), S13, PC_GDP",
+            json.dump({"source": "Eurostat: gov_10a_main (B9, D41PAY, D4REC) and gov_10dd_edpt1 (GD), S13, PC_GDP",
                        "url": ES_API + "{gov_10a_main, gov_10dd_edpt1}", "updated": {"gov_10a_main": ua, "gov_10dd_edpt1": ud},
                        "values": {**a, **d}}, f, indent=1, sort_keys=True)
     with open(FISCAL_CACHE, encoding="utf-8") as f:
@@ -178,44 +191,77 @@ def fiscal_data(refresh: bool = False) -> dict:
 
 
 def fiscal_start_evidence(e: m.Economy) -> dict:
-    """The start's primary deficit: Sweden's general government primary deficit (-(B9 + D41PAY)), % of GDP, its mean over
-    FISCAL_YEARS, converted to % of the model's income (GDP net of the chain's imported content over income, from
-    results/calibration_c.json's central); and the debt the model starts at against Sweden's (debt0 kept at 40)."""
+    """The start's primary deficit (decision 95, her call of 2026-10-28: "No assets"): Sweden's general government primary deficit
+    net of property income received, -(B9 + D41PAY - D4REC), % of GDP, its mean over FISCAL_YEARS, converted to % of the model's
+    income (GDP net of the chain's imported content over income, from results/calibration_c.json's central). The model's government
+    has gross debt and no assets, so the state's income from its assets is not revenue at the start. Beside it the same measure with
+    that income in revenue, -(B9 + D41PAY) (the refit's first start, Log 46: the alternative), and the debt the model starts at
+    against Sweden's (debt0 kept at 40)."""
     fd = fiscal_data()
     v = fd["values"]
-    prim = {g: {y: round(-(v[f"{g}|B9|{y}"] + v[f"{g}|D41PAY|{y}"]), 2) + 0.0 for y in FISCAL_YEARS} for g in FISCAL_GEOS}
+    prim = {g: {y: round(-(v[f"{g}|B9|{y}"] + v[f"{g}|D41PAY|{y}"] - v[f"{g}|D4REC|{y}"]), 2) + 0.0 for y in FISCAL_YEARS}
+            for g in FISCAL_GEOS}
+    prim_a = {g: {y: round(-(v[f"{g}|B9|{y}"] + v[f"{g}|D41PAY|{y}"]), 2) + 0.0 for y in FISCAL_YEARS} for g in FISCAL_GEOS}
+    d4 = {g: {y: v[f"{g}|D4REC|{y}"] for y in FISCAL_YEARS} for g in FISCAL_GEOS}
     debt = {g: {y: v[f"{g}|GD|{y}"] for y in FISCAL_YEARS} for g in FISCAL_GEOS}
     with open(m.CENTRAL_SOURCE, encoding="utf-8") as f:
         cal = json.load(f)["calibrations"][m.central()[1]["tag"]]
     gdp_over_income = cal["labor_share"] / cal["comp_gdp_net"]
     mean_se = float(np.mean(list(prim["SE"].values())))
-    return {"primary_deficit_pct_gdp": prim, "gross_debt_pct_gdp": debt, "updated": fd["updated"],
+    mean_se_a = float(np.mean(list(prim_a["SE"].values())))
+    return {"primary_deficit_pct_gdp": prim, "primary_deficit_with_asset_income_pct_gdp": prim_a,
+            "property_income_received_pct_gdp": d4, "gross_debt_pct_gdp": debt, "updated": fd["updated"],
             "sweden_mean_pct_gdp": round(mean_se, 3), "gdp_over_income": round(gdp_over_income, 4),
             "sweden_mean_pct_income": round(mean_se * gdp_over_income, 2), "start_deficit_default": m.START_DEFICIT,
+            "sweden_mean_with_asset_income_pct_gdp": round(mean_se_a, 3),
+            "sweden_mean_with_asset_income_pct_income": round(mean_se_a * gdp_over_income, 2),
+            "start_deficit_alternative": m.START_DEFICIT_ASSET_INCOME,
             "sweden_latest_pct_income": round(prim["SE"][FISCAL_YEARS[-1]] * gdp_over_income, 2),
             "sweden_debt_latest_pct_income": round(debt["SE"][FISCAL_YEARS[-1]] * gdp_over_income, 1),
             "debt0_default": m.Bridges().debt0,
-            "note": "the model's deficit is primary (interest enters debt through r* + pi* - growth) and in % of income (GDP net of "
+            "note": "the model's deficit is primary and net of property income received (decision 95): interest paid enters debt "
+                    "through r* + pi* - growth, and the model's government has gross debt and no assets, so it receives none; the "
+                    "alternative (start_deficit_alternative) keeps the state's asset income in revenue. In % of income (GDP net of "
                     "the chain's imported content and of replacement investment); the start is an equilibrium at capacity, so the "
                     "five-year mean stands in for a structural balance (2022's surplus and 2023-25's slowdown both in it)"}
 
 
-REFIT_STEPS = ("0 as tuned on (b)", "1 the capex key on investment", "2 owners' saving", "3 deficits", "4 the fiscal start")
+REFIT_STEPS = ("0 as tuned on (b)", "1 the capex key on investment", "2 owners' saving", "3 deficits", "4 the fiscal start",
+               "5 the investment key at Rachel and Smith's coefficient", "6 the scale per point of income",
+               "7 the fiscal start with no assets", "8 the debt's rate at the lower bound",
+               "9 the bridges at the start's required return")
 
 
 def refit_bridges(step: int) -> m.Bridges:
-    """The bridges after the refit's first `step` steps, in the order of the refit (Log 46): 0 the bridges as tuned on (b);
-    1 the capex key on replacement investment at the common scale; 2 owners' saving at the scale times the saving gap; 3
-    deficits at the scale times the pass-through; 4 the fiscal start at the measured primary deficit — the refit itself."""
+    """The bridges after the refit's first `step` steps, in the order of the refit (Log 46) and its revision (Log 54): 0 the
+    bridges as tuned on (b); 1 the capex key on replacement investment at the common scale; 2 owners' saving at the scale times
+    the saving gap; 3 deficits at the scale times the pass-through; 4 the fiscal start at the measured primary deficit — the
+    refit as first run (Log 46), each evidence number per point of GDP applied per point of income unconverted, as it then was;
+    5 the investment key at Rachel and Smith's coefficient (decision 93), still unconverted; 6 the scale per point of income: all
+    three coefficients divided by macro.GDP_OVER_INCOME (decision 73's units corrected), set to macro.Bridges()'s own floats;
+    7 the fiscal start with no assets: the primary deficit net of property income received (decision 95); 8 the debt's rate
+    floored at the policy floor, macro.ELB (decision 75 corrected); 9 on feedback paths the bridges read at the start's required
+    return (decision 96) — on the fixed-return table identical to step 8; step 9 is macro.Bridges()."""
     br = m.BRIDGES_B
     if step >= 1:
-        br = replace(br, capex_key="investment", alpha_inv=m.NEUTRAL_SCALE)
+        br = replace(br, capex_key="investment", alpha_inv=m.NEUTRAL_SCALE_GDP)             # 0.3, as first run
     if step >= 2:
-        br = replace(br, alpha_rent=m.Bridges().alpha_rent)
+        br = replace(br, alpha_rent=m.NEUTRAL_SCALE_GDP * m.OWNERS_SAVING_GAP)
     if step >= 3:
-        br = replace(br, alpha_fiscal=m.Bridges().alpha_fiscal)
+        br = replace(br, alpha_fiscal=m.NEUTRAL_SCALE_GDP * m.DEFICIT_PASS_THROUGH)
     if step >= 4:
-        br = replace(br, tau_w=None, deficit0=m.START_DEFICIT)
+        br = replace(br, tau_w=None, deficit0=m.START_DEFICIT_ASSET_INCOME)                 # 0.16: Log 46's start
+    if step >= 5:
+        br = replace(br, alpha_inv=m.INVESTMENT_KEY_GDP * m.INVESTMENT_PASS_THROUGH)          # 0.2, unconverted
+    if step >= 6:
+        b0 = m.Bridges()                     # Bridges()'s own floats, so the last step equals the refit exactly
+        br = replace(br, alpha_inv=b0.alpha_inv, alpha_rent=b0.alpha_rent, alpha_fiscal=b0.alpha_fiscal)
+    if step >= 7:
+        br = replace(br, deficit0=m.START_DEFICIT)                                          # 2.06: no assets
+    if step >= 8:
+        br = replace(br, debt_rate_floor=m.ELB)
+    if step >= 9:
+        br = replace(br, bridges_at="start")
     return br
 
 
@@ -239,14 +285,23 @@ def refit_steps(e: m.Economy) -> dict:
 
 
 def evidence() -> dict:
-    """The refit's evidence, bridge by bridge (Log 46; decisions 72-75): the literature's numbers behind each coefficient
-    (EVIDENCE) and the measured fiscal start."""
+    """The refit's evidence, bridge by bridge (Log 46; decisions 72-75, revised in Log 54; decisions 93-96): the literature's
+    numbers behind each coefficient (EVIDENCE), the units they are applied in, and the measured fiscal start."""
     return {"bridges": {"neutral_scale": m.NEUTRAL_SCALE, "neutral_scale_range": list(m.NEUTRAL_SCALE_RANGE),
                         "owners_saving_gap": m.OWNERS_SAVING_GAP, "owners_saving_gap_range": list(m.OWNERS_SAVING_GAP_RANGE),
                         "deficit_pass_through": m.DEFICIT_PASS_THROUGH,
                         "deficit_pass_through_range": list(m.DEFICIT_PASS_THROUGH_RANGE),
                         "alpha_inv": m.Bridges().alpha_inv, "alpha_rent": m.Bridges().alpha_rent,
                         "alpha_fiscal": m.Bridges().alpha_fiscal, "branches": m.BRANCHES},
+            "units": {"note": "the literature's coefficients are per point of GDP; the model applies them per point of its income, "
+                              "divided once by gdp_over_income (decision 73's units, corrected in Log 54: until then the GDP numbers "
+                              "were applied per point of income unconverted). Not converted: tp_per_debt, debt_threshold, "
+                              "loss_per_debt (illustrative, per point of income since the macro block's first commit, never sourced)",
+                      "gdp_over_income": m.GDP_OVER_INCOME, "scale_gdp": m.NEUTRAL_SCALE_GDP,
+                      "scale_gdp_range": list(m.NEUTRAL_SCALE_GDP_RANGE), "scale_income": m.NEUTRAL_SCALE,
+                      "scale_income_range": list(m.NEUTRAL_SCALE_RANGE), "investment_key_gdp": m.INVESTMENT_KEY_GDP,
+                      "investment_pass_through": m.INVESTMENT_PASS_THROUGH,
+                      "investment_pass_through_range": list(m.INVESTMENT_PASS_THROUGH_RANGE), "investment_key_income": m.INVESTMENT_KEY},
             "literature": EVIDENCE, "fiscal_start": fiscal_start_evidence(m.central()[0])}
 
 
@@ -286,12 +341,28 @@ EVIDENCE = {   # the published numbers behind macro.NEUTRAL_SCALE, OWNERS_SAVING
         "de Mello, Kongsrud and Price (2004), OECD ECO WP 397": "offset one-third to one-half",
         "Laubach (2009), JEEA 7(4)": "~25 bp per pp of projected deficit / GDP, 3-4 bp per pp of debt, on 5-year-ahead long nominal rates",
         "Rachel and Summers (2019), Table 2": "literature averages 38 bp per pp of deficit, 3.5 bp per pp of debt",
-        "note": "the common scale gives alpha_fiscal = 0.3 x 0.6 = 0.18 pp of r* per pp of primary deficit, below the direct long-yield "
-                "estimates (0.25-0.70), which also carry term premia and expected inflation; the model's term premium rises with debt "
-                "above 60% of income on its own (tp_per_debt). The deficits branch takes no offset at all (pass-through 1.0: 0.30)"},
-    "investment_key": "replacement investment / income one for one, as Rachel and Smith read gross investment against gross saving: "
-                      "a fall in the investment share at a given saving share is excess saving. The alternative — only the net "
-                      "investment a growing stock needs, g / delta of replacement — would scale the term by about 0.4 (an open item)"}
+        "note": "the common scale gives alpha_fiscal = 0.3 x 0.6 = 0.18 pp of r* per pp of GDP of primary deficit, 0.157 per pp of "
+                "income, below the direct long-yield estimates (0.25-0.70 per pp of GDP), which also carry term premia and expected "
+                "inflation; the model's term premium rises with debt above 60% of income on its own (tp_per_debt 0.02: illustrative "
+                "defaults since the macro block's first commit, 24 Sep 2026, per point of income and never sourced; as the 60%-of-GDP "
+                "reference the threshold would be ~69% of income, and Laubach's 3-4 bp per pp of debt / GDP is 0.026-0.035 per pp of "
+                "income, on long nominal yields). The deficits branch takes no offset at all (pass-through 1.0: 0.30 per pp of GDP, "
+                "0.262 per pp of income)"},
+    "investment_key": {   # decision 93 (her call of 2026-10-28: "R&S's own 0.2 + dial"); Log 54
+        "Rachel and Smith (2015), BoE Staff WP 571, Box D1":
+            "a 4 pp of GDP fall in investment lowers the neutral rate ~80 bp: 0.2 pp of r* per pp of GDP — their short-termism "
+            "scenario, an upper bound on what an investment fall alone does; they read gross investment against gross saving",
+        "Rachel and Summers (2019), NBER WP 26198 / BPEA": "the saving-investment gap's scale, 1 pp lower r per 2-4 pp of GDP (A ~0.33)",
+        "the model's fall": "replacement investment / income falls ~13 points by year 15 on every deep path, far outside Rachel and "
+                            "Smith's 4 pp: the coefficient is extrapolated (a linear bridge far beyond its evidence)",
+        "pass_through": "how much of the investment fall counts as excess saving: gross 1.0 (Rachel and Smith's reading, the "
+                        "central), net for a growing stock ~0.4 (g / delta of replacement), netted against capital consumption 0 "
+                        "(the model's income is net of replacement investment). The evidence does not pin it: the central is gross "
+                        "and the reverse envelope draws it over 0-1 (macro.INVESTMENT_PASS_THROUGH_RANGE); "
+                        "sensitivity_investment_pass_through runs 1 / 0.4 / 0 on the fixed-return table",
+        "note": "alpha_inv = macro.INVESTMENT_KEY = 0.2 x the pass-through per point of GDP, 0.175 per point of the model's income at "
+                "the central (gross); before the revision (Log 46) the investment key was the common scale, 0.3, applied per point "
+                "of income unconverted"}}
 
 
 def first_year(t, mask):
@@ -386,8 +457,8 @@ def fiscal_start_sensitivity(e: m.Economy) -> dict:
     at each speed (fixed return): the start the refit replaced (decision 74)."""
     br = replace(m.Bridges(), tau_w=m.BRIDGES_B.tau_w, deficit0=None)
     out = {"note": "the wage tax at 0.40 as tuned on (b) (on all wages, 0.554 of income: a surplus start), the rest of the refit held; "
-                   "a sensitivity, not the default (the default starts at the measured primary deficit, macro.START_DEFICIT); fixed "
-                   "return, the three speeds",
+                   "a sensitivity, not the default (the default starts at the measured primary deficit net of property income "
+                   "received, macro.START_DEFICIT: decision 95); fixed return, the three speeds",
            "tau_w": m.BRIDGES_B.tau_w, "tau_w_default": round(float(m.fiscal_start(m.Bridges(), e).tau_w), 4),
            "start_deficit_default_pct": m.Bridges().deficit0, "scenarios": {}}
     for k, kw in SPEEDS.items():
@@ -396,6 +467,33 @@ def fiscal_start_sensitivity(e: m.Economy) -> dict:
         out["scenarios"][k] = {"deficit_start_end": [round(float(mp["deficit"][0]), 2), round(float(mp["deficit"][-1]), 2)],
                                "debt": {d: round(float(mp["debt"][int(np.argmin(np.abs(t - d)))]), 1) for d in DATES},
                                "r_star_start_end": [round(float(mp["r_star"][0]), 2), round(float(mp["r_star"][-1]), 2)]}
+    return out
+
+
+PASS_THROUGHS = (1.0, 0.4, 0.0)      # the investment key's three readings: gross (the central), net for a growing stock, netted
+
+
+def sensitivity_investment_pass_through() -> dict:
+    """The refit with the investment key at each of its three readings (decision 93): r* at year 15, its rise above the start
+    (pp; positive only if it ever rises) and debt at year 15, on the central and its high root at the three speeds (fixed
+    return), everything else held."""
+    out = {"note": "alpha_inv = Rachel and Smith's 0.2 per point of GDP times the pass-through of the investment fall, per point "
+                   "of income (macro.investment_key): 1 gross (the central), 0.4 net for a growing stock (g / delta), 0 netted "
+                   "against capital consumption; the rest of the refit held; fixed return, the three speeds",
+           "pass_throughs": list(PASS_THROUGHS)}
+    for root in m.CENTRAL_ROOTS:
+        e = m.central(root)[0]
+        rec = {}
+        for pt in PASS_THROUGHS:
+            br = replace(m.Bridges(), alpha_inv=m.investment_key(pt))
+            row = {"alpha_inv": br.alpha_inv}
+            for k, kw in SPEEDS.items():
+                mp = m.macro_path(e, m.deep_tech(e, **kw), br)
+                r = mp["r_star"]
+                row[k] = {"r_star_year15": round(float(r[-1]), 2), "r_star_rise_pp": round(float(r.max() - r[0]), 4),
+                          "debt_year15": round(float(mp["debt"][-1]), 1)}
+            rec[f"{pt:g}"] = row
+        out["central (c)" if root == "lo" else "high root"] = rec
     return out
 
 
@@ -422,6 +520,7 @@ def results():
     _, rc_, cal_, _, bl_ = speeds("c_hi", scales=scales)
     out["sensitivity_c_hi"] = {"label": LABELS["c_hi"], "calibration": cal_ | {"record": rc_}, "scenarios": bl_}
     out["sensitivity_fiscal_start"] = fiscal_start_sensitivity(e)
+    out["sensitivity_investment_pass_through"] = sensitivity_investment_pass_through()
     out["refit_steps"] = refit_steps(e)
     out["refit_steps_c_hi"] = refit_steps(m.central("hi")[0])
     out["evidence"] = evidence()
@@ -503,8 +602,9 @@ def figure(e, runs, runs_a):
              f"{info['chain_share']:.2f}, sigma {info['sigma_V']:.2f}), labour {tg.labour:.2f}, employment {tg.participation:.2f}, "
              f"{tg.baskets_per_person:g} baskets per person, site {tg.site * 100:.0f}% of the basket;" + NL + f"capability 1 → {m.DEEP_ETA_END:g}, labour per "
              "machine-service hour to a fifth of its start; required return fixed. Dashed: the pre-switch flow benchmark (a). Bridges refit on (c) "
-             f"(Log 46): scale {m.NEUTRAL_SCALE:g}, owners' saving gap {m.OWNERS_SAVING_GAP:g}, deficits' pass-through {m.DEFICIT_PASS_THROUGH:g}, "
-             f"start deficit {m.START_DEFICIT:g}% of income.", fontsize=8, color=INK2)
+             f"(Logs 46, 54): scale {m.NEUTRAL_SCALE_GDP:g} per pp of GDP ({m.NEUTRAL_SCALE:.3f} per pp of income), investment key "
+             f"{m.INVESTMENT_KEY_GDP:g} x pass-through {m.INVESTMENT_PASS_THROUGH:g}, owners' saving gap {m.OWNERS_SAVING_GAP:g}, deficits' "
+             f"pass-through {m.DEFICIT_PASS_THROUGH:g}, start deficit {m.START_DEFICIT:g}% of income.", fontsize=8, color=INK2)
     fig.tight_layout(rect=(0, 0.035, 1, 1))
     p = os.path.join(ROOT, "figures", "fig_macro_scenarios.png"); fig.savefig(p, dpi=150, facecolor=SURF); print(p)
 
@@ -596,6 +696,27 @@ def import_share_of_sigma():
         return float(json.load(f)["readouts"]["import_as_land"]["imports_share_of_sigma"])
 
 
+def loop_bridges_at_path(e, fixed, follow) -> dict:
+    """A readout, not a default (decision 96): the central's medium path with the return following r* and r*'s bridges read
+    along the path (bridges_at "path", as the comparators read them) against the refit's (read at the start's required return,
+    so r* is the fixed-return r*): the gap in r* between the two and year 15's tasks ahead of the fixed-return path on each."""
+    path, err = guarded(e, m.deep_tech(e), replace(m.feedback_bridges(e), bridges_at="path"))
+    if path is None or follow is None:
+        return {"error": err, "not_computed": "a run has a date with no land-scarce equilibrium"}
+    t = follow["t"]
+    d = follow["r_star"] - path["r_star"]
+    j = int(np.argmax(np.abs(d)))
+    return {"note": "r* with the bridges read at the start's required return (the refit, decision 96) less r* with them read along "
+                    "the path (the rate's own effect on investment, owners' income and the deficit fed back), the central's medium "
+                    "path, the return following r*; tasks ahead: x less the fixed-return path's x, pp",
+            "r_star_start_minus_path_max_abs_pp": round(float(abs(d[j])), 3), "r_star_start_minus_path_at_max_pp": round(float(d[j]), 3),
+            "max_year": float(t[j]),
+            "r_star_start_minus_path_y4_y6_y8_y10_y15_pp": [round(float(np.interp(y, t, d)), 3) for y in (4, 6, 8, 10, 15)],
+            "tasks_ahead_year15_pp": {"start (the refit)": round(float((follow["x"][-1] - fixed["x"][-1]) * 100), 2),
+                                      "path": round(float((path["x"][-1] - fixed["x"][-1]) * 100), 2)},
+            "max_rho_rise_pp_path": round(float(path["rho"].max() - path["rho"][0]), 3)}
+
+
 def capital_results():
     e, rec = economy("c")
     fixed, follow, shock, errors = capital_runs(e)
@@ -603,6 +724,7 @@ def capital_results():
            "split_note": "machine-chain land = b delta K / income; under the open reading b includes the chain's imported content "
                          f"({import_share_of_sigma():.3f} of sigma_V; results/calibration_c.json readouts.import_as_land), modelled as land",
            **capital_block(e, fixed, follow, shock, errors)}
+    out["loop_bridges_at_path"] = loop_bridges_at_path(e, fixed, follow)
     eb, _ = economy("b")
     fb, wb, sb, errb = capital_runs(eb, m.BRIDGES_B)
     out["comparator_b"] = {"calibration_b": {k: float(getattr(eb, k)) for k in ("T", "h", "chi_max", "k", "rho", "delta", "b")},
