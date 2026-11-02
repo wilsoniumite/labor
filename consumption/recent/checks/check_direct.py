@@ -160,6 +160,9 @@ got = 100 * (dec.loc[2024] / dec.loc[2019] - 1)
 agg_ix = ISP[ISP.source_column == "Indexed Published PCE PI"].set_index("year").value
 check("A6 ISPCEPX 2019-2024 inflation by decile = README_bea (D01 19.6 ... D10 20.4; all 19.5)",
       all(close(got[k], v, 0.05) for k, v in want.items()) and close(100 * (agg_ix[2024] / agg_ix[2019] - 1), 19.5, 0.05))
+grp_ix = ISP[ISP.grouping.str.startswith(("decile", "quintile"))]
+check("A6 ISPCEPX group indexes carry imputed weights in 2024 and only in 2024 (README_bea: 2023 shares, 2024 "
+      "totals)", grp_ix[grp_ix.year == 2024].imputed_weights.all() and not grp_ix[grp_ix.year < 2024].imputed_weights.any())
 # A7 NIPA
 m = PI[PI.table == "2.6"].pivot_table(index="date", columns="line", values="value")
 check("A7 saving rate Sep 2026 = 3.8% and personal saving $911.1bn (README_bea release check)",
@@ -250,6 +253,15 @@ shr = DFA[(DFA.measure == "share") & DFA.date.isin(["2019Q4", "2022Q3", "2026Q2"
                              "Consumer credit"])]
 dev = shr.groupby(["date", "category"]).value.sum().sub(100).abs().max()
 check("A11 DFA published group shares sum to 100 (0.1-point rounding)", dev <= 0.35, f"max dev {dev:.2f}")
+# A12 the post's wealth-effect propensity as transcribed: Fig 0 / footnote 31 2-5 cents, body text three to five,
+# Figs 8-10 c_w = 0.035; the evidence table quotes all three
+post = pd.read_csv(TIDY / "post_published_numbers.csv").set_index("id")
+cw_ok = (post.loc[["P051", "P052"], "value"].astype(float).tolist() == [2.0, 5.0] and
+         post.loc[["P570", "P571"], "value"].astype(float).tolist() == [3.0, 5.0] and
+         float(post.loc["P618", "value"]) == 0.035)
+we_row = EV[EV.source.str.startswith("Wealth-effect bound")].iloc[0]
+check("A12 post c_w: Fig 0 and fn 31 2-5 cents, body text 3-5, Figs 8-10 0.035; quoted in the evidence table",
+      cw_ok and all(s in we_row.caveat for s in ("give 2-5 cents", "body text 3-5", "Figs 8-10 use 3.5")))
 
 # ---------------------------------------------------------------------------------------------------------------
 print("--- B. output identities (recomputed independently)")
@@ -287,6 +299,39 @@ g_out = CG[(CG.block == "growth") & (CG.grouping == "quintile") & (CG.group == "
            (CG.window == "2022->2025")].g_agg_bn_total_real2024.iloc[0]
 check("B2 top-20% real aggregate growth 2022-2025 recomputed (ISPCEPX Q5, 2025 by aggregate PCE prices)",
       close(g_mine, g_out, 1e-8), f"{g_mine:.3f}%")
+
+
+# B2c approximate SE of real aggregate growth: relative SEs of the DEFLATED aggregates (each quintile's published SE
+# deflated by its own ISPCEPX index), scaled by the REAL growth factor; the gap SE adds top and bottom in quadrature
+def isp_q(k, y):
+    s = ISP[(ISP.group == f"Q{k}") & ISP.grouping.str.startswith("quintile")].set_index("year").value
+    return s[2024] * pp[2025] / pp[2024] if y == 2025 else s[y]
+
+
+def real_growth_se(ks, a, b):
+    agg, var = {}, {}
+    for y in (a, b):
+        f = {k: isp_q(k, 2024) / isp_q(k, y) for k in ks}
+        agg[y] = sum(ce_n(CEQ, y, f"q{k}") * ce_mean(CEQ, y, f"q{k}") * f[k] for k in ks)
+        var[y] = sum((ce_n(CEQ, y, f"q{k}") * ce_mean(CEQ, y, f"q{k}", stat="se") * f[k]) ** 2 for k in ks)
+    G = agg[b] / agg[a]
+    return 100 * (G - 1), 100 * G * np.sqrt(var[a] / agg[a] ** 2 + var[b] / agg[b] ** 2)
+
+
+gr_ = CG[CG.block == "growth"].set_index(["grouping", "group", "window"])
+gp_ = CG[CG.block == "gap_top_vs_rest"].set_index(["grouping", "window"])
+ok, det = True, []
+for a, b in ((2022, 2025), (2023, 2025), (2024, 2025), (2022, 2023), (2019, 2025)):
+    w_ = f"{a}->{b}"
+    gt, st = real_growth_se([5], a, b)
+    gb, sb = real_growth_se([1, 2, 3, 4], a, b)
+    ok &= close(st, gr_.loc[("quintile", "top20", w_), "se_g_agg_bn_total_real2024"], 1e-6)
+    ok &= close(sb, gr_.loc[("quintile", "bottom80", w_), "se_g_agg_bn_total_real2024"], 1e-6)
+    ok &= close(np.hypot(st, sb), gp_.loc[("quintile", w_), "se_gap_pts"], 1e-6)
+    ok &= close(gt - gb, gp_.loc[("quintile", w_), "gap_real_total_pts"], 1e-6)
+    det.append(f"{w_} gap {gt - gb:+.2f} (SE {np.hypot(st, sb):.2f})")
+check("B2c CE real growth SEs and top20-bottom80 gap SEs recomputed with real aggregates and the real factor",
+      ok, "; ".join(det))
 # B3 composition items add to the published total (2022 and 2025, q1 and q5; suppressed cells filled)
 cp = CG[CG.block == "composition"]
 ok, worst = True, 0.0
@@ -309,13 +354,58 @@ for base, T in ((2022, 3), (2023, 2)):
     ok &= close(100 * s0 * 1.04 ** T / (s0 * 1.04 ** T + 1 - s0), z.loc[base, "zandi_share_2025_real_pct"], 1e-9)
 check("B4 Zandi's implied 2025 top-20% share (real) = s0 1.04^T / (s0 1.04^T + 1 - s0)", ok,
       f"2022 base {z.loc[2022, 'zandi_share_2025_nominal_pct']:.2f}%, 2023 base {z.loc[2023, 'zandi_share_2025_nominal_pct']:.2f}%")
+# B4b Zandi's own arithmetic: 4% x top-20 share with CE 2025 / dPCE 2023 / SCF 2025 shares; CE aggregates a year
+za = CG[CG.block == "zandi_arithmetic"].reset_index(drop=True)
+agg25 = {k: ce_n(CEQ, 2025, f"q{k}") * ce_mean(CEQ, 2025, f"q{k}") for k in range(1, 6)}
+s_ce = 100 * agg25[5] / sum(agg25.values())
+s_scf = 100 * (S25.TOTSPENDNH * S25.WGT)[S25.INCCAT >= 5].sum() / (S25.TOTSPENDNH * S25.WGT).sum()
+ok = all(close(za.share_top20_pct[i], s, 1e-6) and close(za.pct_a_year[i], 0.04 * s, 1e-9)
+         for i, s in enumerate((s_ce, 100 * t2[2023], s_scf)))
+ann = {g: 100 * ((1 + gr_.loc[("quintile", g, "2022->2025"), "g_agg_bn_total_real2024"] / 100) ** (1 / 3) - 1)
+       for g in ("all", "top20", "bottom80")}
+ok &= all(close(za.pct_a_year[4 + i], ann[g], 1e-9) for i, g in enumerate(("all", "top20", "bottom80")))
+check("B4b Zandi's +4%/0% averages 4% x top-20 share (not his 2%); CE real aggregates a year 2022-2025 recomputed", ok,
+      f"{0.04 * s_ce:.2f} / {4 * t2[2023]:.2f} / {0.04 * s_scf:.2f}% a year; CE all {ann['all']:.2f}, top 20% "
+      f"{ann['top20']:.2f}, bottom 80% {ann['bottom80']:.2f}")
 # B5 income: quintile levels = share x total; 2025 = 2024 x (1 + nowcast growth); groups add up
-il = INC[(INC.block == "income_quintile_levels") & (INC.concept == "Personal income")].set_index(["group", "year"])
+il = INC[(INC.block == "income_quintile_levels") & (INC.concept == "Personal income") &
+         (INC.ranking == "equivalized_pi")].set_index(["group", "year"])
 ok = all(close(il.loc[(q, 2025), "level_bn"], il.loc[(q, 2024), "level_bn"] * (1 + g25[q.upper()] / 100), 1e-6)
          for q in ("q1", "q2", "q3", "q4", "q5"))
 ok &= all(close(il.loc[("all", y), "level_bn"], sum(il.loc[(f"q{k}", y), "level_bn"] for k in range(1, 6)), 1e-6)
           for y in range(2019, 2026))
 check("B5 PI quintile levels: 2025 = 2024 x (1 + nowcast growth); quintiles add to the total", ok)
+
+
+# B5b disposable income (ranked by equivalized DPI) recomputed from the tidy shares and totals; DPI = PI - taxes;
+# the top fifth's taxes (D09 + D10) in 2022 and 2024
+def pid_level(concept, ranking, y, groups):
+    sh = PID[(PID.income_concept == concept) & (PID.ranking == ranking) & (PID.metric == "share") &
+             (PID.year == y)].set_index("group").value
+    tot_ = float(PID[(PID.income_concept == concept) & (PID.metric == "total") & (PID.year == y)].value.iloc[0])
+    return sh[groups].sum() * tot_
+
+
+def pid_real_growth(concept, ranking, ks, a, b):
+    lv = {y: sum(pid_level(concept, ranking, y, [f"Q{k}"]) * isp_q(k, 2024) / isp_q(k, y) for k in ks) for y in (a, b)}
+    return 100 * (lv[b] / lv[a] - 1)
+
+
+ig = INC[INC.block == "income_quintile_growth"].set_index(["concept", "ranking", "group", "window"])
+ok, det = True, []
+for w_ in ("2022->2024", "2023->2024", "2022->2023"):
+    a, b = int(w_[:4]), int(w_[-4:])
+    for g, ks in (("top20", [5]), ("bottom80", [1, 2, 3, 4])):
+        mine = pid_real_growth("Disposable personal income", "equivalized_dpi", ks, a, b)
+        ok &= close(mine, ig.loc[("Disposable personal income", "equivalized_dpi", g, w_), "g_real_pct"], 1e-6)
+        det.append(f"{w_} {g} {mine:+.2f}")
+tots = PID[PID.metric == "total"].pivot_table(index="year", columns="income_concept", values="value")
+ident = (tots["Personal income"] - tots["Taxes"] - tots["Disposable personal income"]).abs().max()
+tx = {y: pid_level("Taxes", "equivalized_dpi", y, ["D09", "D10"]) for y in (2022, 2024)}
+txo = INC[(INC.block == "taxes_by_dpi_group") & (INC.group == "top20")].set_index("year").taxes_bn
+check("B5b real DPI by equivalized-DPI quintile recomputed; DPI = PI - taxes (summary file); top-fifth taxes 2022/2024",
+      ok and ident < 1e-6 and close(tx[2022], txo[2022], 1e-6) and close(tx[2024], txo[2024], 1e-6),
+      "; ".join(det) + f"; taxes {tx[2022]:,.0f} -> {tx[2024]:,.0f} $bn")
 jr = INC[INC.block == "joint_by_dpi_group"].dropna(subset=["saving_rate_published"]).copy()
 ndec = jr.group.map(lambda g: 2 if g.startswith("Q") else 1)
 # rounding bound: shares printed to 3 decimals (+-0.0005 per decile summed), published rate to 3 decimals
@@ -335,6 +425,17 @@ grp6 = ["pct00to20", "pct20to40", "pct40to60", "pct60to80", "pct80to99", "pct99t
 ok &= close(gn.loc[grp6, "share_of_gain_pct"].sum(), 100, 1e-9)
 check("B6 DFA equity gains 2022Q3-2026Q2 = level differences; group shares of the gain sum to 100", ok,
       f"top 20% {gn.loc['top20', 'share_of_gain_pct']:.1f}%")
+# B6b Zandi's '90%': SCF 2025 shares of the top 10% by wealth (NWPCTLECAT 10-12) and by income (INCPCTLECAT 10-12)
+cc = DW[(DW.block == "concentration_scf_vs_dfa") & (DW.scf_year == 2025)]
+ok, det = True, []
+for var, x in (("EQUITY", S25.EQUITY), ("DIRECT_EQ_MF", S25.STOCKS + S25.NMMF)):
+    for rk, col in (("WEALTH", "NWPCTLECAT"), ("income", "INCPCTLECAT")):
+        mine = 100 * (x * w)[S25[col] >= 10].sum() / (x * w).sum()
+        out_ = cc[cc.concept == f"SCF {var}: share held by the top10 by {rk}"].scf_share_pct
+        ok &= len(out_) == 1 and close(mine, out_.iloc[0], 1e-9)
+        det.append(f"{var} by {rk} {mine:.1f}")
+check("B6b SCF 2025 top-10% shares of all equity and of directly held stocks and funds, by wealth and by income",
+      ok, "; ".join(det))
 # B7 wealth effect arithmetic
 we = DW[DW.block == "wealth_effect_bound"]
 ok = True
@@ -401,6 +502,34 @@ check("B9 regression-adjusted hand-to-mouth gap within 1 pt of the FEDS Note's 2
 # B10 evidence table
 check("B10 evidence table: 'consistent' column is yes / no / can't tell",
       EV.consistent_with_zandi_split.isin(["yes", "no", "can't tell"]).all(), f"{len(EV)} rows")
+# B10b the joint-distribution saving rows end in 2023, before Zandi's saving story: scored "can't tell"; the DPI row is
+# present; the SCF row's PCE figure is calendar-2025 PCE (NIPA Table 2.1 line 29), as in the section 1 scope table
+import re
+sav = EV[EV.source.str.contains("saving rates", regex=False)]
+pce25 = float(PI[(PI.table == "2.1") & (PI.line == 29) & (PI.date.astype(str) == "2025")].value.iloc[0]) / 1e6
+scf_row = EV[EV.source.str.startswith("SCF 2025 (Fed), total non-housing")].iloc[0]
+m_ = re.search(r"against \$([\d.]+)tn of PCE in calendar 2025", scf_row.caveat)
+check("B10b joint saving rows scored can't tell; DPI row present; SCF row quotes calendar-2025 PCE",
+      len(sav) == 2 and (sav.consistent_with_zandi_split == "can't tell").all() and
+      EV.source.str.contains("disposable personal income (DPI)", regex=False).sum() == 1 and
+      m_ is not None and float(m_.group(1)) == round(pce25, 2), f"PCE 2025 ${pce25:.2f}tn")
+# B11 the hidden-top arithmetic, like with like: the gap the top 1% would need for Zandi's top-20% gap, against the
+# wealth-effect bound on the top 1% at 5 cents, with SCF 2025 shares for both and with BEA-BLS 2023 shares for both
+jp23 = JOINT[(JOINT.metric == "share") & (JOINT.series == "Personal Consumption Expenditures") &
+             (JOINT.year == 2023)].set_index("group").value
+s1_scf = 100 * (S25.TOTSPENDNH * w)[S25.INCPCTLECAT == 12].sum() / (S25.TOTSPENDNH * w).sum()
+seen = gp_.loc[("quintile", "2022->2025"), "gap_real_total_pts"]
+zg3 = 100 * (1.04 ** 3 - 1)
+need = {"SCF": (s_scf * zg3 - (s_scf - s1_scf) * seen) / s1_scf,
+        "BEA": (100 * (jp23["D09"] + jp23["D10"]) * zg3 - 100 * (jp23["D09"] + jp23["D10"] - jp23["T01"]) * seen) /
+               (100 * jp23["T01"])}
+wb = we[(we.window == "2022Q3->2025Q2") & (we.base == "equities (revaluation share applied)") & (we.c_w == 0.05) &
+        (we.group == "pct99to100")]
+bound = {k: float(wb[wb.denominator.str.startswith(k)].pct_of_group_spending.iloc[0]) for k in ("SCF", "BEA")}
+check("B11 hidden top 1%: the gap it needs exceeds the 5-cent bound with SCF shares for both and BEA-BLS for both",
+      need["SCF"] > bound["SCF"] and need["BEA"] > bound["BEA"],
+      f"SCF need {need['SCF']:.0f} vs bound {bound['SCF']:.0f}; BEA-BLS {need['BEA']:.0f} vs {bound['BEA']:.0f}; "
+      f"mixed (SCF need vs BEA-BLS bound) {need['SCF']:.0f} vs {bound['BEA']:.0f}")
 
 # ---------------------------------------------------------------------------------------------------------------
 print("--- C. notes and figures")
