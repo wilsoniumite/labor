@@ -168,6 +168,18 @@ Section 6 and Appendix B.
 
 ## Log
 
+- **2026-11-02 — polish 3: the figures from their scripts.** Figures 1, 2 and 4-8 now come from
+  their scripts as vector PDFs (PNG kept); only Figure 3 still points at `figures/ssrn/`
+  (pending the calibration decision). Figure 1 and 4 labels read `w/p_m` as printed; no in-image
+  titles or notes (Figure 4's "Dots:" line and Figure 5's note are gone; Open 6 moot); Figure 2
+  has a script (`code/fig_replacement_closure.py`, from equation (5)); Figure 7 keeps the full-band
+  version with plain legend names (her call); every figure is drawn at its printed width, so text
+  prints at 7.5-8.5 pt (was 3.9-6.6), with Figures 6 and 7's legends below the axes. Text: Figure 5's
+  caption marks the dashed pre-1964 segment; Figure 8's caption and the data note say 1960-2025
+  (the series and the plot start in 1960; both said 1962). 39 pages, no figure moved page; gates,
+  `check_fan` and the lint green. For the next Word build, map the PDFs to the PNGs
+  (`build_submission_docx.py` passes figure files to pandoc).
+
 - **2026-11-02 — polish 2: the coverage ratio's land residual matched (Open 10).** Her yes.
   `code/feasibility_kappa.py` takes households' own real estate (HOOREVLMHMV, first cached
   2026-11-02) in place of households-and-nonprofits' (HNOREMV), so the residual nets households'

@@ -1,5 +1,5 @@
 """
-build_fig3_realwage_fan.py — pinning/effort (Figure 3 of the paper)
+build_fig3_realwage_fan.py — pinning/effort (Figure 5 of the paper)
 
 ADOPTED 2026-09-04 as the paper's Figure 3, written to paper/figures/
 fig_deflator_fork.png with no in-figure title (the caption carries it).
@@ -57,11 +57,31 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+# matplotlib's stock default face, pinned so every machine draws the same figure
+# (some installations default to another face); TrueType embedding in the PDF
+plt.rcParams["font.family"] = "DejaVu Sans"
+plt.rcParams["pdf.fonttype"] = 42
+# 2026-11-02, typography pass: the figure is drawn at the width it prints,
+# 0.88\textwidth in main.tex (16 cm text width), so sizes here are printed sizes:
+# ticks, legend and series labels 8 pt, axis labels 8.5 pt. Line widths and tick
+# sizes are the earlier values (a 12.1 in canvas) times 0.458, the scale they
+# printed at, so the plot keeps its weight on the page.
+PRINT_W = 0.88 * 16 / 2.54             # inches
+plt.rcParams["font.size"] = 8.5
+plt.rcParams["xtick.labelsize"] = plt.rcParams["ytick.labelsize"] = 8
+plt.rcParams["legend.fontsize"] = 8
+plt.rcParams["axes.linewidth"] = 0.37
+plt.rcParams["grid.linewidth"] = 0.37
+for _ax in ("xtick", "ytick"):
+    plt.rcParams[f"{_ax}.major.width"] = 0.37
+    plt.rcParams[f"{_ax}.major.size"] = 1.6
+
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 VARIANT_1950_CSV = ROOT / "data" / "fig3_realwage_fork_1950.csv"
 OUT_CSV = ROOT / "data" / "fig3_realwage_fan.csv"
-OUT_PNG = ROOT.parent / "paper" / "figures" / "fig_deflator_fork.png"  # the paper's Figure 3
+OUT_PNG = ROOT.parent / "paper" / "figures" / "fig_deflator_fork.png"  # the paper's Figure 5
+OUT_PDF = OUT_PNG.with_suffix(".pdf")                                  # same figure, vector
 
 ESTABLISHED = {  # adopted-figure inputs — present from prior builds, never pulled here
     "wage": "AHETPI",
@@ -308,41 +328,64 @@ def main() -> int:
             w.writerow([y] + [legs_out[n][y] for n in deflators] +
                        ["linear-backcast" if y < e_start else NEW["energy"]])
 
-    fig, ax = plt.subplots(figsize=(12.2, 6.5))
+    # the earlier 12.2 x 6.5 in canvas saved at 12.10 x 6.40 in; the aspect is kept
+    fig, ax = plt.subplots(figsize=(PRINT_W, PRINT_W / 1.89), layout="constrained")
+    ends = {}
     for name in deflators:
         yrs = sorted(legs_out[name])
         if name == "energy":
             back = [y for y in yrs if y <= e_start]           # dotted: backcast years
             mid = [y for y in yrs if e_start <= y <= BASE_YEAR]
-            ax.plot(back, [legs_out[name][y] for y in back], linewidth=2.0,
+            ax.plot(back, [legs_out[name][y] for y in back], linewidth=0.92,
                     color=COLORS[name], linestyle=":")
-            ax.plot(mid, [legs_out[name][y] for y in mid], linewidth=2.0,
+            ax.plot(mid, [legs_out[name][y] for y in mid], linewidth=0.92,
                     color=COLORS[name], linestyle="--")
         else:
             pre = [y for y in yrs if y <= BASE_YEAR]
-            ax.plot(pre, [legs_out[name][y] for y in pre], linewidth=2.0,
+            ax.plot(pre, [legs_out[name][y] for y in pre], linewidth=0.92,
                     color=COLORS[name], linestyle="--")
         post = [y for y in yrs if y >= BASE_YEAR]
-        ax.plot(post, [legs_out[name][y] for y in post], linewidth=2.5,
+        ax.plot(post, [legs_out[name][y] for y in post], linewidth=1.15,
                 color=COLORS[name], label=LABELS[name])
-        ax.annotate(name, (yrs[-1], legs_out[name][yrs[-1]]), xytext=(6, 0),
-                    textcoords="offset points", va="center", fontsize=9,
-                    color=COLORS[name])
-    ax.axhline(100, color="k", linewidth=0.8, linestyle=":")
-    ax.set_xlim(START_YEAR, last + 6)
+        ends[name] = ax.annotate(name, (yrs[-1], legs_out[name][yrs[-1]]), xytext=(3, 0),
+                                 textcoords="offset points", va="center", fontsize=8,
+                                 color=COLORS[name])
+    ax.axhline(100, color="k", linewidth=0.37, linestyle=":")
+    # the room right of the 2024 line ends holds the series labels: 10 years at
+    # the printed size (6 on the earlier canvas)
+    ax.set_xlim(START_YEAR, last + 10)
     ax.set_xlabel("Year")
     ax.set_ylabel(f"Real average hourly earnings, {OUT_BASE} = 100")
     ax.grid(True, alpha=0.25)
-    ax.text(0.012, 0.83, "dashed pre-1964: spliced-wage era (members and seams as in the\n"
-                         "1950 fork variant); food is CPI food NSA from 1950; the energy\n"
-                         "aggregate begins 1957 — dotted 1950–56 is a linear deflator\n"
-                         "backcast (fit 1957–66). Complete calendar years through 2024.",
-            transform=ax.transAxes, fontsize=8.5, va="top", color="0.35")
+    # 2026-11-02 (her call: the caption carries the words): no in-figure note; the
+    # caption marks the dashed pre-1964 stretch and the energy backcast
     ax.legend(frameon=False, loc="upper left")
-    fig.tight_layout()
-    fig.savefig(OUT_PNG, dpi=250, bbox_inches="tight")
+    # line-end labels, moved only as far as legibility needs (the lines are not
+    # touched): a label ending just above the 100 line sits half a line above it,
+    # clear of the dotted line (shelter), and labels closer than a line of text
+    # are pushed apart symmetrically (food and energy end 9 index points apart,
+    # about 3 pt at the printed size)
+    fig.canvas.draw()                                   # settle the layout first
+    to_pt = 72 / fig.dpi
+    gap = 1.15 * 8                                      # one line of 8 pt text
+    ref = ax.transData.transform((START_YEAR, 100))[1] * to_pt
+    at = {n: ax.transData.transform(a.xy)[1] * to_pt for n, a in ends.items()}
+    centre = {n: max(y, ref + gap / 2) if y >= ref else y for n, y in at.items()}
+    for _ in range(20):
+        pos = sorted((y, n) for n, y in centre.items())
+        close = [(a, b, gap - (yb - ya)) for (ya, a), (yb, b) in zip(pos, pos[1:])
+                 if yb - ya < gap - 1e-6]
+        if not close:
+            break
+        for a, b, short in close:
+            centre[a] -= short / 2
+            centre[b] += short / 2
+    for n, a in ends.items():
+        a.xyann = (3, centre[n] - at[n])
+    fig.savefig(OUT_PNG, dpi=300)
+    fig.savefig(OUT_PDF, metadata={"CreationDate": None})
     plt.close(fig)
-    print("wrote", OUT_CSV.name, "and", OUT_PNG.name)
+    print(f"wrote {OUT_CSV.name}, {OUT_PNG.name} and {OUT_PDF.name}")
     return 0
 
 

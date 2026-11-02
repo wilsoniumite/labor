@@ -5,8 +5,8 @@
 % and page by page against the PDF (STATE.md log). Nothing re-voiced: lines marked '% SLIP:' record
 % slips seen while transcribing, left as printed for the authors' decision.
 % Labels follow the printed numbering (sec:N, app:X, eq:N, prop:N, lem:B.1, fig:N).
-% Figures: each \includegraphics points at figures/ssrn/, the images extracted from the SSRN PDF, so
-% this file reproduces it; the polish pass points each back to its script-built file in figures/.
+% Figures: each \includegraphics points at its script-built vector file in figures/ (README, Figures),
+% except Figure 3, which points at figures/ssrn/, the image extracted from the SSRN PDF, until its script exists.
 
 % ============================================================
 % Style: orthodox macro working paper (12pt, onehalf spacing, plain theorem
@@ -166,7 +166,7 @@ the required tasks in $H$. We call the threshold the \emph{task-assignment margi
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_schedule.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_schedule.pdf}
 \caption{The task-assignment schedule. Tasks are ordered so $\gamma(x)$
 increases. On the machine-contestable set, the ratio $w/p_m$ divides tasks:
 machines hold tasks with $\gamma(x)<w/p_m$, labor holds tasks with
@@ -253,7 +253,7 @@ The service price is then accounted for by its embodied claim on the non-produce
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_replacement_closure.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_replacement_closure.pdf}
 \caption{The replacement closure \eqref{eq:5}, with $\widetilde{b}_m=1$ and illustrative values. Each curve holds the full-chain labor in a machine-hour, $\widetilde{\lambda}_m$, fixed. The gap between a curve and the line $\widetilde{\lambda}_m=0$ is the feedback from the wage into the cost of its substitute. From A, task automation lowers $\gamma(x^*)$ and moves the economy along its curve; recursive automation lowers $\widetilde{\lambda}_m$ and moves it down to the line, where $w/r=\gamma(x^*)\widetilde{b}_m$.}
 \label{fig:2}
 \end{figure}
@@ -439,7 +439,7 @@ The model can be applied to the long record as four configurations of the relati
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_eras_workers.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_eras_workers.pdf}
 \caption{Four schematic configurations of the task schedule, shown for
 an untrained entrant (top) and a worker with accumulated training or experience
 (bottom). Each panel uses a different worker-specific task mix, held fixed
@@ -473,11 +473,11 @@ In this section we observe three empirical objects: the real-wage fork, the size
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_deflator_fork.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_deflator_fork.pdf}
 \caption{U.S. average hourly earnings for production and nonsupervisory
 workers deflated by the consumer-price indexes for durables, food, energy,
 and shelter, 1950 = 100, through the last complete calendar year, 2024.
-Values before 1964 use the spliced wage series. The energy index begins in
+Values before 1964 (dashed) use the spliced wage series. The energy index begins in
 1957; its 1950--1956 values are a linear backcast estimated over 1957--1966.
 Over 1964--2024 the ratio of the durables-deflated to the shelter-deflated
 wage reaches $4.8\times$, a ratio invariant to the index base.}
@@ -488,7 +488,7 @@ wage reaches $4.8\times$, a ratio invariant to the index base.}
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/fig_kappa_measurement.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_kappa_measurement.pdf}
 \caption{The coverage ratio $\kappa=rT/(N\cdot P_s)$ is aggregate site-rent flow divided by the cost of providing the specified subsistence bundle to every person; U.S., 1953--2025. The
 line is the median and the band is the min--max range across specifications
 combining land sources, capitalization rates, and subsistence bundles. The
@@ -507,7 +507,7 @@ denominator.}
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.92\textwidth]{figures/ssrn/fig_consumption_financing_and_human_effort.png}
+\includegraphics[width=0.92\textwidth]{figures/fig_consumption_financing_and_human_effort.pdf}
 \caption{Two labor linkages in U.S. consumption, 1950--2025. The upper
 series is the share of consumption financed from labor-origin resources; the
 lower is the share of consumed production that resolves into human effort
@@ -843,10 +843,10 @@ Object & Value (year) & Note \\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_fourway.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_fourway.pdf}
 \caption{Composition of U.S. consumption financing excluding consumption financed
 directly from household capital income, in which owners consume their own
-returns, 1962--2025. Lines
+returns, 1960--2025. Lines
 are medians across the classification-rule grid; the shaded band spans the
 deficit-attribution rules. The direct-wage share fell by about twenty
 percentage points over sixty years. Transfers grew while approximately one
@@ -958,6 +958,6 @@ financing-origin account supplies $\varphi_C$ for Appendix~\ref{app:D.5}.
 }
 
 \bigskip\par\noindent\rule{0.35\linewidth}{0.4pt}\par\smallskip
-\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio, and HUD FY2025 fair-market rents for the ceiling grid. Financing splits 1962--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The direct labor coefficients $\lambda_i$ and total requirements $\widetilde{\lambda}_i$ are unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:D} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
+\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio, and HUD FY2025 fair-market rents for the ceiling grid. Financing splits 1960--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The direct labor coefficients $\lambda_i$ and total requirements $\widetilde{\lambda}_i$ are unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:D} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
 
 \end{document}

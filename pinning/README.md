@@ -11,9 +11,9 @@ and the Lean 4 formalization.
 
 ```
 paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus figures/)
-paper/figures/      the six script-built figures, one script each (table below); figures/ssrn/
-                    holds the eight images extracted from the SSRN PDF, placeholders that
-                    main.tex points at until the polish pass (STATE.md)
+paper/figures/      the seven script-built figures, one script each, as PDF (what main.tex
+                    includes) and PNG (table below); figures/ssrn/ holds the eight images
+                    extracted from the SSRN PDF, of which main.tex still uses Figure 3's
 paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23; main.tex is its source,
                     rebuilt from this PDF on 2026-11-02 (STATE.md, Log)
 paper/submission/   the journal's Word files: the blind manuscript and the separate title
@@ -36,18 +36,27 @@ docs/               the coverage-ratio measurement spec, the ceiling-grid note, 
 
 ## Figures
 
+Numbered as in the paper (the SSRN version). Files are in `paper/figures/`; each script
+writes its figure twice, as `.pdf` (vector, TrueType fonts embedded; what `main.tex`
+includes) and as `.png` (300 dpi). Each script draws its figure at the width `main.tex`
+prints it (0.88 of the 16 cm text width, 0.92 for Figure 7), so its text prints at
+7.5–8.5 pt; a change to an `\includegraphics` width needs the matching `PRINT_W` in
+the script.
+
 | Figure | File | Script | Inputs |
 |---|---|---|---|
-| 1 The task-assignment schedule | `fig_schedule.png` | `code/fig_schedule.py` | none (schematic) |
-| 2 Four configurations of the schedule | `fig_eras_workers.png` | `code/fig_eras_workers.py` | none (schematic) |
-| 3 The deflator fork | `fig_deflator_fork.png` | `effort/code/build_fig3_realwage_fan.py` | `effort/data/raw/` (FRED: AHETPI, AHEMAN, CUSR0000SAD, CUUR0000SAD, CUSR0000SAH1, CUUR0000SEHA, CPIUFDNS, CPIENGNS); gated against `effort/data/fig3_realwage_fork_1950.csv` |
-| 4 The coverage ratio | `fig_kappa_measurement.png` | `code/fig_kappa_measurement.py` | `data/kappa_results.csv` (built by `code/feasibility_kappa.py`) |
-| 5 Two labor linkages | `fig_consumption_financing_and_human_effort.png` | `effort/code/build_fullband_df_figures.py` | `effort/archive_v28/expected/` (DF21, LR_Q1) |
-| C.1 Composition of consumption financing | `fig_fourway.png` | `code/fig_fourway.py` | `data/four_way_split.csv` (built by `code/four_way.py`) |
+| 1 The task-assignment schedule | `fig_schedule.pdf`, `.png` | `code/fig_schedule.py` | none (schematic) |
+| 2 The replacement closure | `fig_replacement_closure.pdf`, `.png` | `code/fig_replacement_closure.py` | none (equation (5) with full-chain b_m = 1 and lambda_m = 0.3 and 0) |
+| 3 Labor-market clearing | `ssrn/fig_labor_market_clearing.png`, the image extracted from the SSRN PDF | none yet | the Appendix B economy |
+| 4 Four configurations of the schedule | `fig_eras_workers.pdf`, `.png` | `code/fig_eras_workers.py` | none (schematic) |
+| 5 The deflator fork | `fig_deflator_fork.pdf`, `.png` | `effort/code/build_fig3_realwage_fan.py` | `effort/data/raw/` (FRED: AHETPI, AHEMAN, CUSR0000SAD, CUUR0000SAD, CUSR0000SAH1, CUUR0000SEHA, CPIUFDNS, CPIENGNS); gated against `effort/data/fig3_realwage_fork_1950.csv` |
+| 6 The coverage ratio | `fig_kappa_measurement.pdf`, `.png` | `code/fig_kappa_measurement.py` | `data/kappa_results.csv` (built by `code/feasibility_kappa.py`) |
+| 7 Two labor linkages | `fig_consumption_financing_and_human_effort.pdf`, `.png` | `effort/code/build_fullband_df_figures.py` | `effort/archive_v28/expected/` (DF21, LR_Q1) |
+| 8 Composition of consumption financing | `fig_fourway.pdf`, `.png` | `code/fig_fourway.py` | `data/four_way_split.csv` (built by `code/four_way.py`) |
 
-The figures carry no in-image titles; the captions do. Figure 2 carries one line of
-in-image text above the panels ("Dots: illustrative wage ratios $w/c$"), which the
-caption also states.
+The figures carry no in-image titles and no in-image notes; the captions carry the
+words. Figure 5's two-line key was the last note, removed 2026-11-02 once the caption
+marked the dashed pre-1964 stretch.
 
 ## Numbers in the text
 
@@ -83,22 +92,26 @@ Styling is Times New Roman 12 pt, one-and-a-half spacing, A4 with 2.5 cm margins
 From this folder, with the repository's virtual environment:
 
 ```
-../venv/Scripts/python.exe code/fig_schedule.py
-../venv/Scripts/python.exe code/fig_eras_workers.py
+../venv/Scripts/python.exe code/fig_schedule.py             # Figure 1
+../venv/Scripts/python.exe code/fig_replacement_closure.py  # Figure 2
+../venv/Scripts/python.exe code/fig_eras_workers.py         # Figure 4
 ../venv/Scripts/python.exe code/lambda_compute2.py        # FRED (cache/); writes data/lambda_results.csv
 ../venv/Scripts/python.exe code/four_way.py               # writes data/four_way_split.csv
-../venv/Scripts/python.exe code/fig_fourway.py
+../venv/Scripts/python.exe code/fig_fourway.py            # Figure 8
 ../venv/Scripts/python.exe code/feasibility_kappa.py      # writes data/kappa_results.csv
-../venv/Scripts/python.exe code/fig_kappa_measurement.py
+../venv/Scripts/python.exe code/fig_kappa_measurement.py  # Figure 6
 ../venv/Scripts/python.exe code/kappa_ceiling.py          # needs python-calamine; writes data/kappa_ceiling.csv
-../venv/Scripts/python.exe effort/code/build_fig3_realwage_fork.py       # Figure 3 chain, step 1 (1964 base)
+../venv/Scripts/python.exe effort/code/build_fig3_realwage_fork.py       # Figure 5 chain, step 1 (1964 base)
 ../venv/Scripts/python.exe effort/code/build_fig3_realwage_fork_1950.py  # step 2 (1950 extension, the gate reference)
-../venv/Scripts/python.exe effort/code/build_fig3_realwage_fan.py        # step 3: paper/figures/fig_deflator_fork.png
-../venv/Scripts/python.exe effort/code/build_fullband_df_figures.py      # paper/figures/fig_consumption_financing_and_human_effort.png
+../venv/Scripts/python.exe effort/code/build_fig3_realwage_fan.py        # step 3: paper/figures/fig_deflator_fork.pdf and .png
+../venv/Scripts/python.exe effort/code/build_fullband_df_figures.py      # Figure 7: paper/figures/fig_consumption_financing_and_human_effort.pdf and .png
 ```
 
+Each figure script writes both the `.pdf` and the `.png` of its figure; Figure 3 has no
+script yet.
+
 The measurement scripts read `cache/` and pull from FRED only for series not cached;
-`--refresh` on the Figure 3 scripts re-pulls their raw series. Every FRED series is
+`--refresh` on the Figure 5 scripts re-pulls their raw series. Every FRED series is
 validated by identity checks and magnitude anchors before use; every contestable
 classification runs as a labeled grid, and the reported object is the median with its
 min–max band. The scripts stop rather than substitute when a source cannot be validated.

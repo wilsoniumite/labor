@@ -1,4 +1,4 @@
-# fig_eras_workers.py — Figure 2 of the paper: the
+# fig_eras_workers.py — Figure 4 of the paper: the
 # schedule across four eras, drawn twice — for a young entrant with no
 # training (top) and for a worker with years of training or experience
 # (bottom). The caption identifies the panels.
@@ -13,7 +13,7 @@
 # * machines never lose capability, so within a panel each era's curve lies
 #   weakly below the previous one and its wall further right (enforced
 #   numerically below; task creation could break it only at the top);
-# * a dot's height is an illustrative wage/machine-rental ratio w/c, not wage
+# * a dot's height is an illustrative wage/machine-rental ratio w/p_m, not wage
 #   purchasing power over goods or non-produced services. It marks the era's margin:
 #   on the schedule where the wage line
 #   crosses it, or at the wall when the wage exceeds the machine cost at
@@ -32,8 +32,21 @@ from matplotlib import rcParams
 
 rcParams["font.family"] = "serif"
 rcParams["font.serif"] = ["DejaVu Serif", "Georgia"]
-rcParams["font.size"] = 11
 rcParams["mathtext.fontset"] = "dejavuserif"
+rcParams["pdf.fonttype"] = 42          # TrueType in the PDF: fonts embedded
+# 2026-11-02, typography pass: the figure is drawn at the width it prints,
+# 0.88\textwidth in main.tex (16 cm text width), so sizes here are printed sizes:
+# ticks and legend 8 pt, axis labels 8.5 pt, the panel notes 7.5 pt. Line widths,
+# marker, tick and arrow sizes are the earlier values (an 8.4 in canvas) times
+# 0.659, the scale they printed at, so the plot keeps its weight on the page.
+PRINT_W = 0.88 * 16 / 2.54             # inches
+rcParams["font.size"] = 8.5
+rcParams["xtick.labelsize"] = rcParams["ytick.labelsize"] = 8
+rcParams["axes.linewidth"] = 0.53
+rcParams["patch.linewidth"] = 0.66     # the legend frame
+for _ax in ("xtick", "ytick"):
+    rcParams[f"{_ax}.major.width"] = 0.53
+    rcParams[f"{_ax}.major.size"] = 2.3
 
 BROWN, NAVY, BLUE, RED, GRAY = "#8a6d3b", "#1a1a3d", "#4878b8", "#8b2020", "#c8c8c8"
 YTOP = 3.4
@@ -47,7 +60,7 @@ LEGEND = {
 }
 COLOR = {"pre": BROWN, "ind": NAVY, "comp": BLUE, "ai": RED}
 
-# (open-set measure m = 1 − |H|, quantile function on [0, m), w/c,
+# (open-set measure m = 1 − |H|, quantile function on [0, m), w/p_m,
 #  margin x*, None to solve the intersection, or "wall")
 ENTRANT = [
     ("pre",  0.06, lambda x: 0.03 + 0.5 * (x / 0.06) ** 3,        1.5,  "wall"),
@@ -70,8 +83,8 @@ an untrained entrant (top) and a worker with accumulated training or experience
 across eras within that panel; differences in wall location reflect these
 mixes, not an effect of training on machine capability. Closed tasks appear as
 a wall at the right edge. Dot heights are illustrative wage--machine-rental
-ratios $w/c$, not purchasing power over goods or non-produced services. A dot on the
-contestable schedule marks an interior margin satisfying $w/c=\gamma(x^*)$;
+ratios $w/p_m$, not purchasing power over goods or non-produced services. A dot on the
+contestable schedule marks an interior margin satisfying $w/p_m=\gamma(x^*)$;
 a dot on the wall marks the absence of such a margin and does not imply a
 binding participation constraint. Industrialization opens physical tasks;
 computing extends competition into cognitive tasks while many trained tasks
@@ -113,21 +126,22 @@ def build(spec):
 def draw_panel(ax, eras, notes):
     for e in eras:
         col = COLOR[e["key"]]
-        ax.plot(e["xs"], e["ys"], color=col, lw=2.4, label=LEGEND[e["key"]])
+        ax.plot(e["xs"], e["ys"], color=col, lw=1.58, label=LEGEND[e["key"]])
         ax.annotate("", xy=(e["m"], YTOP), xytext=(e["m"], float(e["ys"][-1])),
-                    arrowprops=dict(arrowstyle="-|>", color=col, lw=1.4, ls="--",
-                                    shrinkA=0, shrinkB=0, mutation_scale=12))
+                    arrowprops=dict(arrowstyle="-|>", color=col, lw=0.92, ls="--",
+                                    shrinkA=0, shrinkB=0, mutation_scale=7.9))
         if e["at_wall"]:
-            ax.plot([0, e["m"]], [e["wc"], e["wc"]], color=col, lw=1.0, ls=":")
-        ax.plot(e["xstar"], e["wc"], "o", color=col, ms=6, zorder=5)
+            ax.plot([0, e["m"]], [e["wc"], e["wc"]], color=col, lw=0.66, ls=":")
+        ax.plot(e["xstar"], e["wc"], "o", color=col, ms=3.95, zorder=5)
     for (text, xy, xytext, key, ha) in notes:
-        ax.annotate(text, xy=xy, xytext=xytext, fontsize=8.8, color=COLOR[key],
+        ax.annotate(text, xy=xy, xytext=xytext, fontsize=7.5, color=COLOR[key],
                     ha=ha, va="top",
-                    arrowprops=dict(arrowstyle="->", color=COLOR[key], lw=0.9))
+                    arrowprops=dict(arrowstyle="->", color=COLOR[key], lw=0.59,
+                                    mutation_scale=5.8))
     ax.set_xlim(-0.02, 1.04)
     ax.set_ylim(0, YTOP)
     ax.set_ylabel(r"Relative human productivity $\gamma(x)$")
-    ax.grid(alpha=0.25, lw=0.5)
+    ax.grid(alpha=0.25, lw=0.33)
     ax.spines[["top", "right"]].set_visible(False)
 
 
@@ -140,13 +154,24 @@ def main():
                       / "figures" / "fig_eras_workers.png")
     parser = argparse.ArgumentParser(description="Draw the schematic eras figure.")
     parser.add_argument("--output", type=Path, default=default_output,
-                        help="Output image path (default: ../paper/figures/fig_eras_workers.png).")
+                        help="Output image path (default: ../paper/figures/fig_eras_workers.png); "
+                             "a PDF with the same basename is written next to it.")
     args = parser.parse_args()
 
     entrant = build(ENTRANT)
     trained = build(TRAINED)
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8.6, 8.4), dpi=150, sharex=True)
+    # the earlier 8.6 x 8.4 in canvas saved at 8.42 x 7.90 in (5.20 in tall as
+    # printed); the panels keep their shape (width/height 2.47) and spacing, and
+    # the two-row legend below makes the figure 0.15 in taller
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(PRINT_W, 5.35),
+                                   sharex=True, layout="constrained")
+    fig.get_layout_engine().set(hspace=0.12)
 
+    # note positions: at the printed size the AI notes sit higher to clear the
+    # axis, and in the lower panel the first note takes four lines to fit
+    # between the pre-industrial and industrial walls and the computing note is
+    # centered between its wall and the AI wall (typography pass, 2026-11-02;
+    # were y = 0.43 and 0.45, three lines at (0.075, 3.2), and x = 0.65)
     draw_panel(ax1, entrant, [
         ("Wage shaped by land access\nand labor scarcity",
          margin_point(entrant[0]), (0.10, 2.95), "pre", "left"),
@@ -155,28 +180,32 @@ def main():
         ("Computing:\nuneven task\ncompetition",
          margin_point(entrant[2]), (0.845, 2.65), "comp", "center"),
         ("Machine competition extends\nacross more tasks",
-         margin_point(entrant[3]), (0.80, 0.43), "ai", "center"),
+         margin_point(entrant[3]), (0.80, 0.50), "ai", "center"),
     ])
     draw_panel(ax2, trained, [
-        ("Wage shaped by\nland access and\nlabor scarcity",
-         margin_point(trained[0]), (0.075, 3.2), "pre", "left"),
+        ("Wage shaped\nby land access\nand labor\nscarcity",
+         margin_point(trained[0]), (0.074, 3.33), "pre", "left"),
         ("Wall boundary:\nskilled tasks\nclosed to engines",
          margin_point(trained[1]), (0.28, 3.2), "ind", "left"),
         ("Wall boundary: skilled tasks\nremain closed to computers",
-         margin_point(trained[2]), (0.65, 2.45), "comp", "center"),
+         margin_point(trained[2]), (0.71, 2.45), "comp", "center"),
         ("Retreating wall: training\npremium may narrow",
-         margin_point(trained[3]), (0.80, 0.45), "ai", "center"),
+         margin_point(trained[3]), (0.80, 0.50), "ai", "center"),
     ])
-    fig.text(0.535, 0.985, r"Dots: illustrative wage ratios $w/c$",
-             ha="center", va="top", fontsize=9)
     ax2.set_xlabel(r"Tasks $x$, ordered by this worker's $\gamma$; closed tasks last")
-    ax2.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=4, fontsize=8.8,
-               framealpha=0.95, handlelength=1.8, columnspacing=1.0)
-    fig.subplots_adjust(left=0.09, right=0.98, top=0.94, bottom=0.12, hspace=0.22)
+    # four entries no longer fit one row at the printed width: two rows, in the
+    # eras' order read across (matplotlib fills legend columns first)
+    handles, labels = ax2.get_legend_handles_labels()
+    order = [0, 2, 1, 3]
+    fig.legend([handles[i] for i in order], [labels[i] for i in order],
+               loc="outside lower center", ncol=2, fontsize=8,
+               framealpha=0.95, handlelength=1.8, columnspacing=1.5)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(args.output, bbox_inches="tight")
+    fig.savefig(args.output, dpi=300)
+    pdf = args.output.with_suffix(".pdf")
+    fig.savefig(pdf, metadata={"CreationDate": None})
     plt.close(fig)
-    print(f"wrote {args.output}")
+    print(f"wrote {args.output} and {pdf.name}")
 
 
 if __name__ == "__main__":
