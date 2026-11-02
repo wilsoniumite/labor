@@ -11,15 +11,27 @@
 # The x_q are identified from the cross-section of categories because categories differ in who buys them.
 # Main specification: two groups (top 20% vs bottom 80%, Zandi's split), eta = 1:
 #     g_g = x_b80 + theta_top20,g * (x_top20 - x_b80) + e_g        (WLS, base-period spending weights)
-# so the slope on theta_top20 is the top20-bottom80 gap. Then 4 and 5 groups (ridge toward equal growth,
-# lambda by leave-one-out CV; unconstrained OLS shown for reference), robustness drops and a placebo.
+# so the slope on theta_top20 is the top20-bottom80 gap. Headline samples: all categories, and without the care
+# lines (NOTES_sectors.md definition (c)), which A and B attribute in opposite directions. Then 4 and 5 groups
+# (ridge toward equal growth, lambda by leave-one-out CV; unconstrained OLS shown for reference), robustness drops
+# and a placebo.
 #
 # Why the inverse model and not a fixed-share "basket" index: a K can work within categories (the top buying
 # more of everything). A fixed-market-share basket attributes each category's growth to whoever already buys
-# it, so it reads a K as a tiny tilt. With the same weights the basket gap is exactly
+# it, so it reads a K as a small tilt. With the same weights the basket gap is exactly
 #     basket_gap = kappa * slope,   kappa = Var_w(theta) / (theta_bar * (1 - theta_bar)),
-# and kappa is about 0.01-0.02 at the 16-line level, i.e. the basket shrinks a K fifty- to a hundredfold. The
-# inverse model rescales it back to group-growth units (same t-statistic, honest units).
+# and kappa is 0.047-0.066 at the 16-line level (0.056 in the 2023-09 read) and 0.027-0.032 at the 133-line level
+# (0.029 in the 2023-09 read; 0.031 before the elder-care fix of section 3), i.e. the basket shrinks a K by a factor
+# of 18 (A) to 34 (B). The inverse model rescales it back to group-growth units (same t-statistic, honest units).
+#
+# eta variant (Working model, TB-1929): eta_gq = 1 + beta_k / w_kq at group q's observed budget share of the
+# TB-1929 group k holding g (food lines: eta_F,q * (1 + beta*_s / w*_sq), eq. 11). With eta = 1 ordinary Engel
+# effects (necessities growing slower than luxuries as real income rises) read as a K; the variant removes them.
+#
+# Benchmarks: the estimator's error where group totals are known, and a calm-period REFERENCE READING (the mean
+# estimate over 2010/2014-2019 windows of the same length). The calm windows overlap heavily (A's 84 three-year
+# windows hold 3 non-overlapping ones, B's 36 hold 1), so the reference reading is a reading, not a noise
+# estimate: no z-scores, minimum detectable effects or power numbers are built on its spread.
 #
 # Two theta sources:
 #  (A) BLS distributional PCE (dPCE, March 2025 results) Table 1: decile shares of the 22 NIPA Table 2.3.5
@@ -46,6 +58,7 @@ import difflib
 import re
 import warnings
 import zipfile
+import zlib
 
 import numpy as np
 import pandas as pd
@@ -65,7 +78,7 @@ TIDY = common.TIDY
 RAW = common.RAW
 
 SEED = 20261102
-N_PERM = 1000
+N_PERM = 5000            # two-group permutation draws, drawn fresh for every fit (seed from the fit's own key)
 N_BOOT = 1000
 ZANDI_TOP, ZANDI_B80 = 0.04, 0.0          # Zandi (EconoFact, 2026-07-24): top 20% ~4%/yr real, bottom 80% ~0
 DEC = [f"d{k:02d}" for k in range(1, 11)]
@@ -324,6 +337,21 @@ for _u in _OWNER_MAINT:
 for _u in _RENTER_MAINT:
     OUT_OF_SCOPE[_u] = "renter-paid dwelling maintenance (left out of BLS's map; housing-services input)"
 
+# Exceptions to rule 1 (an item's decile distribution holds for all its UCCs). Judgment, documented: the elder-
+# and adult-care UCCs sit inside CE's 'Personal services', whose decile distribution is set by child care (UCC
+# 670320 and its predecessors, 86% of the item in 2024), bought by working-age parents and top-weighted. Applied
+# to elder care it gave home health care (line 177, fed only by 340906) a child-care theta of 0.52-0.62. These
+# UCCs take the distribution of CE's 'Medical services', the item that holds the other out-of-pocket elder care BLS
+# sends to the same lines (care in convalescent or nursing homes 570220, medical care in retirement communities
+# 570240). Still an out-of-pocket distribution: the PCE lines are mostly Medicare- and Medicaid-financed, whose
+# recipients are poorer and older (source A gives health care a top-20 share of 0.26).
+THETA_ITEM_OVERRIDE = {
+    "340906": ("Medical services", "elder care (care for elderly, invalids, handicapped) takes the 'Medical services' "
+                                   "distribution, not 'Personal services' (86% child care)"),
+    "340910": ("Medical services", "adult day care centers take the 'Medical services' distribution, not "
+                                   "'Personal services' (86% child care)"),
+}
+
 
 def norm_name(s):
     s = str(s)
@@ -494,7 +522,15 @@ def build_items(year):
     if gas_parent in t.index:
         items[gas_parent] = t.loc[gas_parent].copy()
     veh_kids = [s for s in leaves if s.startswith(veh_parent + " > ")]
-    if veh_parent in t.index and not any(s.endswith("Other vehicles") for s in veh_kids):   # 2024-2025
+    # 'Other vehicles' (motorcycles, boats, campers) as a residual: vehicle purchases - new - used, by decile.
+    # 2024-2025: BLS dropped the row. 2023: Table 1110 withholds every cell of it, the all-CU mean included
+    # (RSE >= 25%), so the row carries no numbers and drops out of the pivot. The residual keeps the published
+    # decile information where the parent and both children are shown (2023: d06-d10); deciles where a child is
+    # withheld (2023: new cars d01-d05, used cars d02) stay missing and are filled from the all-CU identity like any
+    # withheld cell (fill_item). Judgment, documented: spreading the item's all-CU mean equally per CU over all ten
+    # deciles (rule 5 applied to the whole row) would throw the d06-d10 information away (line 54, motorcycles:
+    # top-20 theta 0.20 instead of 0.37 in 2023; no effect on any headline).
+    if veh_parent in t.index and not any(s.endswith("Other vehicles") for s in veh_kids):   # 2023-2025
         r = t.loc[veh_parent] - sum(t.loc[s] for s in veh_kids)
         items[veh_parent + " > Other vehicles (residual)"] = r.clip(lower=0.0)
     # owner rental equivalence (Addenda, monthly, non-owners count as zero) -> annual
@@ -539,19 +575,37 @@ def match_item_nodes(item_key, sub):
 
 
 def nearest_ucc_mean(ucc, year):
-    """All-CU mean of a UCC from the nearest other CE year that publishes it (ties: the later year)."""
+    """All-CU mean of a UCC from the nearest other CE year that publishes a value for it, numeric or 'too small'
+    (ties: the later year). A year that codes the UCC 'no data reported' (nobody reported it, e.g. a UCC
+    discontinued after 2024Q1) is not a stand-in: UCC_MEANS leaves those cells out. Returns (mean, year, code)."""
     for z in sorted((z for z in CE_YEARS if z != year), key=lambda z: (abs(z - year), -z)):
         if ucc in UCC_MEANS.get(z, {}):
-            return UCC_MEANS[z][ucc], z
-    return np.nan, None
+            mu, kind = UCC_MEANS[z][ucc]
+            return mu, z, kind
+    return np.nan, None, ""
+
+
+def item_rule(key):
+    if key.startswith("Addenda > "):
+        return "owners' rental-equivalence addendum x 12 (non-owners count as zero), as BLS's map (910050 -> DOWNRC)"
+    if key.endswith("Other vehicles (residual)"):
+        return ("residual: vehicle purchases - new - used, by decile (2023: Table 1110 withholds every cell of "
+                "'Other vehicles'; 2024-2025: row dropped); deciles where a child is withheld filled from the all-CU "
+                "identity")
+    if key.endswith("Transportation > Gasoline and other fuels"):
+        return "parent used (2023-2025 show only 'Gasoline' under it)"
+    return "Table 1110 leaf item"
 
 
 def map_year(year):
     """Item -> UCC -> PCE-line links for CE year `year`, with Table 2500 spending weights. A UCC mean that
     Table 2500 suppresses (2022-2023: RSE >= 25%) or that could not be aligned is taken from the nearest
-    year that publishes it; 'too small' and 'no data reported' count as zero."""
+    year that publishes it (numeric or 'too small'; never a year coding it 'no data reported'); in the year itself
+    'too small' and 'no data reported' count as zero. theta_item is the item whose decile distribution the UCC
+    takes: its own item (rule 1) except for THETA_ITEM_OVERRIDE."""
     sub, dm = STUBS[year], DMEAN[year]
     items = build_items(year)
+    key_by_name = {k.split(" > ")[-1]: k for k in items.index}
     links = []
     for key in items.index:
         if key.startswith("Addenda > "):
@@ -568,11 +622,16 @@ def map_year(year):
             links.append(dict(year=year, item_key=key, match=how, ucc=None, map_source="no_ucc"))
             continue
         for ucc, title, src, mu, code in ucc_rows:
-            from_year = year
+            from_year, from_code = year, code
             if not np.isfinite(mu):
-                mu, from_year = nearest_ucc_mean(ucc, year)
-            base = dict(year=year, item_key=key, item=items.at[key, "item"], match=how, ucc=ucc, ucc_title=title,
-                        ucc_survey=src, ucc_mean_all=mu, ucc_mean_code=code, ucc_mean_from_year=from_year)
+                mu, from_year, from_code = nearest_ucc_mean(ucc, year)
+            th_item, th_why = key, ""
+            if ucc in THETA_ITEM_OVERRIDE:
+                th_item, th_why = key_by_name[THETA_ITEM_OVERRIDE[ucc][0]], THETA_ITEM_OVERRIDE[ucc][1]
+            base = dict(year=year, item_key=key, item=items.at[key, "item"], item_rule=item_rule(key), match=how,
+                        ucc=ucc, ucc_title=title, ucc_survey=src, ucc_mean_all=mu, ucc_mean_code=code,
+                        ucc_mean_from_year=from_year, ucc_mean_from_code=from_code, theta_item=th_item,
+                        theta_item_reason=th_why)
             if ucc in UCC2SERIES:
                 for s in UCC2SERIES[ucc]:
                     links.append(dict(base, map_source="BLS_ce_pce_map", pce_series=s, pce_line=CODE2ULINE[s],
@@ -621,20 +680,30 @@ def build_B(year):
         else:
             rows.append(dict(r, category=r.pce_line, weight=r.ucc_weight, rule="direct"))
     cl = pd.DataFrame(rows)
-    # item -> category weights E_ic; fallback to equal weights if a category's feeders all carry zero weight
-    E = cl.groupby(["category", "item_key"]).weight.sum().reset_index()
-    zero = E.groupby("category").weight.transform("sum") <= 0
-    E.loc[zero, "weight"] = 1.0
     th = items[[f"theta_{d}" for d in DEC]]
+
+    def mix(by):
+        """Category thetas as the weighted mix of the distributions of the items in column `by` (fallback to equal
+        weights if a category's feeders all carry zero weight)."""
+        E = cl.groupby(["category", by]).weight.sum().reset_index()
+        zero = E.groupby("category").weight.transform("sum") <= 0
+        E.loc[zero, "weight"] = 1.0
+        res = {}
+        for c, g in E.groupby("category"):
+            w = g.set_index(by).weight
+            res[int(c)] = ((th.loc[w.index].mul(w, axis=0).sum() / w.sum()).values, w, bool(zero[g.index].any()))
+        return res
+
+    main, rule1 = mix("theta_item"), mix("item_key")
+    feeders = cl.groupby("category").item_key.apply(lambda s: " | ".join(sorted({k.split(" > ")[-1] for k in s})))
     out = []
-    for c, g in E.groupby("category"):
-        w = g.set_index("item_key").weight
-        tc = (th.loc[w.index].mul(w, axis=0).sum() / w.sum()).values
-        r = dict(source="B_CE", base_year=year, category=int(c), category_label=ULABEL[int(c)],
+    for c, (tc, w, fb) in main.items():
+        r = dict(source="B_CE", base_year=year, category=c, category_label=ULABEL[c],
                  base_spending_nipa_bn=float(S[c]) / 1000.0, ce_weight_per_cu=float(w.sum()),
-                 n_items=len(w), items=" | ".join(sorted(k.split(" > ")[-1] for k in w.index)),
-                 equal_weight_fallback=bool(zero[g.index].any()))
+                 n_items=len(w), items=feeders[c], theta_items=" | ".join(sorted(k.split(" > ")[-1] for k in w.index)),
+                 equal_weight_fallback=fb)
         r.update({f"theta_{d}": float(tc[i]) for i, d in enumerate(DEC)})
+        r["theta_top20_rule1"] = float(rule1[c][0][8:].sum())      # every UCC on its own item's distribution
         out.append(r)
     thB = pd.DataFrame(out)
     tg = group_theta(thB.set_index("category")[[f"theta_{d}" for d in DEC]].rename(columns=lambda s: s[6:]),
@@ -642,10 +711,11 @@ def build_B(year):
     for g in ALL_GROUPS:
         thB[f"theta_{g}"] = thB.category.map(tg[g])
     thB["theta_row_sum"] = thB[[f"theta_{d}" for d in DEC]].sum(axis=1)
+    alt = pd.DataFrame({c: v[0] for c, v in rule1.items()}, index=DEC).T          # rule-1-only decile thetas
     cl["pce_line"] = cl.pce_line.astype(float)
     lk = lk.merge(cl[["item_key", "ucc", "pce_line", "category", "split_share", "weight", "rule"]],
                   on=["item_key", "ucc", "pce_line"], how="left")
-    return items, lk, thB, cats
+    return items, lk, thB, cats, alt
 
 
 ZF = zipfile.ZipFile(STUB_ZIP)
@@ -653,23 +723,26 @@ STUBS, DMEAN, UCC_MEANS = {}, {}, {}
 for y in tqdm(CE_YEARS, desc="CE stubs + Table 2500 alignment"):
     STUBS[y], _ = parse_stub(ZF, y)
     DMEAN[y] = align_detail(STUBS[y], parse_detail(y))
-    UCC_MEANS[y] = {STUBS[y].code[j]: v[0] for j, v in DMEAN[y].items()
-                    if STUBS[y].src[j] in ("I", "D") and np.isfinite(v[0])}
-B_ITEMS, B_LINKS, B_THETA, B_CATS = {}, {}, {}, {}
+    # stand-in pool: published values (numeric, or 'too small' = 0); 'no data reported' cells are not stand-ins
+    UCC_MEANS[y] = {STUBS[y].code[j]: (v[0], v[1]) for j, v in DMEAN[y].items()
+                    if STUBS[y].src[j] in ("I", "D") and np.isfinite(v[0]) and v[1] != "no_data"}
+B_ITEMS, B_LINKS, B_THETA, B_CATS, B_THETA_RULE1 = {}, {}, {}, {}, {}
 for y in tqdm(CE_YEARS, desc="source B mapping by CE year"):
-    B_ITEMS[y], B_LINKS[y], B_THETA[y], B_CATS[y] = build_B(y)
+    B_ITEMS[y], B_LINKS[y], B_THETA[y], B_CATS[y], B_THETA_RULE1[y] = build_B(y)
 
 pd.concat([B_THETA[y] for y in CE_YEARS], ignore_index=True).to_csv(OUT / "fingerprint_theta_B.csv", index=False,
                                                                      float_format="%.10g")
-_mcols = ["year", "item_key", "item", "match", "ucc", "ucc_title", "ucc_survey", "ucc_mean_all", "ucc_mean_code",
-          "ucc_mean_from_year", "map_source", "pce_series", "pce_line", "n_targets", "split_share", "category",
-          "weight", "rule", "reason"]
+_mcols = ["year", "item_key", "item", "item_rule", "match", "ucc", "ucc_title", "ucc_survey", "ucc_mean_all",
+          "ucc_mean_code", "ucc_mean_from_year", "ucc_mean_from_code", "map_source", "pce_series", "pce_line",
+          "n_targets", "split_share", "category", "weight", "theta_item", "theta_item_reason", "rule", "reason"]
 MAPPING_B = pd.concat([B_LINKS[y] for y in CE_YEARS], ignore_index=True).reindex(columns=_mcols)
+MAPPING_B["theta_item"] = MAPPING_B.theta_item.map(lambda k: k.split(" > ")[-1] if isinstance(k, str) else "")
 MAPPING_B["pce_label"] = MAPPING_B.pce_line.map(lambda l: ULABEL.get(int(l), "") if np.isfinite(l) else "")
 MAPPING_B["category_label"] = MAPPING_B.category.map(lambda l: ULABEL.get(int(l), "") if np.isfinite(l) else "")
 MAPPING_B["rule"] = MAPPING_B.rule.fillna("").replace({
-    "direct": "item theta applies to the UCC's PCE line; a line fed by several items takes the mix of their thetas "
-              "weighted by Table 2500 UCC means x split share (split UCCs divided by the targets' PCE values)",
+    "direct": "the theta item's distribution applies to the UCC's PCE line; a line fed by several UCCs takes the mix "
+              "of their theta items' distributions weighted by Table 2500 UCC means x split share (split UCCs divided "
+              "by the targets' PCE values)",
     "spread_to_mapped_descendants": "UCC targets a non-leaf line whose sub-lines are mapped: weight spread over "
                                     "those sub-lines by their PCE values"})
 MAPPING_B.to_csv(OUT / "fingerprint_mapping_B.csv", index=False, float_format="%.10g")
@@ -705,6 +778,13 @@ for y in CE_YEARS:
                 .drop_duplicates(["item_key", "ucc"]).ucc_mean_all.clip(lower=0).sum())
     t, _ = ce_item_table(y)
     unc = uncovered_lines(y)
+    # flags: the 'Health insurance' item's distribution (theta of net health insurance, 276) includes the out-of-scope
+    # Medicare / Medicaid / Tricare / CHIP premium UCCs; CE's own top-20 share of total spending (income-ranked)
+    hi = lk[lk.item == "Health insurance"].drop_duplicates("ucc")
+    hi_oos = float(hi[hi.map_source == "out_of_scope"].ucc_mean_all.clip(lower=0).sum() /
+                   hi.ucc_mean_all.clip(lower=0).sum())
+    Nd_, _ = ce_counts(y)
+    tot_d = Nd_ * t.loc["Average annual expenditures", DEC].astype(float)
     cov_rows.append(dict(
         year=y, n_categories=len(th), pce_total_bn=float(S[1]) / 1000.0,
         pce_covered_bn=float(th.base_spending_nipa_bn.sum()),
@@ -717,6 +797,8 @@ for y in CE_YEARS:
         n_ucc_out_of_scope=int(lk[lk.map_source == "out_of_scope"].ucc.nunique()),
         n_ucc_unmapped=int(lk[lk.map_source == "unmapped"].ucc.nunique()),
         n_items_filled=int((it.n_filled > 0).sum()),
+        health_insurance_item_out_of_scope_share=hi_oos,
+        ce_top20_share_of_total_spending=float(tot_d[GROUPS["top20"]].sum() / tot_d.sum()),
         uncovered=" | ".join(f"{r.line} {r.label} {r.value_bn:+.0f}bn" for _, r in unc.iterrows())))
 COVERAGE_B = pd.DataFrame(cov_rows)
 COVERAGE_B.to_csv(OUT / "fingerprint_coverage_B.csv", index=False, float_format="%.10g")
@@ -783,7 +865,11 @@ def fit_2grp(g, th, w, gap_z, perms):
     span = 8 * max(se, np.std(a_p), 1e-6)
     grid = np.linspace(b - span, b + span, 4001)
     obs = np.abs(b - grid)
-    pg = (1 + (np.abs(a_p[None, :] - grid[:, None] * b_p[None, :]) >= obs[:, None] - 1e-12).sum(axis=1)) / (len(perms) + 1)
+    pg = np.empty(len(grid))
+    for k in range(0, len(grid), 500):                # chunks keep the (grid x permutations) array small
+        sl = slice(k, k + 500)
+        pg[sl] = (1 + (np.abs(a_p[None, :] - grid[sl, None] * b_p[None, :]) >= obs[sl, None] - 1e-12).sum(axis=1)) \
+            / (len(perms) + 1)
     acc = grid[pg > 0.05]
     tb = wmean(th, w)
     G = wmean(g, w)
@@ -894,14 +980,20 @@ def annualize_gap(x_b80, gap, T):
     return (1 + x_b80 + gap) ** (1 / T) - (1 + x_b80) ** (1 / T)
 
 
-def make_perms(n, k=N_PERM, seed=0):
-    r = np.random.default_rng(SEED + 7919 * n + seed)
-    return np.array([r.permutation(n) for _ in range(k)])
+def key_seed(key):
+    """A reproducible seed of its own for every fit (window, source, theta year, sample, measure, spec): fresh
+    permutations per window instead of one set reused wherever the number of categories is the same."""
+    return SEED + zlib.crc32(str(key).encode()) % (2 ** 31)
 
 
-def make_boots(n, k=N_BOOT, seed=0):
-    r = np.random.default_rng(SEED + 104729 * n + seed)
-    return np.array([r.integers(0, n, n) for _ in range(k)])
+def make_perms(n, key, k=N_PERM):
+    r = np.random.default_rng(key_seed("perm|" + str(key)))
+    return np.argsort(r.random((k, n)), axis=1)
+
+
+def make_boots(n, key, k=N_BOOT):
+    r = np.random.default_rng(key_seed("boot|" + str(key)))
+    return r.integers(0, n, (k, n))
 
 # %% 5. Samples (robustness drops) and the spec driver
 # ---------------------------------------------------------------------------------------------------------
@@ -909,8 +1001,14 @@ def make_boots(n, k=N_BOOT, seed=0):
 # ---------------------------------------------------------------------------------------------------------
 # A (16 major lines): health goods (in lines 7 and 12), net health insurance and FISIM (in line 20), imputed
 # owners' rent and utilities (in line 15) cannot be split out at this level; whole lines are dropped instead.
+# drop_care (headline sensitivity): the care lines of NOTES_sectors.md definition (c): health care services (172),
+# pharmaceutical and other medical products (121), therapeutic appliances (66), net health insurance (275), child
+# care (316), social assistance (317). B drops all of them it covers; A can drop only line 16 (= 172): the others
+# sit inside lines 7, 12, 20 and 21 with non-care spending.
+CARE_ROOTS = [172, 121, 66, 275, 316, 317]
 A_DROPS = {"all": [], "drop_health": [16], "drop_imputed": [15, 20, 22], "drop_energy": [11], "drop_mv": [4]}
 A_DROPS["drop_all4"] = sorted(set(sum(A_DROPS.values(), [])))
+A_DROPS["drop_care"] = [16]
 
 
 def b_drops(cats):
@@ -920,7 +1018,11 @@ def b_drops(cats):
          "drop_energy": [c for c in cats if in_subtree(c, [113, 169])],
          "drop_mv": [c for c in cats if in_subtree(c, [5, 12])]}
     d["drop_all4"] = sorted(set(sum(d.values(), [])))
+    d["drop_care"] = [c for c in cats if in_subtree(c, CARE_ROOTS)]
     return d
+
+
+HEAD_SAMPLES = ["all", "drop_care"]          # the headline pair: all categories, and without the care lines
 
 
 def theta_B(year):
@@ -928,28 +1030,256 @@ def theta_B(year):
     return t.rename(columns=lambda s: s[6:])
 
 
+# %% 5b. Working-model elasticities (TB-1929), the eta variant
+# ---------------------------------------------------------------------------------------------------------
+# eta_gq = 1 + beta_k / w_kq (TB-1929 eq. 5) at income group q's OBSERVED budget share w_kq of the TB-1929 stage-one
+# group k holding category g; food lines eta_F,q * (1 + beta*_s / w*_sq) (eq. 11), w*_sq = the subgroup's share of
+# q's food spending. Budget shares are PCE-concept: q's spending on g = theta_qg x S_g (the categories' values in
+# the theta year: dPCE totals for A, NIPA for B), summed over the source's categories, so that the elasticities
+# refer to the same total whose growth x_q the model estimates. A line that mixes groups (A's major lines) takes the
+# spending-weighted mix of its parts' elasticities (parts = its 2.4.5U leaves in the theta year, each in one group;
+# the same composition for every decile, all the dPCE allows). Engel aggregation holds by construction: the stage-
+# one betas sum to 0 and the stage-two beta* to 0.001, so every group's spending-weighted mean eta is 1 (+-0.0002).
+# PCE line -> TB-1929 group: COICOP 1999 reading of README_usda.md sec. 8 (the most specific listed root wins).
+# The rebuild's bridge.py maps CE Table 1110 categories, not PCE lines, and was still being edited when this ran,
+# so it is not imported; the two agree where they overlap (telephone in transport and communication, restaurants
+# in 'Food other', alcohol and tobacco in 'Beverages and tobacco'), except where bridge.py follows the post's
+# figures (CE health insurance in medical, personal services in furnishings) and this map follows COICOP (net
+# health insurance in 'Other', child care and social assistance in 'Other').
+USDA_LABEL = {"food": "Food, beverage, and tobacco", "clothing": "Clothing and footwear",
+              "housing": "Housing and utilities", "furnishings": "Furnishing, household equipment, and maintenance",
+              "medical": "Medical and health", "transport": "Transportation and communication",
+              "recreation": "Recreation and culture", "education": "Education", "other": "Other"}
+_up = pd.read_csv(TIDY / "usda_tb1929_params.csv", dtype=str)
+_up["v"] = _up["value"].astype(float)
+USDA_BETA = {k: float(_up[(_up.stage == "1") & (_up.parameter == "beta") & (_up.category == v)].v.iloc[0])
+             for k, v in USDA_LABEL.items()}
+USDA_BETA_STAR = _up[(_up.stage == "2") & (_up.parameter == "beta_star")].set_index("category").v.to_dict()
+USDA_MAP = {
+    4: ("transport", None, "motor vehicles and parts: COICOP 07.1, 07.2.1"),
+    23: ("furnishings", None, "furnishings and durable household equipment: COICOP 05.1-05.5"),
+    38: ("recreation", None, "recreational goods and vehicles: COICOP 09.1-09.2 (computers 09.1.3 in COICOP 1999)"),
+    54: ("transport", None, "motorcycles: COICOP 07.1.2"),
+    55: ("transport", None, "bicycles: COICOP 07.1.3"),
+    63: ("other", None, "jewelry and watches: COICOP 12.3.1"),
+    66: ("medical", None, "therapeutic appliances: COICOP 06.1.3"),
+    69: ("recreation", None, "educational books: COICOP 09.5.1 (README_usda sec. 8: school books are recreation)"),
+    70: ("other", None, "luggage and similar personal items: COICOP 12.3.2"),
+    71: ("transport", None, "telephone and communication equipment: COICOP 08.2"),
+    76: ("food", "Cereals", "bread and cereals: COICOP 01.1.1"),
+    79: ("food", "Meat", "meats and poultry: COICOP 01.1.2"),
+    84: ("food", "Fish", "fish and seafood: COICOP 01.1.3"),
+    85: ("food", "Dairy and eggs", "milk, dairy products, eggs: COICOP 01.1.4"),
+    89: ("food", "Oils and fat", "fats and oils: COICOP 01.1.5"),
+    90: ("food", "Fruit and vegetables", "fresh fruit and vegetables: COICOP 01.1.6-01.1.7"),
+    93: ("food", "Fruit and vegetables", "processed fruit and vegetables: COICOP 01.1.6-01.1.7"),
+    94: ("food", "Food other", "sugar and sweets: 'Food other' by elimination (README_usda sec. 4)"),
+    95: ("food", "Food other", "food n.e.c.: 'Food other' by elimination"),
+    96: ("food", "Food other", "nonalcoholic beverages: TB-1929 does not say; 'Food other' (judgment)"),
+    99: ("food", "Beverages and tobacco", "alcoholic beverages for off-premises consumption"),
+    103: ("food", "Food other", "food produced and consumed on farms (A only, about $1bn)"),
+    104: ("clothing", None, "clothing and footwear: COICOP 03.1-03.2"),
+    114: ("transport", None, "motor vehicle fuels: COICOP 07.2.2"),
+    117: ("housing", None, "fuel oil and other household fuels: COICOP 04.5"),
+    121: ("medical", None, "pharmaceutical and other medical products: COICOP 06.1"),
+    126: ("recreation", None, "games, toys, pets, flowers, film: COICOP 09.3"),
+    131: ("furnishings", None, "household supplies and linens: COICOP 05.2, 05.6.1"),
+    137: ("other", None, "personal care products: COICOP 12.1.3"),
+    141: ("food", "Beverages and tobacco", "tobacco: COICOP 02.2"),
+    142: ("recreation", None, "newspapers, periodicals, stationery: COICOP 09.5"),
+    145: ("other", None, "net expenditures abroad (A only)"),
+    152: ("housing", None, "housing and utilities, imputed rent included: COICOP 04"),
+    172: ("medical", None, "health care services: COICOP 06.2-06.3"),
+    190: ("transport", None, "transportation services: COICOP 07.2.3-07.3"),
+    209: ("recreation", None, "recreation services: COICOP 09.4, 09.6"),
+    235: ("food", "Food other", "food services: restaurants are in 'Food other' (TB-1929 pp. 4, 5, 16)"),
+    245: ("food", "Beverages and tobacco", "alcohol in purchased meals"),
+    249: ("other", None, "accommodations: COICOP 11.2, 'Other' by judgment (README_usda sec. 8)"),
+    252: ("other", None, "financial services and insurance, net health and motor insurance included: COICOP 12.5-12.6"),
+    281: ("transport", None, "communication: COICOP 08.1, 08.3"),
+    290: ("education", None, "education services: COICOP 10 (day care and nursery schools stay with line 294)"),
+    298: ("other", None, "professional and other services: COICOP 12.7"),
+    307: ("other", None, "personal care services: COICOP 12.1.1"),
+    311: ("clothing", None, "clothing and footwear services: COICOP 03.1.4, 03.2.2"),
+    315: ("other", None, "child care, social assistance, religious and civic: COICOP 12.4, 12.7"),
+    327: ("furnishings", None, "household maintenance: COICOP 05.1.3, 05.3.3, 05.6.2"),
+    329: ("transport", None, "moving, storage and freight: COICOP 07.3.6"),
+    333: ("other", None, "net foreign travel: purchases abroad, 'Other' by judgment"),
+    342: ("other", None, "NPISH final consumption (A only): social, religious, civic and other"),
+    344: ("medical", None, "NPISH health output"), 357: ("medical", None, "less: NPISH health sales"),
+    348: ("recreation", None, "NPISH recreation output"), 361: ("recreation", None, "less: NPISH recreation sales"),
+    349: ("education", None, "NPISH education output"), 362: ("education", None, "less: NPISH education sales"),
+}
+
+
+def usda_group(line):
+    """(group, food subgroup or '') of a 2.4.5U line: its most specific ancestor-or-self in USDA_MAP."""
+    for a in reversed(UPATH[line]):
+        if a in USDA_MAP:
+            k, s = USDA_MAP[a][:2]
+            return k, (s or "")
+    raise KeyError(f"2.4.5U line {line} has no TB-1929 group")
+
+
+def u_leaves(line):
+    out, stack = [], [line]
+    while stack:
+        x = stack.pop()
+        if x in UCHILDREN:
+            stack += UCHILDREN[x]
+        else:
+            out.append(x)
+    return out
+
+
+def usda_composition(line, year):
+    """Signed value shares of 2.4.5U line `line` by (group, subgroup), from its leaves in `year`."""
+    S = W[("2.4.5U", "A")].loc[str(year)]
+    sg = int(UMAIN.at[line, "sign_to_root"])
+    parts = {}
+    for f in u_leaves(line):
+        v = S.get(f, np.nan)
+        if np.isfinite(v):
+            k = usda_group(f)
+            parts[k] = parts.get(k, 0.0) + int(UMAIN.at[f, "sign_to_root"]) * sg * float(v)
+    tot = sum(parts.values())
+    return {k: v / tot for k, v in parts.items()}
+
+
+def eta_tables(theta_dec, S, comps):
+    """Decile elasticities eta_gd for every category g of a source-year. theta_dec: categories x deciles; S: the
+    categories' values in the theta year; comps: category -> {(group, subgroup): share}. Returns (eta, w, wstar)."""
+    X = theta_dec.mul(S, axis=0)
+    G = {}
+    for c in theta_dec.index:
+        for ks, sh in comps[c].items():
+            G[ks] = G.get(ks, 0.0) + X.loc[c] * sh
+    G = pd.DataFrame(G).T
+    G.index = pd.MultiIndex.from_tuples(G.index, names=["group", "subgroup"])
+    w = G.groupby(level="group").sum() / X.sum()
+    food = G.xs("food", level="group")
+    wstar = food / food.sum()
+    eF = 1 + USDA_BETA["food"] / w.loc["food"]
+    eks = {}
+    for (k, s) in G.index:
+        eks[(k, s)] = eF * (1 + USDA_BETA_STAR[s] / wstar.loc[s]) if k == "food" else 1 + USDA_BETA[k] / w.loc[k]
+    eta = pd.DataFrame({c: sum(sh * eks[ks] for ks, sh in comps[c].items()) for c in theta_dec.index}).T[DEC]
+    return eta, w, wstar
+
+
+ETA, ETA_W, ETA_ROWS = {}, {}, []
+for src, years in (("A_dPCE", DPCE_YEARS), ("B_CE", CE_YEARS)):
+    for y in tqdm(years, desc=f"eta tables {src}"):
+        thd = theta_A(y) if src == "A_dPCE" else theta_B(y)
+        if src == "A_dPCE":
+            S = DP_PCE.loc[y, A_CATS].astype(float)
+            comps = {c: usda_composition(MAJ2U[c], y) for c in A_CATS}
+        else:
+            S = W[("2.4.5U", "A")].loc[str(y), list(thd.index)].astype(float)
+            comps = {c: usda_composition(c, y) for c in thd.index}
+        eta, w, wstar = eta_tables(thd, S, comps)
+        ETA[(src, y)] = eta
+        ETA_W[(src, y)] = (w, wstar)
+        tt = thd[GROUPS["top20"]].sum(axis=1)
+        Eg = (thd * eta).sum(axis=1)
+        zt = (thd[GROUPS["top20"]] * eta[GROUPS["top20"]]).sum(axis=1)
+        for c in thd.index:
+            r = dict(source=src, theta_base_year=y, row_kind="category_eta", category=int(c),
+                     label=A_SHORT[c] if src == "A_dPCE" else ULABEL[int(c)],
+                     usda_parts="; ".join(f"{k}{'/' + s if s else ''} {v:.3f}" for (k, s), v in comps[c].items()),
+                     theta_top20=float(tt[c]), eta_agg=float(Eg[c]), z_top20=float(zt[c]),
+                     marginal_top20_share=float(zt[c] / Eg[c]))
+            r.update({d: float(eta.at[c, d]) for d in DEC})
+            ETA_ROWS.append(r)
+        for k in w.index:
+            ETA_ROWS.append(dict(source=src, theta_base_year=y, row_kind="group_budget_share", label=USDA_LABEL[k],
+                                 usda_parts=k, beta=USDA_BETA[k], **{d: float(w.at[k, d]) for d in DEC}))
+        for s in wstar.index:
+            ETA_ROWS.append(dict(source=src, theta_base_year=y, row_kind="food_subgroup_share_of_food", label=s,
+                                 usda_parts="food/" + s, beta=USDA_BETA_STAR[s], **{d: float(wstar.at[s, d]) for d in DEC}))
+ETA_TABLE = pd.DataFrame(ETA_ROWS)
+ETA_TABLE.to_csv(OUT / "fingerprint_eta.csv", index=False, float_format="%.10g")
+
+
 MULTI_SPECS = {"4grp_ridge": ("4grp", None), "5grp_ridge": ("5grp", None), "4grp_ols": ("4grp", 0.0),
                "5grp_ols": ("5grp", 0.0)}
 
 
+ETA_MIN_E = 0.05     # categories whose Engel response is within +-0.05 of zero are left out of the eta fits
+
+
+def eta_regressors(thd, eta_dec, keep):
+    """Two-group regressors of the eta variant: E_g = sum_d theta_dg eta_gd (the category's market-share-weighted
+    elasticity) and z_g = the top-20 part of it; s_g = z_g / E_g is the top 20%'s share of the category's response
+    to a uniform rise in spending. Also returns the mask of categories used: |E_g| >= ETA_MIN_E. A category with
+    E near zero (B's cereals and bakery products every year, fish in most: deciles' elasticities of opposite
+    sign) has no weight in the fit (w E^2) but an undefined s (-18 to +2.5 in 2014-2016 and 2020), which would
+    distort the permutations."""
+    et = eta_dec.loc[keep]
+    E = (thd * et).sum(axis=1).to_numpy(float)
+    z = (thd[GROUPS["top20"]] * et[GROUPS["top20"]]).sum(axis=1).to_numpy(float)
+    return E, z, np.abs(E) >= ETA_MIN_E
+
+
+def fit_eta(g, g_nom, g_real, w, E, z, measure, gz, perms):
+    """eta variant: g_g - pbar = x_b80 E_g + gap z_g + e_g (WLS, no intercept; with eta = 1 it is the main fit).
+    Fitted as y = (g - pbar) / E on [1, s = z / E] with weights w E^2 (identical least squares), so fit_2grp's
+    permutation test inversion applies with s permuted across categories. pbar: 0 for real growth; for nominal
+    growth the covered categories' common price change (1 + G_nom) / (1 + G_real) - 1, because the elasticities
+    apply to real income, not to inflation (subtracting a constant leaves the eta = 1 slope unchanged)."""
+    pbar = 0.0
+    if measure == "nominal":
+        pbar = (1 + np.sum(w * g_nom) / w.sum()) / (1 + np.sum(w * g_real) / w.sum()) - 1
+    f = fit_2grp((g - pbar) / E, z / E, w * E ** 2, gz, perms)
+    return f, pbar
+
+
 def run_specs(gf, theta_dec, drops, T, meta, specs=("2grp", "4grp_ridge", "5grp_ridge", "4grp_ols", "5grp_ols"),
-              measures=("nominal", "real"), total_pce=None):
-    """Every spec x sample x measure for one window/source. gf: growth frame (S0, g_nom, g_real by line)."""
+              measures=("nominal", "real"), total_pce=None, eta_dec=None, multi_samples=None):
+    """Every spec x sample x measure for one window/source. gf: growth frame (S0, g_nom, g_real by line).
+    eta_dec (categories x deciles) enables spec '2grp_eta'. multi_samples: samples that get the multi-group specs
+    (default all). Permutations and bootstrap draws are fresh for every fit (seeded by the fit's key)."""
     rows, cats_out = [], {}
     gz = zandi_gap(T)
+    wkey = "|".join(str(meta.get(k, "")) for k in ("window", "source", "theta_base_year", "growth_source", "variant"))
     for sample, dropped in drops.items():
         keep = [c for c in theta_dec.index if c not in dropped and c in gf.index]
         w = gf.loc[keep, "S0"].to_numpy(float)
         thd = theta_dec.loc[keep]
-        perms = make_perms(len(keep))
-        boots = make_boots(len(keep))
         for measure in measures:
             g = gf.loc[keep, "g_nom" if measure == "nominal" else "g_real"].to_numpy(float)
             base = dict(meta, sample=sample, measure=measure, n_cats=len(keep), T_years=T,
                         coverage_of_pce=(w.sum() / total_pce) if total_pce else np.nan,
                         zandi_gap_cum=gz, zandi_gap_pa=ZANDI_TOP - ZANDI_B80)
             for spec in specs:
-                if spec == "2grp":
+                multi = spec not in ("2grp", "2grp_eta")
+                if multi and multi_samples is not None and sample not in multi_samples:
+                    continue
+                if spec == "2grp_eta" and eta_dec is None:
+                    continue
+                fkey = f"{wkey}|{sample}|{measure}|{spec}"
+                if spec == "2grp_eta":
+                    E, z, ok = eta_regressors(thd, eta_dec, keep)
+                    perms = make_perms(int(ok.sum()), fkey)
+                    f, pbar = fit_eta(g[ok], gf.loc[keep, "g_nom"].to_numpy(float)[ok],
+                                      gf.loc[keep, "g_real"].to_numpy(float)[ok], w[ok], E[ok], z[ok], measure, gz,
+                                      perms)
+                    # Engel effect proper: what eta = 1 reads if every group's real spending rose by the window's
+                    # aggregate real growth G and each category followed its elasticity (g = G E): no K at all
+                    G_real = float(np.sum(w * gf.loc[keep, "g_real"].to_numpy(float)) / w.sum())
+                    engel = wls_line(G_real * E, thd[GROUPS["top20"]].sum(axis=1).to_numpy(float), w)[1]
+                    r = dict(base, spec=spec, x_b80=f["x_b80"] + pbar, x_top20=f["x_top20"] + pbar, gap=f["gap"],
+                             ci_lo=f["ci_perm_lo"], ci_hi=f["ci_perm_hi"],
+                             ci_method="permutation test inversion (s = top-20 share of the category's Engel response "
+                                       "permuted)", ci_t_lo=f["ci_t_lo"], ci_t_hi=f["ci_t_hi"], se=f["se"],
+                             se_hc3=f["se_hc3"], p_placebo=f["p_placebo"], p_zandi=f["p_zandi"], perm_sd=f["perm_sd"],
+                             agg_growth=float(np.sum(w * g) / w.sum()), eta_pbar=pbar, eta_n_near_zero=int((~ok).sum()),
+                             eta_engel_bias_uniform=engel, eta_agg_real_growth=G_real,
+                             eta_E_min=float(E[ok].min()), eta_E_max=float(E[ok].max()),
+                             eta_s_min=float((z[ok] / E[ok]).min()), eta_s_max=float((z[ok] / E[ok]).max()),
+                             ci_perm_at_edge=f["ci_perm_at_edge"], perm_seed=key_seed("perm|" + fkey))
+                elif spec == "2grp":
+                    perms = make_perms(len(keep), fkey)
                     th = thd[GROUPS["top20"]].sum(axis=1).to_numpy(float)
                     f = fit_2grp(g, th, w, gz, perms)
                     r = dict(base, spec=spec, x_b80=f["x_b80"], x_top20=f["x_top20"], gap=f["gap"],
@@ -960,7 +1290,7 @@ def run_specs(gf, theta_dec, drops, T, meta, specs=("2grp", "4grp_ridge", "5grp_
                              basket_gap=f["basket_gap"], wrmse_fit=f["wrmse_fit"], wrmse_zandi=f["wrmse_zandi"],
                              wrmse_flat=f["wrmse_flat"], r2_fit_vs_flat=f["r2_fit_vs_flat"],
                              r2_zandi_vs_flat=f["r2_zandi_vs_flat"], mde80=f["mde80"],
-                             ci_perm_at_edge=f["ci_perm_at_edge"])
+                             ci_perm_at_edge=f["ci_perm_at_edge"], perm_seed=key_seed("perm|" + fkey))
                     if sample == "all":
                         cats_out[measure] = pd.DataFrame(dict(
                             category=keep, S0=w, share=w / w.sum(), g=g, theta_top20=th,
@@ -971,6 +1301,8 @@ def run_specs(gf, theta_dec, drops, T, meta, specs=("2grp", "4grp_ridge", "5grp_
                     gs, lam = MULTI_SPECS[spec]
                     groups = SPEC_GROUPS[gs]
                     TH = np.column_stack([thd[GROUPS[k]].sum(axis=1).to_numpy(float) for k in groups])
+                    perms = make_perms(len(keep), fkey)
+                    boots = make_boots(len(keep), fkey)
                     f = fit_groups(g, TH, w, groups, SPEC_TOP[gs], perms, boots, lam=lam)
                     pred = TH @ f["x"]
                     G = f["agg_growth"]
@@ -1019,8 +1351,9 @@ for (y0, y1) in tqdm(BACKTEST_WINDOWS, desc="backtest windows (A)"):
     for measure, gsrc, gf in variants:
         meta = dict(window=f"{y0}->{y1}", t0=str(y0), t1=str(y1), source="A_dPCE", theta_base_year=y0,
                     growth_source=gsrc)
-        rows, _ = run_specs(gf, thd, {"all": []}, T, meta, specs=("2grp", "4grp_ridge", "5grp_ridge"),
-                            measures=(measure,))
+        rows, _ = run_specs(gf, thd, {"all": []}, T, meta, specs=("2grp", "4grp_ridge", "5grp_ridge", "2grp_eta"),
+                            measures=(measure,),
+                            eta_dec=ETA[("A_dPCE", y0)] if gsrc == "nipa_current" else None)
         act = dpce_group_growth(y0, y1, ALL_GROUPS, real=(measure == "real"))
         for r in rows:
             r["gap_actual"] = act["top20"] - act["b80"]
@@ -1079,10 +1412,11 @@ for (y0, y1) in tqdm(B_BT_WINDOWS, desc="B vs CE group totals"):
     for measure in ("nominal", "real"):
         meta = dict(window=f"{y0}->{y1}", t0=str(y0), t1=str(y1), source="B_CE", theta_base_year=y0,
                     growth_source="nipa_current")
-        rows, _ = run_specs(gf, thd, {"all": []}, y1 - y0, meta, specs=("2grp",), measures=(measure,))
+        rows, _ = run_specs(gf, thd, {"all": []}, y1 - y0, meta, specs=("2grp", "2grp_eta"), measures=(measure,),
+                            eta_dec=ETA[("B_CE", y0)])
         for scope in ("total", "pce_scope"):
             act = ce_group_growth(y0, y1, ["top20", "b80"], scope)
-            for r in rows:
+            for r in rows:                              # 2grp before 2grp_eta within every window x measure x scope
                 r = dict(r)
                 r["gap_actual"] = act["top20"] - act["b80"]
                 r["x_top20_actual"], r["x_b80_actual"] = act["top20"], act["b80"]
@@ -1094,7 +1428,27 @@ for (y0, y1) in tqdm(B_BT_WINDOWS, desc="B vs CE group totals"):
                                       f"not a national-accounts truth")
                 bt_rows.append(r)
 BACKTEST = pd.DataFrame(bt_rows)
+# False alarms: windows where the placebo rejects 'no gap' at 5% although the known group totals show none of
+# Zandi's size. Counted across nominal AND real. 'borderline': p within 0.04-0.06, where the Monte Carlo error
+# of a permutation p and the choice of draws decide the side of 5% (A 2007-2009 nominal: 0.048 with the first
+# build's 1,000 draws, 0.053 with the verifier's 20,000).
+BACKTEST["false_alarm_5pct"] = BACKTEST.p_placebo < 0.05
+BACKTEST["p_borderline"] = BACKTEST.p_placebo.between(0.04, 0.06)
 BACKTEST.to_csv(OUT / "fingerprint_backtest.csv", index=False, float_format="%.10g")
+_fa = []
+for (src, spec), x in BACKTEST[BACKTEST.spec.isin(["2grp", "2grp_eta"])].groupby(["source", "spec"]):
+    x = x.drop_duplicates(["window", "measure", "growth_source"])
+    for meas_set, lab in ((("nominal",), "nominal"), (("real",), "real"), (("nominal", "real"), "nominal or real")):
+        xm = x[x.measure.isin(meas_set)]
+        hits = xm[xm.false_alarm_5pct]
+        _fa.append(dict(source=src, spec=spec, measures=lab, n_windows=xm.window.nunique(),
+                        n_windows_false_alarm=hits.window.nunique(),
+                        n_windows_borderline=xm[xm.p_borderline].window.nunique(),
+                        detail="; ".join(f"{r.window} {r.measure} {r.growth_source} p={r.p_placebo:.3f} gap "
+                                         f"{100 * r.gap:+.1f} vs actual {100 * r.gap_actual:+.1f}"
+                                         for r in xm[xm.false_alarm_5pct | xm.p_borderline].itertuples())))
+FALSE_ALARMS = pd.DataFrame(_fa)
+FALSE_ALARMS.to_csv(OUT / "fingerprint_false_alarms.csv", index=False)
 
 # %% 7. The read
 # ---------------------------------------------------------------------------------------------------------
@@ -1109,6 +1463,7 @@ READ_THETA = {"A_dPCE": {"2023->2025": [2023], "2023-09->2026-09": [2023], "2022
 MAIN_THETA = {"A_dPCE": 2023, "B_CE": 2024}
 
 rd_rows, rd_cats = [], []
+MULTI_SAMPLES = [s for s in A_DROPS if s != "drop_care"]     # the multi-group specs are reference only
 jobs = [(w, src, yb) for w in READ_WINDOWS for src in READ_THETA for yb in READ_THETA[src][w[0]]]
 for (win, freq, t0, t1, T), src, yb in tqdm(jobs, desc="read: window x source x theta year"):
     if src == "A_dPCE":
@@ -1122,20 +1477,28 @@ for (win, freq, t0, t1, T), src, yb in tqdm(jobs, desc="read: window x source x 
     total = float(W[("2.4.5U", freq)].at[t0, 1])
     meta = dict(window=win, freq=freq, t0=t0, t1=t1, source=src, theta_base_year=yb,
                 theta_role="main" if yb == MAIN_THETA[src] else "sensitivity")
-    rows, cats = run_specs(gf, thd, drops, T, meta, total_pce=total)
+    rows, cats = run_specs(gf, thd, drops, T, meta, total_pce=total, eta_dec=ETA[(src, yb)], multi_samples=MULTI_SAMPLES,
+                           specs=("2grp", "4grp_ridge", "5grp_ridge", "4grp_ols", "5grp_ols", "2grp_eta"))
     rd_rows += rows
     for measure, cf in cats.items():
         cf = cf.assign(window=win, source=src, theta_base_year=yb, measure=measure,
                        label=[A_SHORT.get(c, "") if src == "A_dPCE" else ULABEL[c] for c in cf.category])
         rd_cats.append(cf)
+# Sensitivity: B as first built, every UCC on its own item's distribution (home health care, 177, and nursing
+# homes, 187, on 'Personal services', 86% child care, instead of 'Medical services'). Main theta year only.
+for (win, freq, t0, t1, T) in READ_WINDOWS:
+    yb = MAIN_THETA["B_CE"]
+    thd = B_THETA_RULE1[yb].loc[theta_B(yb).index]
+    gf = growth_frame("U", list(thd.index), t0, t1, freq)
+    meta = dict(window=win, freq=freq, t0=t0, t1=t1, source="B_CE", theta_base_year=yb,
+                theta_role="sensitivity: elder care on the 'Personal services' distribution (as first built)")
+    rows, _ = run_specs(gf, thd, {"elder_care_on_personal_services": []}, T, meta, specs=("2grp",),
+                        total_pce=float(W[("2.4.5U", freq)].at[t0, 1]))
+    rd_rows += rows
 READ = pd.DataFrame(rd_rows)
 READ_CATS = pd.concat(rd_cats, ignore_index=True)
-
-# eta variant (Working-model elasticities eta = 1 + beta / w): only if the USDA TB-1929 parameters are tidied
-ETA_FILE = TIDY / "usda_tb1929_params.csv"
-ETA_STATUS = ("skipped: consumption/data/tidy/usda_tb1929_params.csv does not exist" if not ETA_FILE.exists()
-              else "file present: see NOTES (variant not implemented in this run)")
-READ["eta_variant"] = ETA_STATUS
+READ["eta_variant"] = np.where(READ.spec == "2grp_eta", "Working model, TB-1929 betas at observed budget shares "
+                               "(fingerprint_eta.csv)", "eta = 1")
 READ.to_csv(OUT / "fingerprint_read.csv", index=False, float_format="%.10g")
 READ_CATS.to_csv(OUT / "fingerprint_read_categories.csv", index=False, float_format="%.10g")
 
@@ -1161,36 +1524,72 @@ for (win, freq, t0, t1, T) in READ_WINDOWS:
 INFL = pd.DataFrame(inf_rows)
 INFL.to_csv(OUT / "fingerprint_influence.csv", index=False, float_format="%.10g")
 
-# %% 8. Power
+# %% 8. Benchmarks: the error where group totals are known, and calm-period reference readings
 # ---------------------------------------------------------------------------------------------------------
-# 8. Power: the estimator's noise in windows where the answer is known (A) or in quiet history (B)
+# 8. Benchmarks (point estimates in rolling windows; no permutations)
 # ---------------------------------------------------------------------------------------------------------
+# (1) Error where group totals are known: annual windows, A against the dPCE's own group totals (2000-2023), B
+#     against CE Table 1110 group totals (2014-2025; for real estimates the nominal CE gap stands in). Rolling
+#     windows overlap: the counts of non-overlapping windows (starting with the first) and the sd over those alone
+#     are kept beside the sd over all windows.
+# (2) Calm-period REFERENCE READING: the mean estimate over windows of the same length that start after the
+#     2008-09 recession (A from 2010, B from its first year, 2014) and end by 2019-12, when neither the dPCE nor
+#     the CE shows a K. It is the estimator's ordinary reading in quiet years (Engel effects, secular trends,
+#     quality adjustment): Zandi's split predicts the reference reading plus his gap. The calm windows overlap
+#     heavily (A three-year: 84 windows, 3 non-overlapping; B three-year: 36, 1; B four-year: 24, 1), so their
+#     spread is not a noise estimate and no z-score, minimum detectable effect or power is built on it. The
+#     non-overlapping windows' own readings are listed instead.
+# Both are computed for the two headline samples (all categories; without the care lines) and for eta = 1 and the
+# eta variant, so every read row has a matching benchmark.
+BENCH_SAMPLES = {"A_dPCE": {"all": [], "drop_care": A_DROPS["drop_care"]}}
+
+
+def point_fits(gf, thd, eta_dec, samples, measures):
+    """Two-group gap, eta = 1 and (where real growth exists) the eta variant, for every sample and measure."""
+    out = []
+    for sample, dropped in samples.items():
+        keep = [c for c in thd.index if c not in dropped and c in gf.index]
+        w = gf.loc[keep, "S0"].to_numpy(float)
+        tk = thd.loc[keep]
+        th = tk[GROUPS["top20"]].sum(axis=1).to_numpy(float)
+        has_real = bool(np.isfinite(gf.loc[keep, "g_real"].to_numpy(float)).all())
+        E, z, ok = eta_regressors(tk, eta_dec, keep) if (eta_dec is not None and has_real) else (None, None, None)
+        for measure in measures:
+            g = gf.loc[keep, "g_nom" if measure == "nominal" else "g_real"].to_numpy(float)
+            out.append((sample, "2grp", measure, wls_line(g, th, w)[1]))
+            if E is not None:
+                pbar = 0.0
+                if measure == "nominal":
+                    pbar = (1 + wmean(gf.loc[keep, "g_nom"].to_numpy(float)[ok], w[ok])) / \
+                           (1 + wmean(gf.loc[keep, "g_real"].to_numpy(float)[ok], w[ok])) - 1
+                out.append((sample, "2grp_eta", measure,
+                            wls_line((g[ok] - pbar) / E[ok], z[ok] / E[ok], w[ok] * E[ok] ** 2)[1]))
+    return out
+
+
 pw_rows = []
-for T in tqdm((2, 3, 4), desc="power: A rolling annual windows"):
+for T in tqdm((2, 3, 4), desc="benchmarks: A rolling annual windows"):
     for y0 in range(2000, 2024 - T):
         y1 = y0 + T
-        th = theta_A(y0)[GROUPS["top20"]].sum(axis=1)
+        thd = theta_A(y0)
         gfn = growth_frame("A", A_CATS, str(y0), str(y1), "A")
         for measure, gsrc, gf in (("nominal", "dpce_totals", dpce_growth_frame(y0, y1)),
                                   ("nominal", "nipa_current", gfn), ("real", "nipa_current", gfn)):
-            g = gf["g_nom" if measure == "nominal" else "g_real"].to_numpy(float)
-            a, b = wls_line(g, th.to_numpy(float), gf.S0.to_numpy(float))
             act = dpce_group_growth(y0, y1, ["top20", "b80"], real=(measure == "real"))
-            pw_rows.append(dict(kind="A_rolling_annual", source="A_dPCE", T_years=T, t0=str(y0), t1=str(y1),
-                                measure=measure, growth_source=gsrc, gap=b,
-                                gap_actual=act["top20"] - act["b80"], gap_error=b - (act["top20"] - act["b80"])))
-for T in tqdm((2, 3, 4), desc="power: B rolling annual windows"):
+            for sample, spec, meas, b in point_fits(gf, thd, ETA[("A_dPCE", y0)], BENCH_SAMPLES["A_dPCE"], (measure,)):
+                pw_rows.append(dict(kind="A_rolling_annual", source="A_dPCE", T_years=T, t0=str(y0), t1=str(y1),
+                                    measure=meas, growth_source=gsrc, sample=sample, spec=spec, gap=b,
+                                    gap_actual=act["top20"] - act["b80"], gap_error=b - (act["top20"] - act["b80"])))
+for T in tqdm((2, 3, 4), desc="benchmarks: B rolling annual windows"):
     for y0 in range(2014, 2026 - T):
         y1 = y0 + T
         thd = theta_B(y0)
-        th = thd[GROUPS["top20"]].sum(axis=1)
         gf = growth_frame("U", list(thd.index), str(y0), str(y1), "A")
         act = ce_group_growth(y0, y1, ["top20", "b80"], "total")
-        for measure in ("nominal", "real"):
-            g = gf["g_nom" if measure == "nominal" else "g_real"].to_numpy(float)
-            a, b = wls_line(g, th.to_numpy(float), gf.S0.to_numpy(float))
+        smp = {k: v for k, v in b_drops(list(thd.index)).items() if k in HEAD_SAMPLES}
+        for sample, spec, meas, b in point_fits(gf, thd, ETA[("B_CE", y0)], smp, ("nominal", "real")):
             pw_rows.append(dict(kind="B_rolling_annual", source="B_CE", T_years=T, t0=str(y0), t1=str(y1),
-                                measure=measure, growth_source="nipa_current", gap=b,
+                                measure=meas, growth_source="nipa_current", sample=sample, spec=spec, gap=b,
                                 gap_actual_ce_nominal=act["top20"] - act["b80"],
                                 gap_actual=act["top20"] - act["b80"], gap_error=b - (act["top20"] - act["b80"]),
                                 error_basis="CE Table 1110 nominal group totals (income-ranked survey; for the "
@@ -1207,27 +1606,23 @@ months_all = list(W[("2.8.5", "M")].index)
 for src, start in (("A_dPCE", "2007-01"), ("B_CE", "2014-01")):
     for L in (36, 48):
         for m0 in tqdm([m for m in months_all if m >= start and month_add(m, L) <= months_all[-1]],
-                       desc=f"power: {src} rolling {L}-month windows"):
+                       desc=f"benchmarks: {src} rolling {L}-month windows"):
             m1 = month_add(m0, L)
             yb = int(m0[:4])
             if src == "A_dPCE":
-                th = theta_A(min(yb, 2023))[GROUPS["top20"]].sum(axis=1)
+                yb = min(yb, 2023)
+                thd = theta_A(yb)
                 gf = growth_frame("A", A_CATS, m0, m1, "M")
+                smp = BENCH_SAMPLES["A_dPCE"]
             else:
                 thd = theta_B(yb)
-                th = thd[GROUPS["top20"]].sum(axis=1)
                 gf = growth_frame("U", list(thd.index), m0, m1, "M")
-            for measure in ("nominal", "real"):
-                g = gf["g_nom" if measure == "nominal" else "g_real"].to_numpy(float)
-                a, b = wls_line(g, th.to_numpy(float), gf.S0.to_numpy(float))
+                smp = {k: v for k, v in b_drops(list(thd.index)).items() if k in HEAD_SAMPLES}
+            for sample, spec, meas, b in point_fits(gf, thd, ETA[(src, yb)], smp, ("nominal", "real")):
                 pw_rows.append(dict(kind=f"{src[0]}_rolling_{L}m", source=src, T_years=L / 12, t0=m0, t1=m1,
-                                    measure=measure, growth_source="nipa_current", gap=b))
+                                    measure=meas, growth_source="nipa_current", sample=sample, spec=spec, gap=b))
 POWER = pd.DataFrame(pw_rows)
 
-# Calm-period norm: windows that start after the 2008-09 recession (A: 2010 on; B: its first year, 2014) and end
-# before 2020. In those years no K of Zandi's size shows in the dPCE or the CE, so the mean estimate there is the
-# estimator's normal reading (Engel effects, secular trends, quality adjustment) and the spread is its quiet-time
-# noise. The read's 'excess over the calm norm' compares like with like (same source, length and measure).
 CALM_START = {"A_dPCE": "2010", "B_CE": "2014"}
 
 
@@ -1235,31 +1630,46 @@ def is_calm(src, t0, t1):
     return str(t0)[:4] >= CALM_START[src] and str(t1) <= "2019-12"
 
 
+def non_overlapping(x, monthly, L):
+    """Rows of rolling windows x (sorted by start) that do not overlap, starting with the first start."""
+    out, nxt = [], None
+    for r in x.sort_values("t0").itertuples():
+        if nxt is None or r.t0 >= nxt:
+            out.append(r.Index)
+            nxt = month_add(r.t0, L) if monthly else str(int(r.t0) + L)
+    return x.loc[out]
+
+
 LATEST = {36: "2023-09", 48: "2022-09", 2: "2023"}
-z975, z80 = stats.norm.ppf(0.975), stats.norm.ppf(0.8)
+z975 = stats.norm.ppf(0.975)
 summ = []
-for (kind, T, measure, gsrc), x in POWER.groupby(["kind", "T_years", "measure", "growth_source"]):
+for (kind, T, measure, gsrc, sample, spec), x in POWER.groupby(["kind", "T_years", "measure", "growth_source",
+                                                                  "sample", "spec"]):
     src = x.source.iloc[0]
-    r = dict(kind="summary:" + kind, source=src, T_years=T, measure=measure, growth_source=gsrc, n_windows=len(x),
-             gap_mean=x.gap.mean(), gap_sd=x.gap.std(), zandi_gap_cum=zandi_gap(T))
+    monthly = kind.endswith("m")
+    L = int(round(T * 12)) if monthly else int(T)
+    r = dict(kind="summary:" + kind, source=src, T_years=T, measure=measure, growth_source=gsrc, sample=sample,
+             spec=spec, n_windows=len(x), gap_mean=x.gap.mean(), gap_sd=x.gap.std(), zandi_gap_cum=zandi_gap(T))
     if "gap_error" in x and x.gap_error.notna().any():
         sd = x.gap_error.std()
+        nov = non_overlapping(x, monthly, L)
         r.update(err_mean=x.gap_error.mean(), err_sd=sd, err_rmse=float(np.sqrt(np.mean(x.gap_error ** 2))),
+                 err_n_nonoverlap=len(nov), err_sd_nonoverlap=nov.gap_error.std(),
                  actual_gap_mean=x.gap_actual.mean(), actual_gap_sd=x.gap_actual.std(),
-                 mde80_from_err_sd=(z975 + z80) * sd,
                  power_vs_zandi_err=float(stats.norm.cdf(zandi_gap(T) / sd - z975)))
     calm = x[[is_calm(src, a, b) for a, b in zip(x.t0, x.t1)]]
-    if len(calm) >= 3:
-        cm, cs = calm.gap.mean(), calm.gap.std()
-        r.update(calm_n=len(calm), calm_mean=cm, calm_sd=cs, calm_min=calm.gap.min(), calm_max=calm.gap.max(),
-                 mde80_calm=(z975 + z80) * cs, power_vs_zandi_calm=float(stats.norm.cdf(zandi_gap(T) / cs - z975)))
-        lk = LATEST.get(int(round(T * 12))) if kind.endswith("m") else ("2023" if T == 2 else None)
+    if len(calm):
+        nov = non_overlapping(calm, monthly, L)
+        r.update(ref_n_windows=len(calm), ref_mean=calm.gap.mean(), ref_min=calm.gap.min(), ref_max=calm.gap.max(),
+                 ref_n_nonoverlap=len(nov), ref_nonoverlap_mean=nov.gap.mean(),
+                 ref_nonoverlap=" | ".join(f"{a}->{b} {100 * v:+.1f}" for a, b, v in zip(nov.t0, nov.t1, nov.gap)))
+        lk = LATEST.get(L) if monthly else ("2023" if T == 2 else None)
         last = x[x.t0 == lk] if lk else x.iloc[0:0]
         if len(last):
             v = float(last.gap.iloc[0])
-            r.update(latest_t0=lk, latest_gap=v, latest_excess_over_calm=v - cm, latest_z_vs_calm=(v - cm) / cs,
-                     latest_share_calm_above=float((calm.gap >= v).mean()),
-                     zandi_z_vs_calm=(v - cm - zandi_gap(T)) / cs)
+            r.update(latest_t0=lk, latest_gap=v, latest_minus_ref=v - r["ref_mean"],
+                     zandi_prediction=r["ref_mean"] + zandi_gap(T),
+                     latest_minus_zandi_prediction=v - r["ref_mean"] - zandi_gap(T))
     if kind.startswith("B_rolling_annual"):
         r.update(ce_actual_gap_mean=x.gap_actual_ce_nominal.mean(), ce_actual_gap_sd=x.gap_actual_ce_nominal.std())
     summ.append(r)
@@ -1267,42 +1677,42 @@ POWER_SUMMARY = pd.DataFrame(summ)
 pd.concat([POWER, POWER_SUMMARY], ignore_index=True).to_csv(OUT / "fingerprint_power.csv", index=False,
                                                             float_format="%.10g")
 
-# Two benchmarks attached to the read (two-group rows):
-# (1) historically calibrated band: the estimator's error where group totals are known (A: dPCE; B: CE survey
-#     totals), annual windows of the same length; rolling windows overlap, so it is a scale, not an exact interval;
-# (2) calm-period norm: mean and spread of the estimate in 2010/2014-2019 windows of the same length (monthly 36 and
-#     48 months for the monthly read windows, annual 2-year windows for 2023->2025); excess = estimate - norm, and
-#     Zandi's split adds his gap on top of the norm.
+# Benchmarks attached to the read (two-group rows of the headline samples, eta = 1 and the eta variant):
+# (1) historically calibrated band: gap +- 1.96 x the error sd where group totals are known (annual windows of the
+#     same length; a scale, not an exact interval: the windows overlap);
+# (2) calm-period reference reading (36- and 48-month windows for the monthly read windows, two-year annual windows
+#     for 2023->2025): read_minus_ref = estimate - reference; Zandi's split predicts reference + his gap.
 HIST = POWER_SUMMARY[POWER_SUMMARY.kind.isin(["summary:A_rolling_annual", "summary:B_rolling_annual"])
                      & POWER_SUMMARY.growth_source.eq("nipa_current")]
-hist_map = {(r.source, float(r.T_years), r.measure): (r.err_mean, r.err_sd, r.n_windows) for r in HIST.itertuples()}
-CALM = POWER_SUMMARY[POWER_SUMMARY.growth_source.eq("nipa_current") & POWER_SUMMARY.calm_n.notna()]
-calm_map = {}
-for r in CALM.itertuples():
+hist_map = {(r.source, float(r.T_years), r.measure, r.sample, r.spec): r for r in HIST.itertuples()}
+REF = POWER_SUMMARY[POWER_SUMMARY.growth_source.eq("nipa_current") & POWER_SUMMARY.ref_mean.notna()]
+ref_map = {}
+for r in REF.itertuples():
     k = r.kind.replace("summary:", "")
     win = {"36m": "2023-09->2026-09", "48m": "2022-09->2026-09"}.get(k.split("_")[-1], "2023->2025"
                                                                      if k.endswith("annual") and r.T_years == 2 else None)
     if win:
-        calm_map[(r.source, win, r.measure)] = (r.calm_mean, r.calm_sd, r.calm_n)
+        ref_map[(r.source, win, r.measure, r.sample, r.spec)] = r
 
 
 def bench_cols(r):
-    out = dict(hist_err_mean=np.nan, hist_err_sd=np.nan, hist_n_windows=np.nan, gap_hist_lo=np.nan,
-               gap_hist_hi=np.nan, calm_norm_mean=np.nan, calm_norm_sd=np.nan, calm_n_windows=np.nan,
-               excess_over_calm=np.nan, excess_z=np.nan, zandi_z_vs_calm=np.nan)
-    if r["spec"] != "2grp":
+    out = dict(hist_err_mean=np.nan, hist_err_sd=np.nan, hist_n_windows=np.nan, hist_n_nonoverlap=np.nan,
+               gap_hist_lo=np.nan, gap_hist_hi=np.nan, ref_mean=np.nan, ref_min=np.nan, ref_max=np.nan,
+               ref_n_windows=np.nan, ref_n_nonoverlap=np.nan, ref_nonoverlap="", read_minus_ref=np.nan,
+               zandi_prediction=np.nan, read_minus_zandi_prediction=np.nan)
+    if r["spec"] not in ("2grp", "2grp_eta"):
         return pd.Series(out)
-    k = (r["source"], float(r["T_years"]), r["measure"])
-    if k in hist_map:
-        m, sd, n = hist_map[k]
-        out.update(hist_err_mean=m, hist_err_sd=sd, hist_n_windows=n, gap_hist_lo=r["gap"] - z975 * sd,
-                   gap_hist_hi=r["gap"] + z975 * sd)
-    k = (r["source"], r["window"], r["measure"])
-    if k in calm_map:
-        cm, cs, cn = calm_map[k]
-        ex = r["gap"] - cm
-        out.update(calm_norm_mean=cm, calm_norm_sd=cs, calm_n_windows=cn, excess_over_calm=ex, excess_z=ex / cs,
-                   zandi_z_vs_calm=(ex - r["zandi_gap_cum"]) / cs)
+    h = hist_map.get((r["source"], float(r["T_years"]), r["measure"], r["sample"], r["spec"]))
+    if h is not None:
+        out.update(hist_err_mean=h.err_mean, hist_err_sd=h.err_sd, hist_n_windows=h.n_windows,
+                   hist_n_nonoverlap=h.err_n_nonoverlap, gap_hist_lo=r["gap"] - z975 * h.err_sd,
+                   gap_hist_hi=r["gap"] + z975 * h.err_sd)
+    c = ref_map.get((r["source"], r["window"], r["measure"], r["sample"], r["spec"]))
+    if c is not None:
+        out.update(ref_mean=c.ref_mean, ref_min=c.ref_min, ref_max=c.ref_max, ref_n_windows=c.ref_n_windows,
+                   ref_n_nonoverlap=c.ref_n_nonoverlap, ref_nonoverlap=c.ref_nonoverlap,
+                   read_minus_ref=r["gap"] - c.ref_mean, zandi_prediction=c.ref_mean + r["zandi_gap_cum"],
+                   read_minus_zandi_prediction=r["gap"] - c.ref_mean - r["zandi_gap_cum"])
     return pd.Series(out)
 
 
@@ -1406,30 +1816,49 @@ def pct(x, _=None):
 
 
 # --- scatter: category real growth 2023-09 -> 2026-09 against theta_top20, A and B --------------------------
+# Care lines (definition (c), CARE_ROOTS) in slot-3 aqua, the other categories in slot-1 blue; the fit on all
+# categories in a neutral ink, the fit without the care lines in blue (it is fitted on the blue bubbles), Zandi's
+# split in slot-2 orange, the flat split in muted gray. Three hues: the all-pairs-validated scatter set.
 SC_WIN = "2023-09->2026-09"
 SHORT_B = {154: "Tenant rent", 141: "Tobacco", 177: "Home health care", 291: "Higher education",
            123: "Prescription drugs", 71: "Telephone equipment", 6: "New autos", 9: "New light trucks",
-           115: "Gasoline", 334: "Foreign travel", 200: "Ground transportation", 210: "Clubs, parks, theaters"}
+           115: "Gasoline", 334: "Foreign travel", 200: "Ground transportation", 210: "Clubs, parks, theaters",
+           183: "Hospitals", 174: "Physician services", 316: "Child care", 276: "Net health insurance",
+           187: "Nursing homes", 160: "Owners' imputed rent", 241: "Restaurant meals"}
 from matplotlib.ticker import MultipleLocator
-fig, axes = plt.subplots(1, 2, figsize=(12, 5.6), gridspec_kw=dict(wspace=0.18))
+
+
+def is_care(src, c):
+    return int(c) == 16 if src == "A_dPCE" else in_subtree(int(c), CARE_ROOTS)
+
+
+def read_row(win, src, measure, sample, spec="2grp"):
+    return READ[(READ.window == win) & (READ.source == src) & (READ.theta_base_year == MAIN_THETA[src])
+                & (READ.measure == measure) & (READ["sample"] == sample) & (READ.spec == spec)].iloc[0]
+
+
+fig, axes = plt.subplots(1, 2, figsize=(12.4, 6.2), gridspec_kw=dict(wspace=0.16))
 for ax, src in zip(axes, ("A_dPCE", "B_CE")):
     style_axes(ax)
     cf = READ_CATS[(READ_CATS.window == SC_WIN) & (READ_CATS.source == src)
                    & (READ_CATS.theta_base_year == MAIN_THETA[src]) & (READ_CATS.measure == "real")].copy()
-    rr = READ[(READ.window == SC_WIN) & (READ.source == src) & (READ.theta_base_year == MAIN_THETA[src])
-              & (READ.measure == "real") & (READ["sample"] == "all") & (READ.spec == "2grp")].iloc[0]
+    cf["care"] = [is_care(src, c) for c in cf.category]
+    rr, rc = read_row(SC_WIN, src, "real", "all"), read_row(SC_WIN, src, "real", "drop_care")
     lo, hi = np.percentile(cf.g, [1, 99]) if src == "B_CE" else (cf.g.min(), cf.g.max())
     pad = 0.08 * (hi - lo)
     ylo, yhi = lo - pad, hi + pad
     inside = cf[(cf.g >= ylo) & (cf.g <= yhi)]
     outside = cf[(cf.g < ylo) | (cf.g > yhi)]
-    size = 2400 * inside.share / cf.share.max() * (0.35 if src == "B_CE" else 0.42)
-    ax.scatter(inside.theta_top20, inside.g, s=size + 6, color=BLUE, alpha=0.45, edgecolor=SURF, linewidth=1.2,
-               zorder=3, label="category (area = 2023-09 spending)")
+    scale = 2400 * (0.35 if src == "B_CE" else 0.42) / cf.share.max()
+    for care, col, lab in ((False, BLUE, "category outside care (area = 2023-09 spending)"),
+                           (True, AQUA, "care line: health care, medical goods, health insurance, child care")):
+        x = inside[inside.care == care]
+        ax.scatter(x.theta_top20, x.g, s=scale * x.share + 6, color=col, alpha=0.55, edgecolor=SURF, linewidth=1.2,
+                   zorder=3, label=lab)
     for _, r in outside.iterrows():
         yy = yhi if r.g > yhi else ylo
-        ax.scatter([r.theta_top20], [yy], marker="^" if r.g > yhi else "v", s=36, color=BLUE, alpha=0.8,
-                   edgecolor=SURF, linewidth=1.0, zorder=3)
+        ax.scatter([r.theta_top20], [yy], marker="^" if r.g > yhi else "v", s=36, color=AQUA if r.care else BLUE,
+                   alpha=0.85, edgecolor=SURF, linewidth=1.0, zorder=3)
         right = r.theta_top20 > 0.5
         nm = SHORT_B.get(int(r.category), r.label[:22]) if src == "B_CE" else r.label
         ax.annotate(f"{nm} ({100 * r.g:+.0f}%, off scale)", (r.theta_top20, yy),
@@ -1437,23 +1866,23 @@ for ax, src in zip(axes, ("A_dPCE", "B_CE")):
                     color=INK2, ha="right" if right else "left")
     xs = np.linspace(cf.theta_top20.min() - 0.01, cf.theta_top20.max() + 0.01, 50)
     tb = rr.theta_top20_bar
-    lines = [(rr.x_b80 + rr.gap * xs, BLUE, f"fitted: gap {100 * rr.gap:+.1f} pts"),
-             (rr.agg_growth + (xs - tb) * rr.zandi_gap_cum, ORANGE, f"Zandi split: {100 * rr.zandi_gap_cum:+.1f} pts"),
-             (np.full_like(xs, rr.agg_growth), MUTED, "flat: 0 pts")]
-    for y, col, lab in lines:
-        ax.plot(xs, y, color=col, lw=1.6, solid_capstyle="round", zorder=4, label=lab)
-        if src == "A_dPCE":                   # in B the three lines converge at the right edge: legend only
-            ax.annotate(lab.split(":")[0], (xs[-1], y[-1]), xytext=(4, 0), textcoords="offset points",
-                        fontsize=7.5, color=INK2, va="center")
-    # selective labels: the four categories that move the slope most
+    for y, col, lab, lw in ((rr.x_b80 + rr.gap * xs, INK2, "fit, all categories", 1.6),
+                            (rc.x_b80 + rc.gap * xs, BLUE, "fit without the care lines", 2.0),
+                            (rr.agg_growth + (xs - tb) * rr.zandi_gap_cum, ORANGE, "Zandi's split", 1.6),
+                            (np.full_like(xs, rr.agg_growth), MUTED, "flat: all groups alike", 1.2)):
+        ax.plot(xs, y, color=col, lw=lw, solid_capstyle="round", zorder=4, label=lab)
+    # selective labels: the categories that move the slope most (B), the largest residuals (A), and the main care
+    # lines (relief for the low-contrast aqua)
     if src == "B_CE":
         inf = INFL[(INFL.window == SC_WIN) & (INFL.source == src) & (INFL.measure == "real")]
         lab_cats = list(inf.reindex(inf.contrib_to_slope.abs().sort_values(ascending=False).index).category[:5])
+        lab_cats += list(inside[inside.care].sort_values("share", ascending=False).category[:2])
     else:
         lab_cats = list(cf.reindex((cf.g - cf.pred_fit).abs().sort_values(ascending=False).index).category[:6])
-    for _, r in inside[inside.category.isin(lab_cats)].iterrows():
+        lab_cats += [16]
+    for _, r in inside[inside.category.isin(set(lab_cats))].iterrows():
         right = r.theta_top20 > (0.5 if src == "B_CE" else 0.6)
-        below = src == "B_CE" and int(r.category) == 154       # tenant rent sits on the lines' left end
+        below = src == "B_CE" and int(r.category) in (154, 183)
         nm = SHORT_B.get(int(r.category), r.label[:30]) if src == "B_CE" else r.label
         ax.annotate(nm, (r.theta_top20, r.g), xytext=(-6 if right else 6, -11 if below else 5),
                     textcoords="offset points", fontsize=7, color=INK2, ha="right" if right else "left")
@@ -1464,59 +1893,76 @@ for ax, src in zip(axes, ("A_dPCE", "B_CE")):
     ax.set_xlabel(f"top 20% share of the category's spending (theta, base year {MAIN_THETA[src]})")
     ttl = ("A: 16 major product lines, BLS distributional PCE (spending-ranked deciles)" if src == "A_dPCE"
            else f"B: {len(cf)} PCE lines, CE income deciles mapped through UCCs")
-    ax.text(0, 1.005, f"gap {100 * rr.gap:+.1f} pts (95% perm. CI {100 * rr.ci_lo:+.0f} to {100 * rr.ci_hi:+.0f}); "
-            f"placebo p = {rr.p_placebo:.2f}; Zandi's split {100 * rr.zandi_gap_cum:+.1f} pts, p = {rr.p_zandi:.2f}",
-            transform=ax.transAxes, fontsize=7.8, color=INK2, va="bottom")
-    ax.set_title(ttl, loc="left", fontsize=9.5, pad=16)
+    ax.text(0, 1.012, f"all categories: gap {100 * rr.gap:+.1f} pts (95% CI {100 * rr.ci_lo:+.0f} to "
+            f"{100 * rr.ci_hi:+.0f}), placebo p = {rr.p_placebo:.2f}\n"
+            f"without the care lines: gap {100 * rc.gap:+.1f} pts (95% CI {100 * rc.ci_lo:+.0f} to {100 * rc.ci_hi:+.0f}), "
+            f"p = {rc.p_placebo:.2f}; Zandi's split {100 * rr.zandi_gap_cum:+.1f} pts",
+            transform=ax.transAxes, fontsize=7.6, color=INK2, va="bottom", linespacing=1.4)
+    ax.set_title(ttl, loc="left", fontsize=9.5, pad=30)
 axes[0].set_ylabel("real growth of category, 2023-09 to 2026-09")
 h, l = axes[1].get_legend_handles_labels()
-fig.legend(h[1:] + h[:1], ["fitted (WLS)", "Zandi split (top +4%/yr, bottom 80% 0)", "flat (all groups alike)",
-                           "category (area = spending)"], loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.01))
+order = [l.index(k) for k in ("category outside care (area = 2023-09 spending)",
+                              "care line: health care, medical goods, health insurance, child care",
+                              "fit, all categories", "fit without the care lines", "Zandi's split",
+                              "flat: all groups alike")]
+fig.legend([h[i] for i in order], ["category outside care (area = spending)",
+                                   "care line (health care, medical goods, health insurance, child care)",
+                                   "fit, all categories", "fit without the care lines",
+                                   "Zandi's split (top +4%/yr, bottom 80% 0)", "flat (all groups alike)"],
+           loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.005))
 fig.suptitle("Do the categories the top 20% buy outgrow the rest? Real category growth vs the top 20% market share",
              x=0.06, ha="left", fontsize=11, fontweight="bold", y=0.995)
-fig.subplots_adjust(left=0.06, right=0.95, top=0.86, bottom=0.17)
+fig.subplots_adjust(left=0.06, right=0.97, top=0.84, bottom=0.19)
 fig.savefig(FIG / "fig_fingerprint_scatter.png", dpi=200)
 plt.close(fig)
 
-# --- backtest: estimated vs actual gap, annualized, A (nominal dPCE totals, real) and B vs CE (nominal) ----
-fig, axes = plt.subplots(1, 3, figsize=(12.5, 4.8), sharey=True, gridspec_kw=dict(wspace=0.10))
+# --- backtest: estimated vs actual gap, annualized; A (nominal dPCE totals, real), B vs CE (nominal, real) -----
+# Estimates whose placebo p is below 0.06 carry their p as a direct label: those are the false alarms (and the
+# borderline A 2007-2009), since the known gaps are all within 4 points.
+fig, axes = plt.subplots(2, 2, figsize=(12.5, 8.4), sharey=True, gridspec_kw=dict(wspace=0.08, hspace=0.42))
 panels = [("A: nominal (dPCE category totals)", (BACKTEST.source == "A_dPCE") & (BACKTEST.growth_source == "dpce_totals")
-           & (BACKTEST.measure == "nominal"), "actual dPCE gap"),
-          ("A: real (NIPA quantities; dPCE / T3 prices)", (BACKTEST.source == "A_dPCE") & (BACKTEST.measure == "real"),
-           "actual dPCE gap"),
+           & (BACKTEST.measure == "nominal")),
+          ("A: real (NIPA quantities; dPCE / T3 prices)", (BACKTEST.source == "A_dPCE") & (BACKTEST.measure == "real")),
           ("B: nominal, against CE survey group totals", (BACKTEST.source == "B_CE") & (BACKTEST.measure == "nominal")
-           & BACKTEST.actual_source.str.contains("(total)", regex=False), "CE survey gap (total spending)")]
-for ax, (ttl, mask, actlab) in zip(axes, panels):
+           & BACKTEST.actual_source.str.contains("(total)", regex=False)),
+          ("B: real, against CE survey group totals (nominal CE gap)", (BACKTEST.source == "B_CE")
+           & (BACKTEST.measure == "real") & BACKTEST.actual_source.str.contains("(total)", regex=False))]
+for ax, (ttl, mask) in zip(axes.ravel(), panels):
     style_axes(ax)
     x = BACKTEST[mask & (BACKTEST.spec == "2grp")].reset_index(drop=True)
     pos = np.arange(len(x))
     ax.axhline(0, color=AXIS, lw=0.8, zorder=1)
     ax.axhline(ZANDI_TOP - ZANDI_B80, color=ORANGE, lw=1.4, zorder=2)
     ax.vlines(pos, x.gap_pa_ci_lo, x.gap_pa_ci_hi, color=BLUE, lw=1.6, alpha=0.55, zorder=3)
-    ax.scatter(pos, x.gap_pa, s=42, color=BLUE, edgecolor=SURF, linewidth=1.4, zorder=4, label="estimate, 95% CI")
-    ax.scatter(pos, x.gap_actual_pa, s=46, marker="D", color=INK, edgecolor=SURF, linewidth=1.4, zorder=5,
-               label=actlab)
+    ax.scatter(pos, x.gap_pa, s=42, color=BLUE, edgecolor=SURF, linewidth=1.4, zorder=4)
+    ax.scatter(pos, x.gap_actual_pa, s=46, marker="D", color=INK, edgecolor=SURF, linewidth=1.4, zorder=5)
+    for i, r in x.iterrows():
+        if r.p_placebo < 0.06:
+            tag = f"p {r.p_placebo:.3f}" + (" (borderline)" if 0.04 <= r.p_placebo < 0.06 else "")
+            yv = float(np.clip(r.gap_pa, -0.40, 0.40))
+            ax.annotate(tag, (i, yv), xytext=(7, 0), textcoords="offset points", fontsize=7, color=INK2,
+                        va="center")
     ax.set_xticks(pos, [w.replace("->", "\n–") for w in x.window], rotation=0, fontsize=7.6)
-    ax.set_xlim(-0.6, len(x) - 0.4)
+    ax.set_xlim(-0.6, len(x) - 0.2)
     ax.set_title(ttl, loc="left", fontsize=9)
     ax.grid(axis="x", visible=False)
-axes[0].yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{100 * v:+.0f}" if v else "0"))
-axes[0].set_ylabel("top 20% minus bottom 80% spending growth, points a year")
+for ax in axes[:, 0]:
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{100 * v:+.0f}" if v else "0"))
+    ax.set_ylabel("top 20% minus bottom 80% spending growth,\npoints a year")
 from matplotlib.lines import Line2D
 fig.legend([Line2D([], [], color=BLUE, marker="o", lw=1.6, alpha=0.8, markeredgecolor=SURF, markersize=6),
             Line2D([], [], color=INK, marker="D", lw=0, markeredgecolor=SURF, markersize=6),
             Line2D([], [], color=ORANGE, lw=1.4)],
            ["estimate (two-group WLS) with 95% interval", "actual gap: dPCE group totals (A), CE survey totals (B)",
-            "Zandi's split: +4 points a year"], loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.045))
-lo_all = min(BACKTEST.gap_pa_ci_lo.min(), -0.3)
-hi_all = max(BACKTEST.gap_pa_ci_hi.max(), 0.3)
-axes[0].set_ylim(max(lo_all, -0.45), min(hi_all, 0.45))
+            "Zandi's split: +4 points a year"], loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.035))
+axes[0, 0].set_ylim(-0.45, 0.45)
 fig.suptitle("Backtest: the inverse estimator against group totals where they are known (two groups, annualized)",
-             x=0.06, ha="left", fontsize=11, fontweight="bold")
-fig.text(0.07, 0.008, "Intervals clipped at \u00b145 points a year. A's 'actual' is built from the same category totals "
-         "times CE-based shares, so it tests the estimator against within-category share drift, not an independent "
-         "measurement.", fontsize=7.5, color=MUTED)
-fig.subplots_adjust(left=0.07, right=0.98, top=0.86, bottom=0.25)
+             x=0.07, ha="left", fontsize=11, fontweight="bold")
+fig.text(0.07, 0.006, f"Intervals clipped at \u00b145 points a year. p = permutation placebo p-value ({N_PERM:,} fresh "
+         "draws per window), shown where below 0.06: false alarms, since every known gap is within 4 points. A's "
+         "'actual' is built from the same\ncategory totals times CE-based shares, so it tests the estimator against "
+         "within-category share drift, not an independent measurement.", fontsize=7.5, color=MUTED)
+fig.subplots_adjust(left=0.08, right=0.98, top=0.91, bottom=0.15)
 fig.savefig(FIG / "fig_fingerprint_backtest.png", dpi=200)
 plt.close(fig)
 
@@ -1561,11 +2007,17 @@ plt.close(fig)
 # ---------------------------------------------------------------------------------------------------------
 # 11. Console summary
 # ---------------------------------------------------------------------------------------------------------
-pd.set_option("display.width", 200)
-print(f"line correspondence 2.3.5 = 2.8.5 (lines 1-22): {LINE_CORR_OK}; eta variant: {ETA_STATUS}")
-main = READ[(READ["sample"] == "all") & (READ.theta_role == "main")]
-print(main[["window", "source", "spec", "measure", "gap", "ci_lo", "ci_hi", "p_placebo", "p_zandi", "zandi_gap_cum",
-            "gap_pa", "r2_fit_vs_flat", "r2_zandi_vs_flat"]].round(4).to_string(index=False))
-print(BACKTEST[BACKTEST.spec == "2grp"][["window", "source", "growth_source", "measure", "gap", "gap_actual",
-                                         "gap_error", "basket_gap"]].round(4).to_string(index=False))
-print(POWER_SUMMARY.round(4).to_string(index=False))
+pd.set_option("display.width", 220)
+pd.set_option("display.max_colwidth", 80)
+print(f"line correspondence 2.3.5 = 2.8.5 (lines 1-22): {LINE_CORR_OK}; N_PERM {N_PERM} (fresh per fit)")
+head = READ[READ["sample"].isin(HEAD_SAMPLES) & (READ.theta_role == "main") & READ.spec.isin(["2grp", "2grp_eta"])]
+print(head[["window", "source", "sample", "spec", "measure", "gap", "ci_lo", "ci_hi", "p_placebo", "p_zandi",
+            "ref_mean", "ref_n_nonoverlap", "read_minus_ref", "zandi_prediction"]].round(4).to_string(index=False))
+print(BACKTEST[BACKTEST.spec.isin(["2grp", "2grp_eta"])][["window", "source", "spec", "growth_source", "measure", "gap",
+                                                          "gap_actual", "gap_error", "p_placebo"]].drop_duplicates(
+    ["window", "source", "spec", "growth_source", "measure"]).round(4).to_string(index=False))
+print(FALSE_ALARMS.to_string(index=False))
+print(POWER_SUMMARY[POWER_SUMMARY.ref_mean.notna() | POWER_SUMMARY.err_sd.notna()][
+    ["kind", "T_years", "measure", "growth_source", "sample", "spec", "n_windows", "err_sd", "err_n_nonoverlap",
+     "err_sd_nonoverlap", "power_vs_zandi_err", "ref_mean", "ref_min", "ref_max", "ref_n_windows", "ref_n_nonoverlap",
+     "ref_nonoverlap", "latest_gap", "latest_minus_ref"]].round(4).to_string(index=False))

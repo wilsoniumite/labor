@@ -1359,8 +1359,12 @@ EVID = [
                 f"{POST_CW_BODY[1]:.0f}; Figs 8-10 use {100 * POST_CW_FIGS:.1f}."),
     dict(source="Fingerprint test (sibling unit, NOTES_fingerprint.md)",
          ranking="dPCE (spending) and CE (income) category market shares", years="2023-09 to 2026-09",
-         shows="No K beyond the calm-period norm in the category composition of national-accounts spending.",
-         consistent="can't tell", caveat="Low power: alone it cannot rule out a K of Zandi's size."),
+         shows=("Depends on the care lines. With them, the dPCE source reads below a K and the CE source above "
+                "its calm-years reference; without them, both sit at their calm-years reference reading over three "
+                "years, 11-13 points short of Zandi's split, except the CE source's four-year real reading."),
+         consistent="can't tell",
+         caveat=("The category mix cannot tell a care boom from a K as built; the calm-years reference rests on 1-3 "
+                 "non-overlapping windows; backtest false alarms in 2 of 7 CE-source windows.")),
     dict(source="Moody's estimates (press reports: top 10% about half of spending)",
          ranking="not published", years="2025",
          shows="Not used: method and data are not public, so the figure cannot be checked or put on a footing.",

@@ -1,0 +1,13 @@
+source,spec,measures,n_windows,n_windows_false_alarm,n_windows_borderline,detail
+A_dPCE,2grp,nominal,6,1,1,2007->2009 nominal dpce_totals p=0.046 gap -46.7 vs actual -3.8; 2007->2009 nominal nipa_current p=0.051 gap -46.7 vs actual -3.8
+A_dPCE,2grp,real,6,0,0,
+A_dPCE,2grp,nominal or real,6,1,1,2007->2009 nominal dpce_totals p=0.046 gap -46.7 vs actual -3.8; 2007->2009 nominal nipa_current p=0.051 gap -46.7 vs actual -3.8
+A_dPCE,2grp_eta,nominal,6,1,0,2007->2009 nominal nipa_current p=0.028 gap -45.4 vs actual -3.8
+A_dPCE,2grp_eta,real,6,0,0,
+A_dPCE,2grp_eta,nominal or real,6,1,0,2007->2009 nominal nipa_current p=0.028 gap -45.4 vs actual -3.8
+B_CE,2grp,nominal,7,2,0,2019->2021 nominal nipa_current p=0.037 gap -44.8 vs actual -0.9; 2021->2023 nominal nipa_current p=0.009 gap +46.3 vs actual +1.8
+B_CE,2grp,real,7,1,0,2021->2023 real nipa_current p=0.001 gap +55.7 vs actual +1.8
+B_CE,2grp,nominal or real,7,2,0,2019->2021 nominal nipa_current p=0.037 gap -44.8 vs actual -0.9; 2021->2023 nominal nipa_current p=0.009 gap +46.3 vs actual +1.8; 2021->2023 real nipa_current p=0.001 gap +55.7 vs actual +1.8
+B_CE,2grp_eta,nominal,7,2,0,2019->2021 nominal nipa_current p=0.020 gap -51.7 vs actual -0.9; 2021->2023 nominal nipa_current p=0.018 gap +41.9 vs actual +1.8
+B_CE,2grp_eta,real,7,1,1,2019->2021 real nipa_current p=0.051 gap -42.3 vs actual -0.9; 2021->2023 real nipa_current p=0.005 gap +48.1 vs actual +1.8
+B_CE,2grp_eta,nominal or real,7,2,1,2019->2021 nominal nipa_current p=0.020 gap -51.7 vs actual -0.9; 2019->2021 real nipa_current p=0.051 gap -42.3 vs actual -0.9; 2021->2023 nominal nipa_current p=0.018 gap +41.9 vs actual +1.8; 2021->2023 real nipa_current p=0.005 gap +48.1 vs actual +1.8
