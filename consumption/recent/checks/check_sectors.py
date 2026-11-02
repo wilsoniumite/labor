@@ -348,6 +348,99 @@ mx = max(max(abs(t), abs(c)) for _, t, c in worst)
 check("H1 using 2.4.3U quantity relatives instead of 2.4.4U prices moves totals and the care (c) contribution by "
       "at most 0.02 pp", mx <= 0.02, "; ".join(f"{w}: total {t:+.4f}, care {c:+.4f}" for w, t, c in worst))
 
+# %% I. care in dollars, when the gap opened, Table 4's BEA columns, leaf v/p against 2.4.3U (recomputed here with the
+# relative form and path-based membership)
+DW = WINDOWS + [("pre4y", "M", "2015-09", "2019-09"), ("covid4y", "M", "2018-09", "2022-09"),
+                ("7y", "M", "2019-09", "2026-09")]
+ds = pd.read_csv(OUT / "care_dollar_shares.csv").set_index(["window", "care_variant"])
+worst, n = 0.0, 0
+for w, f, a, b in DW:
+    tot, con, rel = INDEP[w] if w in INDEP else run(f, a, b)
+    p0, p1 = V[f].loc[a, 1], V[f].loc[b, 1]
+    px = (p1 / p0) / (X[f].loc[b, 1] / X[f].loc[a, 1]) - 1
+    for k in CARE:
+        ms = members(CARE[k])
+        c0, c1 = (V[f].loc[a, ms] * SG[ms]).sum(), (V[f].loc[b, ms] * SG[ms]).sum()
+        g = rel[f"care {k}"]
+        c1eq = c0 * (1 + g) * (1 + px)
+        mine = {"start_share_of_pce_pct": 100 * c0 / p0, "end_share_of_pce_pct": 100 * c1 / p1,
+                "end_share_at_start_prices_pct": 100 * c0 / p0 * (1 + g) / (1 + tot),
+                "share_of_real_growth_pct": 100 * con[ms].sum() / tot,
+                "share_of_nominal_increase_pct": 100 * (c1 - c0) / (p1 - p0),
+                "share_of_nominal_increase_if_care_prices_as_pce_pct": 100 * (c1eq - c0) / (p1 - p0 + c1eq - c1)}
+        mine["of_which_general_inflation_pp"] = (mine["share_of_real_growth_pct"]
+                                                 - mine["share_of_nominal_increase_if_care_prices_as_pce_pct"])
+        mine["of_which_relative_prices_pp"] = (mine["share_of_nominal_increase_if_care_prices_as_pce_pct"]
+                                               - mine["share_of_nominal_increase_pct"])
+        r = ds.loc[(w, k)]
+        worst = max([worst] + [abs(v - r[c]) for c, v in mine.items()])
+        worst = max(worst, abs(r.real_minus_nominal_share_pp - r.of_which_general_inflation_pp
+                               - r.of_which_relative_prices_pp))
+        n += 1
+r4 = ds.loc[("4y", "C")]
+check("I1 care in dollars: shares of the level at both ends (current dollars and start-of-window prices), shares of "
+      "real growth and of the dollar increase, and the inflation / relative-price split, every window and variant",
+      worst < 1e-6 and n == len(ds), f"{n} rows, max |diff| {worst:.1e}; 4y (c): {r4.start_share_of_pce_pct:.2f} -> "
+      f"{r4.end_share_of_pce_pct:.2f} ($), -> {r4.end_share_at_start_prices_pct:.2f} (volumes); split "
+      f"{r4.of_which_general_inflation_pp:.2f} + {r4.of_which_relative_prices_pp:.2f}")
+gtm = pd.read_csv(OUT / "gap_timing.csv").set_index("period")
+worst = 0.0
+mc = members(CARE["C"])
+for p, a, b in [("pre", "2022-09", "2026-03"), ("6m", "2026-03", "2026-09"), ("4y", "2022-09", "2026-09")]:
+    tot, con, rel = run("M", a, b)
+    p0, p1 = V["M"].loc[a, 1], V["M"].loc[b, 1]
+    c0, c1 = (V["M"].loc[a, mc] * SG[mc]).sum(), (V["M"].loc[b, mc] * SG[mc]).sum()
+    gyr = PI["M"].loc[b, 36] / PI["M"].loc[a, 36] - 1
+    gY = (PI["M"].loc[b, 1] - PI["M"].loc[b, 16]) / (PI["M"].loc[a, 1] - PI["M"].loc[a, 16]) - 1
+    gx = X["M"].loc[b, 1] / X["M"].loc[a, 1] - 1
+    care_r, care_n = con[mc].sum() - c0 / p0 * gyr, c0 / p0 * (c1 / c0 - 1 - gY)
+    r = gtm.loc[p]
+    worst = max(worst, abs(100 * (gx - gyr) - r.real_gap_pp_bea), abs(100 * (tot - gyr) - r.real_gap_pp_leaf),
+                abs(100 * care_r - r.care_C_part_of_real_gap_pp),
+                abs(100 * (tot - gyr - care_r) - r.outside_care_C_part_of_real_gap_pp),
+                abs(100 * (p1 / p0 - 1 - gY) - r.nominal_gap_pp), abs(100 * care_n - r.care_C_part_of_nominal_gap_pp),
+                abs(100 * (p1 / p0 - 1 - gY - care_n) - r.outside_care_C_part_of_nominal_gap_pp))
+g9 = fin[(fin.block == "gap")].set_index(["window", "item"])["value"]
+lab_c = CARE_LABEL["C"]
+same = all(abs(gtm.loc[p, "care_C_share_of_real_gap_pct"]
+               - g9[(w, f"Share of the real gap from {lab_c}, % (gap on the leaf Fisher)")]) < 1e-9
+           and abs(gtm.loc[p, "care_C_share_of_nominal_gap_pct"] - g9[(w, f"Share of the nominal gap from {lab_c}, %")])
+           < 1e-9 for p, w in [("6m", "6m"), ("4y", "4y")])
+check("I2 when the gap opened: real and nominal gaps and their care (c) / outside-care parts for Sep 2022-Mar 2026, the "
+      "watch window and the four years reproduced, and the last two agree with care_financing.csv",
+      worst < 1e-6 and same and pd.isna(gtm.loc["pre", "care_C_share_of_real_gap_pct"]),
+      f"max |diff| {worst:.1e} pp; Sep 2022-Mar 2026 care {gtm.loc['pre', 'care_C_part_of_real_gap_pp']:+.2f} / rest "
+      f"{gtm.loc['pre', 'outside_care_C_part_of_real_gap_pp']:+.2f} pp")
+hbe = pd.read_csv(OUT / "care_share_history_bea.csv", dtype={"period": str}).set_index("period")
+worst, n = 0.0, 0
+for per_, f, a, b in [("2015-09 to 2019-09", "M", "2015-09", "2019-09"), ("2018-09 to 2022-09", "M", "2018-09", "2022-09"),
+                      ("2022-09 to 2026-09", "M", "2022-09", "2026-09"), ("2015 to 2019", "A", "2015", "2019"),
+                      ("2010 to 2019", "A", "2010", "2019")] + [(str(y), "A", str(y - 1), str(y))
+                                                               for y in range(2008, 2026)]:
+    tot, con, rel = run(f, a, b)
+    bea = X[f].loc[b, 1] / X[f].loc[a, 1] - 1
+    r = hbe.loc[per_]
+    worst = max(worst, abs(100 * bea - r.real_pce_growth_pct_bea), abs(100 * (bea - tot) - r.residual_pp),
+                abs(100 * con[members(CARE["C"])].sum() / bea - r.care_C_share_of_bea_growth_pct))
+    n += 1
+check("I3 Table 4's BEA columns: BEA real PCE growth, the residual and care (c)'s share of BEA's growth reproduced for "
+      "every year 2008-2025 and the five spans", worst < 1e-6, f"{n} periods, max |diff| {worst:.1e}; residual "
+      f"2018-09..2022-09 {hbe.loc['2018-09 to 2022-09', 'residual_pp']:+.3f} pp")
+vq = pd.read_csv(OUT / "leaf_vp_vs_q.csv")
+best = (0.0, None, None)
+dates = V["M"].index.tolist()
+for t0, t1 in zip(dates[:-1], dates[1:]):
+    if t1 < "2022-01":
+        continue
+    implied = (V["M"].loc[t1, LEAVES] / V["M"].loc[t0, LEAVES]) / (P["M"].loc[t1, LEAVES] / P["M"].loc[t0, LEAVES])
+    gap = (implied / (Q["M"].loc[t1, LEAVES] / Q["M"].loc[t0, LEAVES]) - 1).abs()
+    if gap.max() > best[0]:
+        best = (gap.max(), int(gap.idxmax()), t1)
+top = vq.iloc[0]
+check("I4 leaves: the largest monthly gap since 2022-01 between the 2.4.5U / 2.4.4U quantity relative and 2.4.3U's",
+      abs(100 * best[0] - top.max_gap_pct_monthly_since_2022_01) < 1e-9 and best[1] == top.line
+      and best[2] == top.month_of_max_since_2022_01, f"{100 * best[0]:.3f}% (line {best[1]}, {best[2]})")
+
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{len(RESULTS) - n_fail} PASS, {n_fail} FAIL")
 sys.exit(1 if n_fail else 0)

@@ -10,7 +10,9 @@
 #   2. Windows: monthly contributions chained with the cumulative real index up to the previous month, so they add
 #      to the window's real growth; the residual against BEA's own real PCE (2.4.6U line 1) is reported per window.
 #   3. Groupings (functional partition of PCE; three care definitions with variants; imputed items), the
-#      outside-care indexes beside real personal income excluding transfers, and the Medicare + Medicaid arithmetic.
+#      outside-care indexes beside real personal income excluding transfers, and the Medicare + Medicaid arithmetic;
+#      care's share of PCE at both ends of each window in dollars and at start prices (and why its share of the dollar
+#      increase sits below its share of real growth); when the spending-income gap opened; Table 4's BEA residuals.
 #   4. Cross-checks against BEA's published contributions (Tables 2.8.2 monthly, 2.3.2 and 2.4.2 annual).
 #   5. The jobs side, read from the vendored watch page, and the figures.
 #
@@ -367,7 +369,8 @@ def func_tag(line):
 
 def bea_growth(freq, line, a, b, table="Q"):
     src = Q[freq] if table == "Q" else X[freq]
-    if line not in src.columns or pd.isna(src.loc[a, line]) or pd.isna(src.loc[b, line]):
+    if (line not in src.columns or a not in src.index or b not in src.index
+            or pd.isna(src.loc[a, line]) or pd.isna(src.loc[b, line])):     # 2.4.6U starts in 2007
         return np.nan
     return float(src.loc[b, line] / src.loc[a, line] - 1)
 
@@ -857,6 +860,132 @@ for kind, freq, a, b in [("window", "A", "2010", "2019"), ("window", "A", "2015"
 history = pd.DataFrame(hist)
 history.to_csv(OUT / "care_share_history.csv", index=False, float_format="%.12g")
 
+
+# The same periods against BEA's own real PCE (2.4.6U chained dollars, from 2007): the residual of the leaf Fisher and
+# care's share of growth on BEA's total. The monthly context windows are unadjusted chains, like the five windows, and
+# across 2020 they drift (Table 4's last columns). A separate file, so care_share_history.csv keeps its columns.
+def period_bounds(per_):
+    if " to " not in per_:
+        return "A", str(int(per_) - 1), per_
+    a, b = per_.split(" to ")
+    return ("M" if len(a) == 7 else "A"), a, b
+
+
+hb_rows = []
+for r in history.itertuples():
+    freq, a, b = period_bounds(r.period)
+    bea = bea_growth(freq, 1, a, b, "X")
+    leaf = r.real_pce_growth_pct / 100
+    row = {"period": r.period, "kind": r.kind, "freq": freq, "start": a, "end": b,
+           "real_pce_growth_pct_leaf": 100 * leaf, "real_pce_growth_pct_bea": 100 * bea,
+           "residual_pp": 100 * (bea - leaf)}
+    for k in ["A+", "B", "C"]:
+        row[f"care_{k}_share_of_bea_growth_pct"] = (history.loc[r.Index, f"care_{k}_contribution_pp"] / bea
+                                                    if pd.notna(bea) else np.nan)
+    hb_rows.append(row)
+history_bea = pd.DataFrame(hb_rows)
+history_bea.to_csv(OUT / "care_share_history_bea.csv", index=False, float_format="%.12g")
+
+
+# %% care in dollars: its share of the PCE level at both ends of a window, in current dollars and at start-of-window
+# prices, and why its share of the dollar increase sits below its share of real growth. A share of a dollar increase
+# contains the price increase on everything, which accrues to each item in proportion to its level and so pulls the
+# dollar share toward the level share. The counterfactual "care prices rose as fast as all PCE prices" (care's own real
+# growth, BEA's implicit PCE deflator, everything else as published) splits
+#     share of real growth - share of the dollar increase = (general inflation) + (relative prices).
+def care_dollar_split(freq, a, b, k):
+    C, FQ, FP, AGG, PARTS = CHAIN[freq]
+    G = window_growth(FQ, a, b)
+    contrib = float(window_contrib(C, FQ, a, b).reindex(members(f"care {k}")).fillna(0.0).sum())
+    g_c = window_growth(AGG[f"care {k}"], a, b)
+    p0, p1 = V[freq].loc[a, 1], V[freq].loc[b, 1]
+    c0, c1 = nominal(freq, a, f"care {k}"), nominal(freq, b, f"care {k}")
+    px = (p1 / p0) / (X[freq].loc[b, 1] / X[freq].loc[a, 1]) - 1          # BEA's implicit PCE price change
+    c1_eq = c0 * (1 + g_c) * (1 + px)                                    # care's end value at all-PCE price growth
+    real_share, nom_share = 100 * contrib / G, 100 * (c1 - c0) / (p1 - p0)
+    eq_share = 100 * (c1_eq - c0) / (p1 - p0 + c1_eq - c1)
+    s0, s1 = 100 * c0 / p0, 100 * c1 / p1
+    s1v = s0 * (1 + g_c) / (1 + G)                                       # end volumes, both at start-of-window prices
+    return {"start_share_of_pce_pct": s0, "end_share_of_pce_pct": s1, "share_change_pp": s1 - s0,
+            "end_share_at_start_prices_pct": s1v, "share_change_at_start_prices_pp": s1v - s0,
+            "share_of_real_growth_pct": real_share, "share_of_nominal_increase_pct": nom_share,
+            "share_of_nominal_increase_if_care_prices_as_pce_pct": eq_share,
+            "real_minus_nominal_share_pp": real_share - nom_share,
+            "of_which_general_inflation_pp": real_share - eq_share,
+            "of_which_relative_prices_pp": eq_share - nom_share,
+            "care_real_growth_pct": 100 * g_c, "care_price_change_pct": 100 * ((c1 / c0) / (1 + g_c) - 1),
+            "pce_price_change_pct": 100 * px, "real_pce_growth_pct_leaf": 100 * G}
+
+
+DOLLAR_WINDOWS = WINDOWS + JOB_CONTEXT + [("7y", "M", "2019-09", "2026-09", "7 years to Sep 2026 (from pre-pandemic)")]
+dollar_rows = [{"window": key, "label": wlabel, "start": a, "end": b, "care_variant": k, "care_label": CARE_LABEL[k],
+                **care_dollar_split(freq, a, b, k)}
+               for key, freq, a, b, wlabel in DOLLAR_WINDOWS for k in CARE_TOPS]
+dollar_split = pd.DataFrame(dollar_rows)
+dollar_split.to_csv(OUT / "care_dollar_shares.csv", index=False, float_format="%.12g")
+
+
+# %% when the spending-income gap opened, care (c): Sep 2022 to Mar 2026, the watch window, and the four years. Same
+# arithmetic as the gap block above: in volumes, care's part is its contribution minus its start share times real
+# income growth (gap on the leaf Fisher); in dollars, s0 (g_care - g_Y).
+GAP_TIMING = [("pre", "2022-09", "2026-03", "Sep 2022 to Mar 2026"),
+              ("6m", "2026-03", "2026-09", "Mar 2026 to Sep 2026 (watch window)"),
+              ("4y", "2022-09", "2026-09", "Sep 2022 to Sep 2026 (4 years)")]
+gt_rows = []
+for key, a, b, plabel in GAP_TIMING:
+    C, FQ, FP, AGG, PARTS = CHAIN["M"]
+    G = window_growth(FQ, a, b)
+    contrib = float(window_contrib(C, FQ, a, b).reindex(members("care C")).fillna(0.0).sum())
+    p0, p1 = V["M"].loc[a, 1], V["M"].loc[b, 1]
+    c0, c1 = nominal("M", a, "care C"), nominal("M", b, "care C")
+    s0 = c0 / p0
+    gx = bea_growth("M", 1, a, b, "X")
+    gyr = float(PI["M"].loc[b, 36] / PI["M"].loc[a, 36] - 1)
+    y0, y1 = PI["M"].loc[a, 1] - PI["M"].loc[a, 16], PI["M"].loc[b, 1] - PI["M"].loc[b, 16]
+    gY, gC = y1 / y0 - 1, p1 / p0 - 1
+    care_r, care_n = contrib - s0 * gyr, s0 * (c1 / c0 - 1 - gY)
+    ok = (gC - gY) > 0.0025 and (gx - gyr) > 0.0025                     # the same rule as Table 9
+    gt_rows.append({"period": key, "label": plabel, "start": a, "end": b,
+                    "real_pce_growth_pct_bea": 100 * gx, "real_pce_growth_pct_leaf": 100 * G,
+                    "real_pi_ex_transfers_growth_pct": 100 * gyr, "real_gap_pp_bea": 100 * (gx - gyr),
+                    "real_gap_pp_leaf": 100 * (G - gyr), "care_C_part_of_real_gap_pp": 100 * care_r,
+                    "outside_care_C_part_of_real_gap_pp": 100 * (G - gyr - care_r),
+                    "care_C_share_of_real_gap_pct": 100 * care_r / (G - gyr) if ok else np.nan,
+                    "nominal_pce_growth_pct": 100 * gC, "nominal_pi_ex_transfers_growth_pct": 100 * gY,
+                    "nominal_gap_pp": 100 * (gC - gY), "care_C_part_of_nominal_gap_pp": 100 * care_n,
+                    "outside_care_C_part_of_nominal_gap_pp": 100 * (gC - gY - care_n),
+                    "care_C_share_of_nominal_gap_pct": 100 * care_n / (gC - gY) if ok else np.nan,
+                    "care_C_real_growth_pct": 100 * window_growth(AGG["care C"], a, b),
+                    "outside_care_C_real_growth_pct": 100 * window_growth(AGG["outside care C"], a, b)})
+gap_timing = pd.DataFrame(gt_rows)
+gap_timing.to_csv(OUT / "gap_timing.csv", index=False, float_format="%.12g")
+GAP_PATH = (X["M"][1] / X["M"].loc["2022-09", 1] - PI["M"][36] / PI["M"].loc["2022-09", 36]).loc["2022-09":]
+GAP_MIN = (GAP_PATH.idxmin(), 100 * GAP_PATH.min())                    # income furthest ahead of spending
+
+
+# %% leaves: the quantity relative implied by 2.4.5U / 2.4.4U against BEA's 2.4.3U relative, month by month
+# (BEA's monthly detail indexes carry the temporal adjustment, and the published values and prices are rounded)
+def vp_vs_q(freq, lo):
+    dates = V[freq].index.tolist()
+    rows = []
+    for t0, t1 in zip(dates[:-1], dates[1:]):
+        if t1 < lo:
+            continue
+        v0, v1 = V[freq].loc[t0, CUR], V[freq].loc[t1, CUR]
+        rel = (v1 / v0) / (P[freq].loc[t1, CUR] / P[freq].loc[t0, CUR]) / (Q[freq].loc[t1, CUR] / Q[freq].loc[t0, CUR])
+        rows.append((100 * (rel - 1).abs()).where(v0 != 0).rename(t1))
+    return pd.DataFrame(rows)
+
+
+vq22, vq07 = vp_vs_q("M", "2022-01"), vp_vs_q("M", "2007-02")
+leaf_vq = pd.DataFrame({"line": CUR, "label": [LABEL[c] for c in CUR],
+                        "max_gap_pct_monthly_since_2022_01": vq22.max().values,
+                        "month_of_max_since_2022_01": vq22.idxmax().values,
+                        "max_gap_pct_monthly_since_2007_02": vq07.max().values,
+                        "month_of_max_since_2007_02": vq07.idxmax().values})
+leaf_vq = leaf_vq.sort_values("max_gap_pct_monthly_since_2022_01", ascending=False)
+leaf_vq.to_csv(OUT / "leaf_vp_vs_q.csv", index=False, float_format="%.12g")
+
 # %% figures (dataviz skill: reference palette, light surface, hairline grid, thin marks, legend + direct labels)
 import matplotlib                                       # noqa: E402
 matplotlib.use("Agg")
@@ -951,8 +1080,8 @@ def fig1_values(k, w):
     return h_["care_start_share_of_pce_pct"], h_["care_share_of_growth_pct"]
 
 
-PANELS = [("A+", "(a) Health care services\nincl. NPISH health"),
-          ("B", "(b) (a) + medical goods\nand net health insurance"),
+PANELS = [("A+", "(a+) Health care services\nincl. NPISH health"),             # the NOTES' names: (a) is 172 alone
+          ("B", "(b) (a+) + medical goods\nand net health insurance"),
           ("C", "(c) (b) + child care\nand social assistance")]
 fig, axes = plt.subplots(1, 3, figsize=(10.4, 5.5), sharey=True)
 fig.subplots_adjust(left=0.215, right=0.985, top=0.64, bottom=0.15, wspace=0.10)   # top is reset below the header
@@ -1007,9 +1136,10 @@ leg = fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.005, y_hea
                  handletextpad=0.3, columnspacing=1.6, labelcolor=INK2)
 y_leg = leg.get_window_extent(renderer=fig.canvas.get_renderer()).y0 / fig.bbox.height
 fig.subplots_adjust(top=y_leg - 0.105)
-fig_text(fig, 0.012, 0.045, SRC_BEA + " Shares of growth are exact contributions to the Fisher index computed "
-         "from the 243 detail lines. Jobs: watch.wilsoniumite.com chart data (BLS via FRED), page as of 2026-11-02; "
-         "four-year and two-year changes are sums of its twelve-month changes.", fontsize=6.4, color=MUTED)
+fig_text(fig, 0.012, 0.072, SRC_BEA + " Shares of growth are exact contributions to the Fisher index computed "
+         "from the 243 detail lines. Jobs: shares computed from the watch.wilsoniumite.com chart data (BLS via FRED), "
+         "page as of 2026-11-02; the page does not print them. Two- and four-year changes are sums of its "
+         "twelve-month changes, exact only if the chart is a single data vintage.", fontsize=6.4, color=MUTED)
 fig.savefig(FIG / "fig_care_share_of_growth.png", dpi=DPI)
 plt.close(fig)
 
@@ -1259,6 +1389,13 @@ tabs["T11"] = pd.DataFrame([{"Window": JLABEL[w],
                                  f1(jz.loc[w, "care_share_of_private_job_growth_pct"])}
                             for w in ["jobs", "12m", "4y", "covid4y", "pre4y"]])
 hz = history.set_index("period")
+hbz = history_bea.set_index("period")
+
+
+def fres(x):
+    return "" if pd.isna(x) else ("0.000" if abs(x) < 0.0005 else f"{x:+.3f}")
+
+
 tabs["T12"] = pd.DataFrame([{"Period": per_,
                              "Real PCE growth, %": f2(hz.loc[per_, "real_pce_growth_pct"]),
                              "Care (c) share of PCE at start, %": f1(hz.loc[per_, "care_C_share_of_level_pct"]),
@@ -1268,10 +1405,56 @@ tabs["T12"] = pd.DataFrame([{"Period": per_,
                                  f1(hz.loc[per_, "care_C_share_of_nominal_increase_pct"]),
                              "Care (a+) share of real growth, %": f1(hz.loc[per_, "care_A+_share_of_growth_pct"]),
                              "Outside care (c) real growth, %": f2(hz.loc[per_, "outside_care_C_real_growth_pct"]),
-                             "Real income excl. transfers, %": f2(hz.loc[per_, "real_pi_ex_transfers_growth_pct"])}
+                             "Real income excl. transfers, %": f2(hz.loc[per_, "real_pi_ex_transfers_growth_pct"]),
+                             "BEA real PCE growth, % (residual, pp)":
+                                 f"{f2(hbz.loc[per_, 'real_pce_growth_pct_bea'])} "
+                                 f"({fres(hbz.loc[per_, 'residual_pp'])})",
+                             "Care (c) share of BEA's real growth, %":
+                                 f1(hbz.loc[per_, "care_C_share_of_bea_growth_pct"])}
                             for per_ in [str(y) for y in range(2011, 2026)]
                             + ["2010 to 2019", "2015 to 2019", "2015-09 to 2019-09", "2018-09 to 2022-09",
                                "2022-09 to 2026-09"]])
+dz = dollar_split[dollar_split.care_variant == "C"].set_index("window")
+DLABEL = {w[0]: w[4] for w in DOLLAR_WINDOWS}
+
+
+def split_cell(r):
+    rel = r.of_which_relative_prices_pp
+    return (f"{r.real_minus_nominal_share_pp:.1f} = {r.of_which_general_inflation_pp:.1f} "
+            f"{'+' if rel >= 0 else '-'} {abs(rel):.1f}")
+
+
+tabs["T13"] = pd.DataFrame([{
+    "Window": DLABEL[w],
+    "Share of PCE at start, %": f2(dz.loc[w, "start_share_of_pce_pct"]),
+    "Share of PCE at end, % (change, pt)": f"{f2(dz.loc[w, 'end_share_of_pce_pct'])} "
+                                           f"({dz.loc[w, 'share_change_pp']:+.2f})",
+    "Share at end at start-of-window prices, % (change, pt)": f"{f2(dz.loc[w, 'end_share_at_start_prices_pct'])} "
+                                                              f"({dz.loc[w, 'share_change_at_start_prices_pp']:+.2f})",
+    "Share of real growth, %": f1(dz.loc[w, "share_of_real_growth_pct"]),
+    "Share of the nominal increase, %": f1(dz.loc[w, "share_of_nominal_increase_pct"]),
+    "Same at all-PCE price growth, %": f1(dz.loc[w, "share_of_nominal_increase_if_care_prices_as_pce_pct"]),
+    "Real minus nominal share, pp = general inflation + relative prices": split_cell(dz.loc[w]),
+    "Prices: care (c) / all PCE, %": f"{f2(dz.loc[w, 'care_price_change_pct'])} / "
+                                     f"{f2(dz.loc[w, 'pce_price_change_pct'])}",
+} for w in WORDER + ["pre4y", "covid4y", "7y"]])
+gz = gap_timing.set_index("period")
+tabs["T14"] = pd.DataFrame([{
+    "Period": gz.loc[p, "label"],
+    "Real PCE growth, % (BEA)": f2(gz.loc[p, "real_pce_growth_pct_bea"]),
+    "Real income excl. transfers, %": f2(gz.loc[p, "real_pi_ex_transfers_growth_pct"]),
+    "Real gap, pp (BEA)": f2(gz.loc[p, "real_gap_pp_bea"]),
+    "Real gap, pp (leaf Fisher)": f2(gz.loc[p, "real_gap_pp_leaf"]),
+    "Care (c) part, volumes, pp": f2(gz.loc[p, "care_C_part_of_real_gap_pp"]),
+    "Outside care part, volumes, pp": f2(gz.loc[p, "outside_care_C_part_of_real_gap_pp"]),
+    "Care (c) share, volumes, %": f1(gz.loc[p, "care_C_share_of_real_gap_pct"]) if pd.notna(
+        gz.loc[p, "care_C_share_of_real_gap_pct"]) else "n/a",
+    "Nominal gap, pp": f2(gz.loc[p, "nominal_gap_pp"]),
+    "Care (c) part, dollars, pp": f2(gz.loc[p, "care_C_part_of_nominal_gap_pp"]),
+    "Outside care part, dollars, pp": f2(gz.loc[p, "outside_care_C_part_of_nominal_gap_pp"]),
+    "Care (c) share, dollars, %": f1(gz.loc[p, "care_C_share_of_nominal_gap_pct"]) if pd.notna(
+        gz.loc[p, "care_C_share_of_nominal_gap_pct"]) else "n/a",
+} for p in ["pre", "6m", "4y"]])
 with open(OUT / "notes_tables_sectors.md", "w", encoding="utf-8") as fh:
     for k, df in tabs.items():
         fh.write(f"<!-- {k} -->\n{md(df)}\n\n")
@@ -1290,8 +1473,23 @@ print("\npublished comparison, max |diff| pp by table:",
       "| unmapped published lines:", UNMAPPED)
 print("window comparison (chained published vs ours), max |diff| pp:",
       wcomp.groupby("window")["diff_pp"].apply(lambda s: round(s.abs().max(), 4)).to_dict())
+print("\ncare (c) in dollars (care_dollar_shares.csv):")
+print(dz[["start_share_of_pce_pct", "end_share_of_pce_pct", "share_change_pp", "share_change_at_start_prices_pp",
+          "share_of_real_growth_pct", "share_of_nominal_increase_pct",
+          "share_of_nominal_increase_if_care_prices_as_pce_pct", "of_which_general_inflation_pp",
+          "of_which_relative_prices_pp"]].round(3).to_string())
+print("\nwhen the gap opened (gap_timing.csv):")
+print(gap_timing.set_index("period").drop(columns=["label", "start", "end"]).round(3).T.to_string())
+print(f"cumulative real gap since Sep 2022 at its lowest: {GAP_MIN[1]:+.2f} pt in {GAP_MIN[0]}")
+print("context residuals (care_share_history_bea.csv):",
+      history_bea[history_bea.kind == "window"].set_index("period")[["residual_pp", "care_C_share_of_bea_growth_pct"]]
+      .round(3).to_dict("index"))
+v1_ = leaf_vq.iloc[0]
+print(f"2.4.5U/2.4.4U vs 2.4.3U, monthly since 2022-01: max {v1_.max_gap_pct_monthly_since_2022_01:.3f}% (line "
+      f"{v1_.line}, {v1_.label}, {v1_.month_of_max_since_2022_01})")
 MINE = (["headline_sectors.csv", "jobs_watch_windows.csv", "outside_care_monthly.csv", "care_financing.csv",
-         "notes_tables_sectors.md", "care_share_history.csv",
+         "notes_tables_sectors.md", "care_share_history.csv", "care_share_history_bea.csv", "care_dollar_shares.csv",
+         "gap_timing.csv", "leaf_vp_vs_q.csv",
          "published_comparison.csv", "published_comparison_windows.csv", "leaf_fisher_vs_bea.csv"]
         + [f"sector_{k}_{window_tag(a, b)}.csv" for k in ("contributions", "groups") for _, _, a, b, _ in WINDOWS])
 assert all((OUT / f).exists() for f in MINE)

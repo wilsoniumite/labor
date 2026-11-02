@@ -1,8 +1,9 @@
 # Q2, sectors: is care absorbing US spending growth the way it absorbs job growth?
 
 Question 2 of the consumption thread, sectors unit (Stella's question about the 2026-06-14 post). The watch site's
-"private jobs outside care" page says health care and social assistance took more than all net job growth
-recently. Does the national-accounts breakdown of consumer spending show the same thing?
+"private jobs outside care" page says health care and social assistance "have accounted for most US job growth", and
+the page's own chart data put their share of net job growth above 100% over the latest two years. Does the
+national-accounts breakdown of consumer spending show the same thing?
 
 Data: BEA's *Personal Income and Outlays, September 2026* (released 2026-10-29), monthly to 2026-09 and annual to
 2025, as tidied in `consumption/data/tidy/` (see `README_bea.md`). Jobs: the watch page vendored in
@@ -11,44 +12,68 @@ Data: BEA's *Personal Income and Outlays, September 2026* (released 2026-10-29),
 Run from the repo root:
 
     venv/bin/python -I consumption/recent/code/sectors.py          # about 25 s: out/*.csv, figures/*.png
-    venv/bin/python -I consumption/recent/checks/check_sectors.py  # about 10 s: 82 PASS/FAIL lines
+    venv/bin/python -I consumption/recent/checks/check_sectors.py  # about 10 s: 86 PASS/FAIL lines
 
 ## The answer in brief
 
-1. **The breakdown has moved toward care, but far less than jobs have.** Under the broad definition (c), care is
-   health care services (including the part of nonprofit health output households don't pay for), medical goods,
-   net health insurance, child care and social assistance. It was 23-24% of PCE at the start of every window and
-   took 36-41% of the growth of real PCE in every window from six months to four years. In the four years to
+1. **In volumes the breakdown has moved toward care, but far less than jobs have.** Under the broad definition (c),
+   care is health care services (including the part of nonprofit health output households don't pay for), medical
+   goods, net health insurance, child care and social assistance. It was 23-24% of PCE at the start of every window
+   and took 36-41% of the growth of real PCE in every window from six months to four years. In the four years to
    Sep 2019 it took 25.5%, about its share of the level. Health care and social assistance took 20.5% of net job
-   growth in the four years to Sep 2019, 58% in the four years to Sep 2026 and 107% in the two years to Aug 2026
-   (the watch site's figure, reproduced from the page's own chart data).
-2. **Spending outside care did not stall the way jobs outside care did.** Real spending outside care grew 4.7% in
-   the jobs window (2.3% a year), while private jobs outside care grew by 1 thousand. Over the four years to
-   Sep 2026 total real PCE grew about as much as in the four years to Sep 2019 (10.9% against 10.7%). Care's
-   contribution rose from 2.7 to 4.5 points, so spending outside care grew 8.3% instead of 10.4%: about 2.0% a
-   year instead of 2.5%.
-3. **In dollars the shift is much smaller.** Care took 30% of the four-year increase in nominal spending, against
-   26% before the pandemic and 23% of the level. The difference between the real share (41%) and the dollar share
-   (30%) is relative prices: care's implicit prices rose 10.9% over the four years, all PCE prices 12.7%. Before
-   the pandemic the two shares were about equal (25.5% real, 25.8% nominal).
-4. **Over the watch window the gap between spending and income is mostly not care, and less still government-paid
-   care.** Real PCE rose 1.82% in the six months to Sep 2026 against 0.05% for real personal income excluding
-   transfers. Care (c), whoever paid, accounts for 41% of that gap measured in volumes and 25% measured in
-   dollars. Medicare and Medicaid growing faster than income accounts for 15% of the dollar gap, and at most 25%
-   even if all of their increase is counted as care paid by transfers. The accounts show the rest of the gap
-   financed by a fall in saving: personal saving fell by $306 billion (annual rate), 40% of the increase in PCE.
-5. **Over four years the excess of spending over income is all care.** Real spending outgrew real non-transfer
-   income by 2.05 points from Sep 2022 to Sep 2026. Care's excess growth was larger than that (121% of the gap in
-   volumes, 98% in dollars), so spending outside care grew a little less than income (8.3% against 8.8%).
-   Medicare and Medicaid growing faster than income accounts for two thirds of the dollar gap. On calendar-year
-   averages 2022 to 2025, spending grew *less* than non-transfer income (8.03% against 8.72%).
-6. **Imputed items do not change the picture.** These are imputed rent, financial services furnished without
-   payment and nonprofits' own consumption. Taking them out as well moves outside-care growth by less than 0.1
-   point over four years (8.26% either way), and by 0.07 point in the watch window.
-7. **The latest months are not independent evidence.** For the current quarter, BEA estimates spending on
-   hospitals, nursing homes, paramedical services and private social services from BLS employment, hours and
-   earnings (NIPA Handbook ch. 5, Table 5.B). That is the same CES survey behind the watch site's jobs series. July
-   to September 2026 are advance estimates of this kind.
+   growth in the four years to Sep 2019, 58% in the four years to Sep 2026 and 107% in the two years to Aug 2026. The
+   watch page does not print these job shares. They are computed from its chart data: the 107% is
+   1,349 / (1 + 1,349 - 92) thousand jobs. Two- and four-year changes are sums of the page's twelve-month changes,
+   exact only if the chart is a single data vintage.
+2. **Spending outside care slowed, but it did not stall the way jobs outside care did.** Real spending outside care
+   grew 4.7% in the jobs window (2.3% a year), while private jobs outside care grew by 1 thousand. Over the four years
+   to Sep 2026 total real PCE grew about as much as in the four years to Sep 2019 (10.9% against 10.7%). Care's
+   contribution rose from 2.7 to 4.5 points, so spending outside care grew 8.3% instead of 10.4%: about 2.0% a year
+   instead of 2.5%, a fifth less growth over the four years.
+3. **In dollars the shift since 2022 is about three quarters of the shift in volumes, and it mostly undoes a fall in
+   2021-22.** Care's share of the PCE level rose from 22.9% in Sep 2022 to 24.3% in Sep 2026 in current dollars
+   (+1.40 points), against +1.81 points with both ends valued at Sep 2022 prices. That is about four and a half
+   times the dollar shift of the four years to Sep 2019 (+0.31 points). But in the four years to Sep 2022 care's
+   dollar share had fallen 1.1 points, as care prices rose 9.8% and all PCE prices 14.5%. Against Sep 2019, care's
+   share of spending in Sep 2026 is up 0.2 points in dollars (24.1% to 24.3%) and 1.8 points in volumes. In the
+   latest year it slipped in dollars (24.4% to 24.3%) while still rising in volumes, because care prices rose 1.9%
+   and all PCE prices 3.65%.
+4. **Care's share of the dollar increase is well below its share of real growth, mostly because of general
+   inflation.** Care took 30% of the four-year increase in nominal spending, against 26% before the pandemic and
+   23% of the level, and 41% of real growth. About half of the four-year dollar increase in PCE was higher prices,
+   which add to every item's spending in proportion to its size and so pull an item's share of the increase toward
+   its share of the level. Relative prices explain only 1.4 of the 11.4 points between 41% and 30% (0.2 of 9.6 on
+   calendar years 2022-2025), although care's implicit prices rose 10.9% over the four years, all PCE prices 12.7%:
+   had care prices risen as fast, care would have taken 31.3% of the increase. The 30% against 26% comparison is
+   diluted too, by twice the pre-pandemic inflation (12.7% against 6.4% over four years). In the latest twelve
+   months, with care prices further behind, relative prices explain more: 5.1 of 14.4 points.
+5. **The gap between spending and income opened in 2026, and most of it is outside care.** From Sep 2022 to Mar 2026
+   real PCE and real personal income excluding transfers grew about equally (8.9% against 8.8%, after income had run
+   up to 2.2 points ahead in early 2024): care's faster growth was offset by slower spending outside care. Real PCE
+   rose 1.82% in the six months to Sep 2026 against 0.05% for real personal income excluding transfers, which took
+   the gap since Sep 2022 from 0.1 to 2.05 points. Care (c), whoever paid, accounts for 41% of that gap measured in
+   volumes and 25% measured in dollars, so 59% and 75% of it is spending outside care. Medicare and Medicaid growing
+   faster than income accounts for 15% of the dollar gap, and at most 25% even if all of their increase is counted as
+   care paid by transfers. In the accounts the gap as a whole was financed mostly by lower saving: personal saving
+   fell by $306 billion (annual rate), 40% of the increase in PCE and 80% of its excess over the increase in
+   non-transfer income. The identity cannot say which spending the lower saving paid for.
+6. **Over the whole four years care's excess growth is about the size of the gap, but that adds up two different
+   periods.** Real spending outgrew real non-transfer income by 2.05 points from Sep 2022 to Sep 2026. Care's excess
+   growth over income was larger than the gap in volumes (121% of it) and about equal to it in dollars (98%), so
+   spending outside care grew a little less than income (8.3% against 8.8%). That total is care's excess growth to
+   Mar 2026, which slower spending elsewhere offset, plus the 2026 gap, most of which is outside care (Table 9a).
+   Medicare and Medicaid growing faster than income accounts for two thirds of the dollar gap over the four years. On
+   calendar-year averages 2022 to 2025, spending grew *less* than non-transfer income (8.03% against 8.72%).
+7. **Imputed items do not change the picture.** These are imputed rent, the rental value of farm dwellings (built
+   partly from actual rents), financial services furnished without payment and nonprofits' own consumption. Taking
+   them out as well moves outside-care growth by less than 0.1 point over four years (8.26% either way), and by 0.07
+   point in the watch window. The largest move under (c) is 0.25 point in the jobs window (4.97% instead of 4.73%).
+   Under the narrowest care definition (a) the moves reach 0.38 point over four years and 0.40 point on calendar
+   years 2022-2025 (Table 3).
+8. **The latest months are not independent evidence.** For the current quarter, BEA estimates spending on hospitals,
+   nursing homes, paramedical services and private social services from BLS employment, hours and earnings (NIPA
+   Handbook ch. 5, Table 5.B). That is the same CES survey behind the watch site's jobs series. July to September
+   2026 are advance estimates of this kind.
 
 ## Method
 
@@ -76,7 +101,8 @@ quantity relative minus one.
   and 2025, chained the same way.
 - **Shares.** "Share of growth" is a group's window contribution divided by total real growth. "Share of the
   level" is its current-dollar value at the start of the window divided by published PCE. "Share of the nominal
-  increase" is its dollar increase divided by the increase in PCE.
+  increase" is its dollar increase divided by the increase in PCE. Table 1a adds the share of the level at the end
+  of the window, in current dollars and with both ends valued at start-of-window prices.
 - **Group growth.** The real growth of a group (care, outside care, a line) is its own Fisher index built from its
   components the same way. For lines 145 and 333 (nets of two flows) BEA publishes no index and none is reported.
 
@@ -86,8 +112,11 @@ Monthly, it differs from BEA's chained-dollar real PCE by at most 0.007 points a
 The differences are smooth, not random. That fits the Handbook's description that quarterly chain indexes are
 "adjusted so that the quarterly indexes average to the corresponding annual index". The monthly published indexes
 evidently carry a similar adjustment, and the published detail is rounded. Over the windows the residuals are
-+0.010 to +0.016 points of growth that is 1.8% to 10.9%, and zero for the annual window (Table R). The group tables
-carry the residual as its own row. Shares of growth are of the leaf-Fisher total, so they add to 100.
++0.010 to +0.016 points of growth that is 1.8% to 10.9%, and zero for the annual window (Table R). Over Table 4's
+monthly context windows they are larger: +0.044 points for Sep 2015 to Sep 2019, and +0.423 points for Sep 2018 to
+Sep 2022, where the unadjusted chain drifts across 2020. Table 4 shows BEA's growth and care's share of it beside
+them. The group tables carry the residual as its own row. Shares of growth are of the leaf-Fisher total, so they add
+to 100.
 
 **Cross-checks against BEA's published contributions.** These are summed from the leaves to BEA's lines.
 
@@ -104,16 +133,22 @@ carry the residual as its own row. Shares of growth are of the leaf-Fisher total
   growth within 0.007 points. In the monthly windows the care lines agree within 0.07 points. Some volatile detail
   lines differ by more (indirect commissions, foreign travel, school meals, up to 4.9 points over four years),
   because BEA's monthly detail indexes carry the temporal adjustment while our monthly chain does not. For leaves,
-  2.4.5U / 2.4.4U is not exactly 2.4.3U month by month (up to 1.4% for passenger fares).
+  the quantity relative implied by 2.4.5U / 2.4.4U is not exactly the 2.4.3U relative. In the month-to-month
+  changes from Jan 2022 to Sep 2026 the two differ by at most 0.43% (passenger fares for foreign travel, line 335,
+  Dec 2021 to Jan 2022). Over 2007-2026 the largest gaps come with the 2020 travel collapse (3.7% for line 340 in
+  May 2020). Per leaf: `out/leaf_vp_vs_q.csv`.
 - **Quantity relatives.** Using 2.4.3U quantity relatives instead of 2.4.4U prices moves total growth by at most
   0.007 points and the care (c) contribution by at most 0.0004 points.
 
 **Jobs.** The watch page embeds its chart data, twelve-month changes in thousands for private jobs outside health
 care and social assistance, health care and social assistance, and government (BLS via FRED). Changes over two or
 four years are sums of the twelve-month changes ending in each year. Those cover the jobs, twelve-month and
-four-year windows, and the four years to Sep 2019 for context. The six-month and calendar-year windows cannot be
-built from twelve-month changes, so they have no jobs figure. The 107% is not in the page's text (as vendored) but
-follows from its data: care +1,349k, private outside care +1k, government -92k.
+four-year windows, and the four years to Sep 2019 for context. A sum equals the change between its end months only
+if every point on the chart comes from one data vintage. The page does not say which vintage its chart uses (its
+trigger history uses the data as published at each date). The six-month and calendar-year windows cannot be built
+from twelve-month changes, so they have no jobs figure. The page's text says health care and social assistance "have
+accounted for most US job growth". It does not print the 107%, which is derived here from its chart data: care
++1,349k, private outside care +1k, government -92k, so 1,349 / (1 + 1,349 - 92) = 107.2%.
 
 ## Definitions
 
@@ -125,7 +160,7 @@ follows from its data: care +1,349k, private outside care +1k, government -92k.
 | (c) + child care and social assistance | (b) + 316 + 317 | The main definition used in the headline and figures |
 | (c+) + NPISH social services | (c) + (350 - 363) | Nonprofit social-service output households do not pay for |
 | (s) care services only | (a+) + 316 + 317 + (350 - 363) | Not asked for: drops goods and insurance, which NAICS 62 workers do not produce, so it is the closest spending analogue of the jobs series |
-| Imputed and non-cash items | 160 + 163 + 254 + 342 | Owner-occupied nonfarm imputed rent, rental value of farm dwellings (163), financial services furnished without payment, NPISH final consumption |
+| Imputed and non-cash items | 160 + 163 + 254 + 342 | Owner-occupied nonfarm imputed rent, rental value of farm dwellings (163; BEA builds it from actual and imputed farm rents), financial services furnished without payment, NPISH final consumption |
 | Outside care (k) | PCE minus care (k) | A Fisher index of the remaining leaves |
 | Outside care (k) and imputed | PCE minus care (k) minus imputed items | The overlap (NPISH health and social services are inside 342) is excluded once, so (a) and (a+) give the same series, as do (c) and (c+) |
 
@@ -154,6 +189,29 @@ is 24 monthly changes). The annual window is calendar 2022 to 2025 on annual dat
 
 The jobs share for the six-month and calendar-year windows cannot be built from the page's twelve-month changes.
 
+**Table 1a. Care (c) in dollars: its share of the PCE level at both ends of each window, and its share of the dollar
+increase.** "At start-of-window prices" values the end-of-window volumes of care and of PCE at start prices,
+s0 (1 + care real growth) / (1 + PCE real growth) on the leaf Fisher. "Same at all-PCE price growth" is care's share
+of the dollar increase had care prices risen as fast as all PCE prices, with care's real growth and everything else
+as published. The gap between care's shares of real growth and of the dollar increase then splits into general
+inflation (share of real growth minus that counterfactual) and care's relative prices (the rest).
+
+| Window | Share of PCE at start, % | Share of PCE at end, % (change, pt) | Share at end at start-of-window prices, % (change, pt) | Share of real growth, % | Share of the nominal increase, % | Same at all-PCE price growth, % | Real minus nominal share, pp = general inflation + relative prices | Prices: care (c) / all PCE, % |
+|---|---|---|---|---|---|---|---|---|
+| Aug 2024 to Aug 2026 (jobs window) | 24.03 | 24.33 (+0.29) | 24.67 (+0.64) | 35.9 | 26.7 | 29.0 | 9.2 = 7.0 + 2.2 | 4.75 / 6.23 |
+| 12 months to Sep 2026 | 24.37 | 24.27 (-0.10) | 24.69 (+0.32) | 37.0 | 22.7 | 27.8 | 14.4 = 9.3 + 5.1 | 1.90 / 3.65 |
+| 6 months to Sep 2026 (watch window) | 24.26 | 24.27 (+0.02) | 24.55 (+0.30) | 40.8 | 24.8 | 30.5 | 16.1 = 10.4 + 5.7 | 0.50 / 1.65 |
+| 4 years to Sep 2026 | 22.88 | 24.27 (+1.40) | 24.69 (+1.81) | 41.3 | 29.9 | 31.3 | 11.4 = 10.0 + 1.4 | 10.87 / 12.74 |
+| 2022 to 2025 (annual data) | 22.89 | 24.22 (+1.33) | 24.26 (+1.37) | 41.2 | 31.6 | 31.7 | 9.6 = 9.5 + 0.2 | 9.15 / 9.33 |
+| 4 years to Sep 2019 (pre-pandemic) | 23.76 | 24.07 (+0.31) | 23.91 (+0.15) | 25.5 | 25.8 | 25.0 | -0.3 = 0.5 - 0.8 | 7.14 / 6.41 |
+| 4 years to Sep 2022 | 23.98 | 22.88 (-1.11) | 23.95 (-0.03) | 23.4 | 18.9 | 22.4 | 4.5 = 1.0 + 3.5 | 9.81 / 14.54 |
+| 7 years to Sep 2026 (from pre-pandemic) | 24.07 | 24.27 (+0.21) | 25.91 (+1.84) | 33.6 | 24.7 | 27.8 | 8.9 = 5.8 + 3.2 | 19.90 / 27.50 |
+
+Before the pandemic the two shares were about equal (25.5% real, 25.8% nominal) for two reasons. Care's real share
+was close to its level share (23.8%), so inflation had little to pull, and care prices rose a little faster than all
+PCE prices (7.1% against 6.4%), which lifted its dollar share. The four years to Sep 2022 are the reverse: care
+prices rose 9.8% against 14.5%, and care's dollar share fell 1.1 points while its volume share was flat.
+
 **Table 2. Care's share of real PCE growth, % (share of PCE at the start of the window, %), by definition.**
 
 | Care definition | Aug 2024 to Aug 2026 (jobs window) | 12 months to Sep 2026 | 6 months to Sep 2026 (watch window) | 4 years to Sep 2026 | 2022 to 2025 (annual data) |
@@ -177,30 +235,33 @@ The jobs share for the six-month and calendar-year windows cannot be built from 
 | (s) Care services only: (a+) + 316 + 317 + (350 - 363) | 5.05 / 5.35 | 2.31 / 2.26 | 1.61 / 1.69 | 8.98 / 9.15 | 6.54 / 6.65 |
 
 **Table 4. Context: care (c) year by year and over earlier four-year spans.** Annual rows are calendar years on
-annual data; the "share of PCE at start" is the previous year's.
+annual data; the "share of PCE at start" is the previous year's. The last two columns put BEA's own real PCE growth
+beside the leaf Fisher (the residual is BEA minus leaf) and give care's share of BEA's growth. The annual rows agree
+to the third decimal. The monthly rows carry the unadjusted chain's residual, which is largest across 2020: for
+Sep 2018 to Sep 2022 care's 23.4% share of leaf-Fisher growth is 22.6% of BEA's.
 
-| Period | Real PCE growth, % | Care (c) share of PCE at start, % | Care (c) contribution, pp | Care (c) share of real growth, % | Care (c) share of the nominal increase, % | Care (a+) share of real growth, % | Outside care (c) real growth, % | Real income excl. transfers, % |
-|---|---|---|---|---|---|---|---|---|
-| 2011 | 1.70 | 23.0 | 0.50 | 29.3 | 22.9 | 21.8 | 1.56 | 4.39 |
-| 2012 | 1.37 | 23.0 | 0.34 | 25.0 | 23.7 | 29.7 | 1.33 | 3.58 |
-| 2013 | 1.74 | 23.0 | 0.39 | 22.1 | 21.1 | 11.1 | 1.76 | -0.54 |
-| 2014 | 2.83 | 22.9 | 0.77 | 27.1 | 26.0 | 13.4 | 2.68 | 3.69 |
-| 2015 | 3.37 | 23.1 | 1.04 | 30.8 | 37.9 | 23.7 | 3.04 | 4.27 |
-| 2016 | 2.45 | 23.6 | 0.70 | 28.4 | 32.4 | 24.9 | 2.30 | 1.49 |
-| 2017 | 2.64 | 23.9 | 0.52 | 19.9 | 22.0 | 15.1 | 2.78 | 3.51 |
-| 2018 | 2.74 | 23.8 | 0.79 | 28.9 | 25.7 | 16.3 | 2.56 | 3.28 |
-| 2019 | 2.15 | 23.9 | 0.66 | 30.5 | 28.9 | 24.6 | 1.96 | 3.09 |
-| 2020 | -2.52 | 24.1 | -0.64 | 25.3 | 13.7 | 33.9 | -2.48 | 0.07 |
-| 2021 | 8.84 | 24.2 | 1.56 | 17.7 | 16.4 | 13.5 | 9.58 | 5.17 |
-| 2022 | 2.91 | 23.3 | 1.01 | 34.6 | 18.7 | 25.8 | 2.47 | 0.35 |
-| 2023 | 2.30 | 22.9 | 1.06 | 46.1 | 29.6 | 34.7 | 1.60 | 3.65 |
-| 2024 | 2.90 | 23.3 | 1.18 | 40.9 | 34.2 | 33.0 | 2.23 | 3.00 |
-| 2025 | 2.63 | 23.9 | 0.99 | 37.5 | 31.0 | 27.1 | 2.16 | 1.83 |
-| 2010 to 2019 | 23.05 | 23.0 | 6.26 | 27.2 | 26.7 | 19.7 | 21.82 | 30.05 |
-| 2015 to 2019 | 10.36 | 23.6 | 2.78 | 26.8 | 26.8 | 19.9 | 9.94 | 11.85 |
-| 2015-09 to 2019-09 | 10.65 | 23.8 | 2.72 | 25.5 | 25.8 | 18.7 | 10.42 | 11.78 |
-| 2018-09 to 2022-09 | 11.46 | 24.0 | 2.69 | 23.4 | 18.9 | 14.8 | 11.54 | 8.93 |
-| 2022-09 to 2026-09 | 10.85 | 22.9 | 4.48 | 41.3 | 29.9 | 30.8 | 8.26 | 8.82 |
+| Period | Real PCE growth, % | Care (c) share of PCE at start, % | Care (c) contribution, pp | Care (c) share of real growth, % | Care (c) share of the nominal increase, % | Care (a+) share of real growth, % | Outside care (c) real growth, % | Real income excl. transfers, % | BEA real PCE growth, % (residual, pp) | Care (c) share of BEA's real growth, % |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 2011 | 1.70 | 23.0 | 0.50 | 29.3 | 22.9 | 21.8 | 1.56 | 4.39 | 1.70 (0.000) | 29.3 |
+| 2012 | 1.37 | 23.0 | 0.34 | 25.0 | 23.7 | 29.7 | 1.33 | 3.58 | 1.37 (0.000) | 25.0 |
+| 2013 | 1.74 | 23.0 | 0.39 | 22.1 | 21.1 | 11.1 | 1.76 | -0.54 | 1.74 (0.000) | 22.1 |
+| 2014 | 2.83 | 22.9 | 0.77 | 27.1 | 26.0 | 13.4 | 2.68 | 3.69 | 2.83 (0.000) | 27.1 |
+| 2015 | 3.37 | 23.1 | 1.04 | 30.8 | 37.9 | 23.7 | 3.04 | 4.27 | 3.37 (0.000) | 30.8 |
+| 2016 | 2.45 | 23.6 | 0.70 | 28.4 | 32.4 | 24.9 | 2.30 | 1.49 | 2.45 (0.000) | 28.4 |
+| 2017 | 2.64 | 23.9 | 0.52 | 19.9 | 22.0 | 15.1 | 2.78 | 3.51 | 2.64 (0.000) | 19.9 |
+| 2018 | 2.74 | 23.8 | 0.79 | 28.9 | 25.7 | 16.3 | 2.56 | 3.28 | 2.74 (0.000) | 28.9 |
+| 2019 | 2.15 | 23.9 | 0.66 | 30.5 | 28.9 | 24.6 | 1.96 | 3.09 | 2.15 (0.000) | 30.5 |
+| 2020 | -2.52 | 24.1 | -0.64 | 25.3 | 13.7 | 33.9 | -2.48 | 0.07 | -2.52 (0.000) | 25.3 |
+| 2021 | 8.84 | 24.2 | 1.56 | 17.7 | 16.4 | 13.5 | 9.58 | 5.17 | 8.84 (0.000) | 17.7 |
+| 2022 | 2.91 | 23.3 | 1.01 | 34.6 | 18.7 | 25.8 | 2.47 | 0.35 | 2.91 (0.000) | 34.6 |
+| 2023 | 2.30 | 22.9 | 1.06 | 46.1 | 29.6 | 34.7 | 1.60 | 3.65 | 2.30 (0.000) | 46.1 |
+| 2024 | 2.90 | 23.3 | 1.18 | 40.9 | 34.2 | 33.0 | 2.23 | 3.00 | 2.90 (0.000) | 40.9 |
+| 2025 | 2.63 | 23.9 | 0.99 | 37.5 | 31.0 | 27.1 | 2.16 | 1.83 | 2.63 (0.000) | 37.5 |
+| 2010 to 2019 | 23.05 | 23.0 | 6.26 | 27.2 | 26.7 | 19.7 | 21.82 | 30.05 | 23.05 (0.000) | 27.2 |
+| 2015 to 2019 | 10.36 | 23.6 | 2.78 | 26.8 | 26.8 | 19.9 | 9.94 | 11.85 | 10.36 (0.000) | 26.8 |
+| 2015-09 to 2019-09 | 10.65 | 23.8 | 2.72 | 25.5 | 25.8 | 18.7 | 10.42 | 11.78 | 10.69 (+0.044) | 25.4 |
+| 2018-09 to 2022-09 | 11.46 | 24.0 | 2.69 | 23.4 | 18.9 | 14.8 | 11.54 | 8.93 | 11.88 (+0.423) | 22.6 |
+| 2022-09 to 2026-09 | 10.85 | 22.9 | 4.48 | 41.3 | 29.9 | 30.8 | 8.26 | 8.82 | 10.87 (+0.016) | 41.2 |
 
 **Table 5. Contributions by function, pp (share of real growth, %).**
 
@@ -306,7 +367,21 @@ inflation, and shares of the nominal gap are the same either way. The "gross upp
 increase in M to the gap: dM / (dC - dY). For care spending (all payers) the same formula is used in dollars. In
 volumes, care's part of the real gap is its contribution minus its start share times real income growth.
 
-The row is n/a where the gap is not positive (calendar 2022-2025).
+The row is n/a where the gap is not positive (calendar 2022-2025). In the code the cut-off is a gap of 0.25 points;
+no window in Table 9 falls between 0 and 0.25.
+
+**Table 9a. When the gap opened: care (c) and the rest, Sep 2022 to Mar 2026 and the watch window.** The same
+arithmetic as Table 9, with the real gap split on the leaf Fisher. Shares are n/a where the gap is under 0.25 points.
+
+| Period | Real PCE growth, % (BEA) | Real income excl. transfers, % | Real gap, pp (BEA) | Real gap, pp (leaf Fisher) | Care (c) part, volumes, pp | Outside care part, volumes, pp | Care (c) share, volumes, % | Nominal gap, pp | Care (c) part, dollars, pp | Outside care part, dollars, pp | Care (c) share, dollars, % |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Sep 2022 to Mar 2026 | 8.89 | 8.76 | 0.13 | 0.12 | 1.67 | -1.55 | n/a | 0.14 | 1.70 | -1.56 | n/a |
+| Mar 2026 to Sep 2026 (watch window) | 1.82 | 0.05 | 1.77 | 1.76 | 0.73 | 1.03 | 41.3 | 1.80 | 0.45 | 1.34 | 25.2 |
+| Sep 2022 to Sep 2026 (4 years) | 10.87 | 8.82 | 2.05 | 2.04 | 2.46 | -0.43 | 121.0 | 2.31 | 2.28 | 0.04 | 98.4 |
+
+Measured from Sep 2022 (BEA real PCE against real income excluding transfers, both indexed to Sep 2022), the
+cumulative real gap was negative through most of 2023-2025, lowest at -2.22 points in Jan 2024. It stayed between
+-0.31 and +0.13 points from Sep 2025 to Mar 2026 and reached 2.05 points in Sep 2026 (`out/outside_care_monthly.csv`).
 
 **Table 10. Where the change in spending came from: changes over the window, $ billion at annual rates.** From
 the accounting identity PCE = income excl. transfers + transfer receipts - taxes - interest and transfer payments -
@@ -337,8 +412,8 @@ benefits and transfers from business).
 
 **Figures** (`figures/`, 200 dpi):
 
-- `fig_care_share_of_growth.png`: care's share of real PCE growth against its share of the level, by window and
-  definition, with the share of net job growth.
+- `fig_care_share_of_growth.png`: care's share of real PCE growth against its share of the level, by window, for
+  definitions (a+), (b) and (c), with the share of net job growth computed from the watch page's chart data.
 - `fig_outside_care.png`: real PCE, outside care (c), outside care (c) and imputed items, and real income excluding
   transfers, Sep 2022 = 100.
 - `fig_contributions_2024-08_2026-08.png` and `fig_contributions_2022-09_2026-09.png`: contributions by part of
@@ -346,22 +421,28 @@ benefits and transfers from business).
 
 ## What it means, in plain words
 
-Care is taking a bigger slice of real spending growth than it used to. Before the pandemic it took about a
-quarter, roughly its weight in the budget. Since 2022 it has taken about four tenths in every window you choose,
-and its own volume has grown about 4.5% a year against about 2% for everything else. So the spending data do
-lean the same way as the jobs data, toward health care, drugs and care services.
+Care is taking a bigger slice of real spending growth than it used to. Before the pandemic it took about a quarter,
+roughly its weight in the budget. Since 2022 it has taken about four tenths in every window you choose, and its own
+volume has grown about 4.5% a year against about 2% for everything else. So the spending data do lean the same way
+as the jobs data, toward health care, drugs and care services.
 
-But the lean is much milder than in jobs, and in money terms it is mild indeed. Outside care, real spending kept
-growing at about 2% a year, close to its pre-pandemic pace of 2.5%. Over the last year it even outgrew real
-non-transfer income by a wide margin (2.1% against 0.5%). Private employment outside care grew by 1 thousand over
-the two years to Aug 2026 and by 192 thousand over the year to Sep 2026. In dollars care took
-30% of the four-year increase in spending, not much above its 23% weight. The volume share is higher mainly
-because measured care prices rose more slowly than other prices after 2022.
+But the lean is much milder than in jobs. Outside care, real spending kept growing at about 2% a year. That is below
+its pre-pandemic pace of 2.5%, a fifth less growth over four years, but it is not a stall. Over the last year it even
+outgrew real non-transfer income by a wide margin (2.1% against 0.5%). Private employment outside care grew by 1
+thousand over the two years to Aug 2026 and by 192 thousand over the year to Sep 2026.
 
-On the watch site's spending-and-income gap: over four years the excess of spending over non-transfer income is
-small, and care accounts for all of it. The big gap is recent, in 2026. Care accounts for only a quarter to two
-fifths of it, and government-paid care for about 15 to 25%. Most of the 2026 gap was paid for by households
-saving less, which is a different story from care.
+In money terms the answer depends on where you start. Since Sep 2022 care's share of consumer spending has risen 1.4
+points, to 24.3%, three quarters of its rise in volumes. But care got relatively cheaper in the 2021-22 inflation and
+its dollar share fell by almost as much before that, so it is now only 0.2 points above Sep 2019. Care's 30% share of
+the four-year dollar increase says little either way: about half of that increase was inflation, which lands on
+every item in proportion to its size and pulls each item's share of the increase toward its share of spending.
+
+On the watch site's spending-and-income gap: from Sep 2022 to Mar 2026 spending and non-transfer income grew about
+equally, with care's faster growth offset by slower spending on everything else. The gap opened in the six months to
+Sep 2026. Care accounts for only a quarter to two fifths of it, and government-paid care for about 15 to 25%; the
+rest, 59% in volumes and 75% in dollars, is spending outside care. Most of the 2026 gap was paid for by households
+saving less. The accounts finance the gap as a whole, so they cannot say whether the lower saving paid for care or
+for anything else.
 
 ## Caveats
 
@@ -384,14 +465,27 @@ saving less, which is a different story from care.
   replace these with receipts data.
 - **The real/nominal split for care depends on its price measures.** These are PPIs for physicians, hospitals,
   nursing care and home health; the CPI for child care; and a BEA input-cost index for other social services
-  (Table 5.B). Care's real share of growth (41%) and nominal share (30%) differ only through these prices.
+  (Table 5.B). They decide how much of care's dollar growth counts as volume, and so care's share of real growth.
+  Over the four years they are not what separates that share (41%) from care's share of the dollar increase (30%):
+  relative prices account for 1.4 of the 11.4 points, general inflation for the rest (Table 1a). Over longer spans
+  they matter more. Since Sep 2019 care prices rose 19.9% and all PCE prices 27.5%, which is why care's dollar share
+  is only 0.2 points above Sep 2019 while its volume share is 1.8 points above.
 - **The monthly residual is BEA's temporal adjustment.** Our monthly Fisher chain is the unadjusted one, so
-  window totals sit 0.010-0.016 points below BEA's published real PCE (Table R). The detail-line growth rates in
-  the per-line files are our chain's; BEA's own 2.4.3U growth is shown beside them.
+  window totals sit 0.010-0.016 points below BEA's published real PCE (Table R). Table 4's monthly context rows sit
+  further below it: 0.044 points for Sep 2015 to Sep 2019 and 0.423 points for Sep 2018 to Sep 2022, where the
+  chain drifts across 2020. On BEA's totals their care (c) shares of growth are 25.4% and 22.6%, not 25.5% and 23.4%
+  (Table 4, last columns). The detail-line growth rates in the per-line files are our chain's; BEA's own 2.4.3U
+  growth is shown beside them.
 - **Nets of two flows.** NPISH health (344 - 357) and NPISH social services (350 - 363) are each gross output
   minus sales. The net is about 5% of the gross flows for health and about half for social services. Their
   contributions are well defined, but their own real growth (for example -29% for NPISH health over four years) is
   not robust. Net foreign travel (333) has no real growth at all.
+- **Two small mapping points.** Health care (172) includes nonresidents' medical spending in the US, which BEA takes
+  out of PCE in net foreign travel (line 340, medical expenditures of foreigners; the entry "negates the expenditures
+  by foreign residents that are embedded in the source data", Handbook ch. 5). So care includes 0.003-0.006% of PCE
+  that residents do not consume; line 340 contributes under 0.003 points in every window, which moves care's share
+  of growth by at most 0.03 points. The rental value of farm dwellings (163, 0.14% of PCE) is in the imputed set,
+  but BEA builds it from "actual and imputed farm average rents" (Table 5.B), so it is mostly, not wholly, imputed.
 - **Medicare + Medicaid as "care paid through government" is an upper-bound proxy.**
   - PCE health care is paid by households, private insurers, Medicare, Medicaid and others.
   - Medicare benefits are gross of the premiums enrollees pay, so the net transfer is smaller. As far as I know
@@ -421,14 +515,18 @@ saving less, which is a different story from care.
 2. **The care definitions build on (a+).** (b) and (c) build on (a+), which includes NPISH health, not on (a).
    (a) alone is reported in every table. (s) is added as the closest analogue of the jobs series.
 3. **Farm dwellings are imputed but not functional imputed rent.** Rental value of farm dwellings (163) is in the
-   imputed set. In the functional split, "imputed rent" is line 160 only, and 163 stays in housing and utilities.
+   imputed set, although BEA builds it from actual as well as imputed farm rents, so it is mostly, not wholly,
+   imputed (0.14% of PCE). In the functional split, "imputed rent" is line 160 only, and 163 stays in housing and
+   utilities.
 4. **Other services exclude net foreign travel.** The functional "other services" group is line 280 without net
    foreign travel (333), which the brief lists separately. In BEA's Table 2.3.5, other services includes it.
 5. **The residual is a separate row.** Window contributions add to the leaf-Fisher total, and the residual against
    BEA is reported as its own row, not spread over the components.
 6. **Jobs over longer windows are summed.** Two- and four-year job changes are sums of twelve-month changes from
-   the watch page. The six-month and calendar-year windows have no jobs figure.
-7. **Gap shares need a positive gap.** They are left blank where the gap is not positive.
+   the watch page, exact only if its chart is a single data vintage. The six-month and calendar-year windows have no
+   jobs figure.
+7. **Gap shares need a clearly positive gap.** They are left blank where the gap is under 0.25 points, which in
+   these windows means where it is not positive.
 8. **NOTES embeds generated tables.** The results tables are generated by `sectors.py`
    (`out/notes_tables_sectors.md`) and pasted here. Check G1 fails if they drift apart.
 9. **One extra fetch.** NIPA Handbook ch. 4 (Estimating Methods) was fetched through `common.fetch()` into
@@ -440,15 +538,19 @@ saving less, which is a different story from care.
 | File | What |
 |---|---|
 | `code/sectors.py` | Everything: the Fisher engine, windows, groups, financing, jobs, published comparisons, figures, these tables |
-| `checks/check_sectors.py` | 82 independent checks (relative-form recomputation, identities, BEA's published numbers, the watch figures, the notes tables, figure dpi) |
-| `out/sector_contributions_<start>_<end>.csv` | One row per 2.4.5U line 1-368: label, level, parent, leaf flag, sign, functional group, care tags (yes/part/no per variant), imputed tag, signed start and end nominal values, start share, real growth (ours and BEA's 2.4.3U), contribution (pp), share of growth (%) |
+| `checks/check_sectors.py` | 86 independent checks (relative-form recomputation, identities, BEA's published numbers, the watch figures, care in dollars, the timing of the gap, the notes tables, figure dpi) |
+| `out/sector_contributions_<start>_<end>.csv` | One row per 2.4.5U line published at both ends of the window (366 of lines 1-368: 157-158 end in 2001): label, level, parent, leaf flag, sign, functional group, care tags (yes/part/no per variant), imputed tag, signed start and end nominal values, start share, real growth (ours and BEA's 2.4.3U), contribution (pp), share of growth (%) |
 | `out/sector_groups_<start>_<end>.csv` | One row per group: kind, definition (lines), number of leaves, start and end nominal values, start share, nominal and real growth, annualized real growth, contribution, share of growth, note; plus BEA's real PCE and the residual |
 | `out/headline_sectors.csv` | Per window and care variant: shares of level, growth and nominal increase, care and outside-care growth, prices, real income, jobs shares |
+| `out/care_dollar_shares.csv` | Per window (the five, the four years to Sep 2019 and to Sep 2022, and the seven years from Sep 2019) and care variant: share of PCE at both ends in current dollars and at start-of-window prices, shares of real growth and of the dollar increase, the dollar share had care prices risen as fast as all PCE prices, and the split into general inflation and relative prices (Table 1a) |
 | `out/outside_care_monthly.csv` | Long format, 2007-01 to 2026-09: real PCE (BEA and leaf Fisher), care, outside care and outside care with imputed items for every variant, imputed items, real income excluding transfers; index (Sep 2022 = 100), 1-, 6- and 12-month changes, nominal value |
 | `out/care_financing.csv` | Blocks `levels` (care variants, Medicare, Medicaid, transfers, taxes, saving: start, end, increment, growth, excess over income growth), `bridge` (Table 10) and `gap` (Table 9 and the per-variant rows) |
+| `out/gap_timing.csv` | Real and nominal spending-income gaps and their care (c) and outside-care parts: Sep 2022 to Mar 2026, the watch window and the four years (Table 9a) |
 | `out/care_share_history.csv` | Care (a+), (b), (c) by calendar year 1990-2025 and five multi-year spans |
+| `out/care_share_history_bea.csv` | The same periods against BEA's chained-dollar real PCE (from 2008): BEA's growth, the residual of the leaf Fisher, care's share of BEA's growth (Table 4's last columns) |
 | `out/jobs_watch_windows.csv` | Job changes and care shares from the watch page's chart data |
 | `out/published_comparison.csv`, `out/published_comparison_windows.csv` | Our contributions against Tables 2.3.2, 2.4.2 and 2.8.2, per period and chained over the windows |
 | `out/leaf_fisher_vs_bea.csv` | The leaf-Fisher index against BEA's real PCE, every month 1959-2026 and year 1960-2025 |
+| `out/leaf_vp_vs_q.csv` | Per current leaf: the largest monthly gap between the 2.4.5U / 2.4.4U quantity relative and 2.4.3U's, since 2022-01 and since 2007-02, with its month |
 | `out/notes_tables_sectors.md` | The tables above, as generated |
-| `figures/*.png` | The four figures |
+| `figures/fig_care_share_of_growth.png`, `fig_outside_care.png`, `fig_contributions_*.png` | The unit's four figures |
