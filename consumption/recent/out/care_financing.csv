@@ -1,0 +1,311 @@
+window,start,end,block,item,start_musd,end_musd,increment_musd,growth_pct,share_of_pce_at_start_pct,excess_over_income_growth_musd,share_of_spending_excess_pct,share_of_pce_increment_pct,value
+jobs,2024-08,2026-08,levels,PCE,19909596,22339658,2430062,12.2054812162,100,620706.99003,100,,
+jobs,2024-08,2026-08,levels,"(a) Health care services, households (172)",3358094,3858230,500136,14.893448486,16.8667109066,194957.321194,31.4089134366,,
+jobs,2024-08,2026-08,levels,(a+) Health care services incl. NPISH health (172 + 344 - 357),3440673,3935709,495036,14.3877665794,17.2814807493,182352.662266,29.3782195456,,
+jobs,2024-08,2026-08,levels,"(b) (a+) + medical products, appliances, net health insurance (121, 66, 275)",4498954,5106628,607674,13.5070062952,22.5969125642,198815.630422,32.0305125631,,
+jobs,2024-08,2026-08,levels,"(c) (b) + child care and social assistance (316, 317)",4784393,5434227,649834,13.5823708462,24.0305880642,215035.350936,34.6436167773,,
+jobs,2024-08,2026-08,levels,(c+) (c) + NPISH social services (350 - 363),4906157,5568171,662014,13.4935347564,24.6421725484,216149.616431,34.8231323157,,
+jobs,2024-08,2026-08,levels,(s) Care services only: (a+) + 316 + 317 + (350 - 363),3847876,4397252,549376,14.2773831589,19.3267407335,199686.648275,32.1708392982,,
+jobs,2024-08,2026-08,levels,Personal income excl. transfers (PI - line 16),20591341,22462652,1871311,9.08785396735,103.424203083,3.72529029846e-09,,,
+jobs,2024-08,2026-08,levels,Personal current transfer receipts (16),4574193,5190720,616527,13.4783774974,22.9748157622,200831.019975,,,
+jobs,2024-08,2026-08,levels,Government social benefits (17),4497199,5103092,605893,13.4726748805,22.5880977193,197194.122259,,,
+jobs,2024-08,2026-08,levels,Social security (18),1454683,1660493,205810,14.1480996203,7.30644157722,73610.5332721,,,
+jobs,2024-08,2026-08,levels,Medicare (19),1120356,1340676,220320,19.6651778542,5.62721614241,118503.682806,19.0917268065,,
+jobs,2024-08,2026-08,levels,Medicaid (20),944405,1097035,152630,16.1614985096,4.7434664169,66803.8527396,10.762542361,,
+jobs,2024-08,2026-08,levels,Medicare + Medicaid (19 + 20),2064761,2437711,372950,18.0626232285,10.3706825593,185307.535545,29.8542691675,,
+jobs,2024-08,2026-08,levels,Other social benefits (21-23) and transfers from business (24),1054749,1092516,37767,3.58066231871,5.29769162569,-58087.0488421,,,
+jobs,2024-08,2026-08,levels,Personal current taxes (26),3033645,3417045,383400,12.6382618929,15.2370997382,107706.772512,,,
+jobs,2024-08,2026-08,levels,Personal interest payments (30),557128,618670,61542,11.0462945679,2.79828882515,10911.0209488,,,
+jobs,2024-08,2026-08,levels,Personal current transfer payments (31),298938,306619,7681,2.56942911239,1.50147697623,-19486.0488929,,,
+jobs,2024-08,2026-08,levels,Personal saving (34),1366226,971380,-394846,-28.9004893773,6.86214828267,-519006.623744,,,
+jobs,2024-08,2026-08,bridge,Personal income excl. transfers,,,1871311,,,,,77.0067183471,
+jobs,2024-08,2026-08,bridge,+ Medicare + Medicaid,,,372950,,,,,15.3473450472,
+jobs,2024-08,2026-08,bridge,+ Social security,,,205810,,,,,8.46933123517,
+jobs,2024-08,2026-08,bridge,+ Other transfer receipts,,,37767,,,,,1.55415787745,
+jobs,2024-08,2026-08,bridge,- Personal current taxes,,,-383400,,,,,-15.7773752275,
+jobs,2024-08,2026-08,bridge,- Interest and transfer payments,,,-69223,,,,,-2.84861044698,
+jobs,2024-08,2026-08,bridge,- Personal saving,,,394846,,,,,16.2483920163,
+jobs,2024-08,2026-08,bridge,= Change in PCE (sum of the above),,,2430061,,,,,99.9999588488,
+jobs,2024-08,2026-08,bridge,Change in PCE (published),,,2430062,,,,,100,
+jobs,2024-08,2026-08,gap,"Real PCE growth, % (2.4.6U line 1)",,,,,,,,,5.62241706708
+jobs,2024-08,2026-08,gap,"Real personal income excl. transfers growth, % (line 36)",,,,,,,,,2.68770096497
+jobs,2024-08,2026-08,gap,"Real gap, pp",,,,,,,,,2.93471610211
+jobs,2024-08,2026-08,gap,"Nominal PCE growth, %",,,,,,,,,12.2054812162
+jobs,2024-08,2026-08,gap,"Nominal personal income excl. transfers growth, %",,,,,,,,,9.08785396735
+jobs,2024-08,2026-08,gap,"Nominal gap, pp",,,,,,,,,3.11762724884
+jobs,2024-08,2026-08,gap,"Spending excess over income growth, $mn SAAR: C1 - C0(1 + gY)",,,,,,,,,620706.99003
+jobs,2024-08,2026-08,gap,"Part of nominal gap from Medicare + Medicaid (19 + 20): s0 (g - gY), pp",,,,,,,,,0.930744830508
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from Medicare + Medicaid (19 + 20), %",,,,,,,,,29.8542691675
+jobs,2024-08,2026-08,gap,"Part of nominal gap from (a) Health care services, households (172): s0 (g - gY), pp",,,,,,,,,0.979212843864
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from (a) Health care services, households (172), %",,,,,,,,,31.4089134366
+jobs,2024-08,2026-08,gap,"Part of nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): s0 (g - gY), pp",,,,,,,,,0.915903377777
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), %",,,,,,,,,29.3782195456
+jobs,2024-08,2026-08,gap,"Part of nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): s0 (g - gY), pp",,,,,,,,,0.99859198761
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), %",,,,,,,,,32.0305125631
+jobs,2024-08,2026-08,gap,"Part of nominal gap from (c) (b) + child care and social assistance (316, 317): s0 (g - gY), pp",,,,,,,,,1.08005883663
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from (c) (b) + child care and social assistance (316, 317), %",,,,,,,,,34.6436167773
+jobs,2024-08,2026-08,gap,"Part of nominal gap from (c+) (c) + NPISH social services (350 - 363): s0 (g - gY), pp",,,,,,,,,1.08565546197
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from (c+) (c) + NPISH social services (350 - 363), %",,,,,,,,,34.8231323157
+jobs,2024-08,2026-08,gap,"Part of nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): s0 (g - gY), pp",,,,,,,,,1.00296685214
+jobs,2024-08,2026-08,gap,"Share of the nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), %",,,,,,,,,32.1708392982
+jobs,2024-08,2026-08,gap,"Gross upper bound: increase in Medicare + Medicaid / (increase in PCE - increase in income excl. transfers), %",,,,,,,,,66.7470841215
+jobs,2024-08,2026-08,gap,"Part of real gap from (a) Health care services, households (172): contribution - s0 x real income growth, pp",,,,,,,,,0.969089823043
+jobs,2024-08,2026-08,gap,"Share of the real gap from (a) Health care services, households (172), % (gap on the leaf Fisher)",,,,,,,,,33.136669101
+jobs,2024-08,2026-08,gap,"Part of real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): contribution - s0 x real income growth, pp",,,,,,,,,0.948332838378
+jobs,2024-08,2026-08,gap,"Share of the real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), % (gap on the leaf Fisher)",,,,,,,,,32.4269130845
+jobs,2024-08,2026-08,gap,"Part of real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): contribution - s0 x real income growth, pp",,,,,,,,,1.30604733395
+jobs,2024-08,2026-08,gap,"Share of the real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), % (gap on the leaf Fisher)",,,,,,,,,44.6584592123
+jobs,2024-08,2026-08,gap,"Part of real gap from (c) (b) + child care and social assistance (316, 317): contribution - s0 x real income growth, pp",,,,,,,,,1.37115963557
+jobs,2024-08,2026-08,gap,"Share of the real gap from (c) (b) + child care and social assistance (316, 317), % (gap on the leaf Fisher)",,,,,,,,,46.8848831637
+jobs,2024-08,2026-08,gap,"Part of real gap from (c+) (c) + NPISH social services (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,1.37663842585
+jobs,2024-08,2026-08,gap,"Share of the real gap from (c+) (c) + NPISH social services (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,47.0722227231
+jobs,2024-08,2026-08,gap,"Part of real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,1.01892393027
+jobs,2024-08,2026-08,gap,"Share of the real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,34.8406765954
+12m,2025-09,2026-09,levels,PCE,21126488,22452780,1326292,6.27786312614,100,436342.562204,100,,
+12m,2025-09,2026-09,levels,"(a) Health care services, households (172)",3634330,3871188,236858,6.51723976634,17.2027172713,83762.5143582,19.1965033012,,
+12m,2025-09,2026-09,levels,(a+) Health care services incl. NPISH health (172 + 344 - 357),3703883,3945164,241281,6.51427164411,17.5319390521,85255.6069715,19.5386868842,,
+12m,2025-09,2026-09,levels,"(b) (a+) + medical products, appliances, net health insurance (121, 66, 275)",4836286,5121010,284724,5.88724488171,22.8920490713,80996.3379901,18.5625572672,,
+12m,2025-09,2026-09,levels,"(c) (b) + child care and social assistance (316, 317)",5149302,5449924,300622,5.83811165086,24.3736772529,83708.5963173,19.1841464868,,
+12m,2025-09,2026-09,levels,(c+) (c) + NPISH social services (350 - 363),5280706,5584480,303774,5.75252627206,24.9956642107,81325.2268832,18.6379312787,,
+12m,2025-09,2026-09,levels,(s) Care services only: (a+) + 316 + 317 + (350 - 363),4148303,4408634,260331,6.27560233667,19.6355541915,85584.4958646,19.6140608957,,
+12m,2025-09,2026-09,levels,Personal income excl. transfers (PI - line 16),21592901,22502498,909597,4.21248168553,102.207716682,0,,,
+12m,2025-09,2026-09,levels,Personal current transfer receipts (16),5012009,5205347,193338,3.85749506834,23.7238153355,-17791.9612022,,,
+12m,2025-09,2026-09,levels,Government social benefits (17),4909150,5117177,208027,4.23753602966,23.2369431209,1229.95533472,,,
+12m,2025-09,2026-09,levels,Social security (18),1571620,1663258,91638,5.8307987936,7.43909730761,25433.7953338,,,
+12m,2025-09,2026-09,levels,Medicare (19),1220811,1351970,131159,10.7435958555,5.77857995139,79732.56021,18.2729275382,,
+12m,2025-09,2026-09,levels,Medicaid (20),1072137,1095263,23126,2.15700045796,5.0748472723,-22037.5747688,-5.05052146586,,
+12m,2025-09,2026-09,levels,Medicare + Medicaid (19 + 20),2292948,2447233,154285,6.72867417839,10.8534272237,57694.9854412,13.2224060724,,
+12m,2025-09,2026-09,levels,Other social benefits (21-23) and transfers from business (24),1147441,1094856,-52585,-4.58280643624,5.43129080423,-100920.741977,,,
+12m,2025-09,2026-09,levels,Personal current taxes (26),3392083,3418796,26713,0.787510211277,16.056066678,-116177.875133,,,
+12m,2025-09,2026-09,levels,Personal interest payments (30),592317,617925,25608,4.3233606329,2.80366997108,656.754854709,,,
+12m,2025-09,2026-09,levels,Personal current transfer payments (31),304075,307200,3125,1.02770698019,1.43930690231,-9684.10368528,,,
+12m,2025-09,2026-09,levels,Personal saving (34),1189947,911144,-278803,-23.4298670445,5.63248846661,-328929.299443,,,
+12m,2025-09,2026-09,bridge,Personal income excl. transfers,,,909597,,,,,68.5819563113,
+12m,2025-09,2026-09,bridge,+ Medicare + Medicaid,,,154285,,,,,11.6328078583,
+12m,2025-09,2026-09,bridge,+ Social security,,,91638,,,,,6.90933821511,
+12m,2025-09,2026-09,bridge,+ Other transfer receipts,,,-52585,,,,,-3.9648131784,
+12m,2025-09,2026-09,bridge,- Personal current taxes,,,-26713,,,,,-2.01411152295,
+12m,2025-09,2026-09,bridge,- Interest and transfer payments,,,-28733,,,,,-2.16641584206,
+12m,2025-09,2026-09,bridge,- Personal saving,,,278803,,,,,21.0212381587,
+12m,2025-09,2026-09,bridge,= Change in PCE (sum of the above),,,1326292,,,,,100,
+12m,2025-09,2026-09,bridge,Change in PCE (published),,,1326292,,,,,100,
+12m,2025-09,2026-09,gap,"Real PCE growth, % (2.4.6U line 1)",,,,,,,,,2.53655287615
+12m,2025-09,2026-09,gap,"Real personal income excl. transfers growth, % (line 36)",,,,,,,,,0.543876802016
+12m,2025-09,2026-09,gap,"Real gap, pp",,,,,,,,,1.99267607413
+12m,2025-09,2026-09,gap,"Nominal PCE growth, %",,,,,,,,,6.27786312614
+12m,2025-09,2026-09,gap,"Nominal personal income excl. transfers growth, %",,,,,,,,,4.21248168553
+12m,2025-09,2026-09,gap,"Nominal gap, pp",,,,,,,,,2.06538144061
+12m,2025-09,2026-09,gap,"Spending excess over income growth, $mn SAAR: C1 - C0(1 + gY)",,,,,,,,,436342.562204
+12m,2025-09,2026-09,gap,"Part of nominal gap from Medicare + Medicaid (19 + 20): s0 (g - gY), pp",,,,,,,,,0.273093121021
+12m,2025-09,2026-09,gap,"Share of the nominal gap from Medicare + Medicaid (19 + 20), %",,,,,,,,,13.2224060724
+12m,2025-09,2026-09,gap,"Part of nominal gap from (a) Health care services, households (172): s0 (g - gY), pp",,,,,,,,,0.396481016429
+12m,2025-09,2026-09,gap,"Share of the nominal gap from (a) Health care services, households (172), %",,,,,,,,,19.1965033012
+12m,2025-09,2026-09,gap,"Part of nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): s0 (g - gY), pp",,,,,,,,,0.403548412644
+12m,2025-09,2026-09,gap,"Share of the nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), %",,,,,,,,,19.5386868842
+12m,2025-09,2026-09,gap,"Part of nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): s0 (g - gY), pp",,,,,,,,,0.383387612698
+12m,2025-09,2026-09,gap,"Share of the nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), %",,,,,,,,,18.5625572672
+12m,2025-09,2026-09,gap,"Part of nominal gap from (c) (b) + child care and social assistance (316, 317): s0 (g - gY), pp",,,,,,,,,0.396225801076
+12m,2025-09,2026-09,gap,"Share of the nominal gap from (c) (b) + child care and social assistance (316, 317), %",,,,,,,,,19.1841464868
+12m,2025-09,2026-09,gap,"Part of nominal gap from (c+) (c) + NPISH social services (350 - 363): s0 (g - gY), pp",,,,,,,,,0.384944373543
+12m,2025-09,2026-09,gap,"Share of the nominal gap from (c+) (c) + NPISH social services (350 - 363), %",,,,,,,,,18.6379312787
+12m,2025-09,2026-09,gap,"Part of nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): s0 (g - gY), pp",,,,,,,,,0.405105173489
+12m,2025-09,2026-09,gap,"Share of the nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), %",,,,,,,,,19.6140608957
+12m,2025-09,2026-09,gap,"Gross upper bound: increase in Medicare + Medicaid / (increase in PCE - increase in income excl. transfers), %",,,,,,,,,37.02588224
+12m,2025-09,2026-09,gap,"Part of real gap from (a) Health care services, households (172): contribution - s0 x real income growth, pp",,,,,,,,,0.486582545936
+12m,2025-09,2026-09,gap,"Share of the real gap from (a) Health care services, households (172), % (gap on the leaf Fisher)",,,,,,,,,24.6170946548
+12m,2025-09,2026-09,gap,"Part of real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): contribution - s0 x real income growth, pp",,,,,,,,,0.554405831793
+12m,2025-09,2026-09,gap,"Share of the real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), % (gap on the leaf Fisher)",,,,,,,,,28.0483978564
+12m,2025-09,2026-09,gap,"Part of real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): contribution - s0 x real income growth, pp",,,,,,,,,0.784635043496
+12m,2025-09,2026-09,gap,"Share of the real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), % (gap on the leaf Fisher)",,,,,,,,,39.6961117832
+12m,2025-09,2026-09,gap,"Part of real gap from (c) (b) + child care and social assistance (316, 317): contribution - s0 x real income growth, pp",,,,,,,,,0.800985017393
+12m,2025-09,2026-09,gap,"Share of the real gap from (c) (b) + child care and social assistance (316, 317), % (gap on the leaf Fisher)",,,,,,,,,40.5232866549
+12m,2025-09,2026-09,gap,"Part of real gap from (c+) (c) + NPISH social services (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,0.789024910895
+12m,2025-09,2026-09,gap,"Share of the real gap from (c+) (c) + NPISH social services (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,39.9182031471
+12m,2025-09,2026-09,gap,"Part of real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,0.558795699192
+12m,2025-09,2026-09,gap,"Share of the real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,28.2704892204
+6m,2026-03,2026-09,levels,PCE,21692919,22452780,759861,3.50280660708,100,389683.335924,100,,
+6m,2026-03,2026-09,levels,"(a) Health care services, households (172)",3710778,3871188,160410,4.32281316748,17.1059413443,97087.6259135,24.9144926055,,
+6m,2026-03,2026-09,levels,(a+) Health care services incl. NPISH health (172 + 344 - 357),3799656,3945164,145508,3.82950456568,17.5156510749,80668.9720032,20.7011602926,,
+6m,2026-03,2026-09,levels,"(b) (a+) + medical products, appliances, net health insurance (121, 66, 275)",4947244,5121010,173766,3.51237982198,22.8058012847,89344.0175303,22.9273385064,,
+6m,2026-03,2026-09,levels,"(c) (b) + child care and social assistance (316, 317)",5261834,5449924,188090,3.57460915719,24.2559980056,98299.7131844,25.2255367686,,
+6m,2026-03,2026-09,levels,(c+) (c) + NPISH social services (350 - 363),5396872,5584480,187608,3.47623586403,24.8784960659,95513.3644058,24.5105077895,,
+6m,2026-03,2026-09,levels,(s) Care services only: (a+) + 316 + 317 + (350 - 363),4249284,4408634,159350,3.75004353675,19.5883458561,86838.3188788,22.2843295757,,
+6m,2026-03,2026-09,levels,Personal income excl. transfers (PI - line 16),22124948,22502498,377550,1.70644468859,101.991566926,3.72529029846e-09,,,
+6m,2026-03,2026-09,levels,Personal current transfer receipts (16),5063176,5205347,142171,2.80794110258,23.3402245221,55770.7020739,,,
+6m,2026-03,2026-09,levels,Government social benefits (17),4978214,5117177,138963,2.79142278737,22.948566765,54012.5316102,,,
+6m,2026-03,2026-09,levels,Social security (18),1636823,1663258,26435,1.61501885054,7.54542530676,-1496.47914517,,,
+6m,2026-03,2026-09,levels,Medicare (19),1284766,1351970,67204,5.23083580979,5.92251324038,45280.1788321,11.6197370167,,
+6m,2026-03,2026-09,levels,Medicaid (20),1065448,1095263,29815,2.79835336872,4.91150130603,11633.7191943,2.98542896804,,
+6m,2026-03,2026-09,levels,Medicare + Medicaid (19 + 20),2350214,2447233,97019,4.12809216522,10.8340145464,56913.8980264,14.6051659847,,
+6m,2026-03,2026-09,levels,Other social benefits (21-23) and transfers from business (24),1076139,1094856,18717,1.73927345817,4.96078466895,353.28319262,,,
+6m,2026-03,2026-09,levels,Personal current taxes (26),3378193,3418796,40603,1.20191475147,15.5727912873,-17043.9950189,,,
+6m,2026-03,2026-09,levels,Personal interest payments (30),595517,617925,22408,3.76278091138,2.74521377229,12245.8317838,,,
+6m,2026-03,2026-09,levels,Personal current transfer payments (31),304791,307200,2409,0.790377668632,1.40502529881,-2792.08983081,,,
+6m,2026-03,2026-09,levels,Personal saving (34),1216704,911144,-305560,-25.1137499342,5.60876108928,-326322.380784,,,
+6m,2026-03,2026-09,bridge,Personal income excl. transfers,,,377550,,,,,49.6867190183,
+6m,2026-03,2026-09,bridge,+ Medicare + Medicaid,,,97019,,,,,12.7679930935,
+6m,2026-03,2026-09,bridge,+ Social security,,,26435,,,,,3.47892575089,
+6m,2026-03,2026-09,bridge,+ Other transfer receipts,,,18717,,,,,2.46321366671,
+6m,2026-03,2026-09,bridge,- Personal current taxes,,,-40603,,,,,-5.34347729387,
+6m,2026-03,2026-09,bridge,- Interest and transfer payments,,,-24817,,,,,-3.2659920696,
+6m,2026-03,2026-09,bridge,- Personal saving,,,305560,,,,,40.2126178341,
+6m,2026-03,2026-09,bridge,= Change in PCE (sum of the above),,,759861,,,,,100,
+6m,2026-03,2026-09,bridge,Change in PCE (published),,,759861,,,,,100,
+6m,2026-03,2026-09,gap,"Real PCE growth, % (2.4.6U line 1)",,,,,,,,,1.81881632735
+6m,2026-03,2026-09,gap,"Real personal income excl. transfers growth, % (line 36)",,,,,,,,,0.0516805863398
+6m,2026-03,2026-09,gap,"Real gap, pp",,,,,,,,,1.76713574101
+6m,2026-03,2026-09,gap,"Nominal PCE growth, %",,,,,,,,,3.50280660708
+6m,2026-03,2026-09,gap,"Nominal personal income excl. transfers growth, %",,,,,,,,,1.70644468859
+6m,2026-03,2026-09,gap,"Nominal gap, pp",,,,,,,,,1.79636191848
+6m,2026-03,2026-09,gap,"Spending excess over income growth, $mn SAAR: C1 - C0(1 + gY)",,,,,,,,,389683.335924
+6m,2026-03,2026-09,gap,"Part of nominal gap from Medicare + Medicaid (19 + 20): s0 (g - gY), pp",,,,,,,,,0.262361639881
+6m,2026-03,2026-09,gap,"Share of the nominal gap from Medicare + Medicaid (19 + 20), %",,,,,,,,,14.6051659847
+6m,2026-03,2026-09,gap,"Part of nominal gap from (a) Health care services, households (172): s0 (g - gY), pp",,,,,,,,,0.447554457349
+6m,2026-03,2026-09,gap,"Share of the nominal gap from (a) Health care services, households (172), %",,,,,,,,,24.9144926055
+6m,2026-03,2026-09,gap,"Part of nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): s0 (g - gY), pp",,,,,,,,,0.371867760181
+6m,2026-03,2026-09,gap,"Share of the nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), %",,,,,,,,,20.7011602926
+6m,2026-03,2026-09,gap,"Part of nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): s0 (g - gY), pp",,,,,,,,,0.411857977851
+6m,2026-03,2026-09,gap,"Share of the nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), %",,,,,,,,,22.9273385064
+6m,2026-03,2026-09,gap,"Part of nominal gap from (c) (b) + child care and social assistance (316, 317): s0 (g - gY), pp",,,,,,,,,0.453141936244
+6m,2026-03,2026-09,gap,"Share of the nominal gap from (c) (b) + child care and social assistance (316, 317), %",,,,,,,,,25.2255367686
+6m,2026-03,2026-09,gap,"Part of nominal gap from (c+) (c) + NPISH social services (350 - 363): s0 (g - gY), pp",,,,,,,,,0.440297427957
+6m,2026-03,2026-09,gap,"Share of the nominal gap from (c+) (c) + NPISH social services (350 - 363), %",,,,,,,,,24.5105077895
+6m,2026-03,2026-09,gap,"Part of nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): s0 (g - gY), pp",,,,,,,,,0.400307210287
+6m,2026-03,2026-09,gap,"Share of the nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), %",,,,,,,,,22.2843295757
+6m,2026-03,2026-09,gap,"Gross upper bound: increase in Medicare + Medicaid / (increase in PCE - increase in income excl. transfers), %",,,,,,,,,25.3769836599
+6m,2026-03,2026-09,gap,"Part of real gap from (a) Health care services, households (172): contribution - s0 x real income growth, pp",,,,,,,,,0.525723286862
+6m,2026-03,2026-09,gap,"Share of the real gap from (a) Health care services, households (172), % (gap on the leaf Fisher)",,,,,,,,,29.920183051
+6m,2026-03,2026-09,gap,"Part of real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): contribution - s0 x real income growth, pp",,,,,,,,,0.477103459992
+6m,2026-03,2026-09,gap,"Share of the real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), % (gap on the leaf Fisher)",,,,,,,,,27.1531111783
+6m,2026-03,2026-09,gap,"Part of real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): contribution - s0 x real income growth, pp",,,,,,,,,0.684053803842
+6m,2026-03,2026-09,gap,"Share of the real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), % (gap on the leaf Fisher)",,,,,,,,,38.931155494
+6m,2026-03,2026-09,gap,"Part of real gap from (c) (b) + child care and social assistance (316, 317): contribution - s0 x real income growth, pp",,,,,,,,,0.726223013322
+6m,2026-03,2026-09,gap,"Share of the real gap from (c) (b) + child care and social assistance (316, 317), % (gap on the leaf Fisher)",,,,,,,,,41.3311071383
+6m,2026-03,2026-09,gap,"Part of real gap from (c+) (c) + NPISH social services (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,0.713131056565
+6m,2026-03,2026-09,gap,"Share of the real gap from (c+) (c) + NPISH social services (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,40.5860122329
+6m,2026-03,2026-09,gap,"Part of real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,0.506180712715
+6m,2026-03,2026-09,gap,"Share of the real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,28.8079679172
+4y,2022-09,2026-09,levels,PCE,17962868,22452780,4489912,24.995518533,100,415502.252293,100,,
+4y,2022-09,2026-09,levels,"(a) Health care services, households (172)",2860954,3871188,1010234,35.311088539,15.9270446123,361300.941797,86.9552306402,,
+4y,2022-09,2026-09,levels,(a+) Health care services incl. NPISH health (172 + 344 - 357),2929531,3945164,1015633,34.668791694,16.3088154965,351145.031675,84.5109815258,,
+4y,2022-09,2026-09,levels,"(b) (a+) + medical products, appliances, net health insurance (121, 66, 275)",3853190,5121010,1267820,32.9031270194,21.4508618557,393823.993585,94.7826374974,,
+4y,2022-09,2026-09,levels,"(c) (b) + child care and social assistance (316, 317)",4109075,5449924,1340849,32.6314073119,22.8753838196,408812.131831,98.3898714325,,
+4y,2022-09,2026-09,levels,(c+) (c) + NPISH social services (350 - 363),4218437,5584480,1366043,32.3826810736,23.4842064196,409200.204468,98.4832698763,,
+4y,2022-09,2026-09,levels,(s) Care services only: (a+) + 316 + 317 + (350 - 363),3294778,4408634,1113856,33.8067086766,18.3421600604,366521.242559,88.2116139048,,
+4y,2022-09,2026-09,levels,Personal income excl. transfers (PI - line 16),18342075,22502498,4160423,22.6824009824,102.111060439,0,,,
+4y,2022-09,2026-09,levels,Personal current transfer receipts (16),4142040,5205347,1063307,25.6710944366,23.0589012846,123792.878347,,,
+4y,2022-09,2026-09,levels,Government social benefits (17),4014170,5117177,1103007,27.4778347703,22.347043913,192496.864483,,,
+4y,2022-09,2026-09,levels,Social security (18),1216800,1663258,446458,36.6911571335,6.77397395561,170458.544846,,,
+4y,2022-09,2026-09,levels,Medicare (19),953089,1351970,398881,41.8513905837,5.30588433874,182697.5313,43.9702866331,,
+4y,2022-09,2026-09,levels,Medicaid (20),818321,1095263,276942,33.8427096457,4.55562552706,91327.1494565,21.9799408914,,
+4y,2022-09,2026-09,levels,Medicare + Medicaid (19 + 20),1771410,2447233,675823,38.1516983646,9.8615098658,274024.680757,65.9502275245,,
+4y,2022-09,2026-09,levels,Other social benefits (21-23) and transfers from business (24),1153830,1094856,-58974,-5.11115155612,6.42341746318,-320690.347256,,,
+4y,2022-09,2026-09,levels,Personal current taxes (26),3208173,3418796,210623,6.56520081679,17.8600265837,-517067.66407,,,
+4y,2022-09,2026-09,levels,Personal interest payments (30),370192,617925,247733,66.9201387388,2.06087357542,163764.566155,,,
+4y,2022-09,2026-09,levels,Personal current transfer payments (31),257365,307200,49835,19.3635498222,1.43276118268,-8541.56128846,,,
+4y,2022-09,2026-09,levels,Personal saving (34),685516,911144,225628,32.9136008496,3.81629481439,70136.5120812,,,
+4y,2022-09,2026-09,bridge,Personal income excl. transfers,,,4160423,,,,,92.6615710954,
+4y,2022-09,2026-09,bridge,+ Medicare + Medicaid,,,675823,,,,,15.0520322002,
+4y,2022-09,2026-09,bridge,+ Social security,,,446458,,,,,9.94358018598,
+4y,2022-09,2026-09,bridge,+ Other transfer receipts,,,-58974,,,,,-1.31347785881,
+4y,2022-09,2026-09,bridge,- Personal current taxes,,,-210623,,,,,-4.69102735198,
+4y,2022-09,2026-09,bridge,- Interest and transfer payments,,,-297568,,,,,-6.62747955862,
+4y,2022-09,2026-09,bridge,- Personal saving,,,-225628,,,,,-5.02522098429,
+4y,2022-09,2026-09,bridge,= Change in PCE (sum of the above),,,4489911,,,,,99.9999777278,
+4y,2022-09,2026-09,bridge,Change in PCE (published),,,4489912,,,,,100,
+4y,2022-09,2026-09,gap,"Real PCE growth, % (2.4.6U line 1)",,,,,,,,,10.8687563115
+4y,2022-09,2026-09,gap,"Real personal income excl. transfers growth, % (line 36)",,,,,,,,,8.81706546128
+4y,2022-09,2026-09,gap,"Real gap, pp",,,,,,,,,2.05169085026
+4y,2022-09,2026-09,gap,"Nominal PCE growth, %",,,,,,,,,24.995518533
+4y,2022-09,2026-09,gap,"Nominal personal income excl. transfers growth, %",,,,,,,,,22.6824009824
+4y,2022-09,2026-09,gap,"Nominal gap, pp",,,,,,,,,2.31311755057
+4y,2022-09,2026-09,gap,"Spending excess over income growth, $mn SAAR: C1 - C0(1 + gY)",,,,,,,,,415502.252293
+4y,2022-09,2026-09,gap,"Part of nominal gap from Medicare + Medicaid (19 + 20): s0 (g - gY), pp",,,,,,,,,1.52550628751
+4y,2022-09,2026-09,gap,"Share of the nominal gap from Medicare + Medicaid (19 + 20), %",,,,,,,,,65.9502275245
+4y,2022-09,2026-09,gap,"Part of nominal gap from (a) Health care services, households (172): s0 (g - gY), pp",,,,,,,,,2.01137670107
+4y,2022-09,2026-09,gap,"Share of the nominal gap from (a) Health care services, households (172), %",,,,,,,,,86.9552306402
+4y,2022-09,2026-09,gap,"Part of nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): s0 (g - gY), pp",,,,,,,,,1.95483834583
+4y,2022-09,2026-09,gap,"Share of the nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), %",,,,,,,,,84.5109815258
+4y,2022-09,2026-09,gap,"Part of nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): s0 (g - gY), pp",,,,,,,,,2.19243382284
+4y,2022-09,2026-09,gap,"Share of the nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), %",,,,,,,,,94.7826374974
+4y,2022-09,2026-09,gap,"Part of nominal gap from (c) (b) + child care and social assistance (316, 317): s0 (g - gY), pp",,,,,,,,,2.27587338409
+4y,2022-09,2026-09,gap,"Share of the nominal gap from (c) (b) + child care and social assistance (316, 317), %",,,,,,,,,98.3898714325
+4y,2022-09,2026-09,gap,"Part of nominal gap from (c+) (c) + NPISH social services (350 - 363): s0 (g - gY), pp",,,,,,,,,2.27803379988
+4y,2022-09,2026-09,gap,"Share of the nominal gap from (c+) (c) + NPISH social services (350 - 363), %",,,,,,,,,98.4832698763
+4y,2022-09,2026-09,gap,"Part of nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): s0 (g - gY), pp",,,,,,,,,2.04043832287
+4y,2022-09,2026-09,gap,"Share of the nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), %",,,,,,,,,88.2116139048
+4y,2022-09,2026-09,gap,"Gross upper bound: increase in Medicare + Medicaid / (increase in PCE - increase in income excl. transfers), %",,,,,,,,,205.112462025
+4y,2022-09,2026-09,gap,"Part of real gap from (a) Health care services, households (172): contribution - s0 x real income growth, pp",,,,,,,,,2.04659212604
+4y,2022-09,2026-09,gap,"Share of the real gap from (a) Health care services, households (172), % (gap on the leaf Fisher)",,,,,,,,,100.511506522
+4y,2022-09,2026-09,gap,"Part of real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): contribution - s0 x real income growth, pp",,,,,,,,,1.90116851459
+4y,2022-09,2026-09,gap,"Share of the real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), % (gap on the leaf Fisher)",,,,,,,,,93.3695137014
+4y,2022-09,2026-09,gap,"Part of real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): contribution - s0 x real income growth, pp",,,,,,,,,2.44783849418
+4y,2022-09,2026-09,gap,"Share of the real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), % (gap on the leaf Fisher)",,,,,,,,,120.217375823
+4y,2022-09,2026-09,gap,"Part of real gap from (c) (b) + child care and social assistance (316, 317): contribution - s0 x real income growth, pp",,,,,,,,,2.46390169898
+4y,2022-09,2026-09,gap,"Share of the real gap from (c) (b) + child care and social assistance (316, 317), % (gap on the leaf Fisher)",,,,,,,,,121.006266239
+4y,2022-09,2026-09,gap,"Part of real gap from (c+) (c) + NPISH social services (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,2.4528787677
+4y,2022-09,2026-09,gap,"Share of the real gap from (c+) (c) + NPISH social services (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,120.464911949
+4y,2022-09,2026-09,gap,"Part of real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,1.90620878811
+4y,2022-09,2026-09,gap,"Share of the real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,93.6170498267
+annual,2022,2025,levels,PCE,17670764,20870150,3199386,18.1055329583,100,-133838.96222,100,,
+annual,2022,2025,levels,"(a) Health care services, households (172)",2818255,3569081,750826,26.6415210831,15.9486879005,219220.353753,-163.794122516,,
+annual,2022,2025,levels,(a+) Health care services incl. NPISH health (172 + 344 - 357),2886392,3636731,750339,25.9957413962,16.3342796044,205880.714826,-153.827190088,,
+annual,2022,2025,levels,"(b) (a+) + medical products, appliances, net health insurance (121, 66, 275)",3797125,4748249,951124,25.0485301379,21.4881767421,234874.728906,-175.490548499,,
+annual,2022,2025,levels,"(c) (b) + child care and social assistance (316, 317)",4044806,5054713,1009907,24.9679959929,22.8898195913,246937.819576,-184.503686729,,
+annual,2022,2025,levels,(c+) (c) + NPISH social services (350 - 363),4152437,5184134,1031697,24.8455786325,23.4989104036,248425.452576,-185.615196393,,
+annual,2022,2025,levels,(s) Care services only: (a+) + 316 + 317 + (350 - 363),3241704,4072616,830912,25.6319515909,18.345013266,219431.438496,-163.951837982,,
+annual,2022,2025,levels,Personal income excl. transfers (PI - line 16),18015350,21413574,3398224,18.8629363293,101.950034532,0,,,
+annual,2022,2025,levels,Personal current transfer receipts (16),4141896,4914011,772115,18.6415834681,23.4392582007,-9168.2053057,,,
+annual,2022,2025,levels,Government social benefits (17),4015833,4824530,808697,20.13771489,22.7258595044,51192.9781191,,,
+annual,2022,2025,levels,Social security (18),1211504,1569966,358462,29.5881813019,6.85597974145,129936.771853,,,
+annual,2022,2025,levels,Medicare (19),943734,1199646,255912,27.1169630426,5.34065193786,77896.0564621,-58.2013302926,,
+annual,2022,2025,levels,Medicaid (20),814359,1023953,209594,25.7372976783,4.60851041868,55981.9803381,-41.8278649277,,
+annual,2022,2025,levels,Medicare + Medicaid (19 + 20),1758093,2223599,465506,26.4778939453,9.94916235653,133878.0368,-100.02919522,,
+annual,2022,2025,levels,Other social benefits (21-23) and transfers from business (24),1172299,1120446,-51853,-4.42318896459,6.63411610273,-272983.013959,,,
+annual,2022,2025,levels,Personal current taxes (26),3242023,3341585,99562,3.07098376538,18.3468185077,-511978.734271,,,
+annual,2022,2025,levels,Personal interest payments (30),331692,573112,241420,72.784390338,1.87706654902,178853.149231,,,
+annual,2022,2025,levels,Personal current transfer payments (31),253562,300796,47234,18.6281856114,1.43492380975,-595.238615292,,,
+annual,2022,2025,levels,Personal saving (34),659206,1241941,582735,88.3995291305,3.73048952496,458389.391941,,,
+annual,2022,2025,bridge,Personal income excl. transfers,,,3398224,,,,,106.21487998,
+annual,2022,2025,bridge,+ Medicare + Medicaid,,,465506,,,,,14.5498542533,
+annual,2022,2025,bridge,+ Social security,,,358462,,,,,11.2040872842,
+annual,2022,2025,bridge,+ Other transfer receipts,,,-51853,,,,,-1.62071722512,
+annual,2022,2025,bridge,- Personal current taxes,,,-99562,,,,,-3.11190959765,
+annual,2022,2025,bridge,- Interest and transfer payments,,,-288654,,,,,-9.02216862861,
+annual,2022,2025,bridge,- Personal saving,,,-582735,,,,,-18.2139635543,
+annual,2022,2025,bridge,= Change in PCE (sum of the above),,,3199388,,,,,100.000062512,
+annual,2022,2025,bridge,Change in PCE (published),,,3199386,,,,,100,
+annual,2022,2025,gap,"Real PCE growth, % (2.4.6U line 1)",,,,,,,,,8.02512317539
+annual,2022,2025,gap,"Real personal income excl. transfers growth, % (line 36)",,,,,,,,,8.7178729119
+annual,2022,2025,gap,"Real gap, pp",,,,,,,,,-0.692749736511
+annual,2022,2025,gap,"Nominal PCE growth, %",,,,,,,,,18.1055329583
+annual,2022,2025,gap,"Nominal personal income excl. transfers growth, %",,,,,,,,,18.8629363293
+annual,2022,2025,gap,"Nominal gap, pp",,,,,,,,,-0.757403371016
+annual,2022,2025,gap,"Spending excess over income growth, $mn SAAR: C1 - C0(1 + gY)",,,,,,,,,-133838.96222
+annual,2022,2025,gap,"Part of nominal gap from Medicare + Medicaid (19 + 20): s0 (g - gY), pp",,,,,,,,,0.757624496599
+annual,2022,2025,gap,"Share of the nominal gap from Medicare + Medicaid (19 + 20), %",,,,,,,,,
+annual,2022,2025,gap,"Part of nominal gap from (a) Health care services, households (172): s0 (g - gY), pp",,,,,,,,,1.24058220546
+annual,2022,2025,gap,"Share of the nominal gap from (a) Health care services, households (172), %",,,,,,,,,
+annual,2022,2025,gap,"Part of nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): s0 (g - gY), pp",,,,,,,,,1.16509232326
+annual,2022,2025,gap,"Share of the nominal gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), %",,,,,,,,,
+annual,2022,2025,gap,"Part of nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): s0 (g - gY), pp",,,,,,,,,1.32917133015
+annual,2022,2025,gap,"Share of the nominal gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), %",,,,,,,,,
+annual,2022,2025,gap,"Part of nominal gap from (c) (b) + child care and social assistance (316, 317): s0 (g - gY), pp",,,,,,,,,1.39743714294
+annual,2022,2025,gap,"Share of the nominal gap from (c) (b) + child care and social assistance (316, 317), %",,,,,,,,,
+annual,2022,2025,gap,"Part of nominal gap from (c+) (c) + NPISH social services (350 - 363): s0 (g - gY), pp",,,,,,,,,1.4058557546
+annual,2022,2025,gap,"Share of the nominal gap from (c+) (c) + NPISH social services (350 - 363), %",,,,,,,,,
+annual,2022,2025,gap,"Part of nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): s0 (g - gY), pp",,,,,,,,,1.24177674772
+annual,2022,2025,gap,"Share of the nominal gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), %",,,,,,,,,
+annual,2022,2025,gap,"Gross upper bound: increase in Medicare + Medicaid / (increase in PCE - increase in income excl. transfers), %",,,,,,,,,
+annual,2022,2025,gap,"Part of real gap from (a) Health care services, households (172): contribution - s0 x real income growth, pp",,,,,,,,,1.34426648781
+annual,2022,2025,gap,"Share of the real gap from (a) Health care services, households (172), % (gap on the leaf Fisher)",,,,,,,,,
+annual,2022,2025,gap,"Part of real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357): contribution - s0 x real income growth, pp",,,,,,,,,1.0987993104
+annual,2022,2025,gap,"Share of the real gap from (a+) Health care services incl. NPISH health (172 + 344 - 357), % (gap on the leaf Fisher)",,,,,,,,,
+annual,2022,2025,gap,"Part of real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275): contribution - s0 x real income growth, pp",,,,,,,,,1.31654566994
+annual,2022,2025,gap,"Share of the real gap from (b) (a+) + medical products, appliances, net health insurance (121, 66, 275), % (gap on the leaf Fisher)",,,,,,,,,
+annual,2022,2025,gap,"Part of real gap from (c) (b) + child care and social assistance (316, 317): contribution - s0 x real income growth, pp",,,,,,,,,1.31169027374
+annual,2022,2025,gap,"Share of the real gap from (c) (b) + child care and social assistance (316, 317), % (gap on the leaf Fisher)",,,,,,,,,
+annual,2022,2025,gap,"Part of real gap from (c+) (c) + NPISH social services (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,1.30441715871
+annual,2022,2025,gap,"Share of the real gap from (c+) (c) + NPISH social services (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,
+annual,2022,2025,gap,"Part of real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363): contribution - s0 x real income growth, pp",,,,,,,,,1.08667079916
+annual,2022,2025,gap,"Share of the real gap from (s) Care services only: (a+) + 316 + 317 + (350 - 363), % (gap on the leaf Fisher)",,,,,,,,,
