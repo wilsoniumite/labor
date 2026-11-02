@@ -36,6 +36,13 @@ def wcsv(df, name, index=False):
     df.to_csv(OUT / name, index=index, float_format="%.10g")
 
 
+REV = []        # the numbers the independent review asked for, collected as they are computed (out/fi_lvt_review.csv)
+
+
+def rev(item, value, unit, note=""):
+    REV.append(dict(item=item, value=float(value), unit=unit, note=note))
+
+
 # %% step 0: inputs - the rebuilt VAT bridge (both conventions), yields, balance sheet, consumption
 M = {c: B.build_fi_model(convention=c) for c in CONVS}
 ACC_V = {c: B.fi_vat_accounting(M[c]) for c in CONVS}
@@ -51,6 +58,8 @@ SCHED = B.fi_mpc_schedules()                                         # q1..q5 x 
 MPC_U = {"low": F.MPC_UNCONSTRAINED["low"], "mid": float(SCHED.loc["q5", "mid"]), "high": float(SCHED.loc["q5", "high"])}
 YLD = F.fi_yields()
 Y22 = F.yield_of(2022, ylds=YLD)
+Y22_DEC = F.yield_month("2022-12")                                   # the month the end-2022 land stock is dated
+YEARS = (2022, 2023, 2024, 2025)
 SH = F.land_shares("residual")
 CARRY = F.carry_factor("end2022")
 LD = F.land_by_decile(SH, CARRY)
@@ -85,6 +94,7 @@ inputs = [
     dict(item="yield_2023", value=float(YLD.loc[2023, "eurostat_annual"]), unit="% a year", source="same, 2023"),
     dict(item="yield_2024", value=float(YLD.loc[2024, "eurostat_annual"]), unit="% a year", source="same, 2024"),
     dict(item="yield_2025", value=float(YLD.loc[2025, "eurostat_annual"]), unit="% a year", source="same, 2025"),
+    dict(item="yield_2022_12", value=100 * Y22_DEC, unit="% a year", source="Eurostat irt_lt_mcby_m FI, December 2022 (the month of the end-2022 land stock)"),
     dict(item="n211_s14_2022_meur", value=N211_22, unit="EUR million", source="rtp 11zx S14 N211 end-2022"),
     dict(item="n211_s14_2023_meur", value=N211_23, unit="EUR million", source="rtp 11zx S14 N211 end-2023"),
     dict(item="n111_s14_2022_meur", value=N111_22, unit="EUR million", source="rtp 11zx S14 N111 end-2022"),
@@ -97,8 +107,8 @@ inputs = [
     dict(item="carry_mid2022_alt", value=F.carry_factor("mid2022"), unit="ratio", source="mean(N211 end-2021, end-2022) / end-2023"),
     dict(item="survey_households_2023", value=HBS_AGG, unit="households", source="151u"),
 ] + [dict(item=f"judgment_{k}", value=v, unit=u, source=s) for k, v, u, s in [
-    ("s_d_band_low", F.S_D_BAND[0], "share", "own vs rented plot price gap within region groups (lower bound)"),
-    ("s_d_band_high", F.S_D_BAND[1], "share", "N211/(N211+N111) 2023 (upper bound)"),
+    ("s_d_band_low", F.S_D_BAND[0], "share", "own vs rented plot price gap within region groups, sales-weighted (0.150; lower bound)"),
+    ("s_d_band_high", F.S_D_BAND[1], "share", "N211/(N211+N111) 2022, the flow year (0.259; upper bound; 0.239 in 2023)"),
     ("s_f_band_low", F.S_F_BAND[0], "share", "judgment"), ("s_f_band_high", F.S_F_BAND[1], "share", "judgment"),
     ("mpw_low", F.MPW["low"], "per EUR/yr", "post fn 31"), ("mpw_mid", F.MPW["mid"], "per EUR/yr", "midpoint"),
     ("mpw_high", F.MPW["high"], "per EUR/yr", "post fn 31"), ("mpc_coll_low", F.MPC_COLL["low"], "per EUR/yr", "Aladangady 2017"),
@@ -133,13 +143,13 @@ mr_owner_mean = float(F.wv("main_residence")["total"] / (F.wv("main_residence", 
 ev = [dict(evidence="residual: 1 - N111 / survey dwelling value (2023)", value=SH["s_d"], role="central (the paper's construction)",
            note="market value of household dwellings (151u) minus residential structures at current cost (11zx N111)"),
       dict(evidence="N211 / (N211 + N111), households, 2022", value=float(bsr.set_index("year").loc[2022, "n211_over_n211_plus_n111"]),
-           role="upper bound", note="N211 holds all household land, forest and farmland included"),
+           role=f"upper bound, the flow year (band high {F.S_D_BAND[1]:.2f})", note="N211 holds all household land, forest and farmland included"),
       dict(evidence="N211 / (N211 + N111), households, 2023", value=float(bsr.set_index("year").loc[2023, "n211_over_n211_plus_n111"]),
-           role="upper bound (band high 0.24)", note=""),
+           role="upper bound, the survey year", note=f"N211 can be held only up to s_d = N211 / survey dwellings = {SH['s_d_max_n211_held']:.3f} (2023)"),
       dict(evidence="own vs rented plot price gap, old housing-company dwellings, whole country 2022", value=gap_nat,
            role="lower bound", note=f"rented plots are {100 * rented_share:.0f}% of sales and cluster in high-price cities, which pulls the national gap down"),
       dict(evidence="same, sales-weighted mean of the gaps within 'major cities' and 'rest of country'", value=gap_within,
-           role="lower bound (band low 0.13)", note="removes the city/country composition effect; municipal ground rents below market still bias it down"),
+           role=f"lower bound (band low {F.S_D_BAND[0]:.2f})", note="removes the city/country composition effect; municipal ground rents below market still bias it down"),
       dict(evidence="own vs rented plot gap, new blocks of flats, whole country / Greater Helsinki 2022",
            value=float(gap[(gap["source_table"] == "ashi 12de") & (gap["region"] == "Whole country") &
                            (gap["building_type"] == "new dwellings: Blocks of flats")]["gap"].iloc[0]),
@@ -278,14 +288,39 @@ print("\nstep 2, rates (coherent, 2022):\n" + main[["base", "measure", "label", 
 sens = PHI[(PHI["measure"].isin(["m1", "m2"])) & (PHI["convention"] == "coherent") & (PHI["base"] == "B2")
            & ~PHI["label"].str.contains("law")].pivot_table(index="yield_year", columns="measure", values="share_of_vat_dividend")
 print("   full-capture dividend / VAT dividend, B2, by yield year:\n" + sens.round(3).to_string())
+# yield timing: the land stock is dated end-2022 and the 2022 yield is an annual mean in a year when yields rose from
+# 0.2% to 2.7%; the paper pairs annual means. December 2022 alone, and the range over every yield-based case
+mps_c = F.mean_land_ps(M["coherent"], LQ["B2"])
+share_dec = F.PHI_FULL * Y22_DEC * mps_c / 12.0 / DIV_V["coherent"]
+yc = PHI[(PHI["base"] == "B2") & PHI["measure"].isin(["m1", "m2"]) & (PHI["convention"] == "coherent") & ~PHI["label"].str.contains("law")]
+rev("yield_2022_12_pct", 100 * Y22_DEC, "% a year", "Eurostat monthly, December 2022")
+rev("full_capture_share_dec2022_yield", share_dec, "share of the VAT dividend", "B2, coherent, phi 0.98 at the December 2022 yield")
+rev("full_capture_share_min_yield_cases", float(yc["share_of_vat_dividend"].min()), "share of the VAT dividend", "B2, m1 and m2, 2022-2025 annual yields")
+rev("full_capture_share_max_yield_cases", float(yc["share_of_vat_dividend"].max()), "share of the VAT dividend", "B2, m1 and m2, 2022-2025 annual yields")
+# the rates table prints the coherent rows; how far the post convention's rows sit from them
+dd_ = []
+for _, r_ in PHI[(PHI["convention"] == "coherent") & (PHI["base"] != "B3")].iterrows():
+    p_ = PHI[(PHI["convention"] == "post") & (PHI["base"] == r_["base"]) & (PHI["measure"] == r_["measure"]) &
+             (PHI["yield_year"] == r_["yield_year"]) & (PHI["label"] == r_["label"])]
+    if len(p_):
+        dd_.append((abs(float(p_["phi_bridge"].iloc[0]) - r_["phi_bridge"]),
+                    100 * abs(float(p_["share_of_vat_dividend"].iloc[0]) - r_["share_of_vat_dividend"])))
+rev("post_vs_coherent_max_abs_diff_phi", max(d[0] for d in dd_), "phi", "rates table rows, B1 and B2, every measure and yield year")
+rev("post_vs_coherent_max_abs_diff_share_pts", max(d[1] for d in dd_), "points of the VAT dividend", "largest on the housing-services rows (m3-m5)")
+print(f"   December 2022 yield {100 * Y22_DEC:.2f}%: full capture funds {100 * share_dec:.1f}% of the bridge's dividend; every yield case "
+      f"{100 * yc['share_of_vat_dividend'].min():.1f}-{100 * yc['share_of_vat_dividend'].max():.1f}%. Post vs coherent: phi within "
+      f"{max(d[0] for d in dd_):.3f}, share within {max(d[1] for d in dd_):.2f} points")
 
 R = {"m1": Y22, "m2": Y22 + F.YIELD_SPREAD / 100.0}
 
 
 def tau_of(rate, base, conv):
-    """Annual charge on land value for a rate concept: 'bridge' (notional: the VAT dividend), 'full_m1', 'full_m2'."""
+    """Annual charge on land value for a rate concept: 'bridge' (notional: the VAT dividend), 'full_m1', 'full_m2'
+    (the 2022 yield, + 1.5), or 'full_y<year>' (full capture at another year's annual yield; the yield-year table)."""
     if rate == "bridge":
         return F.tau_for_dividend(M[conv], LQ[base], DIV_V[conv])
+    if rate.startswith("full_y"):
+        return F.PHI_FULL * F.yield_of(int(rate[6:]), ylds=YLD)
     if rate.startswith("full_"):
         return F.PHI_FULL * R[rate.split("_")[1]]
     raise ValueError(rate)
@@ -341,12 +376,12 @@ def to_q(x_dec, per_share_conv=None, tau=1.0):
     return x * tau / (12.0 * M[per_share_conv]["units"].loc[Q, "shares"])
 
 
-def lvt_flows(conv, base, rate, htm_key="half_month", defer=None):
+def lvt_flows(conv, base, rate, htm_key="half_month", defer=None, tau=None):
     """Within-quintile LVT flows (euros per share per month): receipts, payments, net, payers' HtM share, the
     accounting frame, and (with defer='outright_full' / 'outright_cash') the deferral of outright owners' bills on
-    main-residence land (paid in full by state lending / cash-balanced dividend)."""
+    main-residence land (paid in full by state lending / cash-balanced dividend). tau overrides the rate's charge."""
     m = M[conv]
-    tau = tau_of(rate, base, conv)
+    tau = tau_of(rate, base, conv) if tau is None else tau
     mps = F.mean_land_ps(m, LQ[base])
     om = F.owner_model(LD[base], S_DEC[conv], mps, P_OWN, SIG_OWN)
     recv = to_q(om["recv_nonowner"] + om["recv_owner"], conv, tau)
@@ -452,10 +487,25 @@ wdm = WD[(WD["convention"] == "coherent") & (WD["base"] == "B2")].set_index("dec
 pay_share_all = float((wdm["payer_share_of_households"] * wdm["households"]).sum() / wdm["households"].sum())
 print(f"\ninside the deciles (B2, coherent): {100 * pay_share_all:.1f}% of households pay net (rate-invariant); payer share by decile: "
       + ", ".join(f"{100 * v:.0f}%" for v in wdm["payer_share_of_households"]))
-gp = (wdm["gross_payments_eur_share_month_bridge"] * wdm["households"])
-print("   share of all gross payments made in D1-D5: %.1f%%; gross payments / gross receipts in D1-D2: %.3f" % (
-    100 * gp[DEC[:5]].sum() / gp.sum(),
-    float((wdm.loc[DEC[:2], "gross_payments_eur_share_month_bridge"]).sum() / wdm.loc[DEC[:2], "gross_receipts_eur_share_month_bridge"].sum())))
+# gross flows on one unit: euros per share x payment shares per household x households = euros a month in the decile
+units_hh = S_DEC["coherent"] * wdm["households"]
+gp = wdm["gross_payments_eur_share_month_bridge"] * units_hh
+gr_ = wdm["gross_receipts_eur_share_month_bridge"] * units_hh
+BH_GP = float(gp[DEC[:5]].sum() / gp.sum())
+D12_PR = float(gp[DEC[:2]].sum() / gr_[DEC[:2]].sum())
+rev("bottom_half_share_of_gross_lvt_payments", BH_GP, "share", "D1-D5, per-share payments x shares per household x households (one unit); the same at any rate")
+rev("gross_payments_over_receipts_d1_d2", D12_PR, "ratio", "D1-D2, same unit")
+rev("households_paying_net_lvt", pay_share_all, "share", "owner model (renters' land assigned to owners); any rate")
+# renters' own land (cottages, other dwellings, forest; 151z), which the owner model hands to the decile's owners: the
+# 'renters pay nothing' of the model is this assumption, not a measurement
+tv_ = lambda c, k="mean": float(F.wv(c, k, "tenure")["renter_or_other"])
+REN_LAND = (SH["s_d"] * (tv_("other_residential_property") + tv_("free_time_residences")) + SH["s_f"] * tv_(F.FFB_ITEM)) * \
+    tv_("disposable_income", "households_holding") / 1e6
+rev("renters_share_of_household_land", REN_LAND / N211_23, "share", "151z 2023 renters' other dwellings and cottages x s_d plus forest/farmland/business x s_f, "
+    "over N211 2023; the owner model assigns it to owners")
+rev("renters_share_of_households", 1.0 - float(F.wv("main_residence", "participation_rate_pct")["total"]) / 100.0, "share", "151u 2023: households without a main residence")
+print("   share of all gross payments made in D1-D5: %.1f%%; gross payments / gross receipts in D1-D2: %.3f (one unit: euros a month)" % (
+    100 * BH_GP, D12_PR))
 
 mg_rows = []
 for conv in ["coherent"]:
@@ -507,6 +557,17 @@ for conv, inst, base, rate, defer in tqdm(jobs, desc="flows x grades"):
                              grade_label=GRADE_LABEL[g]))
 IMP = pd.DataFrame(imp_rows)
 wcsv(IMP, "fi_lvt_impulse.csv")
+# the liquidity grade is asymmetric: VAT payers (each quintile's top spenders) get the hand-to-mouth share of ALL its
+# households, LVT payers (owners) that of owners, which is lower; at owners' shares the VAT's graded impulse rises
+fv_own = dict(FL_MAIN[("coherent", "VAT", "bridge")], h=F.pair_quintiles(HTM_OWN["half_month"]))
+VAT_LIQ_OWN = B.impulse(M["coherent"], shock=F.shock_of(M["coherent"], dC_of(fv_own, "liq_mid")))["flow_pct_consumption"]
+liq_ = {i: float(IMP[(IMP["convention"] == "coherent") & (IMP["instrument"] == i) & (IMP["base"] == ("B2" if i == "LVT" else "")) &
+                     (IMP["rate"] == "bridge") & (IMP["grade"] == "liq_mid") & (IMP["defer"] == "none")]["flow_pct_consumption"].iloc[0]) for i in ("LVT", "VAT")}
+rev("vat_flow_liq_grade_owner_htm_shares", VAT_LIQ_OWN, "% of consumption", "VAT payers given owners' hand-to-mouth shares (the LVT payers' grade)")
+rev("lvt_vat_ratio_liq_grade", liq_["LVT"] / liq_["VAT"], "ratio", "same revenue, B2, coherent: an upper bound")
+rev("lvt_vat_ratio_liq_grade_owner_shares", liq_["LVT"] / VAT_LIQ_OWN, "ratio", "both instruments' payers at owners' hand-to-mouth shares")
+print(f"   liquidity grade: VAT {liq_['VAT']:.3f} at all households' hand-to-mouth shares, {VAT_LIQ_OWN:.3f} at owners'; LVT/VAT "
+      f"{liq_['LVT'] / liq_['VAT']:.3f} -> {liq_['LVT'] / VAT_LIQ_OWN:.3f}")
 sel = IMP[(IMP["defer"] == "none") & ((IMP["instrument"] == "VAT") | (IMP["base"] == "B2"))]
 print("\nstep 4, flow impulse, % of consumption (B2 for the LVT):\n" +
       sel.pivot_table(index=["convention", "instrument", "rate"], columns="grade", values="flow_pct_consumption").round(3).to_string())
@@ -546,6 +607,10 @@ def compare(conv, lvt_key, vat_key, label):
     d["same_sign"] = np.sign(d["lvt"]) == np.sign(d["vat"])
     d["vat_share_of_chart"] = d["vat"] / d["vat"].sum()
     d["lvt_share_of_chart"] = d["lvt"] / d["lvt"].sum()
+    # ghost flips: the bar's sign at MPC = 1 (the post's ghost) against its MPC-adjusted sign (post's method only)
+    ghost = lvt_key[2] == "post_mid" and vat_key == "post_mid"
+    d["vat_ghost_flip"] = (np.sign(v.loc[chart, "dEUR_mpc1"]) != np.sign(v.loc[chart, "dEUR"])) if ghost else np.nan
+    d["lvt_ghost_flip"] = (np.sign(a.loc[chart, "dEUR_mpc1"]) != np.sign(a.loc[chart, "dEUR"])) if ghost else np.nan
     d["comparison"] = label
     d["convention"] = conv
     return d
@@ -569,6 +634,27 @@ print("\nLVT (B2, notional bridge rate) vs VAT bars, coherent, the post's method
 print(big.head(12)[["vat", "lvt", "ratio", "vat_share_of_chart", "lvt_share_of_chart"]].round(3).to_string())
 flips = c0[~c0["same_sign"]]
 print("   bars that flip sign:", ", ".join(f"{k} ({r['vat']:+.3f} -> {r['lvt']:+.3f})" for k, r in flips.iterrows()) or "none")
+# ghost flips (MPC = 1 ghost against the MPC-adjusted bar), both conventions, LVT B2 and VAT at the same revenue
+GHOST = {}
+for conv in CONVS:
+    cg = CMP[(CMP["comparison"] == "LVT B2 bridge vs VAT, the post's method (mid)") & (CMP["convention"] == conv)].set_index("category")
+    for inst in ("lvt", "vat"):
+        GHOST[(conv, inst)] = sorted(cg.index[cg[f"{inst}_ghost_flip"].astype(bool)])
+        rev(f"ghost_flips_{conv}_{inst}", len(GHOST[(conv, inst)]), "bars of 37", "charted bars whose MPC=1 ghost and MPC-adjusted bar differ in sign (B2, same revenue)")
+VEH_OP = "07.2 Operation of personal transport equipment"
+rev("ghost_flip_vehicle_operation_under_both_all_conventions", float(all(VEH_OP in GHOST[(c, i)] for c in CONVS for i in ("lvt", "vat"))), "1 = yes", "")
+print("   ghost flips (MPC=1 ghost vs MPC-adjusted bar): " + "; ".join(f"{c} LVT {len(GHOST[(c, 'lvt')])}, VAT {len(GHOST[(c, 'vat')])}" for c in CONVS)
+      + f"; vehicle operation flips under both in both conventions: {all(VEH_OP in GHOST[(c, i)] for c in CONVS for i in ('lvt', 'vat'))}")
+# rent's share of the flow impulse (the money each version moves) against its share of the charted bars (which add
+# the division-parent over-allocation and leave out the off-chart lines, imputed rent among them)
+for inst, base in [("LVT", "B2"), ("VAT", "")]:
+    ir = IMP[(IMP["convention"] == "coherent") & (IMP["instrument"] == inst) & (IMP["base"] == base) & (IMP["rate"] == "bridge") &
+             (IMP["grade"] == "post_mid") & (IMP["defer"] == "none")].iloc[0]
+    rent_ = float(c0.loc["04.1 Actual rents", inst.lower()])
+    rev(f"rent_share_of_flow_{inst.lower()}", rent_ / float(ir["flow_eur"]), "share", "rent bar / flow impulse (coherent, same revenue, post's method)")
+    rev(f"rent_share_of_charted_{inst.lower()}", rent_ / float(ir["bars_chart_eur"]), "share", "rent bar / sum of the 37 charted bars")
+print("   rent: %.1f%% of the LVT's flow impulse and %.1f%% of the VAT's (%.1f%% / %.1f%% of the charted bars)" % tuple(
+    100 * next(r["value"] for r in REV if r["item"] == k) for k in ("rent_share_of_flow_lvt", "rent_share_of_flow_vat", "rent_share_of_charted_lvt", "rent_share_of_charted_vat")))
 
 # quintile segments of the ten largest movers (Fig 3 analog), LVT and VAT, coherent, the post's method
 seg_rows = []
@@ -589,13 +675,36 @@ st = SEG.groupby(["instrument", "category"]).apply(lambda d: pd.Series({
     d.loc[d["segment_eur"] < 0, "segment_eur"].sum() if (d["segment_eur"] < 0).any() else np.nan}), include_groups=False)
 print("\ntop-10 movers, gross flows by quintile (coherent, bridge rate):\n" + st.round(3).to_string())
 
-# tenure-aware baskets (extension): rent with renters, imputed rent / interest / housing-company charges with owners
+# tenure-aware baskets (extension): rent with renters, imputed rent / interest / housing-company charges with owners.
+# Main: owners' changes spread over the lines they transact (imputed rent and loan interest cannot move at impact);
+# sensitivity (dEUR_as_allocated): the Working-model allocation at the owner basket, imputed rent and interest included
 P_OWN_Q = F.pair_quintiles(P_OWN)
 flags = B.fi_vat_flags()
-ten_rows = []
+ten_rows, TEN_OWNER = [], {}
+
+
+def owner_part(m, tm, dc_o, owner_basket):
+    """Owners' contribution to each line (euros per share per month, population mean) for one owner allocation."""
+    sh = F.tenure_marginal_shares(tm, owner_basket)["owner"]
+    return (sh * (m["w"] * P_OWN_Q.values * pd.Series(np.asarray(dc_o, float), index=m["C"].columns)).values).sum(axis=1)
+
+
+def ten_append(conv, inst, base, g, m, tm, dc_o, dc_r):
+    tot = {ob: F.shifts_tenure_aware(m, tm, dc_o, dc_r, P_OWN_Q.values, ob) for ob in F.OWNER_BASKETS}
+    TEN_OWNER[(conv, inst, base, g)] = {ob: owner_part(m, tm, dc_o, ob) for ob in F.OWNER_BASKETS}
+    pe = {ob: B.fi_post_eur(m, tot[ob]) for ob in F.OWNER_BASKETS}
+    for cat in m["C"].index:
+        ten_rows.append(dict(convention=conv, instrument=inst, base=base, rate="bridge", grade=g, category=cat, role=m["prov"].loc[cat, "role"],
+                             dEUR=float(tot["transacted"][cat]), dEUR_post_conversion=float(pe["transacted"][cat]),
+                             dEUR_as_allocated=float(tot["as_allocated"][cat]), dEUR_as_allocated_post_conversion=float(pe["as_allocated"][cat]),
+                             owners_dEUR=float(TEN_OWNER[(conv, inst, base, g)]["transacted"][cat]),
+                             owners_dEUR_as_allocated=float(TEN_OWNER[(conv, inst, base, g)]["as_allocated"][cat])))
+
+
+TM = {}
 for conv in CONVS:
     m = M[conv]
-    tm = F.fi_tenure_model(m, P_OWN_Q.values)
+    tm = TM[conv] = F.fi_tenure_model(m, P_OWN_Q.values)
     s_q = m["units"].loc[Q, "shares"]
     # LVT: renters receive the dividend; owners carry the owner flows of the within-decile split
     for base in ["B2", "B1"]:
@@ -611,10 +720,7 @@ for conv in CONVS:
             mpc_pay = mpc if kind == "post" else fl["h"] + (1 - fl["h"]) * MPC_U[mu]
             dc_o = (mpc * recv_o.reindex(Q) - mpc_pay * pay_o.reindex(Q)) / (p_sum.reindex(Q) * s_q)
             dc_r = mpc * div
-            tot = F.shifts_tenure_aware(m, tm, dc_o.values, dc_r.values, P_OWN_Q.values)
-            for cat in m["C"].index:
-                ten_rows.append(dict(convention=conv, instrument="LVT", base=base, rate="bridge", grade=g, category=cat, role=m["prov"].loc[cat, "role"],
-                                     dEUR=float(tot[cat]), dEUR_post_conversion=float(B.fi_post_eur(m, tot)[cat])))
+            ten_append(conv, "LVT", base, g, m, tm, dc_o.values, dc_r.values)
     # VAT: each tenure's VAT-able consumption on its own basket (renters pay no housing-company charges)
     av = ACC_V[conv]
     ch = m["lines"].loc["maintenance charges of housing companies", Q] * flags["maintenance charges of housing companies"]
@@ -625,12 +731,28 @@ for conv in CONVS:
         mpc = SCHED["mid"].reindex(Q)
         dc_o = mpc * B.TAU * (cv - x_o)
         dc_r = mpc * B.TAU * (cv - x_r)
-        tot = F.shifts_tenure_aware(m, tm, dc_o.values, dc_r.values, P_OWN_Q.values)
-        for cat in m["C"].index:
-            ten_rows.append(dict(convention=conv, instrument="VAT", base="", rate="bridge", grade=g, category=cat, role=m["prov"].loc[cat, "role"],
-                                 dEUR=float(tot[cat]), dEUR_post_conversion=float(B.fi_post_eur(m, tot)[cat])))
+        ten_append(conv, "VAT", "", g, m, tm, dc_o.values, dc_r.values)
 TEN = pd.DataFrame(ten_rows)
 wcsv(TEN, "fi_lvt_tenure_aware.csv")
+# how much of owners' change the Working-model allocation books on lines nothing is transacted on
+Co_, eo_ = TM["coherent"]["owner"]
+own_ms = (Co_.loc[F.UNTRANSACTED] * eo_.loc[F.UNTRANSACTED]).sum() / Co_.sum()
+mc_ = M["coherent"]
+avg_ms = (mc_["C"].loc[F.UNTRANSACTED] * mc_["eta"].loc[F.UNTRANSACTED]).sum() / mc_["budget"]
+ow = TEN_OWNER[("coherent", "LVT", "B2", "wealth_mid")]
+rev("owner_marginal_share_untransacted_min", float(own_ms.min()), "share of an owner's marginal euro", "imputed rent + housing-loan interest, owner basket, by quintile")
+rev("owner_marginal_share_untransacted_max", float(own_ms.max()), "share of an owner's marginal euro", "")
+rev("quintile_marginal_share_untransacted_min", float(avg_ms.min()), "share of the marginal euro", "the post's quintile-average basket")
+rev("quintile_marginal_share_untransacted_max", float(avg_ms.max()), "share of the marginal euro", "")
+rev("owners_change_lvt_b2_bridge_wealth", float(ow["as_allocated"].sum()), "EUR per share per month", "owners' total change (the same under both allocations)")
+rev("owners_change_on_untransacted_as_allocated", float(ow["as_allocated"].loc[F.UNTRANSACTED].sum()), "EUR per share per month", "LVT B2, bridge rate, wealth grade, coherent")
+tw_ = TEN[(TEN["convention"] == "coherent") & (TEN["instrument"] == "LVT") & (TEN["base"] == "B2") & (TEN["grade"] == "wealth_mid")].set_index("category")
+for col, lab in [("dEUR", "transacted"), ("dEUR_as_allocated", "as_allocated")]:
+    rev(f"tenure_aware_charted_total_lvt_b2_wealth_{lab}", float(tw_.loc[mc_["chart"], col].sum()), "EUR per share per month", "the 37 charted bars")
+print(f"\ntenure-aware owners: {100 * own_ms.min():.0f}-{100 * own_ms.max():.0f}% of an owner's marginal euro sits on imputed rent and loan interest "
+      f"(quintile average {100 * avg_ms.min():.0f}-{100 * avg_ms.max():.0f}%); LVT B2 wealth grade: EUR {-ow['as_allocated'].loc[F.UNTRANSACTED].sum():.2f} of "
+      f"owners' EUR {-ow['as_allocated'].sum():.2f} cut; re-spread over transacted lines, the charted total goes "
+      f"{tw_.loc[mc_['chart'], 'dEUR_as_allocated'].sum():.2f} -> {tw_.loc[mc_['chart'], 'dEUR'].sum():.2f}")
 tt = TEN[(TEN["convention"] == "coherent") & ((TEN["base"] == "B2") | (TEN["instrument"] == "VAT"))].pivot_table(
     index="category", columns=["instrument", "grade"], values="dEUR")
 dn = SHF[(SHF["convention"] == "coherent") & ((SHF["base"] == "B2") | (SHF["instrument"] == "VAT")) & (SHF["rate"] == "bridge")
@@ -732,6 +854,17 @@ print("\n(ii-c) collateral, mortgaged owners (US-shape LTVs inside each decile),
           "lost_capacity_meur", "dC_lost_capacity_mid_pct", "dC_lost_equity_mid_pct", "dC_lost_capacity_htm_mid_pct"]].round(3).to_string(index=False))
 cl = COLL_LN[(COLL_LN["threshold"] == 0.8) & (COLL_LN["design"] == "immediate")]
 print("   log-normal band (80%, immediate):\n" + cl[["rate", "method", "n_cross", "lost_capacity_meur", "dC_lost_capacity_mid_pct"]].round(3).to_string(index=False))
+# the crosser count is a borrowed shape: the SCF's within-decile LTV spread (US-shape) or a log-normal one
+clf = cl[cl["rate"] == "full_m1"].set_index("method")
+rev("crossers_80_full_us_shape", float(ct[(ct["rate"] == "full_m1") & (ct["design"] == "immediate") & (ct["threshold"] == 0.8)]["n_cross"].iloc[0]),
+    "mortgaged owners", "SCF 2025 within-decile LTV shape rescaled to each Finnish decile")
+for k in F.LTV_SIGMA:
+    rev(f"crossers_80_full_lognormal_sigma_{k}", float(clf.loc[f"lognormal_sigma_{k}", "n_cross"]), "mortgaged owners", f"log-normal LTVs, sigma {F.LTV_SIGMA[k]}")
+# who responds: the hand-to-mouth crossers' part of the lost borrowing capacity (the rest belongs to owners with more than
+# half a month's income in deposits, who need not borrow at impact)
+ct80 = ct[(ct["rate"] == "full_m1") & (ct["design"] == "immediate") & (ct["threshold"] == 0.8)].iloc[0]
+rev("htm_share_of_crossers_lost_capacity", float(ct80["lost_capacity_htm_meur"] / ct80["lost_capacity_meur"]), "share",
+    "full capture, US-shape: decile hand-to-mouth shares scaled by 151z's mortgaged-owner ratio")
 cd = COLL_DEC[(COLL_DEC["method"] == "us_shape") & (COLL_DEC["rate"] == "full_m1") & (COLL_DEC["design"] == "immediate") &
               (COLL_DEC["threshold"] == 0.8) & (COLL_DEC["decile"] != "total")]
 print("   by decile (full capture, 80%):\n" + cd.set_index("decile")[["n_mortgaged", "ltv_before", "ltv_after", "n_cross", "lost_capacity_meur",
@@ -824,7 +957,10 @@ wcsv(DF, "fi_lvt_deferral.csv")
 print("\ndeferral by outright owners (B2, coherent):\n" + DF.round(3).to_string(index=False))
 
 # (ii-e) the loop (T5): the dividend's rent bar raises land rent; a household-land tax takes back the household
-# landlords' part; under the VAT the whole increment goes to landlords
+# landlords' part; under the VAT the whole increment goes to landlords. The land share of a rent CHANGE is a judgment
+# (central: the average land share s_d; band 0.13-0.30); 'one' puts land as the residual claimant on a permanent,
+# demand-driven rent rise (ls = 1: structures are reproducible at cost, so the whole rise is land rent), reported
+# beside the band, not inside it
 ORP_Q = F.pair_quintiles(F.wv("other_residential_property").reindex(DEC) * LD["households"]) * 2.0
 key_q = (ORP_Q / ORP_Q.sum()).values
 lp_rows = []
@@ -832,7 +968,7 @@ mpc_mid = SCHED["mid"].values
 for inst, rate in [("LVT_B2", "full_m1"), ("LVT_B2", "full_m2"), ("LVT_B2", "bridge"), ("VAT", "bridge")]:
     fl = FL_MAIN[("coherent", inst, rate)]
     R0 = F.rent_bar(mc, B.budget_shock(fl["net"], mpc_mid, mc["budget"]))
-    for lk, ls in [("low", F.LS_RENT_BAND[0]), ("mid", SH["s_d"]), ("high", F.LS_RENT_BAND[1])]:
+    for lk, ls in [("low", F.LS_RENT_BAND[0]), ("mid", SH["s_d"]), ("high", F.LS_RENT_BAND[1]), ("one", 1.0)]:
         for hk, hl in F.HH_LANDLORD_SHARE.items():
             if inst == "VAT":
                 tot, leak, qq, rounds = 0.0, ls * R0, np.nan, None
@@ -848,6 +984,12 @@ for inst, rate in [("LVT_B2", "full_m1"), ("LVT_B2", "full_m2"), ("LVT_B2", "bri
                                 multiplier=1.0 / (1.0 - phi * hl * ls * qq) if inst != "VAT" else np.nan))
 LOOP = pd.DataFrame(lp_rows)
 wcsv(LOOP, "fi_lvt_loop.csv")
+l1 = LOOP[(LOOP["instrument"] == "LVT_B2") & (LOOP["rate"] == "full_m1") & (LOOP["ls_case"] == "one") & (LOOP["landlord_case"] == "mid")].iloc[0]
+v1 = LOOP[(LOOP["instrument"] == "VAT") & (LOOP["ls_case"] == "one") & (LOOP["landlord_case"] == "mid")].iloc[0]
+rev("loop_ls1_multiplier", float(l1["multiplier"]), "ratio", "full capture, B2, household landlords 0.55, land share of a rent change 1")
+rev("loop_ls1_extra_dividend_pct", float(l1["extra_dividend_pct_of_dividend"]), "% of the dividend", "same")
+rev("vat_leak_to_landlords_ls1_meur", float(v1["land_rent_increment_meur"]), "EUR million a year", "the VAT dividend's rent bar, all of it land rent")
+rev("vat_leak_to_landlords_ls1_capitalized_meur", float(v1["capitalized_increment_meur"]), "EUR million", "capitalized at the 2022 yield")
 print("\n(ii-e) the loop (ls central = s_d, household landlords' share 0.55):\n" +
       LOOP[(LOOP["ls_case"] == "mid") & (LOOP["landlord_case"] == "mid")][["instrument", "rate", "rent_bar_round0", "land_rent_increment_round0",
                                                                            "extra_dividend_total", "extra_dividend_pct_of_dividend", "leak_to_landlords_total",
@@ -941,7 +1083,7 @@ add("LVT", "deferral by outright owners, cash-balanced dividend", float(dfb["flo
     float(dfb["flow_defer_cash_balanced"] - dfb["flow_none"]), float(dfb["flow_defer_cash_balanced"] - dfb["flow_none"]), note="change in impulse")
 add("LVT", "deferral by outright owners: their residual wealth effect (if any)", float(dfb["deferrers_residual_wealth_effect_mid_pct"]),
     float(dfb["deferrers_residual_wealth_effect_high_pct"]), 0.0, note="0 to 5 cents per EUR of capitalized loss; never added to the flow")
-lp = LOOP[(LOOP["instrument"] == "LVT_B2") & (LOOP["rate"] == "full_m1")]
+lp = LOOP[(LOOP["instrument"] == "LVT_B2") & (LOOP["rate"] == "full_m1") & (LOOP["ls_case"] != "one")]
 add("LVT", "the loop: extra dividend (full capture, B2)", float(lp[(lp["ls_case"] == "mid") & (lp["landlord_case"] == "mid")]["extra_dividend_pct_of_dividend"].iloc[0]),
     float(lp["extra_dividend_pct_of_dividend"].min()), float(lp["extra_dividend_pct_of_dividend"].max()), unit="% of the dividend",
     note="land share of a rent change 0.13-0.30, household landlords' share 0.40-0.70")
@@ -1001,6 +1143,72 @@ hb = HL[(HL["rate"] == "bridge") & (HL["instrument"] == "LVT")].set_index("readi
 add("LVT", "notional bridge rate: flow + credit effect when dwellings lose their whole value (phi 5.2)", float(hb.loc["clean", "central"]),
     float(hb.loc["clean", "low"]), float(hb.loc["clean", "high"]), note="not a land tax: the charge is 5.2 times the land rent; sizes the infeasibility",
     stress=float(hb.loc["clean", "stress_10c"]))
+
+
+# %% step 5 (iv): full capture at each year's yield. The flow and the non-occupiers' bills scale with r; the
+# capitalized losses and the collateral (dwelling values fall phi x s_d whatever r is) do not. So the yield year
+# decides how large a capitalized loss is per euro of bill (1/r): 59 at the 2022 yield, 33-35 at the 2023-25 yields
+def nonocc_change_tau(tau, phi, base="B2", k="mid", conv="coherent"):
+    """Change in impulse (% of consumption) when non-occupiers respond to their capitalized loss (k cents per euro a
+    year) instead of their bill (tau x land at the quintile MPC, already in the flow), as nonocc_change() at any tau."""
+    m = M[conv]
+    bill_no = to_q(LD[F.NONOCC_COLS[base]].sum(axis=1), conv, tau)
+    loss = sum(to_q(LD[c] * min(phi, CAPS[c]), conv, 1.0) for c in F.NONOCC_COLS[base])
+    add_back = float((m["w"] * SCHED["mid"].values * bill_no).sum())
+    return 100.0 * (add_back - float((m["w"] * F.MPW[k] * loss).sum())) / m["budget_bar"], float((m["w"] * loss).sum() / (m["w"] * bill_no).sum())
+
+
+def readings_at_yield(r, base="B2", conv="coherent"):
+    """The full-capture readings at impact (central, low, high, stress_10c) at yield r, plus the funding numbers:
+    the flow (post's method), the clean reading, the T4 overlap, hand-to-mouth crossers only, non-occupiers on the
+    wealth reading, unconstrained payers on wealth. Collateral columns are the full_m1 rows (independent of r)."""
+    m = M[conv]
+    tau = F.PHI_FULL * r
+    acc = F.lvt_accounting(m, LQ[base], tau)
+    fp = lambda dC: B.impulse(m, shock=F.shock_of(m, dC))["flow_pct_consumption"]
+    f = {s: fp(SCHED[s].values * acc["net"].values) for s in ("mid", "high", "low")}
+    flw = lvt_flows(conv, base, "full_m1", tau=tau)
+    fw = {k: fp(F.graded_dC(flw["net"].values, flw["recv"].values, flw["pay"].values, SCHED["mid"].values, flw["h"].values, "wealth", MPC_U[k]))
+          for k in ("mid", "high", "low")}
+    c = lambda col: coll_of("full_m1", col=col)
+    no = {k: nonocc_change_tau(tau, F.PHI_FULL, base, k, conv) for k in F.MPW}
+    out = {"flow": (f["mid"], f["high"], f["low"], np.nan),
+           "clean": (f["mid"] + c("dC_lost_capacity_mid_pct"), f["high"] + c("dC_lost_capacity_lit_high_pct"), f["low"] + c("dC_lost_capacity_low_pct"),
+                     f["high"] + c("dC_lost_capacity_stress_pct")),
+           "t4": (f["mid"] + c("dC_lost_equity_mid_pct"), f["high"] + c("dC_lost_equity_lit_high_pct"), f["low"] + c("dC_lost_equity_low_pct"),
+                  f["high"] + c("dC_lost_equity_stress_pct")),
+           "htm": (f["mid"] + c("dC_lost_capacity_htm_mid_pct"), f["high"] + c("dC_lost_capacity_htm_lit_high_pct"),
+                   f["low"] + c("dC_lost_capacity_htm_low_pct"), f["high"] + c("dC_lost_capacity_htm_stress_pct")),
+           "wealth_grade": (fw["mid"] + c("dC_lost_capacity_mid_pct"), fw["high"] + c("dC_lost_capacity_lit_high_pct"),
+                            fw["low"] + c("dC_lost_capacity_low_pct"), np.nan),
+           "nonocc_change": (no["mid"][0], no["high"][0], no["low"][0], np.nan)}
+    out["nonocc_wealth"] = (out["clean"][0] + no["mid"][0], out["clean"][1] + no["high"][0], out["clean"][2] + no["low"][0], np.nan)
+    div = F.PHI_FULL * r * F.mean_land_ps(m, LQ[base]) / 12.0
+    return out, dict(r=r, tau=tau, dividend_full=div, share_of_vat_dividend=div / DIV_V[conv], loss_per_euro_of_nonocc_bill=no["mid"][1])
+
+
+YY_LABEL = {"wealth_grade": "clean, with unconstrained payers drawing on wealth (MPC 0.56; 0.68 / 0.25)",
+            "nonocc_change": "non-occupiers on the wealth reading instead of the flow: change in impulse (3.5c; 5c / 2c)"}
+yy_rows = []
+for lab, r in [("2022", Y22), ("2022-12", Y22_DEC)] + [(str(y), F.yield_of(y, ylds=YLD)) for y in YEARS[1:]]:
+    rd, fu = readings_at_yield(r)
+    for k, (cen, lo, hi, st) in rd.items():
+        yy_rows.append(dict(yield_label=lab, reading=k, label=YY_LABEL.get(k, HL[(HL["rate"] == "full_m1") & (HL["reading"] == k)]["label"].iloc[0]
+                                                               if k in set(HL["reading"]) else k),
+                            central=cen, low=min(lo, hi), high=max(lo, hi), stress_10c=st, **fu))
+YY = pd.DataFrame(yy_rows)
+wcsv(YY, "fi_lvt_yield_years.csv")
+yv = lambda lab, k, col="central": float(YY[(YY["yield_label"] == lab) & (YY["reading"] == k)][col].iloc[0])
+assert abs(yv("2022", "clean") - float(HL[(HL["rate"] == "full_m1") & (HL["reading"] == "clean")]["central"].iloc[0])) < 1e-12
+assert abs(yv("2022", "nonocc_wealth") - float(HL[(HL["rate"] == "full_m1") & (HL["reading"] == "nonocc_wealth")]["central"].iloc[0])) < 1e-12
+print("\nstep 5 (iv), full capture at each year's yield (% of consumption, central):\n" +
+      YY.pivot_table(index="reading", columns="yield_label", values="central").round(3).to_string() + "\n" +
+      YY.drop_duplicates("yield_label").set_index("yield_label")[["r", "dividend_full", "share_of_vat_dividend", "loss_per_euro_of_nonocc_bill"]].round(4).to_string())
+for y in YEARS[1:]:
+    for k, lab in [("clean", "net demand at impact: flow + credit effect"), ("nonocc_wealth", "net demand at impact, every non-occupier on the wealth reading")]:
+        add("LVT", f"{lab} (full capture, {y} yield)", yv(str(y), k), yv(str(y), k, "low"), yv(str(y), k, "high"),
+            note=f"yield {100 * F.yield_of(y, ylds=YLD):.2f}%: the flow and the non-occupiers' bills scale with r, the capitalized losses do not",
+            stress=yv(str(y), k, "stress_10c"))
 MACRO = pd.DataFrame(mrow)
 wcsv(MACRO, "fi_lvt_macro_channels.csv")
 print("\nstep 5 (iii), macro channels:\n" + MACRO[["instrument", "channel", "central", "low", "high", "stress_10c", "unit"]].round(3).to_string(index=False))
@@ -1107,19 +1315,82 @@ cmp_rows += [
          US=US_FLOW_FULL + US_CR_FULL + us_nonocc_full, FI=fi_flow_full + fi_cr_full + nonocc_change("full_m1"), note="clean reading plus the change above"),
     dict(block="LVT, same dividend as the VAT bridge", item="net demand at impact (flow + credit effect)", US=US_FLOW_B + US_CR_B,
          FI=float(hb.loc["clean", "central"]), note=f"FI: a charge {PHI_B2:.1f} times the land rent, dwellings worthless: not a land tax")]
+# Both countries on the same year's yield (full capture). The rows above pair the US unit's 2024 Treasury yield (4.21%)
+# with Finland's 2022 yield (1.69%), and a capitalized loss is 1/r times its bill (24 against 59). Here: Finland at its
+# 2024 yield beside the US unit's own numbers, and the US at its 2022 yield (GS10 annual mean, the US unit's source)
+# beside Finland's main numbers. The US rescaling is yield-only, as Finland's is: the flow and the non-occupiers' bill
+# response scale with r; the credit effect, the lost equity and the capitalized losses do not.
+ufl = uphi[(uphi["base"] == "L1") & (uphi["measure"] == "m1_z1hh_x_gs10") & (uphi["rate"] == "full")].iloc[0]
+US_R = {y: F.us_gs10_annual(y) / 100.0 for y in (2022, 2024)}
+assert abs(float(ufl["r"]) / US_R[2024] - 1.0) < 1e-9, "the US unit's m1 yield is GS10 2024 (stored at 10 significant digits)"
+un_ = uno.loc[("LVT_full_L1_m1", "dn_mid")]
+we_us = {k: 100.0 * v * float(un_["nonocc_capitalized_loss_bn"]) / US_C_BN for k, v in F.MPW.items()}
+addb_us = float(un_["wealth_version_mid_pct"] - un_["flow_version_pct"]) + we_us["mid"]      # the bill response the wealth reading removes
+for k in ("low", "high"):                                       # the decomposition reproduces the US unit's 2c and 5c rows
+    assert abs(float(un_["flow_version_pct"]) + addb_us - we_us[k] - float(un_[f"wealth_version_{k}_pct"])) < 1e-9, k
+
+
+def us_full_at(r):
+    """The US unit's full-capture L1 readings (6c, 3.5c) put on yield r: flow and non-occupiers' bill response x r / r_2024."""
+    k = r / US_R[2024]
+    flow, chg = US_FLOW_FULL * k, addb_us * k - we_us["mid"]
+    return dict(flow=flow, credit=US_CR_FULL, clean=flow + US_CR_FULL, t4=flow + US_LE_FULL, nonocc_change=chg, nonocc=flow + US_CR_FULL + chg,
+                loss_per_bill=float(un_["nonocc_capitalized_loss_bn"]) / (float(un_["nonocc_bill_bn"]) * k))
+
+
+def fi_full_at(lab):
+    return dict(flow=yv(lab, "flow"), credit=fi_cr_full, clean=yv(lab, "clean"), t4=yv(lab, "t4"), nonocc_change=yv(lab, "nonocc_change"),
+                nonocc=yv(lab, "nonocc_wealth"), loss_per_bill=float(YY[YY["yield_label"] == lab]["loss_per_euro_of_nonocc_bill"].iloc[0]))
+
+
+SAME_YEAR = {}
+for y in (2024, 2022):
+    us_, fi_ = us_full_at(US_R[y]), fi_full_at(str(y))
+    SAME_YEAR[y] = (us_, fi_)
+    blk = f"LVT, full capture (phi 0.98), both at their {y} yields (US {100 * US_R[y]:.2f}%, FI {100 * F.yield_of(y, ylds=YLD):.2f}%)"
+    nt = "US: the US unit's outputs" if y == 2024 else "US: the US unit's full-capture outputs put on the 2022 GS10 yield here (yield-only)"
+    nt += "; FI: the unit's own readings" + ("" if y == 2022 else " at the 2024 yield (yield-only)")
+    for key, item in [("flow", "flow impulse"), ("credit", "collateral: credit effect (6c x crossers' lost borrowing capacity)"),
+                      ("clean", "net demand at impact (flow + credit effect)"), ("t4", "net demand at impact, includes the T4 overlap (6c x lost equity)"),
+                      ("nonocc_change", "non-occupiers on the wealth reading: change in impulse (3.5c)"),
+                      ("nonocc", "net demand at impact, non-occupiers on the wealth reading (3.5c)"),
+                      ("loss_per_bill", "capitalized loss per unit of non-occupiers' bill (= 1/r)")]:
+        cmp_rows.append(dict(block=blk, item=item, US=us_[key], FI=fi_[key], note=nt))
+for y in YEARS[1:]:
+    cmp_rows.append(dict(block="LVT, full capture (phi 0.98), Finland at each year's yield", item=f"net demand at impact, non-occupiers on the wealth reading (3.5c), FI {y} yield",
+                         US=SAME_YEAR[2024][0]["nonocc"], FI=yv(str(y), "nonocc_wealth"), note="US: the US unit's 2024 reading"))
+# the US bridge's share of rent (the US headline's scale) with Finland on the same year's (2024) yield
+fi_flow_usphi24 = yv("2024", "flow") * US_PHI_B / F.PHI_FULL
+blk = f"LVT, the US bridge's share of rent (phi {US_PHI_B:.3f}), both at their 2024 yields"
+cmp_rows += [dict(block=blk, item="flow impulse", US=US_FLOW_B, FI=fi_flow_usphi24, note="FI flow scaled from full capture at the 2024 yield"),
+             dict(block=blk, item="collateral: credit effect (6c x crossers' lost borrowing capacity)", US=US_CR_B, FI=fi_cr_usphi, note="independent of the yield"),
+             dict(block=blk, item="net demand at impact (flow + credit effect)", US=US_FLOW_B + US_CR_B, FI=fi_flow_usphi24 + fi_cr_usphi,
+                  note="the US unit's headline beside Finland at the same year's yield")]
+us_share_cross = float(uc[(uc["scenario"] == "LVT_full_L1") & (uc["design"] == "immediate") & (uc["threshold"] == 0.8) &
+                          (uc["measure"] == "m1_z1hh_x_gs10")]["share_of_mortgaged"].iloc[0])
+fi_c80 = COLL_DEC[(COLL_DEC["method"] == "us_shape") & (COLL_DEC["rate"] == "full_m1") & (COLL_DEC["design"] == "immediate") &
+                  (COLL_DEC["threshold"] == 0.8) & (COLL_DEC["decile"] == "total")].iloc[0]
+cmp_rows += [dict(block="collateral at full capture", item="mortgaged owners crossing 80% LTV, share of the mortgaged", US=us_share_cross,
+                  FI=float(fi_c80["n_cross"] / fi_c80["n_mortgaged"]), note="US: us_lvt_collateral.csv; FI: US-shape LTVs inside deciles"),
+             dict(block="collateral at full capture", item="dwelling value lost at announcement (phi x land share)", US=F.PHI_FULL * s_us, FI=F.PHI_FULL * SH["s_d"], note="")]
+rev("us_over_fi_land_per_consumption", (float(uin["L_hh"]) / US_C_BN) / (N211_22 / C_MEUR), "ratio", "household land / survey consumption, US (Z.1 2024 / CE 2024) over FI (N211 2022 / HBS 2022)")
+rev("us_share_of_mortgaged_crossing_80_full", us_share_cross, "share", "US unit, full capture, L1")
+rev("fi_share_of_mortgaged_crossing_80_full", float(fi_c80["n_cross"] / fi_c80["n_mortgaged"]), "share", "FI, full capture, US-shape")
+rev("us_gs10_2022_pct", 100 * US_R[2022], "% a year", "pinning/cache/GS10.csv annual mean (the US unit's yield source)")
 if uhl is not None:
     for _, r in uhl[(uhl["instrument"] == "LVT") & (uhl["base"] == "L1")].iterrows():
         cmp_rows.append(dict(block="US headline readings (us_lvt_headline.csv, bridge L1)", item=r["label"], US=float(r["central"]), FI=np.nan,
                              note=f"[{r['low']:.3f}, {r['high']:.3f}]"))
 UC = pd.DataFrame(cmp_rows)
 UC["US_minus_FI"] = UC["US"] - UC["FI"]
-UC["us_files_read"] = "us_lvt_macro_channels.csv, us_lvt_collateral.csv, us_lvt_nonoccupier.csv, us_lvt_phi.csv, us_lvt_inputs.csv, us_lvt_land_by_decile.csv"
+UC["us_files_read"] = ("us_lvt_macro_channels.csv, us_lvt_collateral.csv, us_lvt_nonoccupier.csv, us_lvt_phi.csv, us_lvt_inputs.csv, "
+                       "us_lvt_land_by_decile.csv, us_lvt_headline.csv; pinning/cache/GS10.csv (the 2022 yield)")
 wcsv(UC, "fi_lvt_us_compare.csv")
 print("\nstep 6, the US beside Finland:\n" + UC[UC["FI"].notna()][["block", "item", "US", "FI", "US_minus_FI"]].round(4).to_string(index=False))
 
 # %% step 7: robustness - land shares, carry, composition, convention, yield year, base, VAT law, liquidity, LTV method
 def headline(label, sh=None, carry=None, conv="coherent", composition="12ew", year=2022, base="B2", vat_flags="adopted",
-             htm_key="half_month", coll_method="us_shape", note=""):
+             htm_key="half_month", coll_method="us_shape", note="", r=None):
     sh = SH if sh is None else sh
     carry = CARRY if carry is None else carry
     m = M[conv] if composition == "12ew" else B.build_fi_model(convention=conv, composition=composition)
@@ -1127,7 +1398,7 @@ def headline(label, sh=None, carry=None, conv="coherent", composition="12ew", ye
     div = float(av["dividend"].iloc[0])
     ld = F.land_by_decile(sh, carry)
     lq = F.pair_quintiles(ld[base])
-    r = F.yield_of(year, ylds=YLD)
+    r = F.yield_of(year, ylds=YLD) if r is None else r
     mps = F.mean_land_ps(m, lq)
     tau_b = F.tau_for_dividend(m, lq, div)
     tau_f = F.PHI_FULL * r
@@ -1164,9 +1435,17 @@ def headline(label, sh=None, carry=None, conv="coherent", composition="12ew", ye
                 net_full=flow_f + coll, collateral_t4_full_6c=coll_t4, net_full_t4=flow_f + coll_t4, note=note)
 
 
+def sd_label(v):
+    sh = F.land_shares("fix_sd", s_d=v)
+    if sh["n211_held"]:
+        return f"dwelling land share s_d = {v:.2f} (N211 held; s_f = {sh['s_f']:.2f})"
+    return (f"dwelling land share s_d = {v:.2f} (s_f floored at 0: N211 can be held only up to s_d = {sh['s_d_max_n211_held']:.3f}; "
+            f"land {100 * (sh['land_over_n211'] - 1):+.1f}% against N211)")
+
+
 rb = [headline("main: residual land shares, end-2022 carry, coherent, 12ew, 2022 yield, B2")]
-rb += [headline(f"dwelling land share s_d = {v:.2f} (N211 held; s_f = {F.land_shares('fix_sd', s_d=v)['s_f']:.2f})", sh=F.land_shares("fix_sd", s_d=v),
-                note="judgment band") for v in F.S_D_BAND]
+rb += [headline(sd_label(v), sh=F.land_shares("fix_sd", s_d=v), note="judgment band: the unit's own evidence (fi_lvt_land_evidence.csv)")
+       for v in F.S_D_BAND]
 rb += [headline(f"forest/farmland/business land share s_f = {v:.1f} (total departs from N211)", sh=F.land_shares("fixed", s_d=SH["s_d"], s_f=v),
                 note="judgment band") for v in F.S_F_BAND]
 rb += [headline("carry to mid-2022 (mean of end-2021 and end-2022 N211)", carry=F.carry_factor("mid2022"))]
@@ -1177,6 +1456,8 @@ rb += [headline("base B1: residential land only", base="B1")]
 rb += [headline("VAT flags under Finnish law line by line (bridge target 178.0 coherent)", vat_flags="law")]
 rb += [headline(f"hand-to-mouth threshold: {k}", htm_key=k) for k in ("half_biweekly", "one_month")]
 rb += [headline(f"collateral: log-normal LTVs, sigma {F.LTV_SIGMA[k]}", coll_method=k) for k in ("low", "mid", "high")]
+rb += [headline(f"yield: December 2022 alone ({100 * Y22_DEC:.2f}%; the month of the end-2022 land stock)", r=Y22_DEC,
+                note="yield timing: the paper pairs annual means")]
 ROB = pd.DataFrame(rb)
 wcsv(ROB, "fi_lvt_robustness.csv")
 print("\nstep 7, robustness:\n" + ROB[["variant", "phi_bridge", "share_of_vat_dividend", "net_q1_bridge", "net_q5_bridge", "flow_lvt_bridge",
@@ -1188,6 +1469,10 @@ _, _, vat_pay_share = F.lognormal_split(ACC_V["coherent"]["vatable"].values, flo
 VAT_PAYERS_Q = pd.Series(vat_pay_share, index=Q)
 wcsv(pd.DataFrame({"quintile": Q, "vat_payer_share_lognormal": vat_pay_share,
                    "lvt_payer_share_owner_model": F.pair_quintiles(wdm["payer_share_of_households"]).values}), "fi_lvt_payer_shares.csv")
+REVIEW = pd.DataFrame(REV)
+assert REVIEW["item"].is_unique
+wcsv(REVIEW, "fi_lvt_review.csv")
+print("\nthe review's numbers (out/fi_lvt_review.csv):\n" + REVIEW[["item", "value", "unit"]].to_string(index=False))
 
 # %% figures (light mode, PNG at 200 dpi; the rebuild's and the US unit's chrome, the dataviz reference palette in
 # fixed slot order, validated with the skill's validator: VAT = blue, LVT on all household land (B2) = orange, LVT on
@@ -1367,7 +1652,8 @@ ax.set_xlim(0.5, 11.9)
 ax.set_ylim(0, 100)
 ax.set_ylabel("Households, % of the decile", fontsize=9)
 ax.set_title(f"Who pays net: {100 * pay_share_all:.0f}% of households under the LVT (any rate)", fontsize=10.5, color=INK, loc="left")
-ax.text(0.0, -0.11, "LVT: owners' land log-normal inside deciles (main-residence quartiles)\nVAT: spending log-normal inside quintiles (sigma 0.45, judgment)",
+ax.text(0.0, -0.11, "LVT: owners' land log-normal inside deciles (main-residence quartiles); renters' land (2.5% of household land) is assigned\n"
+        "to owners, so renters pay nothing by assumption. VAT: spending log-normal inside quintiles (sigma 0.45, judgment)",
         transform=ax.transAxes, fontsize=7.6, color=MUTED, va="top", linespacing=1.3)
 # (d) payers' liquidity
 ax = axs[1, 1]
@@ -1389,8 +1675,8 @@ ax.text(0.0, -0.11, "Deposit quartiles and median disposable income by decile (1
 handles = [Line2D([0], [0], color=c, linewidth=2, marker="o", markersize=6, markeredgecolor=SURF, label=l) for l, _, c in series]
 fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.06, 0.905), ncol=3, frameon=False, fontsize=8.4, labelcolor=INK2)
 fig.text(0.065, 0.965, "Who gains and who pays in Finland: the VAT bridge and a land-value tax funding a flat dividend", fontsize=13.5, color=INK, weight="bold")
-fig.text(0.065, 0.94, "At the same revenue the LVT is about twice as redistributive as the VAT; the land Finland's households own can fund only a fifth of it.",
-         fontsize=9, color=INK2)
+fig.text(0.065, 0.94, "At the same revenue the LVT is about twice as redistributive as the VAT; the land Finland's households own can fund only a fifth of it "
+         "at the 2022 yield (a third at the 2023-25 yields).", fontsize=9, color=INK2)
 fig.text(0.065, 0.012, "HBS 2022 income quintiles, payment shares adult 1, child 0.3 (coherent convention). Land: wealth survey 2023 deciles paired into quintiles. "
          "Source: out/fi_lvt_accounting_by_quintile.csv, fi_lvt_within_decile.csv, fi_lvt_liquidity.csv.", fontsize=7.4, color=MUTED)
 fig.savefig(FIG / "fig_fi_net_by_quintile.png", dpi=200)
@@ -1409,8 +1695,8 @@ cols = [("vat", "VAT, the post's method", C1), ("lvt", "LVT (B2), the post's met
 tot = {c: float(dsh[c].sum()) for c, _, _ in cols}
 n = len(top)
 fig = plt.figure(figsize=(14.5, 9.6), dpi=200)
-axL = fig.add_axes([0.285, 0.10, 0.42, 0.72])
-axR = fig.add_axes([0.755, 0.10, 0.22, 0.72], sharey=axL)
+axL = fig.add_axes([0.285, 0.115, 0.42, 0.705])
+axR = fig.add_axes([0.755, 0.115, 0.22, 0.705], sharey=axL)
 yy = np.arange(n)[::-1].astype(float)
 bh = 0.24
 axL.set_xlim(min(dsh.loc[top].min().min(), 0) - 0.6, dsh.loc[top].max().max() + 2.4)
@@ -1446,17 +1732,20 @@ fig.text(0.04, 0.928, f"Charted totals: VAT €{tot['vat']:.2f}, LVT €{tot['lv
 fig.legend(handles=[Patch(facecolor=col, edgecolor="none", label=lab) for _, lab, col in cols], loc="upper left",
            bbox_to_anchor=(0.285, 0.905), ncol=3, frameon=False, fontsize=8.2, labelcolor=INK2)
 DIVS_RATIO = float(ACC_L[("coherent", "B2", "full_m1")]["dividend"].iloc[0] / DIV_V["coherent"])
-fig.text(0.04, 0.025, "HBS 2022 quintiles (coherent convention), Working-model elasticities (bridge.py). Tenure-aware: actual rent with renters; imputed rent, "
-         "interest and housing-company charges with owners (off-chart lines not drawn).\nAt full capture (2022 yield) every LVT bar is "
-         f"{100 * DIVS_RATIO:.0f}% of the one shown. Source: out/fi_lvt_demand_shifts.csv, fi_lvt_demand_compare.csv, fi_lvt_tenure_aware.csv.",
+TT_AA = float(TEN[(TEN["convention"] == "coherent") & (TEN["instrument"] == "LVT") & (TEN["base"] == "B2") & (TEN["grade"] == "wealth_mid")]
+              .set_index("category").loc[mc_chart, "dEUR_as_allocated"].sum())
+fig.text(0.04, 0.025, "HBS 2022 quintiles (coherent convention), Working-model elasticities (bridge.py). Tenure-aware: actual rent with renters, housing-company "
+         "charges with owners, and owners' changes spread over the lines they transact:\nimputed rent and housing-loan interest cannot move at impact (booked "
+         f"there as the Working model allocates them, the tenure-aware charted total would be €{TT_AA:.2f}: dEUR_as_allocated in the CSV). At full capture "
+         f"(2022 yield) every LVT bar\nis {100 * DIVS_RATIO:.0f}% of the one shown. Source: out/fi_lvt_demand_shifts.csv, fi_lvt_demand_compare.csv, fi_lvt_tenure_aware.csv.",
          fontsize=7.4, color=MUTED, linespacing=1.35)
 fig.savefig(FIG / "fig_fi_demand_shifts.png", dpi=200)
 plt.close(fig)
 
 # --- Figure 4: the macro channels
-fig = plt.figure(figsize=(14.5, 9.6), dpi=200)
-axP = fig.add_axes([0.40, 0.75, 0.56, 0.10])
-axD = fig.add_axes([0.40, 0.10, 0.56, 0.56])
+fig = plt.figure(figsize=(14.5, 10.8), dpi=200)
+axP = fig.add_axes([0.40, 0.775, 0.56, 0.085])
+axD = fig.add_axes([0.40, 0.125, 0.56, 0.575])
 pr = MACRO[MACRO["unit"].str.startswith("% of consumer")].reset_index(drop=True)
 style_axes(axP, "x")
 for k, (lab, col) in enumerate([("VAT", C1), ("LVT", C2)]):
@@ -1483,9 +1772,12 @@ rows_d = [("VAT", "flow impulse, post's method (mid; band = high/low schedules)"
           ("LVT", "collateral on all crossers' lost equity: includes the T4 overlap (full capture, immediate)", "LVT: collateral on lost equity (T4 overlap)"),
           ("LVT", "non-occupying holders: wealth effect instead of flow (change in impulse, full capture, B2)", "LVT: cottages, rentals, forest on a wealth effect"),
           ("LVT", "net demand at impact: flow + credit effect (full capture, 2022 yield)", "LVT: net at impact, flow + credit effect"),
+          ("LVT", "net demand at impact, only hand-to-mouth crossers respond (full capture)", "LVT: net at impact, hand-to-mouth crossers only"),
           ("LVT", "net demand at impact, includes the T4 overlap (full capture)", "LVT: net at impact, lost equity (T4 overlap)"),
           ("LVT", "net demand at impact, every non-occupier on the wealth reading (full capture)", "LVT: net at impact, non-occupiers on wealth"),
-          ("LVT", "net demand at impact: flow + credit effect (full capture, yield + 1.5)", "LVT: net at impact, yield + 1.5")]
+          ("LVT", "net demand at impact: flow + credit effect (full capture, yield + 1.5)", "LVT: net at impact, yield + 1.5"),
+          ("LVT", "net demand at impact: flow + credit effect (full capture, 2024 yield)", "LVT: net at impact, 2024 yield (2.85%)"),
+          ("LVT", "net demand at impact, every non-occupier on the wealth reading (full capture, 2024 yield)", "LVT: non-occupiers on wealth, 2024 yield")]
 pub = {"VAT: flow impulse, post's method": "post, published: flow-only path (year 3; band)",
        "VAT: levy channel, lambda = 1 (full A-K)": "post, published: full A-K lambda = 1 (year 3; band)",
        "VAT: net at impact, lambda = 0.35": "post, published: central lambda = 0.35 (year 3; band)"}
@@ -1514,24 +1806,30 @@ axD.set_yticks(yticks)
 axD.set_yticklabels(ylabels, fontsize=8.4)
 axD.set_ylim(-0.8, len(rows_d) - 0.4)
 axD.set_xlabel("Change in consumption demand at impact, % of consumption (HBS 2022)", fontsize=9)
-axD.set_title("Channel 2: demand (dot: central; line: band). LVT rows at full capture, phi = 0.98", fontsize=10, color=INK, loc="left")
+axD.set_title("Channel 2: demand (dot: central; line: band). LVT rows at full capture (phi = 0.98), 2022 yield unless marked", fontsize=10, color=INK,
+              loc="left")
 fig.legend(handles=[Line2D([0], [0], color=C1, linewidth=2, marker="o", markersize=7, markeredgecolor=SURF, label="VAT bridge (this unit, impact)"),
                     Line2D([0], [0], color=C2, linewidth=2, marker="o", markersize=7, markeredgecolor=SURF, label="LVT, full capture (impact)"),
                     Line2D([0], [0], color=INK, linewidth=1.2, marker="D", markersize=5, markerfacecolor=SURF, markeredgecolor=INK,
                            label="the post's published Finnish path (year 3)")],
            loc="upper left", bbox_to_anchor=(0.40, 0.93), ncol=3, frameon=False, fontsize=8.4, labelcolor=INK2)
 fig.text(0.04, 0.965, "Two channels, kept apart: no price step and no lambda; the sign turns on how holders read their land loss", fontsize=13.5, color=INK, weight="bold")
-fig.text(0.04, 0.03, "Impact-period, static: flows at the rebuilt MPC schedules; the levy at 2-5 cents per € of survey net worth; collateral at 4.7-7 cents per € (10 cents stress, "
-         "in the CSV) on mortgaged owners crossing 80% LTV (US-shape LTVs inside each decile).\nThe post's numbers come from its dynamic model and are shown for orientation. "
-         f"At the notional bridge rate (phi 5.2) dwellings lose their whole value and flow + credit effect is {float(hb.loc['clean', 'central']):.1f}%. "
-         "Source: out/fi_lvt_macro_channels.csv, fi_lvt_headline.csv.", fontsize=7.4, color=MUTED, linespacing=1.35)
+NO_YRS = [yv(str(y), "nonocc_wealth") for y in YEARS[1:]]
+LPB = YY.drop_duplicates("yield_label").set_index("yield_label")["loss_per_euro_of_nonocc_bill"]
+fig.text(0.04, 0.016, "Impact-period, static: flows at the rebuilt MPC schedules; the levy at 2-5 cents per € of survey net worth; collateral at 4.7-7 cents per € (US "
+         "estimates; 10 cents stress, no source, in the CSV) on mortgaged owners crossing 80% LTV\n(US-shape LTVs inside each decile). The yield sets the "
+         f"non-occupier reading: a capitalized loss is 1/r times its bill ({LPB['2022']:.0f} at the 2022 yield, {LPB[['2023', '2024', '2025']].min():.0f}-"
+         f"{LPB[['2023', '2024', '2025']].max():.0f} at 2023-25), so the reading is {signed(min(NO_YRS))} to {signed(max(NO_YRS))} at the 2023-25 yields.\n"
+         "The post's numbers come from its dynamic model and are shown for orientation. "
+         f"At the notional bridge rate (phi 5.2) dwellings lose their whole value and flow + credit effect is {signed(float(hb.loc['clean', 'central']), '{:.1f}')}%. "
+         "Source: out/fi_lvt_macro_channels.csv, fi_lvt_headline.csv, fi_lvt_yield_years.csv.", fontsize=7.4, color=MUTED, linespacing=1.35)
 fig.savefig(FIG / "fig_fi_macro_channels.png", dpi=200)
 plt.close(fig)
 
 # --- Figure 5: the US beside Finland
-fig = plt.figure(figsize=(14.5, 8.6), dpi=200)
-axA = fig.add_axes([0.235, 0.12, 0.25, 0.62])
-axB = fig.add_axes([0.70, 0.12, 0.26, 0.62])
+fig = plt.figure(figsize=(14.5, 9.4), dpi=200)
+axA = fig.add_axes([0.235, 0.115, 0.25, 0.645])
+axB = fig.add_axes([0.70, 0.115, 0.26, 0.645])
 ca = [("residential land", "top income decile's share of residential land"), ("all land in the wider base (*)", "top income decile's share of all household land"),
       ("financial assets", "top income decile's share of financial assets"), ("net wealth", "top income decile's share of net wealth"),
       ("VAT-able consumption (top quintile)", "top income quintile's share of VAT-able consumption")]
@@ -1550,43 +1848,60 @@ axA.set_xlim(0, 85)
 axA.set_ylim(-0.7, len(ca) - 0.3)
 axA.set_xlabel("Share held by the top income decile, %", fontsize=9)
 axA.set_title("Concentration: land is less top-heavy than financial wealth", fontsize=10, color=INK, loc="left")
-cb = [("VAT: net at impact (flow + levy, lambda 0.35)", "VAT, impact (same formulas)", "net demand at impact (flow + levy)"),
-      ("VAT: the post's published central path", "VAT, published", "the post's central path (year 3)"),
-      ("LVT, phi 0.98: flow + credit effect", "LVT, same share of rent (full capture, phi 0.98)", "net demand at impact (flow + credit effect)"),
-      ("LVT, phi 0.85: flow + credit effect", "LVT, the US bridge's share of rent (phi 0.848)", "net demand at impact (flow + credit effect)"),
-      ("LVT, same revenue: flow + credit effect", "LVT, same revenue as Finland's full capture", "net demand at impact (flow + credit effect)"),
-      ("LVT, phi 0.98: lost equity (T4 overlap)", "LVT, same share of rent (full capture, phi 0.98)", "net demand at impact, includes the T4 overlap (6c x lost equity)"),
-      ("LVT, phi 0.98: non-occupiers on wealth", "LVT, same share of rent (full capture, phi 0.98)", "net demand at impact, non-occupiers on the wealth reading (3.5c)")]
+B24 = [b for b in UC["block"].unique() if b.startswith("LVT, full capture (phi 0.98), both at their 2024 yields")][0]
+B22 = [b for b in UC["block"].unique() if b.startswith("LVT, full capture (phi 0.98), both at their 2022 yields")][0]
+BUS = [b for b in UC["block"].unique() if b.startswith("LVT, the US bridge's share of rent") and b.endswith("both at their 2024 yields")][0]
+CLEAN, T4I, NOI = ("net demand at impact (flow + credit effect)", "net demand at impact, includes the T4 overlap (6c x lost equity)",
+                   "net demand at impact, non-occupiers on the wealth reading (3.5c)")
+cb = [[("VAT: net at impact (flow + levy, lambda 0.35)", "VAT, impact (same formulas)", "net demand at impact (flow + levy)"),
+       ("VAT: the post's published central path", "VAT, published", "the post's central path (year 3)")],
+      [("LVT phi 0.98, 2024 yields: flow + credit effect", B24, CLEAN), ("LVT phi 0.98, 2024 yields: lost equity (T4 overlap)", B24, T4I),
+       ("LVT phi 0.98, 2024 yields: non-occupiers on wealth", B24, NOI)],
+      [("LVT phi 0.98, 2022 yields: flow + credit effect", B22, CLEAN), ("LVT phi 0.98, 2022 yields: lost equity (T4 overlap)", B22, T4I),
+       ("LVT phi 0.98, 2022 yields: non-occupiers on wealth", B22, NOI)],
+      [("LVT phi 0.85 (US bridge), 2024 yields: flow + credit effect", BUS, CLEAN),
+       ("LVT, same revenue (FI 2022 yield): flow + credit effect", "LVT, same revenue as Finland's full capture", CLEAN)]]
 UCb = UC.set_index(["block", "item"])
-yy = np.arange(len(cb))[::-1].astype(float)
+ypos, rows_b, yc = [], [], 0.0
+for grp in cb[::-1]:
+    for row in grp[::-1]:
+        ypos.append(yc)
+        rows_b.append(row)
+        yc += 1.0
+    yc += 0.55                                              # air between groups instead of a rule
 style_axes(axB, "x")
 axB.axvline(0, color=AXIS, linewidth=1.0, zorder=2)
-for (lab, blk, it), yc in zip(cb, yy):
+for (lab, blk, it), yc in zip(rows_b, ypos):
     us_, fi_ = float(UCb.loc[(blk, it), "US"]), float(UCb.loc[(blk, it), "FI"])
     axB.plot([fi_, us_], [yc, yc], color=GRID, linewidth=3, zorder=2, solid_capstyle="round")
     axB.plot(us_, yc, marker="o", markersize=8, markerfacecolor=C1, markeredgecolor=SURF, markeredgewidth=2, zorder=4)
     axB.plot(fi_, yc, marker="o", markersize=8, markerfacecolor=C2, markeredgecolor=SURF, markeredgewidth=2, zorder=4)
     axB.text(max(us_, fi_) + 0.08, yc, f"US {signed(us_)}  FI {signed(fi_)}", va="center", fontsize=7.8, color=INK2)
-axB.set_yticks(yy)
-axB.set_yticklabels([l for l, _, _ in cb], fontsize=8.4)
-axB.set_xlim(-1.9, 1.5)
-axB.set_ylim(-0.7, len(cb) - 0.3)
+axB.set_yticks(ypos)
+axB.set_yticklabels([l for l, _, _ in rows_b], fontsize=8.4)
+axB.set_xlim(-2.0, 1.35)
+axB.set_ylim(-0.7, max(ypos) + 0.7)
 axB.set_xlabel("Demand at impact, % of consumption", fontsize=9)
-axB.set_title("Net demand at impact: VAT, LVT at three scales, two LVT readings", fontsize=10, color=INK, loc="left")
+axB.set_title("Net demand at impact, % of consumption", fontsize=10, color=INK, loc="left")
 fig.legend(handles=[Line2D([0], [0], color=C1, linewidth=0, marker="o", markersize=8, markeredgecolor=SURF, label="United States (US unit)"),
                     Line2D([0], [0], color=C2, linewidth=0, marker="o", markersize=8, markeredgecolor=SURF, label="Finland (this unit)")],
-           loc="upper left", bbox_to_anchor=(0.235, 0.835), ncol=2, frameon=False, fontsize=8.6, labelcolor=INK2)
-fig.text(0.04, 0.965, "The US beside Finland: the LVT closes the gap, but not because land is less concentrated", fontsize=13.5, color=INK, weight="bold")
-fig.text(0.04, 0.938, "The VAT's gap is its levy channel: the post's lambda on net worth, which the US has far more of. An LVT has no levy, and on the clean reading "
-         "(collateral as a credit effect)\nboth countries sit near zero at any scale. The gap reopens through the LVT's own stock channel: US mortgaged owners if crossers "
-         "respond to lost equity, Finnish cottages,\nrentals and forest if their holders respond to capitalized losses "
-         f"({100 * float(NO[(NO['base'] == 'B2') & (NO['rate'] == 'full_m1')]['nonocc_share_of_base'].iloc[0]):.0f}% of Finnish household land; at the 2022 yield "
-         f"the loss is {float(NO[(NO['base'] == 'B2') & (NO['rate'] == 'full_m1')]['loss_per_euro_of_bill'].iloc[0]):.0f} times the bill).",
-         fontsize=9, color=INK2, va="top", linespacing=1.35)
-fig.text(0.04, 0.025, "US: consumption/lvt/out (SCF 2025, CE 2024, Z.1). FI: HBS 2022, wealth survey 2023. Both at impact, same formulas: levy 3.5c (2-5c), "
-         "collateral 6c (4.7-7c) per € per year; bands in out/fi_lvt_us_compare.csv, fi_lvt_headline.csv.\n(*) Definitions differ: the US adds "
-         "noncorporate and corporate land (attributed to households by equity); Finland adds households' forest, farmland and business land.",
-         fontsize=7.4, color=MUTED, linespacing=1.35)
+           loc="upper left", bbox_to_anchor=(0.235, 0.845), ncol=2, frameon=False, fontsize=8.6, labelcolor=INK2)
+u24, f24 = SAME_YEAR[2024]
+u22, f22 = SAME_YEAR[2022]
+fig.text(0.04, 0.968, "The US beside Finland: the LVT shrinks the gap, but not because land is less concentrated", fontsize=13.5, color=INK, weight="bold")
+fig.text(0.04, 0.942, "The VAT's gap is its levy channel: the post's lambda on net worth, which the US has far more of. An LVT has no levy, and on the clean reading "
+         "(collateral as a credit effect) both\ncountries sit near zero when each is on the same year's yield "
+         f"(2024: US {signed(u24['clean'])}, FI {signed(f24['clean'])}). The gap reopens if mortgaged crossers respond to their lost equity: it hits "
+         f"the US ({signed(u24['t4'])} against {signed(f24['t4'])}),\nwhere land is {100 * s_us:.0f}% of house values against {100 * SH['s_d']:.0f}% "
+         f"and {(float(uin['L_hh']) / US_C_BN) / (N211_22 / C_MEUR):.1f} times as much per unit of consumption. Non-occupiers' capitalized losses weigh about the "
+         f"same in both on the same year's yield\n(2024: {signed(u24['nonocc'])}, {signed(f24['nonocc'])}; 2022: {signed(u22['nonocc'])}, {signed(f22['nonocc'])}). "
+         f"Set Finland's 2022 yield against the US's 2024 one ({signed(f22['nonocc'])} against {signed(u24['nonocc'])}) and they seem to split: a loss is "
+         f"1/r times its bill ({f22['loss_per_bill']:.0f} against {u24['loss_per_bill']:.0f}).", fontsize=9, color=INK2, va="top", linespacing=1.35)
+fig.text(0.04, 0.022, "US: consumption/lvt/out (SCF 2025, CE 2024, Z.1) at the 2024 Treasury yield (4.21%); its 2022-yield rows put the flow and the non-occupiers' "
+         f"bills on GS10 2022 ({100 * US_R[2022]:.2f}%) here, nothing else changed. FI: HBS 2022, wealth survey 2023,\nat its 2022 (1.69%) and 2024 (2.85%) "
+         "yields the same way. Both at impact, same formulas: levy 3.5c (2-5c), collateral 6c (4.7-7c) per € per year; bands in out/fi_lvt_us_compare.csv, "
+         "fi_lvt_yield_years.csv.\n(*) Definitions differ: the US adds noncorporate and corporate land (attributed to households by equity); Finland adds "
+         "households' forest, farmland and business land.", fontsize=7.4, color=MUTED, linespacing=1.35)
 fig.savefig(FIG / "fig_fi_us_compare.png", dpi=200)
 plt.close(fig)
 print("\nfigures written:", ", ".join(p.name for p in sorted(FIG.glob("fig_fi_*.png"))))

@@ -13,6 +13,7 @@ yield_2022,1.69,% a year,"Eurostat irt_lt_mcby_a FI (EMU convergence 10-year), a
 yield_2023,3.04,% a year,"same, 2023"
 yield_2024,2.85,% a year,"same, 2024"
 yield_2025,2.99698,% a year,"same, 2025"
+yield_2022_12,2.71,% a year,"Eurostat irt_lt_mcby_m FI, December 2022 (the month of the end-2022 land stock)"
 n211_s14_2022_meur,131495,EUR million,rtp 11zx S14 N211 end-2022
 n211_s14_2023_meur,126251,EUR million,rtp 11zx S14 N211 end-2023
 n111_s14_2022_meur,375993,EUR million,rtp 11zx S14 N111 end-2022
@@ -24,8 +25,8 @@ s_f_residual,0.7630771337,share,(N211_2023 - s_d x dwellings) / survey forest-fa
 carry_2023_to_2022,1.041536305,ratio,N211 end-2022 / end-2023 (S14)
 carry_mid2022_alt,1.029267095,ratio,"mean(N211 end-2021, end-2022) / end-2023"
 survey_households_2023,2950000,households,151u
-judgment_s_d_band_low,0.13,share,own vs rented plot price gap within region groups (lower bound)
-judgment_s_d_band_high,0.24,share,N211/(N211+N111) 2023 (upper bound)
+judgment_s_d_band_low,0.15,share,"own vs rented plot price gap within region groups, sales-weighted (0.150; lower bound)"
+judgment_s_d_band_high,0.26,share,"N211/(N211+N111) 2022, the flow year (0.259; upper bound; 0.239 in 2023)"
 judgment_s_f_band_low,0.5,share,judgment
 judgment_s_f_band_high,1.5,share,judgment
 judgment_mpw_low,0.02,per EUR/yr,post fn 31

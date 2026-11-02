@@ -43,7 +43,11 @@ def info(cid, desc, value, note=""):
 
 out = {n: pd.read_csv(OUT / f"fi_lvt_{n}.csv") for n in ["phi", "accounting_by_quintile", "impulse", "demand_shifts", "collateral", "macro_channels",
                                                          "us_compare", "land_by_decile", "concentration", "liquidity", "within_decile",
-                                                         "vat_levy", "loop", "deferral", "tenure_aware", "headline", "inputs", "yields"]}
+                                                         "vat_levy", "loop", "deferral", "tenure_aware", "headline", "inputs", "yields",
+                                                         "yield_years", "review", "robustness", "collateral_lognormal_totals", "nonoccupier",
+                                                         "land_evidence"]}
+for n in ("impulse", "demand_shifts", "tenure_aware", "accounting_by_quintile"):
+    out[n]["base"] = out[n]["base"].fillna("")
 
 # %% A. yields: Eurostat annual = mean of Eurostat monthly = mean of ECB monthly (2022-2025)
 ja = json.loads((RAW / "eurostat" / "data" / "irt_lt_mcby_a_FI.json").read_text())
@@ -283,6 +287,205 @@ check("J2", "top income decile's share of financial assets", float(cc[(cc["count
 for fn in ["fig_fi_funding_gap", "fig_fi_net_by_quintile", "fig_fi_demand_shifts", "fig_fi_macro_channels", "fig_fi_us_compare"]:
     p = FIG / f"{fn}.png"
     check(f"J_{fn}", f"figure exists: {fn}.png", float(p.exists() and p.stat().st_size > 50000), 1.0, 0)
+
+# %% K. the review's numbers (out/fi_lvt_review.csv, fi_lvt_yield_years.csv, the same-year US rows), re-derived here
+rv = out["review"].set_index("item")["value"]
+w_c = m["w"]
+mid = pd.Series(sched, index=Q)
+pairq = lambda x: pd.Series([(float(x[DEC[2 * i]]) + float(x[DEC[2 * i + 1]])) / 2 for i in range(5)], index=Q)
+# K1 gross LVT payments on one unit: per-household payments of owner-payers (log-normal partial expectations) x households
+L2d = L2.reindex(DEC)
+pay_hh, recv_own_hh = {}, {}
+for i, d in enumerate(DEC):
+    s_ = sig[d]
+    X = lognorm(s=s_, scale=Lown[d] * np.exp(-s_ ** 2 / 2))
+    Xs = lognorm(s=s_, scale=Lown[d] * np.exp(s_ ** 2 / 2))       # E[X; X > t] = E[X] P(X' > t)
+    above = Lown[d] * Xs.sf(Lstar[i])
+    pay_hh[d] = p_own[d] * (above - Lstar[i] * X.sf(Lstar[i]))
+    recv_own_hh[d] = p_own[d] * (Lstar[i] * (1 - X.sf(Lstar[i])) - (Lown[d] - above))
+pay_hh, recv_own_hh = pd.Series(pay_hh), pd.Series(recv_own_hh)
+bh = float((pay_hh * N)[DEC[:5]].sum() / (pay_hh * N).sum())
+check("K1", "bottom half's share of gross LVT payments, one unit (per-household payments x households)", float(rv["bottom_half_share_of_gross_lvt_payments"]), bh, 1e-9,
+      "identity", "the earlier 22.6% weighted per-share payments by households")
+recv_hh = (1 - p_own) * pd.Series(Lstar, index=DEC) + recv_own_hh
+check("K2", "gross payments / gross receipts in D1-D2 (one unit)", float(rv["gross_payments_over_receipts_d1_d2"]),
+      float((pay_hh * N)[DEC[:2]].sum() / (recv_hh * N)[DEC[:2]].sum()), 1e-9)
+# K3 ghost flips from the stored bars (MPC = 1 ghost against the MPC-adjusted bar), both conventions
+for conv, mm_ in [("coherent", m), ("post", mp)]:
+    for inst, base in [("lvt", "B2"), ("vat", "")]:
+        x = shf[(shf["convention"] == conv) & (shf["instrument"] == inst.upper()) & (shf["base"] == base) & (shf["rate"] == "bridge") &
+                (shf["grade"] == "post_mid")].set_index("category").loc[mm_["chart"]]
+        check(f"K3_{conv}_{inst}", f"ghost flips, {conv} convention, {inst.upper()} (charted bars)", float(rv[f"ghost_flips_{conv}_{inst}"]),
+              float((np.sign(x["dEUR_mpc1"]) != np.sign(x["dEUR"])).sum()), 0, "identity", "coherent 13 / 17, post 12 / 14")
+# K4 the s_d band is the unit's own evidence, rounded: within-region plot gap (low), the flow year's N211/(N211+N111) (high)
+ev = out["land_evidence"]
+g_w = float(ev[ev["evidence"].str.startswith("same, sales-weighted")]["value"].iloc[0])
+ub22 = bs("S14", "N211", 2022) / (bs("S14", "N211", 2022) + bs("S14", "N111", 2022))
+check("K4a", "s_d band low = the within-region plot gap, rounded (0.150)", float(inp["judgment_s_d_band_low"]), round(g_w, 2), 1e-12, "crosscheck")
+check("K4b", "s_d band high = N211/(N211+N111) in 2022, rounded (0.259)", float(inp["judgment_s_d_band_high"]), round(ub22, 2), 1e-12, "crosscheck")
+rb_ = out["robustness"]
+r26 = rb_[rb_["variant"].str.startswith("dwelling land share s_d = 0.26")].iloc[0]
+check("K4c", "at s_d = 0.26 the N211-held residual s_f would be negative, so s_f = 0 (floored)", float(r26["s_f"]), 0.0, 1e-12, "identity",
+      f"residual {(bs('S14', 'N211', 2023) - 0.26 * HW) / FFB:.3f}; N211 can be held up to s_d = {bs('S14', 'N211', 2023) / HW:.4f}")
+r15 = rb_[rb_["variant"].str.startswith("dwelling land share s_d = 0.15")].iloc[0]
+check("K4d", "at s_d = 0.15 the residual s_f holds N211", float(r15["s_f"]), (bs("S14", "N211", 2023) - 0.15 * HW) / FFB, 1e-9)
+# K5 the yield-year table: the flow and the non-occupiers' bill response scale with r; the capitalized loss and collateral do not
+ld_i = {c: pairq(ld[c]) for c in ["L_ore", "L_ftr", "L_ffb"]}
+L_no = ld_i["L_ore"] + ld_i["L_ftr"] + ld_i["L_ffb"]
+yy = out["yield_years"]
+yv = lambda lab, k, c="central": float(yy[(yy["yield_label"].astype(str) == lab) & (yy["reading"] == k)][c].iloc[0])
+coll_mid = float(mac.loc["collateral: credit effect on all crossers' lost borrowing capacity (full capture, immediate)", "central"])
+coll_t4 = float(mac.loc["collateral on all crossers' lost equity: includes the T4 overlap (full capture, immediate)", "central"])
+for lab, y_ in [("2022", Y22), ("2023", ya["2023"] / 100), ("2024", ya["2024"] / 100), ("2025", ya["2025"] / 100)]:
+    tau_y = 0.98 * y_
+    net_y = div_full * y_ / Y22 - tau_y * Lq / (12 * sh)                  # the dividend scales with r; bills tau x land per share
+    flow_y = 100 * float((w_c * mid * net_y).sum()) / m["budget_bar"]
+    add_back = float((w_c * mid * tau_y * L_no / (12 * sh)).sum())
+    we = float((w_c * 0.035 * 0.98 * L_no / (12 * sh)).sum())
+    chg = 100 * (add_back - we) / m["budget_bar"]
+    check(f"K5_{lab}_flow", f"full capture at the {lab} yield: flow impulse (post's method)", yv(lab, "flow"), flow_y, 1e-9)
+    check(f"K5_{lab}_nonocc", f"full capture at the {lab} yield: non-occupiers on the wealth reading, net", yv(lab, "nonocc_wealth"), flow_y + coll_mid + chg, 1e-9,
+          "identity", "flow + credit effect + (bill response added back - 3.5c x capitalized loss)")
+    check(f"K5_{lab}_t4", f"full capture at the {lab} yield: includes the T4 overlap", yv(lab, "t4"), flow_y + coll_t4, 1e-9)
+check("K5_2022_main", "yield-year table at 2022 = the headline's non-occupier reading", yv("2022", "nonocc_wealth"), float(hl.loc[("full_m1", "nonocc_wealth"), "central"]), 1e-9)
+ydec = float(ym["2022-12"]) / 100
+check("K6", "full capture at the December 2022 yield: share of the bridge's dividend", float(rv["full_capture_share_dec2022_yield"]),
+      0.98 * ydec * mean_ps / 12 / div_c, 1e-9, "identity", f"yield {100 * ydec:.2f}%")
+check("K6b", "funding share range over every yield case (B2, m1 and m2, 2022-25): max", float(rv["full_capture_share_max_yield_cases"]),
+      max(0.98 * (ya[str(y)] / 100 + s_) * mean_ps / 12 / div_c for y in (2022, 2023, 2024, 2025) for s_ in (0, 0.015)), 1e-9)
+# K7 the US on the same year's yield: GS10 annual means from the vendored FRED copy; the US unit's full-capture outputs rescaled
+g10 = pd.read_csv(THREAD.parent / "pinning" / "cache" / "GS10.csv", parse_dates=["observation_date"])
+gs = {y: g10[g10["observation_date"].dt.year == y]["GS10"].mean() / 100 for y in (2022, 2024)}
+uno = pd.read_csv(OUT / "us_lvt_nonoccupier.csv").set_index(["scenario", "grade"]).loc[("LVT_full_L1_m1", "dn_mid")]
+usC = float(uin["ce_consumption_bn"])
+we_us = 100 * 0.035 * float(uno["nonocc_capitalized_loss_bn"]) / usC
+ab_us = float(uno["wealth_version_mid_pct"] - uno["flow_version_pct"]) + we_us
+check("K7a", "US non-occupier decomposition reproduces the US unit's 2c row", float(uno["flow_version_pct"]) + ab_us - 100 * 0.02 * float(uno["nonocc_capitalized_loss_bn"]) / usC,
+      float(uno["wealth_version_low_pct"]), 1e-8)
+blk22 = [b for b in uc.index.get_level_values(0).unique() if b.startswith("LVT, full capture (phi 0.98), both at their 2022 yields")][0]
+blk24 = [b for b in uc.index.get_level_values(0).unique() if b.startswith("LVT, full capture (phi 0.98), both at their 2024 yields")][0]
+k22 = gs[2022] / gs[2024]
+us_flow_f = float(um.loc["flow impulse, post's method (full, L1)", "central"])
+us_cr_f, us_le_f = uu("LVT_full_L1", "dC_lost_capacity_mid_pct"), uu("LVT_full_L1", "dC_lost_equity_mid_pct")
+check("K7b", "US at the 2022 yield: non-occupiers on the wealth reading", float(uc.loc[(blk22, "net demand at impact, non-occupiers on the wealth reading (3.5c)"), "US"]),
+      us_flow_f * k22 + us_cr_f + ab_us * k22 - we_us, 1e-9, "identity", f"GS10 2022 {100 * gs[2022]:.3f}% / 2024 {100 * gs[2024]:.3f}%")
+check("K7c", "US at the 2022 yield: flow + credit effect", float(uc.loc[(blk22, "net demand at impact (flow + credit effect)"), "US"]), us_flow_f * k22 + us_cr_f, 1e-9)
+check("K7d", "US at the 2024 yield = the US unit's own non-occupier reading", float(uc.loc[(blk24, "net demand at impact, non-occupiers on the wealth reading (3.5c)"), "US"]),
+      us_flow_f + us_cr_f + float(uno["wealth_version_mid_pct"] - uno["flow_version_pct"]), 1e-9)
+check("K7e", "FI at the 2024 yield in the comparison = the yield-year table", float(uc.loc[(blk24, "net demand at impact, non-occupiers on the wealth reading (3.5c)"), "FI"]),
+      yv("2024", "nonocc_wealth"), 1e-12)
+check("K7f", "US at the 2022 yield: includes the T4 overlap", float(uc.loc[(blk22, "net demand at impact, includes the T4 overlap (6c x lost equity)"), "US"]),
+      us_flow_f * k22 + us_le_f, 1e-9)
+# K8 tenure-aware baskets, re-derived for the LVT (B2, bridge, the post's schedule): owners' changes on transacted lines
+UNTX = ["04.2 Imputed rentals (off-chart)", "04.6 Interest on housing loans (off-chart)"]
+po = pairq(p_own)
+Cq = m["C"]
+Co, Cr = Cq.copy(), Cq.copy()
+Cr.loc["04.1 Actual rents"] = Cq.loc["04.1 Actual rents"] / (1 - po)
+Co.loc["04.1 Actual rents"] = 0.0
+for g_ in UNTX:
+    Co.loc[g_] = Cq.loc[g_] / po
+    Cr.loc[g_] = 0.0
+chg_ = m["lines"].loc["maintenance charges of housing companies", Q]
+Co.loc["04.4 Water & misc. dwelling services"] = Cq.loc["04.4 Water & misc. dwelling services"] + chg_ * (1 / po - 1)
+Cr.loc["04.4 Water & misc. dwelling services"] = Cq.loc["04.4 Water & misc. dwelling services"] - chg_
+eo = B.fi_eta_table(dict(m, C=Co, budget=Co.sum()), "F3")[0]
+er = B.fi_eta_table(dict(m, C=Cr, budget=Cr.sum()), "F3")[0]
+so, sr = Co / Co.sum() * eo, Cr / Cr.sum() * er
+so_t = so * (so.sum() / (so.sum() - so.loc[UNTX].sum()))
+so_t.loc[UNTX] = 0.0
+psum = pd.Series([float(p_own[DEC[2 * i]] + p_own[DEC[2 * i + 1]]) for i in range(5)], index=Q)
+own_net = pd.Series([float((recv_own_hh - pay_hh)[[DEC[2 * i], DEC[2 * i + 1]]].sum()) for i in range(5)], index=Q) * tau_b / 12
+dco = mid * own_net / (psum * sh)
+dcr = mid * div_c
+ten_c = ten[(ten["convention"] == "coherent") & (ten["instrument"] == "LVT") & (ten["base"] == "B2") & (ten["grade"] == "post_mid")].set_index("category")
+for lab, so_ in [("transacted", so_t), ("as_allocated", so)]:
+    mine = (so_.mul(w_c * po * dco, axis=1)).sum(axis=1) + (sr.mul(w_c * (1 - po) * dcr, axis=1)).sum(axis=1)
+    col_ = "dEUR" if lab == "transacted" else "dEUR_as_allocated"
+    check(f"K8_{lab}", f"tenure-aware LVT bars ({lab} owner allocation), every line (max abs diff, EUR)", float((ten_c[col_].reindex(mine.index) - mine).abs().max()), 0.0, 1e-9)
+check("K8_total", "re-spreading keeps the total change (all 47 lines)", float(ten_c["dEUR"].sum()), float(ten_c["dEUR_as_allocated"].sum()), 1e-9)
+check("K8_untx", "nothing is booked on imputed rent and loan interest under the transacted allocation (LVT and VAT)",
+      float(ten[ten["category"].isin(UNTX)]["dEUR"].abs().max()), 0.0, 1e-12)
+own_ms = (Co.loc[UNTX] * eo.loc[UNTX]).sum() / Co.sum()
+check("K8_ms", "owners' marginal euro on imputed rent and interest: highest quintile share (18-25%)", float(rv["owner_marginal_share_untransacted_max"]),
+      float(own_ms.max()), 1e-9, "identity", f"lowest {own_ms.min():.3f}")
+# K9 the liquidity grade at owners' hand-to-mouth shares (151u deciles x 151z tenure mix), for the VAT's payers
+tt_ = pd.read_csv(TIDY / "fi_wealth_2023_tenure.csv")
+tq = lambda c, k: tt_[(tt_["component"] == c) & (tt_["measure"] == k)].set_index("tenure")["value"].astype(float)
+dq = {k: tq("deposits", k) for k in ("p25", "median", "p75")}
+s_t = (np.log(dq["p75"]) - np.log(dq["p25"])) / (2 * norm.ppf(0.75))
+h_t = (1 - tq("deposits", "participation_rate_pct") / 100) + tq("deposits", "participation_rate_pct") / 100 * \
+    pd.Series(lognorm(s=s_t.values, scale=dq["median"].values).cdf((tq("disposable_income", "median") / 24).values), index=s_t.index)
+n_mo = wv("housing_loans", "households_holding").reindex(DEC)
+n_ow = wv("main_residence", "households_holding").reindex(DEC)
+mix = ((n_ow - n_mo) * h_t["outright_owner"] + n_mo * h_t["owner_with_mortgage"]) / n_ow
+h_own = (pd.Series(h, index=DEC) * mix / h_t["all"]).clip(upper=1.0)
+xv = accv["vatable"].reindex(Q)
+cv = float(accv["Cbar_v"].iloc[0])
+mu_v = np.log(xv) - 0.45 ** 2 / 2
+Pv = norm.sf((np.log(cv) - mu_v) / 0.45)
+ab_v = xv * norm.sf((np.log(cv) - mu_v - 0.45 ** 2) / 0.45)
+pay_v, recv_v = B.TAU * (ab_v - cv * Pv), B.TAU * (cv * (1 - Pv) - (xv - ab_v))
+hq = pairq(h_own)
+dC_v = mid * recv_v - (hq + (1 - hq) * mid) * pay_v
+check("K9", "VAT flow, payers graded by liquidity at owners' hand-to-mouth shares (% of consumption)", float(rv["vat_flow_liq_grade_owner_htm_shares"]),
+      100 * float((w_c * dC_v).sum()) / m["budget_bar"], 1e-9, "identity", "0.339 at all households' shares: the LVT/VAT ratio 1.95 is an upper bound")
+# K10 the loop with land as the residual claimant on a rent rise (ls = 1), and the VAT's leak at ls = 1
+l1 = lp[(lp["instrument"] == "LVT_B2") & (lp["rate"] == "full_m1") & (lp["ls_case"] == "one") & (lp["landlord_case"] == "mid")].iloc[0]
+check("K10a", "loop at ls = 1: multiplier 1 / (1 - phi h q)", float(rv["loop_ls1_multiplier"]), 1 / (1 - 0.98 * 0.55 * float(l1["q"])), 1e-12)
+check("K10b", "loop at ls = 1: extra dividend = phi h R0 x multiplier, % of the dividend", float(rv["loop_ls1_extra_dividend_pct"]),
+      100 * 0.98 * 0.55 * float(l1["rent_bar_round0"]) / (1 - 0.98 * 0.55 * float(l1["q"])) / div_full, 2e-4, "identity", "iteration against the closed form")
+v1 = lp[(lp["instrument"] == "VAT") & (lp["ls_case"] == "one") & (lp["landlord_case"] == "mid")].iloc[0]
+check("K10c", "VAT's leak to landlords at ls = 1, EUR m a year (rent bar x shares x 12)", float(rv["vat_leak_to_landlords_ls1_meur"]),
+      float(v1["rent_bar_round0"]) * float((hh * sh).sum()) * 12 / 1e6, 1e-6)
+# K11 renters' own land, the crosser shapes, the US-FI collateral contrast, rent's share of the flow
+ren = (s_d * (tq("other_residential_property", "mean")["renter_or_other"] + tq("free_time_residences", "mean")["renter_or_other"]) +
+       s_f * tq("forest_farmland_business", "mean")["renter_or_other"]) * tq("disposable_income", "households_holding")["renter_or_other"] / 1e6
+check("K11a", "renters' own land / N211 2023 (assigned to owners by the owner model)", float(rv["renters_share_of_household_land"]), ren / bs("S14", "N211", 2023), 1e-9)
+fdec = 0.98 * s_d
+n_ln = 0.0
+for i, dd in enumerate(DEC):
+    D_ = lognorm(s=0.6, scale=1.1 * A[dd])
+    n_ln += n_m[dd] * (D_.cdf(0.8) - D_.cdf(0.8 * (1 - fdec)))
+check("K11b", "crossers at full capture, log-normal LTVs (sigma 0.6)", float(rv["crossers_80_full_lognormal_sigma_mid"]), n_ln, 1e-3)
+check("K11c", "crossers at full capture, US-shape (H5's recomputation)", float(rv["crossers_80_full_us_shape"]), n_cross, 1.0)
+h_mort = (pd.Series(h, index=DEC) * h_t["owner_with_mortgage"] / h_t["all"]).clip(upper=1.0)
+lc_dec = {}
+for i, dd in enumerate(DEC):                                   # H's US-shape population again, lost capacity by decile
+    g = s[s["d"] == i + 1]
+    aus = float((g["MRTHEL"] * g["WGT"]).sum() / (g["HOUSES"] * g["WGT"]).sum())
+    V0 = g["HOUSES"].values * Vbar[dd] / float(np.average(g["HOUSES"], weights=g["WGT"].values))
+    M_ = g["MRTHEL"].values / g["HOUSES"].values * A[dd] / aus * V0
+    cr_ = (M_ <= 0.8 * V0) & (M_ > 0.8 * V0 * (1 - f))
+    lc_dec[dd] = float((g["WGT"].values * n_m[dd] / g["WGT"].sum() * cr_ * (np.maximum(0, 0.8 * V0 - M_) - np.maximum(0, 0.8 * V0 * (1 - f) - M_))).sum())
+lc_dec = pd.Series(lc_dec)
+check("K11h", "hand-to-mouth crossers' share of the lost borrowing capacity (full capture)", float(rv["htm_share_of_crossers_lost_capacity"]),
+      float((lc_dec * h_mort).sum() / lc_dec.sum()), 1e-9, "identity", "the rest belongs to owners with more than half a month's income in deposits")
+ucol_f = ucol[(ucol["scenario"] == "LVT_full_L1") & (ucol["design"] == "immediate") & (ucol["threshold"] == 0.8) & (ucol["measure"] == "m1_z1hh_x_gs10")].iloc[0]
+check("K11d", "US share of mortgaged owners crossing 80% at full capture (us_lvt_collateral.csv)", float(rv["us_share_of_mortgaged_crossing_80_full"]),
+      float(ucol_f["share_of_mortgaged"]), 1e-12)
+check("K11e", "FI share of mortgaged owners crossing 80% at full capture", float(rv["fi_share_of_mortgaged_crossing_80_full"]), n_cross / float(n_m.sum()), 1e-6)
+check("K11f", "household land per unit of consumption, US / FI", float(rv["us_over_fi_land_per_consumption"]),
+      (float(uin["L_hh"]) / usC) / (bs("S14", "N211", 2022) / C), 1e-9)
+for inst, base in [("lvt", "B2"), ("vat", "")]:
+    rent_ = float(shf[(shf["convention"] == "coherent") & (shf["instrument"] == inst.upper()) & (shf["base"] == base) & (shf["rate"] == "bridge") &
+                      (shf["grade"] == "post_mid") & (shf["category"] == "04.1 Actual rents")]["dEUR"].iloc[0])
+    fl_ = float(imp[(imp["convention"] == "coherent") & (imp["instrument"] == inst.upper()) & (imp["base"] == base) & (imp["rate"] == "bridge") &
+                    (imp["grade"] == "post_mid") & (imp["defer"] == "none")]["flow_pct_consumption"].iloc[0]) / 100 * m["budget_bar"]
+    check(f"K11g_{inst}", f"rent's share of the flow impulse ({inst.upper()}, same revenue)", float(rv[f"rent_share_of_flow_{inst}"]), rent_ / fl_, 1e-9)
+# K12 post against coherent in the rates table
+dphi = dsh = 0.0
+for _, r_ in ph[(ph["convention"] == "coherent") & (ph["base"] != "B3")].iterrows():
+    p_ = ph[(ph["convention"] == "post") & (ph["base"] == r_["base"]) & (ph["measure"] == r_["measure"]) & (ph["yield_year"] == r_["yield_year"]) &
+            (ph["label"] == r_["label"])]
+    if len(p_):
+        dphi = max(dphi, abs(float(p_["phi_bridge"].iloc[0]) - r_["phi_bridge"]))
+        dsh = max(dsh, 100 * abs(float(p_["share_of_vat_dividend"].iloc[0]) - r_["share_of_vat_dividend"]))
+check("K12", "post vs coherent rates table: phi within 0.02 and share within 0.4 points", float(dphi < 0.02 and dsh < 0.4), 1.0, 0, "identity",
+      f"phi {dphi:.4f}, share {dsh:.3f} points")
+info("K13", "Finnish non-occupier reading at the 2023 / 2024 / 2025 yields (beside the US unit's -0.48 at its 2024 yield)", yv("2024", "nonocc_wealth"),
+     f"2023 {yv('2023', 'nonocc_wealth'):+.3f}, 2025 {yv('2025', 'nonocc_wealth'):+.3f}; 2022 {yv('2022', 'nonocc_wealth'):+.3f}")
+
 
 # %% summary
 R = pd.DataFrame(rows)

@@ -1,0 +1,145 @@
+check_id,kind,description,value,reference,diff,tolerance,result,note
+A2022a,crosscheck,Eurostat annual 2022 = mean of its 12 monthly values,1.69,1.688333333,0.001666666667,0.015,PASS,12 months
+A2022b,crosscheck,ECB monthly mean 2022 = Eurostat monthly mean,1.687083333,1.688333333,-0.00125,0.005,PASS,12 months
+A2023a,crosscheck,Eurostat annual 2023 = mean of its 12 monthly values,3.04,3.0375,0.0025,0.015,PASS,12 months
+A2023b,crosscheck,ECB monthly mean 2023 = Eurostat monthly mean,3.037333333,3.0375,-0.0001666666667,0.005,PASS,12 months
+A2024a,crosscheck,Eurostat annual 2024 = mean of its 12 monthly values,2.85,2.8525,-0.0025,0.015,PASS,12 months
+A2024b,crosscheck,ECB monthly mean 2024 = Eurostat monthly mean,2.852833333,2.8525,0.0003333333333,0.005,PASS,12 months
+A2025a,crosscheck,Eurostat annual 2025 = mean of its 12 monthly values,2.99698,3.009166667,-0.01218666667,0.015,PASS,12 months
+A2025b,crosscheck,ECB monthly mean 2025 = Eurostat monthly mean,3.0095,3.009166667,0.0003333333333,0.005,PASS,12 months
+A0,identity,yield used for 2022 (fi_lvt_inputs),0.0169,0.0169,0,2e-09,PASS,
+B1,identity,"s_d (residual: 1 - N111 / survey dwellings, 2023)",0.1971155535,0.1971155535,1.597602606e-11,2e-09,PASS,
+B2,identity,s_f (N211 residual after dwelling land),0.7630771337,0.7630771337,-2.919675612e-11,2e-09,PASS,
+B3,identity,carry 2023 -> 2022 = N211 end-2022 / end-2023,1.041536305,1.041536305,3.370665969e-10,2.08307261e-09,PASS,
+B4,identity,household land 2022 over the survey households = N211 S14 2022 (EUR m),131495,131495,0,0.5,PASS,
+B5,identity,"B2 land per household by decile (max abs diff, EUR)",3.856657713e-05,0,3.856657713e-05,0.001,PASS,"values of EUR 10,000-125,000 stored at 10 significant digits"
+B6,crosscheck,N211/(N211+N111) 2022 (the upper bound),0.259109575,0.2591,9.575004729e-06,0.0005,PASS,README_fin: 25.9%
+C1,crosscheck,"VAT dividend, post convention (rebuild: 193.01)",193.0053685,193.0054,-3.149258757e-05,0.001,PASS,
+C2,crosscheck,"VAT dividend, coherent convention (rebuild: 198.82)",198.8246052,198.8246,5.24418553e-06,0.001,PASS,
+C3,identity,"bridge-equivalent charge on land value (B2, % a year)",8.863235599,8.863235599,8.660094863e-11,1e-06,PASS,
+C4,identity,"bridge-equivalent phi (B2, m1, 2022) = charge / yield",5.244518106,5.244518106,1.340838551e-10,1e-06,PASS,
+C5,identity,"full-capture dividend (B2, m1, 2022), EUR/share/month",37.15272008,37.15272008,4.626485861e-10,1e-06,PASS,
+C6,identity,full-capture dividend / VAT dividend,0.1868617822,0.1868617822,8.060468959e-12,2e-09,PASS,
+C7,identity,full-capture dividend at yield + 1.5 (B2),70.12850713,70.12850713,-2.381156605e-09,1e-06,PASS,
+C8,identity,full-capture revenue = 0.98 x yield x land held by HBS households (EUR m),2154.309695,2154.933891,-0.6241959904,1,PASS,quintile pair means weighted by HBS households against the aggregate scaled by households: 0.03% apart
+C9_2023,identity,full-capture share of the VAT dividend at the 2023 yield,0.3361300697,0.3361300697,-4.171374357e-11,2e-09,PASS,
+C9_2024,identity,full-capture share of the VAT dividend at the 2024 yield,0.3151219404,0.3151219404,1.714339781e-11,2e-09,PASS,
+C9_2025,identity,full-capture share of the VAT dividend at the 2025 yield,0.331373387,0.331373387,2.153904832e-11,2e-09,PASS,
+C10,info,household land rent can fund the bridge's dividend at full capture (1 = yes) on m1/m2 at 2022-25 yields,0,,,,INFO,0: no yield-based case funds it
+D_coherent_B1_bridge_bal,identity,"sum_q w_q net_q = 0 (coherent, B1, bridge)",-6.089564408e-09,0,-6.089564408e-09,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_coherent_B1_bridge_bill,identity,"bill_q = tau x land per share / 12 (max abs, coherent, B1, bridge)",5.373877343e-08,0,5.373877343e-08,1e-06,PASS,values stored at 10 significant digits
+D_coherent_B1_full_m1_bal,identity,"sum_q w_q net_q = 0 (coherent, B1, full_m1)",-6.950857667e-10,0,-6.950857667e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_coherent_B1_full_m1_bill,identity,"bill_q = tau x land per share / 12 (max abs, coherent, B1, full_m1)",8.216035852e-09,0,8.216035852e-09,1e-06,PASS,values stored at 10 significant digits
+D_coherent_B1_full_m2_bal,identity,"sum_q w_q net_q = 0 (coherent, B1, full_m2)",-1.475839895e-09,0,-1.475839895e-09,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_coherent_B1_full_m2_bill,identity,"bill_q = tau x land per share / 12 (max abs, coherent, B1, full_m2)",2.41619631e-08,0,2.41619631e-08,1e-06,PASS,values stored at 10 significant digits
+D_coherent_B2_bridge_bal,identity,"sum_q w_q net_q = 0 (coherent, B2, bridge)",1.345600253e-08,0,1.345600253e-08,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_coherent_B2_bridge_bill,identity,"bill_q = tau x land per share / 12 (max abs, coherent, B2, bridge)",3.154153205e-08,0,3.154153205e-08,1e-06,PASS,values stored at 10 significant digits
+D_coherent_B2_full_m1_bal,identity,"sum_q w_q net_q = 0 (coherent, B2, full_m1)",2.827524881e-10,0,2.827524881e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_coherent_B2_full_m1_bill,identity,"bill_q = tau x land per share / 12 (max abs, coherent, B2, full_m1)",3.882192345e-09,0,3.882192345e-09,1e-06,PASS,values stored at 10 significant digits
+D_coherent_B2_full_m2_bal,identity,"sum_q w_q net_q = 0 (coherent, B2, full_m2)",1.126139182e-10,0,1.126139182e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_coherent_B2_full_m2_bill,identity,"bill_q = tau x land per share / 12 (max abs, coherent, B2, full_m2)",2.710993385e-08,0,2.710993385e-08,1e-06,PASS,values stored at 10 significant digits
+D_post_B1_bridge_bal,identity,"sum_q w_q net_q = 0 (post, B1, bridge)",-9.957673797e-09,0,-9.957673797e-09,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_post_B1_bridge_bill,identity,"bill_q = tau x land per share / 12 (max abs, post, B1, bridge)",1.821840101e-07,0,1.821840101e-07,1e-06,PASS,values stored at 10 significant digits
+D_post_B1_full_m1_bal,identity,"sum_q w_q net_q = 0 (post, B1, full_m1)",2.934319454e-10,0,2.934319454e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_post_B1_full_m1_bill,identity,"bill_q = tau x land per share / 12 (max abs, post, B1, full_m1)",8.216035852e-09,0,8.216035852e-09,1e-06,PASS,values stored at 10 significant digits
+D_post_B1_full_m2_bal,identity,"sum_q w_q net_q = 0 (post, B1, full_m2)",9.03995101e-10,0,9.03995101e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_post_B1_full_m2_bill,identity,"bill_q = tau x land per share / 12 (max abs, post, B1, full_m2)",2.41619631e-08,0,2.41619631e-08,1e-06,PASS,values stored at 10 significant digits
+D_post_B2_bridge_bal,identity,"sum_q w_q net_q = 0 (post, B2, bridge)",-5.491898492e-09,0,-5.491898492e-09,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_post_B2_bridge_bill,identity,"bill_q = tau x land per share / 12 (max abs, post, B2, bridge)",3.351421185e-08,0,3.351421185e-08,1e-06,PASS,values stored at 10 significant digits
+D_post_B2_full_m1_bal,identity,"sum_q w_q net_q = 0 (post, B2, full_m1)",6.357279148e-10,0,6.357279148e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_post_B2_full_m1_bill,identity,"bill_q = tau x land per share / 12 (max abs, post, B2, full_m1)",3.882192345e-09,0,3.882192345e-09,1e-06,PASS,values stored at 10 significant digits
+D_post_B2_full_m2_bal,identity,"sum_q w_q net_q = 0 (post, B2, full_m2)",3.052509356e-10,0,3.052509356e-10,1e-06,PASS,nets of EUR 10-200 stored at 10 significant digits
+D_post_B2_full_m2_bill,identity,"bill_q = tau x land per share / 12 (max abs, post, B2, full_m2)",2.710993385e-08,0,2.710993385e-08,1e-06,PASS,values stored at 10 significant digits
+D1,identity,"LVT bridge net Q1 (coherent, B2), EUR",117.0680721,117.0680721,2.465341709e-08,2.341361442e-07,PASS,
+D2,identity,"LVT bridge net Q5 (coherent, B2), EUR",-174.5147526,-174.5147526,3.724170483e-08,3.490295053e-07,PASS,
+D3,identity,LVT bridge net Q5 % of budget,-6.175934675,-6.175934674,-8.237943661e-10,1.235186935e-08,PASS,
+E1,identity,"payer share of owners by decile (max abs diff, scipy lognorm)",4.940725606e-11,0,4.940725606e-11,2e-09,PASS,
+E2,identity,"households paying net under the LVT, all deciles",0.3532427903,0.3532427903,-7.31048555e-12,2e-09,PASS,
+E3,identity,"receipts - payments = net, every decile (max abs, EUR/share/month)",4.000000331e-08,0,4.000000331e-08,1e-06,PASS,
+F1,identity,"hand-to-mouth share by decile, deposits <= income/24 (max abs diff)",4.448905133e-11,0,4.448905133e-11,2e-09,PASS,
+F2,info,hand-to-mouth share D1 / D10 (all households),0.3108787275,,,,INFO,D10 0.075
+G_VAT__bridge,identity,"flow impulse, post's method, % of consumption (VAT  bridge)",0.4219131612,0.4219131612,-3.170091967e-11,2e-09,PASS,
+G_LVT_B2_bridge,identity,"flow impulse, post's method, % of consumption (LVT B2 bridge)",0.771426601,0.7714266015,-5.000353465e-10,2e-09,PASS,
+G_LVT_B2_full_m1,identity,"flow impulse, post's method, % of consumption (LVT B2 full_m1)",0.1441501495,0.1441501495,-2.739641847e-11,2e-09,PASS,
+G_LVT_B2_full_m2,identity,"flow impulse, post's method, % of consumption (LVT B2 full_m2)",0.2720940692,0.2720940692,4.426886635e-11,2e-09,PASS,
+G_LVT_B1_full_m1,identity,"flow impulse, post's method, % of consumption (LVT B1 full_m1)",0.1190842589,0.1190842588,7.30503158e-11,2e-09,PASS,
+G1,identity,charted LVT bars with the VAT bar's sign (of 37),37,37,0,7.4e-08,PASS,
+G2,crosscheck,all LVT bars / flow = the division-parent over-allocation (rebuild: 1.052),1.05218487,1.0522,-1.513011975e-05,0.002,PASS,
+G3,crosscheck,VAT rent bar on the post's euro conversion (rebuild 4.928; published 4.92),4.927576585,4.9276,-2.3415e-05,0.001,PASS,
+G4,identity,"tenure-aware LVT bars over all categories / flow (Engel, division parents)",1.052182867,1.05,0.002182866855,0.03,PASS,the tenure baskets keep adding-up to the division-parent factor
+G5,info,tenure-aware LVT rent bar / quintile-netted rent bar,2.457247602,,,,INFO,
+H1,identity,"VAT price step, central (0.15 x VAT-able share x 0.9), %",8.929665475,8.929665475,-2.14946283e-10,1.785933095e-08,PASS,
+H2,identity,"VAT levy channel, lambda 0.35, 3.5c (% of consumption)",-0.5591634714,-0.5591634714,-1.163869001e-11,2e-09,PASS,
+H3,crosscheck,"HBS consumption = 39,808 x 2,919,000 (EUR m)",116197.0144,116199.552,-2.537618,5,PASS,"the published EUR 39,808 is rounded"
+H4,crosscheck,"mortgaged owners' aggregate LTV (151z: 106,965 / 222,127)",0.4815487178,0.4815488437,-1.258796842e-07,0.001,PASS,
+H5,identity,mortgaged owners crossing 80% LTV at full capture (US-shape),121495.6265,121495.6265,-3.962119808e-05,1,PASS,
+H6,identity,"their lost borrowing capacity (EUR m, carried to 2022)",2034.817673,2034.817673,-4.234527751e-07,0.5,PASS,
+H7,identity,"collateral credit effect, 6c (% of consumption)",-0.1050707379,-0.1050707379,-2.024952428e-11,1e-06,PASS,
+H8,identity,"net at impact, flow + credit effect (full capture) = flow + collateral",0.03907941162,0.03907941162,-2.495156859e-13,1e-06,PASS,
+H9,info,"net at impact, full capture, clean reading (% of consumption)",0.03907941162,,,,INFO,"band [-0.011, 0.095]"
+H10,info,"net at impact, full capture, T4-overlap reading",-0.1085126669,,,,INFO,
+H11,info,"net at impact, full capture, non-occupiers on the wealth reading",-1.049188526,,,,INFO,
+H12,identity,the loop: fixed point = round-0 dividend / (1 - phi h ls q),0.1370925748,0.1370925748,4.88011298e-11,0.0002,PASS,the iteration's first-round q against the closed form
+I1,identity,US VAT net at impact in the comparison = us_lvt_macro_channels.csv,-1.369774562,-1.369774562,0,2.739549124e-09,PASS,
+I2,identity,"US full-capture flow + credit effect = US flow (full, L1) + US credit effect (full, L1)",-0.035678538,-0.035678538,-2.081668171e-17,2e-09,PASS,
+I3,crosscheck,"US bridge flow + credit effect = the US unit's headline (clean, L1)",0.1475200316,0.1475200316,0,2e-09,PASS,fails if the US unit changes its headline again: rerun run_lvt_fi.py
+I4,info,"US-Finland gap, VAT at impact (same formulas), points",-1.232524252,,,,INFO,
+I5,info,"US-Finland gap, LVT at phi 0.98, clean reading, points",-0.07475794962,,,,INFO,
+J1,identity,top income decile's share of main-residence value,0.2520250674,0.2520250674,-2.087197082e-11,2e-09,PASS,
+J2,identity,top income decile's share of financial assets,0.5091965003,0.5091965003,-3.775846302e-11,2e-09,PASS,
+J_fig_fi_funding_gap,identity,figure exists: fig_fi_funding_gap.png,1,1,0,2e-09,PASS,
+J_fig_fi_net_by_quintile,identity,figure exists: fig_fi_net_by_quintile.png,1,1,0,2e-09,PASS,
+J_fig_fi_demand_shifts,identity,figure exists: fig_fi_demand_shifts.png,1,1,0,2e-09,PASS,
+J_fig_fi_macro_channels,identity,figure exists: fig_fi_macro_channels.png,1,1,0,2e-09,PASS,
+J_fig_fi_us_compare,identity,figure exists: fig_fi_us_compare.png,1,1,0,2e-09,PASS,
+K1,identity,"bottom half's share of gross LVT payments, one unit (per-household payments x households)",0.1927747417,0.1927747417,4.888200955e-11,2e-09,PASS,the earlier 22.6% weighted per-share payments by households
+K2,identity,gross payments / gross receipts in D1-D2 (one unit),0.1967405253,0.1967405253,8.737510715e-12,2e-09,PASS,
+K3_coherent_lvt,identity,"ghost flips, coherent convention, LVT (charted bars)",13,13,0,2.6e-08,PASS,"coherent 13 / 17, post 12 / 14"
+K3_coherent_vat,identity,"ghost flips, coherent convention, VAT (charted bars)",17,17,0,3.4e-08,PASS,"coherent 13 / 17, post 12 / 14"
+K3_post_lvt,identity,"ghost flips, post convention, LVT (charted bars)",12,12,0,2.4e-08,PASS,"coherent 13 / 17, post 12 / 14"
+K3_post_vat,identity,"ghost flips, post convention, VAT (charted bars)",14,14,0,2.8e-08,PASS,"coherent 13 / 17, post 12 / 14"
+K4a,crosscheck,"s_d band low = the within-region plot gap, rounded (0.150)",0.15,0.15,0,2e-09,PASS,
+K4b,crosscheck,"s_d band high = N211/(N211+N111) in 2022, rounded (0.259)",0.26,0.26,0,2e-09,PASS,
+K4c,identity,"at s_d = 0.26 the N211-held residual s_f would be negative, so s_f = 0 (floored)",0,0,0,2e-09,PASS,residual -0.102; N211 can be held up to s_d = 0.2526
+K4d,identity,at s_d = 0.15 the residual s_f holds N211,1.411112254,1.411112254,-1.326305732e-10,2.822224508e-09,PASS,
+K5_2022_flow,identity,full capture at the 2022 yield: flow impulse (post's method),0.1441501495,0.1441501495,2.578853797e-12,2e-09,PASS,
+K5_2022_nonocc,identity,"full capture at the 2022 yield: non-occupiers on the wealth reading, net",-1.049188526,-1.049188526,3.315063779e-10,2.098377053e-09,PASS,flow + credit effect + (bill response added back - 3.5c x capitalized loss)
+K5_2022_t4,identity,full capture at the 2022 yield: includes the T4 overlap,-0.1085126669,-0.1085126669,2.578853797e-12,2e-09,PASS,
+K5_2023_flow,identity,full capture at the 2023 yield: flow impulse (post's method),0.2592996772,0.2592996772,-2.46158649e-12,2e-09,PASS,
+K5_2023_nonocc,identity,"full capture at the 2023 yield: non-occupiers on the wealth reading, net",-0.4923704293,-0.4923704293,2.351013828e-11,2e-09,PASS,flow + credit effect + (bill response added back - 3.5c x capitalized loss)
+K5_2023_t4,identity,full capture at the 2023 yield: includes the T4 overlap,0.006636860829,0.006636860802,2.653838087e-11,2e-09,PASS,
+K5_2024_flow,identity,full capture at the 2024 yield: flow impulse (post's method),0.2430934474,0.2430934474,2.26920982e-11,2e-09,PASS,
+K5_2024_nonocc,identity,"full capture at the 2024 yield: non-occupiers on the wealth reading, net",-0.5707374207,-0.5707374208,5.426503691e-11,2e-09,PASS,flow + credit effect + (bill response added back - 3.5c x capitalized loss)
+K5_2024_t4,identity,full capture at the 2024 yield: includes the T4 overlap,-0.009569368996,-0.009569369023,2.669209298e-11,2e-09,PASS,
+K5_2025_flow,identity,full capture at the 2025 yield: flow impulse (post's method),0.2556302456,0.2556302456,1.373878789e-11,2e-09,PASS,
+K5_2025_nonocc,identity,"full capture at the 2025 yield: non-occupiers on the wealth reading, net",-0.510114366,-0.510114366,1.483124734e-11,2e-09,PASS,flow + credit effect + (bill response added back - 3.5c x capitalized loss)
+K5_2025_t4,identity,full capture at the 2025 yield: includes the T4 overlap,0.002967429213,0.002967429186,2.673880561e-11,2e-09,PASS,
+K5_2022_main,identity,yield-year table at 2022 = the headline's non-occupier reading,-1.049188526,-1.049188526,0,2.098377052e-09,PASS,
+K6,identity,full capture at the December 2022 yield: share of the bridge's dividend,0.2996422661,0.2996422661,-1.843558639e-11,2e-09,PASS,yield 2.71%
+K6b,identity,"funding share range over every yield case (B2, m1 and m2, 2022-25): max",0.5019837226,0.5019837226,2.520395004e-11,2e-09,PASS,
+K7a,identity,US non-occupier decomposition reproduces the US unit's 2c row,1.383264966,1.383264966,3.055058428e-10,1e-08,PASS,
+K7b,identity,US at the 2022 yield: non-occupiers on the wealth reading,-1.167710797,-1.167710797,1.512818759e-10,2.335421594e-09,PASS,GS10 2022 2.952% / 2024 4.208%
+K7c,identity,US at the 2022 yield: flow + credit effect,-0.3727718458,-0.3727718458,-3.366329437e-11,2e-09,PASS,
+K7d,identity,US at the 2024 yield = the US unit's own non-occupier reading,-0.4774606435,-0.4774606435,-5.551115123e-17,2e-09,PASS,
+K7e,identity,FI at the 2024 yield in the comparison = the yield-year table,-0.5707374207,-0.5707374207,0,2e-09,PASS,
+K7f,identity,US at the 2022 yield: includes the T4 overlap,-1.834146022,-1.834146022,-2.336633109e-10,3.668292044e-09,PASS,
+K8_transacted,identity,"tenure-aware LVT bars (transacted owner allocation), every line (max abs diff, EUR)",1.66963332e-09,0,1.66963332e-09,2e-09,PASS,
+K8_as_allocated,identity,"tenure-aware LVT bars (as_allocated owner allocation), every line (max abs diff, EUR)",1.66963332e-09,0,1.66963332e-09,2e-09,PASS,
+K8_total,identity,re-spreading keeps the total change (all 47 lines),16.26534522,16.26534522,-1.446949227e-10,3.253069044e-08,PASS,
+K8_untx,identity,nothing is booked on imputed rent and loan interest under the transacted allocation (LVT and VAT),0,0,0,2e-09,PASS,
+K8_ms,identity,owners' marginal euro on imputed rent and interest: highest quintile share (18-25%),0.2486084585,0.2486084585,4.341457749e-11,2e-09,PASS,lowest 0.179
+K9,identity,"VAT flow, payers graded by liquidity at owners' hand-to-mouth shares (% of consumption)",0.3621532273,0.3621532273,-2.716366021e-11,2e-09,PASS,0.339 at all households' shares: the LVT/VAT ratio 1.95 is an upper bound
+K10a,identity,loop at ls = 1: multiplier 1 / (1 - phi h q),1.027021618,1.027021618,-7.539679991e-11,2.054043236e-09,PASS,
+K10b,identity,"loop at ls = 1: extra dividend = phi h R0 x multiplier, % of the dividend",1.912598419,1.912598419,4.122124864e-11,0.0002,PASS,iteration against the closed form
+K10c,identity,"VAT's leak to landlords at ls = 1, EUR m a year (rent bar x shares x 12)",243.90154,243.9015401,-5.088779176e-08,1e-06,PASS,
+K11a,identity,renters' own land / N211 2023 (assigned to owners by the owner model),0.02535402533,0.02535402533,6.879878611e-13,2e-09,PASS,
+K11b,identity,"crossers at full capture, log-normal LTVs (sigma 0.6)",108749.0577,108749.0577,-4.928435374e-05,0.001,PASS,
+K11c,identity,"crossers at full capture, US-shape (H5's recomputation)",121495.6265,121495.6265,-3.962119808e-05,1,PASS,
+K11h,identity,hand-to-mouth crossers' share of the lost borrowing capacity (full capture),0.136328114,0.136328114,-3.299530094e-11,2e-09,PASS,the rest belongs to owners with more than half a month's income in deposits
+K11d,identity,US share of mortgaged owners crossing 80% at full capture (us_lvt_collateral.csv),0.3513339314,0.3513339314,0,2e-09,PASS,
+K11e,identity,FI share of mortgaged owners crossing 80% at full capture,0.1396060171,0.1396060171,-9.099054843e-12,1e-06,PASS,
+K11f,identity,"household land per unit of consumption, US / FI",2.29305576,2.29305576,3.460480791e-10,4.58611152e-09,PASS,
+K11g_lvt,identity,"rent's share of the flow impulse (LVT, same revenue)",0.444378984,0.4443789839,5.615746757e-11,2e-09,PASS,
+K11g_vat,identity,"rent's share of the flow impulse (VAT, same revenue)",0.4975039122,0.4975039123,-7.105632749e-11,2e-09,PASS,
+K12,identity,post vs coherent rates table: phi within 0.02 and share within 0.4 points,1,1,0,2e-09,PASS,"phi 0.0165, share 0.321 points"
+K13,info,Finnish non-occupier reading at the 2023 / 2024 / 2025 yields (beside the US unit's -0.48 at its 2024 yield),-0.5707374207,,,,INFO,"2023 -0.492, 2025 -0.510; 2022 -1.049"

@@ -76,12 +76,16 @@ YIELD_FILES = {
 # %% constants: judgment inputs (each is varied in run_lvt_fi.py; bands in the comments)
 # Land share of dwelling values (main residence, other residential property, free-time residences). Central: the
 # paper's residual construction (market value of household dwellings minus their structures at current cost),
-# with the survey's market values and the balance sheet's N111 (computed, not set here). Band: 0.13 = the
-# own-plot vs rented-plot price gap of old housing-company dwellings within region groups (a lower bound: municipal
-# ground rents sit below market, and rented plots cluster in high-price cities); 0.24 = N211 / (N211 + N111) in
-# 2023 (an upper bound: N211 also holds forest and farmland). Within the band the N211 total is held, so the
-# forest/farmland/business share moves the other way.
-S_D_BAND = (0.13, 0.24)
+# with the survey's market values and the balance sheet's N111 (computed, not set here). It mixes two valuations:
+# market prices (plot and building together) and replacement cost for the building, so any gap between a
+# building's market value and its replacement cost lands in the land share. Band, set from the unit's own evidence
+# (out/fi_lvt_land_evidence.csv): 0.15 = the own-plot vs rented-plot price gap of old housing-company dwellings
+# within region groups, sales-weighted (0.150; a lower bound: municipal ground rents sit below market, and rented
+# plots cluster in high-price cities); 0.26 = N211 / (N211 + N111) in the flow year 2022 (0.259; an upper bound:
+# N211 also holds forest and farmland; 0.239 in 2023). The N211 total is held where it can be: above
+# N211_2023 / survey dwellings (0.253) the forest/farmland/business share would turn negative, so it is floored at 0
+# and household land then exceeds N211 (land_shares, rule 'fix_sd').
+S_D_BAND = (0.15, 0.26)
 # Land share of the survey's forest + farmland + business item. Central: the residual N211 leaves after dwelling
 # land (computed). Band 0.5-1.5 at a fixed dwelling share (the total then departs from N211): the item mixes forest
 # at the bare-land taxation value (below market, per the publisher), farmland at purchase prices, and business net
@@ -91,7 +95,9 @@ S_F_BAND = (0.5, 1.5)
 MPW = {"low": 0.02, "mid": 0.035, "high": 0.05}
 # Housing-collateral response per euro per year for mortgaged owners whose LTV crosses a borrowing threshold, the US
 # unit's band after its T4-overlap fix: low 4.7c (Aladangady 2017), mid 6c and lit_high 7c (Mian-Rao-Sufi 2013: 5-7c),
-# stress 10c (judgment, no source). Those estimates come from house-price changes that carry no tax bill. Under an LVT
+# stress 10c (judgment, no source). All are US estimates transplanted to Finland (a judgment: no Finnish estimate is
+# in the vendored data), applied here to lost borrowing capacity rather than to the house-price changes they were
+# estimated on. Those estimates come from house-price changes that carry no tax bill. Under an LVT
 # an owner-occupier's capitalized land loss IS the present value of the bill (T4), which the flow already charges at
 # the owner's MPC, so the clean concept is the crossers' lost BORROWING CAPACITY (a credit effect on top of the bill);
 # applied to their lost equity the same cents count the bill twice ("includes the T4 overlap"), a band edge only.
@@ -129,6 +135,14 @@ HH_LANDLORD_SHARE = {"low": 0.40, "mid": 0.55, "high": 0.70}
 RENTER_ONLY = ["04.1 Actual rents"]
 OWNER_ONLY = ["04.2 Imputed rentals (off-chart)", "04.6 Interest on housing loans (off-chart)"]
 OWNER_PART = {"04.4 Water & misc. dwelling services": "maintenance charges of housing companies"}
+# Lines on which nothing is transacted at impact: imputed rent (owners' own housing services; the post leaves it off
+# its chart because nothing changes hands) and interest on housing loans (set by the loan contract). Main
+# ('transacted'): owners' consumption changes are spread over the lines they transact, each other line's marginal
+# share scaled up so the owner's total change is kept. Sensitivity ('as_allocated'): the Working-model allocation
+# at the owner basket as it stands, which books 18-25% of an owner's marginal euro on these two lines (an accounting
+# artifact: an owner cannot cut the rent it imputes to itself or the interest it owes).
+UNTRANSACTED = ["04.2 Imputed rentals (off-chart)", "04.6 Interest on housing loans (off-chart)"]
+OWNER_BASKETS = ("transacted", "as_allocated")
 
 
 # %% loading: wealth survey, balance sheet, national accounts, yields
@@ -207,6 +221,11 @@ def yield_of(year, spread=0.0, ylds=None):
     return (float(y.loc[year, "eurostat_annual"]) + spread) / 100.0
 
 
+def yield_month(ym):
+    """One month of Eurostat's monthly 10-year yield (same EMU convergence series), in decimal; ym like '2022-12'."""
+    return float(jsonstat_series(common.fetch(*YIELD_FILES["eurostat_monthly"]))[ym]) / 100.0
+
+
 # %% land: shares, calibration, holdings by decile and quintile
 def survey_totals(df=None):
     """Households per decile and the survey's mean values of the land-bearing items (2023 euros, per household);
@@ -223,7 +242,9 @@ def land_shares(rule="residual", s_d=None, s_f=None, year=YEAR_SURVEY):
     'residual'  s_d = 1 - N111 / (survey dwelling value): the paper's land residual (market value of dwellings minus
                 structures at current cost); s_f = (N211 - s_d x dwellings) / forest-farmland-business, so the total
                 equals the balance sheet's household land N211 in the survey year.
-    'fix_sd'    s_d given, s_f from N211 (the total held at N211).
+    'fix_sd'    s_d given, s_f from N211 (the total held at N211); where that residual would be negative (s_d above
+                N211 / survey dwellings, 0.253 in 2023) s_f is floored at 0 and the total exceeds N211 (n211_held
+                False): forest and farmland cannot carry negative land.
     'fixed'     both given (the total departs from N211)."""
     _, _, tot = survey_totals()
     HW = sum(tot[c] for c in HW_ITEMS)
@@ -233,12 +254,13 @@ def land_shares(rule="residual", s_d=None, s_f=None, year=YEAR_SURVEY):
         s_d = 1.0 - n111 / HW
         s_f = (n211 - s_d * HW) / FFB
     elif rule == "fix_sd":
-        s_f = (n211 - s_d * HW) / FFB
+        s_f = max((n211 - s_d * HW) / FFB, 0.0)
     elif rule != "fixed":
         raise ValueError(rule)
     land = s_d * HW + s_f * FFB
     return dict(rule=rule, s_d=float(s_d), s_f=float(s_f), dwellings_meur=HW, ffb_meur=FFB, n211_meur=n211,
-                n111_meur=n111, land_meur=land, land_over_n211=land / n211, year=year)
+                n111_meur=n111, land_meur=land, land_over_n211=land / n211, n211_held=bool(abs(land / n211 - 1.0) < 1e-12),
+                s_d_max_n211_held=n211 / HW, year=year)
 
 
 def carry_factor(rule="end2022"):
@@ -490,16 +512,36 @@ def fi_tenure_model(m, p_owner_q, food_map="F3"):
     return out
 
 
-def shifts_tenure_aware(m, tm, dc_owner, dc_renter, p_owner_q):
+def tenure_marginal_shares(tm, owner_basket="transacted"):
+    """Marginal budget shares eta C / B by line (rows) and quintile (columns) for each tenure basket of
+    fi_tenure_model. owner_basket='transacted' (main): the owner basket's shares on the UNTRANSACTED lines are set to 0
+    and every other line's share is scaled by S_q / (S_q - u_q), S_q the basket's total marginal share (about 1.05,
+    the division-parent factor) and u_q its untransacted part, so each quintile's owners change their spending by the
+    same total, on lines they transact. 'as_allocated' (sensitivity): the Working-model shares as they stand. Renters'
+    baskets hold none of the untransacted lines (structural 0), so they are the same either way."""
+    if owner_basket not in OWNER_BASKETS:
+        raise ValueError(owner_basket)
+    out = {}
+    for name, (Ct, eta_t) in tm.items():
+        sh = Ct.div(Ct.sum(), axis=1) * eta_t
+        if name == "owner" and owner_basket == "transacted":
+            S, u = sh.sum(), sh.loc[UNTRANSACTED].sum()
+            sh = sh * (S / (S - u))
+            sh.loc[UNTRANSACTED] = 0.0
+        out[name] = sh
+    return out
+
+
+def shifts_tenure_aware(m, tm, dc_owner, dc_renter, p_owner_q, owner_basket="transacted"):
     """Category shifts (euros per share per month, population mean) with each tenure group's consumption change
-    spread over its own basket: sum_q w_q [p_q dc_o,q eta^o C^o / B^o + (1 - p_q) dc_r,q eta^r C^r / B^r].
+    spread over its own basket: sum_q w_q [p_q dc_o,q s^o_q + (1 - p_q) dc_r,q s^r_q], s the marginal shares of
+    tenure_marginal_shares (owners' changes on transacted lines unless owner_basket='as_allocated').
     dc_* are per share of the tenure group (payment shares split by tenure in proportion to households)."""
     po = pd.Series(np.asarray(p_owner_q, float), index=m["C"].columns)
+    shares = tenure_marginal_shares(tm, owner_basket)
     out = pd.Series(0.0, index=m["C"].index)
     for name, pt, dc in [("owner", po, dc_owner), ("renter", 1.0 - po, dc_renter)]:
-        Ct, eta_t = tm[name]
-        share = Ct.div(Ct.sum(), axis=1) * eta_t
-        out = out + (share * (m["w"] * pt * pd.Series(np.asarray(dc, float), index=Ct.columns)).values).sum(axis=1)
+        out = out + (shares[name] * (m["w"] * pt * pd.Series(np.asarray(dc, float), index=m["C"].columns)).values).sum(axis=1)
     return out
 
 
@@ -664,8 +706,20 @@ def loop_closed_form(m, R0, phi, ls, h_landlord, key_q, mpc, max_iter=200, tol=1
 
 
 # %% US side, read only (the US unit's outputs and the SCF for the method check)
+GS10_FILE = REPO / "pinning" / "cache" / "GS10.csv"        # the paper's vendored FRED copy: the US unit's yield source
+
+
 def us_out(name):
     return pd.read_csv(OUT / name)
+
+
+def us_gs10_annual(year):
+    """Annual mean of the monthly 10-year Treasury yield (GS10), % a year: the US unit's own yield source and rule
+    (lvt_us.gs10_annual), read here only to put the US full-capture readings on another year's yield."""
+    g = pd.read_csv(GS10_FILE, parse_dates=["observation_date"])
+    g = g[g["observation_date"].dt.year == year]
+    assert len(g) == 12, (year, len(g))
+    return float(g["GS10"].mean())
 
 
 def us_scf_mortgaged(cpi_25_to_24=4750.0 / 4625.0):

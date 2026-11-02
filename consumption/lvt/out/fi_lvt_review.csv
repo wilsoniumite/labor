@@ -1,0 +1,45 @@
+item,value,unit,note
+yield_2022_12_pct,2.71,% a year,"Eurostat monthly, December 2022"
+full_capture_share_dec2022_yield,0.2996422661,share of the VAT dividend,"B2, coherent, phi 0.98 at the December 2022 yield"
+full_capture_share_min_yield_cases,0.1868617822,share of the VAT dividend,"B2, m1 and m2, 2022-2025 annual yields"
+full_capture_share_max_yield_cases,0.5019837226,share of the VAT dividend,"B2, m1 and m2, 2022-2025 annual yields"
+post_vs_coherent_max_abs_diff_phi,0.01653878382,phi,"rates table rows, B1 and B2, every measure and yield year"
+post_vs_coherent_max_abs_diff_share_pts,0.3214714684,points of the VAT dividend,largest on the housing-services rows (m3-m5)
+bottom_half_share_of_gross_lvt_payments,0.1927747417,share,"D1-D5, per-share payments x shares per household x households (one unit); the same at any rate"
+gross_payments_over_receipts_d1_d2,0.1967405253,ratio,"D1-D2, same unit"
+households_paying_net_lvt,0.3532427903,share,owner model (renters' land assigned to owners); any rate
+renters_share_of_household_land,0.02535402533,share,"151z 2023 renters' other dwellings and cottages x s_d plus forest/farmland/business x s_f, over N211 2023; the owner model assigns it to owners"
+renters_share_of_households,0.36,share,151u 2023: households without a main residence
+vat_flow_liq_grade_owner_htm_shares,0.3621532273,% of consumption,VAT payers given owners' hand-to-mouth shares (the LVT payers' grade)
+lvt_vat_ratio_liq_grade,1.946457731,ratio,"same revenue, B2, coherent: an upper bound"
+lvt_vat_ratio_liq_grade_owner_shares,1.820515497,ratio,both instruments' payers at owners' hand-to-mouth shares
+ghost_flips_coherent_lvt,13,bars of 37,"charted bars whose MPC=1 ghost and MPC-adjusted bar differ in sign (B2, same revenue)"
+ghost_flips_coherent_vat,17,bars of 37,"charted bars whose MPC=1 ghost and MPC-adjusted bar differ in sign (B2, same revenue)"
+ghost_flips_post_lvt,12,bars of 37,"charted bars whose MPC=1 ghost and MPC-adjusted bar differ in sign (B2, same revenue)"
+ghost_flips_post_vat,14,bars of 37,"charted bars whose MPC=1 ghost and MPC-adjusted bar differ in sign (B2, same revenue)"
+ghost_flip_vehicle_operation_under_both_all_conventions,1,1 = yes,
+rent_share_of_flow_lvt,0.444378984,share,"rent bar / flow impulse (coherent, same revenue, post's method)"
+rent_share_of_charted_lvt,0.3977396079,share,rent bar / sum of the 37 charted bars
+rent_share_of_flow_vat,0.4975039122,share,"rent bar / flow impulse (coherent, same revenue, post's method)"
+rent_share_of_charted_vat,0.4347400757,share,rent bar / sum of the 37 charted bars
+owner_marginal_share_untransacted_min,0.1786841272,share of an owner's marginal euro,"imputed rent + housing-loan interest, owner basket, by quintile"
+owner_marginal_share_untransacted_max,0.2486084585,share of an owner's marginal euro,
+quintile_marginal_share_untransacted_min,0.05054206158,share of the marginal euro,the post's quintile-average basket
+quintile_marginal_share_untransacted_max,0.2054398893,share of the marginal euro,
+owners_change_lvt_b2_bridge_wealth,-37.82487124,EUR per share per month,owners' total change (the same under both allocations)
+owners_change_on_untransacted_as_allocated,-8.320118301,EUR per share per month,"LVT B2, bridge rate, wealth grade, coherent"
+tenure_aware_charted_total_lvt_b2_wealth_transacted,22.83398679,EUR per share per month,the 37 charted bars
+tenure_aware_charted_total_lvt_b2_wealth_as_allocated,30.8018507,EUR per share per month,the 37 charted bars
+crossers_80_full_us_shape,121495.6265,mortgaged owners,SCF 2025 within-decile LTV shape rescaled to each Finnish decile
+crossers_80_full_lognormal_sigma_low,123433.0849,mortgaged owners,"log-normal LTVs, sigma 0.5"
+crossers_80_full_lognormal_sigma_mid,108749.0577,mortgaged owners,"log-normal LTVs, sigma 0.6"
+crossers_80_full_lognormal_sigma_high,86344.76543,mortgaged owners,"log-normal LTVs, sigma 0.8"
+htm_share_of_crossers_lost_capacity,0.136328114,share,"full capture, US-shape: decile hand-to-mouth shares scaled by 151z's mortgaged-owner ratio"
+loop_ls1_multiplier,1.027021618,ratio,"full capture, B2, household landlords 0.55, land share of a rent change 1"
+loop_ls1_extra_dividend_pct,1.912598419,% of the dividend,same
+vat_leak_to_landlords_ls1_meur,243.90154,EUR million a year,"the VAT dividend's rent bar, all of it land rent"
+vat_leak_to_landlords_ls1_capitalized_meur,14432.04379,EUR million,capitalized at the 2022 yield
+us_over_fi_land_per_consumption,2.29305576,ratio,"household land / survey consumption, US (Z.1 2024 / CE 2024) over FI (N211 2022 / HBS 2022)"
+us_share_of_mortgaged_crossing_80_full,0.3513339314,share,"US unit, full capture, L1"
+fi_share_of_mortgaged_crossing_80_full,0.1396060171,share,"FI, full capture, US-shape"
+us_gs10_2022_pct,2.951666667,% a year,pinning/cache/GS10.csv annual mean (the US unit's yield source)

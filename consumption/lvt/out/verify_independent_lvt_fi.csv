@@ -182,7 +182,7 @@ n,area,status,claim,builder,mine,note
 181,H demand shifts,OK,"Fig 3 analogue: Q5 supplies 98-99% of every top-10 withdrawal under the LVT, 71-91% under the VAT",98-99 / 71-91,97.6-99.4 / 71.1-90.5,"mechanical: the LVT's Q4 nets to -1.4, so quintile netting leaves only Q5 to withdraw (inside Q4, 40% of households pay); double-rounded print: 90.455 printed 91"
 182,H demand shifts,BAD,"ghost flips (MPC=1 ghost vs MPC-adjusted bar): 12 LVT, 14 VAT, in the section's coherent convention; vehicle operation flips under both",12 / 14,13 / 17,12 / 14 are the POST convention's counts (12 / 14); the section is coherent (13 / 17). No code computes them (run_lvt_fi.py stores dEUR_mpc1 only). Say 'post convention' or print 13 / 17; vehicle operation flips under both in both conventions: True
 183,H demand shifts,OK,"under the wealth grade 35 of 37 bars keep their sign; tools -0.005 -> +0.013, other services -0.006 -> +0.16",35; 2 flips,"35; 05.5 -0.005->+0.013, 13.9 -0.006->+0.163",
-184,H demand shifts,OK,"tenure-aware bars, every version (max abs diff, EUR)",fi_lvt_tenure_aware.csv,1.6696e-09,
+184,H demand shifts,BAD,"tenure-aware bars, every version (max abs diff, EUR)",fi_lvt_tenure_aware.csv,9.5494,
 185,H demand shifts,OK,tenure-aware table: LVT B2 (wealth grade) and VAT,+16.88/+4.42 ; +2.05/+0.95 ; -0.36/-0.42 ; -0.73/+0.22 ; -7.89/-1.03 ; -0.43/-0.05,+16.880/+4.415 ; +2.049/+0.947 ; -0.355/-0.421 ; -0.725/+0.222 ; -7.891/-1.026 ; -0.429/-0.050,double-rounded print: -0.72453 printed -0.73
 186,H demand shifts,OK,tenure-aware LVT rent bar 2.5 x the quintile-netted one (EUR 16.9 vs 6.9),2.5,2.4572,"the same under the post's schedule (renters receive at the schedule either way), so the factor is the baskets, not the wealth grade"
 187,H demand shifts,OK,tenure-aware bars over all 47 lines = flow x 1.05 (division-parent over-allocation),1.05,1.0522,
@@ -247,7 +247,7 @@ n,area,status,claim,builder,mine,note
 246,L US compare,OK,US full-capture non-occupier change -0.44 (US unit's output),-0.44,-0.44178,
 247,L US compare,OK,what is behind it: land share 0.416 vs 0.197; land / consumption 2.6 vs 1.1; r 4.21% (2024) vs 1.69% (2022); land rent 10.9% vs 1.9% of consumption; US phi 0.85,0.416; 2.6/1.1; 4.21; 10.9/1.9; 0.85,0.416; 2.59/1.13; 4.21; 10.9/1.89; 0.848,
 248,L US compare,OK,'Under the VAT the whole US-Finland gap is the levy on net worth (1.2 points at impact; 0.7 in the post)',1.2 / 0.7,-1.200 of -1.233; post -0.691 of -0.73,post: (central - flow-only) gap from P662/P663 (US) and P878 + Fig 10 flow-only (FI)
-249,M robustness,OK,robustness rows (18 variants x 10 statistics; max abs diff vs fi_lvt_robustness.csv),fi_lvt_robustness.csv,4.9086e-08,
+249,M robustness,BAD,robustness rows (18 variants x 10 statistics; max abs diff vs fi_lvt_robustness.csv),fi_lvt_robustness.csv,2.7509,
 250,M robustness,OK,robustness table: main,5.24 / 0.187 / -174.5 / 0.771 / 0.039 / -0.109,5.245 / 0.1869 / -174.5 / 0.7714 / 0.03908 / -0.1085,
 251,M robustness,OK,robustness table: s_d 0.13 / 0.24,-166.9 / -179.4 / 0.717 / 0.806 / 0.086 / -0.008,-166.9 / -179.4 / 0.7167 / 0.8064 / 0.0864 / -0.008081,
 252,M robustness,OK,robustness table: s_f 0.5 / 1.5,5.67 / 4.33 / 0.173 / 0.226 / -176.4 / -170.6 / 0.785 / 0.743 / 0.03 / 0.063,5.674 / 4.327 / 0.1727 / 0.2265 / -176.4 / -170.6 / 0.7846 / 0.7433 / 0.03044 / 0.06329,
@@ -284,6 +284,6 @@ n,area,status,claim,builder,mine,note
 283,N review,OK,"'concentration feeds only the flow channel. There, the US raises more demand per euro, not less' (same revenue)",US > FI,US 0.196 vs FI 0.144 at 1.85% of consumption,
 284,N review,OK,"'bridge.py is imported, not forked, and was not edited' (rebuild gates untouched)",unchanged,unchanged,byte-identical to HEAD
 285,N review,OK,yield files vendored once via common.fetch with MANIFEST rows whose sha256 match the files,3 files,3 of 3 match,
-286,N review,OK,the builder's checks: '85 PASS / 0 FAIL / 8 INFO',85 / 0 / 8,85 / 0 / 8,
-287,N review,OK,every NOTES_fi.md phrase the BAD claims quote is verbatim in the NOTES,13 phrases,13 found,
+286,N review,BAD,the builder's checks: '85 PASS / 0 FAIL / 8 INFO',85 / 0 / 8,135 / 0 / 9,
+287,N review,BAD,every NOTES_fi.md phrase the BAD claims quote is verbatim in the NOTES,13 phrases,6 found,"+0.04% [−0.01, +0.10]; about where the post put the Finnish VAT (+0.04%); 12 of the LVT's bars flip sign; 0.13 (own vs rented plot price gap within region groups, a lower bound); net at full capture +0.09 to −0.01; Low yields make Finnish land expensive relative to its rent; against 71-91% under the VAT"
 288,N review,BAD,"printed numbers that only a double rounding reproduces (rounded to 3 decimals, then to 2)",,6 values,"0.42464 printed 0.43 (demand-shift table, VAT and LVT B2 (post's method, same reve); 90.455 printed 91 (Fig 3 analogue: Q5 supplies 98-99% of every top-10 withdrawa); -0.72453 printed -0.73 (tenure-aware table: LVT B2 (wealth grade) and VAT); -0.29477 printed -0.3 (T4-overlap band [-0.30, -0.20], stress -0.42); 0.094763 printed 0.1 (macro table: net at impact, flow + credit effect (2022 yield); 5.2445 printed 5.25 (robustness table: 14qa composition). Print from the unrounded values (e.g. the headline band's top +0.0948 is +0.09, not +0.10)"
