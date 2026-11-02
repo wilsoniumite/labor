@@ -1,0 +1,9 @@
+User-agent: AhrefsBot
+Disallow: /
+
+User-Agent: *
+Disallow: /suomi-seura/ 
+Disallow: /tiku/
+Disallow: /hae?
+Disallow: /tilasto/dokumentaatio/
+

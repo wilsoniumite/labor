@@ -1,0 +1,166 @@
+check_id,kind,table,description,value,reference,diff,tolerance,passed,note
+hbs_tree_per_household_year,consistency,ktutk 14pg,"2022, per_household_year: every parent = sum of its children (code 0 = divisions 01-13 + 77; 04 includes 04.6 interest on housing loans); max abs diff over 942 complete sets (324 sets skipped: a child suppressed)",3,0,3,3,True,whole-euro rounding
+hbs_tree_per_cu_year,consistency,ktutk 14pg,"2022, per_cu_year: every parent = sum of its children (code 0 = divisions 01-13 + 77; 04 includes 04.6 interest on housing loans); max abs diff over 942 complete sets (324 sets skipped: a child suppressed)",3,0,3,3,True,whole-euro rounding
+hbs_tree_per_household_month,consistency,ktutk 14pg,"2022, per_household_month: every parent = sum of its children (code 0 = divisions 01-13 + 77; 04 includes 04.6 interest on housing loans); max abs diff over 942 complete sets (324 sets skipped: a child suppressed)",2,0,2,3,True,whole-euro rounding
+hbs_tree_per_cu_month,consistency,ktutk 14pg,"2022, per_cu_month: every parent = sum of its children (code 0 = divisions 01-13 + 77; 04 includes 04.6 interest on housing loans); max abs diff over 942 complete sets (324 sets skipped: a child suppressed)",2,0,2,3,True,whole-euro rounding
+hbs_share_total_share_household_pct,consistency,ktutk 14pg,"2022 share_household_pct of code 0, max abs deviation from 100",0,0,0,0,True,
+hbs_share_divsum_share_household_pct,consistency,ktutk 14pg,2022 share_household_pct: divisions 01-13 + 77 sum to 100 (max abs deviation over groups),0.1,0,0.1,0.5,True,one-decimal rounding of 14 shares
+hbs_share_total_share_cu_pct,consistency,ktutk 14pg,"2022 share_cu_pct of code 0, max abs deviation from 100",0,0,0,0,True,
+hbs_share_divsum_share_cu_pct,consistency,ktutk 14pg,2022 share_cu_pct: divisions 01-13 + 77 sum to 100 (max abs deviation over groups),0.2,0,0.2,0.5,True,one-decimal rounding of 14 shares
+hbs_month_x12_vs_year,consistency,ktutk 14pg,"2022: |12 x monthly - yearly|, max over all codes, groups, per household and per consumption unit (EUR)",6,0,6,6.5,True,monthly figures are rounded to whole euros: 12 x 0.5 + 0.5
+hbs_2022prices_eq_current,consistency,ktutk 14pg,2022: every 2022-prices cell equals the current-prices cell (1 = true),1,1,0,0,True,
+hbs_no_unflagged_missing,consistency,ktutk 14pg,2022: cells with no value and no status symbol,0,0,0,0,True,
+hbs_codes_with_empty_cu_cell,info,ktutk 14pg,"2022: COICOP codes with at least one empty per-CU-year cell (any group; suppressed, not asked, missing or not applicable)",116,,,,,
+hbs_rel_food_share_q1,crosscheck,ktutk 14pg,"Q1 share of 01 food in consumption (per-household basis), release: '18 per cent'",17.7,18,-0.3,0.5,True,release 2024-04-11
+hbs_rel_food_share_q5,crosscheck,ktutk 14pg,"Q5 share of 01 food, release: '12 per cent'",11.7,12,-0.3,0.5,True,release 2024-04-11
+hbs_rel_housing_share_q1,crosscheck,ktutk 14pg,"Q1 share of 04 housing and energy, release: '39 per cent'",38.6,39,-0.4,0.5,True,release 2024-04-11
+hbs_rel_food_housing_share_q1,crosscheck,ktutk 14pg,"Q1 share of 01 + 04, release: '56 per cent'",56.3,56,0.3,0.5,True,release 2024-04-11
+hbs_rel_housing_eur_q1,crosscheck,ktutk 14pg,"Q1 04 housing and energy, EUR per consumption unit per month, release: 'approximately EUR 560'",556,560,-4,5,True,release 2024-04-11
+hbs_rel_housing_eur_q5,crosscheck,ktutk 14pg,"Q5 04 housing and energy, EUR per consumption unit per month, release: 'approximately EUR 1,100'",1112,1100,12,50,True,release 2024-04-11
+hbs_rel_food_share_change,crosscheck,ktutk 14pg,"all households, share of 01 food 2022 minus 2016 (pp), release: 'grew ... by one percentage point'",1.2,1,0.2,0.5,True,release 2024-04-11
+hbs_prelim_per_cu,info,ktutk 14pg,"all households, EUR per consumption unit per year, final table vs preliminary release 2023-12-28 ('EUR 27,800')",28354,27800,554,,,preliminary vintage; the final figure is 2.0% higher
+hbs_prelim_per_hh,info,ktutk 14pg,"all households, EUR per household per year, final table vs preliminary release ('EUR 39,000')",39808,39000,808,,,preliminary vintage
+hbs_14qa_income_2022eur_eq_nominal,consistency,ktutk 14qa,2022: disposable income in 2022 euros equals nominal (max abs diff),0,0,0,0,True,
+hbs_14qa_households_sum,consistency,ktutk 14qa,2022: quintile households sum to the total,2919000,2919000,0,5,True,
+hbs_household_quintiles,consistency,ktutk 14qa,"2022: each income quintile holds 20% of households (max abs deviation, pp)",0.0372045221,0,0.0372045221,0.1,True,"the HBS quintiles are quintiles of households, unlike the person quintiles and deciles of tjt"
+hbs_households_vs_documentation,crosscheck,ktutk 14qa,"2022 households in population vs documentation 'In 2022, there were 2.919 million households'",2919000,2919000,0,500,True,
+hbs_hh_over_cu_vs_14qa_total,info,ktutk 14pg/14qa,total: per-household / per-consumption-unit total consumption vs 14qa mean consumption units per household,1.403964167,1.39,0.01396416731,,,not equal: per-CU figures are not per-household figures divided by the mean CU (method not documented)
+hbs_hh_over_cu_vs_14qa_q1,info,ktutk 14pg/14qa,q1: per-household / per-consumption-unit total consumption vs 14qa mean consumption units per household,1.167191118,1.18,-0.01280888203,,,not equal: per-CU figures are not per-household figures divided by the mean CU (method not documented)
+hbs_hh_over_cu_vs_14qa_q2,info,ktutk 14pg/14qa,q2: per-household / per-consumption-unit total consumption vs 14qa mean consumption units per household,1.35142015,1.36,-0.008579849946,,,not equal: per-CU figures are not per-household figures divided by the mean CU (method not documented)
+hbs_hh_over_cu_vs_14qa_q3,info,ktutk 14pg/14qa,q3: per-household / per-consumption-unit total consumption vs 14qa mean consumption units per household,1.412802641,1.43,-0.01719735877,,,not equal: per-CU figures are not per-household figures divided by the mean CU (method not documented)
+hbs_hh_over_cu_vs_14qa_q4,info,ktutk 14pg/14qa,q4: per-household / per-consumption-unit total consumption vs 14qa mean consumption units per household,1.464004571,1.47,-0.005995429152,,,not equal: per-CU figures are not per-household figures divided by the mean CU (method not documented)
+hbs_hh_over_cu_vs_14qa_q5,info,ktutk 14pg/14qa,q5: per-household / per-consumption-unit total consumption vs 14qa mean consumption units per household,1.473368188,1.5,-0.02663181206,,,not equal: per-CU figures are not per-household figures divided by the mean CU (method not documented)
+tjt12ew_decile_sum_2022,consistency,tjt 12ew,"2022: deciles sum to total (households and persons, every stage; max abs diff)",2,0,2,3,True,
+tjt12ew_stage_sum_2022,consistency,tjt 12ew,2022: stages 1-4 sum to all households (max abs diff),1,0,1,3,True,
+tjt12ew_person_deciles_2022,consistency,tjt 12ew,"2022: each decile holds 10% of persons (max abs deviation, pp)",0.03224834545,0,0.03224834545,0.1,True,deciles are formed among persons
+tjt12ew_pct_meaning_2022,consistency,tjt 12ew,"2022: 'desiprosentti' = 100 x stage households / decile households (max abs diff, pp)",0.04967070254,0,0.04967070254,0.06,True,
+tjt12ew_grouppct_meaning_2022,consistency,tjt 12ew,"2022: 'ryhmaprosentti' = 100 x decile households / stage households (max abs diff, pp)",0.04974969577,0,0.04974969577,0.06,True,
+tjt12ew_one_person_2022,consistency,tjt 12ew,"2022: persons per household in stages 1, 1.1-1.3 (one-person households), max abs deviation from 1, every decile",0,0,0,0.001,True,
+tjt12ew_couples_2022,consistency,tjt 12ew,"2022: persons per household in stages 2, 2.1-2.3 (childless couples), max abs deviation from 2, every decile",0.0001534919417,0,0.0001534919417,0.001,True,
+tjt12ew_pph_stage31_2022,info,tjt 12ew,"2022: persons per household, stage 31 (3.1 Couples with children), all deciles",4.067226494,,,,,
+tjt12ew_pph_stage32_2022,info,tjt 12ew,"2022: persons per household, stage 32 (3.2 Single-parent households), all deciles",2.718818677,,,,,
+tjt12ew_pph_stage4_2022,info,tjt 12ew,"2022: persons per household, stage 4 (4 Other households), all deciles",2.72178289,,,,,
+tjt12ew_decile_sum_2023,consistency,tjt 12ew,"2023: deciles sum to total (households and persons, every stage; max abs diff)",2,0,2,3,True,
+tjt12ew_stage_sum_2023,consistency,tjt 12ew,2023: stages 1-4 sum to all households (max abs diff),1,0,1,3,True,
+tjt12ew_person_deciles_2023,consistency,tjt 12ew,"2023: each decile holds 10% of persons (max abs deviation, pp)",0.01231522854,0,0.01231522854,0.1,True,deciles are formed among persons
+tjt12ew_pct_meaning_2023,consistency,tjt 12ew,"2023: 'desiprosentti' = 100 x stage households / decile households (max abs diff, pp)",0.0493559322,0,0.0493559322,0.06,True,
+tjt12ew_grouppct_meaning_2023,consistency,tjt 12ew,"2023: 'ryhmaprosentti' = 100 x decile households / stage households (max abs diff, pp)",0.04978760034,0,0.04978760034,0.06,True,
+tjt12ew_one_person_2023,consistency,tjt 12ew,"2023: persons per household in stages 1, 1.1-1.3 (one-person households), max abs deviation from 1, every decile",0,0,0,0.001,True,
+tjt12ew_couples_2023,consistency,tjt 12ew,"2023: persons per household in stages 2, 2.1-2.3 (childless couples), max abs deviation from 2, every decile",0.0001464343242,0,0.0001464343242,0.001,True,
+tjt12ew_pph_stage31_2023,info,tjt 12ew,"2023: persons per household, stage 31 (3.1 Couples with children), all deciles",4.022556155,,,,,
+tjt12ew_pph_stage32_2023,info,tjt 12ew,"2023: persons per household, stage 32 (3.2 Single-parent households), all deciles",2.673058485,,,,,
+tjt12ew_pph_stage4_2023,info,tjt 12ew,"2023: persons per household, stage 4 (4 Other households), all deciles",2.781722044,,,,,
+tjt12ew_decile_sum_2024,consistency,tjt 12ew,"2024: deciles sum to total (households and persons, every stage; max abs diff)",2,0,2,3,True,
+tjt12ew_stage_sum_2024,consistency,tjt 12ew,2024: stages 1-4 sum to all households (max abs diff),1,0,1,3,True,
+tjt12ew_person_deciles_2024,consistency,tjt 12ew,"2024: each decile holds 10% of persons (max abs deviation, pp)",0.0194819454,0,0.0194819454,0.1,True,deciles are formed among persons
+tjt12ew_pct_meaning_2024,consistency,tjt 12ew,"2024: 'desiprosentti' = 100 x stage households / decile households (max abs diff, pp)",0.049747212,0,0.049747212,0.06,True,
+tjt12ew_grouppct_meaning_2024,consistency,tjt 12ew,"2024: 'ryhmaprosentti' = 100 x decile households / stage households (max abs diff, pp)",0.04925155075,0,0.04925155075,0.06,True,
+tjt12ew_one_person_2024,consistency,tjt 12ew,"2024: persons per household in stages 1, 1.1-1.3 (one-person households), max abs deviation from 1, every decile",0,0,0,0.001,True,
+tjt12ew_couples_2024,consistency,tjt 12ew,"2024: persons per household in stages 2, 2.1-2.3 (childless couples), max abs deviation from 2, every decile",0.0003344481605,0,0.0003344481605,0.001,True,
+tjt12ew_pph_stage31_2024,info,tjt 12ew,"2024: persons per household, stage 31 (3.1 Couples with children), all deciles",3.96281692,,,,,
+tjt12ew_pph_stage32_2024,info,tjt 12ew,"2024: persons per household, stage 32 (3.2 Single-parent households), all deciles",2.641320962,,,,,
+tjt12ew_pph_stage4_2024,info,tjt 12ew,"2024: persons per household, stage 4 (4 Other households), all deciles",2.710303435,,,,,
+tjt12ew_households_vs_hbs_2022,crosscheck,tjt 12ew / ktutk 14qa,2022 households: income distribution sample vs HBS,2919000,2919000,0,500,True,
+tjt152w_person_quintiles_2022,consistency,tjt 152w,"2022: each quintile holds 20% of persons (max abs deviation, pp)",0.0196968868,0,0.0196968868,0.1,True,
+tjt152w_person_quintiles_2023,consistency,tjt 152w,"2023: each quintile holds 20% of persons (max abs deviation, pp)",0.01195825482,0,0.01195825482,0.1,True,
+tjt152w_person_quintiles_2024,consistency,tjt 152w,"2024: each quintile holds 20% of persons (max abs deviation, pp)",0.02091333586,0,0.02091333586,0.1,True,
+tjt14ya_age_sum_2022,consistency,tjt 14ya,"2022: age groups sum to all persons, every decile (max abs diff)",0,0,0,3,True,
+tjt14ya_decile_sum_2022,consistency,tjt 14ya,2022: deciles sum to total persons,5443431,5443431,0,5,True,
+tjt128c_vs_14ya_persons_2022,consistency,tjt 128c / 14ya,2022: register persons per decile equal in 128c and 14ya (max abs diff),0,0,0,0,True,
+tjt14ya_age_sum_2023,consistency,tjt 14ya,"2023: age groups sum to all persons, every decile (max abs diff)",0,0,0,3,True,
+tjt14ya_decile_sum_2023,consistency,tjt 14ya,2023: deciles sum to total persons,5478794,5478794,0,5,True,
+tjt128c_vs_14ya_persons_2023,consistency,tjt 128c / 14ya,2023: register persons per decile equal in 128c and 14ya (max abs diff),0,0,0,0,True,
+tjt14ya_age_sum_2024,consistency,tjt 14ya,"2024: age groups sum to all persons, every decile (max abs diff)",0,0,0,3,True,
+tjt14ya_decile_sum_2024,consistency,tjt 14ya,2024: deciles sum to total persons,5505446,5505446,0,5,True,
+tjt128c_vs_14ya_persons_2024,consistency,tjt 128c / 14ya,2024: register persons per decile equal in 128c and 14ya (max abs diff),0,0,0,0,True,
+vtutk151u_same_across_items_households,consistency,vtutk 151u,"2023 households: identical for every asset type (number of distinct values per decile, max)",1,1,0,0,True,
+vtutk151u_same_across_items_avg_household_size,consistency,vtutk 151u,"2023 avg_household_size: identical for every asset type (number of distinct values per decile, max)",1,1,0,0,True,
+vtutk151u_same_across_items_households_in_sample,consistency,vtutk 151u,"2023 households_in_sample: identical for every asset type (number of distinct values per decile, max)",1,1,0,0,True,
+vtutk151u_household_deciles,consistency,vtutk 151u,"2023: each income decile holds 10% of households (max abs deviation, pp)",0.01355932203,0,0.01355932203,0.1,True,"the wealth-survey deciles are deciles of households, unlike the person deciles of tjt"
+wealth_151u_housing_wealth,consistency,vtutk 151u,"2023 means: housing_wealth = main_residence + free_time_residences + other_residential_property (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_real_wealth,consistency,vtutk 151u,"2023 means: real_wealth = housing_wealth + vehicles + forest_farmland_business (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_real_wealth_narrow,consistency,vtutk 151u,"2023 means: real_wealth_narrow = housing_wealth + vehicles (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_financial_assets,consistency,vtutk 151u,"2023 means: financial_assets = deposits + listed_shares_and_mutual_funds + unlisted_shares + private_pension_wealth + savings_investment_insurance + other_financial_assets (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_listed_shares_and_mutual_funds,consistency,vtutk 151u,"2023 means: listed_shares_and_mutual_funds = mutual_funds + listed_shares (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_debt_total,consistency,vtutk 151u,"2023 means: debt_total = housing_loans + consumer_and_other_loans (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_total_assets,consistency,vtutk 151u,"2023 means: total_assets = real_wealth + financial_assets (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151u_net_wealth,consistency,vtutk 151u,"2023 means: net_wealth = total_assets - debt_total (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_main_residence_net_value,consistency,vtutk 151u,"2023 means: main_residence_net_value = main_residence - housing_loans (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_total_assets_narrow,consistency,vtutk 151u,"2023 means: total_assets_narrow = real_wealth_narrow + financial_assets_excl_insurance_crypto (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151u_net_wealth_narrow,consistency,vtutk 151u,"2023 means: net_wealth_narrow = total_assets_narrow - debt_total (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151u_net_wealth_excl_insurance_crypto,consistency,vtutk 151u,"2023 means: net_wealth_excl_insurance_crypto = total_assets_excl_insurance_crypto - debt_total (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151u_real_eq_nominal,consistency,vtutk 151u,2023: real-terms values equal nominal values (cells that differ),0,0,0,0,True,
+wealth_151z_housing_wealth,consistency,vtutk 151z,"2023 means: housing_wealth = main_residence + free_time_residences + other_residential_property (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151z_real_wealth,consistency,vtutk 151z,"2023 means: real_wealth = housing_wealth + vehicles + forest_farmland_business (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151z_real_wealth_narrow,consistency,vtutk 151z,"2023 means: real_wealth_narrow = housing_wealth + vehicles (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151z_financial_assets,consistency,vtutk 151z,"2023 means: financial_assets = deposits + listed_shares_and_mutual_funds + unlisted_shares + private_pension_wealth + savings_investment_insurance + other_financial_assets (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151z_listed_shares_and_mutual_funds,consistency,vtutk 151z,"2023 means: listed_shares_and_mutual_funds = mutual_funds + listed_shares (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151z_debt_total,consistency,vtutk 151z,"2023 means: debt_total = housing_loans + consumer_and_other_loans (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151z_total_assets,consistency,vtutk 151z,"2023 means: total_assets = real_wealth + financial_assets (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151z_net_wealth,consistency,vtutk 151z,"2023 means: net_wealth = total_assets - debt_total (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151z_main_residence_net_value,consistency,vtutk 151z,"2023 means: main_residence_net_value = main_residence - housing_loans (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151z_total_assets_narrow,consistency,vtutk 151z,"2023 means: total_assets_narrow = real_wealth_narrow + financial_assets_excl_insurance_crypto (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151z_net_wealth_narrow,consistency,vtutk 151z,"2023 means: net_wealth_narrow = total_assets_narrow - debt_total (max abs diff over groups, EUR)",1,0,1,3,True,whole-euro rounding
+wealth_151z_net_wealth_excl_insurance_crypto,consistency,vtutk 151z,"2023 means: net_wealth_excl_insurance_crypto = total_assets_excl_insurance_crypto - debt_total (max abs diff over groups, EUR)",0,0,0,3,True,whole-euro rounding
+wealth_151z_real_eq_nominal,consistency,vtutk 151z,2023: real-terms values equal nominal values (cells that differ),0,0,0,0,True,
+wealth_rel_mean_net,crosscheck,vtutk 151u,"all households, mean net wealth, release: 'EUR 228,700'",228742,228700,42,50,True,release 2025-03-12
+wealth_rel_median_net,crosscheck,vtutk 151u,"all households, median net wealth, release: 'EUR 96,000'",96020,96000,20,50,True,release 2025-03-12
+wealth_rel_main_residence_share,crosscheck,vtutk 151u,"main residence as % of total assets, release: '45 per cent'",44.87227153,45,-0.1277284656,0.5,True,release 2025-03-12
+wealth_crypto_implied_total,info,vtutk 151u,"2023 all households: financial_assets - financial_assets_excl_insurance_crypto - savings_investment_insurance (implied crypto-assets, EUR mean)",743,,,,,crypto-assets have no line of their own
+eu_tree_nama_10_co3_p3_CP_MEUR,consistency,nama_10_co3_p3,"CP_MEUR: every parent = sum of its children, all geos and years; max abs diff over 530 complete sets (58 skipped: a child not published)",0.2000000002,0,0.2000000002,0.5,True,values published to 1 decimal
+eu_tree_nama_10_co3_p3_CP_MNAC,consistency,nama_10_co3_p3,"CP_MNAC: every parent = sum of its children, all geos and years; max abs diff over 530 complete sets (58 skipped: a child not published)",0.2000000002,0,0.2000000002,0.5,True,values published to 1 decimal
+eu_deflator_nama_10_co3_p3_EUR,consistency,nama_10_co3_p3,"PD20_EUR = 100 x CP_MEUR / CLV20_MEUR (max abs diff, index points, cells with volume >= 1000 million)",0.007683117397,0,0.007683117397,0.1,True,
+eu_deflator_nama_10_co3_p3_NAC,consistency,nama_10_co3_p3,"PD20_NAC = 100 x CP_MNAC / CLV20_MNAC (max abs diff, index points, cells with volume >= 1000 million)",0.008525937145,0,0.008525937145,0.1,True,
+eu_latest_nama_10_co3_p3_FI,info,nama_10_co3_p3,FI: latest year with CP_MEUR TOTAL,2024,,,,,
+eu_latest_nama_10_co3_p3_SE,info,nama_10_co3_p3,SE: latest year with CP_MEUR TOTAL,2022,,,,,
+eu_latest_nama_10_co3_p3_DK,info,nama_10_co3_p3,DK: latest year with CP_MEUR TOTAL,2022,,,,,
+eu_latest_nama_10_co3_p3_DE,info,nama_10_co3_p3,DE: latest year with CP_MEUR TOTAL,2022,,,,,
+eu_latest_nama_10_co3_p3_EU27_2020,info,nama_10_co3_p3,EU27_2020: latest year with CP_MEUR TOTAL,2022,,,,,
+eu_tree_nama_10_cp18_CP_MEUR,consistency,nama_10_cp18,"CP_MEUR: every parent = sum of its children, all geos and years; max abs diff over 701 complete sets (55 skipped: a child not published)",0.2000000002,0,0.2000000002,0.5,True,values published to 1 decimal
+eu_tree_nama_10_cp18_CP_MNAC,consistency,nama_10_cp18,"CP_MNAC: every parent = sum of its children, all geos and years; max abs diff over 701 complete sets (55 skipped: a child not published)",0.2000000002,0,0.2000000002,0.5,True,values published to 1 decimal
+eu_deflator_nama_10_cp18_EUR,consistency,nama_10_cp18,"PD20_EUR = 100 x CP_MEUR / CLV20_MEUR (max abs diff, index points, cells with volume >= 1000 million)",0.007601862631,0,0.007601862631,0.1,True,
+eu_deflator_nama_10_cp18_NAC,consistency,nama_10_cp18,"PD20_NAC = 100 x CP_MNAC / CLV20_MNAC (max abs diff, index points, cells with volume >= 1000 million)",0.006369863014,0,0.006369863014,0.1,True,
+eu_latest_nama_10_cp18_FI,info,nama_10_cp18,FI: latest year with CP_MEUR TOTAL,2025,,,,,
+eu_latest_nama_10_cp18_SE,info,nama_10_cp18,SE: latest year with CP_MEUR TOTAL,2025,,,,,
+eu_latest_nama_10_cp18_DK,info,nama_10_cp18,DK: latest year with CP_MEUR TOTAL,2025,,,,,
+eu_latest_nama_10_cp18_DE,info,nama_10_cp18,DE: latest year with CP_MEUR TOTAL,2025,,,,,
+eu_latest_nama_10_cp18_EU27_2020,info,nama_10_cp18,EU27_2020: latest year with CP_MEUR TOTAL,2024,,,,,
+eu_fi_total_vs_statfin_nama_10_co3_p3_2015,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2015 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",108818,108818,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2016,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2016 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",111375,111375,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2017,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2017 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",113616,113616,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2018,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2018 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",116863,116863,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2019,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2019 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",118908,118908,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2020,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2020 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",114766,114766,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2021,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2021 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",121178,121178,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2022,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2022 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",129372,129372,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2023,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2023 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",134797,134509,288,0.5,False,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_co3_p3_2024,crosscheck,nama_10_co3_p3 / ntp 15ag,"FI 2024 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",135467,136333,-866,0.5,False,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2015,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2015 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",108818,108818,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2016,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2016 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",111375,111375,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2017,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2017 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",113616,113616,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2018,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2018 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",116863,116863,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2019,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2019 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",118908,118908,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2020,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2020 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",114766,114766,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2021,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2021 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",121178,121178,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2022,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2022 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",129372,129372,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2023,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2023 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",134509,134509,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2024,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2024 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",136333,136333,0,0.5,True,15ag vintage 2026-09-18
+eu_fi_total_vs_statfin_nama_10_cp18_2025,crosscheck,nama_10_cp18 / ntp 15ag,"FI 2025 TOTAL CP_MEUR vs Statistics Finland 15ag P31DCK (domestic concept), current prices",136699,136699,0,0.5,True,15ag vintage 2026-09-18
+na15ag_tree,consistency,ntp 15ag,"P31DCK current prices: every parent = sum of its children, 2015-2025; max abs diff over 2310 complete sets (0 skipped)",0,0,0,3,True,whole-million rounding
+na15ag_national_vs_domestic,consistency,ntp 15ag,"P31NCK = P31DCK + P33K - P34K, current prices (max abs diff over 2015-2025)",0,0,0,2,True,
+hbs_vs_na_2022,info,ktutk 14pg/14qa / ntp 15ag,"2022 HBS aggregate (EUR per household x households, EUR million) vs national accounts P31DCK",116199.552,129372,-13172.448,,,"HBS/NA = 0.898; concepts differ (HBS includes interest on housing loans and excludes the institutional population; NA includes FISIM, non-profit services sold to households etc.)"
+rtp11zx_sector_sum,consistency,rtp 11zx,stocks: S11+S12+S1311+S1313+S1314+S14+S15 = S0 (max abs diff),0,0,0,2,True,
+rtp11zx_instrument_sum,consistency,rtp 11zx,stocks: N111+N112+N113+N114+N115_N116+N117+N12_N13+N211 = N0 (max abs diff),0,0,0,2,True,
+rtp11zx_s14_land_share_2022,info,rtp 11zx,2022 households S14: N211 land / (N211 land + N111 residential buildings),0.259109575,,,,,N211 covers all land owned by households (land use not split); an upper bound for land under dwellings
+rtp11zx_s14_land_share_2023,info,rtp 11zx,2023 households S14: N211 land / (N211 land + N111 residential buildings),0.2393179729,,,,,N211 covers all land owned by households (land use not split); an upper bound for land under dwellings
+rtp11zx_s14_land_share_2025,info,rtp 11zx,2025 households S14: N211 land / (N211 land + N111 residential buildings),0.2450203811,,,,,N211 covers all land owned by households (land use not split); an upper bound for land under dwellings
+eu_nfa_fi_land_codes,info,nama_10_nfa_bs,"FI: land asset codes with data (ESA 2010 subdivides land AN.211 into AN.2111 land underlying buildings and structures, AN.2112 land under cultivation, AN.2113 recreational land, AN.2119 other land)",1,,,,,codes reported: N211N
+eu_nfa_fi_land_S1_2022,crosscheck,nama_10_nfa_bs / rtp 11zx,FI 2022 S1 land N211N (EUR million) vs StatFin 11zx N211 S0,214322,214322,0,0.5,True,
+eu_nfa_fi_land_S1_2023,crosscheck,nama_10_nfa_bs / rtp 11zx,FI 2023 S1 land N211N (EUR million) vs StatFin 11zx N211 S0,207892,207892,0,0.5,True,
+eu_nfa_fi_land_S1_2024,crosscheck,nama_10_nfa_bs / rtp 11zx,FI 2024 S1 land N211N (EUR million) vs StatFin 11zx N211 S0,210650,210650,0,0.5,True,
+eu_nfa_fi_land_S14_S15_2022,crosscheck,nama_10_nfa_bs / rtp 11zx,FI 2022 S14_S15 land N211N (EUR million) vs StatFin 11zx N211 S14 + S15,135834,135834,0,0.5,True,
+eu_nfa_fi_land_S14_S15_2023,crosscheck,nama_10_nfa_bs / rtp 11zx,FI 2023 S14_S15 land N211N (EUR million) vs StatFin 11zx N211 S14 + S15,130447,130447,0,0.5,True,
+eu_nfa_fi_land_S14_S15_2024,crosscheck,nama_10_nfa_bs / rtp 11zx,FI 2024 S14_S15 land N211N (EUR million) vs StatFin 11zx N211 S14 + S15,132153,132153,0,0.5,True,
+post_fig10_top_quintile_net_worth_per_cu,crosscheck,vtutk 151u / ktutk 14pg,"(D9 + D10)/2 mean net wealth per household / (Q5 per-household / per-CU total consumption), EUR; post: 'the Finnish top quintile holds EUR 391k per consumption unit'",391207.3742,391000,207.3741768,500,True,"post 2026-06-14, text before Figure 10 and note 30; reproduces, so the post used these vintages"
+post_net_nominal_negative_max,info,vtutk 151u,"max over income deciles of mean (deposits + other financial assets - total debt), EUR; post: 'deposits and bonds minus debts - is negative in every Finnish income decile'",-357,,,,,"bonds have no line of their own in 151u (inside 9. other financial assets), so all of item 9 is counted here as an upper bound; negative in every decile"
+wealth_to_na_consumption_2023,info,vtutk 151u / ntp 15ag,2023 mean net wealth x households (EUR million) / national-accounts household consumption P31NCK 2023 (years of consumption),5.001474229,,,,,"the post says 'about 3.7 years'; this simple ratio gives about 5, so the post used another wealth or consumption concept (left to the rebuild step)"

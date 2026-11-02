@@ -1,0 +1,697 @@
+component,tenure,measure,value,unit,status,component_code,item_no,component_label
+net_wealth,all,mean,228742,"EUR per household, mean over all households in the group",,nettoae_DN3001,,Net wealth
+net_wealth,outright_owner,mean,426841,"EUR per household, mean over all households in the group",,nettoae_DN3001,,Net wealth
+net_wealth,owner_with_mortgage,mean,248410,"EUR per household, mean over all households in the group",,nettoae_DN3001,,Net wealth
+net_wealth,renter_or_other,mean,23067,"EUR per household, mean over all households in the group",,nettoae_DN3001,,Net wealth
+net_wealth,all,median,96020,EUR per household holding the item (median conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,outright_owner,median,253366,EUR per household holding the item (median conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,owner_with_mortgage,median,143187,EUR per household holding the item (median conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,renter_or_other,median,2788,EUR per household holding the item (median conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,all,p25,8101,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,outright_owner,p25,132287,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,owner_with_mortgage,p25,56521,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,renter_or_other,p25,-1956,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,all,p75,272071,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,outright_owner,p75,476057,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,owner_with_mortgage,p75,299169,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,renter_or_other,p75,21585,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001,,Net wealth
+net_wealth,all,households_holding,2950000,households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,outright_owner,households_holding,1016983,households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,owner_with_mortgage,households_holding,870275,households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,renter_or_other,households_holding,1062742,households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,all,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth,renter_or_other,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001,,Net wealth
+net_wealth_excl_insurance_crypto,all,mean,221130,"EUR per household, mean over all households in the group",,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,outright_owner,mean,413031,"EUR per household, mean over all households in the group",,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,owner_with_mortgage,mean,241029,"EUR per household, mean over all households in the group",,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,renter_or_other,mean,21197,"EUR per household, mean over all households in the group",,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,all,median,92735,EUR per household holding the item (median conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,outright_owner,median,247224,EUR per household holding the item (median conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,owner_with_mortgage,median,138691,EUR per household holding the item (median conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,renter_or_other,median,2500,EUR per household holding the item (median conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,all,p25,7382,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,outright_owner,p25,131633,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,owner_with_mortgage,p25,53932,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,renter_or_other,p25,-2053,EUR per household holding the item (lower quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,all,p75,263136,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,outright_owner,p75,457219,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,owner_with_mortgage,p75,288000,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,renter_or_other,p75,19622,EUR per household holding the item (upper quartile conditional on holding),,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,all,households_holding,2950000,households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,outright_owner,households_holding,1016983,households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,owner_with_mortgage,households_holding,870275,households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,renter_or_other,households_holding,1062742,households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,all,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_excl_insurance_crypto,renter_or_other,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_DN3001_2,,Net wealth (excl. savings and investment insurance policies and cryptocurrencies)
+net_wealth_narrow,all,mean,208812,"EUR per household, mean over all households in the group",,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,outright_owner,mean,386633,"EUR per household, mean over all households in the group",,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,owner_with_mortgage,mean,231625,"EUR per household, mean over all households in the group",,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,renter_or_other,mean,19965,"EUR per household, mean over all households in the group",,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,all,median,89854,EUR per household holding the item (median conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,outright_owner,median,229346,EUR per household holding the item (median conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,owner_with_mortgage,median,133301,EUR per household holding the item (median conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,renter_or_other,median,2499,EUR per household holding the item (median conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,all,p25,7040,EUR per household holding the item (lower quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,outright_owner,p25,124955,EUR per household holding the item (lower quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,owner_with_mortgage,p25,51935,EUR per household holding the item (lower quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,renter_or_other,p25,-2150,EUR per household holding the item (lower quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,all,p75,247740,EUR per household holding the item (upper quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,outright_owner,p75,420309,EUR per household holding the item (upper quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,owner_with_mortgage,p75,274998,EUR per household holding the item (upper quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,renter_or_other,p75,18466,EUR per household holding the item (upper quartile conditional on holding),,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,all,households_holding,2950000,households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,outright_owner,households_holding,1016983,households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,owner_with_mortgage,households_holding,870275,households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,renter_or_other,households_holding,1062742,households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,all,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+net_wealth_narrow,renter_or_other,participation_rate_pct,100,percent of the group's households holding the item,,nettoae_suppea,,"Net wealth (excl. forests, farmland, business wealth, savings and investment insurance policies and  cryptocurrencies)"
+total_assets,all,mean,277033,"EUR per household, mean over all households in the group",,bruttoae_DA1000,,Total assets
+total_assets,outright_owner,mean,438850,"EUR per household, mean over all households in the group",,bruttoae_DA1000,,Total assets
+total_assets,owner_with_mortgage,mean,383981,"EUR per household, mean over all households in the group",,bruttoae_DA1000,,Total assets
+total_assets,renter_or_other,mean,34604,"EUR per household, mean over all households in the group",,bruttoae_DA1000,,Total assets
+total_assets,all,median,150462,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,outright_owner,median,260452,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,owner_with_mortgage,median,274348,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,renter_or_other,median,7230,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,all,p25,20199,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,outright_owner,p25,137943,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,owner_with_mortgage,p25,163452,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,renter_or_other,p25,1496,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,all,p75,342669,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,outright_owner,p75,491107,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,owner_with_mortgage,p75,434599,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,renter_or_other,p75,27833,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000,,Total assets
+total_assets,all,households_holding,2950000,households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,outright_owner,households_holding,1016983,households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,owner_with_mortgage,households_holding,870275,households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,renter_or_other,households_holding,1062742,households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,all,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000,,Total assets
+total_assets,renter_or_other,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000,,Total assets
+total_assets_excl_insurance_crypto,all,mean,269421,"EUR per household, mean over all households in the group",,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,outright_owner,mean,425040,"EUR per household, mean over all households in the group",,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,owner_with_mortgage,mean,376600,"EUR per household, mean over all households in the group",,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,renter_or_other,mean,32734,"EUR per household, mean over all households in the group",,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,all,median,147096,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,outright_owner,median,256346,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,owner_with_mortgage,median,270362,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,renter_or_other,median,7000,EUR per household holding the item (median conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,all,p25,19000,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,outright_owner,p25,137041,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,owner_with_mortgage,p25,160248,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,renter_or_other,p25,1400,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,all,p75,334600,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,outright_owner,p75,475159,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,owner_with_mortgage,p75,429871,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,renter_or_other,p75,26416,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,all,households_holding,2950000,households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,outright_owner,households_holding,1016983,households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,owner_with_mortgage,households_holding,870275,households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,renter_or_other,households_holding,1062742,households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,all,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_excl_insurance_crypto,renter_or_other,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_DA1000_2,,Total assets (excl. savings and investment insurance policies and cryptocurrencies)
+total_assets_narrow,all,mean,257103,"EUR per household, mean over all households in the group",,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,outright_owner,mean,398643,"EUR per household, mean over all households in the group",,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,owner_with_mortgage,mean,367196,"EUR per household, mean over all households in the group",,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,renter_or_other,mean,31502,"EUR per household, mean over all households in the group",,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,all,median,142556,EUR per household holding the item (median conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,outright_owner,median,240062,EUR per household holding the item (median conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,owner_with_mortgage,median,265311,EUR per household holding the item (median conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,renter_or_other,median,7147,EUR per household holding the item (median conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,all,p25,19717,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,outright_owner,p25,129714,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,owner_with_mortgage,p25,156890,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,renter_or_other,p25,1518,EUR per household holding the item (lower quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,all,p75,321045,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,outright_owner,p75,431790,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,owner_with_mortgage,p75,420735,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,renter_or_other,p75,26114,EUR per household holding the item (upper quartile conditional on holding),,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,all,households_holding,2930595,households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,outright_owner,households_holding,1016983,households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,owner_with_mortgage,households_holding,870275,households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,renter_or_other,households_holding,1043337,households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,all,participation_rate_pct,99,percent of the group's households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+total_assets_narrow,renter_or_other,participation_rate_pct,98,percent of the group's households holding the item,,bruttoae_suppea,,"Total assets (excl. forests, farmland, business wealth, savings and investment insurance policies and cryptocurrencies)"
+real_wealth,all,mean,192122,"EUR per household, mean over all households in the group",,realvar2,,Real wealth (1-3)
+real_wealth,outright_owner,mean,279043,"EUR per household, mean over all households in the group",,realvar2,,Real wealth (1-3)
+real_wealth,owner_with_mortgage,mean,306719,"EUR per household, mean over all households in the group",,realvar2,,Real wealth (1-3)
+real_wealth,renter_or_other,mean,15100,"EUR per household, mean over all households in the group",,realvar2,,Real wealth (1-3)
+real_wealth,all,median,162802,EUR per household holding the item (median conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,outright_owner,median,191085,EUR per household holding the item (median conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,owner_with_mortgage,median,234830,EUR per household holding the item (median conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,renter_or_other,median,5963,EUR per household holding the item (median conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,all,p25,64284,EUR per household holding the item (lower quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,outright_owner,p25,102900,EUR per household holding the item (lower quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,owner_with_mortgage,p25,138655,EUR per household holding the item (lower quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,renter_or_other,p25,2268,EUR per household holding the item (lower quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,all,p75,310708,EUR per household holding the item (upper quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,outright_owner,p75,337453,EUR per household holding the item (upper quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,owner_with_mortgage,p75,369558,EUR per household holding the item (upper quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,renter_or_other,p75,19868,EUR per household holding the item (upper quartile conditional on holding),,realvar2,,Real wealth (1-3)
+real_wealth,all,households_holding,2393680,households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,outright_owner,households_holding,1016983,households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,owner_with_mortgage,households_holding,870275,households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,renter_or_other,households_holding,506422,households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,all,participation_rate_pct,81,percent of the group's households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth,renter_or_other,participation_rate_pct,48,percent of the group's households holding the item,,realvar2,,Real wealth (1-3)
+real_wealth_narrow,all,mean,179804,"EUR per household, mean over all households in the group",,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,outright_owner,mean,252645,"EUR per household, mean over all households in the group",,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,owner_with_mortgage,mean,297315,"EUR per household, mean over all households in the group",,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,renter_or_other,mean,13868,"EUR per household, mean over all households in the group",,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,all,median,155393,EUR per household holding the item (median conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,outright_owner,median,175853,EUR per household holding the item (median conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,owner_with_mortgage,median,228364,EUR per household holding the item (median conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,renter_or_other,median,5841,EUR per household holding the item (median conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,all,p25,62246,EUR per household holding the item (lower quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,outright_owner,p25,95477,EUR per household holding the item (lower quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,owner_with_mortgage,p25,135436,EUR per household holding the item (lower quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,renter_or_other,p25,2256,EUR per household holding the item (lower quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,all,p75,292531,EUR per household holding the item (upper quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,outright_owner,p75,304952,EUR per household holding the item (upper quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,owner_with_mortgage,p75,361376,EUR per household holding the item (upper quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,renter_or_other,p75,16886,EUR per household holding the item (upper quartile conditional on holding),,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,all,households_holding,2382991,households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,outright_owner,households_holding,1016983,households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,owner_with_mortgage,households_holding,870275,households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,renter_or_other,households_holding,495733,households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,all,participation_rate_pct,81,percent of the group's households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+real_wealth_narrow,renter_or_other,participation_rate_pct,47,percent of the group's households holding the item,,realvar,,"Real wealth (1-2, excl. forests, farmland and business wealth)"
+financial_assets,all,mean,84911,"EUR per household, mean over all households in the group",,finan,,Financial assets (4-9)
+financial_assets,outright_owner,mean,159807,"EUR per household, mean over all households in the group",,finan,,Financial assets (4-9)
+financial_assets,owner_with_mortgage,mean,77262,"EUR per household, mean over all households in the group",,finan,,Financial assets (4-9)
+financial_assets,renter_or_other,mean,19504,"EUR per household, mean over all households in the group",,finan,,Financial assets (4-9)
+financial_assets,all,median,16793,EUR per household holding the item (median conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,outright_owner,median,43963,EUR per household holding the item (median conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,owner_with_mortgage,median,23093,EUR per household holding the item (median conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,renter_or_other,median,3450,EUR per household holding the item (median conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,all,p25,2936,EUR per household holding the item (lower quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,outright_owner,p25,10360,EUR per household holding the item (lower quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,owner_with_mortgage,p25,5713,EUR per household holding the item (lower quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,renter_or_other,p25,574,EUR per household holding the item (lower quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,all,p75,62183,EUR per household holding the item (upper quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,outright_owner,p75,128605,EUR per household holding the item (upper quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,owner_with_mortgage,p75,64676,EUR per household holding the item (upper quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,renter_or_other,p75,17194,EUR per household holding the item (upper quartile conditional on holding),,finan,,Financial assets (4-9)
+financial_assets,all,households_holding,2902170,households holding the item,,finan,,Financial assets (4-9)
+financial_assets,outright_owner,households_holding,1011284,households holding the item,,finan,,Financial assets (4-9)
+financial_assets,owner_with_mortgage,households_holding,863799,households holding the item,,finan,,Financial assets (4-9)
+financial_assets,renter_or_other,households_holding,1027088,households holding the item,,finan,,Financial assets (4-9)
+financial_assets,all,participation_rate_pct,98,percent of the group's households holding the item,,finan,,Financial assets (4-9)
+financial_assets,outright_owner,participation_rate_pct,99,percent of the group's households holding the item,,finan,,Financial assets (4-9)
+financial_assets,owner_with_mortgage,participation_rate_pct,99,percent of the group's households holding the item,,finan,,Financial assets (4-9)
+financial_assets,renter_or_other,participation_rate_pct,97,percent of the group's households holding the item,,finan,,Financial assets (4-9)
+financial_assets_excl_insurance_crypto,all,mean,77299,"EUR per household, mean over all households in the group",,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,outright_owner,mean,145997,"EUR per household, mean over all households in the group",,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,owner_with_mortgage,mean,69881,"EUR per household, mean over all households in the group",,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,renter_or_other,mean,17634,"EUR per household, mean over all households in the group",,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,all,median,15000,EUR per household holding the item (median conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,outright_owner,median,40540,EUR per household holding the item (median conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,owner_with_mortgage,median,20114,EUR per household holding the item (median conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,renter_or_other,median,3000,EUR per household holding the item (median conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,all,p25,2600,EUR per household holding the item (lower quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,outright_owner,p25,10000,EUR per household holding the item (lower quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,owner_with_mortgage,p25,5000,EUR per household holding the item (lower quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,renter_or_other,p25,505,EUR per household holding the item (lower quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,all,p75,54914,EUR per household holding the item (upper quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,outright_owner,p75,113350,EUR per household holding the item (upper quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,owner_with_mortgage,p75,56738,EUR per household holding the item (upper quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,renter_or_other,p75,15000,EUR per household holding the item (upper quartile conditional on holding),,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,all,households_holding,2901563,households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,outright_owner,households_holding,1011284,households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,owner_with_mortgage,households_holding,863799,households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,renter_or_other,households_holding,1026480,households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,all,participation_rate_pct,98,percent of the group's households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,outright_owner,participation_rate_pct,99,percent of the group's households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,owner_with_mortgage,participation_rate_pct,99,percent of the group's households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+financial_assets_excl_insurance_crypto,renter_or_other,participation_rate_pct,97,percent of the group's households holding the item,,finan2,,Financial assets (excl. savings and investment insurance policies and cryptocurrencies)
+disposable_income,all,mean,44281,"EUR per household, mean over all households in the group",,kturaha,,Disposable income
+disposable_income,outright_owner,mean,46440,"EUR per household, mean over all households in the group",,kturaha,,Disposable income
+disposable_income,owner_with_mortgage,mean,61767,"EUR per household, mean over all households in the group",,kturaha,,Disposable income
+disposable_income,renter_or_other,mean,27895,"EUR per household, mean over all households in the group",,kturaha,,Disposable income
+disposable_income,all,median,35738,EUR per household holding the item (median conditional on holding),,kturaha,,Disposable income
+disposable_income,outright_owner,median,37445,EUR per household holding the item (median conditional on holding),,kturaha,,Disposable income
+disposable_income,owner_with_mortgage,median,57028,EUR per household holding the item (median conditional on holding),,kturaha,,Disposable income
+disposable_income,renter_or_other,median,23021,EUR per household holding the item (median conditional on holding),,kturaha,,Disposable income
+disposable_income,all,p25,21823,EUR per household holding the item (lower quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,outright_owner,p25,23644,EUR per household holding the item (lower quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,owner_with_mortgage,p25,37923,EUR per household holding the item (lower quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,renter_or_other,p25,16613,EUR per household holding the item (lower quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,all,p75,57504,EUR per household holding the item (upper quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,outright_owner,p75,56370,EUR per household holding the item (upper quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,owner_with_mortgage,p75,75049,EUR per household holding the item (upper quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,renter_or_other,p75,35067,EUR per household holding the item (upper quartile conditional on holding),,kturaha,,Disposable income
+disposable_income,all,households_holding,2950000,households holding the item,,kturaha,,Disposable income
+disposable_income,outright_owner,households_holding,1016983,households holding the item,,kturaha,,Disposable income
+disposable_income,owner_with_mortgage,households_holding,870275,households holding the item,,kturaha,,Disposable income
+disposable_income,renter_or_other,households_holding,1062742,households holding the item,,kturaha,,Disposable income
+disposable_income,all,participation_rate_pct,100,percent of the group's households holding the item,,kturaha,,Disposable income
+disposable_income,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,kturaha,,Disposable income
+disposable_income,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,kturaha,,Disposable income
+disposable_income,renter_or_other,participation_rate_pct,100,percent of the group's households holding the item,,kturaha,,Disposable income
+housing_wealth,all,mean,169429,"EUR per household, mean over all households in the group",,asvara,1,"1. Housing wealth, total"
+housing_wealth,outright_owner,mean,239257,"EUR per household, mean over all households in the group",,asvara,1,"1. Housing wealth, total"
+housing_wealth,owner_with_mortgage,mean,281894,"EUR per household, mean over all households in the group",,asvara,1,"1. Housing wealth, total"
+housing_wealth,renter_or_other,mean,10511,"EUR per household, mean over all households in the group",,asvara,1,"1. Housing wealth, total"
+housing_wealth,all,median,181088,EUR per household holding the item (median conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,outright_owner,median,163852,EUR per household holding the item (median conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,owner_with_mortgage,median,216350,EUR per household holding the item (median conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,renter_or_other,median,89000,EUR per household holding the item (median conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,all,p25,100575,EUR per household holding the item (lower quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,outright_owner,p25,87978,EUR per household holding the item (lower quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,owner_with_mortgage,p25,125550,EUR per household holding the item (lower quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,renter_or_other,p25,48000,EUR per household holding the item (lower quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,all,p75,310410,EUR per household holding the item (upper quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,outright_owner,p75,287365,EUR per household holding the item (upper quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,owner_with_mortgage,p75,343415,EUR per household holding the item (upper quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,renter_or_other,p75,141658,EUR per household holding the item (upper quartile conditional on holding),,asvara,1,"1. Housing wealth, total"
+housing_wealth,all,households_holding,1979860,households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,outright_owner,households_holding,1016983,households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,owner_with_mortgage,households_holding,870275,households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,renter_or_other,households_holding,92601,households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,all,participation_rate_pct,67,percent of the group's households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,asvara,1,"1. Housing wealth, total"
+housing_wealth,renter_or_other,participation_rate_pct,9,percent of the group's households holding the item,,asvara,1,"1. Housing wealth, total"
+main_residence,all,mean,124311,"EUR per household, mean over all households in the group",,asarav,1.1,1.1 Household main residence
+main_residence,outright_owner,mean,170510,"EUR per household, mean over all households in the group",,asarav,1.1,1.1 Household main residence
+main_residence,owner_with_mortgage,mean,222127,"EUR per household, mean over all households in the group",,asarav,1.1,1.1 Household main residence
+main_residence,renter_or_other,mean,0,"EUR per household, mean over all households in the group",,asarav,1.1,1.1 Household main residence
+main_residence,all,median,148190,EUR per household holding the item (median conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,outright_owner,median,125861,EUR per household holding the item (median conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,owner_with_mortgage,median,181312,EUR per household holding the item (median conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,renter_or_other,median,,EUR per household holding the item (median conditional on holding),.,asarav,1.1,1.1 Household main residence
+main_residence,all,p25,86394,EUR per household holding the item (lower quartile conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,outright_owner,p25,71071,EUR per household holding the item (lower quartile conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,owner_with_mortgage,p25,112124,EUR per household holding the item (lower quartile conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,renter_or_other,p25,,EUR per household holding the item (lower quartile conditional on holding),.,asarav,1.1,1.1 Household main residence
+main_residence,all,p75,249280,EUR per household holding the item (upper quartile conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,outright_owner,p75,213534,EUR per household holding the item (upper quartile conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,owner_with_mortgage,p75,289712,EUR per household holding the item (upper quartile conditional on holding),,asarav,1.1,1.1 Household main residence
+main_residence,renter_or_other,p75,,EUR per household holding the item (upper quartile conditional on holding),.,asarav,1.1,1.1 Household main residence
+main_residence,all,households_holding,1887258,households holding the item,,asarav,1.1,1.1 Household main residence
+main_residence,outright_owner,households_holding,1016983,households holding the item,,asarav,1.1,1.1 Household main residence
+main_residence,owner_with_mortgage,households_holding,870275,households holding the item,,asarav,1.1,1.1 Household main residence
+main_residence,renter_or_other,households_holding,,households holding the item,.,asarav,1.1,1.1 Household main residence
+main_residence,all,participation_rate_pct,64,percent of the group's households holding the item,,asarav,1.1,1.1 Household main residence
+main_residence,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,asarav,1.1,1.1 Household main residence
+main_residence,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,asarav,1.1,1.1 Household main residence
+main_residence,renter_or_other,participation_rate_pct,,percent of the group's households holding the item,.,asarav,1.1,1.1 Household main residence
+free_time_residences,all,mean,13924,"EUR per household, mean over all households in the group",,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,outright_owner,mean,23797,"EUR per household, mean over all households in the group",,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,owner_with_mortgage,mean,14991,"EUR per household, mean over all households in the group",,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,renter_or_other,mean,3602,"EUR per household, mean over all households in the group",,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,all,median,92000,EUR per household holding the item (median conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,outright_owner,median,92000,EUR per household holding the item (median conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,owner_with_mortgage,median,92500,EUR per household holding the item (median conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,renter_or_other,median,89000,EUR per household holding the item (median conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,all,p25,65500,EUR per household holding the item (lower quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,outright_owner,p25,65967,EUR per household holding the item (lower quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,owner_with_mortgage,p25,65000,EUR per household holding the item (lower quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,renter_or_other,p25,65000,EUR per household holding the item (lower quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,all,p75,126000,EUR per household holding the item (upper quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,outright_owner,p75,123000,EUR per household holding the item (upper quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,owner_with_mortgage,p75,134877,EUR per household holding the item (upper quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,renter_or_other,p75,112500,EUR per household holding the item (upper quartile conditional on holding),,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,all,households_holding,370714,households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,outright_owner,households_holding,221322,households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,owner_with_mortgage,households_holding,115742,households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,renter_or_other,households_holding,33651,households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,all,participation_rate_pct,13,percent of the group's households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,outright_owner,participation_rate_pct,22,percent of the group's households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,owner_with_mortgage,participation_rate_pct,13,percent of the group's households holding the item,,vaarvy,1.2,1.2 Free-time residences
+free_time_residences,renter_or_other,participation_rate_pct,3,percent of the group's households holding the item,,vaarvy,1.2,1.2 Free-time residences
+other_residential_property,all,mean,31194,"EUR per household, mean over all households in the group",,asaram,1.3,1.3 Other residential properties
+other_residential_property,outright_owner,mean,44950,"EUR per household, mean over all households in the group",,asaram,1.3,1.3 Other residential properties
+other_residential_property,owner_with_mortgage,mean,44776,"EUR per household, mean over all households in the group",,asaram,1.3,1.3 Other residential properties
+other_residential_property,renter_or_other,mean,6909,"EUR per household, mean over all households in the group",,asaram,1.3,1.3 Other residential properties
+other_residential_property,all,median,101331,EUR per household holding the item (median conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,outright_owner,median,98956,EUR per household holding the item (median conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,owner_with_mortgage,median,113183,EUR per household holding the item (median conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,renter_or_other,median,66046,EUR per household holding the item (median conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,all,p25,49924,EUR per household holding the item (lower quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,outright_owner,p25,50257,EUR per household holding the item (lower quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,owner_with_mortgage,p25,56188,EUR per household holding the item (lower quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,renter_or_other,p25,39186,EUR per household holding the item (lower quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,all,p75,196156,EUR per household holding the item (upper quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,outright_owner,p75,201926,EUR per household holding the item (upper quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,owner_with_mortgage,p75,209723,EUR per household holding the item (upper quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,renter_or_other,p75,129128,EUR per household holding the item (upper quartile conditional on holding),,asaram,1.3,1.3 Other residential properties
+other_residential_property,all,households_holding,545278,households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,outright_owner,households_holding,259015,households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,owner_with_mortgage,households_holding,218041,households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,renter_or_other,households_holding,68222,households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,all,participation_rate_pct,18,percent of the group's households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,outright_owner,participation_rate_pct,25,percent of the group's households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,owner_with_mortgage,participation_rate_pct,25,percent of the group's households holding the item,,asaram,1.3,1.3 Other residential properties
+other_residential_property,renter_or_other,participation_rate_pct,6,percent of the group's households holding the item,,asaram,1.3,1.3 Other residential properties
+vehicles,all,mean,10375,"EUR per household, mean over all households in the group",,kulku,2,2. Vehicles
+vehicles,outright_owner,mean,13389,"EUR per household, mean over all households in the group",,kulku,2,2. Vehicles
+vehicles,owner_with_mortgage,mean,15422,"EUR per household, mean over all households in the group",,kulku,2,2. Vehicles
+vehicles,renter_or_other,mean,3357,"EUR per household, mean over all households in the group",,kulku,2,2. Vehicles
+vehicles,all,median,9558,EUR per household holding the item (median conditional on holding),,kulku,2,2. Vehicles
+vehicles,outright_owner,median,10331,EUR per household holding the item (median conditional on holding),,kulku,2,2. Vehicles
+vehicles,owner_with_mortgage,median,12315,EUR per household holding the item (median conditional on holding),,kulku,2,2. Vehicles
+vehicles,renter_or_other,median,4341,EUR per household holding the item (median conditional on holding),,kulku,2,2. Vehicles
+vehicles,all,p25,4262,EUR per household holding the item (lower quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,outright_owner,p25,5104,EUR per household holding the item (lower quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,owner_with_mortgage,p25,6355,EUR per household holding the item (lower quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,renter_or_other,p25,1957,EUR per household holding the item (lower quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,all,p75,18848,EUR per household holding the item (upper quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,outright_owner,p75,20390,EUR per household holding the item (upper quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,owner_with_mortgage,p75,21836,EUR per household holding the item (upper quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,renter_or_other,p75,9859,EUR per household holding the item (upper quartile conditional on holding),,kulku,2,2. Vehicles
+vehicles,all,households_holding,2064093,households holding the item,,kulku,2,2. Vehicles
+vehicles,outright_owner,households_holding,834400,households holding the item,,kulku,2,2. Vehicles
+vehicles,owner_with_mortgage,households_holding,759023,households holding the item,,kulku,2,2. Vehicles
+vehicles,renter_or_other,households_holding,470670,households holding the item,,kulku,2,2. Vehicles
+vehicles,all,participation_rate_pct,70,percent of the group's households holding the item,,kulku,2,2. Vehicles
+vehicles,outright_owner,participation_rate_pct,82,percent of the group's households holding the item,,kulku,2,2. Vehicles
+vehicles,owner_with_mortgage,participation_rate_pct,87,percent of the group's households holding the item,,kulku,2,2. Vehicles
+vehicles,renter_or_other,participation_rate_pct,44,percent of the group's households holding the item,,kulku,2,2. Vehicles
+forest_farmland_business,all,mean,12318,"EUR per household, mean over all households in the group",,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,outright_owner,mean,26397,"EUR per household, mean over all households in the group",,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,owner_with_mortgage,mean,9404,"EUR per household, mean over all households in the group",,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,renter_or_other,mean,1232,"EUR per household, mean over all households in the group",,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,all,median,19831,EUR per household holding the item (median conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,outright_owner,median,32784,EUR per household holding the item (median conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,owner_with_mortgage,median,13699,EUR per household holding the item (median conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,renter_or_other,median,9335,EUR per household holding the item (median conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,all,p25,5958,EUR per household holding the item (lower quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,outright_owner,p25,8483,EUR per household holding the item (lower quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,owner_with_mortgage,p25,5068,EUR per household holding the item (lower quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,renter_or_other,p25,1984,EUR per household holding the item (lower quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,all,p75,69291,EUR per household holding the item (upper quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,outright_owner,p75,99255,EUR per household holding the item (upper quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,owner_with_mortgage,p75,41512,EUR per household holding the item (upper quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,renter_or_other,p75,23578,EUR per household holding the item (upper quartile conditional on holding),,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,all,households_holding,485792,households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,outright_owner,households_holding,279571,households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,owner_with_mortgage,households_holding,157335,households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,renter_or_other,households_holding,48887,households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,all,participation_rate_pct,16,percent of the group's households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,outright_owner,participation_rate_pct,27,percent of the group's households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,owner_with_mortgage,participation_rate_pct,18,percent of the group's households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+forest_farmland_business,renter_or_other,participation_rate_pct,5,percent of the group's households holding the item,,muurealvar,3,"3. Forest, farmland and business wealth"
+deposits,all,mean,28332,"EUR per household, mean over all households in the group",,talle,4,4. Deposits
+deposits,outright_owner,mean,50533,"EUR per household, mean over all households in the group",,talle,4,4. Deposits
+deposits,owner_with_mortgage,mean,23837,"EUR per household, mean over all households in the group",,talle,4,4. Deposits
+deposits,renter_or_other,mean,10767,"EUR per household, mean over all households in the group",,talle,4,4. Deposits
+deposits,all,median,8000,EUR per household holding the item (median conditional on holding),,talle,4,4. Deposits
+deposits,outright_owner,median,20000,EUR per household holding the item (median conditional on holding),,talle,4,4. Deposits
+deposits,owner_with_mortgage,median,10000,EUR per household holding the item (median conditional on holding),,talle,4,4. Deposits
+deposits,renter_or_other,median,2499,EUR per household holding the item (median conditional on holding),,talle,4,4. Deposits
+deposits,all,p25,2000,EUR per household holding the item (lower quartile conditional on holding),,talle,4,4. Deposits
+deposits,outright_owner,p25,5000,EUR per household holding the item (lower quartile conditional on holding),,talle,4,4. Deposits
+deposits,owner_with_mortgage,p25,2500,EUR per household holding the item (lower quartile conditional on holding),,talle,4,4. Deposits
+deposits,renter_or_other,p25,499,EUR per household holding the item (lower quartile conditional on holding),,talle,4,4. Deposits
+deposits,all,p75,30000,EUR per household holding the item (upper quartile conditional on holding),,talle,4,4. Deposits
+deposits,outright_owner,p75,55000,EUR per household holding the item (upper quartile conditional on holding),,talle,4,4. Deposits
+deposits,owner_with_mortgage,p75,27000,EUR per household holding the item (upper quartile conditional on holding),,talle,4,4. Deposits
+deposits,renter_or_other,p75,10400,EUR per household holding the item (upper quartile conditional on holding),,talle,4,4. Deposits
+deposits,all,households_holding,2889282,households holding the item,,talle,4,4. Deposits
+deposits,outright_owner,households_holding,1007672,households holding the item,,talle,4,4. Deposits
+deposits,owner_with_mortgage,households_holding,860537,households holding the item,,talle,4,4. Deposits
+deposits,renter_or_other,households_holding,1021072,households holding the item,,talle,4,4. Deposits
+deposits,all,participation_rate_pct,98,percent of the group's households holding the item,,talle,4,4. Deposits
+deposits,outright_owner,participation_rate_pct,99,percent of the group's households holding the item,,talle,4,4. Deposits
+deposits,owner_with_mortgage,participation_rate_pct,99,percent of the group's households holding the item,,talle,4,4. Deposits
+deposits,renter_or_other,participation_rate_pct,96,percent of the group's households holding the item,,talle,4,4. Deposits
+listed_shares_and_mutual_funds,all,mean,26867,"EUR per household, mean over all households in the group",,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,outright_owner,mean,55967,"EUR per household, mean over all households in the group",,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,owner_with_mortgage,mean,19473,"EUR per household, mean over all households in the group",,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,renter_or_other,mean,5074,"EUR per household, mean over all households in the group",,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,all,median,8899,EUR per household holding the item (median conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,outright_owner,median,19784,EUR per household holding the item (median conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,owner_with_mortgage,median,6919,EUR per household holding the item (median conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,renter_or_other,median,2960,EUR per household holding the item (median conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,all,p25,1797,EUR per household holding the item (lower quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,outright_owner,p25,4996,EUR per household holding the item (lower quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,owner_with_mortgage,p25,1718,EUR per household holding the item (lower quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,renter_or_other,p25,543,EUR per household holding the item (lower quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,all,p75,31914,EUR per household holding the item (upper quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,outright_owner,p75,69922,EUR per household holding the item (upper quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,owner_with_mortgage,p75,24228,EUR per household holding the item (upper quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,renter_or_other,p75,12347,EUR per household holding the item (upper quartile conditional on holding),,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,all,households_holding,1402059,households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,outright_owner,households_holding,548228,households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,owner_with_mortgage,households_holding,536325,households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,renter_or_other,households_holding,317506,households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,all,participation_rate_pct,48,percent of the group's households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,outright_owner,participation_rate_pct,54,percent of the group's households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,owner_with_mortgage,participation_rate_pct,62,percent of the group's households holding the item,,pymar,5,5. Listed shares and mutual funds
+listed_shares_and_mutual_funds,renter_or_other,participation_rate_pct,30,percent of the group's households holding the item,,pymar,5,5. Listed shares and mutual funds
+mutual_funds,all,mean,12990,"EUR per household, mean over all households in the group",,sirave,5.1,5.1 Mutual funds
+mutual_funds,outright_owner,mean,26222,"EUR per household, mean over all households in the group",,sirave,5.1,5.1 Mutual funds
+mutual_funds,owner_with_mortgage,mean,9808,"EUR per household, mean over all households in the group",,sirave,5.1,5.1 Mutual funds
+mutual_funds,renter_or_other,mean,2933,"EUR per household, mean over all households in the group",,sirave,5.1,5.1 Mutual funds
+mutual_funds,all,median,6999,EUR per household holding the item (median conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,outright_owner,median,17255,EUR per household holding the item (median conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,owner_with_mortgage,median,5471,EUR per household holding the item (median conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,renter_or_other,median,2499,EUR per household holding the item (median conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,all,p25,1384,EUR per household holding the item (lower quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,outright_owner,p25,4496,EUR per household holding the item (lower quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,owner_with_mortgage,p25,1298,EUR per household holding the item (lower quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,renter_or_other,p25,430,EUR per household holding the item (lower quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,all,p75,23131,EUR per household holding the item (upper quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,outright_owner,p75,50988,EUR per household holding the item (upper quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,owner_with_mortgage,p75,15773,EUR per household holding the item (upper quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,renter_or_other,p75,10168,EUR per household holding the item (upper quartile conditional on holding),,sirave,5.1,5.1 Mutual funds
+mutual_funds,all,households_holding,1153894,households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,outright_owner,households_holding,411560,households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,owner_with_mortgage,households_holding,468312,households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,renter_or_other,households_holding,274021,households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,all,participation_rate_pct,39,percent of the group's households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,outright_owner,participation_rate_pct,40,percent of the group's households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,owner_with_mortgage,participation_rate_pct,54,percent of the group's households holding the item,,sirave,5.1,5.1 Mutual funds
+mutual_funds,renter_or_other,participation_rate_pct,26,percent of the group's households holding the item,,sirave,5.1,5.1 Mutual funds
+listed_shares,all,mean,13877,"EUR per household, mean over all households in the group",,porsosa,5.2,5.2 Listed shares
+listed_shares,outright_owner,mean,29745,"EUR per household, mean over all households in the group",,porsosa,5.2,5.2 Listed shares
+listed_shares,owner_with_mortgage,mean,9665,"EUR per household, mean over all households in the group",,porsosa,5.2,5.2 Listed shares
+listed_shares,renter_or_other,mean,2141,"EUR per household, mean over all households in the group",,porsosa,5.2,5.2 Listed shares
+listed_shares,all,median,6280,EUR per household holding the item (median conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,outright_owner,median,11742,EUR per household holding the item (median conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,owner_with_mortgage,median,4444,EUR per household holding the item (median conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,renter_or_other,median,1856,EUR per household holding the item (median conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,all,p25,1205,EUR per household holding the item (lower quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,outright_owner,p25,2571,EUR per household holding the item (lower quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,owner_with_mortgage,p25,894,EUR per household holding the item (lower quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,renter_or_other,p25,432,EUR per household holding the item (lower quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,all,p75,27145,EUR per household holding the item (upper quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,outright_owner,p75,47752,EUR per household holding the item (upper quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,owner_with_mortgage,p75,19460,EUR per household holding the item (upper quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,renter_or_other,p75,7012,EUR per household holding the item (upper quartile conditional on holding),,porsosa,5.2,5.2 Listed shares
+listed_shares,all,households_holding,737998,households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,outright_owner,households_holding,326216,households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,owner_with_mortgage,households_holding,275729,households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,renter_or_other,households_holding,136053,households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,all,participation_rate_pct,25,percent of the group's households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,outright_owner,participation_rate_pct,32,percent of the group's households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,owner_with_mortgage,participation_rate_pct,32,percent of the group's households holding the item,,porsosa,5.2,5.2 Listed shares
+listed_shares,renter_or_other,participation_rate_pct,13,percent of the group's households holding the item,,porsosa,5.2,5.2 Listed shares
+unlisted_shares,all,mean,17675,"EUR per household, mean over all households in the group",,muosa,6,6. Unlisted shares
+unlisted_shares,outright_owner,mean,30801,"EUR per household, mean over all households in the group",,muosa,6,6. Unlisted shares
+unlisted_shares,owner_with_mortgage,mean,22501,"EUR per household, mean over all households in the group",,muosa,6,6. Unlisted shares
+unlisted_shares,renter_or_other,mean,1163,"EUR per household, mean over all households in the group",,muosa,6,6. Unlisted shares
+unlisted_shares,all,median,9019,EUR per household holding the item (median conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,outright_owner,median,9019,EUR per household holding the item (median conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,owner_with_mortgage,median,42238,EUR per household holding the item (median conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,renter_or_other,median,3332,EUR per household holding the item (median conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,all,p25,1666,EUR per household holding the item (lower quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,outright_owner,p25,1666,EUR per household holding the item (lower quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,owner_with_mortgage,p25,3864,EUR per household holding the item (lower quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,renter_or_other,p25,1800,EUR per household holding the item (lower quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,all,p75,103801,EUR per household holding the item (upper quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,outright_owner,p75,74789,EUR per household holding the item (upper quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,owner_with_mortgage,p75,174789,EUR per household holding the item (upper quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,renter_or_other,p75,34047,EUR per household holding the item (upper quartile conditional on holding),,muosa,6,6. Unlisted shares
+unlisted_shares,all,households_holding,220009,households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,outright_owner,households_holding,121758,households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,owner_with_mortgage,households_holding,78465,households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,renter_or_other,households_holding,19785,households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,all,participation_rate_pct,7,percent of the group's households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,outright_owner,participation_rate_pct,12,percent of the group's households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,owner_with_mortgage,participation_rate_pct,9,percent of the group's households holding the item,,muosa,6,6. Unlisted shares
+unlisted_shares,renter_or_other,participation_rate_pct,2,percent of the group's households holding the item,,muosa,6,6. Unlisted shares
+private_pension_wealth,all,mean,2840,"EUR per household, mean over all households in the group",,elavak,7,7. Individual private pension wealth
+private_pension_wealth,outright_owner,mean,4712,"EUR per household, mean over all households in the group",,elavak,7,7. Individual private pension wealth
+private_pension_wealth,owner_with_mortgage,mean,3656,"EUR per household, mean over all households in the group",,elavak,7,7. Individual private pension wealth
+private_pension_wealth,renter_or_other,mean,381,"EUR per household, mean over all households in the group",,elavak,7,7. Individual private pension wealth
+private_pension_wealth,all,median,9396,EUR per household holding the item (median conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,outright_owner,median,11924,EUR per household holding the item (median conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,owner_with_mortgage,median,8865,EUR per household holding the item (median conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,renter_or_other,median,3972,EUR per household holding the item (median conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,all,p25,2710,EUR per household holding the item (lower quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,outright_owner,p25,3311,EUR per household holding the item (lower quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,owner_with_mortgage,p25,3044,EUR per household holding the item (lower quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,renter_or_other,p25,904,EUR per household holding the item (lower quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,all,p75,21751,EUR per household holding the item (upper quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,outright_owner,p75,28162,EUR per household holding the item (upper quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,owner_with_mortgage,p75,19847,EUR per household holding the item (upper quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,renter_or_other,p75,12278,EUR per household holding the item (upper quartile conditional on holding),,elavak,7,7. Individual private pension wealth
+private_pension_wealth,all,households_holding,485000,households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,outright_owner,households_holding,221377,households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,owner_with_mortgage,households_holding,215226,households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,renter_or_other,households_holding,48397,households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,all,participation_rate_pct,16,percent of the group's households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,outright_owner,participation_rate_pct,22,percent of the group's households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,owner_with_mortgage,participation_rate_pct,25,percent of the group's households holding the item,,elavak,7,7. Individual private pension wealth
+private_pension_wealth,renter_or_other,participation_rate_pct,5,percent of the group's households holding the item,,elavak,7,7. Individual private pension wealth
+savings_investment_insurance,all,mean,6869,"EUR per household, mean over all households in the group",,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,outright_owner,mean,12812,"EUR per household, mean over all households in the group",,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,owner_with_mortgage,mean,6288,"EUR per household, mean over all households in the group",,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,renter_or_other,mean,1657,"EUR per household, mean over all households in the group",,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,all,median,18620,EUR per household holding the item (median conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,outright_owner,median,26600,EUR per household holding the item (median conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,owner_with_mortgage,median,13300,EUR per household holding the item (median conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,renter_or_other,median,13300,EUR per household holding the item (median conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,all,p25,6650,EUR per household holding the item (lower quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,outright_owner,p25,10000,EUR per household holding the item (lower quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,owner_with_mortgage,p25,5000,EUR per household holding the item (lower quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,renter_or_other,p25,3990,EUR per household holding the item (lower quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,all,p75,45000,EUR per household holding the item (upper quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,outright_owner,p75,66500,EUR per household holding the item (upper quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,owner_with_mortgage,p75,33250,EUR per household holding the item (upper quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,renter_or_other,p75,26600,EUR per household holding the item (upper quartile conditional on holding),,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,all,households_holding,405580,households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,outright_owner,households_holding,167091,households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,owner_with_mortgage,households_holding,176891,households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,renter_or_other,households_holding,61598,households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,all,participation_rate_pct,14,percent of the group's households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,outright_owner,participation_rate_pct,16,percent of the group's households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,owner_with_mortgage,participation_rate_pct,20,percent of the group's households holding the item,,vaksak,8,8. Savings and investment insurance policies
+savings_investment_insurance,renter_or_other,participation_rate_pct,6,percent of the group's households holding the item,,vaksak,8,8. Savings and investment insurance policies
+other_financial_assets,all,mean,2328,"EUR per household, mean over all households in the group",,muufinan,9,9. Other financial assets
+other_financial_assets,outright_owner,mean,4982,"EUR per household, mean over all households in the group",,muufinan,9,9. Other financial assets
+other_financial_assets,owner_with_mortgage,mean,1507,"EUR per household, mean over all households in the group",,muufinan,9,9. Other financial assets
+other_financial_assets,renter_or_other,mean,462,"EUR per household, mean over all households in the group",,muufinan,9,9. Other financial assets
+other_financial_assets,all,median,2146,EUR per household holding the item (median conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,outright_owner,median,6922,EUR per household holding the item (median conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,owner_with_mortgage,median,1073,EUR per household holding the item (median conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,renter_or_other,median,673,EUR per household holding the item (median conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,all,p25,380,EUR per household holding the item (lower quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,outright_owner,p25,738,EUR per household holding the item (lower quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,owner_with_mortgage,p25,300,EUR per household holding the item (lower quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,renter_or_other,p25,300,EUR per household holding the item (lower quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,all,p75,14240,EUR per household holding the item (upper quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,outright_owner,p75,25000,EUR per household holding the item (upper quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,owner_with_mortgage,p75,5000,EUR per household holding the item (upper quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,renter_or_other,p75,4564,EUR per household holding the item (upper quartile conditional on holding),,muufinan,9,9. Other financial assets
+other_financial_assets,all,households_holding,375052,households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,outright_owner,households_holding,195134,households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,owner_with_mortgage,households_holding,112476,households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,renter_or_other,households_holding,67442,households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,all,participation_rate_pct,13,percent of the group's households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,outright_owner,participation_rate_pct,19,percent of the group's households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,owner_with_mortgage,participation_rate_pct,13,percent of the group's households holding the item,,muufinan,9,9. Other financial assets
+other_financial_assets,renter_or_other,participation_rate_pct,6,percent of the group's households holding the item,,muufinan,9,9. Other financial assets
+debt_total,all,mean,48291,"EUR per household, mean over all households in the group",,luototy,10,"10. Debt, total"
+debt_total,outright_owner,mean,12009,"EUR per household, mean over all households in the group",,luototy,10,"10. Debt, total"
+debt_total,owner_with_mortgage,mean,135571,"EUR per household, mean over all households in the group",,luototy,10,"10. Debt, total"
+debt_total,renter_or_other,mean,11537,"EUR per household, mean over all households in the group",,luototy,10,"10. Debt, total"
+debt_total,all,median,37897,EUR per household holding the item (median conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,outright_owner,median,14457,EUR per household holding the item (median conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,owner_with_mortgage,median,106639,EUR per household holding the item (median conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,renter_or_other,median,11882,EUR per household holding the item (median conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,all,p25,10572,EUR per household holding the item (lower quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,outright_owner,p25,4082,EUR per household holding the item (lower quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,owner_with_mortgage,p25,55968,EUR per household holding the item (lower quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,renter_or_other,p25,4306,EUR per household holding the item (lower quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,all,p75,117976,EUR per household holding the item (upper quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,outright_owner,p75,45193,EUR per household holding the item (upper quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,owner_with_mortgage,p75,180819,EUR per household holding the item (upper quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,renter_or_other,p75,22511,EUR per household holding the item (upper quartile conditional on holding),,luototy,10,"10. Debt, total"
+debt_total,all,households_holding,1728032,households holding the item,,luototy,10,"10. Debt, total"
+debt_total,outright_owner,households_holding,283770,households holding the item,,luototy,10,"10. Debt, total"
+debt_total,owner_with_mortgage,households_holding,870275,households holding the item,,luototy,10,"10. Debt, total"
+debt_total,renter_or_other,households_holding,573987,households holding the item,,luototy,10,"10. Debt, total"
+debt_total,all,participation_rate_pct,59,percent of the group's households holding the item,,luototy,10,"10. Debt, total"
+debt_total,outright_owner,participation_rate_pct,28,percent of the group's households holding the item,,luototy,10,"10. Debt, total"
+debt_total,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,luototy,10,"10. Debt, total"
+debt_total,renter_or_other,participation_rate_pct,54,percent of the group's households holding the item,,luototy,10,"10. Debt, total"
+housing_loans,all,mean,31555,"EUR per household, mean over all households in the group",,asuntm,10.1,10.1. Housing loans
+housing_loans,outright_owner,mean,0,"EUR per household, mean over all households in the group",,asuntm,10.1,10.1. Housing loans
+housing_loans,owner_with_mortgage,mean,106965,"EUR per household, mean over all households in the group",,asuntm,10.1,10.1. Housing loans
+housing_loans,renter_or_other,mean,0,"EUR per household, mean over all households in the group",,asuntm,10.1,10.1. Housing loans
+housing_loans,all,median,84291,EUR per household holding the item (median conditional on holding),,asuntm,10.1,10.1. Housing loans
+housing_loans,outright_owner,median,,EUR per household holding the item (median conditional on holding),.,asuntm,10.1,10.1. Housing loans
+housing_loans,owner_with_mortgage,median,84291,EUR per household holding the item (median conditional on holding),,asuntm,10.1,10.1. Housing loans
+housing_loans,renter_or_other,median,,EUR per household holding the item (median conditional on holding),.,asuntm,10.1,10.1. Housing loans
+housing_loans,all,p25,37396,EUR per household holding the item (lower quartile conditional on holding),,asuntm,10.1,10.1. Housing loans
+housing_loans,outright_owner,p25,,EUR per household holding the item (lower quartile conditional on holding),.,asuntm,10.1,10.1. Housing loans
+housing_loans,owner_with_mortgage,p25,37396,EUR per household holding the item (lower quartile conditional on holding),,asuntm,10.1,10.1. Housing loans
+housing_loans,renter_or_other,p25,,EUR per household holding the item (lower quartile conditional on holding),.,asuntm,10.1,10.1. Housing loans
+housing_loans,all,p75,148306,EUR per household holding the item (upper quartile conditional on holding),,asuntm,10.1,10.1. Housing loans
+housing_loans,outright_owner,p75,,EUR per household holding the item (upper quartile conditional on holding),.,asuntm,10.1,10.1. Housing loans
+housing_loans,owner_with_mortgage,p75,148306,EUR per household holding the item (upper quartile conditional on holding),,asuntm,10.1,10.1. Housing loans
+housing_loans,renter_or_other,p75,,EUR per household holding the item (upper quartile conditional on holding),.,asuntm,10.1,10.1. Housing loans
+housing_loans,all,households_holding,870275,households holding the item,,asuntm,10.1,10.1. Housing loans
+housing_loans,outright_owner,households_holding,,households holding the item,.,asuntm,10.1,10.1. Housing loans
+housing_loans,owner_with_mortgage,households_holding,870275,households holding the item,,asuntm,10.1,10.1. Housing loans
+housing_loans,renter_or_other,households_holding,,households holding the item,.,asuntm,10.1,10.1. Housing loans
+housing_loans,all,participation_rate_pct,30,percent of the group's households holding the item,,asuntm,10.1,10.1. Housing loans
+housing_loans,outright_owner,participation_rate_pct,,percent of the group's households holding the item,.,asuntm,10.1,10.1. Housing loans
+housing_loans,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,asuntm,10.1,10.1. Housing loans
+housing_loans,renter_or_other,participation_rate_pct,,percent of the group's households holding the item,.,asuntm,10.1,10.1. Housing loans
+consumer_and_other_loans,all,mean,16735,"EUR per household, mean over all households in the group",,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,outright_owner,mean,12009,"EUR per household, mean over all households in the group",,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,owner_with_mortgage,mean,28606,"EUR per household, mean over all households in the group",,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,renter_or_other,mean,11537,"EUR per household, mean over all households in the group",,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,all,median,14764,EUR per household holding the item (median conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,outright_owner,median,14457,EUR per household holding the item (median conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,owner_with_mortgage,median,20074,EUR per household holding the item (median conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,renter_or_other,median,11882,EUR per household holding the item (median conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,all,p25,5236,EUR per household holding the item (lower quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,outright_owner,p25,4082,EUR per household holding the item (lower quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,owner_with_mortgage,p25,7358,EUR per household holding the item (lower quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,renter_or_other,p25,4306,EUR per household holding the item (lower quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,all,p75,34358,EUR per household holding the item (upper quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,outright_owner,p75,45193,EUR per household holding the item (upper quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,owner_with_mortgage,p75,43350,EUR per household holding the item (upper quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,renter_or_other,p75,22511,EUR per household holding the item (upper quartile conditional on holding),,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,all,households_holding,1471240,households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,outright_owner,households_holding,283770,households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,owner_with_mortgage,households_holding,613483,households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,renter_or_other,households_holding,573987,households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,all,participation_rate_pct,50,percent of the group's households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,outright_owner,participation_rate_pct,28,percent of the group's households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,owner_with_mortgage,participation_rate_pct,70,percent of the group's households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+consumer_and_other_loans,renter_or_other,participation_rate_pct,54,percent of the group's households holding the item,,muutvelat,10.2,10.2 Consumer loans and other loans
+main_residence_net_value,all,mean,92755,"EUR per household, mean over all households in the group",,asarav_netto,,Net value of household main residence
+main_residence_net_value,outright_owner,mean,170510,"EUR per household, mean over all households in the group",,asarav_netto,,Net value of household main residence
+main_residence_net_value,owner_with_mortgage,mean,115162,"EUR per household, mean over all households in the group",,asarav_netto,,Net value of household main residence
+main_residence_net_value,renter_or_other,mean,0,"EUR per household, mean over all households in the group",,asarav_netto,,Net value of household main residence
+main_residence_net_value,all,median,102351,EUR per household holding the item (median conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,outright_owner,median,125861,EUR per household holding the item (median conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,owner_with_mortgage,median,70957,EUR per household holding the item (median conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,renter_or_other,median,,EUR per household holding the item (median conditional on holding),.,asarav_netto,,Net value of household main residence
+main_residence_net_value,all,p25,47493,EUR per household holding the item (lower quartile conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,outright_owner,p25,71071,EUR per household holding the item (lower quartile conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,owner_with_mortgage,p25,26353,EUR per household holding the item (lower quartile conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,renter_or_other,p25,,EUR per household holding the item (lower quartile conditional on holding),.,asarav_netto,,Net value of household main residence
+main_residence_net_value,all,p75,190247,EUR per household holding the item (upper quartile conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,outright_owner,p75,213534,EUR per household holding the item (upper quartile conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,owner_with_mortgage,p75,157286,EUR per household holding the item (upper quartile conditional on holding),,asarav_netto,,Net value of household main residence
+main_residence_net_value,renter_or_other,p75,,EUR per household holding the item (upper quartile conditional on holding),.,asarav_netto,,Net value of household main residence
+main_residence_net_value,all,households_holding,1886354,households holding the item,,asarav_netto,,Net value of household main residence
+main_residence_net_value,outright_owner,households_holding,1016983,households holding the item,,asarav_netto,,Net value of household main residence
+main_residence_net_value,owner_with_mortgage,households_holding,869371,households holding the item,,asarav_netto,,Net value of household main residence
+main_residence_net_value,renter_or_other,households_holding,,households holding the item,.,asarav_netto,,Net value of household main residence
+main_residence_net_value,all,participation_rate_pct,64,percent of the group's households holding the item,,asarav_netto,,Net value of household main residence
+main_residence_net_value,outright_owner,participation_rate_pct,100,percent of the group's households holding the item,,asarav_netto,,Net value of household main residence
+main_residence_net_value,owner_with_mortgage,participation_rate_pct,100,percent of the group's households holding the item,,asarav_netto,,Net value of household main residence
+main_residence_net_value,renter_or_other,participation_rate_pct,,percent of the group's households holding the item,.,asarav_netto,,Net value of household main residence
