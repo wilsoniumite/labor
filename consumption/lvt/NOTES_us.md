@@ -170,7 +170,7 @@ collect; that receipt is worth +0.07% of consumption under the LVT and +0.03% un
 ```
 venv/bin/python -I consumption/lvt/code/run_lvt_us.py       # about 35 s; writes out/us_lvt_*.csv and figures/
 venv/bin/python -I consumption/lvt/checks/check_lvt_us.py   # 261 PASS / 0 FAIL / 1 INFO; writes out/check_lvt_us.csv
-venv/bin/python -I consumption/lvt/checks/verify_independent_lvt_us.py   # the independent re-derivation: 266 OK / 9 BAD of 275
+venv/bin/python -I consumption/lvt/checks/verify_independent_lvt_us.py   # the independent re-derivation: 265 OK / 10 BAD of 275
 ```
 
 `bridge.py` is imported, not forked. No hook was needed: `net_from_base()`, `per_share_monthly()`,
@@ -700,10 +700,10 @@ The L2 net at impact takes corporate land on the wealth reading (3.5 cents), as 
 
 `checks/verify_independent_lvt_us.py` re-derives the unit from raw data without importing its code. Its first run gave
 264 of 275 claims OK, with every number reproducing; this version applies its corrections. Run unedited afterwards,
-it gives 266 OK and 9 BAD. The nine claims the first run marked BAD now read OK: the T4 overlap, who responds, the
+it gives 265 OK and 10 BAD. The nine claims the first run marked BAD now read OK: the T4 overlap, who responds, the
 literature attribution, one increment-only convention, the headline header, the VAT's own increment, the data-defect
-paragraph, the hand-to-mouth MPC in D1, and "nearly every bar". The nine that remain BAD are hard-wired to the
-pre-correction unit:
+paragraph, the hand-to-mouth MPC in D1, and "nearly every bar". Nine of the ten that remain BAD are hard-wired to the
+pre-correction unit, and the tenth to the SCF tidy files as they were before they were regenerated:
 - *Capitalization, three rows (bridge L1, bridge L2, full L1).* The verifier still computes increment-only
   grandfathering with the continuous φ·γ/δ (0.339 / 0.222 / 0.392). The unit now reads it from the repo table, as the
   verifier's own review claim asked (0.349 / 0.229 / 0.404). The immediate and phase-in values agree.
@@ -720,6 +720,11 @@ pre-correction unit:
   concept: +0.67. The verifier's +0.25 is reproduced as the L2 row's T4 edge.
 - *Double rounding.* The verifier compares against its own copies of the old printed values (2.6, 4%, 0.58, −1.89,
   −1.17). These NOTES now print 2.5, 3%, 0.57, −1.88 and −1.16, taken from the unrounded CSVs.
+- *The data defect itself.* The verifier asserts that the defect is there: 6,625 xvars records with a wrong
+  IMPLICATE. The two tidy files have since been regenerated (next section), so it finds none and marks the claim BAD,
+  which is the fixed state. Its claim on the data-defect paragraph reads OK, but that claim's note is a fixed string
+  written before the regeneration ("not regenerated and still carry 6,625 bad IMPLICATE values"); the files now
+  carry none.
 
 ## Data defect found
 

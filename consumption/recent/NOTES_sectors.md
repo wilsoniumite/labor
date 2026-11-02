@@ -622,6 +622,31 @@ the lower saving paid for care or for anything else.
     net job growth is 113.5% instead of 107.2%, its share of real PCE growth 39.5% instead of 35.9%, and real spending
     outside care grew 4.0% instead of 4.7% (Table 11a).
 
+## Independent verification
+
+`checks/verify_independent_sectors.py` re-derives the unit from the raw files without importing `sectors.py` and
+prints its claims (it writes no CSV). Its corrections, and those of a second, fresh review of the framing, are
+applied above. Run unedited afterwards, it gives 234 OK and 20 BAD of 254. None of the 20 is a number that
+disagrees; each is wired to the version it checked:
+
+- *Seventeen rewritten sentences.* The verifier anchors each prose claim on a sentence it quotes from these notes,
+  and prints BAD with "NOTES changed; re-check" when that sentence is gone. The corrections rewrote seventeen of
+  them: five on care's real share of growth (41%) against its dollar share (30%), which the verifier showed is
+  mostly general inflation (relative prices explain 1.4 of the 11.4 points); five on the timing and financing of the
+  spending-income gap, which now depend on the starting month (Table 9a); three on growth and private jobs outside
+  care; "about four tenths in every window you choose"; the source of the 107% job share, now computed from the
+  page's chart data; and two method details (the two quantity routes differ by at most 0.43% month by month since
+  2022, and the per-line files hold 366 of lines 1-368). Where the new text prints one of these numbers, it is the
+  verifier's own value.
+- *The monthly residual.* Its claim on "window totals sit 0.010-0.016 points below BEA's published real PCE" also
+  tests that Table 4's monthly context rows sit that close, and they do not (0.423 points for Sep 2018 to Sep 2022).
+  The caveat it asked for is now in the Caveats, with care (c)'s shares of growth on BEA's totals (25.4% and 22.6%),
+  but the test is on the number, so the claim stays BAD.
+- *Which tables.* It expects exactly Tables 1-11 and R. The corrections added Tables 1a, 9a, 11a and 12; the twelve
+  it knows were all found and compared. Check G1 covers every table.
+- *The figure's panel titles.* A fixed verdict: the first panel of `fig_care_share_of_growth.png` was titled (a) but
+  plotted (a+). It is now titled "(a+) Health care services incl. NPISH health".
+
 ## Files
 
 | File | What |

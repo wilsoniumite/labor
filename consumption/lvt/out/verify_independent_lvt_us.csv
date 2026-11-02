@@ -29,7 +29,7 @@ n,area,status,claim,builder,mine,note
 28,"SCF: weights, deciles, dollars, units",OK,PEU rule (person 1; spouse if X7020=2; others if financially dependent) reproduces X7001 on every 2022 record,"README: all 22,975","22,975 of 22,975",
 29,"SCF: weights, deciles, dollars, units",OK,"SCF 2022 adults in PEUs, million (README 225.0)",225,225,NOTES 225
 30,"SCF: weights, deciles, dollars, units",OK,"SCF 2022 minors in PEUs, million (NOTES 74.1)",74.1,74.13,NOTES 74.1
-31,"SCF: weights, deciles, dollars, units",OK,"data defect: tidy xvars IMPLICATE is wrong exactly for YY1 >= 3277 (65537-65541), YY1 is int16 in the Stata file","6,625 records","6,625 records; YY1 dtype int16",
+31,"SCF: weights, deciles, dollars, units",BAD,"data defect: tidy xvars IMPLICATE is wrong exactly for YY1 >= 3277 (65537-65541), YY1 is int16 in the Stata file","6,625 records",0 records; YY1 dtype int16,
 32,"SCF: weights, deciles, dollars, units",OK,NOTES 'Data defect found': the cause still sits in acquire_fed.py line 1135 and is 'not fixed here',"FULL[""Y1""] - 10 * FULL[""YY1""]","FULL[""IMPLICATE""] = (FULL[""Y1""].astype(""int64"") - 10 * FULL[""YY1""].astype(""int64","stale: commit aeba577 fixed the line (int64 cast) but the tidy scf2022_roster/xvars files were not regenerated and still carry 6,625 bad IMPLICATE values; the paragraph should say so"
 33,"SCF: weights, deciles, dollars, units",OK,SCF 2025 payment-share scaling to CE deciles c_d: max gap to the builder,0,4.479e-10,c_d 0.92-1.19 (NOTES 0.92-1.19)
 34,"SCF: weights, deciles, dollars, units",OK,SCF 2022 (roster) payment-share scaling c_d: max gap to the builder,0,4.732e-10,

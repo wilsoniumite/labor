@@ -1,5 +1,5 @@
 check,status,value,detail
-raw files unchanged since download (sha256 = MANIFEST.csv),pass,21/21 match,changed: []; not vendored: ['fred/W875RX1.csv']
+raw files unchanged since download (sha256 = MANIFEST.csv),pass,22/22 match,changed: []; not vendored: ['fred/W875RX1.csv']
 SeriesRegister series codes unique,pass,10674,
 flat files: latest month,info,2026M09,latest year 2025
 TablesRegister lists U20402 (contributions/percent change for U detail),info,False,

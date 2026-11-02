@@ -1058,3 +1058,9 @@ Other changes:
 - Stated or relabelled: ISPCEPX's scope and imputed 2024 weights, NNRESRE in the KVW list, the hidden-top per-year
   column, the SCF-like scope's denominator, the PI rounding variant, the liquidity bins for nonpositive income,
   the bootstrap interval's method and the top-1% family count.
+
+Run unedited after these corrections, the verifier still gives 105 OK and 8 BAD of 113 (it prints its claims and
+writes no CSV). The eight are the corrections above: the four SE claims (the brief's 3.1 and 4.5, the gaps table and
+the decile table), the income side's "no K", the typed $20.5tn, Zandi's 90% and the saving rows. Each compares
+against its own transcription of the notes it checked, or carries a fixed verdict, so it stays BAD after the fix;
+none is a number these notes now print.
