@@ -1,0 +1,1172 @@
+         
+		
+		
+	
+            	
+				
+								    	
+				
+		    		        	        	
+
+
+
+<!DOCTYPE HTML>
+<html lang="en-us">	
+	<head>
+			                                <title>Distribution of Personal Consumption Expenditures :  U.S. Bureau of Labor Statistics</title>
+							<meta charset="UTF-8">
+		
+		
+				
+        <meta property="og:title" content="Distribution of Personal Consumption Expenditures">
+				<meta property="og:url" href="https://www.bls.gov/cex/pce-ce-distributions.htm">
+        <link rel="canonical" href="https://www.bls.gov/cex/pce-ce-distributions.htm">
+		<meta property="og:type" content="website">
+					<meta name="description" content="Overview of CE - PCE research product" />
+			<meta property="og:description" content="Overview of CE - PCE research product" />
+		
+				
+
+								<meta name="date" content="2024-07-15" />
+				
+						
+		                        				<meta name="keywords" content="" />
+				
+		                        					<meta name="surveys" content="" />
+				
+		                        					<meta name="programs" content="" />
+		
+					<meta name="topic" content="Demographics" />
+		
+					<meta name="measure" content="Employment and Unemployment" />
+				
+				        	<meta name="search-priority" content="0.5" />
+        				        	<meta name="change-frequency" content="monthly" />
+				
+		
+						  		  		  
+										<!-- START include/global/head_cms.stm -->
+	<script language="javascript" id="_fed_an_ua_tag" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=DOL&subagency=BLS&yt=true"></script>
+
+	<script src="/javascripts/jquery-latest.js"></script>
+	<link rel="stylesheet" href="/assets/bootstrap/latest/bootstrap.min.css">
+	<script src="/assets/bootstrap/latest/popper.min.js"></script>
+	<script src="/assets/bootstrap/latest/bootstrap.min.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_combined.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_content.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_tables.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/jquery-tools.css">
+				
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--[if lt IE 9]>
+		<link href="/stylesheets/ie8-styles.css" media="all" rel="Stylesheet"> 
+	<![endif]-->
+	<!--[if lt IE 8]>
+		<link href="/stylesheets/ie7-styles.css" media="all" rel="Stylesheet"> 
+	<![endif]-->
+	<!--[if lt IE 7]>
+		<link href="/stylesheets/ie6-styles.css" media="all" rel="Stylesheet"> 
+		<style>
+		body {
+			behavior:url(/stylesheets/csshover2.htc);
+		}
+		</style>			
+	<![endif]-->
+	<!--[if IE]>
+		<style>
+		body {
+			font-size: expression(1 / (screen.deviceXDPI / 96) * 84 + '%');
+		}
+		</style>	
+	<![endif]-->
+	<noscript>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bls_noscript.css">
+	</noscript>
+	<!-----This means that the browser will (probably) render the width of the page at the width of its own screen. ------>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!----------->
+	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
+    <meta property="og:image" content="https://www.bls.gov/images/bls_emblem_2016.png" />
+	<meta property="og:image:alt" content="BLS Logo">
+	<meta name="robots" content="index, follow">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:site_name" content="Bureau of Labor Statistics">
+	<style type="text/css">
+		td.gsc-table-cell-thumbnail{
+		display:none !important;
+		}
+	</style>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+	<link rel="manifest" href="/manifest.json" />
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+	<meta name="theme-color" content="#ffffff" />
+    <!-- END include/global/head_cms.stm -->
+
+			
+			
+			<script type="text/javascript" src="/javascripts/bls-latest.js"></script>
+			<script src="/javascripts/jquery-tools.js"></script>
+			<script type="text/javascript" src="/javascripts/jquery-migrate-1.2.1.min.js"></script>
+		  
+		
+
+
+<script src="/assets/highcharts/latest/highcharts.js"></script>
+<script src="/assets/highcharts/latest/highcharts-more.js"></script>
+<script src="/assets/highcharts/latest/modules/drilldown.js"></script>
+<script>
+$(function(){
+               var all_chart_options = {"chart":{"renderTo":"chart1","margin":[100,40,80,80],"borderWidth":0,"plotBorderColor":"#000","plotBorderWidth":0,"backgroundColor":"#fff","type":"area","events":{"redraw":function redraw() { if (chart) { $.each(chart.series, function (i, serie) { $.each(serie.data, function (j, point) { if (point.options.cursor === "pointer") { point.graphic.attr({ cursor: 'pointer' }); } }); }); } }},"zoomType":null,"alignTicks":false,"ignoreHiddenSeries":true,"inverted":false,"showTable":function () { var self = this; var table_popup_div = $("<div>".concat(all_chart_options.input_table, "</div>")).css({ display: "block", width: "100%", height: "100%", overflow: "scroll", position: "fixed", zIndex: "5000", backgroundColor: "rgb(255,255,255)", top: "0px", left: "0px", padding: "20px" }).attr({ id: "table_popup_div", "class": "table_popup_div" }).appendTo("body"); var table_popup_div_close_button = $("<a href='#' class='close_popup'></a>").text("Close").css({ textAlign: "left", fontSize: "1.4em", color: "#e31c3d", margin: "auto", marginBottom: "9px" }).click(function (ev) { ev.preventDefault(); $("#table_popup_div").remove(); $("#".concat(self.renderTo, " .highcharts-a11y-proxy-button")).focus(); $(".focus-disabled").attr("tabindex", "0").removeClass("focus-disabled"); }).prependTo($("#table_popup_div")).focus(); $('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]').not(".close_popup").attr("tabindex", "-1").addClass("focus-disabled"); },"downloadCSV":function () { var csv = []; $("tr", all_chart_options.input_table).each(function (i, tr) { var tr_arr = []; $("th, td", tr).each(function (j, td) { tr_arr.push('"' + $(td).text() + '"'); }); csv.push(tr_arr); }); csv = csv.map(function (val, i) { return val.join(","); }); csv = csv.join("\n"); var filename = $.trim($("caption .tableTitle", all_chart_options.input_table).text()) + ".csv"; var file = new File([csv], filename, { type: "text/plain;charset=utf-8" }); saveAs(file); $(".highcharts-focus-border").remove(); }},"colors":["rgb(124, 181, 236)","rgb(67, 67, 72)","rgb(144, 237, 125)","rgb(247, 163, 92)","rgb(128, 133, 233)","rgb(241, 92, 128)","rgb(228, 211, 84)","rgb(43, 144, 143)","rgb(244, 91, 91)","rgb(145, 232, 225)","rgb(47, 126, 216)","rgb(13, 35, 58)","rgb(139, 188, 33)","rgb(145, 0, 0)","rgb(26, 173, 206)"],"legend":{"align":"left","alignColumns":false,"backgroundColor":"none","borderColor":"none","borderWidth":0,"enabled":true,"floating":true,"layout":"horizontal","reversed":false,"shadow":false,"symbolRadius":0,"title":{},"useHTML":false,"verticalAlign":"top","width":520,"x":60,"y":40,"itemStyle":{"fontFamily":"Calibri, Arial, Helvetica, sans-serif","color":"#000","cursor":"pointer","textOverflow":"wrap"},"itemHiddenStyle":{"color":"gray"},"itemHoverStyle":{"cursor":"pointer"}},"plotOptions":{"series":{"events":{"legendItemClick":function legendItemClick(event) {}},"dataLabels":{"enabled":false,"allowOverlap":false,"padding":0,"verticalAlign":"bottom","style":{"textShadow":"none","color":"#000"}},"pointPlacement":null,"stacking":null,"pointPadding":0.1,"groupPadding":0.2,"minPointLength":2,"minSize":4,"sizeBy":"width","lineWidth":1.5,"states":{"hover":{"lineWidth":4}},"marker":{"enabled":false,"states":{"hover":{"enabled":true,"radius":5}}}},"bubble":{"tooltip":{"followPointer":true}},"line":{},"bar":{"borderWidth":0},"boxplot":{"fillColor":"#F0F0E0"},"pie":{"showInLegend":true,"size":"130%"}},"series":[{"name":"0-20%","data":[842.4256585,860.1784649,864.4490347,879.0142898,903.6018856,942.7588619,974.3010102,979.6786681,974.6507432,992.7398533,1017.765504,1031.268173,997.944898,1014.723265,1048.544751,1100.359105,1127.715328,1166.749715,1185.830379,1287.898571,1330.352499,1358.625532,1374.146231,1430.170651,null],"type":"area","color":"rgb(124, 181, 236)","_symbolIndex":0,"stacking":"stacked","visible":true},{"name":"20-40%","data":[1225.383112,1243.15139,1274.743309,1292.191415,1312.647315,1378.860732,1429.580526,1444.868002,1463.707339,1450.862352,1462.975099,1504.990214,1511.486134,1507.389178,1561.728296,1630.318086,1679.861289,1733.082278,1780.438803,1856.949221,1876.210926,1979.268321,2054.613602,2057.218113,null],"type":"area","color":"rgb(67, 67, 72)","_symbolIndex":0,"stacking":"stacked","visible":true},{"name":"40-60%","data":[1523.959292,1557.757839,1620.037004,1614.726368,1679.440567,1737.301018,1825.093039,1820.285162,1839.192285,1822.237091,1854.262128,1867.797968,1908.724255,1939.342042,1996.035763,2072.472152,2138.901279,2210.565599,2232.416518,2297.052857,2323.044767,2471.002388,2527.031062,2619.604354,null],"type":"area","color":"rgb(144, 237, 125)","_symbolIndex":0,"stacking":"stacked","visible":true},{"name":"60-80%","data":[1937.159743,1977.215181,2053.537611,2104.710313,2206.787731,2259.445742,2330.439085,2358.633052,2361.832864,2312.413637,2399.877712,2417.001777,2455.435303,2511.91464,2593.445868,2673.914367,2779.142339,2864.019767,2924.600852,2959.379507,2857.693011,3143.448769,3225.364436,3378.752658,null],"type":"area","color":"rgb(247, 163, 92)","_symbolIndex":0,"stacking":"stacked","visible":true},{"name":"80-100%","data":[3643.199186,3760.641614,3824.03976,4048.182092,4209.166276,4359.179055,4427.400141,4651.726738,4632.84539,4546.516997,4599.829538,4706.875259,4813.819114,4918.699137,5028.116495,5162.288497,5223.448084,5316.211641,5531.593253,5547.020279,5207.773018,5834.459322,6054.071959,6136.285911,null],"type":"area","color":"rgb(128, 133, 233)","_symbolIndex":0,"stacking":"stacked","visible":true}],"subtitle":{"text":"","align":"left","style":{"color":"#000000","fontFamily":"arial","fontWeight":"normal","fontSize":"12px"}},"title":{"text":" Real PCE by Quintile of Equivalized PCE (billions of 2017 dollars)  ","align":"left","style":{"color":"#000000","fontFamily":"arial","fontWeight":"bold","fontSize":"14px"}},"tooltip":{"backgroundColor":"#FEFFEF","crosshairs":[false,false],"formatter":function () { var options = this.series.chart.tooltip.options; var dollar = this.series.options.dollar || options.y_signs_arr[0]; var percent = this.series.options.percent || options.y_signs_arr[1]; var decimals = this.series.options.decimals || options.y_decimals; var multiple = options.multiplier; if (all_chart_options.series[this.series.index].yAxis == 1) { dollar = options.y_signs_arr_2[0]; percent = options.y_signs_arr_2[1]; decimals = options.y_decimals_2; multiple = options.multiplier_2; } var y_val = this.point.high ? "High: " + dollar + $(this.point.high * multiple).addCommas(decimals) + percent + " | Low: " + dollar + $(this.point.low * multiple).addCommas(decimals) + percent : dollar + $(this.y * multiple).addCommas(decimals) + percent; var s = "<b>" + this.series.name + "</b><br>" + this.x + ": " + y_val; all_chart_options.series[this.series.index] ? s = all_chart_options.tooltip.addExtraData(all_chart_options.series[this.series.index].extra_data, this.point, s) : s = s; return s.replace(/\$-/g, "-$"); },"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif"},"useHTML":false,"shared":false,"addExtraData":function (extra_data, point, s) { if (extra_data && extra_data[0].name) { $.each(extra_data, function (i) { if (extra_data[i].values[point.index]) { s = s + "<br>" + extra_data[i].name + ": " + extra_data[i].values[point.index]; } }); } return s; },"x_signs_arr":["",""],"z_signs_arr":["",""],"y_decimals":0,"y_decimals_2":0,"x_decimals":0,"z_decimals":0,"z_title":"Z","multiplier":1,"multiplier_2":1,"y_signs_arr":["",""],"y_signs_arr_2":["",""]},"xAxis":{"categories":["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023",""],"gridLineColor":"#c0c0c0","gridLineWidth":0,"gridLineDashStyle":"Dot","labels":{"rotation":0,"useHTML":false,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","backgroundColor":"#fff","fontSize":"12px","textOverflow":"wrap"}},"lineWidth":1.2,"lineColor":"gray","max":null,"min":null,"plotBands":[],"plotLines":[{"value":0,"color":"#c0c0c0","dashStyle":"solid","width":0}],"startOnTick":false,"tickInterval":5,"tickmarkPlacement":"on","tickPosition":"outside","tickColor":"#C0D0E0","title":{"align":"middle","useHTML":true,"text":"","margin":6,"rotation":0,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","backgroundColor":"#fff","fontSize":"13px"},"x":0},"type":"linear"},"yAxis":{"gridLineColor":"#c0c0c0","gridLineWidth":1,"gridLineDashStyle":"Dot","labels":{"formatter":function yAxisFormat() { var decimals = this.axis.options.labels.decimals; var signs_arr = this.axis.options.labels.signs_arr; var dividend = this.axis.options.labels.dividend; var s = this.value / dividend == parseInt(this.value / dividend) ? Highcharts.numberFormat(this.value / dividend, 0, ".", ",") : Highcharts.numberFormat(this.value / dividend, 1, ".", ","); s = signs_arr[0] + s + signs_arr[1]; return s.replace(/\$-/g, "-$"); },"rotation":0,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","backgroundColor":"#fff","fontSize":"12px"},"signs_arr":["",""],"decimals":null,"dividend":1},"lineColor":"gray","lineWidth":1,"max":null,"min":null,"opposite":false,"plotBands":[],"plotLines":[{"value":0,"color":"#000","dashStyle":"solid","width":1}],"tickInterval":null,"tickmarkPlacement":"on","tickPosition":"outside","tickColor":"#C0D0E0","tickWidth":1,"title":{"useHTML":false,"text":"","margin":6,"align":"high","offset":20,"rotation":0,"x":35,"y":-20,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","fontSize":"13px"}},"type":"linear","allowDecimals":true},"credits":{"href":"/","position":{"align":"left","x":10,"y":-33},"style":{"cursor":"default","color":"#2C2C2C","font-size":"11px"},"target":"_blank","text":"Click legend items to change data display. Hover over chart to view data.<br>Source: U.S. Bureau of Labor Statistics.<br>Based on nominal values for deciles which have been deflated using decile-specific PCE price indexes.","useHTML":true},"exporting":{"sourceWidth":640,"scale":1,"chartOptions":{"chart":{"backgroundColor":"#fff"},"credits":{"text":"<br>Source: U.S. Bureau of Labor Statistics.<br>Based on nominal values for deciles which have been deflated using decile-specific PCE price indexes."}},"buttons":{"contextButton":{"text":"<span style='color: #112e51'>Options</span>","symbolY":14,"symbolStroke":"#112e51","enabled":true,"verticalAlign":"bottom","x":-10,"menuItems":[{"textKey":"printChart","onclick":function onclick() { $(".highcharts-focus-border").remove(); this.print(); }},{"separator":true},{"textKey":"downloadPNG","onclick":function onclick() { this.exportChartLocal(); }},{"textKey":"downloadJPEG","onclick":function onclick() { this.exportChartLocal({ type: 'image/jpeg' }); }},{"textKey":"downloadSVG","onclick":function onclick() { this.exportChartLocal({ type: 'image/svg+xml' }); }},{"separator":true},{"text":"Show table","onclick":function onclick() { this.options.chart.showTable(); }},{"text":"Download CSV","onclick":function onclick() { this.options.chart.downloadCSV(); }}]}}},"input_table":"<table class=\"regular\" id=\"BLStable_2025_3_6_10_37\" style=\"width: 95%;\"> <caption> <span class=\"tableTitle\">Real PCE by Quintile of Equivalized PCE (billions of 2017 dollars)</span>  </caption> <thead><tr><th scope=\"col\" rowspan=\"1\" style=\"vertical-align: middle; min-width: 80px;\">Year<\/th><th scope=\"col\">0-20%<\/th><th scope=\"col\">20-40%<\/th><th scope=\"col\">40-60%<\/th><th scope=\"col\">60-80%<\/th><th scope=\"col\">80-100%<\/th><\/tr><\/thead> <tbody><tr><th scope=\"row\"><p>2000<\/p><\/th><td>842.4256585<\/td><td>1225.383112<\/td><td>1523.959292<\/td><td>1937.159743<\/td><td>3643.199186<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2001<\/p><\/th><td>860.1784649<\/td><td>1243.15139<\/td><td>1557.757839<\/td><td>1977.215181<\/td><td>3760.641614<\/td><\/tr><tr><th scope=\"row\"><p>2002<\/p><\/th><td>864.4490347<\/td><td>1274.743309<\/td><td>1620.037004<\/td><td>2053.537611<\/td><td>3824.03976<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2003<\/p><\/th><td>879.0142898<\/td><td>1292.191415<\/td><td>1614.726368<\/td><td>2104.710313<\/td><td>4048.182092<\/td><\/tr><tr><th scope=\"row\"><p>2004<\/p><\/th><td>903.6018856<\/td><td>1312.647315<\/td><td>1679.440567<\/td><td>2206.787731<\/td><td>4209.166276<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2005<\/p><\/th><td>942.7588619<\/td><td>1378.860732<\/td><td>1737.301018<\/td><td>2259.445742<\/td><td>4359.179055<\/td><\/tr><tr><th scope=\"row\"><p>2006<\/p><\/th><td>974.3010102<\/td><td>1429.580526<\/td><td>1825.093039<\/td><td>2330.439085<\/td><td>4427.400141<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2007<\/p><\/th><td>979.6786681<\/td><td>1444.868002<\/td><td>1820.285162<\/td><td>2358.633052<\/td><td>4651.726738<\/td><\/tr><tr><th scope=\"row\"><p>2008<\/p><\/th><td>974.6507432<\/td><td>1463.707339<\/td><td>1839.192285<\/td><td>2361.832864<\/td><td>4632.84539<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2009<\/p><\/th><td>992.7398533<\/td><td>1450.862352<\/td><td>1822.237091<\/td><td>2312.413637<\/td><td>4546.516997<\/td><\/tr><tr><th scope=\"row\"><p>2010<\/p><\/th><td>1017.765504<\/td><td>1462.975099<\/td><td>1854.262128<\/td><td>2399.877712<\/td><td>4599.829538<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2011<\/p><\/th><td>1031.268173<\/td><td>1504.990214<\/td><td>1867.797968<\/td><td>2417.001777<\/td><td>4706.875259<\/td><\/tr><tr><th scope=\"row\"><p>2012<\/p><\/th><td>997.944898<\/td><td>1511.486134<\/td><td>1908.724255<\/td><td>2455.435303<\/td><td>4813.819114<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2013<\/p><\/th><td>1014.723265<\/td><td>1507.389178<\/td><td>1939.342042<\/td><td>2511.91464<\/td><td>4918.699137<\/td><\/tr><tr><th scope=\"row\"><p>2014<\/p><\/th><td>1048.544751<\/td><td>1561.728296<\/td><td>1996.035763<\/td><td>2593.445868<\/td><td>5028.116495<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2015<\/p><\/th><td>1100.359105<\/td><td>1630.318086<\/td><td>2072.472152<\/td><td>2673.914367<\/td><td>5162.288497<\/td><\/tr><tr><th scope=\"row\"><p>2016<\/p><\/th><td>1127.715328<\/td><td>1679.861289<\/td><td>2138.901279<\/td><td>2779.142339<\/td><td>5223.448084<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2017<\/p><\/th><td>1166.749715<\/td><td>1733.082278<\/td><td>2210.565599<\/td><td>2864.019767<\/td><td>5316.211641<\/td><\/tr><tr><th scope=\"row\"><p>2018<\/p><\/th><td>1185.830379<\/td><td>1780.438803<\/td><td>2232.416518<\/td><td>2924.600852<\/td><td>5531.593253<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2019<\/p><\/th><td>1287.898571<\/td><td>1856.949221<\/td><td>2297.052857<\/td><td>2959.379507<\/td><td>5547.020279<\/td><\/tr><tr><th scope=\"row\"><p>2020<\/p><\/th><td>1330.352499<\/td><td>1876.210926<\/td><td>2323.044767<\/td><td>2857.693011<\/td><td>5207.773018<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2021<\/p><\/th><td>1358.625532<\/td><td>1979.268321<\/td><td>2471.002388<\/td><td>3143.448769<\/td><td>5834.459322<\/td><\/tr><tr><th scope=\"row\"><p>2022<\/p><\/th><td>1374.146231<\/td><td>2054.613602<\/td><td>2527.031062<\/td><td>3225.364436<\/td><td>6054.071959<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2023<\/p><\/th><td>1430.170651<\/td><td>2057.218113<\/td><td>2619.604354<\/td><td>3378.752658<\/td><td>6136.285911<\/td><\/tr><tr><th scope=\"row\"><p><\/p><\/th><td><\/td><td><\/td><td><\/td><\/tr><\/tbody><tfoot style=\"display: table-footer-group;\" id=\"BLStable_2025_3_6_10_37_footnotes\"><tr class=\"footnotes\"><td class=\"footnotes\" colspan=\"6\"><p>Source: U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys Public-Use Microdata.<\/p><\/td><\/tr><\/tfoot><\/table>","saved_values":[{"id":"chart_type_icons","val":"area"},{"id":"chart_id_textinput","val":"chart1"},{"id":"map_type_select","val":"state"},{"id":"map_animated_checkbox","val":false},{"id":"map_color_by_names_checkbox","val":false},{"id":"bubble_animated_checkbox","val":false},{"id":"drilldown_type_select","val":"bar"},{"id":"chart_width_textinput","val":"580"},{"id":"chart_height_textinput","val":"430"},{"id":"top_margin_textinput","val":"100"},{"id":"right_margin_textinput","val":"40"},{"id":"bottom_margin_textinput","val":"80"},{"id":"left_margin_textinput","val":"80"},{"id":"map_spotlight_size_checkbox","val":false},{"id":"map_circle_size_range","val":"10"},{"id":"map_circle_size_by_select","val":"main_values"},{"id":"table_input_load_series_from_icons","val":"column_heads"},{"id":"example_table_select","val":"recession_dates_table2"},{"id":"table_input_textarea","val":"<table class=\"regular\" id=\"BLStable_2025_3_6_10_37\" style=\"width: 95%;\"> <caption> <span class=\"tableTitle\">Real PCE by Quintile of Equivalized PCE (billions of 2017 dollars)</span>  </caption> <thead><tr><th scope=\"col\" rowspan=\"1\" style=\"vertical-align: middle; min-width: 80px;\">Year<\/th><th scope=\"col\">0-20%<\/th><th scope=\"col\">20-40%<\/th><th scope=\"col\">40-60%<\/th><th scope=\"col\">60-80%<\/th><th scope=\"col\">80-100%<\/th><\/tr><\/thead> <tbody><tr><th scope=\"row\"><p>2000<\/p><\/th><td>842.4256585<\/td><td>1225.383112<\/td><td>1523.959292<\/td><td>1937.159743<\/td><td>3643.199186<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2001<\/p><\/th><td>860.1784649<\/td><td>1243.15139<\/td><td>1557.757839<\/td><td>1977.215181<\/td><td>3760.641614<\/td><\/tr><tr><th scope=\"row\"><p>2002<\/p><\/th><td>864.4490347<\/td><td>1274.743309<\/td><td>1620.037004<\/td><td>2053.537611<\/td><td>3824.03976<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2003<\/p><\/th><td>879.0142898<\/td><td>1292.191415<\/td><td>1614.726368<\/td><td>2104.710313<\/td><td>4048.182092<\/td><\/tr><tr><th scope=\"row\"><p>2004<\/p><\/th><td>903.6018856<\/td><td>1312.647315<\/td><td>1679.440567<\/td><td>2206.787731<\/td><td>4209.166276<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2005<\/p><\/th><td>942.7588619<\/td><td>1378.860732<\/td><td>1737.301018<\/td><td>2259.445742<\/td><td>4359.179055<\/td><\/tr><tr><th scope=\"row\"><p>2006<\/p><\/th><td>974.3010102<\/td><td>1429.580526<\/td><td>1825.093039<\/td><td>2330.439085<\/td><td>4427.400141<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2007<\/p><\/th><td>979.6786681<\/td><td>1444.868002<\/td><td>1820.285162<\/td><td>2358.633052<\/td><td>4651.726738<\/td><\/tr><tr><th scope=\"row\"><p>2008<\/p><\/th><td>974.6507432<\/td><td>1463.707339<\/td><td>1839.192285<\/td><td>2361.832864<\/td><td>4632.84539<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2009<\/p><\/th><td>992.7398533<\/td><td>1450.862352<\/td><td>1822.237091<\/td><td>2312.413637<\/td><td>4546.516997<\/td><\/tr><tr><th scope=\"row\"><p>2010<\/p><\/th><td>1017.765504<\/td><td>1462.975099<\/td><td>1854.262128<\/td><td>2399.877712<\/td><td>4599.829538<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2011<\/p><\/th><td>1031.268173<\/td><td>1504.990214<\/td><td>1867.797968<\/td><td>2417.001777<\/td><td>4706.875259<\/td><\/tr><tr><th scope=\"row\"><p>2012<\/p><\/th><td>997.944898<\/td><td>1511.486134<\/td><td>1908.724255<\/td><td>2455.435303<\/td><td>4813.819114<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2013<\/p><\/th><td>1014.723265<\/td><td>1507.389178<\/td><td>1939.342042<\/td><td>2511.91464<\/td><td>4918.699137<\/td><\/tr><tr><th scope=\"row\"><p>2014<\/p><\/th><td>1048.544751<\/td><td>1561.728296<\/td><td>1996.035763<\/td><td>2593.445868<\/td><td>5028.116495<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2015<\/p><\/th><td>1100.359105<\/td><td>1630.318086<\/td><td>2072.472152<\/td><td>2673.914367<\/td><td>5162.288497<\/td><\/tr><tr><th scope=\"row\"><p>2016<\/p><\/th><td>1127.715328<\/td><td>1679.861289<\/td><td>2138.901279<\/td><td>2779.142339<\/td><td>5223.448084<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2017<\/p><\/th><td>1166.749715<\/td><td>1733.082278<\/td><td>2210.565599<\/td><td>2864.019767<\/td><td>5316.211641<\/td><\/tr><tr><th scope=\"row\"><p>2018<\/p><\/th><td>1185.830379<\/td><td>1780.438803<\/td><td>2232.416518<\/td><td>2924.600852<\/td><td>5531.593253<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2019<\/p><\/th><td>1287.898571<\/td><td>1856.949221<\/td><td>2297.052857<\/td><td>2959.379507<\/td><td>5547.020279<\/td><\/tr><tr><th scope=\"row\"><p>2020<\/p><\/th><td>1330.352499<\/td><td>1876.210926<\/td><td>2323.044767<\/td><td>2857.693011<\/td><td>5207.773018<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2021<\/p><\/th><td>1358.625532<\/td><td>1979.268321<\/td><td>2471.002388<\/td><td>3143.448769<\/td><td>5834.459322<\/td><\/tr><tr><th scope=\"row\"><p>2022<\/p><\/th><td>1374.146231<\/td><td>2054.613602<\/td><td>2527.031062<\/td><td>3225.364436<\/td><td>6054.071959<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2023<\/p><\/th><td>1430.170651<\/td><td>2057.218113<\/td><td>2619.604354<\/td><td>3378.752658<\/td><td>6136.285911<\/td><\/tr><tr><th scope=\"row\"><p><\/p><\/th><td><\/td><td><\/td><td><\/td><\/tr><\/tbody><tfoot style=\"display: table-footer-group;\" id=\"BLStable_2025_3_6_10_37_footnotes\"><tr class=\"footnotes\"><td class=\"footnotes\" colspan=\"6\"><p>Source: U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys Public-Use Microdata.<\/p><\/td><\/tr><\/tfoot><\/table>"},{"id":"color_palettes","val":"color_palette_2"},{"id":"use_custom_colors_checkbox","val":false},{"id":"custom_colors_textarea","val":"Aqua green CornflowerBlue #FF1493 #A52A2A #FF7F50 rgb(184,134,11) rgb(139,0,139) rgb(255,215,0)\n "},{"id":"legend_layout_select","val":"horizontal"},{"id":"map_legend_enabled_checkbox","val":true},{"id":"map_legend_hover_enabled_checkbox","val":true},{"id":"map_legend_decimals_select","val":null},{"id":"legend_placement_x","val":"60"},{"id":"legend_placement_y","val":"40"},{"id":"legend_reverse_layout_checkbox","val":false},{"id":"legend_width_input","val":""},{"id":"legend_item_width_input","val":""},{"id":"legend_alphabetical_layout_checkbox","val":false},{"id":"legend_make_toggle_checkbox","val":false},{"id":"chart_x_axis_title_textarea","val":""},{"id":"chart_x_axis_x_position_input","val":"40"},{"id":"chart_x_axis_tickmark_interval_input","val":""},{"id":"chart_x_axis_min_input","val":""},{"id":"chart_x_axis_max_input","val":""},{"id":"chart_x_axis_show_only_years","val":false},{"id":"chart_x_axis_add_commas","val":false},{"id":"chart_x_axis_signs_select","val":"no_signs"},{"id":"chart_x_axis_decimals_select","val":null},{"id":"chart_y_axis_title_textarea","val":""},{"id":"chart_y_axis_x_position_input","val":"35"},{"id":"chart_y_axis_tickmark_interval_input","val":""},{"id":"chart_y_axis_min_input","val":""},{"id":"chart_y_axis_max_input","val":""},{"id":"chart_y_axis_opposite_checkbox","val":false},{"id":"chart_y_axis_log_checkbox","val":false},{"id":"chart_y_axis_signs_select","val":"no_signs"},{"id":"chart_y_axis_decimals_select","val":null},{"id":"chart_y_axis_divide_select","val":"1"},{"id":"chart_y_axis_2_enabled_checkbox","val":false},{"id":"chart_y_axis_title_textarea_2","val":""},{"id":"chart_y_axis_x_position_input_2","val":"-75"},{"id":"chart_y_axis_tickmark_interval_input_2","val":"5"},{"id":"chart_y_axis_min_input_2","val":"0"},{"id":"chart_y_axis_max_input_2","val":"100"},{"id":"chart_y_axis_signs_select_2","val":"no_signs"},{"id":"chart_y_axis_decimals_select_2","val":null},{"id":"chart_tooltip_shared_checkbox","val":false},{"id":"chart_tooltip_force_decimals_select","val":"0"},{"id":"chart_tooltip_signs_select","val":"no_signs"},{"id":"chart_tooltip_force_decimals_x_select","val":"0"},{"id":"chart_tooltip_signs_x_select","val":"no_signs"},{"id":"chart_tooltip_force_decimals_z_select","val":"0"},{"id":"chart_tooltip_signs_z_select","val":"no_signs"},{"id":"map_tooltip_main_value_font_size_input","val":"30"},{"id":"map_tooltip_na_text_input","val":"N/A"},{"id":"map_tooltip_prepend_to_value_text_input","val":""},{"id":"chart_z_title_text_input","val":""},{"id":"chart_tooltip_y_multiple_select","val":"1"},{"id":"chart_tooltip_force_decimals_select_2","val":"0"},{"id":"chart_tooltip_signs_select_2","val":"no_signs"},{"id":"chart_tooltip_y_multiple_select_2","val":"1"},{"id":"chart_credits_text_textarea","val":"Click legend items to change data display. Hover over chart to view data.\nSource: U.S. Bureau of Labor Statistics.\nBased on nominal values for deciles which have been deflated using decile-specific PCE price indexes."},{"id":"point_padding_input","val":".1"},{"id":"group_padding_input","val":".2"},{"id":"chart_subtitle_textarea","val":""},{"id":"map_animation_speed_range","val":"500"},{"id":"map_animated_start_at_last_date_checkbox","val":false},{"id":"map_include_puerto_rico_checkbox","val":false},{"id":"map_include_virgin_islands_checkbox","val":false},{"id":"map_add_ranked_columns_checkbox","val":false},{"id":"map_ranked_column_size_range","val":"100"},{"id":"map_add_state_labels_checkbox","val":false},{"id":"chart_zoom_select","val":"false,false,null"},{"id":"chart_show_data_labels_checkbox","val":false},{"id":"chart_scatter_add_45_line_checkbox","val":false},{"id":"chart_scatter_add_regression_line_checkbox","val":false},{"id":"chart_scatter_highlight_points_select","val":"no_highlight"},{"id":"chart_add_recession_shading_select","val":"no_recession"}]};
+
+var chartCallback = function chartCallback(all_chart_options) {
+      if (all_chart_options.timeline) {
+        //call animation if applicable
+        all_chart_options.timeline.animation();
+      }
+  
+      $(".highcharts-legend-item").css("min-height", "0px").css("z-index", 100); //fix so CMS CSS doesn't make legend taller than it should
+  
+      $(".highcharts-tooltip").css("z-index", 200);
+      /**
+       * Highcharts plugin for setting a lower opacity for other series than the one that is hovered
+       * in the legend
+       */
+  
+      (function (Highcharts) {
+        var each = Highcharts.each;
+        Highcharts.wrap(Highcharts.Legend.prototype, 'renderItem', function (proceed, item) {
+          proceed.call(this, item);
+          var isPoint = !!item.series,
+              collection = isPoint ? item.series.points : this.chart.series,
+              groups = isPoint ? ['graphic'] : ['group', 'markerGroup'],
+              element = (this.options.useHTML ? item.legendItem : item.legendGroup).element;
+  
+          element.onmouseover = function () {
+            each(collection, function (seriesItem) {
+              if (seriesItem !== item) {
+                each(groups, function (group) {
+                  seriesItem[group].animate({
+                    opacity: 0.25
+                  }, {
+                    duration: 150
+                  });
+                });
+              }
+            });
+          };
+  
+          element.onmouseout = function () {
+            each(collection, function (seriesItem) {
+              if (seriesItem !== item) {
+                each(groups, function (group) {
+                  seriesItem[group].animate({
+                    opacity: 1
+                  }, {
+                    duration: 50
+                  });
+                });
+              }
+            });
+          };
+        });
+        Highcharts.wrap(Highcharts.Chart.prototype, 'showCredits', function (proceed, credits) {
+          proceed.call(this, credits);
+  
+          if (this.credits && credits.target) {
+            this.credits.on('click', function () {
+              $('<a>').attr({
+                href: credits.href,
+                target: credits.target
+              })[0].click();
+            });
+          }
+        });
+      })(Highcharts); //end gray other series plugin
+  
+    };
+Highcharts.setOptions({lang: {thousandsSep: ",",
+drillUpText: "\u25C0 Back ",
+contextButtonTitle: "Download chart image"
+   }});
+
+    var chart = new Highcharts.Chart(all_chart_options, chartCallback(all_chart_options));
+});
+  jQuery.fn.extend({addCommas:function addCommas(decimals) {
+        var val = this[0] || 0;
+  
+        if (isNaN(val) || val < 999 && val > -999 && decimals < 1) {
+          //small numbers auto decimals
+          return val;
+        } else if (val < 999 && val > -999 && decimals > 0) {
+          //small numbers fixed decimals
+          return val.toFixed(decimals);
+        } else if ((val > 999 || val < -999) && decimals > 0) {
+          //big numbers fixed decimals
+          val = val.toFixed(decimals);
+  
+          while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+          }
+        } else if (val > 999 || val < -999) {
+          //big number auto decimals
+          while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+          }
+        }
+  
+        return val;
+      } });
+$(function(){
+               var all_chart_options = {"chart":{"renderTo":"chart2","margin":[100,40,80,80],"borderWidth":0,"plotBorderColor":"#000","plotBorderWidth":0,"backgroundColor":"#fff","type":"line","events":{"redraw":function redraw() { if (chart) { $.each(chart.series, function (i, serie) { $.each(serie.data, function (j, point) { if (point.options.cursor === "pointer") { point.graphic.attr({ cursor: 'pointer' }); } }); }); } }},"zoomType":null,"alignTicks":false,"ignoreHiddenSeries":true,"inverted":false,"showTable":function () { var self = this; var table_popup_div = $("<div>".concat(all_chart_options.input_table, "</div>")).css({ display: "block", width: "100%", height: "100%", overflow: "scroll", position: "fixed", zIndex: "5000", backgroundColor: "rgb(255,255,255)", top: "0px", left: "0px", padding: "20px" }).attr({ id: "table_popup_div", "class": "table_popup_div" }).appendTo("body"); var table_popup_div_close_button = $("<a href='#' class='close_popup'></a>").text("Close").css({ textAlign: "left", fontSize: "1.4em", color: "#e31c3d", margin: "auto", marginBottom: "9px" }).click(function (ev) { ev.preventDefault(); $("#table_popup_div").remove(); $("#".concat(self.renderTo, " .highcharts-a11y-proxy-button")).focus(); $(".focus-disabled").attr("tabindex", "0").removeClass("focus-disabled"); }).prependTo($("#table_popup_div")).focus(); $('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]').not(".close_popup").attr("tabindex", "-1").addClass("focus-disabled"); },"downloadCSV":function () { var csv = []; $("tr", all_chart_options.input_table).each(function (i, tr) { var tr_arr = []; $("th, td", tr).each(function (j, td) { tr_arr.push('"' + $(td).text() + '"'); }); csv.push(tr_arr); }); csv = csv.map(function (val, i) { return val.join(","); }); csv = csv.join("\n"); var filename = $.trim($("caption .tableTitle", all_chart_options.input_table).text()) + ".csv"; var file = new File([csv], filename, { type: "text/plain;charset=utf-8" }); saveAs(file); $(".highcharts-focus-border").remove(); }},"colors":["#7cb5ec","#434348","#90ed7d","#f7a35c","#8085e9","#f15c80","#e4d354","#2b908f","#f45b5b","#91e8e1","#2f7ed8","#0d233a","#8bbc21","#910000","#1aadce","#492970","#f28f43","#77a1e5","#c42525","#a6c96a"],"legend":{"align":"left","alignColumns":false,"backgroundColor":"none","borderColor":"none","borderWidth":0,"enabled":true,"floating":true,"layout":"horizontal","reversed":false,"shadow":false,"symbolRadius":0,"title":{},"useHTML":false,"verticalAlign":"top","width":520,"x":60,"y":40,"itemStyle":{"fontFamily":"Calibri, Arial, Helvetica, sans-serif","color":"#000","cursor":"pointer","textOverflow":"wrap"},"itemHiddenStyle":{"color":"gray"},"itemHoverStyle":{"cursor":"pointer"}},"plotOptions":{"series":{"events":{"legendItemClick":function legendItemClick(event) {}},"dataLabels":{"enabled":false,"allowOverlap":false,"padding":0,"verticalAlign":"bottom","style":{"textShadow":"none","color":"#000"}},"pointPlacement":null,"stacking":null,"pointPadding":0.1,"groupPadding":0.2,"minPointLength":2,"minSize":4,"sizeBy":"width","lineWidth":1.5,"states":{"hover":{"lineWidth":4}},"marker":{"enabled":false,"states":{"hover":{"enabled":true,"radius":5}}}},"bubble":{"tooltip":{"followPointer":true}},"line":{},"bar":{"borderWidth":0},"boxplot":{"fillColor":"#F0F0E0"},"pie":{"showInLegend":true,"size":"130%"}},"series":[{"name":"DPI: 0-20%","data":[621.1871923,627.3659089,683.1004263,697.9528214,711.3780419,716.725183,736.5590958,735.8579372,749.4624156,745.159896,753.4800918,812.2665187,834.7422775,854.919,869.2657305,905.3027156,1004.507574,1049.626334,928.3069207],"type":"line","color":"#7cb5ec","_symbolIndex":0,"stacking":null,"visible":true},{"name":"DPI: 80-100%","data":[5370.517118,5443.990405,5663.844742,5734.303232,5845.299092,5798.846729,5878.716994,6134.704539,6376.336979,6159.212265,6437.369879,6628.873678,6775.726364,7016.1814,7281.236293,7432.847468,7762.103981,7951.818424,7731.056074],"type":"line","color":"#434348","_symbolIndex":0,"stacking":null,"visible":true},{"name":"PCE: 0-20%","data":[1103.704762,1111.982052,1174.525343,1189.09557,1222.661321,1190.302741,1203.804936,1185.139865,1202.462923,1230.576002,1270.27996,1316.917337,1350.602438,1383.5931,1424.163572,1493.155063,1509.731161,1610.172567,1608.696087],"type":"line","color":"#90ed7d","_symbolIndex":0,"stacking":null,"visible":true},{"name":"PCE: 80-100%","data":[3511.882446,3714.171344,3834.414495,3947.797291,3999.476169,3988.577951,4061.424752,4310.542757,4231.40743,4150.66746,4422.139187,4487.882404,4663.009951,4716.9759,4840.517605,4962.790567,4612.011468,4949.735232,5324.089863],"type":"line","color":"#f7a35c","_symbolIndex":0,"stacking":null,"visible":true},{"name":"PS: 0-20%","data":[-514.4973505,-513.8246862,-525.3209379,-527.6060826,-551.1645172,-511.1784618,-500.8369976,-478.7078143,-486.1539763,-515.9219469,-550.1961471,-541.9177998,-557.2001547,-578.454,-603.4933903,-633.5094143,-550.7267167,-601.2687957,-727.4587868],"type":"line","color":"#8085e9","_symbolIndex":0,"stacking":null,"visible":true},{"name":"PS: 80-100%","data":[1708.607614,1568.048754,1634.206537,1579.440576,1664.063026,1636.707302,1644.622379,1654.029568,1986.885671,1846.694438,1845.154807,1963.212263,1932.629116,2120.9138,2272.894647,2275.272188,2995.584651,2840.557243,2234.076937],"type":"line","color":"#f15c80","_symbolIndex":0,"stacking":null,"visible":true}],"subtitle":{"text":"","align":"left","style":{"color":"#000000","fontFamily":"arial","fontWeight":"normal","fontSize":"12px"}},"title":{"text":" Table 2. DPI, PCE, and PS by Quintiles of Equivalized DPI (billions of 2017 dollars)  ","align":"left","style":{"color":"#000000","fontFamily":"arial","fontWeight":"bold","fontSize":"14px"}},"tooltip":{"backgroundColor":"#FEFFEF","crosshairs":[false,false],"formatter":function () { var options = this.series.chart.tooltip.options; var dollar = this.series.options.dollar || options.y_signs_arr[0]; var percent = this.series.options.percent || options.y_signs_arr[1]; var decimals = this.series.options.decimals || options.y_decimals; var multiple = options.multiplier; if (all_chart_options.series[this.series.index].yAxis == 1) { dollar = options.y_signs_arr_2[0]; percent = options.y_signs_arr_2[1]; decimals = options.y_decimals_2; multiple = options.multiplier_2; } var y_val = this.point.high ? "High: " + dollar + $(this.point.high * multiple).addCommas(decimals) + percent + " | Low: " + dollar + $(this.point.low * multiple).addCommas(decimals) + percent : dollar + $(this.y * multiple).addCommas(decimals) + percent; var s = "<b>" + this.series.name + "</b><br>" + this.x + ": " + y_val; all_chart_options.series[this.series.index] ? s = all_chart_options.tooltip.addExtraData(all_chart_options.series[this.series.index].extra_data, this.point, s) : s = s; return s.replace(/\$-/g, "-$"); },"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif"},"useHTML":false,"shared":false,"addExtraData":function (extra_data, point, s) { if (extra_data && extra_data[0].name) { $.each(extra_data, function (i) { if (extra_data[i].values[point.index]) { s = s + "<br>" + extra_data[i].name + ": " + extra_data[i].values[point.index]; } }); } return s; },"x_signs_arr":["",""],"z_signs_arr":["",""],"y_decimals":0,"y_decimals_2":0,"x_decimals":0,"z_decimals":0,"z_title":"Z","multiplier":1,"multiplier_2":1,"y_signs_arr":["",""],"y_signs_arr_2":["",""]},"xAxis":{"categories":["2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022"],"gridLineColor":"#c0c0c0","gridLineWidth":0,"gridLineDashStyle":"Dot","labels":{"rotation":0,"useHTML":false,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","backgroundColor":"#fff","fontSize":"12px","textOverflow":"wrap"}},"lineWidth":1.2,"lineColor":"gray","max":null,"min":null,"plotBands":[],"plotLines":[{"value":0,"color":"#c0c0c0","dashStyle":"solid","width":0}],"startOnTick":false,"tickInterval":3,"tickmarkPlacement":"on","tickPosition":"outside","tickColor":"#C0D0E0","title":{"align":"middle","useHTML":true,"text":"","margin":6,"rotation":0,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","backgroundColor":"#fff","fontSize":"13px"},"x":0},"type":"linear"},"yAxis":{"gridLineColor":"#c0c0c0","gridLineWidth":1,"gridLineDashStyle":"Dot","labels":{"formatter":function yAxisFormat() { var decimals = this.axis.options.labels.decimals; var signs_arr = this.axis.options.labels.signs_arr; var dividend = this.axis.options.labels.dividend; var s = this.value / dividend == parseInt(this.value / dividend) ? Highcharts.numberFormat(this.value / dividend, 0, ".", ",") : Highcharts.numberFormat(this.value / dividend, 1, ".", ","); s = signs_arr[0] + s + signs_arr[1]; return s.replace(/\$-/g, "-$"); },"rotation":0,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","backgroundColor":"#fff","fontSize":"12px"},"signs_arr":["",""],"decimals":null,"dividend":1},"lineColor":"gray","lineWidth":1,"max":null,"min":null,"opposite":false,"plotBands":[],"plotLines":[{"value":0,"color":"#000","dashStyle":"solid","width":1}],"tickInterval":null,"tickmarkPlacement":"on","tickPosition":"outside","tickColor":"#C0D0E0","tickWidth":1,"title":{"useHTML":false,"text":"","margin":6,"align":"high","offset":20,"rotation":0,"x":35,"y":-20,"style":{"color":"#000000","fontFamily":"Calibri, Arial, Helvetica, sans-serif","fontWeight":"normal","fontSize":"13px"}},"type":"linear","allowDecimals":true},"credits":{"href":"/","position":{"align":"left","x":10,"y":-33},"style":{"cursor":"default","color":"#2C2C2C","font-size":"11px"},"target":"_blank","text":"Click legend items to change data display. Hover over chart to view data.<br>Source: U.S. Bureau of Labor Statistics and U.S. Bureau of Economic Analysis.<br>Note: Values deflated using PCE price index (NIPA Table 2.3.4, line 1).","useHTML":true},"exporting":{"sourceWidth":640,"scale":1,"chartOptions":{"chart":{"backgroundColor":"#fff"},"credits":{"text":"<br>Source: U.S. Bureau of Labor Statistics and U.S. Bureau of Economic Analysis.<br>Note: Values deflated using PCE price index (NIPA Table 2.3.4, line 1)."}},"buttons":{"contextButton":{"text":"<span style='color: #112e51'>Options</span>","symbolY":14,"symbolStroke":"#112e51","enabled":true,"verticalAlign":"bottom","x":-10,"menuItems":[{"textKey":"printChart","onclick":function onclick() { $(".highcharts-focus-border").remove(); this.print(); }},{"separator":true},{"textKey":"downloadPNG","onclick":function onclick() { this.exportChartLocal(); }},{"textKey":"downloadJPEG","onclick":function onclick() { this.exportChartLocal({ type: 'image/jpeg' }); }},{"textKey":"downloadSVG","onclick":function onclick() { this.exportChartLocal({ type: 'image/svg+xml' }); }},{"separator":true},{"text":"Show table","onclick":function onclick() { this.options.chart.showTable(); }},{"text":"Download CSV","onclick":function onclick() { this.options.chart.downloadCSV(); }}]}}},"input_table":"<table class=\"regular\" id=\"BLStable_2024_7_10_10_15\" style=\"width: 95%;\"> <caption> <span class=\"tableTitle\">Table 2. DPI, PCE, and PS by Quintiles of Equivalized DPI (billions of 2017 dollars)</span>  </caption> <thead><tr><th scope=\"col\" rowspan=\"1\" style=\"vertical-align: middle; min-width: 80px;\">Year<\/th><th scope=\"col\">DPI: 0-20%<\/th><th scope=\"col\">DPI: 80-100%<\/th><th scope=\"col\">PCE: 0-20%<\/th><th scope=\"col\">PCE: 80-100%<\/th><th scope=\"col\">PS: 0-20%<\/th><th scope=\"col\">PS: 80-100%<\/th><\/tr><\/thead> <tbody><tr><th scope=\"row\"><p>2004<\/p><\/th><td>621.1871923<\/td><td>5370.517118<\/td><td>1103.704762<\/td><td>3511.882446<\/td><td>-514.4973505<\/td><td>1708.607614<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2005<\/p><\/th><td>627.3659089<\/td><td>5443.990405<\/td><td>1111.982052<\/td><td>3714.171344<\/td><td>-513.8246862<\/td><td>1568.048754<\/td><\/tr><tr><th scope=\"row\"><p>2006<\/p><\/th><td>683.1004263<\/td><td>5663.844742<\/td><td>1174.525343<\/td><td>3834.414495<\/td><td>-525.3209379<\/td><td>1634.206537<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2007<\/p><\/th><td>697.9528214<\/td><td>5734.303232<\/td><td>1189.09557<\/td><td>3947.797291<\/td><td>-527.6060826<\/td><td>1579.440576<\/td><\/tr><tr><th scope=\"row\"><p>2008<\/p><\/th><td>711.3780419<\/td><td>5845.299092<\/td><td>1222.661321<\/td><td>3999.476169<\/td><td>-551.1645172<\/td><td>1664.063026<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2009<\/p><\/th><td>716.725183<\/td><td>5798.846729<\/td><td>1190.302741<\/td><td>3988.577951<\/td><td>-511.1784618<\/td><td>1636.707302<\/td><\/tr><tr><th scope=\"row\"><p>2010<\/p><\/th><td>736.5590958<\/td><td>5878.716994<\/td><td>1203.804936<\/td><td>4061.424752<\/td><td>-500.8369976<\/td><td>1644.622379<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2011<\/p><\/th><td>735.8579372<\/td><td>6134.704539<\/td><td>1185.139865<\/td><td>4310.542757<\/td><td>-478.7078143<\/td><td>1654.029568<\/td><\/tr><tr><th scope=\"row\"><p>2012<\/p><\/th><td>749.4624156<\/td><td>6376.336979<\/td><td>1202.462923<\/td><td>4231.40743<\/td><td>-486.1539763<\/td><td>1986.885671<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2013<\/p><\/th><td>745.159896<\/td><td>6159.212265<\/td><td>1230.576002<\/td><td>4150.66746<\/td><td>-515.9219469<\/td><td>1846.694438<\/td><\/tr><tr><th scope=\"row\"><p>2014<\/p><\/th><td>753.4800918<\/td><td>6437.369879<\/td><td>1270.27996<\/td><td>4422.139187<\/td><td>-550.1961471<\/td><td>1845.154807<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2015<\/p><\/th><td>812.2665187<\/td><td>6628.873678<\/td><td>1316.917337<\/td><td>4487.882404<\/td><td>-541.9177998<\/td><td>1963.212263<\/td><\/tr><tr><th scope=\"row\"><p>2016<\/p><\/th><td>834.7422775<\/td><td>6775.726364<\/td><td>1350.602438<\/td><td>4663.009951<\/td><td>-557.2001547<\/td><td>1932.629116<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2017<\/p><\/th><td>854.919<\/td><td>7016.1814<\/td><td>1383.5931<\/td><td>4716.9759<\/td><td>-578.454<\/td><td>2120.9138<\/td><\/tr><tr><th scope=\"row\"><p>2018<\/p><\/th><td>869.2657305<\/td><td>7281.236293<\/td><td>1424.163572<\/td><td>4840.517605<\/td><td>-603.4933903<\/td><td>2272.894647<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2019<\/p><\/th><td>905.3027156<\/td><td>7432.847468<\/td><td>1493.155063<\/td><td>4962.790567<\/td><td>-633.5094143<\/td><td>2275.272188<\/td><\/tr><tr><th scope=\"row\"><p>2020<\/p><\/th><td>1004.507574<\/td><td>7762.103981<\/td><td>1509.731161<\/td><td>4612.011468<\/td><td>-550.7267167<\/td><td>2995.584651<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2021<\/p><\/th><td>1049.626334<\/td><td>7951.818424<\/td><td>1610.172567<\/td><td>4949.735232<\/td><td>-601.2687957<\/td><td>2840.557243<\/td><\/tr><tr><th scope=\"row\"><p>2022<\/p><\/th><td>928.3069207<\/td><td>7731.056074<\/td><td>1608.696087<\/td><td>5324.089863<\/td><td>-727.4587868<\/td><td>2234.076937<\/td><\/tr><\/tbody><tfoot style=\"display: none;\" id=\"BLStable_2024_7_10_10_15_footnotes\"><tr class=\"footnotes\"><td class=\"footnotes\"><\/td><\/tr><\/tfoot><\/table>","saved_values":[{"id":"chart_type_icons","val":"line"},{"id":"chart_id_textinput","val":"chart2"},{"id":"map_type_select","val":"state"},{"id":"map_animated_checkbox","val":false},{"id":"map_color_by_names_checkbox","val":false},{"id":"bubble_animated_checkbox","val":false},{"id":"drilldown_type_select","val":"bar"},{"id":"chart_width_textinput","val":"580"},{"id":"chart_height_textinput","val":"430"},{"id":"top_margin_textinput","val":"100"},{"id":"right_margin_textinput","val":"40"},{"id":"bottom_margin_textinput","val":"80"},{"id":"left_margin_textinput","val":"80"},{"id":"map_spotlight_size_checkbox","val":false},{"id":"map_circle_size_range","val":"10"},{"id":"map_circle_size_by_select","val":"main_values"},{"id":"table_input_load_series_from_icons","val":"column_heads"},{"id":"example_table_select","val":"recession_dates_table2"},{"id":"table_input_textarea","val":"<table class=\"regular\" id=\"BLStable_2024_7_10_10_15\" style=\"width: 95%;\"> <caption> <span class=\"tableTitle\">Table 2. DPI, PCE, and PS by Quintiles of Equivalized DPI (billions of 2017 dollars)</span>  </caption> <thead><tr><th scope=\"col\" rowspan=\"1\" style=\"vertical-align: middle; min-width: 80px;\">Year<\/th><th scope=\"col\">DPI: 0-20%<\/th><th scope=\"col\">DPI: 80-100%<\/th><th scope=\"col\">PCE: 0-20%<\/th><th scope=\"col\">PCE: 80-100%<\/th><th scope=\"col\">PS: 0-20%<\/th><th scope=\"col\">PS: 80-100%<\/th><\/tr><\/thead> <tbody><tr><th scope=\"row\"><p>2004<\/p><\/th><td>621.1871923<\/td><td>5370.517118<\/td><td>1103.704762<\/td><td>3511.882446<\/td><td>-514.4973505<\/td><td>1708.607614<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2005<\/p><\/th><td>627.3659089<\/td><td>5443.990405<\/td><td>1111.982052<\/td><td>3714.171344<\/td><td>-513.8246862<\/td><td>1568.048754<\/td><\/tr><tr><th scope=\"row\"><p>2006<\/p><\/th><td>683.1004263<\/td><td>5663.844742<\/td><td>1174.525343<\/td><td>3834.414495<\/td><td>-525.3209379<\/td><td>1634.206537<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2007<\/p><\/th><td>697.9528214<\/td><td>5734.303232<\/td><td>1189.09557<\/td><td>3947.797291<\/td><td>-527.6060826<\/td><td>1579.440576<\/td><\/tr><tr><th scope=\"row\"><p>2008<\/p><\/th><td>711.3780419<\/td><td>5845.299092<\/td><td>1222.661321<\/td><td>3999.476169<\/td><td>-551.1645172<\/td><td>1664.063026<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2009<\/p><\/th><td>716.725183<\/td><td>5798.846729<\/td><td>1190.302741<\/td><td>3988.577951<\/td><td>-511.1784618<\/td><td>1636.707302<\/td><\/tr><tr><th scope=\"row\"><p>2010<\/p><\/th><td>736.5590958<\/td><td>5878.716994<\/td><td>1203.804936<\/td><td>4061.424752<\/td><td>-500.8369976<\/td><td>1644.622379<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2011<\/p><\/th><td>735.8579372<\/td><td>6134.704539<\/td><td>1185.139865<\/td><td>4310.542757<\/td><td>-478.7078143<\/td><td>1654.029568<\/td><\/tr><tr><th scope=\"row\"><p>2012<\/p><\/th><td>749.4624156<\/td><td>6376.336979<\/td><td>1202.462923<\/td><td>4231.40743<\/td><td>-486.1539763<\/td><td>1986.885671<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2013<\/p><\/th><td>745.159896<\/td><td>6159.212265<\/td><td>1230.576002<\/td><td>4150.66746<\/td><td>-515.9219469<\/td><td>1846.694438<\/td><\/tr><tr><th scope=\"row\"><p>2014<\/p><\/th><td>753.4800918<\/td><td>6437.369879<\/td><td>1270.27996<\/td><td>4422.139187<\/td><td>-550.1961471<\/td><td>1845.154807<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2015<\/p><\/th><td>812.2665187<\/td><td>6628.873678<\/td><td>1316.917337<\/td><td>4487.882404<\/td><td>-541.9177998<\/td><td>1963.212263<\/td><\/tr><tr><th scope=\"row\"><p>2016<\/p><\/th><td>834.7422775<\/td><td>6775.726364<\/td><td>1350.602438<\/td><td>4663.009951<\/td><td>-557.2001547<\/td><td>1932.629116<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2017<\/p><\/th><td>854.919<\/td><td>7016.1814<\/td><td>1383.5931<\/td><td>4716.9759<\/td><td>-578.454<\/td><td>2120.9138<\/td><\/tr><tr><th scope=\"row\"><p>2018<\/p><\/th><td>869.2657305<\/td><td>7281.236293<\/td><td>1424.163572<\/td><td>4840.517605<\/td><td>-603.4933903<\/td><td>2272.894647<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2019<\/p><\/th><td>905.3027156<\/td><td>7432.847468<\/td><td>1493.155063<\/td><td>4962.790567<\/td><td>-633.5094143<\/td><td>2275.272188<\/td><\/tr><tr><th scope=\"row\"><p>2020<\/p><\/th><td>1004.507574<\/td><td>7762.103981<\/td><td>1509.731161<\/td><td>4612.011468<\/td><td>-550.7267167<\/td><td>2995.584651<\/td><\/tr><tr class=\"greenbar\"><th scope=\"row\"><p>2021<\/p><\/th><td>1049.626334<\/td><td>7951.818424<\/td><td>1610.172567<\/td><td>4949.735232<\/td><td>-601.2687957<\/td><td>2840.557243<\/td><\/tr><tr><th scope=\"row\"><p>2022<\/p><\/th><td>928.3069207<\/td><td>7731.056074<\/td><td>1608.696087<\/td><td>5324.089863<\/td><td>-727.4587868<\/td><td>2234.076937<\/td><\/tr><\/tbody><tfoot style=\"display: none;\" id=\"BLStable_2024_7_10_10_15_footnotes\"><tr class=\"footnotes\"><td class=\"footnotes\"><\/td><\/tr><\/tfoot><\/table>"},{"id":"color_palettes","val":-1},{"id":"use_custom_colors_checkbox","val":false},{"id":"custom_colors_textarea","val":"Aqua green CornflowerBlue #FF1493 #A52A2A #FF7F50 rgb(184,134,11) rgb(139,0,139) rgb(255,215,0)\n "},{"id":"legend_layout_select","val":"horizontal"},{"id":"map_legend_enabled_checkbox","val":true},{"id":"map_legend_hover_enabled_checkbox","val":true},{"id":"map_legend_decimals_select","val":null},{"id":"legend_placement_x","val":"60"},{"id":"legend_placement_y","val":"40"},{"id":"legend_reverse_layout_checkbox","val":false},{"id":"legend_width_input","val":""},{"id":"legend_item_width_input","val":""},{"id":"legend_alphabetical_layout_checkbox","val":false},{"id":"legend_make_toggle_checkbox","val":false},{"id":"chart_x_axis_title_textarea","val":""},{"id":"chart_x_axis_x_position_input","val":"40"},{"id":"chart_x_axis_tickmark_interval_input","val":""},{"id":"chart_x_axis_min_input","val":""},{"id":"chart_x_axis_max_input","val":""},{"id":"chart_x_axis_show_only_years","val":false},{"id":"chart_x_axis_add_commas","val":false},{"id":"chart_x_axis_signs_select","val":"no_signs"},{"id":"chart_x_axis_decimals_select","val":null},{"id":"chart_y_axis_title_textarea","val":""},{"id":"chart_y_axis_x_position_input","val":"35"},{"id":"chart_y_axis_tickmark_interval_input","val":""},{"id":"chart_y_axis_min_input","val":""},{"id":"chart_y_axis_max_input","val":""},{"id":"chart_y_axis_opposite_checkbox","val":false},{"id":"chart_y_axis_log_checkbox","val":false},{"id":"chart_y_axis_signs_select","val":"no_signs"},{"id":"chart_y_axis_decimals_select","val":null},{"id":"chart_y_axis_divide_select","val":"1"},{"id":"chart_y_axis_2_enabled_checkbox","val":false},{"id":"chart_y_axis_title_textarea_2","val":""},{"id":"chart_y_axis_x_position_input_2","val":"-75"},{"id":"chart_y_axis_tickmark_interval_input_2","val":"5"},{"id":"chart_y_axis_min_input_2","val":"0"},{"id":"chart_y_axis_max_input_2","val":"100"},{"id":"chart_y_axis_signs_select_2","val":"no_signs"},{"id":"chart_y_axis_decimals_select_2","val":null},{"id":"chart_tooltip_shared_checkbox","val":false},{"id":"chart_tooltip_force_decimals_select","val":"0"},{"id":"chart_tooltip_signs_select","val":"no_signs"},{"id":"chart_tooltip_force_decimals_x_select","val":"0"},{"id":"chart_tooltip_signs_x_select","val":"no_signs"},{"id":"chart_tooltip_force_decimals_z_select","val":"0"},{"id":"chart_tooltip_signs_z_select","val":"no_signs"},{"id":"map_tooltip_main_value_font_size_input","val":"30"},{"id":"map_tooltip_na_text_input","val":"N/A"},{"id":"map_tooltip_prepend_to_value_text_input","val":""},{"id":"chart_z_title_text_input","val":""},{"id":"chart_tooltip_y_multiple_select","val":"1"},{"id":"chart_tooltip_force_decimals_select_2","val":"0"},{"id":"chart_tooltip_signs_select_2","val":"no_signs"},{"id":"chart_tooltip_y_multiple_select_2","val":"1"},{"id":"chart_credits_text_textarea","val":"Click legend items to change data display. Hover over chart to view data.\nSource: U.S. Bureau of Labor Statistics and U.S. Bureau of Economic Analysis.\nNote: Values deflated using PCE price index (NIPA Table 2.3.4, line 1)."},{"id":"point_padding_input","val":".1"},{"id":"group_padding_input","val":".2"},{"id":"chart_subtitle_textarea","val":""},{"id":"map_animation_speed_range","val":"500"},{"id":"map_animated_start_at_last_date_checkbox","val":false},{"id":"map_include_puerto_rico_checkbox","val":false},{"id":"map_include_virgin_islands_checkbox","val":false},{"id":"map_add_ranked_columns_checkbox","val":false},{"id":"map_ranked_column_size_range","val":"100"},{"id":"map_add_state_labels_checkbox","val":false},{"id":"chart_zoom_select","val":"false,false,null"},{"id":"chart_show_data_labels_checkbox","val":false},{"id":"chart_scatter_add_45_line_checkbox","val":false},{"id":"chart_scatter_add_regression_line_checkbox","val":false},{"id":"chart_scatter_highlight_points_select","val":"no_highlight"},{"id":"chart_add_recession_shading_select","val":"no_recession"}]};
+
+var chartCallback = function chartCallback(all_chart_options) {
+      if (all_chart_options.timeline) {
+        //call animation if applicable
+        all_chart_options.timeline.animation();
+      }
+  
+      $(".highcharts-legend-item").css("min-height", "0px").css("z-index", 100); //fix so CMS CSS doesn't make legend taller than it should
+  
+      $(".highcharts-tooltip").css("z-index", 200);
+      /**
+       * Highcharts plugin for setting a lower opacity for other series than the one that is hovered
+       * in the legend
+       */
+  
+      (function (Highcharts) {
+        var each = Highcharts.each;
+        Highcharts.wrap(Highcharts.Legend.prototype, 'renderItem', function (proceed, item) {
+          proceed.call(this, item);
+          var isPoint = !!item.series,
+              collection = isPoint ? item.series.points : this.chart.series,
+              groups = isPoint ? ['graphic'] : ['group', 'markerGroup'],
+              element = (this.options.useHTML ? item.legendItem : item.legendGroup).element;
+  
+          element.onmouseover = function () {
+            each(collection, function (seriesItem) {
+              if (seriesItem !== item) {
+                each(groups, function (group) {
+                  seriesItem[group].animate({
+                    opacity: 0.25
+                  }, {
+                    duration: 150
+                  });
+                });
+              }
+            });
+          };
+  
+          element.onmouseout = function () {
+            each(collection, function (seriesItem) {
+              if (seriesItem !== item) {
+                each(groups, function (group) {
+                  seriesItem[group].animate({
+                    opacity: 1
+                  }, {
+                    duration: 50
+                  });
+                });
+              }
+            });
+          };
+        });
+        Highcharts.wrap(Highcharts.Chart.prototype, 'showCredits', function (proceed, credits) {
+          proceed.call(this, credits);
+  
+          if (this.credits && credits.target) {
+            this.credits.on('click', function () {
+              $('<a>').attr({
+                href: credits.href,
+                target: credits.target
+              })[0].click();
+            });
+          }
+        });
+      })(Highcharts); //end gray other series plugin
+  
+    };
+Highcharts.setOptions({lang: {thousandsSep: ",",
+drillUpText: "\u25C0 Back ",
+contextButtonTitle: "Download chart image"
+   }});
+
+    var chart = new Highcharts.Chart(all_chart_options, chartCallback(all_chart_options));
+});
+  jQuery.fn.extend({addCommas:function addCommas(decimals) {
+        var val = this[0] || 0;
+  
+        if (isNaN(val) || val < 999 && val > -999 && decimals < 1) {
+          //small numbers auto decimals
+          return val;
+        } else if (val < 999 && val > -999 && decimals > 0) {
+          //small numbers fixed decimals
+          return val.toFixed(decimals);
+        } else if ((val > 999 || val < -999) && decimals > 0) {
+          //big numbers fixed decimals
+          val = val.toFixed(decimals);
+  
+          while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+          }
+        } else if (val > 999 || val < -999) {
+          //big number auto decimals
+          while (/(\d+)(\d{3})/.test(val.toString())) {
+            val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+          }
+        }
+  
+        return val;
+      } });
+
+</script>		    		<link rel="stylesheet" type="text/css" href="/stylesheets/bls_programs.css">
+<noscript>
+	<style>
+
+		#programs-banner.generic #program-browse{
+			display: block;
+			top: 3px;
+			width:100%;
+		}
+		#programs-banner.generic #program-browse > div{
+			display: block;
+			position: static;
+			border: none;
+			border-top: 1px solid #fff;
+			margin: 10px 0 0;
+		}
+	</style>
+</noscript>
+
+<script>
+$(document).ready(function(){
+	/* Nav, tabbable*/
+	$(".main-content #programs-banner-nav > li a").focus(function(){
+		var parentUL = $(this).parent().parent();
+		$(".focus").removeClass("focus");
+		$(this).parent().addClass("focus");
+		if(parentUL.find("span").size() == 1){
+			parentUL.parent().find("ul").parent().addClass("focus");
+		};
+	});
+	$(".main-content #programs-banner-nav a").blur(function(){
+		setTimeout(function(){if( !$(document.activeElement).parents("#programs-banner-nav").size()){$(".focus").removeClass("focus");};},100);
+	});
+	
+	$(".main-content #programs-banner-nav li").click(function(e){
+		e.stopPropagation();
+		if($(this).find("a").attr("target") == "_blank"){
+			window.open($(this).find("a").attr("href"));
+		}else{
+			window.location = $(this).find("a").attr("href");
+		}
+	});
+	$(".main-content #programs-banner-nav li a").click(function(e){
+		$(this).blur();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
+	});
+	
+
+	$("#programs-banner.generic #program-browse > a").focus(function(){
+		$(this).parent().addClass("focused");
+		$("#programs-banner.generic #program-browse").hover(function(){
+			$(this).removeClass("focused");
+			$("#programs-banner.generic #program-browse *").blur();
+		});
+	});			
+	$("#programs-banner.generic #program-browse a").each(function(){
+		$(this).blur(function(){
+			setTimeout(function(){
+				if($(document.activeElement).parents("#program-browse").length < 1 ){
+					$("#programs-banner.generic #program-browse").removeClass("focused")
+				};
+			});
+		});
+	});
+
+	/*Notices Archive Page, load*/
+	$(".main-content #archive-left-side .notice-items").hide();
+	var archiveLeftShow = $(".main-content #archive-left-side .notice-items")[0];
+	$(archiveLeftShow).show();
+	var archiveRightCurrent = $(".main-content #archive-right-side a")[0];
+	$(archiveRightCurrent).addClass("current");
+	/*Notices Archive Page, fcns*/
+	$(".main-content #archive-right-side a").click(function(e){
+		e.preventDefault();
+		$(".main-content #archive-right-side a.current").removeClass("current");
+		$(this).addClass("current");
+		$(".main-content #archive-left-side .notice-items").hide();
+		$(".main-content #archive-left-side #notices-"+$(this).text()).show();
+	});	
+
+});
+</script>
+
+        		
+	</head>
+
+	<body class="layout-fixed">
+				<section aria-label="content">
+
+<!-- PERCUSSION INNER START -->
+
+
+<!-- OneColHeadBasic Begin: Name -->
+
+<!-- Header Filename: "/include/cex/cex_header.txt" -->
+
+<!--no_index_start-->
+
+<!-- DOL BANNER BEGIN -->
+<!-- DOL BANNER START -->
+<header > <!-- Header is closed at the end of BLS banner -->
+		<a class="skiplink" href="#startcontent">Skip to Content</a>
+
+		<div id="usa-banner-wrapper">
+<div id="usa-banner" class="bootstrap standard-width">
+	<div class="content">
+	<div class="USA-flag-link">
+	<img src="https://www.dol.gov/themes/opa_theme/img/flag-favicon-57.png" alt="U.S. flag">
+	<p>An official website of the United States government 
+	  
+	<button type="button" data-toggle="collapse" data-target="#usaBanner" aria-expanded="false" aria-controls="usaBanner">Here is how you know <span class="oi" data-glyph="chevron-bottom"></span></button>
+	</p>
+	</div>
+		<a href="https://www.dol.gov/" id="dolHolder" class="dolHolder" target="_blank"><img src="https://www.dol.gov/themes/opa_theme/img/logo-primary.svg" alt="Department of Labor Logo"/>  United States Department of Labor</a>
+	</div>
+	
+	<div class="collapse " id="usaBanner">	
+	<div class="row">
+	<div class="col-md-6">
+		<img src="https://www.dol.gov/themes/opa_theme/img/icon-dot-gov.svg" alt="Dot gov">
+
+		<p>
+			<strong>The .gov means it's official.</strong>
+			<br> Federal government websites often end in .gov or .mil. Before sharing sensitive information,
+			make sure you're on a federal government site.
+		</p>
+	</div>
+
+	<div class="col-md-6">
+	<img class="usa-banner-icon usa-media_block-img" src="https://www.dol.gov/themes/opa_theme/img/icon-https.svg" alt="Https">
+	
+		<p>
+			<strong>The site is secure.</strong>
+			<br> The
+			<strong>https://</strong> ensures that you are connecting to the official website and that any
+			information you provide is encrypted and transmitted securely.
+		</p>
+	</div>
+	</div>
+	</div>		
+</div>
+</div>
+
+
+
+<!-- DOL BANNER END -->
+
+
+<!-- DOL BANNER END -->
+<!-- BLS BANNER BEGIN -->
+
+<div id="bls-banner-wrapper">
+<div id="top"></div>
+		<div class="bootstrap standard-width">
+<div>
+  <div id="bls-banner" class="row">
+    <div id="bls-banner-emblem" class="col-sm-12 col-md-7">
+      <a href="https://www.bls.gov/">U.S. Bureau of Labor Statistics</a>
+    </div>
+    <div id="bls-banner-right" class="col-sm-12 col-md-5 d-none d-md-block">
+<div id="bls-banner-links"><a href="/schedule/news_release/">Release Calendar</a> | <a href="javascript:window.open('https://public.govdelivery.com/accounts/USDOLBLS/subscriber/new ','Popup','width=800,height=500,toolbar=no,scrollbars=yes,resizable=yes'); void('');" onclick="window.status='Subscribe'; return true" onmouseover="window.status='Subscribe'; return true" onmouseout="window.status=''; return true" id="social-email-1" title="Subscribe to BLS E-mail Updates" aria-label="Subscribe to BLS E-mail Updates">Subscribe</a></div> 
+      <div id="bls-banner-search1" class="bls-banner-search">
+        <form method="get" action="/search/query">
+		  <label for="bls-banner-search-submit1" class="invisible">Search button</label>
+          <input type="image" src="/images/buttons/search_button_blue_16.png" name="term" id="bls-banner-search-submit1" alt="BLS Search Submit" title="Submit" >
+		  <label for="bls-banner-search-input1" class="invisible">Search:</label>
+          <input name="query" type="text" id="bls-banner-search-input1" value="Search BLS.gov" title="Search Input" onclick="this.value=''; this.onclick = null;">
+
+        </form>
+      </div>
+    </div>
+    <div class="clearfloat"></div>
+  </div>
+</div>
+</div>
+</div>
+</header> <!-- Header is opened at the begining of DOL banner -->
+
+<!-- BLS BANNER END -->
+<!-- MAIN NAV BEGIN -->
+
+<div id="main-nav-wrapper">
+	<div id="main-nav-container">
+		<div>
+			<div class="bootstrap standard-width">
+<nav aria-label="top-level navigation menu" class="navbar navbar-expand-md">
+  
+  
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation menu">
+    <span class="navbar-toggler-icon">Menu</span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  
+
+
+<ul class="nojs navbar-nav mr-auto">
+     <li class="dropdownSearch"><div id="bls-banner-search" class="dropdown-search">
+        <form method="get" action="/search/query">
+		  <label for="bls-banner-search-submit" class="invisible">Search button</label>
+          <input type="image" src="/images/buttons/search_button_blue_20.png" name="term" id="bls-banner-search-submit" alt="BLS Search Submit" title="Submit">
+		  <label for="bls-banner-search-input" class="invisible">Search:</label>
+          <input name="query" type="text" id="bls-banner-search-input" value="Search BLS.gov" title="Search Input" onclick="this.value=''; this.onclick = null;">
+
+        </form>
+      </div>
+	
+	  <div class="bls-banner-links-mob"><a href="/schedule/news_release/">Release Calendar</a> | <a href="javascript:window.open('https://public.govdelivery.com/accounts/USDOLBLS/subscriber/new ','Popup','width=800,height=500,toolbar=no,scrollbars=yes,resizable=yes'); void('');" onclick="window.status='Subscribe'; return true" onmouseover="window.status='Subscribe'; return true" onmouseout="window.status=''; return true" id="social-email-2" title="Subscribe to BLS E-mail Updates" aria-label="Subscribe to BLS E-mail Updates">Subscribe</a></div>
+	</li>
+    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="https://www.bls.gov/" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ********************************************** Begin Home Tab LIST ****************************************** -->
+<!-- 1st column -->
+<div class="main-nav-submenu" id="submenu-home">
+	<ul class="main-nav-submenu-inn">
+	
+		<li class="heading"><a href="/about-bls/home.htm" aria-label="About BLS">About BLS</a></li>
+		<li><a href="/bls/history/home.htm" aria-label="BLS History">History</a></li>	
+		<li><a href="/bls/senior_staff/home.htm" aria-label="Our Leadership">Our Leadership</a></li>
+		<li><a href="/bls/bls_budget_and_performance.htm" aria-label="Budget and Performance">Budget and Performance</a></li>		
+		<li><a href="/bls/faqs.htm" aria-label="Questions and Answers">Questions and Answers</a></li>	
+		<li><a href="/bls/topicsaz.htm" aria-label="A-Z Index">A-Z Index</a></li>	
+		<li><a href="/bls/glossary.htm" aria-label="Glossary">Glossary</a></li>	
+		<li><a href="/bls/bls-speakers/" aria-label="BLS Speakers Available">BLS Speakers Available</a></li>
+		<li><a href="/errata/" aria-label="Errata">Errata</a></li>  				
+		<li><a href="/bls/contact.htm" aria-label="Contact BLS">Contact BLS</a></li>	
+
+	</ul>	
+	<!-- 2nd column -->	
+<ul class="main-nav-submenu-inn">	
+		<li class="heading"><a href="/bls/overview.htm" aria-label="Overview of BLS Statistics">Overview of BLS Statistics</a></li>
+		<li><a href="/information-guide/home.htm" aria-label="Guide to Programs & Services">Guide to Programs &amp; Services</a></li>
+		<li><a href="/bls/demographics.htm" aria-label="Demographics Data">Demographics</a></li>
+		<li><a href="/bls/industry.htm" aria-label="Statistics by Industries">Industries</a></li>
+		<li><a href="/bls/business.htm" aria-label="Statistics on Business Costs">Business Costs</a></li>
+		<li><a href="/bls/occupation.htm" aria-label="Statistics by Occupations">Occupations</a></li>
+		<li><a href="/bls/geography.htm" aria-label="Statistics by Geography">Geography</a></li>	
+	
+	</ul>
+	<!-- 3rd column -->
+	<ul class="main-nav-submenu-inn">
+		<li class="heading"><a href="/audience/" aria-label="Resources For">Resources For</a></li>
+		<li><a href="/audience/business.htm" aria-label="Resources for Business Leaders">Business Leaders</a></li>
+		<li><a href="/audience/consumers.htm" aria-label="Resources for Consumers">Consumers</a></li>
+		<li><a href="/audience/developers.htm" aria-label="Developers site">Developers</a></li>
+		<li><a href="/audience/economists.htm" aria-label="Economists or Economic Analyst">Economists</a></li>
+		<li><a href="/audience/investors.htm" aria-label="Resources for Financial Investors">Investors</a></li>
+		<li><a href="/audience/jobseekers.htm" aria-label="Resources for Jobseekers">Jobseekers</a></li>
+		<li><a href="/audience/media.htm" aria-label="Media">Media</a></li>
+		<li><a href="/audience/policy.htm" aria-label="Resources for Public Policymakers">Public Policymakers</a></li>
+		<li><a href="/audience/researcher.htm" aria-label="Researcher">Researcher</a></li>		
+		<li><a href="/audience/students.htm" aria-label="Resources for Students & Teachers">Students &amp; Teachers</a></li>
+		<li><a href="/respondents/" aria-label="Survey Respondents">Survey Respondents</a></li>
+	</ul>
+</div>
+
+<!-- ***********************************************End Home Tab LIST ******************************************** --> 
+
+</div>
+    </li>
+    <li class="nav-item dropdown active"><a class="nav-link dropdown-toggle" href="/bls/proghome.htm" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Subjects <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ************************************* Begin SUBJECTS TAB list ****************************************** -->
+<!-- 1st column -->
+<div class="main-nav-submenu" id="submenu-programs">
+	<ul class="main-nav-submenu-inn">
+		<li class="heading"><a href="/bls/inflation.htm" aria-label="Statistics on Inflation & Prices">Inflation &amp; Prices</a></li>
+		<li><a href="/cpi/" aria-label="Consumer Price Index ">Consumer Price Index</a></li>
+		<li><a href="/ppi/" aria-label="Producer Price Indexes">Producer Price Indexes</a></li>
+		<li><a href="/mxp/" aria-label="Import/Export Price Indexes">Import/Export Price Indexes</a></li>
+		<li><a href="/bls/escalation.htm" aria-label="Contract Escalation">Contract Escalation</a></li>
+		<li><a href="/pir/" aria-label="Price Index Research">Price Index Research</a></li>
+		<li class="heading"><a href="/bls/wages.htm" aria-label="Statistics on Pay & Benefits">Pay &amp; Benefits</a></li>
+		<li><a href="/eci/" aria-label="Employment Cost Index">Employment Cost Index</a></li>
+		<li><a href="/ecec/home.htm" aria-label="Employer Costs for Employee Compensation">Employer Costs for Employee Compensation</a></li>
+						<li><a href="https://www.bls.gov/oes/" aria-label="Wage Data by Occupation">Wage Data by Occupation</a></li>
+		<li><a href="/cps/earnings.htm#demographics" aria-label="Earnings by Demographics">Earnings by Demographics</a></li>
+		<li><a href="/ces/" aria-label="Earnings by Industry">Earnings by Industry</a></li>
+		<li><a href="https://www.bls.gov/cew/" aria-label="County Wages">County Wages</a></li>  <!--full path is needed since they have a folder on the data server-->
+		<li><a href="/ebs/" aria-label="Employee Benefits Survey">Benefits</a></li>
+		<li><a href="/mwe/" aria-label="Modeled Wage Estimates">Modeled Wage Estimates</a></li>		
+		<li><a href="/crp/" aria-label="Compensation Research & Program Development">Compensation Research</a></li>
+		<li><a href="/wsp/" aria-label="Strikes & Lockouts">Strikes &amp; Lockouts </a></li>
+		<li><a href="/wrp/" aria-label="Wage Records from Unemployment Insurance">Wage Records from Unemployment Insurance</a></li>
+		<li class="heading"><a href="/ors/" aria-label="Occupational Requirements Survey">Occupational Requirements</a></li>		
+	</ul>
+	<!-- 2nd column -->
+	<ul class="main-nav-submenu-inn">
+		<li class="heading"><a href="/bls/unemployment.htm" aria-label="Statistics on Unemployment">Unemployment</a></li>
+		<li><a href="/cps/" aria-label="National Unemployment Rate">National Unemployment Rate </a></li>
+		<li><a href="/lau/" aria-label="State & Local Unemployment Rates">State &amp; Local Unemployment Rates </a></li>
+		<li><a href="/ers/" aria-label="Unemployment Research">Unemployment Research</a></li>
+		<li class="heading"><a href="/bls/employment.htm" aria-label="Statistics on Employment">Employment</a></li>
+		<li><a href="/ces/" aria-label="National Employment Statistics">National Employment </a></li>
+		<li><a href="/sae/" aria-label="State & Local Employment, Hours, and Earnings">State &amp; Local Employment </a></li>
+		<li><a href="https://www.bls.gov/cew/" aria-label="County Employment">County Employment </a></li> <!--full path is needed since they have a folder on the data server-->
+		<li><a href="/cps/" aria-label="Worker Characteristics">Worker Characteristics </a></li>
+		<li><a href="/air/" aria-label="American Indian Report">American Indian Report</a></li>
+		<li><a href="/emp/" aria-label="Employment Projections">Employment Projections </a></li>
+		<li><a href="/jlt/" aria-label="Job Openings & Labor Turnover Survey">Job Openings &amp; Labor Turnover Survey </a></li>
+		<li><a href="/brs/" aria-label="Business Response Survey">Business Response Survey</a></li>
+		<li><a href="https://www.bls.gov/oes/" aria-label="Employment by Occupation">Employment by Occupation </a></li>
+		<li><a href="/nls/" aria-label="Work Experience Over Time">Work Experience Over Time </a></li>
+		<li><a href="/bdm/" aria-label="Business Employment Dynamics">Business Employment Dynamics </a></li>
+		<li><a href="/fdi/" aria-label="Foreign Direct Investment">Foreign Direct Investment </a></li>
+		<li><a href="/ers/" aria-label="Employment Research and Program Development">Employment Research</a></li>
+		<li class="heading"><a href="/iif/" aria-label="Workplace Injuries, Illnesses, and Fatalities">Workplace Injuries</a></li>
+	</ul>
+	<!-- 3rd column -->
+	<ul class="main-nav-submenu-inn">
+		<li class="heading"><a href="/bls/productivity.htm" aria-label="Productivity Statistics">Productivity</a></li>
+		<li><a href="/productivity/" aria-label="Labor and Total Factor Productivity">Labor and Total Factor Productivity</a></li>
+		<li><a href="/dpr/" aria-label="Productivity Research and Program Development">Productivity Research</a></li>
+		<li class="heading"><a href="/bls/spending.htm" aria-label="Statistics on Spending & Time Use">Spending &amp; Time Use</a></li>
+		<li><a href="/cex/" aria-label="Consumer Expenditures Surveys">Consumer Expenditures </a></li>
+		<li><a href="/tus/" aria-label="How Americans Spend Time Survey">How Americans Spend Time</a></li>			
+		<li class="heading"><a href="/bls/international.htm" aria-label="International Data and Technical Cooperation">International</a></li>
+		<li><a href="/itc/" aria-label="International Technical Cooperation">International Technical Cooperation</a></li>
+		<li><a href="/mxp/" aria-label="Import/Export Price Indexes">Import/Export Price Indexes</a></li>
+		<li class="heading"><a href="/regions/" aria-label="Geographic Information">Geographic Information</a></li>
+		<li><a href="/regions/northeast/" aria-label="Northeast (Boston-New York) Information Office">Northeast (Boston-New York)</a></li>
+		<li><a href="/regions/mid-atlantic/" aria-label="Mid-Atlantic (Philadelphia) Information Office">Mid-Atlantic (Philadelphia)</a></li>
+		<li><a href="/regions/southeast/" aria-label="Southeast (Atlanta) Information Office">Southeast (Atlanta)</a></li>
+		<li><a href="/regions/midwest/" aria-label="Midwest (Chicago) Information Office">Midwest (Chicago)</a></li>
+		<li><a href="/regions/southwest/" aria-label="Southwest (Dallas) Information Office">Southwest (Dallas)</a></li>
+		<li><a href="/regions/mountain-plains/" aria-label="Mountain-Plains (Kansas City) Information Office">Mountain-Plains (Kansas City)</a></li>
+		<li><a href="/regions/west/" aria-label="West (San Francisco) Information Office">West (San Francisco)</a></li>
+	</ul>
+</div>
+<!-- **************************************End SUBJECT AREAS ******************************************** --> 
+	</div>	
+    </li>
+    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="/data/" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ******************************************** Begin DATA TOOLS LIST ****************************************** -->
+<div class="main-nav-submenu"  id="submenu-data">
+    <ul class="main-nav-submenu-inn">
+        <li class="heading"><a href="/data/tools.htm" aria-label="Data Retrieval Tools Databases, Tables & Calculators by Subject">Data Retrieval Tools</a></li>
+		<li><a href="https://data.bls.gov/toppicks?code=&survey=bls" aria-label="BLS Popular Series Top Picks">BLS Popular Series</a></li>
+		<li><a href="https://data.bls.gov/series-report" aria-label="Series Report">Series Report</a></li>
+		<li><a href="/data/home.htm" aria-label="Top Picks, One Screen, Multi-Screen, and Maps" >Top Picks, One Screen, Multi-Screen, and Maps</a></li>
+		<li><a href="https://data.bls.gov/dataQuery/search" aria-label="Data Finder">Data Finder</a></li>
+		<li><a href="/developers/home.htm" aria-label="Public Data API Programming Interface">Public Data API</a></li>
+
+    </ul>
+    <!-- 2nd column -->
+    <ul class="main-nav-submenu-inn">
+        <li class="heading"><a href="/data/apps.htm" aria-label="Charts and Applications">Charts and Applications</a></li>
+		<li><a href="/charts/home.htm" aria-label="Charts for Economic News Releases">Charts for Economic News Releases</a></li>	
+		<li><a href="/data/inflation_calculator.htm" aria-label="CPI Inflation Calculator">CPI Inflation Calculator</a></li>	
+		<li><a href="https://data.bls.gov/iirc/" aria-label="Injury and Illness Calculator">Injury and Illness Calculator</a></li>		
+		<li><a href="https://data.bls.gov/apps/compensation-comparison-matrix/home.htm" aria-label="Pay Measure Comparison">Pay Measure Comparison</a></li>
+		<li><a href="https://data.bls.gov/apps/demographic-comparison-matrix/home.htm" aria-label="Demographic Data Sources">Demographic Data Sources</a></li>
+		<li><a href="https://data.bls.gov/apps/covid-dashboard/home.htm" aria-label="COVID-19 Economic Trends">COVID-19 Economic Trends</a></li>
+		<li><a href="https://data.bls.gov/apps/industry-productivity-viewer/home.htm" aria-label="Industry Productivity Viewer" >Industry Productivity Viewer</a></li>
+		<li><a href="https://data.bls.gov/cew/apps/data_views/data_views.htm#tab=Tables" aria-label="Employment and Wages Data Viewer">Employment and Wages Data Viewer</a></li>
+		<li><a href="https://data.bls.gov/cew/apps/bls_naics/bls_naics_app.htm" aria-label="Industry Finder from the Quarterly Census of Employment and Wages">Industry Finder from the Quarterly Census of Employment and Wages</a></li>
+	
+    </ul>
+	<!-- 3rd column -->
+	<ul class="main-nav-submenu-inn">
+	    <li class="heading"><a href="/data/tables.htm" aria-label="Customized Tables">Customized Tables</a></li>
+		<li><a href="/eag/eag.us.htm" aria-label="U.S. Economy at a Glance">U.S. Economy at a Glance</a></li>
+		<li><a href="/eag/home.htm" aria-label="Regions, States & Areas at a Glance">Regions, States &amp; Areas at a Glance</a></li>
+		<li><a href="/iag/home.htm" aria-label="Industry at a Glance">Industry at a Glance</a></li>			
+		<li><a href="https://download.bls.gov/pub/time.series/" aria-label="Text Files">Text Files</a></li>
+		<li><a href="/data/#historical-tables" aria-label="Historical News Release Tables">News Release Tables</a></li>
+		
+		<li class="heading"><a href="/bls/moredata.htm" aria-label="More Sources of Data">More Sources of Data</a></li>
+		<li><a href="/rda/home.htm" aria-label="Bureau of Labor Statistics Restricted Data Access">Restricted Data Access</a></li>
+		<li><a href="/data/archived.htm" aria-label="Discontinued Databases">Discontinued Databases </a></li>
+		<li><a href="/help/hlpform1.htm" aria-label="Questions & Answers regarding Bureau of Labor Statistics website data retrieval tools">Questions &amp; Answers</a></li>
+		<li><a href="/help/notice.htm" aria-label="Special Notices">Special Notices </a></li>	
+	</ul>
+</div>
+<!-- *********************************************End DATABASES and TOOLS LIST ******************************************** --></div>
+    </li>
+    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="/opub/" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publications <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ********************************************** Begin PUBLICATIONS LIST ****************************************** -->
+<div class="main-nav-submenu"  id="submenu-pubs">    
+    <ul class="main-nav-submenu-inn"> 
+		<li class="heading"><a href="/opub/" aria-label="Latest Publications">Latest Publications</a></li>
+		<li><a href="/opub/ted/" aria-label="The Economics Daily">The Economics Daily</a></li>
+		<li><a href="/opub/mlr/" aria-label="Monthly Labor Review">Monthly Labor Review</a></li>
+		<li><a href="/opub/btn/" aria-label="Beyond the Numbers">Beyond the Numbers</a></li>
+		<li><a href="/spotlight/" aria-label="Spotlight on Statistics">Spotlight on Statistics</a></li>
+		<li><a href="/opub/reports" aria-label="Bureau of Labor Statistics Reports">Reports</a></li>
+		<li><a href="/video/" aria-label="Videos">Videos</a></li>
+		<li><a href="/careeroutlook/" aria-label="Career Outlook">Career Outlook</a></li>		
+    </ul>
+    <!-- 2nd column -->
+    <ul class="main-nav-submenu-inn">
+		<li><a href="/ooh/" aria-label="Occupational Outlook Handbook">Occupational Outlook Handbook</a></li>
+		<li><a href="/opub/geographic-profile/" aria-label="Geographic Profile">Geographic Profile</a></li>
+		<li><a href="/opub/hom/" aria-label="Handbook of Methods">Handbook of Methods</a></li>
+		<li><a href="/osmr/research-papers/" aria-label="Research Papers - Office of Survey Methods Research">Research Papers</a></li>
+		<li><a href="/opub/copyright-information.htm" aria-label="Copyright Information">Copyright Information</a></li>
+		<li><a href="/opub/opbinfo.htm" aria-label="Contact & Help">Contact &amp; Help </a></li>
+		<li><a href="/opub/update.htm" aria-label="Weekly Update">Weekly Update</a></li>		
+    </ul>
+</div>
+<!-- ***********************************************End PUBLICATIONS LIST ******************************************** --> </div>
+    </li>
+    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="/bls/newsrels.htm" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Economic Releases <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ********************************************** Begin ECONOMIC RELEASES LIST ****************************************** -->
+<!-- 1st column -->
+
+<div class="main-nav-submenu" id="submenu-news">
+    <ul class="main-nav-submenu-inn">
+        <li class="heading"><a href="/bls/newsrels.htm#latest-releases" aria-label="Latest Releases">Latest Releases</a></li>
+		<li class="heading"><a href="/bls/newsrels.htm#major" aria-label="Major Economic Indicators">Major Economic Indicators</a></li>
+		<li class="heading"><a href="/schedule/news_release/" aria-label="Schedules for news Releases">Schedules for news Releases</a></li>
+		<li><a href="/schedule/" aria-label="Release Calendar By Month">By Month</a></li>
+		<li><a href="/schedule/schedule/by_prog/all_sched.htm" aria-label="Release Calendar By News Release">By News Release</a></li>
+		<li><a href="/schedule/news_release/current_year.asp" aria-label="Release Calendar Current Year">Current Year</a></li>
+		<li><a href="/bls/archived_sched.htm" aria-label="Schedules for Selected Bureau of Labor Statistics Economic News Releases for Prior Years">Prior Years</a></li>
+		<li class="heading"><a href="/bls/news-release/" aria-label="Archived News Releases">Archived News Releases</a></li>
+    </ul>
+    <!-- 2nd column -->
+    <ul class="main-nav-submenu-inn">
+        <li class="heading"><a href="/bls/newsrels.htm#OEUS" aria-label="Employment & Unemployment">Employment &amp; Unemployment</a></li>
+		<li><a href="/bls/newsrels.htm#OEUS" aria-label="Monthly">Monthly</a></li>
+		<li><a href="/bls/newsrels.htm#OEUS" aria-label="Quarterly, annual, and other">Quarterly, annual, and other</a></li>
+		<li class="heading"><a href="/bls/newsrels.htm#OPLC" aria-label="Inflation & Prices"> Inflation &amp; Prices</a></li>
+		<li class="heading"><a href="/bls/newsrels.htm#OCWC" aria-label="Pay & Benefits & Workplace Injuries">Pay &amp; Benefits &amp; Workplace Injuries</a></li>
+		<li class="heading"><a href="/bls/newsrels.htm#OPT" aria-label="Productivity & Technology">Productivity &amp; Technology</a></li>
+		<li class="heading"><a href="/bls/newsrels.htm#OEP" aria-label="Employment Projections">Employment Projections</a></li>
+		<li class="heading"><a href="/bls/newsrels.htm#NEWS" aria-label="Regional News Releases">Regional News Releases</a></li>
+    </ul>
+</div></div>
+    </li>
+    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="/k12/" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Classroom <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ********************************************** Begin Students Tab LIST ****************************************** -->
+<div class="main-nav-submenu" id="submenu-students">
+	<ul class="main-nav-submenu-inn">
+		<li class="heading"><a href="/k12/" aria-label="K-12 Student & Teacher Resources">K-12 Student &amp; Teacher Resources</a></li>		
+        <li><a href="/k12/games/" aria-label="Games & Quizzes">Games &amp; Quizzes</a></li>
+		<li><a href="/k12/students/" aria-label="Student's Desk">Student&apos;s Desk</a></li>
+		<li><a href="/k12/teachers/" aria-label="Teacher's Desk">Teacher&apos;s Desk</a></li>
+		<li><a href="/k12/faq.htm" aria-label="Questions & Answers">Questions &amp; Answers</a></li>
+    </ul>
+</div>
+<!-- ***********************************************End Students Tab LIST ******************************************** --></div>
+    </li>
+    <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="/beta/" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Beta <span class="circle-arrow"></span></a>
+        <div class="dropdown-menu"><!-- ***********************************************Start BETA LIST ******************************************** -->
+
+<div class="main-nav-submenu" id="submenu-beta">
+  <ul class="main-nav-submenu-inn">
+    <li class="heading"><a href="/beta/redesigned-news-releases.htm" aria-label="Redesigned News Releases">Redesigned News Releases</a></li>
+  </ul>
+</div>
+<!-- ***********************************************End BETA LIST ******************************************** --></div>
+    </li>
+</ul>
+
+
+  </div>
+</nav>
+</div>
+
+		</div>
+		<div class="clearfloat"></div>
+	</div>
+</div>
+
+
+<!-- MAIN NAV END -->
+
+<!-- WRAPPER TOP BEGIN -->
+	<div id="wrapper-outer" role="main">
+		<div id="wrapper">
+			<div id="container">
+<!-- WRAPPER TOP END -->
+<!-- SUBDOMAIN TITLE TOP BEGIN -->
+
+<!-- 1COL CMS LAYOUT COL1 BEGIN -->	
+
+<div class="main-content">
+<div id="startcontent" class="hidden"></div>
+
+<!-- 1COL CMS LAYOUT COL1 END -->
+
+
+
+<!--no_index_end-->
+
+<!-- OneColHeadBasic End -->
+
+	<div id="programs-banner"><div id="program-title" aria-level="1" role="heading">Consumer Expenditure Surveys</div><div id="social-search-box"><div class="article-tools-box social-media"><span class="social-media"><span>SHARE ON:</span><a href="javascript:void(0);" class="share_facebook"><img alt="share on facebook" src="/images/icons/facebook.png" title="Facebook"></a><a href="javascript:void(0);" class="share_twitter"><img alt="share on twitter" src="/images/icons/twitter.png" title="Twitter"></a><a href="javascript:void(0);" class="share_linkedin"><img alt="share on linkedin" src="/images/icons/linkedin.png" title="LinkedIn"></a></span></div><form method="get" id="search-secondary-nav-form" action="/search/query"><input type="hidden" value="https://www.bls.gov/cex" id="search-secondary-nav-category" name="prefix"><label for="search-secondary-nav-query" class="invisible">Search Consumer Expenditure Surveys</label><input type="text" onclick="this.value=''; this.onclick = null;" value="Search Consumer Expenditure Surveys" id="search-secondary-nav-query"name="query"><input type="submit" value="Go" id="search-secondary-nav-submit" name="submit"></form></div><div class="clearfloat"></div><style>.layout-wide #dol-bar-content, .layout-wide #bls-banner, .layout-wide #main-nav-container{margin:0 !important;}.layout-wide #wrapper, .layout-wide #footer-links-wrapper{max-width:100% !important;}.layout-wide #programs-banner{width:923px !important;}div.p{font-family: Tahoma, Arial, Helvetica, sans-serif;margin: 0 0 1em 0 !important;padding: 0;font-size: 100%;color: #333;line-height: 160%;}</style>
+<div class="bootstrap standard-width">
+<nav class="navbar navbar-expand-md programsNavBar " aria-label="secondary-nav">
+  <ul class="navbar-nav" role="menu">
+			        					<li class="nav-item" role="none">
+        																						<a role="menuitem" class="nav-link home progNav" href="/cex/">CE Home</a>
+				</li>        							        					<li class="nav-item dropdown" role="none">
+        																						<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link publications progNav" href="javascript:">CE Publications</a>
+				        			        	        		<div class="dropdown-menu" role="menu">                                								<a class="dropdown-item heading" role="menuitem" href="/cex/publications-overview.htm">Publications Overview</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/news.htm">News Releases</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/csxreport.htm">Additional Publications</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/research_papers/research-paper-catalog.htm">CE Library</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="https://public.govdelivery.com/accounts/USDOLBLS/subscribers/new?topic_id=USDOLBLS_033">Email Updates</a>
+								</div></li>        												        					<li class="nav-item dropdown" role="none">
+        																						<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link data progNav" href="javascript:">CE Data</a>
+				        			        	        		<div class="dropdown-menu" role="menu">                                								<a class="dropdown-item heading" role="menuitem" href="/cex/data-overview.htm">Data Overview</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/data.htm">Database</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/csxgeography.htm">Geographic Data </a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/pumd.htm">Public Use Microdata (PUMD)</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/tables.htm">Tables</a>
+								</div></li>        												        					<li class="nav-item dropdown" role="none">
+        																						<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link methods progNav" href="javascript:">CE Methods</a>
+				        			        	        		<div class="dropdown-menu" role="menu">                                								<a class="dropdown-item heading" role="menuitem" href="/cex/methods-overview.htm">Methods Overview</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="https://www.bls.gov/opub/hom/cex/">Handbook of Methods</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/geminiproject.htm">CE Redesign</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/consumption-home.htm">Consumption Research</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/cecomparison.htm">Data Quality and Comparisons</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/pce-ce-distributions.htm">Distribution of Personal Consumption Expenditures</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/ce-improvements.htm">Improvements and Protocol Changes</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/oplc_program_comparisons.htm">OPLC Program Comparisons</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="https://www.bls.gov/pir/spmhome.htm">Poverty Research</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/csxsurveyforms.htm">Survey Questionnaires and Materials </a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/technical-notes.htm">Technical Notes</a>
+								</div></li>        																		        					<li class="nav-item dropdown" role="none">
+        																						<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle nav-link about progNav" href="javascript:">About CE</a>
+				        			        	        		<div class="dropdown-menu" role="menu">                                								<a class="dropdown-item heading" role="menuitem" href="/cex/about-overview.htm">About CE Overview</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/conferences.htm">Events</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="/cex/csxgloss.htm">Glossary</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" target="_blank" href="https://www.bls.gov/respondents/cex/">Information for Survey Respondents</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/notices/">Notices</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/ce-products.htm">Products</a>
+								        			        	        		                                								<a class="dropdown-item" role="menuitem" href="/cex/csxfaqs.htm">Questions and Answers</a>
+								</div></li>        														        					<li class="nav-item" role="none">
+        																						<a role="menuitem" class="nav-link contact progNav" href="/cex/contact.htm">Contact CE</a>
+				</li>        				  </ul>
+</nav>
+</div>
+</div>	
+	
+	
+	
+	
+	
+	
+	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	        	
+	                                                                                                                                                	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                	
+	        	
+	<div class="programs-breadcrumbs">
+	<a href="https://www.bls.gov">Bureau of Labor Statistics</a> &gt;
+	<a href="/cex/">Consumer Expenditure Survey</a> &gt;
+	
+	
+	
+	
+	<span><a href="/cex/methods-overview.htm">Methods</a></span>
+	&gt; <span>Distribution of Personal Consumption Expenditures</span>
+	<ul class="gb-info" style="display:none;"><li><a href="/cex/">Consumer Expenditure Survey</a></li><li><a href="/cex/methods-overview.htm">Methods</a></li><li>Distribution of Personal Consumption Expenditures</li></ul>
+	</div>
+<style>
+	.programs-breadcrumbs{display:none}
+	.main-content{padding-top:0px;}
+	
+	.programsNavBar .navbar-nav li:nth-child(4){ background: url("/images/regions/triangle.png")no-repeat center bottom ;}
+.main-content #programs-banner #programs-banner-nav > li + li + li + li{
+	background-color:#3b5c72;
+	background-image: url("/images/regions/triangle.png");
+    background-position: center bottom;
+	background-repeat: no-repeat;
+}
+.main-content #programs-banner #programs-banner-nav > li + li + li + li + li {
+	background: url("/images/regions/programs_backgd.jpg") repeat-x scroll 0 0 transparent;
+}
+</style>	
+	
+<div class="cex">
+	<div class="cex"><!-- ****************************************** Begin HEADER ************************************************ --><!-- ****************************************** End HEADER ************************************************** --><!-- INSERT CONTENT HERE-->
+<h1>Distribution of Personal Consumption Expenditures</h1>
+<p>These prototype statistics measure the allocation of Personal Consumption Expenditures (PCE) across households, with the U.S. Consumer Expenditure Surveys (CE) serving as the basis of the distributions. It represents research produced by the BLS Division of Price and Index Number Research in coordination with the CE Program.<sup><a name="_ftnref1" title="" href="#_ftn1"><span>[1]</span></a></sup> PCE estimates are produced by the Bureau of Economic Analysis (BEA) as a part of the National Income and Product Accounts (NIPAs) and measure the value of goods and services purchased by, and on behalf of, US residents.</p>
+<p>The PCE distributions are produced as a part of an OECD effort to produce distributional national account statistics based on microdata from households and other sources. We produce the PCE distributional results in conjunction with the BEA who produce distributions of personal income.</p>
+<h2>Results</h2>
+<p><a href="https://www.bls.gov/cex/cecomparison/distributional-pce-2000-2023.xlsx">PCE distributional results for 2000&ndash;2023</a> (last updated&nbsp;March 14, 2025)</p>
+<div id="chart1" style="margin: auto; padding: 0px; width: 580px; height: 430px; position: relative; background-color: #ffffff;"></div>
+<div><br clear="all" /><hr width="33%" size="1" align="left" />
+<div id="ftn1"></div>
+</div>
+<h2>Methodology overview</h2>
+<p>We create prototype distributional statistics for Personal Consumption Expenditures (PCE). PCE is allocated across consumer units using data from the Consumer Expenditure Surveys (CE). For more detail about the methodology see <a href="/cex/pce-ce-distribution-methods.htm">the methodology summary</a>. The&nbsp;December 2024 release included several methodological improvements from prior versions that are outlined in the <a href="/cex/Methods_changes_page.htm">Summary of Methods Changes</a>. We also introduced <a href="/cex/Inflation_note.htm">distributional PCE price indexes</a>.</p>
+<p>Summary of process for creating distribution of PCE using CE data:</p>
+<ol>
+<li><a href="https://www.bls.gov/cex/cecomparison/ce_pce_map.xlsx">Map CE to PCE product categories</a> &ndash; The product categories in the CE (called UCCs) are mapped to the corresponding categories in the PCE. Note, owner-occupied housing is measured using reported rental equivalence values. Note, this mapping differs from the one the CE division maintains for routine CE-PCE comparisons in that we source more expenditures from the Interview survey.</li>
+<li>Match CE Diary to Interview &ndash; The CE collects spending data in separate surveys. Most spending is captured by the Interview survey, but some expenditures are only captured in the Diary survey. Surveyed households do not complete both, so Diary survey values have to be imputed to the Interview survey participants to get total spending at the consumer unit level.</li>
+<li>Impute expenditures to the CE &ndash; CE only captures out of pocket expenditures on categories like health insurance, medical goods and services, and financial services, while the PCE includes all expenditures on behalf of the household.</li>
+<li>Upper tail adjustment &ndash;We also apply a Pareto adjustment to the top 5% of the total spending distribution due to the expectation of underreporting of spending at the top of the distribution.</li>
+<li>Scale CE estimates to match PCE &ndash; Aggregate spending in the CE by category does not match the spending totals in PCE. In this step, we allocate the PCE spending unaccounted for in CE proportionally to the observed CE spending for 150 categories.</li>
+<li>Create adult-equivalized PCE and compute deciles and other statistics &ndash; For distributional statistics, households are ranked according to their equivalized consumer unit expenditures where the equivalence scale is the square root of consumer unit size.</li>
+</ol>
+<h2>Joint Distribution of Disposable Personal Income and Personal Consumption Expenditure</h2>
+<p>In July 2024, the BEA and BLS jointly produced a new joint distribution of disposable personal income (DPI) and personal consumption expenditures (PCE) which includes personal saving (PS). This work builds on the previously constructed independent distributions of DPI and PCE, produced by BEA and BLS, respectively. The distribution of DPI is based on household income data from the Current Population Survey Annual Social and Economic Supplement (CPS-ASEC), while the PCE component is from the CE as described above.&nbsp;<a href="/cex/methodology-for-distributing-personal-saving.htm">A technical document</a> and <a href="https://www.bls.gov/osmr/research-papers/2024/pdf/ec240050.pdf">working paper</a> contain additional details. A full set of available results is available on the <a href="https://www.bea.gov/data/special-topics/distribution-of-personal-income#collapse3a">the BEA website</a>.&nbsp;These results are based on the July 2024 release of the PCE distributions.</p>
+<h2></h2>
+<div id="chart2" style="margin: auto; padding: 0px; width: 580px; height: 430px; position: relative; background-color: #ffffff;"></div>
+<h2>Resources</h2>
+<p>Garner, T.I., Martin, R.S., Matsumoto, B. and Curtin, S. 2024 "A Distributional Approach to U.S. Personal Consumption Expenditures: An Overview." <em>Business Economics.</em> Vol 59, Issue 3. -&nbsp;<a href="https://www.bls.gov/cex/a-distributional-approach-to-us-personal-consumption-expenditures-overview.pdf">https://www.bls.gov/cex/a-distributional-approach-to-us-personal-consumption-expenditures-overview.pdf</a></p>
+<p>Garner, T.I., Martin, R.S., Matsumoto, B. and Curtin, S. 2022 "Distribution of U.S. Personal Consumption Expenditures for 2019: A Prototype Based on Consumer Expenditure Survey Data." BLS Working Paper 557 -&nbsp;<a href="https://www.bls.gov/osmr/research-papers/2022/pdf/ec220120.pdf ">https://www.bls.gov/osmr/research-papers/2022/pdf/ec220120.pdf</a>.</p>
+<p>Gindelsky, M., and Martin, R.S. 2025. &ldquo;The Polarization of Personal Saving.&rdquo; <em>Review of Income and Wealth.</em> <a href="https://doi.org/10.1111/roiw.70004">https://doi.org/10.1111/roiw.70004</a></p>
+<p>BEA &ndash; Distribution of personal income -&nbsp;<a href="https://www.bea.gov/data/special-topics/distribution-of-personal-income">https://www.bea.gov/data/special-topics/distribution-of-personal-income</a>.</p>
+<p>OECD &ndash; EG DNA -&nbsp;<a href="https://www.oecd.org/sdd/na/household-distributional-results-in-line-with-national-accounts-experimental-statistics.htm">https://www.oecd.org/sdd/na/household-distributional-results-in-line-with-national-accounts-experimental-statistics.htm</a>.</p>
+<p>Curtin, S. The Impact of COVID-19 on CE Survey Estimates for 2020 -&nbsp;<a href="https://www.bls.gov/cex/research_papers/pdf/curtin-2020-annual-COVID-impact.pdf">https://www.bls.gov/cex/research_papers/pdf/curtin-2020-annual-COVID-impact.pdf</a>.</p>
+<p>CE 2020 Annual Report -&nbsp;<a href="https://www.bls.gov/opub/reports/consumer-expenditures/2020/home.htm">https://www.bls.gov/opub/reports/consumer-expenditures/2020/home.htm</a>.</p>
+</div>
+<h2>Notes</h2>
+<div class="cex"><a name="_ftn1" title="" href="#_ftnref1"><span>[1]</span></a> This research is conducted&nbsp;in support of DOL Strategic Objective 4.1 to "Provide timely, accurate, and relevant information on labor market activity, working conditions, price changes, and productivity in the U.S. economy," and the BLS FY 2025 Agency Management Plan Themes 2 (Valued and Trusted Data) and 3 (Source Data Innovation).<br /><br />
+<p><strong>Last Modified Date:</strong>&nbsp;March 14, 2025</p>
+<!-- ********************************** TRAILER FILES *************************************** --><!-- **************************************************************************************** --></div>
+<div style="display: none;">
+<h2>Resources</h2>
+</div>
+<div style="display: none;">
+<h2>Resources</h2>
+</div>
+<div style="display: none;">https://www.bls.gov/osmr/research-papers/2022/pdf/ec220120.pdf</div>
+<div style="display: none;">https://www.oecd.org/sdd/na/household-distributional-results-in-line-with-national-accounts-experimental-statistics.htm</div>
+<div style="display: none;"><span>distributional-pce-interim-2017.xlsx</span></div>	
+</div>
+<!-- OneColFootBasic Begin -->
+
+<!-- Footer Filename: -->
+
+<!--no_index_start-->
+
+<!-- 1COL CMS BASIC LAYOUT COL1 END -->
+
+
+
+<div class="clearfloat"></div>
+<div class="social-media">
+</div>
+</div> 
+
+
+
+<!-- 1COL CMS LAYOUT COL1 END -->
+
+
+
+
+
+
+<!-- WRAPPER BOTTOM BEGIN -->
+
+
+		
+		
+		</div><!-- close id="wrapper-outer" -->
+	</div><!-- close id="wrapper" -->
+</div><!-- close id="container" -->
+
+	
+
+
+<!-- WRAPPER BOTTOM END -->
+
+
+
+<!-- FOOTER LEFT BEGIN -->
+
+<footer >
+	
+<!-- Footer Nav Menu-->
+<div class="footerNav">
+<ul class="footerNavInner">
+   <li class="footerNavItem"><a href="https://www.bls.gov/">Home</a></li>
+   <li class="footerNavItem"><a href="/bls/proghome.htm">Subjects</a></li>
+   <li class="footerNavItem"><a href="/data/">Data Tools</a></li>
+   <li class="footerNavItem"><a href="/opub/">Publications</a></li>
+   <li class="footerNavItem"><a href="/bls/newsrels.htm">Economic Releases</a></li>
+   <li class="footerNavItem"><a href="/k12/" >Classroom</a></li>
+   <li class="footerNavItem"><a href="/beta/">Beta</a></li>
+</ul>
+</div>
+<!-- Footer Nav Menu-->
+<script>/*<![CDATA[*/(function(){var sz = document.createElement('script'); sz.type = 'text/javascript'; sz.async = true;sz.src = '//siteimproveanalytics.com/js/siteanalyze_6032860.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sz, s);})();/*]]>*/</script> 
+
+<script src="/javascripts/touchpointsForms.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/touchpointsForms.css">
+
+<div id="footer-primary-wrapper">
+<div class="bootstrap standard-width">
+<div id="footer-container" class="row">
+	<div id="footer-links-container" class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+	
+	
+<div class="bls-lftside-holder">	
+<div class="bls-logo-footer">
+<img src="/images/bls_emblem_trans.png" class="responsiveImg" alt="U.S. Bureau of Labor Statistics Logo "/><div class="d-none d-md-block clearfloat"><br><br></div>
+
+ </div>
+ <div class="address-contact-footer">
+
+<!-- FOOTER LEFT END -->
+
+
+
+<address class="footer-address"  >   
+<strong>U.S. Bureau of Labor Statistics</strong>
+<span>Consumer Expenditure Surveys </span> 
+<span>Office of Prices and Living Conditions</span> 
+<span>Suitland Federal Center</span>
+<span>Floor 7</span>
+<span>4600 Silver Hill Road</span>  
+<span>Washington, DC 20212-0002</span>
+</address>
+
+
+
+<!-- FOOTER CENTER BEGIN -->
+
+
+
+
+
+<!-- FOOTER CENTER END -->
+
+
+
+
+<span class="footer-contact">  
+
+<a href="tel:12026916900" class="number" aria-label="Telephone: 202-691-6900">
+<span>Telephone:</span><span> 202-691-6900 </span>
+
+</a>
+
+<a href="/cex/home.htm" aria-label="www.bls.gov/CEX" >www.bls.gov/CEX</a>
+<a href="https://data.bls.gov/forms/cex.htm?/cex/pce-ce-distributions.htm" aria-label="Contact Us">Contact Us</a>
+
+</span>
+		
+
+
+
+
+<!-- FOOTER RIGHT BEGIN -->
+
+</div> 
+</div>
+</div>
+
+				<div id="quicklinks" class="row col-xs-12 col-sm-12 col-md-8 col-lg-8">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-5">
+					<strong>resources</strong>
+					<a class="d-sm-none" data-toggle="collapse" href="#quicklinksli5" role="button" aria-expanded="false" aria-controls="quicklinksli5" aria-label="resources Sub Menu"></a>
+						<div class="collapse" id="quicklinksli5">
+							<ul class="d-sm-block">						
+								<li><a href="https://www.oig.dol.gov/" aria-label="Office of Inspector General (OIG) website">Inspector General (OIG)</a></li>
+								<li><a href="/bls/bls_budget_and_performance.htm" aria-label="Budget and Performance">Budget and Performance</a></li>	
+								<li><a href="https://www.dol.gov/grants" aria-label="Department of Labor Grants">Department of Labor Grants</a></li>									
+								<li><a href="/bls/no_fear_act.htm" aria-label="No Fear Act">No Fear Act</a></li>
+								<li><a href="https://www.usa.gov/" aria-label="USA.gov website">USA.gov</a></li>
+							</ul>
+						</div>
+					</div>		
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-5">
+					<strong>about the site</strong>
+					<a class="d-sm-none" data-toggle="collapse" href="#quicklinksli6" role="button" aria-expanded="false" aria-controls="quicklinksli6" aria-label="about this site Sub Menu"></a>
+						<div class="collapse" id="quicklinksli6">
+							<ul class="d-sm-block">	
+								<li><a href="/bls/sitemap.htm" aria-label="Sitemap">Sitemap</a></li>						
+								<li><a href="/bls/blsfoia.htm" aria-label="Freedom of Information Act">Freedom of Information Act</a></li>
+								<li><a href="/bls/pss.htm" aria-label="Privacy and Security Statement">Privacy and Security Statement</a></li>
+								<li><a href="/bls/disclaimer.htm" aria-label="Disclaimers">Disclaimers</a></li>
+								<li><a href="/bls/linksite.htm" aria-label="Linking and Copyright Information">Linking and Copyright Info</a></li>	
+								<li><a href="/bls/website-policies.htm" aria-label="Important Website Notices">Important Website Notices</a></li>
+								<li><a href="/help/" aria-label="Help and Tutorials">Help and Tutorials</a></li>
+								<li><a href="/bls/ada.htm" aria-label="Accessibility Statement">Accessibility Statement</a></li>
+							</ul>
+						</div>
+					</div>				
+                </div>
+				 
+</div>
+</div>
+</div>
+<div id="footer-secondary-wrapper">
+
+<div class="bootstrap standard-width">
+
+<div>
+<span>Connect With BLS</span>
+  <div class="social-media-icons"> 
+    
+			<a class="social-media-icon" href="https://bsky.app/profile/usbls.bsky.social" title="Connect with BLS on Bluesky" target="_blank" rel="noopener noreferrer" >
+              <!--?xml version="1.0" encoding="utf-8"?-->
+				<svg aria-hidden="true" data-prefix="fas" data-icon="bluesky" class="svg-inline--fa fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 530"><path fill="currentColor" xmlns="http://www.w3.org/2000/svg" d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z"/></svg>
+              <span class="sr-only">Bluesky</span>
+          </a>
+
+           <a class="social-media-icon" href="https://www.instagram.com/usbls_gov/" title="Connect with BLS on Instagram" target="_blank" rel="noopener noreferrer" >
+              <!--?xml version="1.0" encoding="utf-8"?-->
+				<svg aria-hidden="true" data-prefix="fas" data-icon="instagram" class="svg-inline--fa fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+              <span class="sr-only">Instagram</span>
+          </a>
+
+           <a class="social-media-icon" href="https://www.linkedin.com/company/bureau-of-labor-statistics/" title="Connect with BLS on LinkedIn" target="_blank" rel="noopener noreferrer" >
+              <!--?xml version="1.0" encoding="utf-8"?-->
+			  <svg aria-hidden="true" data-prefix="fas" data-icon="linkedin" class="svg-inline--fa fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+              <span class="sr-only">LinkedIn</span>
+          </a>
+
+           <a class="social-media-icon" href="https://www.threads.net/@usbls_gov" title="Connect with BLS on Threads" target="_blank" rel="noopener noreferrer" >
+              <!--?xml version="1.0" encoding="utf-8"?-->
+				<svg aria-hidden="true" data-prefix="fas" data-icon="threads" class="svg-inline--fa fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-6.1-14.2-17.1-26-31.9-34.9c-3.7 26.9-11.8 48.3-24.7 64.8c-17.1 21.8-41.4 33.6-72.7 35.3c-23.6 1.3-46.3-4.4-63.9-16c-20.8-13.8-33-34.8-34.3-59.3c-2.5-48.3 35.7-83 95.2-86.4c21.1-1.2 40.9-.3 59.2 2.8c-2.4-14.8-7.3-26.6-14.6-35.2c-10-11.7-25.6-17.7-46.2-17.8H227c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1h.8c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3c25.6-1.4 54.6-11.4 59.5-73.2c-13.2-2.9-27.8-4.4-43.4-4.4c-4.8 0-9.6 .1-14.4 .4c-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z"/></svg>
+              <span class="sr-only">Threads</span>
+          </a>  
+    
+           <a class="social-media-icon" href="https://x.com/BLS_gov" title="Connect with BLS on X, formerly referred to as Twitter" target="_blank" rel="noopener noreferrer" >
+              <!--?xml version="1.0" encoding="utf-8"?-->
+              <svg aria-hidden="true" data-prefix="fab" data-icon="x.com" class="svg-inline--fa fa-twitter fa-w-16"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
+              <span class="sr-only">Visit BLS on X</span>
+          </a>
+                  
+           <a class="social-media-icon" href="https://www.youtube.com/channel/UCijn3WBpHtx4AvSya7NER9Q" title="BLS Youtube" target="_blank" rel="noopener noreferrer" >
+              <!--?xml version="1.0" encoding="utf-8"?-->
+              <svg aria-hidden="true" data-prefix="fab" data-icon="youtube" class="svg-inline--fa fa-youtube fa-w-18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg>
+              <span class="sr-only">Youtube</span>
+          </a>
+          <a class="social-media-icon" href="javascript:window.open('https://public.govdelivery.com/accounts/USDOLBLS/subscriber/new ','Popup','width=800,height=500,toolbar=no,scrollbars=yes,resizable=yes'); void('');" onclick="window.status='Subscribe'; return true" onmouseover="window.status='Subscribe'; return true" onmouseout="window.status=''; return true" id="social-email-3" title="Subscribe to BLS E-mail Updates">
+              <!--?xml version="1.0" encoding="utf-8"?-->
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope" class="svg-inline--fa fa-envelope fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path></svg>
+              <span class="sr-only">Email</span>
+          </a>
+        </div>
+</div>
+</div>
+</div>
+</footer>
+
+<!-- FOOTER RIGHT END -->
+
+
+
+<!--no_index_end-->
+
+<!-- OneColFootBasic End -->
+
+<!-- PERCUSSION INNER END -->
+
+		</section>
+
+				
+	</body>
+</html>
