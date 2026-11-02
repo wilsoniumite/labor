@@ -1,0 +1,131 @@
+check,status,value,detail
+raw files unchanged since download (sha256 = MANIFEST.csv),pass,21/21 match,changed: []; not vendored: ['fred/W875RX1.csv']
+SeriesRegister series codes unique,pass,10674,
+flat files: latest month,info,2026M09,latest year 2025
+TablesRegister lists U20402 (contributions/percent change for U detail),info,False,
+TablesRegister lists U20802 (contributions/percent change for U detail),info,False,
+TablesRegister lists U20401 (contributions/percent change for U detail),info,False,
+underlying workbook sheets,info,U20304-A U20304-Q U20304-M U20305-A U20305-Q U20305-M U20306-A U20306-Q U20306-M U20403-A U20403-Q U20403-M U20404-A U20404-Q U20404-M U20405-A U20405-Q U20405-M U20406-A U20406-Q U20406-M,no 2.4.1U/2.4.2U (percent change / contributions) sheets are published for the U detail
+"flat file = workbook, U20405-A",pass,25186 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20405-M",pass,305832 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20406-A",pass,7600 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20406-M",pass,94800 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20404-A",pass,25052 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20404-M",pass,304206 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20403-A",pass,25052 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"flat file = workbook, U20403-M",pass,304206 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+"U tables share one line layout (lines, labels, levels, parents)",pass,402 lines,
+vintage stamp U20405-A,info,"Data published October 29, 2026",Annual data from 1959 to 2025; File created Oct 28 2026 2:35PM
+vintage stamp U20405-M,info,"Data published October 29, 2026",Monthly data from 1959M01 to 2026M09; File created Oct 28 2026 2:35PM
+vintage stamp U20406-A,info,"Data published October 29, 2026",Annual data from 2007 to 2025; File created Oct 28 2026 2:35PM
+vintage stamp U20406-M,info,"Data published October 29, 2026",Monthly data from 2007M01 to 2026M09; File created Oct 28 2026 2:35PM
+vintage stamp U20404-A,info,"Data published October 29, 2026",Annual data from 1959 to 2025; File created Oct 28 2026 2:35PM
+vintage stamp U20404-M,info,"Data published October 29, 2026",Monthly data from 1959M01 to 2026M09; File created Oct 28 2026 2:35PM
+vintage stamp U20403-A,info,"Data published October 29, 2026",Annual data from 1959 to 2025; File created Oct 28 2026 2:35PM
+vintage stamp U20403-M,info,"Data published October 29, 2026",Monthly data from 1959M01 to 2026M09; File created Oct 28 2026 2:35PM
+2.4.5U display parents agree with SeriesRegister parents,pass,0 disagreements,
+2.4.5U numbered lines,info,402,main hierarchy lines 368 (1-368); addenda lines 34; deepest level 8 (PCE = level 0)
+2.4.5U deepest lines,info,239 Elementary and secondary school lunches; 240 Higher education school lunches; 242 Meals at limited service eating places; 243 Meals at other eating places; 244 Meals at drinking places; 262 Exchange-listed equities; 263 Other direct commissions; 265 Over-the-counter equity securities; 266 Other imputed commissions,
+2.4.5U-A children sum to parents (signed; 'Less:' lines subtracted),pass,"largest gap -3 million $ (parent line 356, 1995; 9 of 9 children published)",7882 parent-periods; beyond rounding with all children published: 0; max relative gap 4.50e-03
+2.4.5U-A largest children-sum gap since 2022,info,2 million $,"parent line 298, 2023"
+2.4.5U-M children sum to parents (signed; 'Less:' lines subtracted),pass,"largest gap -3 million $ (parent line 151, 1976M07; 7 of 7 children published)",95691 parent-periods; beyond rounding with all children published: 0; max relative gap 1.56e-02
+2.4.5U-M largest children-sum gap since 2022,info,-2 million $,"parent line 24, 2023M02"
+2.4.5U-M addenda identity line 374 = line 1 - line 370,pass,max abs diff 1 million $,
+2.4.6U-A chained-dollar children do NOT sum to parents,info,PCE line 1 minus (Goods + Services) in 2025: -23085 million chained 2017 $,"largest gap anywhere -38294 (parent line 3, 2025); median |rel gap| 2.70e-04"
+2.4.6U-M chained-dollar children do NOT sum to parents,info,PCE line 1 minus (Goods + Services) in 2026M09: -22493 million chained 2017 $,"largest gap anywhere -45925 (parent line 3, 2026M01); median |rel gap| 3.16e-04"
+wrote bea_pce_u_long.csv.gz,info,1091934 rows,2.4.5U-A: 1959..2025 (402 lines); 2.4.5U-M: 1959-01..2026-09 (402 lines); 2.4.6U-A: 2007..2025 (400 lines); 2.4.6U-M: 2007-01..2026-09 (400 lines); 2.4.4U-A: 1959..2025 (400 lines); 2.4.4U-M: 1959-01..2026-09 (400 lines); 2.4.3U-A: 1959..2025 (400 lines); 2.4.3U-M: 1959-01..2026-09 (400 lines)
+"2.4.5U-M: PCE = signed sum of the 243 current leaf lines (sign_to_root), 2007M01 onward",pass,max abs diff 11 million $ over 237 months,"rounding bound 122; leaves published later than 1959M01 (their parent is the finest level before that): 10 (2002M01), 11 (2002M01), 18 (1983M01), 19 (1983M01), 46 (1977M01), 49 (1977M01), 50 (1977M01), 159 (2002M01), 177 (1987M01), 178 (1987M01), 180 (1987M01), 181 (1987M01), 195 (1987M01), 196 (1987M01), 224 (2007M01), 225 (2007M01), 242 (1987M01), 243 (1987M01), 244 (1987M01), 262 (1997M01), 263 (1997M01), 265 (1997M01), 266 (1997M01), 267 (1987M01), 268 (1987M01), 285 (1985M01), 289 (1987M01), 318 (1987M01), 319 (1987M01), 320 (1987M01), 321 (1987M01), 322 (1987M01), 323 (1987M01), 337 (1981M01), 340 (1981M01), 341 (1981M01)"
+wrote bea_pce_u_lines.csv,info,402 lines,245 leaf lines in the main hierarchy
+"flat file = workbook, T20305-A",pass,2831 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+vintage stamp T20305-A,info,"Data published October 29, 2026",Annual data from 1929 to 2025
+"flat file = workbook, T20306-A",pass,608 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+vintage stamp T20306-A,info,"Data published October 29, 2026",Annual data from 2007 to 2025
+Table 2.3.6 note on chained dollars,info,"Note. Chained (2017) dollar series are calculated as the product of the chain-type quantity index and the 2017 current-dollar value of the corresponding series, divided by 100. Because the formula for the chain-type quantity indexes uses weights of more than one period, the corresponding chained-dollar estimates are usually not additive. The residual line is the difference between the first line and the sum of the most detailed lines.",
+"flat file = workbook, T20805-M",pass,24531 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+vintage stamp T20805-M,info,"Data published October 29, 2026",Monthly data from 1959M01 to 2026M09
+"flat file = workbook, T20806-M",pass,7347 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+vintage stamp T20806-M,info,"Data published October 29, 2026",Monthly data from 2007M01 to 2026M09
+wrote bea_pce_major_long.csv,info,35317 rows,2.3.5: 1929..2025; 2.3.6: 2007..2025; 2.8.5: 1959-01..2026-09; 2.8.6: 2007-01..2026-09
+2.3.5 children sum to parents (signed; 'Less:' lines subtracted),pass,"largest gap -2 million $ (parent line 8, 1938; 4 of 4 children published)",649 parent-periods; beyond rounding with all children published: 0; max relative gap 2.53e-04
+2.8.5 children sum to parents (signed; 'Less:' lines subtracted),pass,"largest gap -3 million $ (parent line 14, 1976M07; 7 of 7 children published)",5691 parent-periods; beyond rounding with all children published: 0; max relative gap 2.03e-04
+2.8.5 = 2.4.5U for shared series codes,pass,"22905 cells, 29 series","published series not in the U table: ['LA001176', 'LA001260']"
+2.8.6 = 2.4.6U for shared series codes,pass,"6873 cells, 29 series","published series not in the U table: ['LB001176', 'LB001260']"
+2.3.5 = 2.4.5U for shared series codes,pass,"1887 cells, 29 series","published series not in the U table: ['LA001176', 'LA001260']"
+2.3.6 = 2.4.6U for shared series codes,pass,"551 cells, 29 series","published series not in the U table: ['D236RX', 'LB001176', 'LB001260']"
+Table 2.3.6 residual line 25 = line 1 - sum of most detailed lines,pass,max abs diff 3,"most detailed lines [4, 5, 6, 7, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 23, 24]; residual 2025 = -111737 million chained 2017 $"
+"flat file = workbook, T20600-M",pass,34782 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+vintage stamp T20600-M,info,"Data published October 29, 2026",Monthly data from 1959M01 to 2026M09
+"flat file = workbook, T20100-A",pass,4074 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
+vintage stamp T20100-A,info,"Data published October 29, 2026",Annual data from 1929 to 2025
+wrote bea_pi_long.csv,info,38856 rows,2.6: 1959-01..2026-09 (43 lines); 2.1: 1929..2025 (43 lines)
+2.6 children sum to parents (signed; 'Less:' lines subtracted),pass,"largest gap -2 million $ (parent line 1, 1980M11; 6 of 6 children published)",8130 parent-periods; beyond rounding with all children published: 0; max relative gap 2.02e-05
+2.6 parents checked,info,"[1, 2, 3, 6, 9, 13, 16, 17, 28, 31]",
+"2.6 identities DPI = PI - taxes, saving = DPI - outlays, rate = saving/DPI",pass,"max abs diffs 1, 1 million $; 0.00 pp",
+2.6 line 36 = (line 1 - line 16) / PCE implicit deflator (DPCERC/DPCERX),pass,max relative diff 1.78e-07 over 237 periods,2007M01..2026M09 (monthly chained-dollar PCE starts 2007M01)
+2.1 children sum to parents (signed; 'Less:' lines subtracted),pass,"largest gap 492 million $ (parent line 17, 1932; 1 of 6 children published)",970 parent-periods; beyond rounding with all children published: 0; max relative gap 3.86e-01
+2.1 gaps where some children are unpublished,info,7,line 17 1929: 233 (1 of 6 children); line 17 1930: 270 (1 of 6 children); line 17 1931: 345 (1 of 6 children); line 17 1932: 492 (1 of 6 children); line 17 1943: 3 (4 of 6 children); line 17 1944: 5 (4 of 6 children); line 17 1945: 5 (4 of 6 children)
+2.1 parents checked,info,"[1, 2, 3, 6, 9, 13, 16, 17, 28, 31]",
+"2.1 identities DPI = PI - taxes, saving = DPI - outlays, rate = saving/DPI",pass,"max abs diffs 1, 1 million $; 0.00 pp",
+2.1 line 36 = (line 1 - line 16) / PCE implicit deflator (DPCERC/DPCERX),pass,max relative diff 2.24e-06 over 67 periods,1959..2025
+FRED W875RX1 cross-check,FAIL,NOT RUN (download failed),fred/W875RX1.csv not vendored: see raw/bea/FETCH_FAILURES.csv; the internal line-36 check above stands in
+release stamp (HTML),info,"EMBARGOED UNTIL RELEASE AT 8:30 a.m. EDT, Thursday, October 29, 2026",BEA 26–46
+release: personal income change,pass,"published [54.5, 0.2]","from data [np.float64(54.473), np.float64(0.2)]"
+release: DPI change,pass,"published [52.7, 0.2]","from data [np.float64(52.722), np.float64(0.2)]"
+release: PCE change,pass,"published [113.1, 0.5]","from data [np.float64(113.122), np.float64(0.5)]"
+release: personal outlays change,pass,published [113.0],from data [np.float64(112.957)]
+release: personal saving level and rate,pass,"published [911.1, 3.8]","from data [np.float64(911.144), np.float64(3.8)]"
+release: goods and services changes,pass,"published [35.1, 78.1]","from data [np.float64(35.062), np.float64(78.061)]"
+release: real PCE change,pass,published [2.6],from data [np.float64(2.62)]
+release: PCE price index m/m and core m/m,pass,"published [0.5, 0.3]","from data [np.float64(0.5), np.float64(0.3)]"
+release: PCE price index y/y and core y/y,pass,"published [3.6, 3.1]","from data [np.float64(3.6), np.float64(3.1)]"
+release: related measures table: Current-dollar personal income,pass,"published [0.3, 0.2]","from data [np.float64(0.3), np.float64(0.2)]"
+release: related measures table: Current-dollar DPI,pass,"published [0.3, 0.2]","from data [np.float64(0.3), np.float64(0.2)]"
+release: related measures table: Real DPI,pass,"published [0.0, -0.3]","from data [np.float64(0.0), np.float64(-0.3)]"
+release: related measures table: Current-dollar PCE,pass,"published [0.9, 0.5]","from data [np.float64(0.9), np.float64(0.5)]"
+release: related measures table: Real PCE,pass,"published [0.5, 0.0]","from data [np.float64(0.5), np.float64(0.0)]"
+release: related measures table: PCE price index,pass,"published [0.3, 0.5]","from data [np.float64(0.3), np.float64(0.5)]"
+"release: related measures table: PCE price index, excluding food and energy",pass,"published [0.3, 0.3]","from data [np.float64(0.3), np.float64(0.3)]"
+release: spending-change chart: Gasoline and other energy goods,pass,published [45.7],from data [np.float64(45.7)]
+release: spending-change chart: Transportation services,pass,published [18.4],from data [np.float64(18.4)]
+release: spending-change chart: Housing and utilities,pass,published [17.8],from data [np.float64(17.8)]
+release: spending-change chart: Food services and accommodations,pass,published [15.5],from data [np.float64(15.5)]
+release: spending-change chart: Health care,pass,published [13.0],from data [np.float64(13.0)]
+release: spending-change chart: Financial services and insurance,pass,published [11.1],from data [np.float64(11.1)]
+release: spending-change chart: Other services,pass,published [6.4],from data [np.float64(6.4)]
+release: spending-change chart: Food and beverages,pass,published [1.5],from data [np.float64(1.5)]
+release: spending-change chart: Other nondurable goods,pass,published [0.8],from data [np.float64(0.8)]
+release: spending-change chart: Clothing and footwear,pass,published [0.7],from data [np.float64(0.7)]
+release: spending-change chart: Furnishings and durable household equipment,pass,published [0.6],from data [np.float64(0.6)]
+release: spending-change chart: Recreational goods and vehicles,pass,published [-0.0],from data [np.float64(-0.0)]
+release: spending-change chart: Other durable goods,pass,published [-0.2],from data [np.float64(-0.2)]
+release: spending-change chart: Final expenditures of nonprofit institutions,pass,published [-0.9],from data [np.float64(-0.9)]
+release: spending-change chart: Recreation services,pass,published [-3.2],from data [np.float64(-3.2)]
+release: spending-change chart: Motor vehicles and parts,pass,published [-14.0],from data [np.float64(-14.0)]
+nowcast table header,info, | 2024 Share of PI (Published) | 2025 Share of PI (Nowcast) | 2025 Nominal Growth in PI (Nowcast),
+wrote bea_dpi_distribution.csv,info,9035 rows,years 2000-2025
+"decile/quintile shares sum to 1 (by year, ranking, concept)",pass,max |sum - 1| = 0.003,851 groups; published to 3 decimals
+nowcast page '2024 share (published)' = summary file 2024 quintile shares of PI,pass,max diff 0.00 pp,
+nowcast internal consistency (2024 shares x group growth -> 2025 shares),info,implied aggregate PI growth 4.89%,"implied 2025 shares Q1 5.26 (pub 5.2), Q2 9.58 (pub 9.6), Q3 13.41 (pub 13.4), Q4 19.09 (pub 19.1), Q5 52.65 (pub 52.7)"
+inequality-metrics workbook 2023 Table 1 decile shares = summary file,pass,300/300 match,
+inequality-metrics workbook 2023 Table 2 metrics = summary file,pass,30/30 match,
+inequality-metrics workbook 2024 Table 1 decile shares = summary file,pass,300/300 match,
+inequality-metrics workbook 2024 Table 2 metrics = summary file,pass,30/30 match,
+"NIPA Table 2.10 (flat file, % to 1 decimal) = summary-file decile shares, each concept ranked by its own equivalized income",pass,"Personal income (equivalized_pi): 250 cells, 0 differ by >0.05pp (max 0.00); Disposable personal income (equivalized_dpi): 250 cells, 0 differ by >0.05pp (max 0.00)",
+summary-file personal income totals vs current NIPA Table 2.1 line 1,info,"2019: 18363 vs 18363, 2021: 21499 vs 21507, 2022: 22154 vs 22157, 2023: 23585 vs 23642, 2024: 24906 vs 25043",max |diff| 137 billion $; 2000-2018 max |diff| 0
+wrote bea_pce_price_by_income_decile.csv,info,425 rows,"years 2000-2024; columns: Year, Published PCE PI, Indexed Published PCE PI, ISPCEPX: 0-10%, ISPCEPX: 10-20%, ISPCEPX: 20-30%, ISPCEPX: 30-40%, ISPCEPX: 40-50%, ISPCEPX: 50-60%, ISPCEPX: 60-70%, ISPCEPX: 70-80%, ISPCEPX: 80-90%, ISPCEPX: 90-100%, ISPCEPX: 0-20%, ISPCEPX: 20-40%, ISPCEPX: 40-60%, ISPCEPX: 60-80%, ISPCEPX: 80-100%"
+ISPCEPX: every group index = 100 in 2000,pass,,
+ISPCEPX: 'Indexed Published PCE PI' = Published PCE PI rebased to 2000,pass,max abs diff 0.010,
+ISPCEPX 'Published PCE PI' vs current-vintage 2.4.4U line 1 (DPCERG),info,max |diff| 0.070 index points,"differences by year (ISPCEPX minus current): 2021: +0.07, 2022: +0.06, 2023: +0.01, 2024: +0.01"
+ISPCEPX cumulative inflation 2019-2024 by decile (info),info,"0-10% 19.6%, 10-20% 19.5%, 20-30% 19.4%, 30-40% 19.3%, 40-50% 19.2%, 50-60% 19.1%, 60-70% 19.1%, 70-80% 19.2%, 80-90% 19.2%, 90-100% 20.4%",aggregate 19.5%
+joint workbook 'shares of NIPA totals' ranking field,info,['Equivalized Disposable Personal Income'],
+wrote bea_joint_dpi_pce_by_decile.csv,info,1632 rows,years 2000-2023
+wrote bea_joint_dpi_pce_joint_shares.csv,info,3456 rows,years 2000-2023
+joint file: decile shares of DPI and PCE sum to 1,pass,"max |sum-1| DPI 0.003, PCE 0.003, saving 0.002",
+joint shares over the 10x10 decile grid sum to 1,pass,max |sum-1| 0.007,Top 1%/Top 5% rows overlap 90-100% and are excluded from the sum
+joint file: decile saving rate = saving share x total / (DPI share x total),info,max abs diff 0.042; median 0.0006,"shares are rounded to 3 decimals, so only approximate"
+"joint file totals vs current NIPA Table 2.1 (DPI line 27, PCE line 29)",info,"2019: DPI +0, PCE -0 bn; 2020: DPI +0, PCE -0 bn; 2021: DPI -5, PCE +5 bn; 2022: DPI -5, PCE +20 bn; 2023: DPI -59, PCE +61 bn","2000-2018 max |diff| DPI 0, PCE 0 bn"
+"latest: real PCE (2.4.6U/2.8.6 line 1, DPCERX)",info,2026M09: 16.9776 trillion,6-month change (2026M03->2026M09) 1.82% (3.67% annualized); 12-month change (2025M09->2026M09) 2.54%
+"latest: real PI excluding current transfer receipts (2.6 line 36, W875RX)",info,2026M09: 17.0152 trillion,6-month change (2026M03->2026M09) 0.05% (0.10% annualized); 12-month change (2025M09->2026M09) 0.54%
+"latest: real DPI (2.6 line 37, A067RX)",info,2026M09: 18.3661 trillion,6-month change (2026M03->2026M09) 0.35% (0.71% annualized); 12-month change (2025M09->2026M09) 0.95%
+latest: nominal PCE (2.6 line 29),info,2026M09: 22.4528 trillion,6-month change (2026M03->2026M09) 3.50% (7.13% annualized); 12-month change (2025M09->2026M09) 6.28%
+"latest: nominal PI excluding current transfer receipts (2.6 line 1 - line 16, derived)",info,2026M09: 22.5025 trillion,6-month change (2026M03->2026M09) 1.71% (3.44% annualized); 12-month change (2025M09->2026M09) 4.21%

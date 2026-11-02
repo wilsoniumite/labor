@@ -1,0 +1,2 @@
+file,url,date_tried,error
+fred/W875RX1.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=W875RX1,2026-11-02,"RuntimeError('GET failed after 4 tries: https://fred.stlouisfed.org/graph/fredgraph.csv?id=W875RX1 (ProxyError(MaxRetryError(""HTTPSConnectionPool(host=\'fred.stlouisfed.org\', port=443): Max retries exceeded with url: /graph/fredgraph.csv?id=W875RX1 (Caused by ProxyError(\'Unable to connect to proxy\', RemoteDisconnected(\'Remote end closed connection without response\')))"")))')"

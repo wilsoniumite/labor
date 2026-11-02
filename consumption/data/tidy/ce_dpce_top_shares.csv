@@ -1,0 +1,106 @@
+source,year,group,share_pct,share_pct_alt,note
+CE Table 1110 means x CU counts,2014,d10,23.4886715,23.4861657,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2015,d10,23.84817148,23.85132158,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2016,d10,23.89561591,23.89190265,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2017,d10,23.70841199,23.70538216,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2018,d10,23.3256417,23.3249272,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2019,d10,23.36315612,23.36590787,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2020,d10,22.26216403,22.25534777,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2021,d10,23.3985066,23.40402163,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2022,d10,22.8759044,22.87516378,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2023,d10,23.45082953,23.45154654,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2024,d10,22.88589714,22.88801308,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1110 means x CU counts,2025,d10,23.63976556,23.64072445,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2019,q5,38.69527864,38.6996816,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2020,q5,37.29529236,37.28505578,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2021,q5,38.49319376,38.50012376,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2022,q5,38.54365304,38.54126987,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2023,q5,38.86088671,38.86241977,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2024,q5,38.45099341,38.45583398,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE Table 1101 means x CU counts,2025,q5,38.87909747,38.88303075,denominator: sum over groups (share_pct) or all-CU count x mean (share_pct_alt)
+CE aggregate-share table (deciles),2019,d10,23.3,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (deciles),2020,d10,22.3,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (deciles),2021,d10,23.4,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (deciles),2022,d10,22.9,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (deciles),2023,d10,23.4,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (deciles),2024,d10,22.9,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (deciles),2025,d10,23.6,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2019,q5,38.7,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2020,q5,37.3,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2021,q5,38.5,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2022,q5,38.6,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2023,q5,38.9,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2024,q5,38.4,,as published (percent of aggregate annual expenditures)
+CE aggregate-share table (quintiles),2025,q5,38.8,,as published (percent of aggregate annual expenditures)
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2000,d10,26.3,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2000,q5,40.06,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2000,q5,40.07,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2001,d10,26.4,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2001,q5,40.17,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2001,q5,40.18,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2002,d10,26.02,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2002,q5,39.77,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2002,q5,39.76,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2003,d10,26.99,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2003,q5,40.78,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2003,q5,40.78,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2004,d10,26.68,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2004,q5,40.79,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2004,q5,40.78,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2005,d10,26.67,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2005,q5,40.71,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2005,q5,40.71,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2006,d10,26.36,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2006,q5,40.15,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2006,q5,40.15,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2007,d10,27.18,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2007,q5,41.12,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2007,q5,41.12,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2008,d10,26.95,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2008,q5,40.68,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2008,q5,40.68,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2009,d10,26.57,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2009,q5,40.2,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2009,q5,40.19,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2010,d10,26.22,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2010,q5,39.99,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2010,q5,39.99,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2011,d10,26.24,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2011,q5,40.18,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2011,q5,40.17,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2012,d10,26.68,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2012,q5,40.53,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2012,q5,40.54,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2013,d10,27.04,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2013,q5,40.84,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2013,q5,40.84,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2014,d10,26.98,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2014,q5,40.74,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2014,q5,40.74,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2015,d10,26.75,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2015,q5,40.63,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2015,q5,40.62,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2016,d10,26.48,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2016,q5,40.28,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2016,q5,40.28,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2017,d10,26.26,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2017,q5,40,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2017,q5,40,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2018,d10,26.68,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2018,q5,40.54,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2018,q5,40.54,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2019,d10,26.11,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2019,q5,39.82,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2019,q5,39.83,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2020,d10,24.96,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2020,q5,38.31,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2020,q5,38.31,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2021,d10,26.07,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2021,q5,39.67,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2021,q5,39.67,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2022,d10,26.39,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2022,q5,39.98,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2022,q5,39.98,,share of total (unequivalized) PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2023,d10,25.74,,share of total PCE
+BLS dPCE T1 line 1 (deciles of equivalized PCE),2023,q5,39.5,,"d09 + d10, share of total PCE"
+BLS dPCE T2 line 26 'Total: 80-100% share',2023,q5,39.5,,share of total (unequivalized) PCE
