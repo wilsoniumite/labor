@@ -1,0 +1,7 @@
+schedule,mpc_q1,mpc_q2,mpc_q3,mpc_q4,mpc_q5,bars_rmse,seg_rmse,impulse_pct_charted
+"adopted: US mid schedule, decile-pair means",1.00000,0.94007,0.81389,0.68772,0.56154,0.00576,0.00742,0.62796
+"decile knee family fitted to the Finnish bars (knee 2.4, top 0.5325), pair means",1.00000,0.93234,0.80931,0.68628,0.56326,0.00483,0.00739,0.62314
+"quintile knee family fitted to the bars (knee 1.45, top 0.5625)",1.00000,0.93222,0.80898,0.68574,0.56250,0.00487,0.00738,0.62388
+free per-quintile fit to the 37 bars (diagnostic),0.99915,0.94151,0.91750,0.77583,0.55816,0.00474,0.00710,0.62247
+implied by the 50 Fig 3 segments (diagnostic),0.99921,0.93359,0.83494,0.74584,0.56138,0.00582,0.00633,0.61692
+"US monotone per-decile diagnostic, pair means",0.99150,0.93170,0.85100,0.76940,0.56635,0.01385,0.00846,0.60205

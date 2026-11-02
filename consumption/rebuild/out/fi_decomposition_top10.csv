@@ -1,0 +1,61 @@
+rank,category,quintile,contrib_mid,contrib_mpc1,pub_segment,gap
+1,04.1 Actual rents,q1,4.25631,4.25631,4.26000,-0.00369
+1,04.1 Actual rents,q2,0.94170,1.00174,0.93000,0.01170
+1,04.1 Actual rents,q3,0.05516,0.06778,0.06000,-0.00484
+1,04.1 Actual rents,q4,-0.10582,-0.15387,-0.12000,0.01418
+1,04.1 Actual rents,q5,-0.21978,-0.39139,-0.22000,0.00022
+1,04.1 Actual rents,net,4.92758,4.78057,4.90000,0.02758
+2,01.1 Food (at home),q1,0.92502,0.92502,0.92000,0.00502
+2,01.1 Food (at home),q2,0.40204,0.42767,0.39000,0.01204
+2,01.1 Food (at home),q3,0.03583,0.04402,0.05000,-0.01417
+2,01.1 Food (at home),q4,-0.09197,-0.13373,-0.10000,0.00803
+2,01.1 Food (at home),q5,-0.35177,-0.62644,-0.35000,-0.00177
+2,01.1 Food (at home),net,0.91915,0.63655,0.90000,0.01915
+3,08.3 Information and communication services,q1,0.66416,0.66416,0.65000,0.01416
+3,08.3 Information and communication services,q2,0.31952,0.33989,0.33000,-0.01048
+3,08.3 Information and communication services,q3,0.02928,0.03597,0.02000,0.00928
+3,08.3 Information and communication services,q4,-0.08213,-0.11942,-0.09000,0.00787
+3,08.3 Information and communication services,q5,-0.37920,-0.67529,-0.37000,-0.00920
+3,08.3 Information and communication services,net,0.55163,0.24532,0.50000,0.05163
+4,06.1 Medicines and health products,q1,0.48141,0.48141,0.48000,0.00141
+4,06.1 Medicines and health products,q2,0.26282,0.27958,0.26000,0.00282
+4,06.1 Medicines and health products,q3,0.02461,0.03023,0.02000,0.00461
+4,06.1 Medicines and health products,q4,-0.05959,-0.08665,-0.07000,0.01041
+4,06.1 Medicines and health products,q5,-0.26342,-0.46910,-0.27000,0.00658
+4,06.1 Medicines and health products,net,0.44583,0.23547,0.40000,0.04583
+5,13.1 Personal care,q1,0.48745,0.48745,0.49000,-0.00255
+5,13.1 Personal care,q2,0.22106,0.23515,0.22000,0.00106
+5,13.1 Personal care,q3,0.01930,0.02371,0.02000,-0.00070
+5,13.1 Personal care,q4,-0.05491,-0.07984,-0.06000,0.00509
+5,13.1 Personal care,q5,-0.26752,-0.47641,-0.28000,0.01248
+5,13.1 Personal care,net,0.40538,0.19007,0.40000,0.00538
+6,03.1 Clothing,q1,0.51832,0.51832,0.51000,0.00832
+6,03.1 Clothing,q2,0.20731,0.22053,0.20000,0.00731
+6,03.1 Clothing,q3,0.02187,0.02687,0.02000,0.00187
+6,03.1 Clothing,q4,-0.06600,-0.09597,-0.07000,0.00400
+6,03.1 Clothing,q5,-0.32817,-0.58440,-0.33000,0.00183
+6,03.1 Clothing,net,0.35334,0.08535,0.30000,0.05334
+7,07.2 Operation of personal transport equipment,q1,0.75939,0.75939,0.75000,0.00939
+7,07.2 Operation of personal transport equipment,q2,0.54574,0.58053,0.55000,-0.00426
+7,07.2 Operation of personal transport equipment,q3,0.05166,0.06348,0.05000,0.00166
+7,07.2 Operation of personal transport equipment,q4,-0.16166,-0.23507,-0.17000,0.00834
+7,07.2 Operation of personal transport equipment,q5,-0.85283,-1.51872,-0.85000,-0.00283
+7,07.2 Operation of personal transport equipment,net,0.34230,-0.35039,0.30000,0.04230
+8,11.1 Food and beverage serving services,q1,0.38698,0.38698,0.38000,0.00698
+8,11.1 Food and beverage serving services,q2,0.15219,0.16189,0.15000,0.00219
+8,11.1 Food and beverage serving services,q3,0.01548,0.01902,0.01000,0.00548
+8,11.1 Food and beverage serving services,q4,-0.04776,-0.06945,-0.06000,0.01224
+8,11.1 Food and beverage serving services,q5,-0.21872,-0.38950,-0.21000,-0.00872
+8,11.1 Food and beverage serving services,net,0.28817,0.10894,0.30000,-0.01183
+9,04.4 Water & misc. dwelling services,q1,0.39657,0.39657,0.39000,0.00657
+9,04.4 Water & misc. dwelling services,q2,0.34572,0.36776,0.34000,0.00572
+9,04.4 Water & misc. dwelling services,q3,0.03331,0.04093,0.03000,0.00331
+9,04.4 Water & misc. dwelling services,q4,-0.09336,-0.13576,-0.10000,0.00664
+9,04.4 Water & misc. dwelling services,q5,-0.39606,-0.70530,-0.39000,-0.00606
+9,04.4 Water & misc. dwelling services,net,0.28618,-0.03580,0.30000,-0.01382
+10,07.1 Purchase of vehicles,q1,0.27788,0.27788,0.27000,0.00788
+10,07.1 Purchase of vehicles,q2,0.33352,0.35479,0.34000,-0.00648
+10,07.1 Purchase of vehicles,q3,0.04448,0.05465,0.05000,-0.00552
+10,07.1 Purchase of vehicles,q4,-0.12220,-0.17769,-0.13000,0.00780
+10,07.1 Purchase of vehicles,q5,-1.05587,-1.88030,-1.06000,0.00413
+10,07.1 Purchase of vehicles,net,-0.52220,-1.37068,-0.50000,-0.02220

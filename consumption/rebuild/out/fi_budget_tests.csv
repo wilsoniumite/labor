@@ -1,0 +1,6 @@
+budget,pct_q1,pct_q2,pct_q3,pct_q4,pct_q5,pct_exact,vatable_share_q1,vatable_share_q5,avg_budget_eur_conversion,dividend,ghost_rmse,bars_rmse,eta_food_q1,eta_food_q5
+"all consumption, incl. imputed rent, interest, education, abroad (adopted)",5.8625,2.3571,0.2251,-0.6710,-3.1165,5,59.2008,66.3143,2051.8227,193.0054,0.0052,0.0058,0.4251,0.2987
+minus consumption abroad (77),5.9134,2.3903,0.2281,-0.6836,-3.2166,4,59.7149,68.4426,2011.8052,193.0054,0.0137,0.0101,0.4282,0.3134
+minus imputed rent and interest (nothing transacted),6.1400,2.6915,0.2671,-0.8323,-3.8930,0,62.0025,82.8366,1723.6498,193.0054,0.1194,0.0667,0.4415,0.3929
+"minus imputed rent, interest, education, abroad",6.2185,2.7419,0.2727,-0.8548,-4.0659,0,62.7952,86.5155,1677.5536,193.0054,0.1458,0.0817,0.4459,0.4090
+minus education,5.8828,2.3623,0.2259,-0.6728,-3.1257,5,59.4054,66.5102,2045.7441,193.0054,0.0057,0.0071,0.4264,0.3001

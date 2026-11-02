@@ -1,0 +1,10 @@
+variant,ghost_rmse,ghost_max_abs,worst_ghost,bars_rmse,pct_rmse,seg_rmse,seg_q1_rmse,eta_food_q1,eta_food_q5
+"adopted: division parents, food system F3 (01+02+11; 01.2 in B&T), own (per-CU) shares",0.00520,0.01547,06.1 Medicines and health products,0.00576,0.03054,0.00742,0.00748,0.42513,0.29874
+"parents pooled into TB-1929 groups (07+08, 12+13)",0.02359,0.07388,13.9 Other services,0.02851,0.09968,0.03506,0.05403,0.42513,0.29874
+food F2: 01.2 with the six at-home subgroups,0.00724,0.02851,01.2 Non-alcoholic beverages,0.01193,0.05690,0.00884,0.01196,0.43658,0.30552
+food F4: 01.2 in 'Food other',0.01007,0.03789,01.2 Non-alcoholic beverages,0.01057,0.04653,0.00971,0.01540,0.42513,0.29874
+"food F1: food = 01+02+11.1, accommodation its own 'Other' parent",0.01154,0.05182,11.2 Accommodation services,0.04076,0.41082,0.00772,0.00810,0.42271,0.28463
+food F0: no stage-two split,0.02782,0.13982,01.1 Food (at home),0.04570,0.07320,0.04832,0.09250,0.54000,0.38759
+TB-1929 betas back-solved (unrounded),0.00528,0.01596,06.1 Medicines and health products,0.00574,0.03035,0.00730,0.00692,0.42447,0.29822
+eta at per-household budget shares (the text's 0.44),0.01015,0.03770,06.1 Medicines and health products,0.01055,0.03592,0.00962,0.01305,0.43528,0.30148
+published Fig 1 labels as the net vector,0.00511,0.01482,06.1 Medicines and health products,0.00583,0.03107,0.00809,0.00945,0.42513,0.29874

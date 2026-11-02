@@ -15,6 +15,8 @@
 # MPC vector, or a precomputed budget shock dC_d/C_d) and returns category shifts, so an LVT-funded dividend
 # (consumption/lvt) runs through exactly the machinery the gate checks. Works for any CE year 2014-2025 and for
 # the quintile table (Table 1101) as well as deciles (Table 1110): the group columns are read from the table.
+# Finland (HBS 2022 quintiles, Figures 1-3): the FINLAND section at the end (build_fi_model, fi_vat_accounting,
+# fi_mpc_schedules); its model dicts plug into the same generic tier-2 functions. Calibration: run_fi.py, NOTES_fi.md.
 #
 # Plain functions plus constants, no classes, so pieces paste into a notebook cell. A "model" is a plain dict.
 # Units throughout: dollars per payment share per month unless a name says otherwise.
@@ -549,9 +551,12 @@ def theta_table(C, w):
 # %% tier 1: accounting
 def per_share_monthly(m, x_cu_annual):
     """Convert an annual amount per consumer unit by income group (e.g. a land-value or land-rent base taken from
-    another table) into monthly dollars per payment share, the unit every function here works in."""
-    x = pd.Series(x_cu_annual, dtype=float).reindex(m["units"].index)
-    return x / (m["units"]["shares"] * 12.0)
+    another table) into monthly dollars per payment share, the unit every function here works in.
+    Finland: pass an annual amount PER HOUSEHOLD (either convention); an HBS per-consumption-unit amount must first
+    be multiplied by units['hh_per_cu_ratio'] (the post convention's r_q)."""
+    g = m["C"].columns
+    x = pd.Series(x_cu_annual, dtype=float).reindex(g)
+    return x / (m["units"]["shares"].reindex(g) * 12.0)
 
 
 def net_from_base(base, w, tau=TAU, budget=None):
@@ -624,7 +629,9 @@ def shifts_from_transfers(m, net, mpc=None, shock=None, eta=None, mpc_label="mpc
     n = len(m["C"].columns)
     out = pd.DataFrame({"role": m["prov"]["role"], "usda": pd.Series(m["usda"]).reindex(m["C"].index)})
     if shock is None:
-        mpc = mpc_mid(n) if mpc is None else np.asarray(mpc, dtype=float)
+        if mpc is None:   # a model dict may carry its own default (Finland: quintile-aggregated schedule); else the decile mid
+            mpc = np.asarray(m["mpc_default"], dtype=float) if "mpc_default" in m else mpc_mid(n)
+        mpc = np.asarray(mpc, dtype=float)
         shock = budget_shock(net, mpc, m["budget"])
         ghost = demand_shifts(m, budget_shock(net, np.ones(n), m["budget"]), eta)
         out["dUSD_mpc1"], out["dPct_mpc1"] = ghost["dUSD"], ghost["dPct"]
@@ -639,6 +646,8 @@ def impulse(m, net=None, mpc=None, shock=None):
     consumption (the budget) and of the charted budget. With a precomputed budget shock dC_d/C_d instead of
     (net, mpc), flow = sum_d w_d shock_d C_d."""
     if shock is None:
+        if mpc is None and "mpc_default" in m:
+            mpc = m["mpc_default"]
         shock = budget_shock(net, mpc, m["budget"])
     shock = pd.Series(np.asarray(shock, dtype=float), index=m["budget"].index)
     flow = float((m["w"] * shock * m["budget"]).sum())
@@ -657,3 +666,482 @@ def top_movers(shifts, col, chart, k=10):
     """The k charted categories with the largest |shift| (Fig 3/6 selection)."""
     s = shifts.loc[chart, col]
     return s.abs().sort_values(ascending=False).index[:k].tolist()
+
+
+# %% =============================================================================================================
+# FINLAND: Household Budget Survey 2022 by household income quintile (ktutk 14pg), Figures 1-3 of the post.
+# The same two tiers as the US, on the HBS table the post cites (footnote 22). Everything is in euros per payment
+# share per month (adult 1, child 0.3); groups are q1..q5 (each 20% of households, README_fin.md).
+#
+# What the post did, as reconstructed from its published numbers (run_fi.py derives every item again):
+#   data          the per-CONSUMPTION-UNIT table (OECD-modified units) for every category; per household only for the
+#                 all-items total, through the quintile's per-household/per-CU ratio  r_q = hh_total_q / cu_total_q
+#   payment units tulonjako 12ew (person deciles by life-cycle stage): adults = everyone in one-person, couple and
+#                 'other' households, 2 per couple-with-children household, 1 per single parent; children = the rest;
+#                 decile pairs averaged into 'quintiles' (D1, D2 -> q1 ...); shares s_q = adults + 0.3 children per hh
+#   per share     C_gq = cu_gq * r_q / (12 s_q), so the budget B_q = hh_total_q / (12 s_q)
+#   weights       w_q proportional to s_q / r_q: payment shares per consumption unit, i.e. the quintiles treated as
+#                 holding EQUAL NUMBERS OF CONSUMPTION UNITS (they hold equal numbers of households). This weighting is
+#                 what makes the dividend EUR 193 and the nets balance; it also makes theta the per-CU market share
+#                 theta_qg = cu_gq / sum_q cu_gq, which is what the Fig 3 segments and Fig 2 ghosts require.
+#   EUR labels    dEUR_g = dPct_g * Cbar_g with Cbar_g from the TOTAL column: cu_total_g * r_total / (12 s_total),
+#                 s_total from 12ew's own total column (1.6168 shares per household). This is 4.1% above the
+#                 weighted mean sum_q w_q C_gq that the dividend uses ('budgets averaging EUR 2,051' is this column).
+#                 Division parents also break Engel adding-up: a TB-1929 group split over two divisions counts its
+#                 beta twice (07/08, 12/13), so sum beta = +0.052 and the bars over-allocate the flow by 5.2%.
+#   elasticities  'parent-group fidelity' = the COICOP DIVISION: eta_gq = 1 + beta_k / w_dq with w_dq the division's
+#                 budget share and beta_k the TB-1929 beta of the division's group; the food system is divisions
+#                 01 + 02 + 11 (restaurants AND accommodation), split by the stage-two betas (eq. 11): 01.1 the six
+#                 named subgroups, 01.2 + 02 'Beverages and tobacco', 11 'Food other'.
+#   VAT flags     whole COICOP-2018 groups (the Fig 2 categories), not Finnish law line by line (see FI_VAT_LINES).
+#   MPC           the post's decile 'literature schedule' aggregated to quintiles: pair means of the US schedules.
+# convention="post" rebuilds exactly that. convention="coherent" is the same machinery with the bases made
+# consistent (per-household table, equal-HOUSEHOLD weights, theta and Cbar from the same weighted data): the
+# version to use for new comparisons (NOTES_fi.md says by how much the two differ).
+
+FI_Q = ["q1", "q2", "q3", "q4", "q5"]
+FI_HBS_FILE, FI_COMP_FILE = "fi_hbs2022_long.csv", "fi_hh_composition.csv"
+
+# The 47 budget categories: the 37 bars of Fig 2 (labels exactly as printed), then the 10 off-chart lines that are in
+# the budget totals: imputed rentals and owner-occupied housing (nothing transacted), education (0.3% budget share:
+# beta/w degenerate), consumption abroad (not domestic), and six small groups the figure does not draw. COICOP 01.3
+# and 02.2 are not asked in the HBS ('.....') and are left out. 'div' = COICOP division (the elasticity parent);
+# 'usda' = TB-1929 stage-one group of the division (README_usda sec. 8).
+FI_CATEGORIES = [
+    dict(cat="04.1 Actual rents", code="041", role="chart"),
+    dict(cat="01.1 Food (at home)", code="011", role="chart"),
+    dict(cat="08.3 Information and communication services", code="083", role="chart"),
+    dict(cat="06.1 Medicines and health products", code="061", role="chart"),
+    dict(cat="13.1 Personal care", code="131", role="chart"),
+    dict(cat="03.1 Clothing", code="031", role="chart"),
+    dict(cat="07.2 Operation of personal transport equipment", code="072", role="chart"),
+    dict(cat="11.1 Food and beverage serving services", code="111", role="chart"),
+    dict(cat="04.4 Water & misc. dwelling services", code="044", role="chart"),
+    dict(cat="12.1 Insurance", code="121", role="chart"),
+    dict(cat="06.2 Outpatient care services", code="062", role="chart"),
+    dict(cat="08.1 Information and communication equipment", code="081", role="chart"),
+    dict(cat="04.5 Electricity, gas and other fuels", code="045", role="chart"),
+    dict(cat="12.2 Financial services", code="122", role="chart"),
+    dict(cat="07.3 Passenger transport services", code="073", role="chart"),
+    dict(cat="09.3 Garden products and pets", code="093", role="chart"),
+    dict(cat="09.4 Recreational services", code="094", role="chart"),
+    dict(cat="02.3 Tobacco", code="023", role="chart"),
+    dict(cat="01.2 Non-alcoholic beverages", code="012", role="chart"),
+    dict(cat="02.1 Alcoholic beverages", code="021", role="chart"),
+    dict(cat="09.7 Newspapers, books and stationery", code="097", role="chart"),
+    dict(cat="13.2 Other personal effects", code="132", role="chart"),
+    dict(cat="05.6 Goods and services for routine household maintenance", code="056", role="chart"),
+    dict(cat="03.2 Footwear", code="032", role="chart"),
+    dict(cat="09.2 Other recreational goods", code="092", role="chart"),
+    dict(cat="05.2 Household textiles", code="052", role="chart"),
+    dict(cat="09.6 Cultural services", code="096", role="chart"),
+    dict(cat="05.3 Household appliances", code="053", role="chart"),
+    dict(cat="05.4 Glassware, tableware and household utensils", code="054", role="chart"),
+    dict(cat="11.2 Accommodation services", code="112", role="chart"),
+    dict(cat="05.1 Furniture, furnishings and loose carpets (D)", code="051", role="chart"),
+    dict(cat="04.3 Maintenance, repair and security of the dwelling", code="043", role="chart"),
+    dict(cat="05.5 Tools and equipment for house and garden", code="055", role="chart"),
+    dict(cat="09.8 Package holidays", code="098", role="chart"),
+    dict(cat="09.1 Recreational durables", code="091", role="chart"),
+    dict(cat="13.9 Other services", code="139", role="chart"),
+    dict(cat="07.1 Purchase of vehicles", code="071", role="chart"),
+    dict(cat="04.2 Imputed rentals (off-chart)", code="042", role="offchart"),
+    dict(cat="04.6 Interest on housing loans (off-chart)", code="046", role="offchart"),
+    dict(cat="06.3 Inpatient care services (off-chart)", code="063", role="offchart"),
+    dict(cat="06.4 Other health services (off-chart)", code="064", role="offchart"),
+    dict(cat="07.4 Transport services of goods (off-chart)", code="074", role="offchart"),
+    dict(cat="08.2 Software, excluding games (off-chart)", code="082", role="offchart"),
+    dict(cat="09.5 Cultural goods (off-chart)", code="095", role="offchart"),
+    dict(cat="10 Education services (off-chart)", code="10", role="offchart"),
+    dict(cat="13.3 Social protection (off-chart)", code="133", role="offchart"),
+    dict(cat="77 Consumption abroad (off-chart)", code="77", role="offchart"),
+]
+FI_DIV_USDA = {"01": "food", "02": "food", "03": "clothing", "04": "housing", "05": "furnishings", "06": "medical",
+               "07": "transport", "08": "transport", "09": "recreation", "10": "education", "11": "food", "12": "other",
+               "13": "other", "77": None}
+
+# Food system (TB-1929 stage two). members: categories in the food group (its budget share gives eta_F); map:
+# category -> stage-two subgroup ('six' = the six named at-home subgroups, beta* summed); a subgroup's beta* is spread
+# over its member categories by observed spending, so every category in one subgroup gets that subgroup's eta.
+FI_FOOD_MAPS = {
+    # F3 (adopted, pinned by the Fig 2 ghosts): the food group is divisions 01, 02 and 11 whole; non-alcoholic
+    # beverages sit in 'Beverages and tobacco' (the bulletin leaves it open, README_usda sec. 8).
+    "F3": dict(members=["011", "012", "021", "023", "111", "112"],
+               map={"011": "six", "012": "Beverages and tobacco", "021": "Beverages and tobacco",
+                    "023": "Beverages and tobacco", "111": "Food other", "112": "Food other"}),
+    "F2": dict(members=["011", "012", "021", "023", "111", "112"],
+               map={"011": "six", "012": "six", "021": "Beverages and tobacco", "023": "Beverages and tobacco",
+                    "111": "Food other", "112": "Food other"}),
+    "F4": dict(members=["011", "012", "021", "023", "111", "112"],
+               map={"011": "six", "012": "Food other", "021": "Beverages and tobacco", "023": "Beverages and tobacco",
+                    "111": "Food other", "112": "Food other"}),
+    # F1: the README_usda reading (food = 01, 02, 11.1); accommodation 11.2 is its own parent with the 'Other' beta.
+    "F1": dict(members=["011", "012", "021", "023", "111"],
+               map={"011": "six", "012": "Beverages and tobacco", "021": "Beverages and tobacco",
+                    "023": "Beverages and tobacco", "111": "Food other"}),
+    # F0: no stage-two split; every food category gets eta_F.
+    "F0": dict(members=["011", "012", "021", "023", "111", "112"],
+               map={"011": None, "012": None, "021": None, "023": None, "111": None, "112": None}),
+}
+
+# VAT lines: each budget category is one line, or is split where Finnish law treats its parts differently (2022 law:
+# standard 24%; 14% food and restaurant/catering; 10% books, newspapers, medicines, passenger transport,
+# accommodation, cultural and entertainment events, sports services; exempt: letting of dwellings, health and
+# medical care, social services, education, insurance and financial services, lotteries; outside: public fees and
+# taxes). codes: HBS codes summed for the line; None = the rest of the category. flag_law = the law reading;
+# flag = the adopted value: the best of run_fi.py's step-4 grid against Fig 1, which re-derives and asserts it.
+# Fig 1 pins the post's whole-group reading on the big mixed lines (housing-company charges, used cars, licences
+# and vehicle fees in, package holidays and consumption abroad out; games of chance and international flights in,
+# less firmly); on the lines it cannot see (sea transport, letter post, church fees, social services) the best
+# combination is the law reading. rate = the existing rate, used only for the tax-exclusive test.
+FI_VAT_LINES = [
+    dict(line="maintenance charges of housing companies", cat="044", codes=["04441"], flag_law=0.0, flag=1.0, rate=0.24,
+         reason="housing-company maintenance charges to shareholder-residents are not a VAT-able supply (real-estate "
+                "exemption; the company cannot deduct input VAT, so VAT is embedded, not charged)"),
+    dict(line="water, refuse, sewerage, other dwelling services", cat="044", codes=None, flag_law=1.0, flag=1.0, rate=0.24,
+         reason="water supply, sewerage and waste collection by utilities are taxable at 24%; chimney sweeping etc. taxable"),
+    dict(line="used cars", cat="071", codes=["07112"], flag_law=0.5, flag=1.0, rate=0.24,
+         reason="dealer sales taxed on the margin only (margin scheme), private sales outside VAT; the HBS cannot split them"),
+    dict(line="new cars, motorcycles, bicycles", cat="071", codes=None, flag_law=1.0, flag=1.0, rate=0.24, reason="goods; 24%"),
+    dict(line="driving lessons, tests, licences", cat="072", codes=["07243"], flag_law=0.0, flag=1.0, rate=0.24,
+         reason="mostly licences and vehicle charges (public fees, outside VAT); inspections and lessons taxable"),
+    dict(line="fuels, parts, repairs, parking, hire", cat="072", codes=None, flag_law=1.0, flag=1.0, rate=0.24,
+         reason="goods and services; 24%"),
+    dict(line="international air transport", cat="073", codes=["07332"], flag_law=0.0, flag=1.0, rate=0.10,
+         reason="international passenger transport is exempt with the right of deduction (zero-rated)"),
+    dict(line="sea and inland-waterway transport", cat="073", codes=["0734"], flag_law=0.0, flag=0.0, rate=0.10,
+         reason="mostly international ferry crossings (zero-rated); domestic road ferries are free"),
+    dict(line="domestic passenger transport", cat="073", codes=None, flag_law=1.0, flag=1.0, rate=0.10,
+         reason="passenger transport; 10%"),
+    dict(line="letter post", cat="074", codes=["07411"], flag_law=0.0, flag=0.0, rate=0.24,
+         reason="universal postal service exempt (Directive Art. 132(1)(a))"),
+    dict(line="parcels, removals, delivery", cat="074", codes=None, flag_law=1.0, flag=1.0, rate=0.24, reason="services; 24%"),
+    dict(line="games of chance", cat="094", codes=["0947"], flag_law=0.0, flag=1.0, rate=0.24,
+         reason="lotteries and gambling exempt (lottery tax instead)"),
+    dict(line="sports and recreational services", cat="094", codes=["0946"], flag_law=1.0, flag=1.0, rate=0.10,
+         reason="sports services and admissions; 10%"),
+    dict(line="other recreational services", cat="094", codes=None, flag_law=1.0, flag=1.0, rate=0.24,
+         reason="repairs and hire of recreational goods, veterinary services; 24%"),
+    dict(line="package holidays", cat="098", codes=None, flag_law=0.0, flag=0.0, rate=0.24,
+         reason="travel-agent margin scheme; the margin on trips outside the EU is zero-rated"),
+    dict(line="religious services", cat="139", codes=["13902"], flag_law=0.0, flag=0.0, rate=0.24,
+         reason="church membership fees and church tax: not a supply"),
+    dict(line="other services n.e.c.", cat="139", codes=["13909"], flag_law=0.5, flag=1.0, rate=0.24,
+         reason="mixed: legal services, funerals, agencies taxable; union dues and administrative fees outside VAT"),
+    dict(line="rest of other services", cat="139", codes=None, flag_law=0.0, flag=0.0, rate=0.24,
+         reason="13.9.0.1 (published only as '...'): not VAT-registered"),
+    dict(line="domestic services by paid staff", cat="056", codes=["05621"], flag_law=1.0, flag=1.0, rate=0.24,
+         reason="cleaning and household services bought from firms; 24%"),
+    dict(line="household goods and other services", cat="056", codes=None, flag_law=1.0, flag=1.0, rate=0.24, reason="24%"),
+    dict(line="medicines", cat="061", codes=["0611"], flag_law=1.0, flag=1.0, rate=0.10, reason="medicines; 10%"),
+    dict(line="medical products and appliances", cat="061", codes=None, flag_law=1.0, flag=1.0, rate=0.24,
+         reason="medical goods, glasses, aids; 24%"),
+    dict(line="books, newspapers and periodicals", cat="097", codes=["0971", "0972"], flag_law=1.0, flag=1.0, rate=0.10,
+         reason="books, newspapers, periodicals; 10%"),
+    dict(line="printed matter and stationery", cat="097", codes=None, flag_law=1.0, flag=1.0, rate=0.24, reason="24%"),
+    dict(line="cinemas, theatres, concerts, museums", cat="096", codes=["0961", "0962"], flag_law=1.0, flag=1.0, rate=0.10,
+         reason="cultural and entertainment events; 10%"),
+    dict(line="other cultural services", cat="096", codes=None, flag_law=1.0, flag=1.0, rate=0.24, reason="24%"),
+]
+# Whole categories (one line each): exempt or outside, with reasons; every other category is one taxable line at the
+# rate in FI_RATES (default 24%).
+FI_EXEMPT = {
+    "041": "letting of dwellings: exempt", "042": "imputed rent of owner-occupiers: nothing transacted",
+    "046": "interest on housing loans: exempt financial service", "062": "outpatient health care: exempt",
+    "063": "inpatient care: exempt", "064": "diagnostic, laboratory and ambulance services: exempt",
+    "10": "education: exempt", "121": "insurance: exempt", "122": "financial services: exempt",
+    "133": "social services (child care, home care): exempt", "77": "consumption abroad: not in the Finnish base"}
+FI_RATES = {"011": 0.14, "012": 0.14, "111": 0.14, "112": 0.10}   # 11.1 at the food rate (its alcohol part is 24%)
+
+
+def fi_hbs_wide(measure="per_cu_year", long=None):
+    """One HBS 2022 measure as (values, status): index = StatFin COICOP2018 code ('0' total, '01'..'13' divisions,
+    '011' groups, ...), columns 'total', q1..q5. Euro measures are annual per consumption unit or per household."""
+    df = pd.read_csv(TIDY / FI_HBS_FILE, dtype={"coicop_code": str, "parent_code": str}) if long is None else long
+    d = df[df["measure"] == measure]
+    vals = d.set_index(["coicop_code", "group"])["value"].astype(float).unstack("group")[["total"] + FI_Q]
+    stat = d.set_index(["coicop_code", "group"])["status"].astype(object).unstack("group")[["total"] + FI_Q]
+    return vals, stat
+
+
+def fi_composition(route="12ew", year=2022, comp=None):
+    """Payment units per household by HBS quintile (rows 'total', q1..q5): adults, children, persons, shares
+    (= adults + 0.3 children), households, the route's own OECD-modified units, and the HBS 14qa means.
+    Routes:
+      '12ew'             the post's (footnote 22), adopted: tulonjako 12ew 2022, person deciles by life-cycle stage.
+                         Adults: every person in one-person, childless-couple and 'other' households, 2 per couple
+                         with children, 1 per single parent; children: the rest. Decile pairs averaged (the mean of
+                         D1's and D2's per-household values -> q1, ...); 'total' from the table's own total column.
+                         12ew deciles are PERSON deciles on another income concept, so the pairs are not the HBS
+                         quintiles (README_fin.md).
+      '12ew_pooled'      the same, the pair pooled (sum of persons / sum of households) instead of averaged.
+      '12ew_two_adults'  pair means, with 'other households' holding two adults each and the rest children.
+      '14qa'             the HBS's own quintiles (ktutk 14qa): persons aged 14+ and 0-13 from the mean household size
+                         and mean OECD-modified units (adults = 14+; the age split is 14, not 18)."""
+    c = pd.read_csv(TIDY / FI_COMP_FILE) if comp is None else comp
+    q14 = c[(c["source_table"] == "ktutk 14qa") & (c["year"] == year) & (c["subgroup"] == "all")]
+    g14 = lambda meas: q14[q14["measure"] == meas].set_index("group")["value"].astype(float).reindex(["total"] + FI_Q)
+    out = pd.DataFrame(index=["total"] + FI_Q)
+    out["households"] = g14("households")
+    out["hbs_mean_size"], out["hbs_mean_cu"] = g14("avg_household_size"), g14("avg_consumption_units")
+    if route.startswith("12ew"):
+        e = c[(c["source_table"] == "tjt 12ew") & (c["year"] == year)]
+        hh = e[e["measure"] == "households"].pivot_table(index="subgroup", columns="group", values="value", aggfunc="first")
+        pp = e[e["measure"] == "persons"].pivot_table(index="subgroup", columns="group", values="value", aggfunc="first")
+        ad = pp.loc["stage_1"] + pp.loc["stage_2"] + 2.0 * hh.loc["stage_31"] + 1.0 * hh.loc["stage_32"]
+        ch = (pp.loc["stage_31"] - 2.0 * hh.loc["stage_31"]) + (pp.loc["stage_32"] - 1.0 * hh.loc["stage_32"])
+        if route == "12ew_two_adults":
+            ad = ad + 2.0 * hh.loc["stage_4"]
+            ch = ch + pp.loc["stage_4"] - 2.0 * hh.loc["stage_4"]
+        else:
+            ad = ad + pp.loc["stage_4"]
+        nh = hh.loc["all"]
+        dec = [f"d{i:02d}" for i in range(1, 11)]
+        a, k = {"total": ad["total"] / nh["total"]}, {"total": ch["total"] / nh["total"]}
+        for i, q in enumerate(FI_Q):
+            d1, d2 = dec[2 * i], dec[2 * i + 1]
+            if route in ("12ew", "12ew_two_adults"):
+                a[q] = (ad[d1] / nh[d1] + ad[d2] / nh[d2]) / 2.0
+                k[q] = (ch[d1] / nh[d1] + ch[d2] / nh[d2]) / 2.0
+            else:
+                a[q] = (ad[d1] + ad[d2]) / (nh[d1] + nh[d2])
+                k[q] = (ch[d1] + ch[d2]) / (nh[d1] + nh[d2])
+        out["adults"], out["children"] = pd.Series(a), pd.Series(k)
+        out["source_households_12ew"] = pd.Series({"total": nh["total"], **{q: nh[dec[2 * i]] + nh[dec[2 * i + 1]]
+                                                                           for i, q in enumerate(FI_Q)}})
+    elif route == "14qa":
+        out["adults"], out["children"] = g14("avg_persons_14plus"), g14("avg_children_under14")
+    else:
+        raise ValueError(f"unknown composition route {route}")
+    out["persons"] = out["adults"] + out["children"]
+    out["shares"] = ADULT_W * out["adults"] + CHILD_W * out["children"]
+    out["route_oecd_cu"] = 1.0 + 0.5 * (out["adults"] - 1.0) + 0.3 * out["children"]
+    out["route"] = route
+    return out
+
+
+def fi_category_spending(vals, cats=None):
+    """Annual euros by category (rows) and group (columns 'total', q1..q5) on the table's basis."""
+    cats = FI_CATEGORIES if cats is None else cats
+    return pd.DataFrame({c["cat"]: vals.loc[c["code"], ["total"] + FI_Q] for c in cats}).T.astype(float)
+
+
+def fi_line_spending(vals, cats=None, lines=None):
+    """Annual euros by VAT line (rows) and group: the split lines of FI_VAT_LINES (a line with codes=None is the rest
+    of its category), plus one whole-category line for every other category. Returns (spending, line table)."""
+    cats = FI_CATEGORIES if cats is None else cats
+    lines = FI_VAT_LINES if lines is None else lines
+    code2cat = {c["code"]: c["cat"] for c in cats}
+    split = {l["cat"] for l in lines}
+    rows, meta = {}, []
+    for c in cats:
+        cc = c["code"]
+        tot = vals.loc[cc, ["total"] + FI_Q].astype(float)
+        if cc not in split:
+            ex = cc in FI_EXEMPT
+            rows[c["cat"]] = tot
+            meta.append(dict(line=c["cat"], cat=c["cat"], code=cc, codes=cc, flag_law=0.0 if ex else 1.0,
+                             flag=0.0 if ex else 1.0, rate=0.0 if ex else FI_RATES.get(cc, 0.24),
+                             reason=FI_EXEMPT.get(cc, "goods and services; taxable")))
+            continue
+        used = 0.0 * tot
+        for l in [l for l in lines if l["cat"] == cc and l["codes"] is not None]:
+            v = vals.loc[l["codes"], ["total"] + FI_Q].astype(float)
+            if v.isna().any().any():
+                raise ValueError(f"suppressed cells in VAT line {l['line']}: {l['codes']}")
+            rows[l["line"]] = v.sum()
+            used = used + v.sum()
+        for l in [l for l in lines if l["cat"] == cc and l["codes"] is None]:
+            rows[l["line"]] = tot - used
+        for l in [l for l in lines if l["cat"] == cc]:
+            meta.append(dict(line=l["line"], cat=code2cat[cc], code=cc, codes=",".join(l["codes"]) if l["codes"] else
+                             f"rest of {cc}", flag_law=l["flag_law"], flag=l["flag"], rate=l["rate"], reason=l["reason"]))
+    return pd.DataFrame(rows).T, pd.DataFrame(meta).set_index("line")
+
+
+def fi_eta_table(m, food_map="F3", params=None, parent="division"):
+    """eta_gq for every category and quintile, at the model's own budget shares (C / budget).
+    parent='division' (the post's 'parent-group fidelity'): eta = 1 + beta_k / w_d, w_d the COICOP division's share,
+    beta_k the TB-1929 beta of the division's group. parent='usda': divisions pooled into the TB-1929 groups (07+08
+    'Transportation and communication', 12+13 'Other') before taking the share (the US reading; a mapping test).
+    Food (TB-1929 eq. 11): eta_F * (1 + beta*_g / w*_g), eta_F from the food group's share (FI_FOOD_MAPS[food_map]),
+    beta*_g the category's subgroup beta* spread by spending, w*_g its share of the food group. Consumption abroad
+    (no TB-1929 group) gets eta = 1. Returns (eta, detail)."""
+    params = usda_params() if params is None else params
+    fm = FI_FOOD_MAPS[food_map] if isinstance(food_map, str) else food_map
+    C, bud, code = m["C"], m["budget"], m["code"]
+    cat_of = {v: k for k, v in code.items()}
+    food = [cat_of[c] for c in fm["members"]]
+    div = {g: (code[g][:2] if code[g] != "10" else "10") for g in C.index}
+    if parent == "usda":
+        par = {g: FI_DIV_USDA.get(div[g]) for g in C.index}
+    else:
+        par = dict(div)
+    if code.get(cat_of.get("112")) and cat_of["112"] not in food:     # F1: accommodation is its own 'Other' parent
+        par[cat_of["112"]] = "112"
+    beta_of = lambda p: params["beta"][FI_DIV_USDA[p] if p in FI_DIV_USDA else ("other" if p == "112" else p)]
+    eta = pd.DataFrame(index=C.index, columns=C.columns, dtype=float)
+    det = []
+    for g in C.index:
+        if g in food:
+            continue
+        if div[g] == "77":
+            eta.loc[g] = 1.0
+            det.append(dict(cat=g, parent="none", beta=0.0, **{f"w_{q}": np.nan for q in C.columns}))
+            continue
+        members = [h for h in C.index if par.get(h) == par[g] and h not in food]
+        w = C.loc[members].sum() / bud
+        b = beta_of(par[g])
+        eta.loc[g] = working_eta(b, w)
+        det.append(dict(cat=g, parent=par[g], beta=b, **{f"w_{q}": w[q] for q in C.columns}))
+    F = C.loc[food].sum()
+    wF = F / bud
+    etaF = working_eta(params["beta"]["food"], wF)
+    subs = {}
+    for g in food:
+        s = fm["map"][code[g]]
+        subs.setdefault(s, []).append(g)
+    for g in food:
+        s = fm["map"][code[g]]
+        if s is None:
+            e, bstar, wstar = etaF, 0.0 * wF, C.loc[g] / F
+        else:
+            bs = params["beta_star"][s]
+            bstar = bs * C.loc[g] / C.loc[subs[s]].sum()
+            wstar = C.loc[g] / F
+            e = etaF * working_eta(bstar, wstar)
+        eta.loc[g] = e
+        det.append(dict(cat=g, parent="food system", beta=params["beta"]["food"], subgroup=s,
+                        **{f"w_{q}": wF[q] for q in C.columns}, **{f"wstar_{q}": wstar[q] for q in C.columns},
+                        **{f"betastar_{q}": bstar[q] for q in C.columns}, **{f"etaF_{q}": etaF[q] for q in C.columns}))
+    return eta.astype(float), pd.DataFrame(det).set_index("cat")
+
+
+def fi_mpc_schedules(knees=None, tops=None):
+    """The decile schedules (mpc_schedules(): low / mid / high) aggregated to quintiles by decile-pair means: the
+    post's 'literature MPC schedule (quintile-aggregated)'. Rows q1..q5."""
+    dec = mpc_schedules(knees, tops, n=10)
+    out = dec.groupby((np.arange(10) // 2)).mean()
+    out.index = FI_Q
+    return out
+
+
+def fi_mpc_mid():
+    return fi_mpc_schedules()["mid"].values
+
+
+def build_fi_model(composition="12ew", convention="post", food_map="F3", params=None, eta_parent="division",
+                   cats=None, lines=None, long=None, comp=None, weights=None, cu_per_household="hbs_ratio"):
+    """Everything the two tiers need for the Finnish HBS 2022 quintiles, as a plain dict with the same keys as
+    build_model(), so net_from_base(), shifts_from_transfers(), decompose() and impulse() work unchanged.
+    convention='post'     per-CU table, C_gq = cu_gq * r_q / (12 s_q), weights proportional to s_q / r_q (equal
+                          consumption units per quintile), theta = per-CU market shares; Cbar_post (the post's EUR
+                          conversion, from the total column) and eur_scale = Cbar_post / Cbar ride along.
+    convention='coherent' per-household table, C_gq = hh_gq / (12 s_q), weights proportional to N_q s_q (equal
+                          households), theta, Cbar and eta all from the same data; Cbar_post = Cbar, eur_scale = 1.
+    Options used only to test what pins each element (run_fi.py): weights='equal_cu' | 'equal_households'
+    (overrides the convention's weighting); cu_per_household (post only) = 'hbs_ratio' (r_q, the table's own
+    per-household / per-CU ratio) | '14qa_mean' (14qa mean OECD units) | 'route' (units implied by the
+    composition route's adults and children).
+    Extra keys: code (category -> COICOP code), lines / line_meta (VAT lines in EUR per share per month),
+    conv (annual table units -> monthly per share), mpc_default (fi_mpc_mid())."""
+    cats = FI_CATEGORIES if cats is None else cats
+    long = pd.read_csv(TIDY / FI_HBS_FILE, dtype={"coicop_code": str, "parent_code": str}) if long is None else long
+    vcu, scu = fi_hbs_wide("per_cu_year", long)
+    vhh, shh = fi_hbs_wide("per_household_year", long)
+    units = fi_composition(composition, comp=comp)
+    s = units["shares"]
+    units["hh_per_cu_ratio"] = vhh.loc["0"] / vcu.loc["0"]   # per-household / per-CU, all items (1.404 in total)
+    if convention == "post":
+        vals, stat = vcu, scu
+        ratio = {"hbs_ratio": units["hh_per_cu_ratio"], "14qa_mean": units["hbs_mean_cu"],
+                 "route": units["route_oecd_cu"]}[cu_per_household]
+        conv = ratio / (12.0 * s)
+        weights = "equal_cu" if weights is None else weights
+    elif convention == "coherent":
+        vals, stat = vhh, shh
+        ratio = pd.Series(1.0, index=s.index)
+        conv = 1.0 / (12.0 * s)
+        weights = "equal_households" if weights is None else weights
+    else:
+        raise ValueError(convention)
+    if weights == "equal_cu":
+        w = (s / ratio).loc[FI_Q]
+    elif weights == "equal_households":
+        w = (units["households"] * s).loc[FI_Q]
+    else:
+        raise ValueError(weights)
+    w = w / w.sum()
+    units["cu_per_household_used"] = ratio
+    units["conv"] = conv
+    units["w"] = w
+    spend_all = fi_category_spending(vals, cats)
+    if spend_all[FI_Q].isna().any().any():
+        raise ValueError("suppressed cells in budget categories")
+    spend = spend_all[FI_Q]
+    C = spend.mul(conv[FI_Q], axis=1)
+    budget = C.sum()
+    Cbar = C @ w
+    if convention == "post":
+        Cbar_post = spend_all["total"] * conv["total"]   # the total column converted on its own (r_total, 12ew total)
+    else:
+        Cbar_post = Cbar.copy()
+    lsp, lmeta = fi_line_spending(vals, cats, lines)
+    prov = pd.DataFrame({"role": {c["cat"]: c["role"] for c in cats}, "code": {c["cat"]: c["code"] for c in cats}})
+    prov["division"] = [c if c in ("10", "77") else c[:2] for c in prov["code"]]
+    prov["usda"] = prov["division"].map(FI_DIV_USDA)
+    sup = [{k: int((stat.loc[c["code"], FI_Q].astype(str).isin([".", "..", "...", "....."])).sum())
+            for k in ["n_suppressed"]} for c in cats]
+    prov["n_suppressed_cells"] = [d["n_suppressed"] for d in sup]
+    prov["source"] = f"HBS 2022 ktutk 14pg, {'per consumption unit' if convention == 'post' else 'per household'}"
+    m = dict(year=2022, table=f"fi_hbs_quintiles ({convention}, {composition})", convention=convention,
+             composition=composition, weights=weights, cu_per_household=cu_per_household if convention == "post" else None,
+             vals=vals, status=stat, vals_cu=vcu, vals_hh=vhh, units=units, spend=spend,
+             spend_total=spend_all["total"], C=C, budget=budget, w=w, Cbar=Cbar, budget_bar=float(budget @ w),
+             Cbar_post=Cbar_post, budget_bar_post=float(Cbar_post.sum()), eur_scale=Cbar_post / Cbar, prov=prov,
+             chart=[c["cat"] for c in cats if c["role"] == "chart"], usda=prov["usda"].to_dict(),
+             code=prov["code"].to_dict(), food_map=food_map, lines=lsp[FI_Q].mul(conv[FI_Q], axis=1),
+             lines_total=lsp["total"] * conv["total"], line_meta=lmeta, conv=conv, mpc_default=fi_mpc_mid())
+    m["theta"] = theta_table(C, w)
+    m["eta"], m["eta_detail"] = fi_eta_table(m, food_map, params, eta_parent)
+    return m
+
+
+def fi_vat_flags(which="adopted", lines=None):
+    """Line flags as a dict: 'adopted' (FI_VAT_LINES flag, whole categories per FI_EXEMPT) or 'law'."""
+    lines = FI_VAT_LINES if lines is None else lines
+    key = "flag" if which == "adopted" else "flag_law"
+    out = {l["line"]: l[key] for l in lines}
+    for c in FI_CATEGORIES:
+        if c["code"] not in {l["cat"] for l in lines}:
+            out[c["cat"]] = 0.0 if c["code"] in FI_EXEMPT else 1.0
+    return out
+
+
+def fi_vat_base(m, flags=None, inclusive=True):
+    """VAT-able consumption per share by quintile: sum over VAT lines of flag x spending (EUR per share per month).
+    inclusive=False: the tax-exclusive base, each line divided by 1 + its existing rate (the surcharge read as 15
+    points on the net-of-VAT price)."""
+    flags = fi_vat_flags() if flags is None else flags
+    f = pd.Series(flags, dtype=float).reindex(m["lines"].index)
+    if f.isna().any():
+        raise KeyError(f"no flag for lines {list(f.index[f.isna()])}")
+    L = m["lines"]
+    if not inclusive:
+        L = L.div(1.0 + m["line_meta"]["rate"].reindex(L.index), axis=0)
+    return L.mul(f, axis=0).sum()
+
+
+def fi_vat_accounting(m, flags=None, tau=TAU, inclusive=True):
+    """The accounting tier on the Finnish model: tax_q = tau x VAT-able_q, dividend = sum_q w_q tax_q,
+    net_q = dividend - tax_q (balanced under the model's weights)."""
+    acc = net_from_base(fi_vat_base(m, flags, inclusive), m["w"], tau, m["budget"])
+    acc = acc.rename(columns={"base": "vatable", "base_pct_budget": "vatable_pct_budget"})
+    acc["Cbar_v"] = float((m["w"] * acc["vatable"]).sum())
+    return acc
+
+
+def fi_post_eur(m, x):
+    """Rescale category euro amounts (a Series or DataFrame indexed by category) to the post's EUR conversion
+    (Cbar from the total column). Identity for the coherent convention."""
+    return x.mul(m["eur_scale"].reindex(x.index), axis=0)

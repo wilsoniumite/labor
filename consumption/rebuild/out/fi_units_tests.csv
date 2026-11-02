@@ -1,0 +1,11 @@
+variant,budget_q1,budget_q2,budget_q5,budgets_in_fig1_range,avg_budget_eur_conversion,avg_budget_weighted,cbar_chi2,cbar_in_rounding,ghost_rmse_pub_nets,pct_rmse_pub_nets,seg_rmse_pub_nets,best_flag_objective,best_dividend,best_labels_exact,best_pct_exact
+"post: 12ew pair means, r_q, equal-CU weights (adopted)",1309.1655,1581.0720,2825.5931,5,2051.8227,1970.5997,27.9447,25/27,0.0051,0.0311,0.0081,11.2293,193.0054,5,5
+post: 12ew pairs pooled,1310.4721,1584.9903,2825.6280,5,2051.8227,1972.2992,27.9447,25/27,0.0047,0.0313,0.0079,14.3802,193.1718,5,4
+"post: 12ew pair means, 'other households' two adults",1314.1693,1596.6753,2893.0263,4,2080.9526,1999.3883,96.6487,22/27,0.0164,0.0319,0.0124,63.5106,192.8776,3,4
+post conventions on the 14qa composition (consistent route),1252.8149,1561.3156,2782.7535,4,1945.6500,1918.5616,1419.0105,6/27,0.0188,0.0473,0.0146,861.6133,191.1986,0,0
+"post, equal-HOUSEHOLD weights",1309.1655,1581.0720,2825.5931,5,2051.8227,2003.8710,27.9447,25/27,0.1194,0.1937,0.0754,1178.1234,196.2356,0,0
+"post, CU per household from 14qa means",1323.5324,1591.1098,2876.6670,5,2031.4148,1991.0648,95.3303,22/27,0.0185,0.0312,0.0153,72.5045,193.0825,2,4
+"post, CU per household implied by 12ew adults/children",1302.0012,1595.9343,2885.4906,4,1994.0767,1987.5751,464.9902,16/27,0.0266,0.0331,0.0200,49.1952,192.5622,3,4
+"post, EUR conversion from the weighted mean (no total column)",1309.1655,1581.0720,2825.5931,5,1970.5997,1970.5997,885.5004,10/27,0.0335,0.0311,0.0278,11.2293,193.0054,5,5
+"coherent: per-household table, equal-household weights, 12ew",1309.1878,1581.1609,2825.7221,5,2003.9065,2003.9065,9231.5078,15/27,0.1889,0.1957,0.1452,1266.9474,196.3832,0,0
+"coherent: per-household table, equal-household weights, 14qa",1252.8362,1561.4035,2782.8806,4,1952.0718,1952.0718,12176.7406,10/27,0.1777,0.1712,0.1364,1718.2851,194.8746,0,0
