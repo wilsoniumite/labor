@@ -1,0 +1,427 @@
+n,status,area,claim,builder,mine,published,note
+1,OK,inputs,"payment shares = (People - Children) + 0.3 Children, Table 1110 printed rows (fn 26)",1.39..2.64,1.39..2.64,,identical in all 10 deciles
+2,OK,inputs,population weight w_d = N_d shares_d / sum,0.0681,0.0681,,max |diff| 3.9e-05 (file keeps 4 dp)
+3,OK,inputs,"budget C_d = sum of the 40 categories, $/share-month",4394.8,4394.8,,max |diff| 4.8e-05; 40 lines = total - personal insurance and pensions - cash contributions within $4/CU-yr (rounding)
+4,OK,inputs,category means Cbar_g (40 lines),2693.9,2693.9,,max |diff| 4.8e-05
+5,OK,inputs,vehicle-purchase residual (no 'Other vehicles' row in 2024) is $50 a CU a year,50,50,,"all-CU column; off-chart, flagged taxable"
+6,OK,inputs,high-RSE (b/) cells used as printed: 27 charted (29 with education's 2),27 / 29,27 / 29,,decoded from the cells' number formats in the raw xlsx
+7,OK,inputs,"TB-1929 betas (Table 3) and beta* (Table 4) as used, read from the PDF with pdfplumber","food -0.108 ... other +0.030; at-home -0.138, Food other +0.088, B&T +0.051","food -0.108 ... other +0.030; at-home -0.138, Food other +0.088, B&T +0.051",,"stage-one betas sum to 0.000, stage-two to +0.001, as printed"
+8,OK,inputs,"elasticities eta_gd = 1 + beta_k/w_kd (eq. 5), food eta_F (1 + beta*_s/w*_s) (eq. 11), 40 lines x 10 deciles",0.212..2.056,0.212..2.056,,max |diff| 5.0e-06 (file keeps 5 dp)
+9,OK,inputs,"VAT flag of mixed line 'Home maintenance, repairs & insurance' from Table 2500 2024",0.7223,0.7223,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+10,OK,inputs,VAT flag of mixed line 'Rented dwellings' from Table 2500 2024,0.0167,0.0167,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+11,OK,inputs,VAT flag of mixed line 'Other lodging' from Table 2500 2024,0.7272,0.7272,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+12,OK,inputs,VAT flag of mixed line 'Water and other public services' from Table 2500 2024,0.6878,0.6878,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+13,OK,inputs,VAT flag of mixed line 'Housekeeping supplies' from Table 2500 2024,0.9507,0.9507,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+14,OK,inputs,"VAT flag of mixed line 'Vehicle rental, leases, licenses' from Table 2500 2024",0.7064,0.7064,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+15,OK,inputs,VAT flag of mixed line 'Miscellaneous' from Table 2500 2024,0.4834,0.4834,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+16,OK,inputs,VAT flag of mixed line 'Education' from Table 2500 2024,0.0628,0.0628,,builder rounds the share to 4 dp (moves the dividend by $0.0004)
+17,OK,inputs,"VAT flags of the 32 other lines (0, 1, or used cars 1/2)",as us_flags.csv,same,,
+18,OK,gate row,P273 dividend US all: dividend per adult per month,249.375,249.3754,249,text; status builder PASS / mine PASS; tol 0.5
+19,OK,gate row,P274 gaining deciles US D1–D7: number of deciles with positive net transfer,7,7,7,text; status builder PASS / mine PASS; tol 0
+20,OK,gate row,P275 break-even US: break-even bracket: last gaining decile,7,7,7,text; status builder PASS / mine PASS; tol 0
+21,OK,gate row,P276 break-even US: break-even bracket: first paying decile,8,8,8,text; status builder PASS / mine PASS; tol 0
+22,OK,gate row,P277 net transfer US D10: net transfer per adult share per month,-172.0486,-172.0471,-173,text; status builder CLOSE / mine CLOSE; tol 0.5
+23,OK,gate row,P278 net transfer US D10: net transfer as % of budget,-3.9149,-3.9148,-3.9,text; status builder PASS / mine PASS; tol 0.05
+24,OK,gate row,P279 rented dwellings US all: change in spending per adult share per month (MP,3.3591,3.3591,3.36,text; status builder PASS / mine PASS; tol 0.005
+25,OK,gate row,P280 new cars US all: change in spending per adult share per month (MP,-0.3921,-0.392,-0.39,text; status builder PASS / mine PASS; tol 0.005
+26,OK,gate row,P281 new cars US all: MPC=1 benchmark (ghost) value,-1.2252,-1.2252,-1.23,text; status builder PASS / mine PASS; tol 0.005
+27,OK,gate row,P282 used cars US all: change in spending per adult share per month (MP,0.3802,0.3802,0.38,text; status builder PASS / mine PASS; tol 0.005
+28,OK,gate row,P283 used cars US all: MPC=1 benchmark (ghost) value,-0.0452,-0.0452,-0.05,text; status builder PASS / mine PASS; tol 0.005
+29,OK,gate row,P284 health insurance US all: change in spending per adult share per month (MP,1.0797,1.0797,1.08,text; status builder PASS / mine PASS; tol 0.005
+30,OK,gate row,P285 vehicle insurance US all: change in spending per adult share per month (MP,0.532,0.532,0.53,text; status builder PASS / mine PASS; tol 0.005
+31,OK,gate row,P286 fees and admissions US all: change in spending per adult share per month (MP,-0.1966,-0.1966,-0.2,text; status builder PASS / mine PASS; tol 0.005
+32,OK,gate row,P287 vacation lodging US all: change in spending per adult share per month (MP,-0.1317,-0.1317,-0.13,text; status builder PASS / mine PASS; tol 0.005
+33,OK,gate row,P290 dividend US all: dividend per adult per month,249.375,249.3754,249,Fig 4; status builder PASS / mine PASS; tol 0.5
+34,OK,gate row,P291 D1 (lowest 10%) US D1: net transfer per adult share per month,87.7966,87.7957,88,Fig 4; status builder PASS / mine PASS; tol 0.5
+35,OK,gate row,P292 D1 (lowest 10%) US D1: net transfer as % of budget,4.7986,4.7986,4.8,Fig 4; status builder PASS / mine PASS; tol 0.05
+36,OK,gate row,P294 D2 US D2: net transfer per adult share per month,53.4298,53.4288,54,Fig 4; status builder CLOSE / mine CLOSE; tol 0.5
+37,OK,gate row,P295 D3 US D3: net transfer per adult share per month,60.8067,60.8061,61,Fig 4; status builder PASS / mine PASS; tol 0.5
+38,OK,gate row,P296 D4 US D4: net transfer per adult share per month,55.4875,55.487,56,Fig 4; status builder CLOSE / mine CLOSE; tol 0.5
+39,OK,gate row,P297 D5 US D5: net transfer per adult share per month,30.2392,30.2387,30,Fig 4; status builder PASS / mine PASS; tol 0.5
+40,OK,gate row,P298 D6 US D6: net transfer per adult share per month,38.6065,38.6062,39,Fig 4; status builder PASS / mine PASS; tol 0.5
+41,OK,gate row,P299 D7 US D7: net transfer per adult share per month,16.9434,16.9433,17,Fig 4; status builder PASS / mine PASS; tol 0.5
+42,OK,gate row,P300 D8 US D8: net transfer per adult share per month,-13.8057,-13.8054,-15,Fig 4; status builder CLOSE / mine CLOSE; tol 0.5
+43,OK,gate row,P301 D9 US D9: net transfer per adult share per month,-37.8835,-37.8829,-38,Fig 4; status builder PASS / mine PASS; tol 0.5
+44,OK,gate row,P302 D10 (highest 10%) US D10: net transfer per adult share per month,-172.0486,-172.0471,-173,Fig 4; status builder CLOSE / mine CLOSE; tol 0.5
+45,OK,gate row,P303 D10 (highest 10%) US D10: net transfer as % of budget,-3.9149,-3.9148,-3.9,Fig 4; status builder PASS / mine PASS; tol 0.05
+46,OK,gate row,P305 D1 US D1: VAT-able consumption per adult share per month (,1077.2,1077.2,1079.0,Fig 4; status builder PASS / mine PASS; tol 5
+47,OK,gate row,P306 D2 US D2: VAT-able consumption per adult share per month (,1306.3,1306.3,1303.0,Fig 4; status builder PASS / mine PASS; tol 5
+48,OK,gate row,P307 D3 US D3: VAT-able consumption per adult share per month (,1257.1,1257.1,1252.0,Fig 4; status builder CLOSE / mine CLOSE; tol 5
+49,OK,gate row,P308 D4 US D4: VAT-able consumption per adult share per month (,1292.6,1292.6,1291.0,Fig 4; status builder PASS / mine PASS; tol 5
+50,OK,gate row,P309 D5 US D5: VAT-able consumption per adult share per month (,1460.9,1460.9,1459.0,Fig 4; status builder PASS / mine PASS; tol 5
+51,OK,gate row,P310 D6 US D6: VAT-able consumption per adult share per month (,1405.1,1405.1,1402.0,Fig 4; status builder PASS / mine PASS; tol 5
+52,OK,gate row,P311 D7 US D7: VAT-able consumption per adult share per month (,1549.5,1549.5,1552.0,Fig 4; status builder PASS / mine PASS; tol 5
+53,OK,gate row,P312 D8 US D8: VAT-able consumption per adult share per month (,1754.5,1754.5,1764.0,Fig 4; status builder CLOSE / mine CLOSE; tol 5
+54,OK,gate row,P313 D9 US D9: VAT-able consumption per adult share per month (,1915.1,1915.1,1917.0,Fig 4; status builder PASS / mine PASS; tol 5
+55,OK,gate row,P314 D10 US D10: VAT-able consumption per adult share per month (,2809.5,2809.5,2816.0,Fig 4; status builder CLOSE / mine CLOSE; tol 5
+56,OK,gate row,P315 mean VAT-able consumption = break-even US all: mean VAT-able consumption per adult share per mo,1662.5,1662.5,1663.0,Fig 4; status builder PASS / mine PASS; tol 5
+57,OK,gate row,P324 VAT-able consumption US D1–D10: VAT-able share of consumption (range low),58.8751,58.8756,59,text; status builder PASS / mine PASS; tol 0.5
+58,OK,gate row,P325 VAT-able consumption US D1–D10: VAT-able share of consumption (range high),63.9282,63.928,64,text; status builder PASS / mine PASS; tol 0.5
+59,OK,gate row,P328 Rented dwellings US all: change in spending per adult share per month (MP,3.3591,3.3591,3.36,Fig 5; status builder PASS / mine PASS; tol 0.005
+60,OK,gate row,P329 Rented dwellings US all: percent change in category spending (MPC-adjuste,1.4638,1.4638,1.46,Fig 5; status builder PASS / mine PASS; tol 0.005
+61,OK,gate row,P330 Rented dwellings US all: MPC=1 benchmark (ghost) value,3.2403,3.2403,3.26,Fig 5; status builder CLOSE / mine CLOSE; tol 0.01
+62,OK,gate row,P331 Health insurance US all: change in spending per adult share per month (MP,1.0797,1.0797,1.08,Fig 5; status builder PASS / mine PASS; tol 0.005
+63,OK,gate row,P332 Health insurance US all: percent change in category spending (MPC-adjuste,0.6569,0.6569,0.66,Fig 5; status builder PASS / mine PASS; tol 0.005
+64,OK,gate row,P333 Health insurance US all: MPC=1 benchmark (ghost) value,0.4734,0.4734,0.48,Fig 5; status builder PASS / mine PASS; tol 0.01
+65,OK,gate row,P334 Gasoline and other fuels US all: change in spending per adult share per month (MP,0.6809,0.6809,0.68,Fig 5; status builder PASS / mine PASS; tol 0.005
+66,OK,gate row,P335 Gasoline and other fuels US all: percent change in category spending (MPC-adjuste,0.6351,0.635,0.64,Fig 5; status builder PASS / mine PASS; tol 0.005
+67,OK,gate row,P336 Gasoline and other fuels US all: MPC=1 benchmark (ghost) value,0.3634,0.3634,0.37,Fig 5; status builder PASS / mine PASS; tol 0.01
+68,OK,gate row,P337 Electricity US all: change in spending per adult share per month (MP,0.6417,0.6416,0.64,Fig 5; status builder PASS / mine PASS; tol 0.005
+69,OK,gate row,P338 Electricity US all: percent change in category spending (MPC-adjuste,0.8635,0.8635,0.86,Fig 5; status builder PASS / mine PASS; tol 0.005
+70,OK,gate row,P339 Electricity US all: MPC=1 benchmark (ghost) value,0.4626,0.4626,0.47,Fig 5; status builder PASS / mine PASS; tol 0.01
+71,OK,gate row,P340 Food at home US all: change in spending per adult share per month (MP,0.5897,0.5897,0.59,Fig 5; status builder PASS / mine PASS; tol 0.005
+72,OK,gate row,P341 Food at home US all: percent change in category spending (MPC-adjuste,0.2337,0.2337,0.23,Fig 5; status builder PASS / mine PASS; tol 0.005
+73,OK,gate row,P342 Food at home US all: MPC=1 benchmark (ghost) value,0.4404,0.4404,0.44,Fig 5; status builder PASS / mine PASS; tol 0.01
+74,OK,gate row,P343 Vehicle insurance US all: change in spending per adult share per month (MP,0.532,0.532,0.53,Fig 5; status builder PASS / mine PASS; tol 0.005
+75,OK,gate row,P344 Vehicle insurance US all: percent change in category spending (MPC-adjuste,0.6585,0.6585,0.66,Fig 5; status builder PASS / mine PASS; tol 0.005
+76,OK,gate row,P345 Vehicle insurance US all: MPC=1 benchmark (ghost) value,0.3033,0.3033,0.31,Fig 5; status builder PASS / mine PASS; tol 0.01
+77,OK,gate row,P346 Telephone services US all: change in spending per adult share per month (MP,0.4556,0.4555,0.46,Fig 5; status builder PASS / mine PASS; tol 0.005
+78,OK,gate row,P347 Telephone services US all: percent change in category spending (MPC-adjuste,0.7699,0.7699,0.77,Fig 5; status builder PASS / mine PASS; tol 0.005
+79,OK,gate row,P348 Telephone services US all: MPC=1 benchmark (ghost) value,0.295,0.295,0.3,Fig 5; status builder PASS / mine PASS; tol 0.01
+80,OK,gate row,P349 Audio & visual equipment and services US all: change in spending per adult share per month (MP,0.4199,0.4199,0.42,Fig 5; status builder PASS / mine PASS; tol 0.005
+81,OK,gate row,P350 Audio & visual equipment and services US all: percent change in category spending (MPC-adjuste,1.0728,1.0727,1.07,Fig 5; status builder PASS / mine PASS; tol 0.005
+82,OK,gate row,P351 Audio & visual equipment and services US all: MPC=1 benchmark (ghost) value,0.2648,0.2648,0.27,Fig 5; status builder PASS / mine PASS; tol 0.01
+83,OK,gate row,P352 Miscellaneous US all: change in spending per adult share per month (MP,0.3817,0.3817,0.38,Fig 5; status builder PASS / mine PASS; tol 0.005
+84,OK,gate row,P353 Miscellaneous US all: percent change in category spending (MPC-adjuste,0.7726,0.7726,0.78,Fig 5; status builder CLOSE / mine CLOSE; tol 0.005
+85,OK,gate row,P354 Miscellaneous US all: MPC=1 benchmark (ghost) value,0.0298,0.0298,0.04,Fig 5; status builder CLOSE / mine CLOSE; tol 0.01
+86,OK,gate row,"P355 Cars and trucks, used US all: change in spending per adult share per month (MP",0.3802,0.3802,0.38,Fig 5; status builder PASS / mine PASS; tol 0.005
+87,OK,gate row,"P356 Cars and trucks, used US all: percent change in category spending (MPC-adjuste",0.3328,0.3328,0.33,Fig 5; status builder PASS / mine PASS; tol 0.005
+88,OK,gate row,"P357 Cars and trucks, used US all: MPC=1 benchmark (ghost) value",-0.0452,-0.0452,-0.04,Fig 5; status builder PASS / mine PASS; tol 0.01
+89,OK,gate row,"P358 Home maintenance, repairs & insurance US all: change in spending per adult share per month (MP",0.3479,0.3479,0.35,Fig 5; status builder PASS / mine PASS; tol 0.005
+90,OK,gate row,"P359 Home maintenance, repairs & insurance US all: percent change in category spending (MPC-adjuste",0.2932,0.2932,0.3,Fig 5; status builder CLOSE / mine CLOSE; tol 0.005
+91,OK,gate row,"P360 Home maintenance, repairs & insurance US all: MPC=1 benchmark (ghost) value",-0.1926,-0.1926,-0.19,Fig 5; status builder PASS / mine PASS; tol 0.01
+92,OK,gate row,P361 Food away from home US all: change in spending per adult share per month (MP,0.3289,0.3289,0.33,Fig 5; status builder PASS / mine PASS; tol 0.005
+93,OK,gate row,P362 Food away from home US all: percent change in category spending (MPC-adjuste,0.2056,0.2056,0.21,Fig 5; status builder PASS / mine PASS; tol 0.005
+94,OK,gate row,P363 Food away from home US all: MPC=1 benchmark (ghost) value,0.0831,0.0831,0.08,Fig 5; status builder PASS / mine PASS; tol 0.01
+95,OK,gate row,P364 Apparel and services US all: change in spending per adult share per month (MP,0.2476,0.2476,0.25,Fig 5; status builder PASS / mine PASS; tol 0.005
+96,OK,gate row,P365 Apparel and services US all: percent change in category spending (MPC-adjuste,0.3051,0.3051,0.31,Fig 5; status builder PASS / mine PASS; tol 0.005
+97,OK,gate row,P366 Apparel and services US all: MPC=1 benchmark (ghost) value,-0.0938,-0.0938,-0.09,Fig 5; status builder PASS / mine PASS; tol 0.01
+98,OK,gate row,P367 Personal care products and services US all: change in spending per adult share per month (MP,0.2462,0.2462,0.25,Fig 5; status builder PASS / mine PASS; tol 0.005
+99,OK,gate row,P368 Personal care products and services US all: percent change in category spending (MPC-adjuste,0.6212,0.6212,0.62,Fig 5; status builder PASS / mine PASS; tol 0.005
+100,OK,gate row,P369 Personal care products and services US all: MPC=1 benchmark (ghost) value,-0.0611,-0.0611,-0.06,Fig 5; status builder PASS / mine PASS; tol 0.01
+101,OK,gate row,P370 Household furnishings & equipment US all: change in spending per adult share per month (MP,0.2322,0.2322,0.23,Fig 5; status builder PASS / mine PASS; tol 0.005
+102,OK,gate row,P371 Household furnishings & equipment US all: percent change in category spending (MPC-adjuste,0.2372,0.2372,0.24,Fig 5; status builder PASS / mine PASS; tol 0.005
+103,OK,gate row,P372 Household furnishings & equipment US all: MPC=1 benchmark (ghost) value,-0.2197,-0.2197,-0.22,Fig 5; status builder PASS / mine PASS; tol 0.01
+104,OK,gate row,P373 Drugs US all: change in spending per adult share per month (MP,0.2305,0.2305,0.23,Fig 5; status builder PASS / mine PASS; tol 0.005
+105,OK,gate row,P374 Drugs US all: percent change in category spending (MPC-adjuste,0.8641,0.8641,0.86,Fig 5; status builder PASS / mine PASS; tol 0.005
+106,OK,gate row,P375 Drugs US all: MPC=1 benchmark (ghost) value,0.1395,0.1395,0.14,Fig 5; status builder PASS / mine PASS; tol 0.01
+107,OK,gate row,P376 Housekeeping supplies US all: change in spending per adult share per month (MP,0.2245,0.2245,0.22,Fig 5; status builder PASS / mine PASS; tol 0.005
+108,OK,gate row,P377 Housekeeping supplies US all: percent change in category spending (MPC-adjuste,0.631,0.631,0.63,Fig 5; status builder PASS / mine PASS; tol 0.005
+109,OK,gate row,P378 Housekeeping supplies US all: MPC=1 benchmark (ghost) value,0.1167,0.1167,0.12,Fig 5; status builder PASS / mine PASS; tol 0.01
+110,OK,gate row,P379 Medical services US all: change in spending per adult share per month (MP,0.2156,0.2156,0.22,Fig 5; status builder PASS / mine PASS; tol 0.005
+111,OK,gate row,P380 Medical services US all: percent change in category spending (MPC-adjuste,0.4249,0.4249,0.43,Fig 5; status builder CLOSE / mine CLOSE; tol 0.005
+112,OK,gate row,P381 Medical services US all: MPC=1 benchmark (ghost) value,-0.0321,-0.0321,-0.03,Fig 5; status builder PASS / mine PASS; tol 0.01
+113,OK,gate row,P382 Water and other public services US all: change in spending per adult share per month (MP,0.214,0.214,0.21,Fig 5; status builder PASS / mine PASS; tol 0.005
+114,OK,gate row,P383 Water and other public services US all: percent change in category spending (MPC-adjuste,0.6392,0.6392,0.64,Fig 5; status builder PASS / mine PASS; tol 0.005
+115,OK,gate row,P384 Water and other public services US all: MPC=1 benchmark (ghost) value,0.1136,0.1136,0.12,Fig 5; status builder PASS / mine PASS; tol 0.01
+116,OK,gate row,P385 Other household expenses US all: change in spending per adult share per month (MP,0.2095,0.2095,0.21,Fig 5; status builder PASS / mine PASS; tol 0.005
+117,OK,gate row,P386 Other household expenses US all: percent change in category spending (MPC-adjuste,0.3763,0.3763,0.38,Fig 5; status builder PASS / mine PASS; tol 0.005
+118,OK,gate row,P387 Other household expenses US all: MPC=1 benchmark (ghost) value,-0.0308,-0.0308,-0.03,Fig 5; status builder PASS / mine PASS; tol 0.01
+119,OK,gate row,"P388 Pets, toys, hobbies US all: change in spending per adult share per month (MP",0.2014,0.2014,0.2,Fig 5; status builder PASS / mine PASS; tol 0.005
+120,OK,gate row,"P389 Pets, toys, hobbies US all: percent change in category spending (MPC-adjuste",0.4644,0.4644,0.47,Fig 5; status builder CLOSE / mine CLOSE; tol 0.005
+121,OK,gate row,"P390 Pets, toys, hobbies US all: MPC=1 benchmark (ghost) value",-0.0408,-0.0408,-0.04,Fig 5; status builder PASS / mine PASS; tol 0.01
+122,OK,gate row,P391 Vehicle maintenance and repairs US all: change in spending per adult share per month (MP,0.166,0.166,0.17,Fig 5; status builder PASS / mine PASS; tol 0.005
+123,OK,gate row,P392 Vehicle maintenance and repairs US all: percent change in category spending (MPC-adjuste,0.4159,0.4159,0.42,Fig 5; status builder PASS / mine PASS; tol 0.005
+124,OK,gate row,P393 Vehicle maintenance and repairs US all: MPC=1 benchmark (ghost) value,0.0079,0.0079,0.01,Fig 5; status builder PASS / mine PASS; tol 0.01
+125,OK,gate row,P394 Natural gas US all: change in spending per adult share per month (MP,0.1246,0.1247,0.12,Fig 5; status builder PASS / mine PASS; tol 0.005
+126,OK,gate row,P395 Natural gas US all: percent change in category spending (MPC-adjuste,0.6243,0.6243,0.62,Fig 5; status builder PASS / mine PASS; tol 0.005
+127,OK,gate row,P396 Natural gas US all: MPC=1 benchmark (ghost) value,0.0623,0.0623,0.07,Fig 5; status builder PASS / mine PASS; tol 0.01
+128,OK,gate row,P397 Tobacco products US all: change in spending per adult share per month (MP,0.1204,0.1204,0.12,Fig 5; status builder PASS / mine PASS; tol 0.005
+129,OK,gate row,P398 Tobacco products US all: percent change in category spending (MPC-adjuste,0.8434,0.8434,0.84,Fig 5; status builder PASS / mine PASS; tol 0.005
+130,OK,gate row,P399 Tobacco products US all: MPC=1 benchmark (ghost) value,0.1168,0.1168,0.12,Fig 5; status builder PASS / mine PASS; tol 0.01
+131,OK,gate row,P400 Medical supplies US all: change in spending per adult share per month (MP,0.0678,0.0678,0.07,Fig 5; status builder PASS / mine PASS; tol 0.005
+132,OK,gate row,P401 Medical supplies US all: percent change in category spending (MPC-adjuste,0.7179,0.7179,0.72,Fig 5; status builder PASS / mine PASS; tol 0.005
+133,OK,gate row,P402 Medical supplies US all: MPC=1 benchmark (ghost) value,0.0285,0.0285,0.03,Fig 5; status builder PASS / mine PASS; tol 0.01
+134,OK,gate row,P403 Alcoholic beverages US all: change in spending per adult share per month (MP,0.0341,0.0341,0.03,Fig 5; status builder PASS / mine PASS; tol 0.005
+135,OK,gate row,P404 Alcoholic beverages US all: percent change in category spending (MPC-adjuste,0.131,0.131,0.13,Fig 5; status builder PASS / mine PASS; tol 0.005
+136,OK,gate row,P405 Alcoholic beverages US all: MPC=1 benchmark (ghost) value,-0.029,-0.029,-0.03,Fig 5; status builder PASS / mine PASS; tol 0.01
+137,OK,gate row,P406 Vehicle finance charges US all: change in spending per adult share per month (MP,0.032,0.032,0.03,Fig 5; status builder PASS / mine PASS; tol 0.005
+138,OK,gate row,P407 Vehicle finance charges US all: percent change in category spending (MPC-adjuste,0.189,0.189,0.19,Fig 5; status builder PASS / mine PASS; tol 0.005
+139,OK,gate row,P408 Vehicle finance charges US all: MPC=1 benchmark (ghost) value,-0.0357,-0.0357,-0.03,Fig 5; status builder PASS / mine PASS; tol 0.01
+140,OK,gate row,P409 Fuel oil and other fuels US all: change in spending per adult share per month (MP,0.0219,0.0219,0.02,Fig 5; status builder PASS / mine PASS; tol 0.005
+141,OK,gate row,P410 Fuel oil and other fuels US all: percent change in category spending (MPC-adjuste,0.4301,0.4301,0.43,Fig 5; status builder PASS / mine PASS; tol 0.005
+142,OK,gate row,P411 Fuel oil and other fuels US all: MPC=1 benchmark (ghost) value,0.0012,0.0012,0.01,Fig 5; status builder PASS / mine PASS; tol 0.01
+143,OK,gate row,"P412 Vehicle rental, leases, licenses US all: change in spending per adult share per month (MP",0.0159,0.0159,0.02,Fig 5; status builder PASS / mine PASS; tol 0.005
+144,OK,gate row,"P413 Vehicle rental, leases, licenses US all: percent change in category spending (MPC-adjuste",0.0484,0.0484,0.05,Fig 5; status builder PASS / mine PASS; tol 0.005
+145,OK,gate row,"P414 Vehicle rental, leases, licenses US all: MPC=1 benchmark (ghost) value",-0.1605,-0.1605,-0.16,Fig 5; status builder PASS / mine PASS; tol 0.01
+146,OK,gate row,P415 Reading US all: change in spending per adult share per month (MP,0.0067,0.0067,0.01,Fig 5; status builder PASS / mine PASS; tol 0.005
+147,OK,gate row,P416 Reading US all: percent change in category spending (MPC-adjuste,0.1326,0.1326,0.13,Fig 5; status builder PASS / mine PASS; tol 0.005
+148,OK,gate row,P417 Reading US all: MPC=1 benchmark (ghost) value,-0.0346,-0.0346,-0.03,Fig 5; status builder PASS / mine PASS; tol 0.01
+149,OK,gate row,P418 Other entertainment equipment US all: change in spending per adult share per month (MP,-0.0235,-0.0235,-0.02,Fig 5; status builder PASS / mine PASS; tol 0.005
+150,OK,gate row,P419 Other entertainment equipment US all: percent change in category spending (MPC-adjuste,-0.0906,-0.0906,-0.09,Fig 5; status builder PASS / mine PASS; tol 0.005
+151,OK,gate row,P420 Other entertainment equipment US all: MPC=1 benchmark (ghost) value,-0.2225,-0.2225,-0.22,Fig 5; status builder PASS / mine PASS; tol 0.01
+152,OK,gate row,P421 Public and other transportation US all: change in spending per adult share per month (MP,-0.0276,-0.0276,-0.03,Fig 5; status builder PASS / mine PASS; tol 0.005
+153,OK,gate row,P422 Public and other transportation US all: percent change in category spending (MPC-adjuste,-0.0602,-0.0602,-0.06,Fig 5; status builder PASS / mine PASS; tol 0.005
+154,OK,gate row,P423 Public and other transportation US all: MPC=1 benchmark (ghost) value,-0.3201,-0.3201,-0.32,Fig 5; status builder PASS / mine PASS; tol 0.01
+155,OK,gate row,P424 Personal services (incl. childcare) US all: change in spending per adult share per month (MP,-0.0867,-0.0867,-0.09,Fig 5; status builder PASS / mine PASS; tol 0.005
+156,OK,gate row,P425 Personal services (incl. childcare) US all: percent change in category spending (MPC-adjuste,-0.3911,-0.3911,-0.39,Fig 5; status builder PASS / mine PASS; tol 0.005
+157,OK,gate row,P426 Personal services (incl. childcare) US all: MPC=1 benchmark (ghost) value,-0.2589,-0.2589,-0.25,Fig 5; status builder PASS / mine PASS; tol 0.01
+158,OK,gate row,P427 Other lodging US all: change in spending per adult share per month (MP,-0.1317,-0.1317,-0.13,Fig 5; status builder PASS / mine PASS; tol 0.005
+159,OK,gate row,P428 Other lodging US all: percent change in category spending (MPC-adjuste,-0.2413,-0.2413,-0.24,Fig 5; status builder PASS / mine PASS; tol 0.005
+160,OK,gate row,P429 Other lodging US all: MPC=1 benchmark (ghost) value,-0.5031,-0.5031,-0.5,Fig 5; status builder PASS / mine PASS; tol 0.01
+161,OK,gate row,P430 Fees and admissions US all: change in spending per adult share per month (MP,-0.1966,-0.1966,-0.2,Fig 5; status builder PASS / mine PASS; tol 0.005
+162,OK,gate row,P431 Fees and admissions US all: percent change in category spending (MPC-adjuste,-0.5187,-0.5187,-0.52,Fig 5; status builder PASS / mine PASS; tol 0.005
+163,OK,gate row,P432 Fees and admissions US all: MPC=1 benchmark (ghost) value,-0.5869,-0.5869,-0.58,Fig 5; status builder PASS / mine PASS; tol 0.01
+164,OK,gate row,"P433 Cars and trucks, new US all: change in spending per adult share per month (MP",-0.3921,-0.392,-0.39,Fig 5; status builder PASS / mine PASS; tol 0.005
+165,OK,gate row,"P434 Cars and trucks, new US all: percent change in category spending (MPC-adjuste",-0.3916,-0.3916,-0.39,Fig 5; status builder PASS / mine PASS; tol 0.005
+166,OK,gate row,"P435 Cars and trucks, new US all: MPC=1 benchmark (ghost) value",-1.2252,-1.2252,-1.23,Fig 5; status builder PASS / mine PASS; tol 0.01
+167,OK,gate row,"P436 shock_d = mpc_d·net_d/C_d; MPC mid of  US all: aggregate demand impulse, % of consumption (sum ",0.4065,0.4065,0.5,Fig 5; status builder MISS / mine MISS; tol 0.05; alt reading 0.4621 -> PASS
+168,OK,gate row,"P438 aggregate demand impulse US all: aggregate demand impulse, % of charted budget (i",0.4621,0.4621,0.4,text; status builder MISS / mine MISS; tol 0.05; alt reading 0.4065 -> PASS
+169,OK,gate row,P439 renters US D1: share of households renting,66,66,66,text; status builder PASS / mine PASS; tol 0.5
+170,OK,gate row,P440 renters US D10: share of households renting,10,10,10,text; status builder PASS / mine PASS; tol 0.5
+171,OK,gate row,P441 rent additions US D1–D3: number of deciles supplying the bulk of gross re,3,3,3,text; status builder PASS / mine PASS; tol 0
+172,OK,gate row,P445 Rented dwellings US all: change in spending per adult share per month (MP,3.3591,3.3591,3.36,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+173,OK,gate row,P446 Rented dwellings US all: MPC=1 benchmark (ghost) value,3.2403,3.2403,3.26,Fig 6 diamond; status builder CLOSE / mine CLOSE; tol 0.01
+174,OK,gate row,P447 Health insurance US all: change in spending per adult share per month (MP,1.0797,1.0797,1.08,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+175,OK,gate row,P448 Health insurance US all: MPC=1 benchmark (ghost) value,0.4734,0.4734,0.47,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+176,OK,gate row,P449 Gasoline and other fuels US all: change in spending per adult share per month (MP,0.6809,0.6809,0.68,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+177,OK,gate row,P450 Gasoline and other fuels US all: MPC=1 benchmark (ghost) value,0.3634,0.3634,0.36,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+178,OK,gate row,P451 Electricity US all: change in spending per adult share per month (MP,0.6417,0.6416,0.64,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+179,OK,gate row,P452 Electricity US all: MPC=1 benchmark (ghost) value,0.4626,0.4626,0.46,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+180,OK,gate row,P453 Food at home US all: change in spending per adult share per month (MP,0.5897,0.5897,0.59,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+181,OK,gate row,P454 Food at home US all: MPC=1 benchmark (ghost) value,0.4404,0.4404,0.43,Fig 6 diamond; status builder CLOSE / mine CLOSE; tol 0.01
+182,OK,gate row,P455 Vehicle insurance US all: change in spending per adult share per month (MP,0.532,0.532,0.53,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+183,OK,gate row,P456 Vehicle insurance US all: MPC=1 benchmark (ghost) value,0.3033,0.3033,0.3,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+184,OK,gate row,P457 Telephone services US all: change in spending per adult share per month (MP,0.4556,0.4555,0.46,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+185,OK,gate row,P458 Telephone services US all: MPC=1 benchmark (ghost) value,0.295,0.295,0.29,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+186,OK,gate row,P459 Audio & visual equipment and services US all: change in spending per adult share per month (MP,0.4199,0.4199,0.42,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+187,OK,gate row,P460 Audio & visual equipment and services US all: MPC=1 benchmark (ghost) value,0.2648,0.2648,0.26,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+188,OK,gate row,P461 Miscellaneous US all: change in spending per adult share per month (MP,0.3817,0.3817,0.38,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+189,OK,gate row,P462 Miscellaneous US all: MPC=1 benchmark (ghost) value,0.0298,0.0298,0.03,Fig 6 diamond; status builder PASS / mine PASS; tol 0.01
+190,OK,gate row,"P463 Cars and trucks, new US all: change in spending per adult share per month (MP",-0.3921,-0.392,-0.39,Fig 6 diamond; status builder PASS / mine PASS; tol 0.005
+191,OK,gate row,"P464 Cars and trucks, new US all: MPC=1 benchmark (ghost) value",-1.2252,-1.2252,-1.24,Fig 6 diamond; status builder CLOSE / mine CLOSE; tol 0.01
+192,OK,gate row,P496 VAT-able consumption US: VAT-able share of consumption,61.7145,61.7146,60,text; status builder PASS / mine PASS; tol 5
+193,OK,gate row,P497 consumer price level US: cumulative price-level effect (range low),7.4057,7.4057,7,text; status builder PASS / mine PASS; tol 0.5
+194,OK,gate row,P498 consumer price level US: cumulative price-level effect (range high),9.2572,9.2572,9,text; status builder PASS / mine PASS; tol 0.5
+195,OK,gate row,P500 measured inflation US: measured inflation per ramp year (range low),2.4686,2.4686,2.5,text; status builder PASS / mine PASS; tol 0.05
+196,OK,gate row,P501 measured inflation US: measured inflation per ramp year (range high),3.0857,3.0857,3,text; status builder PASS / mine PASS; tol 0.5
+197,OK,gate row,P506 consumer price level US: size of an un-ramped one-step price shift,9.2572,9.2572,9,text; status builder PASS / mine PASS; tol 5
+198,OK,gate row,P513 Mechanical: the tax in the till US: measured inflation per ramp year (range low),2.4686,2.4686,2.5,Fig 7; status builder PASS / mine PASS; tol 0.05
+199,OK,gate row,P514 Mechanical: the tax in the till US: measured inflation per ramp year (range high),3.0857,3.0857,3.1,Fig 7; status builder PASS / mine PASS; tol 0.05
+200,OK,gate row,P516 Mechanical: the tax in the till US central: cumulative price-level effect at full ramp (plat,8.3315,8.3315,8.32,Fig 7; status builder CLOSE / mine CLOSE; tol 0.01
+201,OK,gate row,P517 Mechanical: the tax in the till US band uppe: cumulative price-level effect at full ramp (band,9.2572,9.2572,9.24,Fig 7; status builder PASS / mine PASS; tol 0.03
+202,OK,gate row,P518 Mechanical: the tax in the till US band lowe: cumulative price-level effect at full ramp (band,7.4057,7.4057,7.39,Fig 7; status builder CLOSE / mine CLOSE; tol 0.01
+203,OK,gate row,P534 Behavioral: balanced budget ≠ balanced US: share of a permanent transfer spent by recipient,91.3561,91.3561,100,Fig 7; status builder CLOSE / mine CLOSE; tol 5
+204,OK,gate row,P535 Behavioral: balanced budget ≠ balanced US: share of the tax payers offset by cutting spendi,42.1176,42.1176,40,Fig 7; status builder CLOSE / mine CLOSE; tol 0.5; alt reading 40 -> PASS
+205,OK,gate row,P536 Behavioral: balanced budget ≠ balanced US: share of the tax payers offset by cutting spendi,66.4856,66.4856,70,Fig 7; status builder CLOSE / mine CLOSE; tol 0.5; alt reading 75.4322 -> CLOSE
+206,OK,gate row,"P537 Behavioral: balanced budget ≠ balanced US central: excess consumption demand at full ramp, % of con",0.3889,0.3889,0.39,Fig 7; status builder PASS / mine PASS; tol 0.003
+207,OK,gate row,"P538 Behavioral: balanced budget ≠ balanced US band uppe: excess consumption demand at full ramp, % of con",0.474,0.474,0.474,Fig 7; status builder PASS / mine PASS; tol 0.003
+208,OK,gate row,"P539 Behavioral: balanced budget ≠ balanced US band lowe: excess consumption demand at full ramp, % of con",0.305,0.305,0.305,Fig 7; status builder PASS / mine PASS; tol 0.003
+209,OK,gate row,P562 consumer price level US: cumulative price-level effect (range low),7.4057,7.4057,7,text; status builder PASS / mine PASS; tol 0.5
+210,OK,gate row,P563 consumer price level US: cumulative price-level effect (range high),9.2572,9.2572,9,text; status builder PASS / mine PASS; tol 0.5
+211,OK,gate row,P564 measured inflation US: measured inflation per ramp year (range low),2.4686,2.4686,2.5,text; status builder PASS / mine PASS; tol 0.05
+212,OK,gate row,P565 measured inflation US: measured inflation per ramp year (range high),3.0857,3.0857,3,text; status builder PASS / mine PASS; tol 0.5
+213,OK,gate row,"P566 flow channel US: excess consumption demand at full ramp, % of con",0.305,0.305,0.3,text; status builder PASS / mine PASS; tol 0.05
+214,OK,gate row,"P567 flow channel US: excess consumption demand at full ramp, % of con",0.474,0.474,0.5,text; status builder PASS / mine PASS; tol 0.05
+215,OK,gate row,"P662 flow impulse US lambda=0,: demand path value (excess consumption demand), %",0.3889,0.3889,0.38,text; status builder CLOSE / mine CLOSE; tol 0.005
+216,OK,gate row,P916 MPC schedule bottom decil: MPC schedule: bottom,1,1,1,text; status builder PASS / mine PASS; tol 0.05
+217,OK,gate row,P917 MPC schedule top decile/q: MPC schedule: top (range low),0.4,0.4,0.4,text; status builder PASS / mine PASS; tol 0.005
+218,OK,gate row,P918 MPC schedule top decile/q: MPC schedule: top (range high),0.65,0.65,0.65,text; status builder PASS / mine PASS; tol 0.005
+219,OK,gate row,P1050 Rented dwellings US D1: decile contribution to change in spending per ad,1.1302,1.1302,1.12,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+220,OK,gate row,P1051 Rented dwellings US D2: decile contribution to change in spending per ad,0.604,0.604,0.6,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+221,OK,gate row,P1052 Rented dwellings US D3: decile contribution to change in spending per ad,0.726,0.726,0.71,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+222,OK,gate row,P1053 Rented dwellings US D4: decile contribution to change in spending per ad,0.6339,0.6339,0.63,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+223,OK,gate row,P1054 Rented dwellings US D5: decile contribution to change in spending per ad,0.3024,0.3024,0.32,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+224,OK,gate row,P1055 Rented dwellings US D6: decile contribution to change in spending per ad,0.356,0.356,0.37,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+225,OK,gate row,P1056 Rented dwellings US D7: decile contribution to change in spending per ad,0.1241,0.1241,0.13,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+226,OK,gate row,P1057 Rented dwellings US D8: decile contribution to change in spending per ad,-0.0719,-0.0719,-0.08,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+227,OK,gate row,P1058 Rented dwellings US D9: decile contribution to change in spending per ad,-0.131,-0.131,-0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+228,OK,gate row,P1059 Rented dwellings US D10: decile contribution to change in spending per ad,-0.3146,-0.3146,-0.32,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+229,OK,gate row,P1060 Health insurance US D1: decile contribution to change in spending per ad,0.4245,0.4245,0.41,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+230,OK,gate row,P1061 Health insurance US D2: decile contribution to change in spending per ad,0.2922,0.2922,0.3,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+231,OK,gate row,P1062 Health insurance US D3: decile contribution to change in spending per ad,0.4134,0.4134,0.41,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+232,OK,gate row,P1063 Health insurance US D4: decile contribution to change in spending per ad,0.3872,0.3872,0.39,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+233,OK,gate row,P1064 Health insurance US D5: decile contribution to change in spending per ad,0.1901,0.1901,0.19,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+234,OK,gate row,P1065 Health insurance US D6: decile contribution to change in spending per ad,0.2512,0.2512,0.26,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+235,OK,gate row,P1066 Health insurance US D7: decile contribution to change in spending per ad,0.1099,0.1099,0.12,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+236,OK,gate row,P1067 Health insurance US D8: decile contribution to change in spending per ad,-0.0819,-0.0819,-0.1,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+237,OK,gate row,P1068 Health insurance US D9: decile contribution to change in spending per ad,-0.2108,-0.2108,-0.21,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+238,OK,gate row,P1069 Health insurance US D10: decile contribution to change in spending per ad,-0.6961,-0.6961,-0.69,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+239,OK,gate row,P1070 Gasoline and other fuels US D1: decile contribution to change in spending per ad,0.2669,0.2669,0.26,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+240,OK,gate row,P1071 Gasoline and other fuels US D2: decile contribution to change in spending per ad,0.1446,0.1446,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+241,OK,gate row,P1072 Gasoline and other fuels US D3: decile contribution to change in spending per ad,0.2407,0.2407,0.23,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+242,OK,gate row,P1073 Gasoline and other fuels US D4: decile contribution to change in spending per ad,0.2312,0.2312,0.23,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+243,OK,gate row,P1074 Gasoline and other fuels US D5: decile contribution to change in spending per ad,0.1177,0.1177,0.12,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+244,OK,gate row,P1075 Gasoline and other fuels US D6: decile contribution to change in spending per ad,0.1588,0.1588,0.17,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+245,OK,gate row,P1076 Gasoline and other fuels US D7: decile contribution to change in spending per ad,0.0664,0.0664,0.06,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+246,OK,gate row,P1077 Gasoline and other fuels US D8: decile contribution to change in spending per ad,-0.0515,-0.0515,-0.06,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+247,OK,gate row,P1078 Gasoline and other fuels US D9: decile contribution to change in spending per ad,-0.1277,-0.1277,-0.13,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+248,OK,gate row,P1079 Gasoline and other fuels US D10: decile contribution to change in spending per ad,-0.3663,-0.3663,-0.36,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+249,OK,gate row,P1080 Electricity US D1: decile contribution to change in spending per ad,0.2389,0.2389,0.23,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+250,OK,gate row,P1081 Electricity US D2: decile contribution to change in spending per ad,0.1387,0.1387,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+251,OK,gate row,P1082 Electricity US D3: decile contribution to change in spending per ad,0.1919,0.1919,0.19,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+252,OK,gate row,P1083 Electricity US D4: decile contribution to change in spending per ad,0.1732,0.1732,0.17,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+253,OK,gate row,P1084 Electricity US D5: decile contribution to change in spending per ad,0.078,0.078,0.08,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+254,OK,gate row,P1085 Electricity US D6: decile contribution to change in spending per ad,0.1003,0.1003,0.11,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+255,OK,gate row,P1086 Electricity US D7: decile contribution to change in spending per ad,0.0408,0.0408,0.04,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+256,OK,gate row,P1087 Electricity US D8: decile contribution to change in spending per ad,-0.0277,-0.0277,-0.04,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+257,OK,gate row,P1088 Electricity US D9: decile contribution to change in spending per ad,-0.0686,-0.0686,-0.07,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+258,OK,gate row,P1089 Electricity US D10: decile contribution to change in spending per ad,-0.224,-0.224,-0.22,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+259,OK,gate row,P1090 Food at home US D1: decile contribution to change in spending per ad,0.2457,0.2457,0.24,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+260,OK,gate row,P1091 Food at home US D2: decile contribution to change in spending per ad,0.1141,0.1141,0.11,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+261,OK,gate row,P1092 Food at home US D3: decile contribution to change in spending per ad,0.1547,0.1547,0.15,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+262,OK,gate row,P1093 Food at home US D4: decile contribution to change in spending per ad,0.1572,0.1572,0.15,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+263,OK,gate row,P1094 Food at home US D5: decile contribution to change in spending per ad,0.068,0.068,0.07,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+264,OK,gate row,P1095 Food at home US D6: decile contribution to change in spending per ad,0.0872,0.0872,0.09,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+265,OK,gate row,P1096 Food at home US D7: decile contribution to change in spending per ad,0.0372,0.0372,0.04,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+266,OK,gate row,P1097 Food at home US D8: decile contribution to change in spending per ad,-0.0269,-0.0269,-0.04,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+267,OK,gate row,P1098 Food at home US D9: decile contribution to change in spending per ad,-0.0631,-0.0631,-0.06,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+268,OK,gate row,P1099 Food at home US D10: decile contribution to change in spending per ad,-0.1844,-0.1844,-0.18,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+269,OK,gate row,P1100 Vehicle insurance US D1: decile contribution to change in spending per ad,0.1621,0.1621,0.15,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+270,OK,gate row,P1101 Vehicle insurance US D2: decile contribution to change in spending per ad,0.1161,0.1161,0.12,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+271,OK,gate row,P1102 Vehicle insurance US D3: decile contribution to change in spending per ad,0.2074,0.2074,0.21,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+272,OK,gate row,P1103 Vehicle insurance US D4: decile contribution to change in spending per ad,0.1842,0.1842,0.18,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+273,OK,gate row,P1104 Vehicle insurance US D5: decile contribution to change in spending per ad,0.0871,0.0871,0.09,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+274,OK,gate row,P1105 Vehicle insurance US D6: decile contribution to change in spending per ad,0.1258,0.1258,0.14,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+275,OK,gate row,P1106 Vehicle insurance US D7: decile contribution to change in spending per ad,0.0503,0.0503,0.05,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+276,OK,gate row,P1107 Vehicle insurance US D8: decile contribution to change in spending per ad,-0.0385,-0.0385,-0.05,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+277,OK,gate row,P1108 Vehicle insurance US D9: decile contribution to change in spending per ad,-0.089,-0.089,-0.09,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+278,OK,gate row,P1109 Vehicle insurance US D10: decile contribution to change in spending per ad,-0.2736,-0.2736,-0.27,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+279,OK,gate row,P1110 Telephone services US D1: decile contribution to change in spending per ad,0.1717,0.1717,0.16,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+280,OK,gate row,P1111 Telephone services US D2: decile contribution to change in spending per ad,0.0978,0.0978,0.1,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+281,OK,gate row,P1112 Telephone services US D3: decile contribution to change in spending per ad,0.1461,0.1461,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+282,OK,gate row,P1113 Telephone services US D4: decile contribution to change in spending per ad,0.1342,0.1342,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+283,OK,gate row,P1114 Telephone services US D5: decile contribution to change in spending per ad,0.0645,0.0645,0.06,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+284,OK,gate row,P1115 Telephone services US D6: decile contribution to change in spending per ad,0.0889,0.0889,0.1,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+285,OK,gate row,P1116 Telephone services US D7: decile contribution to change in spending per ad,0.0359,0.0359,0.04,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+286,OK,gate row,P1117 Telephone services US D8: decile contribution to change in spending per ad,-0.0267,-0.0266,-0.04,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+287,OK,gate row,P1118 Telephone services US D9: decile contribution to change in spending per ad,-0.0643,-0.0643,-0.06,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+288,OK,gate row,P1119 Telephone services US D10: decile contribution to change in spending per ad,-0.1926,-0.1926,-0.19,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+289,OK,gate row,P1120 Audio & visual equipment and services US D1: decile contribution to change in spending per ad,0.1413,0.1413,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+290,OK,gate row,P1121 Audio & visual equipment and services US D2: decile contribution to change in spending per ad,0.1024,0.1024,0.1,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+291,OK,gate row,P1122 Audio & visual equipment and services US D3: decile contribution to change in spending per ad,0.1384,0.1384,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+292,OK,gate row,P1123 Audio & visual equipment and services US D4: decile contribution to change in spending per ad,0.1415,0.1415,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+293,OK,gate row,P1124 Audio & visual equipment and services US D5: decile contribution to change in spending per ad,0.0576,0.0576,0.06,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+294,OK,gate row,P1125 Audio & visual equipment and services US D6: decile contribution to change in spending per ad,0.072,0.072,0.07,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+295,OK,gate row,P1126 Audio & visual equipment and services US D7: decile contribution to change in spending per ad,0.0306,0.0306,0.04,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+296,OK,gate row,P1127 Audio & visual equipment and services US D8: decile contribution to change in spending per ad,-0.0211,-0.0211,-0.03,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+297,OK,gate row,P1128 Audio & visual equipment and services US D9: decile contribution to change in spending per ad,-0.0523,-0.0523,-0.05,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+298,OK,gate row,P1129 Audio & visual equipment and services US D10: decile contribution to change in spending per ad,-0.1905,-0.1905,-0.19,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+299,OK,gate row,P1130 Miscellaneous US D1: decile contribution to change in spending per ad,0.2005,0.2005,0.2,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+300,OK,gate row,P1131 Miscellaneous US D2: decile contribution to change in spending per ad,0.1375,0.1375,0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+301,OK,gate row,P1132 Miscellaneous US D3: decile contribution to change in spending per ad,0.1694,0.1694,0.16,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+302,OK,gate row,P1133 Miscellaneous US D4: decile contribution to change in spending per ad,0.1489,0.1489,0.15,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+303,OK,gate row,P1134 Miscellaneous US D5: decile contribution to change in spending per ad,0.0991,0.0991,0.1,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+304,OK,gate row,P1135 Miscellaneous US D6: decile contribution to change in spending per ad,0.1073,0.1073,0.12,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+305,OK,gate row,P1136 Miscellaneous US D7: decile contribution to change in spending per ad,0.0518,0.0518,0.05,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+306,OK,gate row,P1137 Miscellaneous US D8: decile contribution to change in spending per ad,-0.0368,-0.0368,-0.05,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+307,OK,gate row,P1138 Miscellaneous US D9: decile contribution to change in spending per ad,-0.0953,-0.0953,-0.1,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+308,OK,gate row,P1139 Miscellaneous US D10: decile contribution to change in spending per ad,-0.4008,-0.4008,-0.4,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+309,OK,gate row,"P1140 Cars and trucks, new US D1: decile contribution to change in spending per ad",0.1626,0.1626,0.15,Fig 6 segment; status builder CLOSE / mine CLOSE; tol 0.01
+310,OK,gate row,"P1141 Cars and trucks, new US D2: decile contribution to change in spending per ad",0.099,0.099,0.1,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+311,OK,gate row,"P1142 Cars and trucks, new US D3: decile contribution to change in spending per ad",0.0973,0.0973,0.1,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+312,OK,gate row,"P1143 Cars and trucks, new US D4: decile contribution to change in spending per ad",0.1278,0.1278,0.13,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+313,OK,gate row,"P1144 Cars and trucks, new US D5: decile contribution to change in spending per ad",0.0846,0.0846,0.09,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+314,OK,gate row,"P1145 Cars and trucks, new US D6: decile contribution to change in spending per ad",0.0534,0.0534,0.05,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+315,OK,gate row,"P1146 Cars and trucks, new US D7: decile contribution to change in spending per ad",0.0392,0.0392,0.04,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+316,OK,gate row,"P1147 Cars and trucks, new US D8: decile contribution to change in spending per ad",-0.0405,-0.0405,-0.05,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+317,OK,gate row,"P1148 Cars and trucks, new US D9: decile contribution to change in spending per ad",-0.1355,-0.1355,-0.14,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+318,OK,gate row,"P1149 Cars and trucks, new US D10: decile contribution to change in spending per ad",-0.88,-0.88,-0.87,Fig 6 segment; status builder PASS / mine PASS; tol 0.01
+319,OK,builder files,"us_accounting_by_decile.csv: net, net % of budget, VAT-able $ and %, tax, all 10 deciles",file,recomputed,,"max |diff| net_usd_month 1.5e-03, net_pct_budget 7.7e-05, vatable_usd_month 9.1e-03, vatable_pct_budget 5.3e-04, tax_usd_month 1.4e-03 (the 4-dp flag rounding)"
+320,OK,builder files,"us_demand_shifts.csv: all 40 lines, $ and %, under mid, low, high and MPC=1",file,recomputed,,"max |diff| mid 4.0e-05, low 3.6e-05, high 4.0e-05, mpc1 3.4e-05"
+321,OK,builder files,"us_impulse.csv: flow impulse $ and % of consumption under low, mid, high and the common-knee variants",0.474 / 0.389 / 0.305,0.474 / 0.389 / 0.305,0.474 / 0.390 / 0.305 (Fig 7),
+322,OK,notes: result/method,all 36 Fig 5 bars within the printed rounding (+/-$0.005); RMSE $0.0027,"36/36, 0.0027","36/36, 0.00270",,largest |gap| 0.0047 (Natural gas); calibration rows (2 MPC parameters fitted to these 36)
+323,OK,notes: result/method,the ten largest movers come back in the published (Fig 6) order,yes,yes,,"10th 'Miscellaneous' +0.3817 vs 11th 'Cars and trucks, used' +0.3802: margin $0.0015 (knife-edge; both print 0.38)"
+324,OK,notes: result/method,"accounting reproduces $249, 59-64%, D1 +4.8%, D10 -3.9%",249.38; 58.9-63.9; +4.80; -3.91,249.38; 58.9-63.9; +4.80; -3.91,249; 59-64; +4.8; -3.9,
+325,OK,notes: result/method,"four of ten Fig 4 net labels are off by $0.5 to $1.2 (D2, D4, D8, D10)","4: D2, D4, D8, D10","4: D2 +53.43 vs +54, D4 +55.49 vs +56, D8 -13.81 vs -15, D10 -172.05 vs -173",,6 of 10 labels exact
+326,OK,notes: result/method,"of 301 gated US numbers: 256 PASS, 43 CLOSE, 2 MISS",256 / 43 / 2,256 / 43 / 2,,statuses recomputed with my values and my reading of the printed precision; identical row by row
+327,OK,notes: result/method,"scope table: Fig 4 17/7/0, Fig 5 102/6/1, Fig 6 diamonds 17/3/0, text 34/2/1, segments 80/20/0, Fig 7 6/5/0",as NOTES,Fig 4 17/7/0; Fig 5 102/6/1; Fig 6 diamond 17/3/0; Fig 6 segment 80/20/0; Fig 7 6/5/0; text 34/2/1,,
+328,OK,notes: result/method,"by role: calibration 73/8/0, selection 36/2/0, checks 147/33/2",as NOTES,calibration 73/8/0; check 147/33/2; selection 36/2/0,,149 of the 301 published numbers were not used in any choice (checks)
+329,OK,notes: result/method,"669 US rows, 368 not gated (170 Fig 8/9, 87 axis ticks, the rest inputs, labels, cited statistics)",669 / 368,666 rows with a US group + 3 footnote-27 MPC rows = 669; not gated 368,,
+330,OK,notes: result/method,"Fig 5 percent labels: 32 of 36 PASS, the other four within 2.3%",32 (others <2.3%),32 (worst other 2.26%),,a genuine check of the categories and per-share conversion (percent labels were not fitted)
+331,OK,notes: result/method,sum_d w_d net_d = 0 (balanced budget per payment share),0,0,,
+332,OK,notes: result/method,impulse sum_d w_d mpc_d net_d equals the sum of all 40 bars to $0.002,10.47650 / 10.47757,10.47638 / 10.47746,,betas sum to 0; the three food classes' beta* to +0.001 (the only leak)
+333,OK,notes: result/method,"charted bars sum to $10.950, the same as the 36 printed labels",10.95,10.9499,10.95,published column = sum of the printed labels
+334,OK,notes: result/method,charted bars = 0.406% of consumption and 0.462% of charted budget; flow $10.48 = 0.389% of consumption,0.406 / 0.462 / 0.389,0.406 / 0.462 / 0.389,caption +0.4 (charted budget); footer +0.5 (consumption); Fig 7 0.390,
+335,OK,notes: result/method,"off-chart rows absorb $0.47: mortgage interest -0.38, education -0.19, property taxes +0.10",-0.38 / -0.19 / +0.10,-0.377 / -0.188 / +0.098,,vehicle residual -0.0056; sum -0.4724
+336,OK,notes: result/method,"Fig 4 dots not in income order through the middle (D2 < D3, D5 < D6): same pattern as the labels",,+88 +53 +61 +55 +30 +39 +17 -14 -38 -172,+88 +54 +61 +56 +30 +39 +17 -15 -38 -173,"the payment follows adults, not equivalence (composition, not error)"
+337,BAD,notes: result/method,P438 '+0.4% of charted budget' is a MISS under every reading,MISS (0.462); swap -> PASS,flow/charted = 0.442,0.4,"the caption's literal denominator also PASSes if the numerator is the whole-budget impulse (all 40 bars, $10.48) rather than the 36 charted bars; MISS overstates. Only the footer (P436, 'of consumption' 0.5) has no same-denominator reading: it needs bars/charted (0.462)"
+338,OK,notes: Fig 6,Fig 6 decile segments c_dg = w_d C_gd eta_gd shock_d,us_decomposition_top10.csv,max |diff| 1.5e-05,,segment RMSE vs read-offs 0.0073 (builder 0.0073)
+339,OK,notes: Fig 6,"every D8 withdrawal ~$0.012 smaller than published, D6 addition ~$0.008 smaller",+0.012 / -0.008,+0.0117 / -0.0079,,D8 gaps all positive: True
+340,OK,notes: Fig 6,per-decile MPCs implied by the Fig 6 segments (diagnostic),0.98 1.00 0.95 0.90 0.88 0.82 0.75 0.81 0.60 0.53,0.98 1.00 0.95 0.90 0.88 0.82 0.75 0.81 0.60 0.53,,"least squares per decile over the 10 categories; D6 and D8 sit above the knee line (0.78, 0.66)"
+341,OK,notes: Fig 6,"monotone per-decile diagnostic: bars RMSE $0.0028, segment RMSE $0.0073 -> $0.0049",0.0028; 0.0073 -> 0.0049,0.0028; 0.0073 -> 0.0049,,evaluated with the builder's schedule values
+342,OK,notes: Fig 6,bottom three deciles supply 63.5% of the gross rent additions ('the bulk'),63.5,63.4593,3,deciles needed for >50%: 3
+343,OK,notes: Fig 6,health insurance: gross inflow 'several times' the top-side trim; gross flows 'several times the net',,inflow/trim 2.09; gross/net 2.83,,"the post's own Fig 6 segments give inflow/trim 2.08, so 'several times' is the post's loose wording, not a rebuild gap. 'Biggest churner': by gross dollars it is #2 (3.06) after 'Rented dwellings' (4.39); by gross/net the largest is 'Vehicle rental, leases, licenses' (32x)"
+344,OK,notes: Fig 6,the impact-period top 10 is green almost throughout (only new cars red),,"Cars and trucks, new",,
+345,OK,notes: MPC,"schedules: flat 1.0 to the knee, linear to the top at D10 (mid knee 2.55 top 0.53; low 1.93/0.40; high 3.29/0.65)",1.00 1.00 0.97 0.91 0.85 0.78 0.72 0.66 0.59 0.53,1.00 1.00 0.97 0.91 0.85 0.78 0.72 0.66 0.59 0.53,,low and high also identical
+346,OK,notes: MPC,MPC mid pinned by least squares on the 36 Fig 5 dollar bars,"knee 2.55, top 0.53, RMSE 0.0027","knee 2.56, top 0.5300, RMSE 0.00269",,"my grid is 0.01 x 0.0025 (builder 0.05 x 0.0025); RMSE at (2.55, 0.53) 0.00270"
+347,OK,notes: MPC,the 68% region (rounding noise only) is a single grid point,1 point,"1 on the 0.05 grid; on 0.01: knee 2.54-2.58, top 0.5300-0.5300",,true at the builder's resolution; the honest statement is the range
+348,OK,notes: MPC,integer knees: knee 2 top 0.5125 (RMSE $0.011); knee 3 top 0.545 ($0.010),0.5125/0.011; 0.545/0.010,0.5125/0.0112; 0.5450/0.0098,,a 2.5-decile knee fits 4x better than either integer knee
+349,OK,notes: MPC,low / high knees pinned by the Fig 7 band edges 0.474 / 0.305 (tops 0.40 / 0.65 from fn 27),1.93 / 3.29,1.930 / 3.291,0.474 / 0.305,"two numbers, two knees: reproduced, not tested"
+350,OK,notes: MPC,with a common knee 2.55 the band would be 0.290-0.497,0.290-0.497,0.290-0.496,0.305-0.474,"5-6% too wide, which is why the knees differ"
+351,OK,notes: MPC,the mid schedule is within 0.011 of the average of low and high at every decile,0.011,0.0114,,an unforced consistency check
+352,OK,notes: MPC,mid-schedule impulse 0.389% of consumption vs Fig 7 central plateau 0.390,0.3889,0.3889,0.39,not used in any calibration
+353,OK,notes: MPC,Fig 7 wording: recipients' MPC 91%; payers 42% (low) / 66% (high); extremes 40% / 75%,91 / 42 / 66; 40 / 75,91.4 / 42.1 / 66.5; 40.0 / 75.4,~100 / 40-70,CLOSE as the builder says: the annotation is stylised
+354,OK,notes: MPC,"schedules inside fn 27's stated range (1.0 at the bottom deciles, 0.40-0.65 at the top), monotone and nested",,"mid D1-D2 1.0, D10 0.53; low <= mid <= high everywhere",1.0 -> 0.40-0.65,"knee 2.55 deciles puts ~25% of units at MPC 1, close to Kaplan-Violante-Weidner's ~1/3 hand-to-mouth (fn 27)"
+355,OK,notes: judgment calls,budget rows 'chosen': only the chosen definition passes Fig 4's +4.8 / -3.9 / 59-64,+4.80 / -3.91 / 58.9-63.9,+4.80 / -3.91 / 58.9-63.9,+4.8 / -3.9 / 59-64,passes
+356,OK,notes: judgment calls,budget rows 'cash in': only the chosen definition passes Fig 4's +4.8 / -3.9 / 59-64,+4.69 / -3.76 / 57.6-61.5,+4.69 / -3.76 / 57.6-61.5,+4.8 / -3.9 / 59-64,fails
+357,OK,notes: judgment calls,budget rows 'everything in': only the chosen definition passes Fig 4's +4.8 / -3.9 / 59-64,+4.63 / -3.04 / 49.6-56.8,+4.63 / -3.04 / 49.6-56.8,+4.8 / -3.9 / 59-64,fails
+358,OK,notes: judgment calls,budget rows 'off-chart out': only the chosen definition passes Fig 4's +4.8 / -3.9 / 59-64,+5.24 / -4.74 / 64.1-77.4,+5.24 / -4.74 / 64.1-77.4,+4.8 / -3.9 / 59-64,fails
+359,BAD,notes: judgment calls,us_budget_tests.csv 'chosen' row uses the same budget as the model,max VAT-able 63.9291,63.9280 (sum of 40 lines); 63.9289 (printed totals),,cosmetic: the budget test divides by printed total - pensions - cash ($2/CU-yr below the 40-line sum the model uses); no verdict changes
+360,OK,notes: judgment calls,printed People/Children rows reproduce 6 of 10 labels; +/-0.05 redraws a median of 1,6; median 1,6; median 1,,evidence that the post used the same printed one-decimal rows
+361,OK,notes: judgment calls,"rounding spread (5th-95th pct): dividend 247.5-251.3, D8 -20..-8, D10 -181..-163, rent bar 3.24-3.48",247.5-251.3; -20..-8; -181..-163; 3.24-3.48,247.2-251.7; -20..-8; -181..-163; 3.23-3.49,,"my own 1,000 draws (seed 20261102); a property of the data shared with the post"
+362,OK,notes: judgment calls,equal CU weights instead of CU counts: the same to +/-$0.1,+/-0.1,"max |d net| 0.107, d dividend -0.107",,
+363,OK,notes: judgment calls,"Directive grid (1,280 sets): the builder's objective picks the adopted flags",objective 63.13,1280 sets; best objective 63.13 = adopted flags,,
+364,OK,notes: judgment calls,"used cars: all 20 best sets have 1/2; 0, 1/4, 3/4, 1 all worse",20/20 at 1/2,"20/20; best objective by flag 0: 4672, 0.25: 1048, 0.5: 63, 0.75: 182, 1: 1092",,sharply pinned by Fig 4 (the D7 dip and the D9-D10 fall of the used-car line)
+365,OK,notes: judgment calls,no Directive-consistent set reproduces all ten labels and the dividend,none,max labels exact with $249: 8,,
+366,OK,notes: judgment calls,water at the Nordic reading (1.0) gives a $250.9 dividend,250.9,250.9428,249,so 0.688 (refuse collection outside scope) is pinned by the dividend level
+367,OK,notes: judgment calls,"alternative mixed-line shares tested in the grid: trips-only lodging 0.673, tolls public 0.626, Rx relief 0.42, transit exempt 0.90, clubs exempt 0.71",as listed,"0.673, 0.625, 0.421, 0.902, 0.709",,from the raw Table 2500 children
+368,BAD,notes: judgment calls,rent flag 0.017 'not pinned (Directive reading)',"0.0167, not pinned","chosen over 0 by the grid; printed numbers alone prefer 0: labels exact 8 vs 6, label SSE 2.10 vs 3.23, dividend 248.80 vs 249.38","labels, $249, +4.8/-3.9, 59-64","only the pixel read-offs of the point positions (+/-5) tip it to 0.0167 (x term 42.7 vs 22.5); the Fig 5 ghosts also prefer 0 (RMSE 0.0050 vs 0.0058; rent ghost 3.250 vs 3.240, read off 3.26) and the bars refit as well (knee 2.46, top 0.5275, RMSE 0.0027). Rent = 0 is the post's own 'rent exempt' wording. Downstream effect small"
+369,OK,notes: judgment calls,"loose grid (licences, registration, vehicle property tax or vacation-home interest in; drugs/transit partly out): 9 of 10 labels with the dividend",9/10,9/10 (all 20 rows reproduced),,rightly not adopted: those lines are taxes or exempt credit under the Directive
+370,OK,notes: judgment calls,"across the 20 best Directive sets: rent 3.34-3.38, health insurance 1.07-1.09, new cars -0.39",as listed,"rent 3.343-3.378, health 1.074-1.085, new -0.394..-0.390",,MPC held at mid
+371,OK,notes: judgment calls,published labels as the net vector move no bar by more than $0.011 (rent),rent 3.3696,rent 3.3696; max |d bar| 0.0106,,also a genericity check: the machinery takes any net vector (what the LVT step needs)
+372,OK,notes: judgment calls,"mapping test 'chosen: CE majors, telephone in transport & communication': ghost RMSE",0.0058,0.0058,,"bar RMSE at best knee/top: mine 0.0027 (0.05 x 0.0025 grid), builder 0.0032"
+373,OK,notes: judgment calls,mapping test 'telephone in housing (CE utilities)': ghost RMSE,0.0088,0.0088,,"bar RMSE at best knee/top: mine 0.0085 (0.05 x 0.0025 grid), builder 0.0088"
+374,OK,notes: judgment calls,mapping test 'personal services in other (social protection)': ghost RMSE,0.0282,0.0282,,"bar RMSE at best knee/top: mine 0.0065 (0.05 x 0.0025 grid), builder 0.0066"
+375,OK,notes: judgment calls,mapping test 'health insurance in other (COICOP 12)': ghost RMSE,0.0155,0.0155,,"bar RMSE at best knee/top: mine 0.0369 (0.05 x 0.0025 grid), builder 0.0370"
+376,OK,notes: judgment calls,mapping test 'vehicle insurance in other (COICOP 12)': ghost RMSE,0.0139,0.0139,,"bar RMSE at best knee/top: mine 0.0339 (0.05 x 0.0025 grid), builder 0.0339"
+377,OK,notes: judgment calls,mapping test 'other lodging in other (COICOP 11.2)': ghost RMSE,0.029,0.029,,"bar RMSE at best knee/top: mine 0.0036 (0.05 x 0.0025 grid), builder 0.0039"
+378,OK,notes: judgment calls,mapping test 'other lodging in recreation': ghost RMSE,0.0128,0.0128,,"bar RMSE at best knee/top: mine 0.0091 (0.05 x 0.0025 grid), builder 0.0094"
+379,OK,notes: judgment calls,mapping test 'vehicle finance charges in other': ghost RMSE,0.0071,0.0071,,"bar RMSE at best knee/top: mine 0.0059 (0.05 x 0.0025 grid), builder 0.0061"
+380,OK,notes: judgment calls,mapping test 'home maintenance in furnishings': ghost RMSE,0.0055,0.0055,,"bar RMSE at best knee/top: mine 0.0031 (0.05 x 0.0025 grid), builder 0.0034"
+381,OK,notes: judgment calls,mapping test 'reading in other': ghost RMSE,0.0073,0.0073,,"bar RMSE at best knee/top: mine 0.0032 (0.05 x 0.0025 grid), builder 0.0035"
+382,OK,notes: judgment calls,telephone in housing: ghost 0.264 vs 0.30 read off; no alternative mapping improves both fits by more than 10%,0.264; none,0.2645; none,0.3,"lowest ghost RMSE is 'home maintenance in furnishings' (0.0055 vs 0.0058, -6%) but its bars fit worse"
+383,BAD,notes: judgment calls,bar RMSE at the best knee for the chosen mapping is quoted as $0.0032 (NOTES table) and $0.0027 (us_flags.csv),0.0032 / 0.0027,"0.0027 (0.05 grid), 0.0027 (0.01 grid)",,cosmetic: the mapping tests used a coarser knee grid; quote one number
+384,OK,notes: judgment calls,"food split 'chosen A: Food other = restaurants, B&T ': four food ghosts",0.440 / 0.083 / -0.029 / 0.117,0.440 / 0.083 / -0.029 / 0.117,0.44 / 0.08 / -0.03 / 0.12,ghost RMSE 0.0058; bar RMSE at best knee 0.0027
+385,OK,notes: judgment calls,food split 'A2: nonalcoholic beverages in Beverages ': four food ghosts,0.460 / 0.083 / -0.030 / 0.098,0.460 / 0.083 / -0.030 / 0.098,0.44 / 0.08 / -0.03 / 0.12,ghost RMSE 0.0077; bar RMSE at best knee 0.0062
+386,OK,notes: judgment calls,"food split 'F: no split, stage-one food eta for all ': four food ghosts",0.525 / 0.029 / -0.019 / 0.076,0.525 / 0.029 / -0.019 / 0.076,0.44 / 0.08 / -0.03 / 0.12,ghost RMSE 0.0190; bar RMSE at best knee 0.0301
+387,BAD,review: VAT flags vs Directive,"flag of 'Cars and trucks, used' is consistent with the Directive",0.5,0.5,,"second-hand goods sold by taxable dealers are taxed on the dealer's margin (Arts. 311-325), private sales are outside the scope: a Directive reading is ~0.1, not 1/2. 1/2 = dealer sales taxed on the full price (a sales-tax rule). It is the post's own flag (sharply pinned by Fig 4) and NOTES/us_flags.csv say so, but the judgment-call table still heads all flags 'EU Directive reading'"
+388,OK,review: VAT flags vs Directive,flag of 'Water and other public services' is consistent with the Directive,0.6878,0.6878,,"water supply by public bodies is taxable (Art. 13 + Annex I(2)); sewerage and refuse collection by public authorities are outside the scope unless competition is distorted. CE merges water with sewerage, so 0.688 taxes sewerage (Nordic practice) and exempts refuse; a strict reading would be lower, the Nordic one 1.0. Choice between 0.688 and 1.0 pinned by the $249 dividend: documented"
+389,OK,review: VAT flags vs Directive,flag of 'Rented dwellings' is consistent with the Directive,0.0167,0.0167,,"letting of immovable property exempt (Art. 135(1)(l)), tenant insurance exempt (135(1)(a)), tenant-paid repairs taxable: 0.017 is a correct reading, but 0 (the post's 'rent exempt') is equally Directive-consistent and fits the printed Fig 4 numbers better"
+390,OK,review: VAT flags vs Directive,"flag of 'Home maintenance, repairs & insurance' is consistent with the Directive",0.7223,0.7223,,"repair services and materials taxable (Annex III(10a) allows reduced rates), homeowners insurance exempt (135(1)(a)), ground rent = letting of land (135(1)(l)). Condo/HOA management fees (4.9% of the line) are exempt or outside in some member states"
+391,OK,review: VAT flags vs Directive,flag of 'Other lodging' is consistent with the Directive,0.7272,0.7272,,"hotel accommodation is carved out of the letting exemption (Art. 135(2)(a)) so taxable; vacation-home interest, taxes and insurance are not taxable supplies; school housing exempt (letting, or 132(1)(i))"
+392,OK,review: VAT flags vs Directive,"flag of 'Vehicle rental, leases, licenses' is consistent with the Directive",0.7064,0.7064,,"registration, vehicle property tax and licences are taxes or public-authority fees (Art. 13); vehicle inspections (1.7% of the line) are also treated as public fees, though private test centres charge VAT in most states"
+393,OK,review: VAT flags vs Directive,flag of 'Miscellaneous' is consistent with the Directive,0.4834,0.4834,,"legal, accounting, funeral (Annex III(16)) taxable; lotteries (135(1)(i)), bank charges (135(1)(d)), credit interest (135(1)(b)), union and professional dues (132(1)(l)) exempt; taxes outside"
+394,OK,review: VAT flags vs Directive,flag of 'Housekeeping supplies' is consistent with the Directive,0.9507,0.9507,,postage by the universal service provider exempt (Art. 132(1)(a))
+395,OK,review: VAT flags vs Directive,flag of 'Education' is consistent with the Directive,0.0628,0.0628,,"tuition exempt (Art. 132(1)(i),(j)); books and supplies taxable"
+396,OK,review: VAT flags vs Directive,flag of 'Fees and admissions' is consistent with the Directive,1,1,,"simplification: Art. 132(1)(m) (sport by non-profits) and (n) (cultural services of public or recognised bodies) exempt part of this line; taxing all of it is the post's uniform-base reading (club memberships exempt, 0.71, fits Fig 4 worse)"
+397,OK,review: VAT flags vs Directive,flag of 'Public and other transportation' is consistent with the Directive,1,1,,passenger transport taxable (Annex III(5)); some states keep exemptions under Art. 371/Annex X and international air is effectively zero-rated (airline fares are 60% of this line)
+398,OK,review: VAT flags vs Directive,flag of 'Other household expenses' is consistent with the Directive,1,1,,"taxable services (internet, gardening, pest control, moving); housekeeping paid to household employees (13.6% of the line) is a wage, not a supply"
+399,OK,review: VAT flags vs Directive,flag of 'Vehicle maintenance and repairs' is consistent with the Directive,1,1,,repairs and parts taxable; the 'auto repair service policy' (5.2%) is exempt insurance when a third-party insurer sells it (CJEU C-349/96)
+400,OK,review: VAT flags vs Directive,flag of 'Drugs' is consistent with the Directive,1,1,,"medicines are goods: taxable, reduced rates allowed (Annex III(3)); some states zero-rate Rx"
+401,OK,review: VAT flags vs Directive,flag of 'Personal services (incl. childcare)' is consistent with the Directive,0,0,,"child and elderly care by recognised bodies exempt (Art. 132(1)(g),(h))"
+402,BAD,review: VAT flags vs Directive,us_flags.csv reason for the water line cites the Directive correctly,"water and sewerage taxable (Annex I), septic cleaning taxabl...",Annex I(2) is the supply of water only,,"documentation: sewerage is not an Annex I activity; taxing it is member-state practice (Nordic), so the 0.688 share is 'water + sewerage taxed as in the Nordics, refuse outside under Art. 13', not an Annex I reading"
+403,OK,review: VAT flags vs Directive,the remaining 23 clear-cut flags are consistent with the Directive,0 / 1,0 / 1,,"exempt or outside: Mortgage interest and charges (135(1)(b)); Property taxes (not a supply); Vehicle finance charges (135(1)(b)); Vehicle insurance, Health insurance (135(1)(a)); Medical services (132(1)(b),(c),(e)). Taxable: food, alcohol, tobacco, restaurants, energy, telephone, furnishings, apparel, new cars, other vehicles, fuel, medical supplies, recreation lines, personal care, reading"
+404,OK,review: headline sensitivity,qualitative US story survives: rent flag 0 (the post's 'rent exempt'; best on printed numbers),,"rent +3.37, health +1.08, new -0.39, used +0.38, impulse 0.390%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.34 (-173), rent +3.37 (+3.36); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.46, top 0.5275)"
+405,OK,review: headline sensitivity,qualitative US story survives: used cars 0.1 (Directive margin scheme),,"rent +3.25, health +1.05, new -0.39, used +0.38, impulse 0.377%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +242.52 (+249), D1 net +83.28 (+88), D1 % +4.55 (+4.8), D10 net -169.68 (-173), VAT-able min % +57.84 (+59), VAT-able max % +62.53 (+64), rent +3.25 (+3.36), health ins +1.05 (+1.08), vehicle ins +0.52 (+0.53), new cars ghost -1.20 (-1.23), used cars ghost -0.03 (-0.05), fees -0.19 (-0.2); Fig 5 after an MPC refit: RMSE 0.0058 (knee 3.68, top 0.5500)"
+406,OK,review: headline sensitivity,qualitative US story survives: used cars 1.0 (all taxable),,"rent +3.50, health +1.12, new -0.40, used +0.38, impulse 0.404%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +257.94 (+249), D1 net +93.44 (+88), D1 % +5.11 (+4.8), D10 net -175.01 (-173), D10 % -3.98 (-3.9), VAT-able min % +59.94 (+59), VAT-able max % +65.68 (+64), rent +3.50 (+3.36), health ins +1.12 (+1.08), vehicle ins +0.55 (+0.53), new cars -0.40 (-0.39), new cars ghost -1.26 (-1.23), used cars ghost -0.06 (-0.05); Fig 5 after an MPC refit: RMSE 0.0059 (knee 1.44, top 0.5050)"
+407,OK,review: headline sensitivity,qualitative US story survives: water 1.0 (Nordic),,"rent +3.37, health +1.08, new -0.39, used +0.38, impulse 0.390%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +250.94 (+249), D10 net -172.46 (-173), rent +3.37 (+3.36); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.47, top 0.5275)"
+408,OK,review: headline sensitivity,qualitative US story survives: drugs: Rx zero-rated (0.42),,"rent +3.35, health +1.08, new -0.39, used +0.38, impulse 0.388%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +247.06 (+249), D1 net +87.26 (+88), D10 net -171.64 (-173), VAT-able min % +58.23 (+59), rent +3.35 (+3.36), new cars ghost -1.22 (-1.23); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.59, top 0.5300)"
+409,OK,review: headline sensitivity,qualitative US story survives: fees: Art. 132(1)(m) clubs exempt (0.71),,"rent +3.30, health +1.06, new -0.38, used +0.37, impulse 0.382%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +247.72 (+249), D1 net +86.67 (+88), D1 % +4.74 (+4.8), D10 net -168.74 (-173), D10 % -3.84 (-3.9), VAT-able max % +63.17 (+64), rent +3.30 (+3.36), health ins +1.06 (+1.08), vehicle ins +0.52 (+0.53), new cars -0.38 (-0.39), new cars ghost -1.20 (-1.23), used cars +0.37 (+0.38), fees -0.19 (-0.2); Fig 5 after an MPC refit: RMSE 0.0029 (knee 3.08, top 0.5400)"
+410,OK,review: headline sensitivity,qualitative US story survives: transport: air zero-rated (0.40),,"rent +3.26, health +1.05, new -0.38, used +0.37, impulse 0.377%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +245.23 (+249), D1 net +85.55 (+88), D1 % +4.68 (+4.8), D10 net -166.34 (-173), D10 % -3.78 (-3.9), VAT-able min % +58.18 (+59), VAT-able max % +62.43 (+64), rent +3.26 (+3.36), health ins +1.05 (+1.08), vehicle ins +0.51 (+0.53), new cars -0.38 (-0.39), new cars ghost -1.19 (-1.23), used cars +0.37 (+0.38), fees -0.19 (-0.2); Fig 5 after an MPC refit: RMSE 0.0032 (knee 3.68, top 0.5500)"
+411,OK,review: headline sensitivity,qualitative US story survives: household staff wages outside VAT (0.86),,"rent +3.34, health +1.08, new -0.39, used +0.38, impulse 0.387%",,"at the mid MPC, printed headlines that no longer round to the post: dividend +248.24 (+249), D1 net +87.36 (+88), D10 net -171.18 (-173), rent +3.34 (+3.36), new cars ghost -1.22 (-1.23); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.68, top 0.5325)"
+412,OK,review: headline sensitivity,qualitative US story survives: vehicle inspections taxable (0.72),,"rent +3.36, health +1.08, new -0.39, used +0.38, impulse 0.389%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.13 (-173); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.55, top 0.5300)"
+413,OK,review: headline sensitivity,qualitative US story survives: HOA/condo fees exempt (0.67),,"rent +3.35, health +1.08, new -0.39, used +0.38, impulse 0.387%",,"at the mid MPC, printed headlines that no longer round to the post: D1 net +87.30 (+88), D10 net -171.26 (-173), rent +3.35 (+3.36), new cars ghost -1.22 (-1.23); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.67, top 0.5325)"
+414,OK,review: headline sensitivity,"qualitative US story survives: bulletin-faithful COICOP groups (insurances, childcare, lodging, vehicle finance -> Other)",,"rent +3.36, health +1.12, new -0.39, used +0.39, impulse 0.389%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173), health ins +1.12 (+1.08), vehicle ins +0.57 (+0.53), used cars +0.39 (+0.38), used cars ghost -0.03 (-0.05), lodging -0.15 (-0.13); Fig 5 after an MPC refit: RMSE 0.0352 (knee 2.33, top 0.5250)"
+415,OK,review: headline sensitivity,qualitative US story survives: food split F (no stage-two split),,"rent +3.36, health +1.08, new -0.39, used +0.38, impulse 0.389%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173); Fig 5 after an MPC refit: RMSE 0.0301 (knee 2.41, top 0.5275)"
+416,OK,review: headline sensitivity,qualitative US story survives: MPC integer knee 2 (top 0.5125),,"rent +3.30, health +1.07, new -0.37, used +0.38, impulse 0.388%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173), rent +3.30 (+3.36), health ins +1.07 (+1.08), vehicle ins +0.52 (+0.53), new cars -0.37 (-0.39), fees -0.19 (-0.2), lodging -0.12 (-0.13)"
+417,OK,review: headline sensitivity,qualitative US story survives: MPC integer knee 3 (top 0.5450),,"rent +3.41, health +1.09, new -0.41, used +0.38, impulse 0.390%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173), rent +3.41 (+3.36), health ins +1.09 (+1.08), vehicle ins +0.54 (+0.53), new cars -0.41 (-0.39), lodging -0.14 (-0.13)"
+418,OK,review: headline sensitivity,qualitative US story survives: MPC monotone per-decile diagnostic,,"rent +3.36, health +1.08, new -0.39, used +0.38, impulse 0.389%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173)"
+419,OK,review: headline sensitivity,qualitative US story survives: MPC low schedule (Fig 7 upper band),,"rent +3.31, health +1.20, new -0.18, used +0.47, impulse 0.474%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173), rent +3.31 (+3.36), health ins +1.20 (+1.08), vehicle ins +0.57 (+0.53), new cars -0.18 (-0.39), used cars +0.47 (+0.38), fees -0.10 (-0.2), lodging -0.04 (-0.13)"
+420,OK,review: headline sensitivity,qualitative US story survives: MPC high schedule (Fig 7 lower band),,"rent +3.39, health +0.96, new -0.60, used +0.29, impulse 0.305%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173), rent +3.39 (+3.36), health ins +0.96 (+1.08), vehicle ins +0.49 (+0.53), new cars -0.60 (-0.39), used cars +0.29 (+0.38), fees -0.29 (-0.2), lodging -0.22 (-0.13)"
+421,OK,review: headline sensitivity,qualitative US story survives: equal CU weights,,"rent +3.35, health +1.08, new -0.39, used +0.38, impulse 0.389%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.15 (-173), rent +3.35 (+3.36), new cars ghost -1.22 (-1.23); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.59, top 0.5300)"
+422,OK,review: headline sensitivity,qualitative US story survives: published Fig 4 labels as nets,,"rent +3.37, health +1.08, new -0.40, used +0.38, impulse 0.388%",,"at the mid MPC, printed headlines that no longer round to the post: D10 net -172.05 (-173), rent +3.37 (+3.36), new cars -0.40 (-0.39), new cars ghost -1.24 (-1.23); Fig 5 after an MPC refit: RMSE 0.0027 (knee 2.46, top 0.5250)"
+423,OK,review: headline sensitivity,"baseline: every printed headline except D10's -$173 (CLOSE, -172.05) rounds to the post",D10 -172.05 CLOSE,D10 net,,
+424,OK,review: summary,MPC schedule inside the post's stated range and plausibly shaped,"knee family, mid 2.55/0.53",refit 2.56/0.53,fn 27: 1.0 -> 0.40-0.65,"flat 1.0 for the bottom ~25% (hand-to-mouth), then linear; mid ~ average of low and high; fits 36 bars at the printing floor with 2 parameters. Caveat: Fig 6 says D6 and D8 sat higher in the post's own schedule"
+425,OK,review: summary,"beta mapping faithful to the bulletin (values, equations) and documented where it is not (grouping)","Table 3/4 printed values; eq. 5, eq. 11","identical, read from the PDF",,"eta is evaluated at observed decile shares (the post's fn 23), not the bulletin's fitted shares at geometric mean prices. Grouping follows CE major categories, not the bulletin's COICOP groups, for health and vehicle insurance (COICOP 12), childcare (12/social), other lodging (11.2) and vehicle finance (outside consumption): pinned by the Fig 5 ghosts and bars (COICOP grouping: bar RMSE 10x worse). Moving them would put health insurance at +1.12 and vehicle insurance at +0.57"
+426,OK,review: summary,nothing tuned outside a defensible range to force a match,documented calibrations,"used cars 1/2, water 0.688, MPC knee/top, low/high knees",,"each calibrated value sits inside its defensible interval and is sharply identified; the one non-Directive value (used cars) is the post's own and is labelled; misses are reported, not forced (Fig 4 D8/D10, impulse wording)"
