@@ -166,6 +166,15 @@ Section 6 and Appendix B.
 
 ## Log
 
+- **2026-11-02 — polish 1: the slips fixed.** Her yes to all. "both parameters" becomes
+  "both" (2.3); "meters" twice; Proposition 2 gains its serial comma; "urbanization";
+  "attributing ... require"; A.1's machine-type index is now `\ell` (k stays the non-produced
+  input); the identity matrix is bold `\mathbf{I}` in its four uses, so Appendix C's `I` is
+  expenditure only; "An $H$-free good's"; the Zeira entry closes inside the reference group
+  (hanging indent restored) and gains its pages, 1091--1117. Word diff against the rebuild:
+  exactly these changes. Her Figure 7 call, same day: the repo's full-band version, with
+  plainer legend names than its D-F/D-Q labels (polish, figures).
+
 - **2026-11-02 — the SSRN version rebuilt from its PDF.** Her go ("start the rebuild"); the
   Overleaf copy was not at the SSRN state and the original TeX sat on a machine she could not
   reach. Method: verbatim transcription of `paper/ssrn-7226858.pdf`, reusing the 21 September
