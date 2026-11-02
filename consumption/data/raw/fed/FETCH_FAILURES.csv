@@ -1,0 +1,15 @@
+file,url,date_tried,error
+fred/BOGZ1LM105012665Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM105012665Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM105013665A.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM105013665A,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM105013665Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM105013665Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM105035005A.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM105035005A,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM105035005Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM105035005Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM115012665Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM115012665Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM115013665A.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM115013665A,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM115013665Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM115013665Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM115035005A.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM115035005A,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM115035005Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM115035005Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM155012665Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM155012665Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/BOGZ1LM165013665Q.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOGZ1LM165013665Q,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/HHMSDODNS.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=HHMSDODNS,2026-11-02,not attempted: fred.stlouisfed.org failed earlier in this run (first failure on fred/HNOREMV.csv)
+fred/HNOREMV.csv,https://fred.stlouisfed.org/graph/fredgraph.csv?id=HNOREMV,2026-11-02,"RuntimeError('GET failed after 4 tries: https://fred.stlouisfed.org/graph/fredgraph.csv?id=HNOREMV (ProxyError(MaxRetryError(""HTTPSConnectionPool(host=\'fred.stlouisfed.org\', port=443): Max retries exceeded with url: /graph/fredgraph.csv?id=HNOREMV (Caused by ProxyError(\'Unable to connect to proxy\', RemoteDisconnected(\'Remote end closed connection without response\')))"")))')"

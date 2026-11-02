@@ -1,0 +1,312 @@
+check,computed,published,diff,tolerance,unit,pass,source,note
+scf2022: Y1 = 10*YY1 + implicate with implicates 1-5,1,1.0,0.0,0.0,bool,True,,
+scf2022: records in the extract,22975,22975.0,0.0,0.0,records,True,scf/scf_2022.htm,
+scf2022: families in the extract,4595,4595.0,0.0,0.0,families,True,scf/scf_2022.htm,
+"scf2022: WGT summed over all records / 1e6 (= number of families, not 5x)",131.3064,,,0.0,million families,,,
+scf2022: max relative spread of per-implicate WGT sums,3.55479339297915e-08,0.0,3.55479339297915e-08,1e-06,ratio,True,,each implicate sums to one fifth of the families
+scf2022: families whose WGT differs across implicates,4595,,,0.0,families,,,weights are implicate-specific; never average a family's implicates without its own weights
+scf2022: ASSET = FIN+NFIN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.1000
+scf2022: NETWORTH = ASSET-DEBT (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0653
+scf2022: DEBT = MRTHEL+RESDBT+OTHLOC+CCBAL+INSTALL+ODEBT (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0040
+scf2022: FIN = LIQ+CDS+NMMF+STOCKS+BOND+RETQLIQ+SAVBND+CASHLI+OTHMA+OTHFIN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0580
+scf2022: NFIN = VEHIC+HOUSES+ORESRE+NNRESRE+BUS+OTHNFIN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0643
+scf2022: BUS = ACTBUS+NONACTBUS (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0750
+scf2022: HOMEEQ = HOUSES-MRTHEL (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0010
+scf2022: MRTHEL = NH_MORT+HELOC (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2022: MMA = MMDA+MMMF (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0050
+scf2022: NMMF = STMUTF+TFBMUTF+GBMUTF+OBMUTF+COMUTF+OMUTF (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0100
+scf2022: BOND = NOTXBND+MORTBND+GOVTBND+OBND (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0100
+scf2022: RETQLIQ = IRAKH+THRIFT+FUTPEN+CURRPEN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0009
+scf2022: OTHMA = ANNUIT+TRUSTS (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0088
+scf2022: INSTALL = VEH_INST+EDN_INST+OTH_INST (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0001
+scf2022: KGTOTAL = KGHOUSE+KGORE+KGBUS+KGSTMF (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0854; 10 records with a -1/-2 component left unadjusted by the macro (allowed for)
+scf2022: NHNFIN / (NFIN-HOUSES) on 20433 records (publisher double-adjusts NHNFIN),1.0943784,1.0943784,0.0,1e-06,ratio,True,,range 1.0943784-1.0943784; NHNFIN is listed twice in ARRAY VALUE. Use NFIN-HOUSES instead of NHNFIN
+"scf2022: LIQ = CHECKING+SAVING+MMA+CALL+PREPAID except the LIQ=MAX(HLIQ,LIQ) marker",0,0.0,0.0,0.0,records,True,,235 records have zero balances but an account: LIQ=1.094378 (=1 x CPIADJ)
+scf2025: Y1 = 10*YY1 + implicate with implicates 1-5,1,1.0,0.0,0.0,bool,True,,
+scf2025: records in the extract,21800,21800.0,0.0,0.0,records,True,scf/scfindex.htm,
+scf2025: families in the extract,4360,4360.0,0.0,0.0,families,True,scf/scfindex.htm,
+"scf2025: WGT summed over all records / 1e6 (= number of families, not 5x)",134.9637,,,0.0,million families,,,
+scf2025: max relative spread of per-implicate WGT sums,4.064317082885793e-08,0.0,4.064317082885793e-08,1e-06,ratio,True,,each implicate sums to one fifth of the families
+scf2025: families whose WGT differs across implicates,4360,,,0.0,families,,,weights are implicate-specific; never average a family's implicates without its own weights
+scf2025: ASSET = FIN+NFIN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: NETWORTH = ASSET-DEBT (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: DEBT = MRTHEL+RESDBT+OTHLOC+CCBAL+INSTALL+ODEBT (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: FIN = LIQ+CDS+NMMF+STOCKS+BOND+RETQLIQ+SAVBND+CASHLI+OTHMA+OTHFIN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: NFIN = VEHIC+HOUSES+ORESRE+NNRESRE+BUS+OTHNFIN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: BUS = ACTBUS+NONACTBUS (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: HOMEEQ = HOUSES-MRTHEL (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: MRTHEL = NH_MORT+HELOC (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: MMA = MMDA+MMMF (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: NMMF = STMUTF+TFBMUTF+GBMUTF+OBMUTF+COMUTF+OMUTF (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: BOND = NOTXBND+MORTBND+GOVTBND+OBND (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: RETQLIQ = IRAKH+THRIFT+FUTPEN+CURRPEN (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: OTHMA = ANNUIT+TRUSTS (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: INSTALL = VEH_INST+EDN_INST+OTH_INST (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: KGTOTAL = KGHOUSE+KGORE+KGBUS+KGSTMF (records off by more than rounding),0,0.0,0.0,0.0,records,True,,max abs deviation $0.0000
+scf2025: NHNFIN / (NFIN-HOUSES) on 19177 records (publisher double-adjusts NHNFIN),1.0,1.0,0.0,1e-06,ratio,True,,no effect when CPIADJ=1
+"scf2025: LIQ = CHECKING+SAVING+MMA+CALL+PREPAID except the LIQ=MAX(HLIQ,LIQ) marker",0,0.0,0.0,0.0,records,True,,265 records have zero balances but an account: LIQ=1.000000 (=1 x CPIADJ)
+macro factor 2022->2025 dollars (CPIBASE 4789 / Sept-2022 CPI-U-RS 4376),1.094378,,,0.0,ratio,,,
+historic public tables: 2022 mean net worth real/nominal = macro factor,1.09438,1.09438,0.0,2e-05,ratio,True,"Table 4, public real vs nominal",
+"historic internal-data table, 2022 median net worth = 2023 Bulletin Table 2",192.9,192.9,0.0,0.05,thousand 2022 $,True,scf/scf2025_tables_internal_nominal_historical.xlsx Table 4 vs scf23.pdf p18,
+"historic internal-data table, 2022 mean net worth = 2023 Bulletin Table 2",1063.7,1063.7,0.0,0.05,thousand 2022 $,True,scf/scf2025_tables_internal_nominal_historical.xlsx Table 4 vs scf23.pdf p18,
+scf2022: families (million) vs Bulletin,131.31,131.3,0.009999999999990905,0.05,million,True,scf26.pdf p60,
+scf2022: median net worth vs historic PUBLIC table,210.887,210.89,-0.002999999999985903,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+scf2022: mean net worth vs historic PUBLIC table,1159.447,1159.45,-0.003000000000156433,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2022: median/mean net worth, INCOME percentile group 1, vs historic PUBLIC table",18.495,18.49,0.005000000000002558,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 214.825 vs table 214.82
+"scf2022: mean net worth, INCOME percentile group 1, vs historic PUBLIC table",214.825,214.82,0.0049999999999954525,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2022: median/mean net worth, INCOME percentile group 2, vs historic PUBLIC table",64.077,64.08,-0.0030000000000001137,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 214.825 vs table 214.83
+"scf2022: mean net worth, INCOME percentile group 2, vs historic PUBLIC table",214.825,214.83,-0.005000000000023874,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2022: median/mean net worth, INCOME percentile group 3, vs historic PUBLIC table",185.41,185.41,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 449.893 vs table 449.89
+"scf2022: mean net worth, INCOME percentile group 3, vs historic PUBLIC table",449.893,449.89,0.002999999999985903,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2022: median/mean net worth, INCOME percentile group 4, vs historic PUBLIC table",329.189,329.19,-0.0009999999999763531,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 652.330 vs table 652.33
+"scf2022: mean net worth, INCOME percentile group 4, vs historic PUBLIC table",652.33,652.33,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2022: median/mean net worth, INCOME percentile group 5, vs historic PUBLIC table",867.973,867.97,0.0029999999999290594,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 1437.138 vs table 1437.14
+"scf2022: mean net worth, INCOME percentile group 5, vs historic PUBLIC table",1437.138,1437.14,-0.00200000000018008,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2022: median/mean net worth, INCOME percentile group 6, vs historic PUBLIC table",2899.008,2899.01,-0.0020000000004074536,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 7090.717 vs table 7090.72
+"scf2022: mean net worth, INCOME percentile group 6, vs historic PUBLIC table",7090.717,7090.72,-0.0030000000006111804,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+scf2022: homeownership (HOUSES>0) vs historic PUBLIC table,66.05,66.05,0.0,0.006,percent,True,scf/scf2025_tables_public_real_historical.xlsx Table 9,HOUSECL==1 gives 66.050
+scf2022: median HOUSES of owners vs historic PUBLIC table,353.484,353.48,0.003999999999962256,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 9,
+scf2022: mean HOUSES of owners vs historic PUBLIC table,515.517,515.52,-0.0029999999999290594,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 9,
+scf2022: median net worth vs 2026 Bulletin (internal data),210.9,211.1,-0.19999999999998863,6.332999999999999,thousand 2025 $,True,scf26.pdf p18,tolerance 3%
+scf2022: mean net worth vs 2026 Bulletin (internal data),1159.4,1164.1,-4.699999999999818,34.922999999999995,thousand 2025 $,True,scf26.pdf p18,tolerance 3%
+"scf2022: median net worth, USUAL-income group 1 (NINCCAT) vs 2026 Bulletin",15.9,15.3,0.5999999999999996,2.0,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: mean net worth, USUAL-income group 1 (NINCCAT) vs 2026 Bulletin",154.2,141.9,12.299999999999983,14.190000000000001,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: median net worth, USUAL-income group 2 (NINCCAT) vs 2026 Bulletin",75.9,77.7,-1.7999999999999972,7.7700000000000005,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: mean net worth, USUAL-income group 2 (NINCCAT) vs 2026 Bulletin",233.8,239.4,-5.599999999999994,23.94,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: median net worth, USUAL-income group 3 (NINCCAT) vs 2026 Bulletin",177.9,174.4,3.5,17.44,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: mean net worth, USUAL-income group 3 (NINCCAT) vs 2026 Bulletin",416.2,421.7,-5.5,42.17,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: median net worth, USUAL-income group 4 (NINCCAT) vs 2026 Bulletin",337.6,336.1,1.5,33.61000000000001,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: mean net worth, USUAL-income group 4 (NINCCAT) vs 2026 Bulletin",698.4,696.9,1.5,69.69,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: median net worth, USUAL-income group 5 (NINCCAT) vs 2026 Bulletin",817.6,817.5,0.10000000000002274,81.75,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: mean net worth, USUAL-income group 5 (NINCCAT) vs 2026 Bulletin",1382.5,1384.0,-1.5,138.4,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: median net worth, USUAL-income group 6 (NINCCAT) vs 2026 Bulletin",2796.4,2797.5,-1.099999999999909,279.75,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2022: mean net worth, USUAL-income group 6 (NINCCAT) vs 2026 Bulletin",7204.8,7255.3,-50.5,725.5300000000001,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+scf2022: homeownership vs 2026 Bulletin Table 3,66.05,66.1,-0.04999999999999716,0.1,percent,True,scf26.pdf p21,
+scf2022: median HOUSES of owners vs 2026 Bulletin Table 3,353.5,353.7,-0.19999999999998863,10.610999999999999,thousand 2025 $,True,scf26.pdf p21,tolerance 3%
+scf2022: mean HOUSES of owners vs 2026 Bulletin Table 3,515.5,515.5,0.0,15.465,thousand 2025 $,True,scf26.pdf p21,tolerance 3%
+scf2025: families (million) vs Bulletin,134.96,135.0,-0.03999999999999204,0.05,million,True,scf26.pdf p60,
+scf2025: median net worth vs historic PUBLIC table,216.1,216.1,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+scf2025: mean net worth vs historic PUBLIC table,1231.997,1232.0,-0.0029999999999290594,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2025: median/mean net worth, INCOME percentile group 1, vs historic PUBLIC table",12.84,12.84,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 145.327 vs table 145.33
+"scf2025: mean net worth, INCOME percentile group 1, vs historic PUBLIC table",145.327,145.33,-0.0030000000000143245,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2025: median/mean net worth, INCOME percentile group 2, vs historic PUBLIC table",80.0,80.0,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 254.576 vs table 254.58
+"scf2025: mean net worth, INCOME percentile group 2, vs historic PUBLIC table",254.576,254.58,-0.004000000000019099,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2025: median/mean net worth, INCOME percentile group 3, vs historic PUBLIC table",203.1,203.1,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 462.265 vs table 462.27
+"scf2025: mean net worth, INCOME percentile group 3, vs historic PUBLIC table",462.265,462.27,-0.0049999999999954525,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2025: median/mean net worth, INCOME percentile group 4, vs historic PUBLIC table",385.5,385.5,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 803.492 vs table 803.49
+"scf2025: mean net worth, INCOME percentile group 4, vs historic PUBLIC table",803.492,803.49,0.0019999999999527063,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2025: median/mean net worth, INCOME percentile group 5, vs historic PUBLIC table",818.0,818.0,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 1421.454 vs table 1421.45
+"scf2025: mean net worth, INCOME percentile group 5, vs historic PUBLIC table",1421.454,1421.45,0.0039999999999054126,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+"scf2025: median/mean net worth, INCOME percentile group 6, vs historic PUBLIC table",3624.6,3624.6,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,mean computed 7565.791 vs table 7565.79
+"scf2025: mean net worth, INCOME percentile group 6, vs historic PUBLIC table",7565.791,7565.79,0.0010000000002037268,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 4,
+scf2025: homeownership (HOUSES>0) vs historic PUBLIC table,65.565,65.56,0.0049999999999954525,0.006,percent,True,scf/scf2025_tables_public_real_historical.xlsx Table 9,HOUSECL==1 gives 65.565
+scf2025: median HOUSES of owners vs historic PUBLIC table,375.0,375.0,0.0,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 9,
+scf2025: mean HOUSES of owners vs historic PUBLIC table,533.909,533.91,-0.0009999999999763531,0.006,thousand 2025 $,True,scf/scf2025_tables_public_real_historical.xlsx Table 9,
+scf2025: median net worth vs 2026 Bulletin (internal data),216.1,215.9,0.19999999999998863,6.477,thousand 2025 $,True,scf26.pdf p18,tolerance 3%
+scf2025: mean net worth vs 2026 Bulletin (internal data),1232.0,1241.5,-9.5,37.245,thousand 2025 $,True,scf26.pdf p18,tolerance 3%
+"scf2025: median net worth, USUAL-income group 1 (NINCCAT) vs 2026 Bulletin",14.4,14.4,0.0,2.0,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: mean net worth, USUAL-income group 1 (NINCCAT) vs 2026 Bulletin",137.0,136.8,0.19999999999998863,13.680000000000001,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: median net worth, USUAL-income group 2 (NINCCAT) vs 2026 Bulletin",75.2,77.1,-1.8999999999999915,7.71,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: mean net worth, USUAL-income group 2 (NINCCAT) vs 2026 Bulletin",265.8,266.8,-1.0,26.680000000000003,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: median net worth, USUAL-income group 3 (NINCCAT) vs 2026 Bulletin",189.3,188.2,1.1000000000000227,18.82,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: mean net worth, USUAL-income group 3 (NINCCAT) vs 2026 Bulletin",441.5,442.6,-1.1000000000000227,44.260000000000005,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: median net worth, USUAL-income group 4 (NINCCAT) vs 2026 Bulletin",364.7,362.5,2.1999999999999886,36.25,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: mean net worth, USUAL-income group 4 (NINCCAT) vs 2026 Bulletin",802.1,798.2,3.8999999999999773,79.82000000000001,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: median net worth, USUAL-income group 5 (NINCCAT) vs 2026 Bulletin",814.7,814.6,0.10000000000002274,81.46000000000001,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: mean net worth, USUAL-income group 5 (NINCCAT) vs 2026 Bulletin",1446.7,1441.6,5.100000000000136,144.16,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: median net worth, USUAL-income group 6 (NINCCAT) vs 2026 Bulletin",3633.0,3669.9,-36.90000000000009,366.99,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+"scf2025: mean net worth, USUAL-income group 6 (NINCCAT) vs 2026 Bulletin",7576.4,7681.9,-105.5,768.19,thousand 2025 $,True,scf26.pdf p18,tolerance 10% (internal vs public data)
+scf2025: homeownership vs 2026 Bulletin Table 3,65.56,65.6,-0.03999999999999204,0.1,percent,True,scf26.pdf p21,
+scf2025: median HOUSES of owners vs 2026 Bulletin Table 3,375.0,375.0,0.0,11.25,thousand 2025 $,True,scf26.pdf p21,tolerance 3%
+scf2025: mean HOUSES of owners vs 2026 Bulletin Table 3,533.9,534.0,-0.10000000000002274,16.02,thousand 2025 $,True,scf26.pdf p21,tolerance 3%
+"Bulletins: 2026 article's 2022 column = 2023 article x 4789/4376 (Table 2 all + 6 usual-income rows, Table 3 primary residence; worst abs diff)",0.093,0.0,0.093,0.15,thousand 2025 $,True,,tolerance covers rounding of both articles to 0.1
+scf2025: mean TOTSPENDNH vs 2026 Bulletin Box 1,48693,48700.0,-7.0,1461.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 3% (internal vs public data)
+scf2025: median TOTSPENDNH vs 2026 Bulletin Box 1,34000,33700.0,300.0,1011.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 3%
+scf2025: aggregate TOTSPENDNH vs 2026 Bulletin Box 1,6.572,6.61,-0.038000000000000256,0.1983,trillion 2025 dollars,True,scf26.pdf Box 1 p15,tolerance 3%
+"scf2025: mean TOTSPENDNH, usual income bottom quintile (NINCCAT=1) vs Box 1",17653,17600.0,53.0,880.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 5%
+"scf2025: mean TOTSPENDNH, usual income 80th-90th (NINCCAT=5) vs Box 1",68704,68700.0,4.0,3435.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 5%
+"scf2025: mean TOTSPENDNH, usual income top decile (NINCCAT=6) vs Box 1",138396,138800.0,-404.0,6940.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 5%
+"scf2025: share of aggregate TOTSPENDNH, usual income bottom quintile vs Box 1",7.25,7.2,0.04999999999999982,1.0,percent,True,scf26.pdf Box 1 p15,tolerance 1 point
+"scf2025: share of aggregate TOTSPENDNH, usual income top decile vs Box 1",28.44,28.5,-0.05999999999999872,1.0,percent,True,scf26.pdf Box 1 p15,tolerance 1 point
+"scf2025: mean TOTSPENDNH, bottom wealth quintile (NWPCTLECAT 1-2) vs Box 1",23392,23400.0,-8.0,1170.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 5%
+"scf2025: mean TOTSPENDNH, top wealth decile (NWPCTLECAT 10-12) vs Box 1",135631,136000.0,-369.0,6800.0,2025 dollars,True,scf26.pdf Box 1 p15,tolerance 5%
+scf2025: mean FOODHOME vs Box 1,7731,7700.0,31.0,385.0,2025 dollars,True,scf26.pdf Box 1 p16,tolerance 5%
+scf2025: median FOODHOME vs Box 1,6000,6000.0,0.0,350.0,2025 dollars,True,scf26.pdf Box 1 p16,tolerance 5% + $50
+scf2025: mean FOODAWAY+FOODDELV vs Box 1,3489,3500.0,-11.0,175.0,2025 dollars,True,scf26.pdf Box 1 p16,tolerance 5%; Box 'food away from home' = FOODAWAY + FOODDELV
+scf2025: median FOODAWAY+FOODDELV vs Box 1,2400,2400.0,0.0,170.0,2025 dollars,True,scf26.pdf Box 1 p16,tolerance 5% + $50
+scf2025: mean VACATION vs Box 1,4239,4200.0,39.0,210.0,2025 dollars,True,scf26.pdf Box 1 p16,tolerance 5%
+scf2025: median VACATION vs Box 1,1000,1000.0,0.0,100.0,2025 dollars,True,scf26.pdf Box 1 p16,tolerance 5% + $50
+scf2025: percent of families with zero VACATION vs Box 1,38.9,39.0,-0.10000000000000142,1.5,percent,True,scf26.pdf Box 1 p16,tolerance 1.5 points
+scf2025: windfall shares MPSPEND+MPSAVE+MPDEBT = 100 (weighted share of families),95.71,,,0.0,percent,,,"others sum to [np.float64(99.0), np.float64(99.9), np.float64(99.99)] (equal-split rounding); zero-sum records 0; weighted means: spend 22.3, save 47.3, pay debt 30.3 percent"
+scf2022: families (million) vs 2023 Bulletin Table B.6,131.31,131.3,0.009999999999990905,0.05,million,True,scf23.pdf p53,
+scf2022: median net worth / factor vs 2023 Bulletin,192.7,192.9,-0.20000000000001705,5.787,thousand 2022 $,True,scf23.pdf p18,tolerance 3% (internal vs public data)
+scf2022: mean net worth / factor vs 2023 Bulletin,1059.5,1063.7,-4.2000000000000455,31.911,thousand 2022 $,True,scf23.pdf p18,tolerance 3%
+"scf2022: median net worth / factor, usual-income group 1 vs 2023 Bulletin",14.5,14.0,0.5,2.0,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: mean net worth / factor, usual-income group 1 vs 2023 Bulletin",140.9,129.7,11.200000000000017,12.969999999999999,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: median net worth / factor, usual-income group 2 vs 2023 Bulletin",69.4,71.0,-1.5999999999999943,7.1000000000000005,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: mean net worth / factor, usual-income group 2 vs 2023 Bulletin",213.6,218.7,-5.099999999999994,21.87,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: median net worth / factor, usual-income group 3 vs 2023 Bulletin",162.6,159.3,3.299999999999983,15.930000000000001,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: mean net worth / factor, usual-income group 3 vs 2023 Bulletin",380.3,385.4,-5.099999999999966,38.54,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: median net worth / factor, usual-income group 4 vs 2023 Bulletin",308.5,307.2,1.3000000000000114,30.72,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: mean net worth / factor, usual-income group 4 vs 2023 Bulletin",638.2,636.8,1.400000000000091,63.68,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: median net worth / factor, usual-income group 5 vs 2023 Bulletin",747.1,747.0,0.10000000000002274,74.7,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: mean net worth / factor, usual-income group 5 vs 2023 Bulletin",1263.3,1264.7,-1.400000000000091,126.47000000000001,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: median net worth / factor, usual-income group 6 vs 2023 Bulletin",2555.2,2556.2,-1.0,255.62,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+"scf2022: mean net worth / factor, usual-income group 6 vs 2023 Bulletin",6583.4,6629.6,-46.20000000000073,662.96,thousand 2022 $,True,scf23.pdf p18,tolerance 10%
+scf2022: homeownership vs 2023 Bulletin Table 3,66.05,66.1,-0.04999999999999716,0.1,percent,True,scf23.pdf p21,
+scf2022: median HOUSES of owners / factor vs 2023 Bulletin Table 3,323.0,323.2,-0.19999999999998863,9.696,thousand 2022 $,True,scf23.pdf p21,tolerance 3%
+scf2022: mean HOUSES of owners / factor vs 2023 Bulletin Table 3,471.1,471.0,0.10000000000002274,14.129999999999999,thousand 2022 $,True,scf23.pdf p21,tolerance 3%
+scf2022 full data: records,22975,22975.0,0.0,0.0,records,True,,"same 22,975 records as the extract"
+scf2022 full data: derived PEU size (rule) = X7001 on every record,0,0.0,0.0,0.0,records off,True,,rule: #1 always; #2 if X7020=2; #3-#12 if financially dependent (code 1)
+"scf2022 full data: X101 = X7001 + persons outside the PEU (X7050, -1=none)",0,0.0,0.0,0.0,records off,True,,
+"scf2022: extract WGT x 5 = full-data X42001 (relative, max over records)",4.9670820369269584e-11,0.0,4.9670820369269584e-11,1e-07,ratio,True,,"WGT = X42001/5, published to ~8 significant digits"
+scf2022: extract KIDS = roster count of relationship 4/13/36 in positions #3-#12,0,0.0,0.0,0.0,records off,True,,
+"scf2022: extract MARRIED=1 iff X8023 in (1,2)",0,0.0,0.0,0.0,records off,True,,
+"scf2022: weighted adults in PEUs (million, derived)",225.0,,,0.0,million,,,persons in PEUs 299.14 million; mean adults per family 1.714
+"scf2022: weighted listed adults OUTSIDE the PEU (million, derived)",23.69,,,0.0,million,,,household members aged 18+ in the listing who are not in the PEU (not covered by SCF balance sheets)
+dfa income levels: summary 'Net worth' = detail 'Net worth' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Assets' = detail 'Assets' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Real estate' = detail 'Real estate' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Consumer durables' = detail 'Consumer durables' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Corporate equities and mutual fund shares' = detail 'Corporate equities and mutual fund shares' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'DB pension entitlements' = detail 'DB pension entitlements' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Liabilities' = detail 'Liabilities' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Home mortgages' = detail 'Home mortgages' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Consumer credit' = detail 'Consumer credit' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa income shares: summary 'Net worth' = detail 'Net worth' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Assets' = detail 'Assets' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Real estate' = detail 'Real estate' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Consumer durables' = detail 'Consumer durables' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Corporate equities and mutual fund shares' = detail 'Corporate equities and mutual fund shares' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'DB pension entitlements' = detail 'DB pension entitlements' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Liabilities' = detail 'Liabilities' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Home mortgages' = detail 'Home mortgages' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa income shares: summary 'Consumer credit' = detail 'Consumer credit' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+"dfa income levels: summary 'DC pension entitlements' = detail DC + Annuities (max abs diff, $M)",0.0,0.0,0.0,2.0,$ million,True,,the summary/visualization 'DC' includes individual annuities
+dfa income levels: summary 'Unincorporated businesses' = detail 'Miscellaneous other equity',0.0,0.0,0.0,0.0,$ million,True,,
+dfa income levels: summary 'Other assets' = Assets - the six named summary assets (max abs diff),1.0,0.0,1.0,3.0,$ million,True,,
+dfa income levels: summary 'Other liabilities' = Liabilities - Home mortgages - Consumer credit,0.0,0.0,0.0,3.0,$ million,True,,
+dfa income: memo 'Household count' identical in levels and shares detail files,1,1.0,0.0,0.0,bool,True,,
+dfa income: memo 'Minimum Income Cutoff' identical in levels and shares detail files,1,1.0,0.0,0.0,bool,True,,
+dfa income: memo 'Maximum Income Cutoff' identical in levels and shares detail files,1,1.0,0.0,0.0,bool,True,,
+dfa income levels: Assets = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,Nonfinancial assets + Financial assets
+dfa income levels: Nonfinancial assets = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,Real estate + Consumer durables
+dfa income levels: Financial assets = sum of 11 components (max abs diff),4.0,0.0,4.0,11.0,$ million,True,,Deposits + Money market fund shares + Debt securities + Loans (Assets) + Corporate equities and mutual fund shares + Life insurance reserves + Annuities + DC pension entitlements + DB pension entitlements + Miscellaneous other equity + Miscellaneous assets
+dfa income levels: Debt securities = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,U.S. government and municipal securities + Corporate and foreign bonds
+dfa income levels: Loans (Assets) = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,Other loans and advances (Assets) + Mortgages
+dfa income levels: Loans (Liabilities) = sum of 4 components (max abs diff),2.0,0.0,2.0,4.0,$ million,True,,Home mortgages + Consumer credit + Depository institutions loans n.e.c. + Other loans and advances (Liabilities)
+dfa income levels: Liabilities = Loans (Liabilities) + deferred premiums (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,
+dfa income levels: Net worth = Assets - Liabilities (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,
+dfa income shares: published shares sum to 100 over the 6 groups (worst |sum-100|),0.2,0.0,0.2,0.31000000000000005,percentage points,True,,shares are rounded to 0.1
+"dfa income shares: published share = level / all-group total, aggregates > $20bn (worst abs diff)",0.053,0.0,0.053,0.06,percentage points,True,,24024 cells; tolerance 0.05 rounding + 0.01 for shares computed from unrounded internal levels
+"dfa income shares: same, aggregates <= $20bn (level rounding to $1M matters)",0.103,,,0.0,percentage points,,,600 cells
+dfa networth levels: summary 'Net worth' = detail 'Net worth' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Assets' = detail 'Assets' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Real estate' = detail 'Real estate' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Consumer durables' = detail 'Consumer durables' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Corporate equities and mutual fund shares' = detail 'Corporate equities and mutual fund shares' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'DB pension entitlements' = detail 'DB pension entitlements' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Liabilities' = detail 'Liabilities' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Home mortgages' = detail 'Home mortgages' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Consumer credit' = detail 'Consumer credit' (max abs diff),0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth shares: summary 'Net worth' = detail 'Net worth' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Assets' = detail 'Assets' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Real estate' = detail 'Real estate' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Consumer durables' = detail 'Consumer durables' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Corporate equities and mutual fund shares' = detail 'Corporate equities and mutual fund shares' (max abs diff),0.09999999999999787,0.0,0.09999999999999787,0.100000001,percentage points,True,,1 of 740 cells differ
+dfa networth shares: summary 'DB pension entitlements' = detail 'DB pension entitlements' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Liabilities' = detail 'Liabilities' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Home mortgages' = detail 'Home mortgages' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+dfa networth shares: summary 'Consumer credit' = detail 'Consumer credit' (max abs diff),0.0,0.0,0.0,0.100000001,percentage points,True,,
+"dfa networth levels: summary 'DC pension entitlements' = detail DC + Annuities (max abs diff, $M)",0.0,0.0,0.0,2.0,$ million,True,,the summary/visualization 'DC' includes individual annuities
+dfa networth levels: summary 'Unincorporated businesses' = detail 'Miscellaneous other equity',0.0,0.0,0.0,0.0,$ million,True,,
+dfa networth levels: summary 'Other assets' = Assets - the six named summary assets (max abs diff),1.0,0.0,1.0,3.0,$ million,True,,
+dfa networth levels: summary 'Other liabilities' = Liabilities - Home mortgages - Consumer credit,0.0,0.0,0.0,3.0,$ million,True,,
+dfa networth: memo 'Household count' identical in levels and shares detail files,1,1.0,0.0,0.0,bool,True,,
+dfa networth: memo 'Minimum Wealth Cutoff' identical in levels and shares detail files,1,1.0,0.0,0.0,bool,True,,
+dfa networth levels: Assets = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,Nonfinancial assets + Financial assets
+dfa networth levels: Nonfinancial assets = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,Real estate + Consumer durables
+dfa networth levels: Financial assets = sum of 11 components (max abs diff),3.0,0.0,3.0,11.0,$ million,True,,Deposits + Money market fund shares + Debt securities + Loans (Assets) + Corporate equities and mutual fund shares + Life insurance reserves + Annuities + DC pension entitlements + DB pension entitlements + Miscellaneous other equity + Miscellaneous assets
+dfa networth levels: Debt securities = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,U.S. government and municipal securities + Corporate and foreign bonds
+dfa networth levels: Loans (Assets) = sum of 2 components (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,Other loans and advances (Assets) + Mortgages
+dfa networth levels: Loans (Liabilities) = sum of 4 components (max abs diff),2.0,0.0,2.0,4.0,$ million,True,,Home mortgages + Consumer credit + Depository institutions loans n.e.c. + Other loans and advances (Liabilities)
+dfa networth levels: Liabilities = Loans (Liabilities) + deferred premiums (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,
+dfa networth levels: Net worth = Assets - Liabilities (max abs diff),1.0,0.0,1.0,2.0,$ million,True,,
+dfa networth shares: published shares sum to 100 over the 5 groups (worst |sum-100|),0.2,0.0,0.2,0.26,percentage points,True,,shares are rounded to 0.1
+"dfa networth shares: published share = level / all-group total, aggregates > $20bn (worst abs diff)",0.052,0.0,0.052,0.06,percentage points,True,,20020 cells; tolerance 0.05 rounding + 0.01 for shares computed from unrounded internal levels
+"dfa networth shares: same, aggregates <= $20bn (level rounding to $1M matters)",0.081,,,0.0,percentage points,,,500 cells
+dfa income: quarters 1989:Q3..2026:Q2 complete and every group every quarter,1,1.0,0.0,0.0,bool,True,,148 quarters
+dfa networth: quarters 1989:Q3..2026:Q2 complete and every group every quarter,1,1.0,0.0,0.0,bool,True,,148 quarters
+"dfa: income-split total = wealth-split total, Net worth (max relative diff)",1.342125928365281e-07,0.0,1.342125928365281e-07,1e-05,ratio,True,,
+"dfa: income-split total = wealth-split total, Real estate (max relative diff)",1.8259552416373305e-07,0.0,1.8259552416373305e-07,1e-05,ratio,True,,
+"dfa: income-split total = wealth-split total, Corporate equities and mutual fund shares (max relative diff)",5.678617506496339e-07,0.0,5.678617506496339e-07,1e-05,ratio,True,,
+"dfa: income-split total = wealth-split total, Household count (max relative diff)",2.3048434502695147e-08,0.0,2.3048434502695147e-08,1e-05,ratio,True,,
+"z1: LM105035005.A (annual table S11_1_i_a) = Q4 level of LM105035005.Q, 1945-2025",0.0,0.0,0.0,1e-06,$ million,True,,
+"z1: LM115035005.A (annual table S11_2_i_a) = Q4 level of LM115035005.Q, 1945-2025",0.0,0.0,0.0,1e-06,$ million,True,,
+"z1: LM155035005.A (annual table S1M_i_a) = Q4 level of LM155035005.Q, 1945-2025",0.0,0.0,0.0,1e-06,$ million,True,,
+z1: archived str_nfc_res = paper's cached FRED BOGZ1LM105012665Q on all 283 common dates (max abs diff),0.0,0.0,0.0,1e-06,$ million,True,pinning/cache/BOGZ1LM105012665Q.csv,
+z1: archived str_nfc_nonres = paper's cached FRED BOGZ1LM105013665A on all 76 common dates (max abs diff),0.0,0.0,0.0,1e-06,$ million,True,pinning/cache/BOGZ1LM105013665A.csv,
+z1: paper FRED ID HNOREMV = Z.1 LM155035005.Q: identical on 135 of 304 common dates (paper cache),0.4441,,,0.0,share,,pinning/cache/HNOREMV.csv,first differing date 1983:Q4 (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM155012665Q = Z.1 LM155012665.Q: identical on 303 of 304 common dates (paper cache),0.9967,,,0.0,share,,pinning/cache/BOGZ1LM155012665Q.csv,first differing date 2026:Q1 (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID HHMSDODNS = Z.1 LA153165105.Q: identical on 285 of 304 common dates (paper cache),0.9375,,,0.0,share,,three-taxes/cache/HHMSDODNS.csv,first differing date 2021:Q3 (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM105035005A = Z.1 LM105035005.Q: identical on 45 of 81 common dates (paper cache),0.5556,,,0.0,share,,pinning/cache/BOGZ1LM105035005A.csv,first differing date 1990:Q4 (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM115035005A = Z.1 LM115035005.Q: identical on 45 of 81 common dates (paper cache),0.5556,,,0.0,share,,pinning/cache/BOGZ1LM115035005A.csv,first differing date 1990:Q4 (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM115012665Q = Z.1 FL115012665.Q: identical on 303 of 304 common dates (paper cache),0.9967,,,0.0,share,,pinning/cache/BOGZ1LM115012665Q.csv,first differing date 2026:Q1 (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM115013665A = Z.1 FL115013665.Q: identical on 81 of 81 common dates (paper cache),1.0,,,0.0,share,,pinning/cache/BOGZ1LM115013665A.csv,first differing date none (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM105012665Q = Z.1 LM105012665.Q: identical on 283 of 283 common dates (paper cache),1.0,,,0.0,share,,pinning/cache/BOGZ1LM105012665Q.csv,first differing date none (later dates revised in the 2026:Q2 release)
+z1: paper FRED ID BOGZ1LM105013665A = Z.1 LM105013665.Q: identical on 76 of 76 common dates (paper cache),1.0,,,0.0,share,,pinning/cache/BOGZ1LM105013665A.csv,first differing date none (later dates revised in the 2026:Q2 release)
+z1: latest quarter of the current release,2026:Q2,,,0.0,,,,NFC structures end 2020:Q4
+z1: residual observations <= 0 (the paper drops these years),3,,,0.0,rows,,,"LAND_NFC_PAPERCONV:2009, LAND_NFC_Q:2009Q4, LAND_NFC_Q:2010Q1"
+z1: 2025 land_hh_residual (current 2026:Q2 Z.1 vintage) vs three-taxes/data/aggregates_2025.csv,23466.438,23513.115,-46.67700000000332,117.6,$ billion,True,three-taxes/data/aggregates_2025.csv,diff -46.7 (-0.20%); tolerance 0.5% for revisions: aggregates_2025.csv came from the 2026:Q1 vintage (FRED cache ends 2026Q1); see the exact reproduction and revision rows that follow
+z1: 2025 hh_real_estate (current 2026:Q2 Z.1 vintage) vs three-taxes/data/aggregates_2025.csv,52104.47,52151.147,-46.67699999999604,260.8,$ billion,True,three-taxes/data/aggregates_2025.csv,diff -46.7 (-0.09%); tolerance 0.5% for revisions: aggregates_2025.csv came from the 2026:Q1 vintage (FRED cache ends 2026Q1); see the exact reproduction and revision rows that follow
+z1: 2025 hh_structures (current 2026:Q2 Z.1 vintage) vs three-taxes/data/aggregates_2025.csv,28638.033,28638.033,0.0,143.2,$ billion,True,three-taxes/data/aggregates_2025.csv,diff +0.0 (+0.00%); tolerance 0.5% for revisions: aggregates_2025.csv came from the 2026:Q1 vintage (FRED cache ends 2026Q1); see the exact reproduction and revision rows that follow
+z1: 2025 mortg (current 2026:Q2 Z.1 vintage) vs three-taxes/data/aggregates_2025.csv,13647.396,13643.448,3.94800000000032,68.2,$ billion,True,three-taxes/data/aggregates_2025.csv,diff +3.9 (+0.03%); tolerance 0.5% for revisions: aggregates_2025.csv came from the 2026:Q1 vintage (FRED cache ends 2026Q1); see the exact reproduction and revision rows that follow
+"z1: paper's cached FRED vintage, 2025 land_hh_residual (mean HNOREMV - mean BOGZ1LM155012665Q)",23513.115,23513.115,0.0,0.001,$ billion,True,pinning/cache/*.csv,same method on the paper's vintage reproduces it exactly
+"z1: 2025 HH real estate, current vintage minus paper's cached vintage (revision)",-46.677,,,0.0,$ billion,,,the 2026:Q2 Z.1 release revised household real estate
+"z1: 2025 home mortgages (seasonally adjusted, as HHMSDODNS), current vintage minus paper's cached vintage",3.948,,,0.0,$ billion,,,"the NSA balance-sheet level FL153165105 averages 13,623.417 in 2025"
+z1: land residuals 2019 (paper's way): household / business / economy-wide,13576.6,,,0.0,$ billion,,,"business 10,614.5; economy 24,191.0; NNB only 6,971.5; HH real estate 31,894.4; HH structures 18,317.8"
+z1: land residuals 2020 (paper's way): household / business / economy-wide,15016.6,,,0.0,$ billion,,,"business 11,652.4; economy 26,669.0; NNB only 7,742.2; HH real estate 34,371.2; HH structures 19,354.6"
+z1: land residuals 2021 (paper's way): household / business / economy-wide,18842.5,,,0.0,$ billion,,,"business nan; economy nan; NNB only 9,325.4; HH real estate 41,114.0; HH structures 22,271.5"
+z1: land residuals 2022 (paper's way): household / business / economy-wide,21292.2,,,0.0,$ billion,,,"business nan; economy nan; NNB only 8,997.4; HH real estate 47,034.4; HH structures 25,742.2"
+z1: land residuals 2023 (paper's way): household / business / economy-wide,21887.4,,,0.0,$ billion,,,"business nan; economy nan; NNB only 8,442.1; HH real estate 48,445.6; HH structures 26,558.2"
+z1: land residuals 2024 (paper's way): household / business / economy-wide,23410.7,,,0.0,$ billion,,,"business nan; economy nan; NNB only 8,354.4; HH real estate 50,923.7; HH structures 27,513.0"
+z1: land residuals 2025 (paper's way): household / business / economy-wide,23466.4,,,0.0,$ billion,,,"business nan; economy nan; NNB only 8,152.0; HH real estate 52,104.5; HH structures 28,638.0"
+"dfa vs Z.1 S14.b (households only): Real estate, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 8.59e-08 (in 2007); codes LM155035015.A
+"dfa vs Z.1 S14.b (households only): Consumer durables, Q4 sum over income groups / year-end level - 1, 2025",-0.0,0.0,-0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 4.72e-07 (in 1991); codes LM155111005.A
+"dfa vs Z.1 S14.b (households only): Corporate equities and mutual fund shares, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 5.07e-07 (in 1990); codes LM193064105.A+LM193064703.A+LM193064505.A
+"dfa vs Z.1 S14.b (households only): Deposits, Q4 sum over income groups / year-end level - 1, 2025",-0.0,0.0,-0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 3.54e-07 (in 1995); codes FL193020005.A+FL193030205.A
+"dfa vs Z.1 S14.b (households only): Money market fund shares, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.38e-06 (in 1992); codes FL193034005.A
+"dfa vs Z.1 S14.b (households only): Life insurance reserves, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.50e-06 (in 1990); codes FL153040005.A
+"dfa vs Z.1 S14.b (households only): Miscellaneous other equity, Q4 sum over income groups / year-end level - 1, 2025",-0.0,0.0,-0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.92e-07 (in 1994); codes LM153081115.A
+"dfa vs Z.1 S14.b (households only): Assets, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.57e-04 (in 2020); codes FL192000005.A
+"dfa vs Z.1 S14.b (households only): Home mortgages, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 4.02e-07 (in 1990); codes FL153165105.A
+"dfa vs Z.1 S14.b (households only): Consumer credit, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.43e-06 (in 1990); codes FL153166000.A
+"dfa vs Z.1 S14.b (households only): Liabilities, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.59e-07 (in 1992); codes FL194190005.A
+"dfa vs Z.1 S14.b (households only): Net worth, Q4 sum over income groups / year-end level - 1, 2025",0.0,0.0,0.0,0.001,ratio,True,z1_csv_files.zip csv/S14_b.csv,max |rel| 1990-2025 2.90e-04 (in 2020); codes FL192090005.A
+dfa vs Z.1 S14.b: DB+DC+Annuities 2025:Q4 / pension entitlements FL153050005.A - 1,0.0,,,0.0,ratio,,,DFA splits the households' pension entitlements; S14.b line is households and nonprofits
+"dfa vs Z.1 S1M.b (quarterly): Real estate 2026:Q2, sum over income groups / LM155035015.Q - 1",0.0,0.0,0.0,0.001,ratio,True,,
+"dfa vs Z.1 S1M.b (quarterly): Home mortgages 2026:Q2, sum over income groups / FL153165105.Q - 1",0.0,0.0,0.0,0.001,ratio,True,,
+"dfa vs Z.1 S1M.b (quarterly): Consumer credit 2026:Q2, sum over income groups / FL153166000.Q - 1",0.0,0.0,0.0,0.001,ratio,True,,
+dfa 2022:Q3 maximum income cutoff of pct00to20 vs SCF 2022 INCOME P20 (2022 dollars),31346,31166.0,180.0,934.98,dollars,True,,tolerance 3%: the DFA adds the Forbes 400 and uses its own adjusted weights (wgt_nwgac)
+dfa 2022:Q3 maximum income cutoff of pct20to40 vs SCF 2022 INCOME P40 (2022 dollars),54046,54417.0,-371.0,1632.51,dollars,True,,tolerance 3%: the DFA adds the Forbes 400 and uses its own adjusted weights (wgt_nwgac)
+dfa 2022:Q3 maximum income cutoff of pct40to60 vs SCF 2022 INCOME P60 (2022 dollars),90797,90796.0,1.0,2723.88,dollars,True,,tolerance 3%: the DFA adds the Forbes 400 and uses its own adjusted weights (wgt_nwgac)
+dfa 2022:Q3 maximum income cutoff of pct60to80 vs SCF 2022 INCOME P80 (2022 dollars),151328,151328.0,0.0,4539.84,dollars,True,,tolerance 3%: the DFA adds the Forbes 400 and uses its own adjusted weights (wgt_nwgac)
+dfa 2022:Q3 maximum income cutoff of pct80to99 vs SCF 2022 INCOME P99 (2022 dollars),1199812,1197734.0,2078.0,35932.02,dollars,True,,tolerance 3%: the DFA adds the Forbes 400 and uses its own adjusted weights (wgt_nwgac)
+"dfa change 2022:Q3 -> 2026:Q2, Corporate equities and mutual fund shares, pct00to20",334.6,,,0.0,$ billion (nominal),,,616.3 -> 950.9 (+54.3%)
+"dfa change 2022:Q3 -> 2026:Q2, Corporate equities and mutual fund shares, pct20to40",332.9,,,0.0,$ billion (nominal),,,337.9 -> 670.8 (+98.5%)
+"dfa change 2022:Q3 -> 2026:Q2, Corporate equities and mutual fund shares, pct40to60",861.9,,,0.0,$ billion (nominal),,,"1,281.8 -> 2,143.7 (+67.2%)"
+"dfa change 2022:Q3 -> 2026:Q2, Corporate equities and mutual fund shares, pct60to80",2390.0,,,0.0,$ billion (nominal),,,"2,098.3 -> 4,488.3 (+113.9%)"
+"dfa change 2022:Q3 -> 2026:Q2, Corporate equities and mutual fund shares, pct80to99",14962.4,,,0.0,$ billion (nominal),,,"15,809.2 -> 30,771.6 (+94.6%)"
+"dfa change 2022:Q3 -> 2026:Q2, Corporate equities and mutual fund shares, pct99to100",13982.0,,,0.0,$ billion (nominal),,,"11,632.9 -> 25,614.9 (+120.2%)"
+"dfa change 2022:Q3 -> 2026:Q2, Real estate, pct00to20",396.5,,,0.0,$ billion (nominal),,,"2,149.9 -> 2,546.4 (+18.4%)"
+"dfa change 2022:Q3 -> 2026:Q2, Real estate, pct20to40",369.0,,,0.0,$ billion (nominal),,,"3,258.4 -> 3,627.4 (+11.3%)"
+"dfa change 2022:Q3 -> 2026:Q2, Real estate, pct40to60",378.3,,,0.0,$ billion (nominal),,,"5,658.0 -> 6,036.3 (+6.7%)"
+"dfa change 2022:Q3 -> 2026:Q2, Real estate, pct60to80",1208.0,,,0.0,$ billion (nominal),,,"8,102.8 -> 9,310.7 (+14.9%)"
+"dfa change 2022:Q3 -> 2026:Q2, Real estate, pct80to99",3664.6,,,0.0,$ billion (nominal),,,"18,281.5 -> 21,946.1 (+20.0%)"
+"dfa change 2022:Q3 -> 2026:Q2, Real estate, pct99to100",942.7,,,0.0,$ billion (nominal),,,"5,382.1 -> 6,324.8 (+17.5%)"
+"dfa change 2022:Q3 -> 2026:Q2, Net worth, pct00to20",1053.0,,,0.0,$ billion (nominal),,,"4,092.8 -> 5,145.9 (+25.7%)"
+"dfa change 2022:Q3 -> 2026:Q2, Net worth, pct20to40",1054.5,,,0.0,$ billion (nominal),,,"6,327.0 -> 7,381.5 (+16.7%)"
+"dfa change 2022:Q3 -> 2026:Q2, Net worth, pct40to60",2163.8,,,0.0,$ billion (nominal),,,"11,796.8 -> 13,960.6 (+18.3%)"
+"dfa change 2022:Q3 -> 2026:Q2, Net worth, pct60to80",5919.1,,,0.0,$ billion (nominal),,,"18,413.7 -> 24,332.8 (+32.1%)"
+"dfa change 2022:Q3 -> 2026:Q2, Net worth, pct80to99",25124.6,,,0.0,$ billion (nominal),,,"62,845.9 -> 87,970.5 (+40.0%)"
+"dfa change 2022:Q3 -> 2026:Q2, Net worth, pct99to100",17161.8,,,0.0,$ billion (nominal),,,"29,698.0 -> 46,859.8 (+57.8%)"
