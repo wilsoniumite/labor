@@ -1,0 +1,111 @@
+rank,category,decile,contrib_mid,contrib_mpc1,pub_segment,gap
+1,Rented dwellings,d01,1.13017,1.13017,1.12000,0.01017
+1,Rented dwellings,d02,0.60397,0.60397,0.60000,0.00397
+1,Rented dwellings,d03,0.72597,0.74718,0.71000,0.01597
+1,Rented dwellings,d04,0.63393,0.69776,0.63000,0.00393
+1,Rented dwellings,d05,0.30244,0.35774,0.32000,-0.01756
+1,Rented dwellings,d06,0.35603,0.45508,0.37000,-0.01397
+1,Rented dwellings,d07,0.12415,0.17260,0.13000,-0.00585
+1,Rented dwellings,d08,-0.07190,-0.10957,-0.08000,0.00810
+1,Rented dwellings,d09,-0.13102,-0.22091,-0.14000,0.00898
+1,Rented dwellings,d10,-0.31464,-0.59366,-0.32000,0.00536
+1,Rented dwellings,net,3.35910,3.24035,3.36000,-0.00090
+2,Health insurance,d01,0.42455,0.42455,0.41000,0.01455
+2,Health insurance,d02,0.29221,0.29221,0.30000,-0.00779
+2,Health insurance,d03,0.41344,0.42552,0.41000,0.00344
+2,Health insurance,d04,0.38722,0.42621,0.39000,-0.00278
+2,Health insurance,d05,0.19008,0.22484,0.19000,0.00008
+2,Health insurance,d06,0.25117,0.32105,0.26000,-0.00883
+2,Health insurance,d07,0.10993,0.15284,0.12000,-0.01007
+2,Health insurance,d08,-0.08192,-0.12485,-0.10000,0.01808
+2,Health insurance,d09,-0.21083,-0.35548,-0.21000,-0.00083
+2,Health insurance,d10,-0.69614,-1.31348,-0.69000,-0.00614
+2,Health insurance,net,1.07970,0.47340,1.08000,-0.00030
+3,Gasoline and other fuels,d01,0.26691,0.26691,0.26000,0.00691
+3,Gasoline and other fuels,d02,0.14457,0.14457,0.14000,0.00457
+3,Gasoline and other fuels,d03,0.24071,0.24775,0.23000,0.01071
+3,Gasoline and other fuels,d04,0.23118,0.25446,0.23000,0.00118
+3,Gasoline and other fuels,d05,0.11773,0.13925,0.12000,-0.00227
+3,Gasoline and other fuels,d06,0.15882,0.20301,0.17000,-0.01118
+3,Gasoline and other fuels,d07,0.06643,0.09235,0.06000,0.00643
+3,Gasoline and other fuels,d08,-0.05153,-0.07853,-0.06000,0.00847
+3,Gasoline and other fuels,d09,-0.12766,-0.21525,-0.13000,0.00234
+3,Gasoline and other fuels,d10,-0.36628,-0.69110,-0.36000,-0.00628
+3,Gasoline and other fuels,net,0.68088,0.36343,0.68000,0.00088
+4,Electricity,d01,0.23890,0.23890,0.23000,0.00890
+4,Electricity,d02,0.13874,0.13874,0.14000,-0.00126
+4,Electricity,d03,0.19191,0.19752,0.19000,0.00191
+4,Electricity,d04,0.17323,0.19067,0.17000,0.00323
+4,Electricity,d05,0.07799,0.09225,0.08000,-0.00201
+4,Electricity,d06,0.10032,0.12823,0.11000,-0.00968
+4,Electricity,d07,0.04085,0.05679,0.04000,0.00085
+4,Electricity,d08,-0.02767,-0.04217,-0.04000,0.01233
+4,Electricity,d09,-0.06863,-0.11572,-0.07000,0.00137
+4,Electricity,d10,-0.22398,-0.42260,-0.22000,-0.00398
+4,Electricity,net,0.64165,0.46260,0.64000,0.00165
+5,Food at home,d01,0.24567,0.24567,0.24000,0.00567
+5,Food at home,d02,0.11412,0.11412,0.11000,0.00412
+5,Food at home,d03,0.15473,0.15925,0.15000,0.00473
+5,Food at home,d04,0.15724,0.17307,0.15000,0.00724
+5,Food at home,d05,0.06796,0.08039,0.07000,-0.00204
+5,Food at home,d06,0.08721,0.11147,0.09000,-0.00279
+5,Food at home,d07,0.03716,0.05167,0.04000,-0.00284
+5,Food at home,d08,-0.02691,-0.04100,-0.04000,0.01309
+5,Food at home,d09,-0.06309,-0.10638,-0.06000,-0.00309
+5,Food at home,d10,-0.18436,-0.34785,-0.18000,-0.00436
+5,Food at home,net,0.58973,0.44040,0.59000,-0.00027
+6,Vehicle insurance,d01,0.16214,0.16214,0.15000,0.01214
+6,Vehicle insurance,d02,0.11609,0.11609,0.12000,-0.00391
+6,Vehicle insurance,d03,0.20738,0.21344,0.21000,-0.00262
+6,Vehicle insurance,d04,0.18422,0.20277,0.18000,0.00422
+6,Vehicle insurance,d05,0.08711,0.10303,0.09000,-0.00289
+6,Vehicle insurance,d06,0.12576,0.16075,0.14000,-0.01424
+6,Vehicle insurance,d07,0.05033,0.06998,0.05000,0.00033
+6,Vehicle insurance,d08,-0.03847,-0.05862,-0.05000,0.01153
+6,Vehicle insurance,d09,-0.08904,-0.15013,-0.09000,0.00096
+6,Vehicle insurance,d10,-0.27356,-0.51615,-0.27000,-0.00356
+6,Vehicle insurance,net,0.53198,0.30332,0.53000,0.00198
+7,Telephone services,d01,0.17166,0.17166,0.16000,0.01166
+7,Telephone services,d02,0.09780,0.09780,0.10000,-0.00220
+7,Telephone services,d03,0.14609,0.15036,0.14000,0.00609
+7,Telephone services,d04,0.13418,0.14769,0.14000,-0.00582
+7,Telephone services,d05,0.06450,0.07630,0.06000,0.00450
+7,Telephone services,d06,0.08889,0.11362,0.10000,-0.01111
+7,Telephone services,d07,0.03594,0.04997,0.04000,-0.00406
+7,Telephone services,d08,-0.02665,-0.04061,-0.04000,0.01335
+7,Telephone services,d09,-0.06431,-0.10843,-0.06000,-0.00431
+7,Telephone services,d10,-0.19256,-0.36332,-0.19000,-0.00256
+7,Telephone services,net,0.45555,0.29504,0.46000,-0.00445
+8,Audio & visual equipment and services,d01,0.14131,0.14131,0.14000,0.00131
+8,Audio & visual equipment and services,d02,0.10239,0.10239,0.10000,0.00239
+8,Audio & visual equipment and services,d03,0.13844,0.14249,0.14000,-0.00156
+8,Audio & visual equipment and services,d04,0.14152,0.15576,0.14000,0.00152
+8,Audio & visual equipment and services,d05,0.05760,0.06813,0.06000,-0.00240
+8,Audio & visual equipment and services,d06,0.07198,0.09201,0.07000,0.00198
+8,Audio & visual equipment and services,d07,0.03060,0.04254,0.04000,-0.00940
+8,Audio & visual equipment and services,d08,-0.02111,-0.03218,-0.03000,0.00889
+8,Audio & visual equipment and services,d09,-0.05230,-0.08818,-0.05000,-0.00230
+8,Audio & visual equipment and services,d10,-0.19050,-0.35943,-0.19000,-0.00050
+8,Audio & visual equipment and services,net,0.41993,0.26484,0.42000,-0.00007
+9,"Cars and trucks, new",d01,0.16258,0.16258,0.15000,0.01258
+9,"Cars and trucks, new",d02,0.09901,0.09901,0.10000,-0.00099
+9,"Cars and trucks, new",d03,0.09731,0.10015,0.10000,-0.00269
+9,"Cars and trucks, new",d04,0.12781,0.14068,0.13000,-0.00219
+9,"Cars and trucks, new",d05,0.08456,0.10002,0.09000,-0.00544
+9,"Cars and trucks, new",d06,0.05338,0.06823,0.05000,0.00338
+9,"Cars and trucks, new",d07,0.03923,0.05454,0.04000,-0.00077
+9,"Cars and trucks, new",d08,-0.04050,-0.06171,-0.05000,0.00950
+9,"Cars and trucks, new",d09,-0.13546,-0.22840,-0.14000,0.00454
+9,"Cars and trucks, new",d10,-0.87996,-1.66031,-0.87000,-0.00996
+9,"Cars and trucks, new",net,-0.39205,-1.22522,-0.39000,-0.00205
+10,Miscellaneous,d01,0.20048,0.20048,0.20000,0.00048
+10,Miscellaneous,d02,0.13749,0.13749,0.14000,-0.00251
+10,Miscellaneous,d03,0.16939,0.17434,0.16000,0.00939
+10,Miscellaneous,d04,0.14893,0.16392,0.15000,-0.00107
+10,Miscellaneous,d05,0.09913,0.11725,0.10000,-0.00087
+10,Miscellaneous,d06,0.10729,0.13713,0.12000,-0.01271
+10,Miscellaneous,d07,0.05183,0.07205,0.05000,0.00183
+10,Miscellaneous,d08,-0.03680,-0.05609,-0.05000,0.01320
+10,Miscellaneous,d09,-0.09527,-0.16064,-0.10000,0.00473
+10,Miscellaneous,d10,-0.40076,-0.75616,-0.40000,-0.00076
+10,Miscellaneous,net,0.38169,0.02979,0.38000,0.00169

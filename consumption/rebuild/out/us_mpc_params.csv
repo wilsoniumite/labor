@@ -1,0 +1,12 @@
+schedule,knee,top,pinned_by,fit_rmse_usd,impulse_pct_consumption,fig7_published,fig6_segment_rmse_usd
+mid,2.55000,0.53000,least squares on the 36 Fig 5 dollar bars,0.00270,0.38890,0.39000,0.00729
+low,1.93000,0.40000,top: footnote 27 (0.40); knee: Fig 7 upper band edge 0.474,,0.47400,0.47400,
+high,3.29000,0.65000,top: footnote 27 (0.65); knee: Fig 7 lower band edge 0.305,,0.30498,0.30500,
+"low, common knee (alternative)",2.55000,0.40000,mid knee,,0.49647,0.47400,
+"high, common knee (alternative)",2.55000,0.65000,mid knee,,0.28961,0.30500,
+"mid, monotone per-decile (diagnostic)",,0.52683,"weighted LS on the 36 Fig 5 bars and the 100 Fig 6 segments, non-increasing",0.00282,0.38934,0.39000,0.00490
+best top at integer knee 1,1.00000,0.48250,fit surface,0.03535,0.37844,0.39000,
+best top at integer knee 2,2.00000,0.51250,fit surface,0.01124,0.38755,0.39000,
+best top at integer knee 3,3.00000,0.54500,fit surface,0.00985,0.39031,0.39000,
+best top at integer knee 4,4.00000,0.57250,fit surface,0.02402,0.38906,0.39000,
+best top at integer knee 5,5.00000,0.58750,fit surface,0.03252,0.38972,0.39000,
