@@ -77,9 +77,12 @@ inputs += [dict(item="gs10_2024", value=float(RM["gs10"].iloc[0]), source="pinni
            dict(item="s_uniform_2022", value=INFO22["s_uniform"], source="calibrated: Z.1 household land / SCF 2022 HOUSES+ORESRE (2024 $)")]
 inputs += [dict(item=f"judgment_{k}", value=v, source=s) for k, v, s in [
     ("mpw_low", L.MPW["low"], "post fn 31"), ("mpw_mid", L.MPW["mid"], "midpoint of 2-5c"), ("mpw_high", L.MPW["high"], "post fn 31"),
-    ("mpc_coll_low", L.MPC_COLL["low"], "Aladangady 2017"), ("mpc_coll_mid", L.MPC_COLL["mid"], "Mian-Rao-Sufi 2013 5-7c midpoint"),
-    ("mpc_coll_high", L.MPC_COLL["high"], "stress, judgment"), ("phi_full", L.PHI_FULL, "design memo 1.1"),
-    ("gamma", L.GAMMA, "T4"), ("delta", L.DELTA, "T4"), ("levy_ak", L.LEVY_AK, "post"),
+    ("mpc_coll_low", L.MPC_COLL["low"], "Aladangady 2017 (4.7c)"), ("mpc_coll_mid", L.MPC_COLL["mid"], "Mian-Rao-Sufi 2013 5-7c midpoint"),
+    ("mpc_coll_lit_high", L.MPC_COLL["lit_high"], "Mian-Rao-Sufi 2013, top of 5-7c"),
+    ("mpc_coll_stress", L.MPC_COLL["stress"], "the unit's stress value (judgment; not from the literature)"),
+    ("phi_full", L.PHI_FULL, "design memo 1.1"),
+    ("gamma", L.GAMMA, "T4; parameter of three-taxes/data/lvt_shock.csv"), ("delta", L.DELTA, "T4; parameter of lvt_shock.csv"),
+    ("levy_ak", L.LEVY_AK, "post"),
     ("ls_rent_low", L.LS_RENT["low"], "paper's 30% flow measure"), ("ls_rent_mid", L.LS_RENT["mid"], "judgment"),
     ("ls_rent_high", L.LS_RENT["high"], "paper's 50% flow measure")]]
 pd.DataFrame(inputs).to_csv(OUT / "us_lvt_inputs.csv", index=False, float_format="%.10g")
@@ -257,11 +260,13 @@ def defer_mask(kind, S=S25, htm=None):
     raise ValueError(kind)
 
 
-def cash_flows(h, defer="none", S=S25, htm=None, nonocc=None):
+def cash_flows(h, defer="none", S=S25, htm=None, nonocc=None, cols=None):
     """Monthly cash net per family. Deferral 'X': the deferred bills accrue as liens and the dividend is still paid
     in full (the state lends the deferred bills: the program is balanced on accrual, not on cash). 'X_cash': the
-    dividend is cut to the cash revenue (cash-balanced). nonocc = mpw: the non-occupier bills are removed from the
-    cash net and replaced by a wealth effect mpw x capitalized loss (returned as `extra`)."""
+    dividend is cut to the cash revenue (cash-balanced). nonocc = mpw: the bills on the non-occupier land components
+    `cols` (default: all of the base's non-occupier land; ["L_nfc"]: corporate land only) are removed from the cash
+    net and replaced by a wealth effect mpw x their capitalized loss (returned as `extra`): the flow or the wealth
+    effect, never both."""
     dm = defer_mask(defer, S, htm)
     deferred = h["bill_L_own"].values * dm if "bill_L_own" in h else np.zeros(len(h))
     w = S["WGT"].values
@@ -271,8 +276,13 @@ def cash_flows(h, defer="none", S=S25, htm=None, nonocc=None):
     cash = k * h["div"].values - h["bill"].values + deferred
     extra = np.zeros(len(h))
     if nonocc is not None:
-        cash = cash + h["bill_nonocc"].values
-        extra = -nonocc * h["loss_nonocc"].values / 12.0
+        if cols is None:
+            bill_w, loss_w = h["bill_nonocc"].values, h["loss_nonocc"].values
+        else:
+            bill_w = sum(h[f"bill_{c}"].values for c in cols)
+            loss_w = sum(h[f"loss_{c}"].values for c in cols)
+        cash = cash + bill_w
+        extra = -nonocc * loss_w / 12.0
     return cash, extra, k, float((w * deferred).sum())
 
 
@@ -295,11 +305,11 @@ GRADE_LABEL = {"dn_mid": "post mid schedule, decile-netted (the post's method)",
                "hh_meas_htm": "measured windfall MPC by decile x hand-to-mouth cell"}
 
 
-def flow_dC(h, grade, defer="none", S=S25, acc_net=None, htm_sets=None, meas_dh=MEAS_DH, nonocc=None):
+def flow_dC(h, grade, defer="none", S=S25, acc_net=None, htm_sets=None, meas_dh=MEAS_DH, nonocc=None, nonocc_cols=None):
     """Household dC_i (monthly, per family) under a grade. Decile-netted grades apply mpc_d to the decile's cash net
     (returned as per-share dC_d with dC_i=None); household grades apply mpc_i to each family's cash net."""
     htm_sets = HTM if htm_sets is None else htm_sets
-    cash, extra, k, D = cash_flows(h, defer, S, htm_sets["biweekly"], nonocc)
+    cash, extra, k, D = cash_flows(h, defer, S, htm_sets["biweekly"], nonocc, nonocc_cols)
     if grade in GRADES_DN:
         cash_d = L.household_to_decile(m, S, cash)
         dC_d = GRADES_DN[grade].reindex(DEC).values * cash_d + L.household_to_decile(m, S, extra)
@@ -326,6 +336,8 @@ for key in HH:
     phi = ACC[key][0]
     base = key.split("_")[2]
     HH[key]["loss_nonocc"] = L.loss_fraction(phi) * S25[L.NONOCC_COLS[base]].sum(axis=1).values
+    for c in L.NONOCC_COLS[base]:                          # capitalized loss per non-occupier land component
+        HH[key][f"loss_{c}"] = L.loss_fraction(phi) * S25[c].values
 # identity: the household-level twin of the decile-netted grade, without deferral, is the decile-netted result
 for key in ["LVT_bridge_L1_m1", "LVT_full_L2_m1"]:
     a = flow_shock(HH[key], "dn_mid")
@@ -470,37 +482,60 @@ CAP.to_csv(OUT / "us_lvt_capitalization.csv", index=False, float_format="%.10g")
 print("\nstep 6, capitalization at announcement (share of land value lost; m1):")
 print(CAP[CAP["measure"] == MEAS["m1"]].pivot(index="scenario", columns="design", values="loss_fraction")[DESIGNS].round(3).to_string())
 
-# collateral: LTVs of mortgaged owners and the threshold crossers
+# collateral: LTVs of mortgaged owners and the threshold crossers. Who responds is a judgment call: every crosser, or
+# only the hand-to-mouth ones (KVW, biweekly: the unit's own flag); the share of the lost equity held by families with
+# at least three months' income in liquid assets (liquid >= INCOME/4) shows how much sits with owners who need not
+# borrow. The response per dollar: 4.7c (Aladangady 2017), 6c and 7c (Mian-Rao-Sufi 2013, midpoint and top of 5-7c),
+# 10c (the unit's stress value). On lost equity it includes the T4 overlap (the crossers' lost equity is their own-home
+# bills capitalized); on lost borrowing capacity it is a credit effect on top of the bill (the clean concept).
+CE_TO_PCE = C_TOT_BN / PCE_BN                             # x0.455: every % of CE consumption as % of PCE
+GROUPS = {"htm": HTM["biweekly"]["htm"].values == 1,
+          "liquid3m": (HTM["biweekly"]["liquid"] >= S25["INCOME"].clip(lower=0) / 4.0).values}
 col_rows, LTVS = [], []
 for key in ["LVT_bridge_L1", "LVT_bridge_L2", "LVT_full_L1"]:
     for mk in MEAS:
         rate, base = key.split("_")[1], key.split("_")[2]
         ph = phi_of(rate, base, mk)
+        hk = HH[f"{key}_{mk if rate == 'full' else 'm1'}"]      # bridge-rate bills do not depend on the measure (phi r fixed)
         for dsg in ["immediate", "phasein_10y", "increment"]:
             lf = L.loss_fraction(ph, dsg, SHOCK_T)
-            f, summ, agg = L.collateral(S25, lf)
+            f, summ, agg = L.collateral(S25, lf, groups=GROUPS)
             LTVS.append(dict(scenario=key, measure=MEAS[mk], phi=ph, design=dsg, loss_fraction=lf, **agg))
             for _, r in summ.iterrows():
                 d = r.to_dict()
                 for kk, v in L.MPC_COLL.items():
-                    d[f"dC_lost_equity_{kk}_pct"] = -100.0 * v * d["lost_equity_crossers_bn"] / C_TOT_BN
-                    d[f"dC_lost_capacity_{kk}_pct"] = -100.0 * v * d["lost_capacity_crossers_bn"] / C_TOT_BN
+                    for g in ["", "_htm"]:
+                        d[f"dC_lost_equity{g}_{kk}_pct"] = -100.0 * v * d[f"lost_equity_crossers{g}_bn"] / C_TOT_BN
+                        d[f"dC_lost_capacity{g}_{kk}_pct"] = -100.0 * v * d[f"lost_capacity_crossers{g}_bn"] / C_TOT_BN
+                for g in ["", "_htm"]:
+                    for conc in ["equity", "capacity"]:
+                        d[f"dC_lost_{conc}{g}_mid_pct_pce"] = d[f"dC_lost_{conc}{g}_mid_pct"] * CE_TO_PCE
+                d["htm_share_of_lost_equity"] = d["lost_equity_crossers_htm_bn"] / d["lost_equity_crossers_bn"]
+                d["liquid3m_share_of_lost_equity"] = d["lost_equity_crossers_liquid3m_bn"] / d["lost_equity_crossers_bn"]
+                cross = f[f"cross_{d['threshold']:.2f}"].values.astype(bool)
+                d["crossers_own_bills_bn"], d["crossers_bill_response_mid_bn"] = L.crossers_bill_flow(
+                    S25, hk, cross, SCHED["mid"].reindex(S25["dec"].values).values)
                 col_rows.append(dict(scenario=key, measure=MEAS[mk], phi=ph, design=dsg, loss_fraction=lf, **d))
 COLL = pd.DataFrame(col_rows)
 COLL.to_csv(OUT / "us_lvt_collateral.csv", index=False, float_format="%.10g")
+# the memo's aggregate LTV like for like: land price to zero, SCF owners against Z.1 (mortgages / structures), 2024;
+# appended as the last row of us_lvt_ltv.csv
+_, _, agg0 = L.collateral(S25, 1.0)
+LTV_MEMO = dict(scf_before=agg0["ltv_aggregate_before"], scf_land_to_zero=agg0["ltv_aggregate_after"],
+                z1_before=z1["mortg"] / z1["re_hh"], z1_land_to_zero=z1["mortg"] / (z1["re_hh"] - z1["L_hh"]))
+LTVS.append(dict(scenario="memo 7.1 like for like: land price to zero", measure="any", phi=np.nan, design="land_to_zero", loss_fraction=1.0,
+                 **agg0, z1_ltv_before=LTV_MEMO["z1_before"], z1_ltv_land_to_zero=LTV_MEMO["z1_land_to_zero"]))
 LTV = pd.DataFrame(LTVS)
 LTV.to_csv(OUT / "us_lvt_ltv.csv", index=False, float_format="%.10g")
-# collateral crossers by decile for the main case (bridge L1 m1, immediate, 80%)
-f_main, _, _ = L.collateral(S25, L.loss_fraction(phi_of("bridge", "L1", "m1")))
-coll_dec = pd.DataFrame({"crossers_share_of_families": L.decile_sum(S25, f_main["cross_0.80"]) / L.decile_sum(S25, np.ones(len(S25))),
-                         "lost_equity_bn": L.decile_sum(S25, f_main["loss"] * f_main["cross_0.80"]) / 1e9})
 print(f"   aggregate LTV (SCF owners): {LTV.iloc[0]['ltv_aggregate_before']:.3f} before; after full capture (immediate, m1): "
-      f"{LTV[(LTV['scenario'] == 'LVT_full_L1') & (LTV['design'] == 'immediate') & (LTV['measure'] == MEAS['m1'])]['ltv_aggregate_after'].iloc[0]:.3f} "
-      f"(memo 7.1 on Z.1 aggregates: 26% -> 48%; Z.1 2024 mortgages / HH real estate {z1['mortg'] / z1['re_hh']:.3f})")
+      f"{LTV[(LTV['scenario'] == 'LVT_full_L1') & (LTV['design'] == 'immediate') & (LTV['measure'] == MEAS['m1'])]['ltv_aggregate_after'].iloc[0]:.3f}; "
+      f"like for like with memo 7.1 (land price to zero, 2024): SCF {LTV_MEMO['scf_before']:.3f} -> {LTV_MEMO['scf_land_to_zero']:.3f}, "
+      f"Z.1 {LTV_MEMO['z1_before']:.3f} -> {LTV_MEMO['z1_land_to_zero']:.3f} (memo: 26% -> 48%)")
 cm = COLL[(COLL["measure"] == MEAS["m1"])]
-print("   threshold crossers (millions) and collateral response at 4.7 / 6 / 10 cents, % of consumption (m1):")
-print(cm[["scenario", "design", "threshold", "n_cross_m", "share_of_mortgaged", "lost_equity_crossers_bn", "lost_capacity_crossers_bn",
-          "dC_lost_equity_low_pct", "dC_lost_equity_mid_pct", "dC_lost_equity_high_pct", "dC_lost_capacity_mid_pct"]].round(3).to_string(index=False))
+print("   threshold crossers (millions; of them hand-to-mouth) and the collateral response, % of consumption (m1):")
+print(cm[["scenario", "design", "threshold", "n_cross_m", "n_cross_htm_m", "share_of_mortgaged", "lost_equity_crossers_bn",
+          "lost_capacity_crossers_bn", "htm_share_of_lost_equity", "liquid3m_share_of_lost_equity", "crossers_own_bills_bn",
+          "crossers_bill_response_mid_bn", "dC_lost_equity_mid_pct", "dC_lost_capacity_mid_pct", "dC_lost_capacity_htm_mid_pct"]].round(3).to_string(index=False))
 
 # non-occupying holders: the flow (bill x MPC) OR a wealth effect on the capitalized loss, never both
 no_rows = []
@@ -552,7 +587,7 @@ for key in ["LVT_bridge_L1_m1"]:
                           rent_bar_round0=R0t, rounds=1, extra_dividend=phi * L.LS_RENT["mid"] * R0t,
                           extra_pct_of_dividend=100.0 * phi * L.LS_RENT["mid"] * R0t / float(acc["dividend"].iloc[0]),
                           q_rent_bar_per_dollar=np.nan, closed_form=np.nan, gross_multiplier_T5=np.nan))
-# the VAT: the same increment goes to landlords; capitalized at r and allocated to holders of rental land
+# the VAT: its own (smaller) increment goes to landlords; capitalized at r and allocated to holders of rental land
 R0v = L.rent_bar(m, B.budget_shock(acc_v["net"], SCHED["mid"].values, m["budget"]))
 for lk, ls in L.LS_RENT.items():
     for mk in MEAS:
@@ -560,6 +595,18 @@ for lk, ls in L.LS_RENT.items():
         loop_rows.append(dict(scenario="VAT", ls=lk, ls_value=ls, phi=0.0, rent_bar_round0=R0v, rounds=0, extra_dividend=0.0,
                               extra_pct_of_dividend=0.0, landlord_rent_gain_bn=gain_flow, r=R[mk], measure=MEAS[mk],
                               landlord_value_gain_bn=gain_flow / R[mk]))
+# what the loop leaves out (second order): the rent bar is extra demand for a fixed stock (a rent-price effect, as a
+# share of rent spending), and the holders of rental land collect the land part of it, which the loop does not credit
+# to them (it charges them the tax on it). Their receipt at their own MPC (rental-land-weighted mid schedule):
+HOLD_MPC = {"L1": float((key_L1 * SCHED["mid"]).sum()), "L2": float((key_L2 * SCHED["mid"]).sum())}
+for row in loop_rows:
+    if row["ls"] != "mid" or row.get("measure", MEAS["m1"]) != MEAS["m1"] or "tenure" in row["scenario"]:
+        continue
+    kb = "L2" if "_L2_" in row["scenario"] else "L1"
+    inc_bn = row["ls_value"] * row["rent_bar_round0"] * 12.0 * S_CE / 1e9
+    row.update(rent_bar_share_of_rent_spending=row["rent_bar_round0"] / float(m["Cbar"]["Rented dwellings"]), land_rent_increment_bn=inc_bn,
+               holders_net_gain_bn=(1.0 - row["phi"]) * inc_bn, holders_mpc_mid=HOLD_MPC[kb],
+               uncredited_receipt_pct=100.0 * HOLD_MPC[kb] * inc_bn / C_TOT_BN)
 LOOP = pd.DataFrame(loop_rows)
 LOOP.to_csv(OUT / "us_lvt_loop.csv", index=False, float_format="%.10g")
 pd.concat(LOOP_ROUNDS).to_csv(OUT / "us_lvt_loop_rounds.csv", index=False, float_format="%.10g")
@@ -580,7 +627,9 @@ print("   who holds it (L1 key, rental land = other residential real estate): " 
 # %% robustness: the land distribution, the survey year, the land concept, the NFC assumption, the s band
 def headline(label, S, info, z1v, rate="bridge", mk="m1", htm_sets=None, note=""):
     """Headline numbers for one land variant: phi, dividend, nets by decile, break-even, payer share, impulses,
-    collateral (immediate, 80% threshold, lost equity at the mid response)."""
+    collateral (immediate, 80% threshold, 6 cents): on the crossers' lost equity (collateral_mid_pct, which includes the
+    T4 overlap), on their lost borrowing capacity (the clean credit effect), and the clean net demand at impact (flow +
+    credit effect; on L2 with corporate land on the wealth reading at 3.5 cents)."""
     htm_sets = HTM if htm_sets is None else htm_sets
     out = []
     for base in ["L1", "L2"]:
@@ -590,13 +639,21 @@ def headline(label, S, info, z1v, rate="bridge", mk="m1", htm_sets=None, note=""
         net = acc["net"]
         _, sum_c, _ = L.collateral(S, L.loss_fraction(phi))
         c80 = sum_c[sum_c["threshold"] == 0.80].iloc[0]
+        imp_dn = B.impulse(m, net, SCHED["mid"].values)["flow_pct_consumption"]
+        cap_pct = -100.0 * L.MPC_COLL["mid"] * float(c80["lost_capacity_crossers_bn"]) / C_TOT_BN
+        if base == "L2":
+            h["loss_L_nfc"] = L.loss_fraction(phi) * S["L_nfc"].values
+            imp_c = B.impulse(m, shock=flow_shock(h, "dn_mid", S=S, htm_sets=htm_sets, nonocc=L.MPW["mid"], nonocc_cols=["L_nfc"]))["flow_pct_consumption"]
+        else:
+            imp_c = imp_dn
         d = dict(variant=label, base=base, rate=rate, measure=MEAS[mk], phi=phi, dividend=float(acc["dividend"].iloc[0]),
                  land_total_bn=info[f"{base}_total_bn"], top_decile_land_share=float(acc["land_share"]["d10"]),
                  deciles_gaining=int((net > 0).sum()), payer_share=float((S["WGT"] * (h["net"] < 0)).sum() / S["WGT"].sum()),
-                 impulse_dn_mid=B.impulse(m, net, SCHED["mid"].values)["flow_pct_consumption"],
+                 impulse_dn_mid=imp_dn,
                  impulse_hh_liq_mid=B.impulse(m, shock=flow_shock(h, "hh_liq_mid", S=S, htm_sets=htm_sets))["flow_pct_consumption"],
                  collateral_cross80_m=float(c80["n_cross_m"]),
-                 collateral_mid_pct=-100.0 * L.MPC_COLL["mid"] * float(c80["lost_equity_crossers_bn"]) / C_TOT_BN, note=note)
+                 collateral_mid_pct=-100.0 * L.MPC_COLL["mid"] * float(c80["lost_equity_crossers_bn"]) / C_TOT_BN,
+                 collateral_capacity_mid_pct=cap_pct, net_clean_mid_pct=imp_c + cap_pct, note=note)
         d.update({f"net_{dd}": float(net[dd]) for dd in DEC})
         out.append(d)
     return out
@@ -636,14 +693,16 @@ for base in ["L1", "L2"]:
              land_total_bn=float(land_d.sum()) / 1e9, top_decile_land_share=float(land_d["d10"] / land_d.sum()),
              deciles_gaining=int((acc["net"] > 0).sum()), payer_share=np.nan,
              impulse_dn_mid=B.impulse(m, acc["net"], SCHED["mid"].values)["flow_pct_consumption"], impulse_hh_liq_mid=np.nan,
-             collateral_cross80_m=np.nan, collateral_mid_pct=np.nan, note="CE's home-value shares by income decile (Table 1110 addenda)")
+             collateral_cross80_m=np.nan, collateral_mid_pct=np.nan, collateral_capacity_mid_pct=np.nan, net_clean_mid_pct=np.nan,
+             note="CE's home-value shares by income decile (Table 1110 addenda)")
     d.update({f"net_{dd}": float(acc["net"][dd]) for dd in DEC})
     rob.append(d)
 ROB = pd.DataFrame(rob)
 ROB.to_csv(OUT / "us_lvt_robustness.csv", index=False, float_format="%.10g")
 print("\nrobustness (bridge-equivalent rate, measure m1 unless noted):")
 print(ROB[["variant", "base", "phi", "dividend", "top_decile_land_share", "deciles_gaining", "payer_share", "net_d01", "net_d05",
-           "net_d09", "net_d10", "impulse_dn_mid", "impulse_hh_liq_mid", "collateral_mid_pct"]].round(3).to_string(index=False))
+           "net_d09", "net_d10", "impulse_dn_mid", "impulse_hh_liq_mid", "collateral_mid_pct", "collateral_capacity_mid_pct",
+           "net_clean_mid_pct"]].round(3).to_string(index=False))
 
 # the s band at a fixed aggregate property value, by measure: what moves (phi, full-capture dividend, losses)
 band_rows = []
@@ -659,12 +718,24 @@ for sv in [L.S_BAND[0], INFO25["s_uniform"], L.S_BAND[1]]:
         band_rows.append(dict(s=sv, measure=MEAS[mk], land_bn=Ltot, r=r, phi_bridge=phi_b, feasible=phi_b <= L.PHI_FULL,
                               full_capture_dividend=L.PHI_FULL * r * Ltot * 1e9 / (S_CE * 12),
                               bridge_capitalized_loss_bn=lf * Ltot,
-                              bridge_collateral_mid_pct=-100 * L.MPC_COLL["mid"] * float(sc[sc["threshold"] == 0.8]["lost_equity_crossers_bn"].iloc[0]) / C_TOT_BN))
+                              bridge_collateral_mid_pct=-100 * L.MPC_COLL["mid"] * float(sc[sc["threshold"] == 0.8]["lost_equity_crossers_bn"].iloc[0]) / C_TOT_BN,
+                              bridge_collateral_capacity_mid_pct=-100 * L.MPC_COLL["mid"] * float(sc[sc["threshold"] == 0.8]["lost_capacity_crossers_bn"].iloc[0]) / C_TOT_BN))
 SBAND = pd.DataFrame(band_rows)
 SBAND.to_csv(OUT / "us_lvt_s_band.csv", index=False, float_format="%.10g")
 print("   s band (aggregate property value fixed):\n" + SBAND.round(3).to_string(index=False))
 
-# %% step 6: the macro channels, side by side (the table behind the macro figure)
+# %% step 6: the headline - demand at impact with each owner's response counted once
+# The flow already charges every owner's bill at the owner's MPC. A threshold crosser's lost equity is the capitalized
+# value of that same bill (T4: lost equity = own-home bills / r), so 6 cents on lost equity on top of the flow counts
+# the bill twice. The never-both rule the unit applies to non-occupiers is applied to the crossers too: the clean
+# central adds at most a pure credit effect, the response to the crossers' lost borrowing capacity, which is not the
+# present value of the bill. 'Flow + 6c x lost equity' is kept only as a labelled band edge ('includes the T4
+# overlap'). Who responds is a judgment call: every crosser (central) or only the hand-to-mouth crossers. Corporate
+# (NFC) land in L2: its holders never see a bill (the corporation pays it out of earnings), so the central takes their
+# response as a wealth effect on the capitalized loss (3.5 cents; 2-5 in the band) instead of a bill paid from
+# household cash; the flow reading is shown beside it. Band edges pair the extremes, as for the VAT: lower = the high
+# MPC schedule (smallest flow) with the top of the literature (7 cents; 5 cents of wealth effect), upper = the low
+# schedule with 4.7 cents (2 cents). The 10-cent stress value is reported beside the band, labelled, not inside it.
 def imp_of(tax, grade, rate="", base="", mk="m1", defer="none"):
     q = IMP[(IMP["tax"] == tax) & (IMP["grade"] == grade) & (IMP["defer"] == defer)]
     if tax == "LVT":
@@ -672,25 +743,106 @@ def imp_of(tax, grade, rate="", base="", mk="m1", defer="none"):
     return float(q["impulse_pct"].iloc[0])
 
 
-def coll_of(scenario, design, th=0.80, col="dC_lost_equity_mid_pct", mk="m1"):
-    q = COLL[(COLL["scenario"] == scenario) & (COLL["design"] == design) & (COLL["threshold"] == th) & (COLL["measure"] == MEAS[mk])]
-    return float(q[col].iloc[0])
+def c80_row(scenario, design="immediate", mk="m1"):
+    q = COLL[(COLL["scenario"] == scenario) & (COLL["design"] == design) & (COLL["threshold"] == 0.80) & (COLL["measure"] == MEAS[mk])]
+    return q.iloc[0]
 
 
-vshare = B.vatable_share_aggregate(m)
+def coll_pct(row, concept="capacity", who="all", resp="mid"):
+    """Collateral response, % of consumption: resp cents per $ on the crossers' lost borrowing capacity (a credit effect,
+    the clean concept) or on their lost equity (includes the T4 overlap); every crosser, or the hand-to-mouth ones."""
+    g = "" if who == "all" else f"_{who}"
+    return -100.0 * L.MPC_COLL[resp] * float(row[f"lost_{concept}_crossers{g}_bn"]) / C_TOT_BN
+
+
+def flow_pct(key, grade="dn_mid", mpw=None, cols=None):
+    """Flow impulse, % of consumption; with mpw, the land components `cols` (default: all non-occupier land) are on
+    the wealth reading instead of the flow."""
+    return B.impulse(m, shock=flow_shock(HH[key], grade, nonocc=mpw, nonocc_cols=cols))["flow_pct_consumption"]
+
+
+EDGES = {"central": ("dn_mid", "mid", "mid"), "low": ("dn_high", "lit_high", "high"), "high": ("dn_low", "low", "low")}
 lev = LEVY.set_index(["lam", "mpw"])["pct_ce_consumption"]
+READ = {}                                                  # (base, corporate-land reading, reading) -> [central, low, high]
+STRESS = {}                                                # the same readings' lower edge at the 10-cent stress value
+for base, corps in [("L1", ["not in base"]), ("L2", ["wealth", "flow"])]:
+    key = f"LVT_bridge_{base}_m1"
+    cr = c80_row(f"LVT_bridge_{base}")
+    f_cr, _, _ = L.collateral(S25, L.loss_fraction(ACC[key][0]))
+    cross = f_cr["cross_0.80"].values.astype(bool)
+    # the crossers' response to their own bills, which each schedule's flow contains as a cut in spending (% of consumption)
+    bill_resp = {e: 100.0 * L.crossers_bill_flow(S25, HH[key], cross, SCHED[EDGES[e][0][3:]].reindex(S25["dec"].values).values)[1] / C_TOT_BN
+                 for e in EDGES}
+    for corp in corps:
+        F = {e: (flow_pct(key, EDGES[e][0], L.MPW[EDGES[e][2]], ["L_nfc"]) if corp == "wealth" else flow_pct(key, EDGES[e][0]))
+             for e in EDGES}
+        Fm = flow_pct(key, "dn_meas", L.MPW["mid"], ["L_nfc"]) if corp == "wealth" else flow_pct(key, "dn_meas")
+        READ[(base, corp, "flow")] = [F[e] for e in EDGES]
+        READ[(base, corp, "clean")] = [F[e] + coll_pct(cr, "capacity", "all", EDGES[e][1]) for e in EDGES]
+        READ[(base, corp, "t4")] = [F[e] + coll_pct(cr, "equity", "all", EDGES[e][1]) for e in EDGES]
+        READ[(base, corp, "htm")] = [F[e] + coll_pct(cr, "capacity", "htm", EDGES[e][1]) for e in EDGES]
+        # never both: take the crossers' bill response out of the flow (it entered as a cut) and put their stock response in
+        READ[(base, corp, "stock")] = [F[e] + bill_resp[e] + coll_pct(cr, "equity", "all", EDGES[e][1]) for e in EDGES]
+        READ[(base, corp, "measured")] = [Fm + coll_pct(cr, "capacity", "all", r_) for r_ in ("mid", "lit_high", "low")]
+        READ[(base, corp, "measured_htm")] = [Fm + coll_pct(cr, "capacity", "htm", r_) for r_ in ("mid", "lit_high", "low")]
+        STRESS[(base, corp, "clean")] = F["low"] + coll_pct(cr, "capacity", "all", "stress")
+        STRESS[(base, corp, "t4")] = F["low"] + coll_pct(cr, "equity", "all", "stress")
+        STRESS[(base, corp, "htm")] = F["low"] + coll_pct(cr, "capacity", "htm", "stress")
+    READ[(base, "all non-occupier land", "clean")] = [flow_pct(key, EDGES[e][0], L.MPW[EDGES[e][2]]) + coll_pct(cr, "capacity", "all", EDGES[e][1])
+                                                      for e in EDGES]
+READ[("VAT", "", "net")] = [imp_of("VAT", EDGES[e][0]) + lev[(0.35, EDGES[e][2])] for e in EDGES]
+READ[("VAT", "", "measured")] = [imp_of("VAT", "dn_meas") + lev[(0.35, k_)] for k_ in ("mid", "high", "low")]
+READ[("VAT", "", "flow")] = [imp_of("VAT", EDGES[e][0]) for e in EDGES]
+READING_LABEL = {
+    "flow": "flow impulse only (post's method)",
+    "clean": "flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once)",
+    "t4": "flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only)",
+    "htm": "flow + credit effect on hand-to-mouth crossers' lost borrowing capacity (only constrained crossers respond)",
+    "stock": "crossers' stock response (lost equity) instead of their bill response (each crosser counted once)",
+    "measured": "measured SCF windfall MPCs: flow + credit effect on all crossers' lost capacity",
+    "measured_htm": "measured SCF windfall MPCs: flow + credit effect, hand-to-mouth crossers only",
+    "net": "flow + levy at lambda = 0.35 (2-5c)"}
+hrows = []
+for (b_, corp, rd), v in READ.items():
+    hrows.append(dict(instrument="VAT" if b_ == "VAT" else "LVT", base="" if b_ == "VAT" else b_, corporate_land=corp, reading=rd,
+                      label=("flow + credit effect on all crossers' lost capacity, with every non-occupier's land on the wealth reading "
+                             "(3.5c; 5c / 2c)") if corp == "all non-occupier land" else READING_LABEL[rd],
+                      central=v[0], low=v[1], high=v[2], stress_10c=STRESS.get((b_, corp, rd), np.nan),
+                      central_pct_pce=v[0] * CE_TO_PCE, low_pct_pce=v[1] * CE_TO_PCE, high_pct_pce=v[2] * CE_TO_PCE))
+HEADL = pd.DataFrame(hrows)
+HEADL.to_csv(OUT / "us_lvt_headline.csv", index=False, float_format="%.10g")
+print("\nstep 6, the headline: demand at impact, % of consumption (central [low, high]; 10c stress lower edge):")
+print(HEADL[["instrument", "base", "corporate_land", "reading", "central", "low", "high", "stress_10c", "central_pct_pce"]].round(3).to_string(index=False))
+
+# %% step 6: the macro channels, side by side (the table behind the macro figure); demand rows also as % of PCE
+vshare = B.vatable_share_aggregate(m)
 pub = pd.read_csv(B.TIDY / "post_published_numbers.csv").set_index("id")["value"]
 mrow = []
 
 
-def add(instr, channel, central, low, high, unit="% of consumption", note=""):
-    mrow.append(dict(instrument=instr, channel=channel, central=central, low=low, high=high, unit=unit, note=note))
+def add(instr, channel, central, low, high, unit="% of consumption", note="", stress=np.nan):
+    mrow.append(dict(instrument=instr, channel=channel, central=central, low=low, high=high, stress_10c=stress, unit=unit, note=note))
+
+
+def add_read(instr, channel, k, note=""):
+    v = READ[k]
+    add(instr, channel, v[0], v[1], v[2], note=note, stress=STRESS.get(k, np.nan))
+
+
+crL1, crL2 = c80_row("LVT_bridge_L1"), c80_row("LVT_bridge_L2")
+LIT = "4.7c (Aladangady 2017) / 6c / 7c (Mian-Rao-Sufi 2013: 5-7c); stress_10c: the unit's stress value, not from the literature"
+
+
+def add_coll(channel, row, concept, who, note=""):
+    add("LVT", channel, coll_pct(row, concept, who, "mid"), coll_pct(row, concept, who, "lit_high"), coll_pct(row, concept, who, "low"),
+        note=(note + "; " if note else "") + LIT, stress=coll_pct(row, concept, who, "stress"))
 
 
 add("VAT", "price level step (80-100% pass-through)", 100 * B.TAU * vshare * 0.9, 100 * B.TAU * vshare * 0.8, 100 * B.TAU * vshare,
     unit="% of consumer price level", note=f"15 points x aggregate VAT-able share {vshare:.3f}; post: 7-9% (P497-P498)")
 add("LVT", "price level step", 0.0, 0.0, 0.0, unit="% of consumer price level",
-    note="land in fixed supply, rents set by demand: nothing to pass through; no indexation plumbing needed")
+    note="incidence theory (a tax on a factor in fixed supply is not passed on), not accounting; the program's own extra rent "
+         "demand (the loop's rent bar) is a separate rent-price effect")
 add("VAT", "flow impulse, post's method (mid; band = high/low schedules)", imp_of("VAT", "dn_mid"), imp_of("VAT", "dn_high"), imp_of("VAT", "dn_low"),
     note="rebuild: 0.389% (Fig 7 central 0.390)")
 add("VAT", "flow impulse, household level, payers graded by liquidity", imp_of("VAT", "hh_liq_mid"), imp_of("VAT", "hh_liq_high"), imp_of("VAT", "hh_liq_low"),
@@ -700,8 +852,10 @@ add("VAT", "flow impulse, measured windfall MPCs (SCF 2025)", imp_of("VAT", "dn_
 add("VAT", "levy channel, lambda = 0.35 (impact; 2-5c per $ per year)", lev[(0.35, "mid")], lev[(0.35, "high")], lev[(0.35, "low")],
     note="-mpw x 0.35 x 8% x SCF 2025 net worth")
 add("VAT", "levy channel, lambda = 1 (impact)", lev[(1.0, "mid")], lev[(1.0, "high")], lev[(1.0, "low")], note="full A-K corner")
-add("VAT", "net demand at impact, lambda = 0.35 (flow + levy)", imp_of("VAT", "dn_mid") + lev[(0.35, "mid")],
-    imp_of("VAT", "dn_high") + lev[(0.35, "high")], imp_of("VAT", "dn_low") + lev[(0.35, "low")], note="this unit's impact version")
+add_read("VAT", "net demand at impact, lambda = 0.35 (flow + levy)", ("VAT", "", "net"),
+         note="this unit's impact version; low: high MPC schedule + 5c levy; high: low schedule + 2c")
+add_read("VAT", "net demand at impact, measured windfall MPCs (flow + levy at lambda = 0.35)", ("VAT", "", "measured"),
+         note="the flow at the SCF windfall MPCs; levy at 3.5c (band 5c / 2c)")
 add("VAT", "post, published: flow-only path (year 3)", pub["P662"], pub["P662"], pub["P662"], note="P662")
 add("VAT", "post, published: central lambda = 0.35 (year 3; band = year 5)", pub["P663"], pub["P664"], pub["P665"], note="P663-P665")
 add("VAT", "post, published: full A-K lambda = 1 (year 3; band = year 5)", pub["P666"], pub["P667"], pub["P668"], note="P666-P668")
@@ -712,17 +866,25 @@ add("LVT", "flow impulse, household level, payers graded by liquidity (bridge, L
     imp_of("LVT", "hh_liq_high", "bridge", "L1"), imp_of("LVT", "hh_liq_low", "bridge", "L1"))
 add("LVT", "flow impulse, measured windfall MPCs (bridge, L1)", imp_of("LVT", "dn_meas", "bridge", "L1"), imp_of("LVT", "hh_meas_htm", "bridge", "L1"),
     imp_of("LVT", "dn_measshape", "bridge", "L1"))
-add("LVT", "collateral, owners crossing 80% LTV, lost equity (bridge, L1, immediate)", coll_of("LVT_bridge_L1", "immediate"),
-    coll_of("LVT_bridge_L1", "immediate", col="dC_lost_equity_high_pct"), coll_of("LVT_bridge_L1", "immediate", col="dC_lost_equity_low_pct"),
-    note="4.7 / 6 / 10 cents per $ (Aladangady 2017; Mian-Rao-Sufi 2013; stress)")
-add("LVT", "collateral, lost borrowing capacity only (bridge, L1, immediate)", coll_of("LVT_bridge_L1", "immediate", col="dC_lost_capacity_mid_pct"),
-    coll_of("LVT_bridge_L1", "immediate", col="dC_lost_capacity_high_pct"), coll_of("LVT_bridge_L1", "immediate", col="dC_lost_capacity_low_pct"),
-    note="the part that is credit, not wealth: the cleanest collateral-only base")
-add("LVT", "collateral, full capture (L1, immediate)", coll_of("LVT_full_L1", "immediate"), coll_of("LVT_full_L1", "immediate", col="dC_lost_equity_high_pct"),
-    coll_of("LVT_full_L1", "immediate", col="dC_lost_equity_low_pct"))
-add("LVT", "collateral under increment-only grandfathering (bridge rate, L1)", coll_of("LVT_bridge_L1", "increment"),
-    coll_of("LVT_bridge_L1", "increment", col="dC_lost_equity_high_pct"), coll_of("LVT_bridge_L1", "increment", col="dC_lost_equity_low_pct"),
-    note="but the launch revenue is then near zero (only rent increments are taxed)")
+fw, ff = READ[("L2", "wealth", "flow")], READ[("L2", "flow", "flow")]
+add("LVT", "corporate land on the wealth reading instead of the flow (change in impulse, bridge, L2)",
+    fw[0] - ff[0], flow_pct("LVT_bridge_L2_m1", "dn_mid", L.MPW["high"], ["L_nfc"]) - ff[0],
+    flow_pct("LVT_bridge_L2_m1", "dn_mid", L.MPW["low"], ["L_nfc"]) - ff[0],
+    note="holders never see a bill: 3.5c (5c / 2c) per $ of capitalized loss instead of the bill at the decile MPC")
+add_coll("collateral: credit effect on all crossers' lost borrowing capacity (bridge, L1, immediate)", crL1, "capacity", "all",
+         "the clean concept: a credit effect on top of the bill")
+add_coll("collateral: credit effect, hand-to-mouth crossers only (bridge, L1, immediate)", crL1, "capacity", "htm",
+         "who responds: only the constrained (KVW) crossers")
+add_coll("collateral on all crossers' lost equity: includes the T4 overlap (bridge, L1, immediate)", crL1, "equity", "all",
+         "lost equity = the crossers' own-home bills capitalized; on top of the flow it counts the bill twice")
+add_coll("collateral on hand-to-mouth crossers' lost equity: includes the T4 overlap (bridge, L1, immediate)", crL1, "equity", "htm")
+add_coll("collateral: credit effect, full capture (L1, immediate)", c80_row("LVT_full_L1"), "capacity", "all")
+add_coll("collateral: credit effect under increment-only grandfathering (bridge rate, L1)", c80_row("LVT_bridge_L1", "increment"), "capacity", "all",
+         "price drop from three-taxes/data/lvt_shock.csv; the launch revenue is then near zero (only rent increments are taxed)")
+add_coll("collateral: credit effect on all crossers' lost borrowing capacity (bridge, L2, immediate)", crL2, "capacity", "all",
+         "the broader base lowers the rate on homes (phi 0.555) and with it the price fall")
+add_coll("collateral: credit effect, hand-to-mouth crossers only (bridge, L2, immediate)", crL2, "capacity", "htm")
+add_coll("collateral on all crossers' lost equity: includes the T4 overlap (bridge, L2, immediate)", crL2, "equity", "all")
 nb = NONOCC[(NONOCC["scenario"] == "LVT_bridge_L1_m1") & (NONOCC["grade"] == "dn_mid")].iloc[0]
 add("LVT", "non-occupying holders: wealth effect instead of flow (change in impulse, bridge, L1)", nb["wealth_version_mid_pct"] - nb["flow_version_pct"],
     nb["wealth_version_high_pct"] - nb["flow_version_pct"], nb["wealth_version_low_pct"] - nb["flow_version_pct"], note="2 / 3.5 / 5 cents per $")
@@ -741,23 +903,41 @@ add("LVT", "deferral by owners 65+: their residual wealth effect (if any)", resi
 lp = LOOP[(LOOP["scenario"] == "LVT_bridge_L1_m1")].set_index("ls")
 add("LVT", "the loop: extra dividend (bridge, L1)", lp.loc["mid", "extra_pct_of_dividend"], lp.loc["low", "extra_pct_of_dividend"],
     lp.loc["high", "extra_pct_of_dividend"], unit="% of the dividend", note="land share of the rent change 0.30-0.50")
-# net demand at impact for the LVT: flow + collateral (bridge, L1); band edges pair the extremes
-lvt_net_c = imp_of("LVT", "dn_mid", "bridge", "L1") + coll_of("LVT_bridge_L1", "immediate")
-lvt_net_lo = imp_of("LVT", "dn_high", "bridge", "L1") + coll_of("LVT_bridge_L1", "immediate", col="dC_lost_equity_high_pct")
-lvt_net_hi = imp_of("LVT", "dn_low", "bridge", "L1") + coll_of("LVT_bridge_L1", "immediate", col="dC_lost_capacity_low_pct")
-add("LVT", "net demand at impact (flow + collateral; bridge, L1, immediate)", lvt_net_c, lvt_net_lo, lvt_net_hi,
-    note="low: high MPC schedule (smallest flow) + 10c on lost equity; high: low schedule + 4.7c on lost capacity")
-add("LVT", "collateral, owners crossing 80% LTV, lost equity (bridge, L2, immediate)", coll_of("LVT_bridge_L2", "immediate"),
-    coll_of("LVT_bridge_L2", "immediate", col="dC_lost_equity_high_pct"), coll_of("LVT_bridge_L2", "immediate", col="dC_lost_equity_low_pct"),
-    note="the broader base lowers the rate on homes (phi 0.555) and with it the price fall")
-add("LVT", "net demand at impact (flow + collateral; bridge, L2, immediate)",
-    imp_of("LVT", "dn_mid", "bridge", "L2") + coll_of("LVT_bridge_L2", "immediate"),
-    imp_of("LVT", "dn_high", "bridge", "L2") + coll_of("LVT_bridge_L2", "immediate", col="dC_lost_equity_high_pct"),
-    imp_of("LVT", "dn_low", "bridge", "L2") + coll_of("LVT_bridge_L2", "immediate", col="dC_lost_capacity_low_pct"),
-    note="same pairing of extremes as for L1")
+# net demand at impact: the clean central with its band, then every labelled reading beside it
+add_read("LVT", "net demand at impact (flow + collateral; bridge, L1, immediate)", ("L1", "not in base", "clean"),
+         note="each crosser counted once: flow + 6c x all crossers' lost borrowing capacity; low: high MPC schedule + 7c; "
+              "high: low schedule + 4.7c; stress_10c: high schedule + 10c")
+add_read("LVT", "net demand at impact, includes the T4 overlap (flow + 6c x crossers' lost equity; bridge, L1)", ("L1", "not in base", "t4"),
+         note="band edge only: the crossers' lost equity is their bills capitalized, and the flow already charges the bills")
+add_read("LVT", "net demand at impact, only hand-to-mouth crossers respond (bridge, L1)", ("L1", "not in base", "htm"),
+         note="who responds: the credit effect for the KVW hand-to-mouth crossers only")
+add_read("LVT", "net demand at impact, crossers' stock response instead of their bill (bridge, L1)", ("L1", "not in base", "stock"),
+         note="the other clean reading: crossers respond to their lost equity and not to their bill")
+add_read("LVT", "net demand at impact, landlords on the wealth reading (bridge, L1)", ("L1", "all non-occupier land", "clean"),
+         note="holders of other residential land respond to their capitalized loss (3.5c; 5c / 2c) instead of their bill")
+add_read("LVT", "net demand at impact, measured windfall MPCs (bridge, L1)", ("L1", "not in base", "measured"),
+         note="flow at the SCF windfall MPCs by decile + the credit effect (6c; 7c / 4.7c)")
+add_read("LVT", "net demand at impact, measured windfall MPCs, hand-to-mouth crossers only (bridge, L1)", ("L1", "not in base", "measured_htm"))
+add_read("LVT", "net demand at impact (flow + collateral; bridge, L2, immediate)", ("L2", "wealth", "clean"),
+         note="each crosser counted once; corporate land on the wealth reading (3.5c), the natural one: holders never see a bill; "
+              "low: high schedule + 5c + 7c; high: low schedule + 2c + 4.7c")
+add_read("LVT", "net demand at impact, corporate land on the flow reading (bridge, L2)", ("L2", "flow", "clean"),
+         note="shareholders pay the corporate bill from household cash at their decile MPC")
+add_read("LVT", "net demand at impact, includes the T4 overlap (bridge, L2)", ("L2", "wealth", "t4"),
+         note="band edge only; corporate land on the wealth reading")
+add_read("LVT", "net demand at impact, includes the T4 overlap, corporate land on the flow reading (bridge, L2)", ("L2", "flow", "t4"))
+add_read("LVT", "net demand at impact, only hand-to-mouth crossers respond (bridge, L2)", ("L2", "wealth", "htm"))
+add_read("LVT", "net demand at impact, only hand-to-mouth crossers respond, corporate land on the flow reading (bridge, L2)", ("L2", "flow", "htm"))
+add_read("LVT", "net demand at impact, crossers' stock response instead of their bill (bridge, L2)", ("L2", "wealth", "stock"))
+add_read("LVT", "net demand at impact, every non-occupier on the wealth reading (bridge, L2)", ("L2", "all non-occupier land", "clean"),
+         note="rental, noncorporate and corporate land all on the wealth reading (3.5c; 5c / 2c)")
+add_read("LVT", "net demand at impact, measured windfall MPCs (bridge, L2)", ("L2", "wealth", "measured"))
 MACRO = pd.DataFrame(mrow)
+dem = MACRO["unit"] == "% of consumption"
+for c in ["central", "low", "high", "stress_10c"]:
+    MACRO[f"{c}_pct_pce"] = np.where(dem, MACRO[c] * CE_TO_PCE, np.nan)
 MACRO.to_csv(OUT / "us_lvt_macro_channels.csv", index=False, float_format="%.10g")
-print("\nstep 6, macro channels:\n" + MACRO[["instrument", "channel", "central", "low", "high", "unit"]].round(3).to_string(index=False))
+print("\nstep 6, macro channels:\n" + MACRO[["instrument", "channel", "central", "low", "high", "stress_10c", "unit"]].round(3).to_string(index=False))
 
 # %% figures (light mode, PNG at 200 dpi; the rebuild's chrome and the dataviz reference palette, slots in fixed order:
 # VAT = blue, LVT on base L1 = orange, LVT on base L2 = aqua; validated with the skill's validator, contrast relief by
@@ -969,81 +1149,125 @@ fig.text(0.06, 0.025, "SCF 2025 families in CE 2024 payment shares. Source: out/
 fig.savefig(FIG / "us_lvt_who_pays.png", dpi=200)
 plt.close(fig)
 
-# --- Figure 4: the macro channels
-rows_v = ["flow impulse, post's method (mid; band = high/low schedules)", "flow impulse, household level, payers graded by liquidity",
-          "flow impulse, measured windfall MPCs (SCF 2025)", "levy channel, lambda = 0.35 (impact; 2-5c per $ per year)",
-          "levy channel, lambda = 1 (impact)", "net demand at impact, lambda = 0.35 (flow + levy)"]
-rows_l = ["flow impulse, post's method (bridge, L1)", "flow impulse, post's method (bridge, L2)",
-          "flow impulse, household level, payers graded by liquidity (bridge, L1)", "flow impulse, measured windfall MPCs (bridge, L1)",
-          "collateral, owners crossing 80% LTV, lost equity (bridge, L1, immediate)", "collateral, lost borrowing capacity only (bridge, L1, immediate)",
-          "collateral under increment-only grandfathering (bridge rate, L1)",
-          "non-occupying holders: wealth effect instead of flow (change in impulse, bridge, L1)",
-          "net demand at impact (flow + collateral; bridge, L1, immediate)",
-          "net demand at impact (flow + collateral; bridge, L2, immediate)"]
-short = {rows_v[0]: "flow impulse, post's method", rows_v[1]: "flow, household level, liquidity-graded payers",
-         rows_v[2]: "flow, measured SCF windfall MPCs", rows_v[3]: "levy channel, lambda = 0.35",
-         rows_v[4]: "levy channel, lambda = 1 (full A-K)", rows_v[5]: "net at impact, lambda = 0.35",
-         rows_l[0]: "flow impulse, post's method, L1", rows_l[1]: "flow impulse, post's method, L2",
-         rows_l[2]: "flow, household level, liquidity-graded, L1", rows_l[3]: "flow, measured SCF windfall MPCs, L1",
-         rows_l[4]: "collateral: crossers' lost equity (80% LTV)", rows_l[5]: "collateral: crossers' lost borrowing capacity",
-         rows_l[6]: "collateral under increment-only grandfathering", rows_l[7]: "non-occupiers: wealth effect instead of flow",
-         rows_l[8]: "net at impact (flow + collateral), L1", rows_l[9]: "net at impact (flow + collateral), L2"}
+# --- Figure 4: the macro channels and the corrected headline (dot: central; line: band; open markers: the labelled
+# readings that move the LVT's sign; the value column carries every number, so color is never the only channel)
+ROWS = [("VAT bridge", C1, [
+            ("flow impulse, post's method (mid; band = high/low schedules)", "flow impulse, post's method"),
+            ("flow impulse, household level, payers graded by liquidity", "flow, household level, liquidity-graded payers"),
+            ("flow impulse, measured windfall MPCs (SCF 2025)", "flow, measured SCF windfall MPCs"),
+            ("levy channel, lambda = 0.35 (impact; 2-5c per $ per year)", "levy channel, λ = 0.35 (2-5 cents)"),
+            ("net demand at impact, lambda = 0.35 (flow + levy)", "net demand at impact, λ = 0.35")]),
+        ("LVT on L1: residential land", C2, [
+            ("flow impulse, post's method (bridge, L1)", "flow impulse, post's method"),
+            ("flow impulse, household level, payers graded by liquidity (bridge, L1)", "flow, household level, liquidity-graded payers"),
+            ("flow impulse, measured windfall MPCs (bridge, L1)", "flow, measured SCF windfall MPCs"),
+            ("collateral: credit effect on all crossers' lost borrowing capacity (bridge, L1, immediate)", "collateral: credit effect, all 80%-LTV crossers"),
+            ("collateral: credit effect, hand-to-mouth crossers only (bridge, L1, immediate)", "collateral: credit effect, hand-to-mouth crossers"),
+            ("collateral on all crossers' lost equity: includes the T4 overlap (bridge, L1, immediate)", "collateral on lost equity (includes the T4 overlap)"),
+            ("net demand at impact (flow + collateral; bridge, L1, immediate)", "net demand at impact, each crosser counted once")]),
+        ("LVT on L2: plus business and corporate land", C3, [
+            ("flow impulse, post's method (bridge, L2)", "flow impulse, post's method"),
+            ("corporate land on the wealth reading instead of the flow (change in impulse, bridge, L2)", "corporate land on the wealth reading (change)"),
+            ("collateral: credit effect on all crossers' lost borrowing capacity (bridge, L2, immediate)", "collateral: credit effect, all 80%-LTV crossers"),
+            ("net demand at impact (flow + collateral; bridge, L2, immediate)", "net at impact; corporate land: wealth reading"),
+            ("net demand at impact, corporate land on the flow reading (bridge, L2)", "net at impact; corporate land: flow reading")])]
+MARKS = {"net demand at impact (flow + collateral; bridge, L1, immediate)":
+             ("net demand at impact, includes the T4 overlap (flow + 6c x crossers' lost equity; bridge, L1)",
+              "net demand at impact, only hand-to-mouth crossers respond (bridge, L1)"),
+         "net demand at impact (flow + collateral; bridge, L2, immediate)":
+             ("net demand at impact, includes the T4 overlap (bridge, L2)", "net demand at impact, only hand-to-mouth crossers respond (bridge, L2)"),
+         "net demand at impact, corporate land on the flow reading (bridge, L2)":
+             ("net demand at impact, includes the T4 overlap, corporate land on the flow reading (bridge, L2)",
+              "net demand at impact, only hand-to-mouth crossers respond, corporate land on the flow reading (bridge, L2)")}
 MI = MACRO.set_index("channel")
-fig = plt.figure(figsize=(14.5, 9.4), dpi=200)
-axP = fig.add_axes([0.30, 0.775, 0.66, 0.085])
-axD = fig.add_axes([0.30, 0.115, 0.66, 0.575])
+
+
+def band_text(r):
+    c, lo, hi = r["central"], r["low"], r["high"]
+    s = signed(c)
+    return s if abs(hi - lo) < 1e-9 else f"{s}  [{signed(lo)}, {signed(hi)}]"
+
+
+fig = plt.figure(figsize=(14.5, 10.8), dpi=200)
+axP = fig.add_axes([0.285, 0.775, 0.50, 0.06])
+axD = fig.add_axes([0.285, 0.125, 0.50, 0.585])
 style_axes(axP, "x")
 for yc, (lab, ch, col) in enumerate([("LVT", "price level step", C2), ("VAT", "price level step (80-100% pass-through)", C1)]):
     r = MI.loc[ch]
     axP.plot([r["low"], r["high"]], [yc, yc], color=col, linewidth=2, solid_capstyle="round", zorder=3)
     axP.plot(r["central"], yc, marker="o", markersize=7, markerfacecolor=col, markeredgecolor=SURF, markeredgewidth=2, zorder=4)
-    axP.text(-0.012, yc, f"{lab}: {r['central']:.1f}%" + (f" [{r['low']:.1f}, {r['high']:.1f}]" if r["high"] > r["low"] else ""),
+    axP.text(-0.012, yc, f"{lab}: {r['central']:.1f}%" + (f"  [{r['low']:.1f}, {r['high']:.1f}]" if r["high"] > r["low"] else "  (no step)"),
              transform=axP.get_yaxis_transform(), ha="right", va="center", fontsize=8.6, color=INK2)
-axP.set_ylim(-0.6, 1.6)
+axP.set_ylim(-0.7, 1.7)
 axP.set_yticks([])
 axP.set_xlim(-0.5, 10)
 axP.set_title("Channel 1: the price level (one-off step, % of the consumer price level)", fontsize=10, color=INK, loc="left")
 style_axes(axD, "x")
 axD.axvline(0, color=AXIS, linewidth=1.0, zorder=2)
-labels, ys = [], []
-y = 0
-for blk, rws, col in [("LVT", rows_l[::-1], C2), ("VAT", rows_v[::-1], C1)]:
-    for ch in rws:
+ylab, yt_, y = [], [], 0.0
+YPOS = {}
+for head_txt, col, rws in ROWS:
+    axD.text(-0.012, y, head_txt, transform=axD.get_yaxis_transform(), ha="right", va="center", fontsize=8.8, color=INK, weight="bold")
+    y += 1.0
+    for ch, lab in rws:
         r = MI.loc[ch]
         axD.plot([r["low"], r["high"]], [y, y], color=col, linewidth=2, solid_capstyle="round", zorder=3)
-        axD.plot(r["central"], y, marker="o", markersize=7, markerfacecolor=col, markeredgecolor=SURF, markeredgewidth=2, zorder=4)
-        axD.annotate(signed(r["central"]), (max(r["high"], r["central"]), y), xytext=(6, 0), textcoords="offset points", va="center",
-                     fontsize=7.6, color=INK2)
-        labels.append(f"{blk}: {short[ch]}")
-        ys.append(y)
-        y += 1
-    y += 0.6
-# the post's published numbers, on the VAT rows they correspond to
-pubs = [("post, published: flow-only path (year 3)", rows_v[0]), ("post, published: central lambda = 0.35 (year 3; band = year 5)", rows_v[5])]
-for ch, target in pubs:
+        axD.plot(r["central"], y, marker="o", markersize=7, markerfacecolor=col, markeredgecolor=SURF, markeredgewidth=2, zorder=5)
+        if ch in MARKS:
+            for ch2, mk_ in zip(MARKS[ch], ["s", "^"]):
+                v2 = float(MI.loc[ch2, "central"])
+                axD.plot(v2, y, marker=mk_, markersize=7.5, markerfacecolor=SURF, markeredgecolor=col, markeredgewidth=1.6, zorder=4)
+                axD.annotate(signed(v2), (v2, y), xytext=(0, -9.5), textcoords="offset points", ha="center", va="top", fontsize=7.0, color=MUTED)
+        axD.text(1.015, y, band_text(r), transform=axD.get_yaxis_transform(), ha="left", va="center", fontsize=8.0, color=INK2)
+        ylab.append(lab)
+        yt_.append(y)
+        YPOS[ch] = y
+        y += 1.0
+    y += 0.45
+# the post's published numbers, under the VAT rows they correspond to (orientation only: a dynamic year-3 path)
+for ch, target in [("post, published: flow-only path (year 3)", "flow impulse, post's method (mid; band = high/low schedules)"),
+                   ("post, published: central lambda = 0.35 (year 3; band = year 5)", "net demand at impact, lambda = 0.35 (flow + levy)")]:
     r = MI.loc[ch]
-    yt = ys[labels.index(f"VAT: {short[target]}")]
-    axD.plot([r["low"], r["high"]], [yt - 0.34, yt - 0.34], color=INK, linewidth=1.2, zorder=3)
-    axD.plot(r["central"], yt - 0.34, marker="D", markersize=5, markerfacecolor=SURF, markeredgecolor=INK, markeredgewidth=1.1, zorder=5)
-r = MI.loc["post, published: full A-K lambda = 1 (year 3; band = year 5)"]
-yt = ys[labels.index(f"VAT: {short[rows_v[4]]}")]
-axD.plot([r["low"], r["high"]], [yt - 0.34, yt - 0.34], color=INK, linewidth=1.2, zorder=3)
-axD.plot(r["central"], yt - 0.34, marker="D", markersize=5, markerfacecolor=SURF, markeredgecolor=INK, markeredgewidth=1.1, zorder=5)
-axD.set_yticks(ys)
-axD.set_yticklabels(labels, fontsize=8.5)
-axD.set_ylim(-0.8, y - 0.2)
-axD.set_xlabel("Change in consumption demand at impact, % of consumption (CE 2024 budget)", fontsize=9)
-axD.set_title("Channel 2: demand (dot: central; line: band)", fontsize=10, color=INK, loc="left")
+    ytp = YPOS[target] + 0.36
+    axD.plot([r["low"], r["high"]], [ytp, ytp], color=INK, linewidth=1.2, zorder=3)
+    axD.plot(r["central"], ytp, marker="D", markersize=5, markerfacecolor=SURF, markeredgecolor=INK, markeredgewidth=1.1, zorder=5)
+axD.set_yticks(yt_)
+axD.set_yticklabels(ylab, fontsize=8.5)
+axD.set_ylim(y - 0.3, -0.7)
+lo_x = min(MACRO.loc[MACRO["channel"].isin(YPOS), "low"].min(), -2.5)
+hi_x = max(MACRO.loc[MACRO["channel"].isin(YPOS), "high"].max(), 1.5)
+axD.set_xlim(np.floor(4 * lo_x - 1) / 4, np.ceil(4 * hi_x + 1) / 4)
+axD.set_xlabel("Change in consumption demand at impact, % of consumption (CE 2024 budget; × 0.455 for % of PCE)", fontsize=9)
+axD.set_title("Channel 2: demand at impact (dot: central; line: band; value column: central [band])", fontsize=10, color=INK, loc="left")
 fig.legend(handles=[Line2D([0], [0], color=C1, linewidth=2, marker="o", markersize=7, markeredgecolor=SURF, label="VAT bridge (this unit, impact)"),
-                    Line2D([0], [0], color=C2, linewidth=2, marker="o", markersize=7, markeredgecolor=SURF, label="LVT, bridge-equivalent rate (impact)"),
+                    Line2D([0], [0], color=C2, linewidth=2, marker="o", markersize=7, markeredgecolor=SURF, label="LVT on L1, bridge-equivalent rate"),
+                    Line2D([0], [0], color=C3, linewidth=2, marker="o", markersize=7, markeredgecolor=SURF, label="LVT on L2, bridge-equivalent rate"),
                     Line2D([0], [0], color=INK, linewidth=1.2, marker="D", markersize=5, markerfacecolor=SURF, markeredgecolor=INK,
-                           label="the post's published path (year 3; band year 5)")],
-           loc="upper left", bbox_to_anchor=(0.30, 0.915), ncol=3, frameon=False, fontsize=8.4, labelcolor=INK2)
-fig.text(0.04, 0.965, "Two channels, kept apart: the LVT has no price step and no lambda, but it has a collateral channel",
+                           label="the post's published path (year 3; band year 5)"),
+                    Line2D([0], [0], linestyle="none", marker="s", markersize=7.5, markerfacecolor=SURF, markeredgecolor=INK2, markeredgewidth=1.6,
+                           label="includes the T4 overlap: lost equity on top of the bill (band edge only)"),
+                    Line2D([0], [0], linestyle="none", marker="^", markersize=7.5, markerfacecolor=SURF, markeredgecolor=INK2, markeredgewidth=1.6,
+                           label="only hand-to-mouth crossers respond")],
+           loc="upper left", bbox_to_anchor=(0.04, 0.905), ncol=3, frameon=False, fontsize=8.0, labelcolor=INK2, columnspacing=2.0)
+hl = {k: MI.loc[k, "central"] for k in ["net demand at impact, lambda = 0.35 (flow + levy)", "net demand at impact (flow + collateral; bridge, L1, immediate)",
+                                         "net demand at impact (flow + collateral; bridge, L2, immediate)"]}
+fig.text(0.04, 0.972, "Two channels: the LVT has no price step, and counted once per owner its demand at impact is about zero to mildly positive",
          fontsize=13.0, color=INK, weight="bold")
-fig.text(0.30, 0.012, "Impact-period, static: flows at the rebuilt MPC schedules; the levy and collateral channels at 2-5 and 4.7-10 cents per $ per year "
-         "on SCF 2025 balance sheets.\nThe post's numbers come from a dynamic ramp-and-rebuild model and are shown for orientation, not as a like-for-like gate. "
-         "Source: out/us_lvt_macro_channels.csv.", fontsize=7.4, color=MUTED, linespacing=1.3)
+fig.text(0.04, 0.951, f"Net demand at impact, % of consumption: VAT {signed(hl['net demand at impact, lambda = 0.35 (flow + levy)'])} (λ = 0.35); "
+         f"LVT {signed(hl['net demand at impact (flow + collateral; bridge, L1, immediate)'])} on residential land, "
+         f"{signed(hl['net demand at impact (flow + collateral; bridge, L2, immediate)'])} with business land (corporate land on the wealth reading).\n"
+         "Each owner's bill counts once, as a flow, plus a credit effect on the borrowing room that 80%-LTV crossers lose. "
+         "The open markers are the readings that move the LVT's sign.", fontsize=9.2, color=INK2, va="top", linespacing=1.4)
+stress_L1 = MI.loc["net demand at impact (flow + collateral; bridge, L1, immediate)", "stress_10c"]
+stress_t4 = MI.loc["collateral on all crossers' lost equity: includes the T4 overlap (bridge, L1, immediate)", "stress_10c"]
+akl = MI.loc["levy channel, lambda = 1 (impact)"]
+fig.text(0.04, 0.012, "Impact-period, static. Flows at the rebuilt MPC schedules (band: high/low). Stock channels on SCF 2025 balance sheets: the levy and "
+         "corporate land at 2-5 cents per $ per year; collateral at 4.7 cents (Aladangady 2017)\nto 5-7 cents (Mian, Rao and Sufi 2013), 6 central; "
+         "band edges pair the extremes. The unit's 10-cent stress value (not from the literature) is not drawn: it puts the L1 net at "
+         f"{signed(stress_L1)} and the T4-overlap collateral at {signed(stress_t4)}.\nOff the chart: the VAT's full A-K corner (λ = 1), levy "
+         f"{signed(akl['central'])} [{signed(akl['low'])}, {signed(akl['high'])}]. The post's numbers come from a dynamic ramp-and-rebuild model (orientation only). "
+         "Source: out/us_lvt_macro_channels.csv, us_lvt_headline.csv.",
+         fontsize=7.3, color=MUTED, linespacing=1.35)
 fig.savefig(FIG / "us_lvt_macro_channels.png", dpi=200)
 plt.close(fig)
 print("\nfigures: us_lvt_net_by_decile.png, us_lvt_demand_shifts_top15.png, us_lvt_who_pays.png, us_lvt_macro_channels.png")

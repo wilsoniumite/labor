@@ -34,27 +34,39 @@ DEC = [f"d{i:02d}" for i in range(1, 11)]
 
 # %% constants: accounting (identities and published inputs)
 YEAR = 2024                       # flow year: CE 2024, SCF 2025 income year, Z.1 2024 land
-CPI_25_TO_24 = 4750.0 / 4625.0    # SCF macro CPILAG for 2025 (README_fed): the extract's 2025 dollars per 2024 dollar
+# SCF macro CPILAG for 2025 (README_fed): the extract's 2025 dollars per 2024 dollar. It restates INCOME (income year
+# 2024) exactly; balance-sheet items are interview-date (2025) values, so their "2024 dollars" are a CPI deflation of
+# 2025 values, not a 2024 valuation. Ratios (LTVs, HtM flags, decile shares) do not depend on it; the calibrated s does.
+CPI_25_TO_24 = 4750.0 / 4625.0
 SCF22_CPIADJ = 4789.0 / 4376.0    # the 2022 extract's 2022 -> 2025 dollar factor (README_fed item 5); for reference
 PHI_FULL = 0.98                   # full capture (design memo 1.1: the 2% is an assessment-error buffer)
-GAMMA, DELTA = 0.02, 0.05         # T4's dial: rent growth / discount; increment-only capture = phi * gamma/delta
+GAMMA, DELTA = 0.02, 0.05         # T4's dial: rent growth / discount, the parameters of the repo's price-path table below
 LEVY_AK = 0.08                    # the post's Auerbach-Kotlikoff levy: "every unit of wealth ... buys about 8% less"
 LAMBDAS = (0.0, 0.35, 1.0)        # the post's levy-perception scenarios (flow only, central, full A-K)
 GS10_FILE = REPO / "pinning" / "cache" / "GS10.csv"        # the paper's vendored FRED copy (monthly, %)
-SHOCK_FILE = REPO / "three-taxes" / "data" / "lvt_shock.csv"   # T11 / memo 7.1 price path at phi = 0.98
+# T11 / memo 7.1 price paths at phi = 0.98 (three-taxes/code/fiscal_napkin.py: gamma 2%, delta 5%, discrete annual timing).
+# One convention for every design: the phase-ins AND increment-only grandfathering are read from this table (0.404 at
+# phi = 0.98); the continuous approximation phi * gamma / delta (0.392) is not used.
+SHOCK_FILE = REPO / "three-taxes" / "data" / "lvt_shock.csv"
+SHOCK_INCREMENT = "increment-only (grandfather r0)"
 
 # %% constants: judgment inputs (each is varied in run_lvt_us.py; bands in the comments)
 # Wealth-effect propensity per dollar of wealth per year: the post's fn 31 range 2-5 cents; central = midpoint.
 MPW = {"low": 0.02, "mid": 0.035, "high": 0.05}
-# Housing-collateral consumption response per dollar of lost equity per year, applied to owners whose LTV crosses a
-# borrowing threshold. low: Aladangady (2017 AER abstract): "$1 increase in home values leads to a $0.047 increase
-# in spending for homeowners", driven by credit-constrained households. mid: Mian, Rao and Sufi (2013 QJE abstract):
-# average MPC out of housing wealth "5-7 cents", higher where households are poorer and more levered (midpoint).
-# high: 0.10, a stress value for levered owners losing access to equity (judgment; MRS give no number for the
-# levered tail in the abstract). Berger, Guerrieri, Lorenzoni and Vavra (2018) supply the mechanism: the response to
-# a permanent house-price shock is about the MPC out of transitory income times the housing value, so it
-# concentrates on constrained, levered owners - the threshold crossers.
-MPC_COLL = {"low": 0.047, "mid": 0.06, "high": 0.10}
+# Housing-collateral consumption response per dollar per year, applied to owners whose LTV crosses a borrowing
+# threshold. The literature (published abstracts): low 4.7c, Aladangady (2017 AER): "$1 increase in home values leads
+# to a $0.047 increase in spending for homeowners", driven by credit-constrained households; mid 6c and lit_high 7c,
+# Mian, Rao and Sufi (2013 QJE): average MPC out of housing wealth "5-7 cents" (midpoint, top), higher where
+# households are poorer and more levered. stress 10c: the unit's own stress value for levered owners losing access to
+# equity (judgment; no source gives a number for the levered tail). Those estimates come from house-price changes
+# that carry no tax bill. Under an LVT an owner-occupier's capitalized land loss IS the present value of the bill
+# (T4), and the flow already charges the bill at the owner's MPC, so the clean collateral concept is the crossers'
+# lost borrowing capacity (a credit effect on top of the bill); applied to their lost equity the same cents count the
+# bill twice ("includes the T4 overlap"), a band edge only. Berger, Guerrieri, Lorenzoni and Vavra (2018) supply the
+# mechanism: the response to a permanent house-price shock is about the MPC out of transitory income times the
+# housing value, so it concentrates on constrained, levered owners; whether all crossers respond or only the
+# hand-to-mouth ones (KVW) is a judgment call, reported both ways.
+MPC_COLL = {"low": 0.047, "mid": 0.06, "lit_high": 0.07, "stress": 0.10}
 LTV_THRESHOLDS = (0.80, 0.90, 1.00)   # cash-out refinance limit (80%), high-LTV lending (90%), negative equity (100%)
 # KVW (2014) hand-to-mouth: liquid wealth at or below half of per-pay-period income. biweekly pay = annual/52 (KVW's
 # pay period, main); monthly = annual/24 (the Fed's 2026 FEDS note on the SCF windfall question).
@@ -86,7 +98,8 @@ SCF_DOLLARS = ["HOUSES", "ORESRE", "NNRESRE", "BUS", "ACTBUS", "NONACTBUS", "FAR
 # %% loading: SCF
 def load_scf(year=2025):
     """SCF summary extract (all five implicates pooled, weight WGT), dollar variables restated in 2024 dollars
-    (both extracts are published in 2025 dollars; README_fed items 5 and 7), income decile from the Fed's own pooled
+    (both extracts are published in 2025 dollars; README_fed items 5 and 7; for balance sheets this is a CPI deflation
+    of interview-date values, see CPI_25_TO_24), income decile from the Fed's own pooled
     weighted percentile groups of INCOME (INCPCTLECAT 1-9, and 10-12 merged), IMPLICATE recomputed from Y1."""
     s = pd.read_csv(TIDY / f"scf{year}_summary.csv.gz")
     s["IMPLICATE"] = s["Y1"] - 10 * s["YY1"]
@@ -462,24 +475,29 @@ def shock_from_household(m, s, dC_month):
 # %% stock channel
 def loss_fraction(phi, design="immediate", shock_table=None):
     """Share of announcement-date land value lost at announcement. 'immediate': credible permanent capture at phi
-    (T4); 'increment': increment-only grandfathering, phi x gamma/delta; 'phasein_<T>y': the lvt_shock.csv price
-    drop at phi = 0.98 for a T-year phase-in, scaled by phi/0.98 (the PV is linear in phi)."""
+    (T4). 'phasein_<T>y' (a T-year phase-in) and 'increment' (increment-only grandfathering: only rent above the
+    announcement-date level is taxed): the price drop in the repo's table (lvt_shock.csv, at phi = 0.98), scaled by
+    phi/0.98 (the PV is linear in phi). One convention for every design; the continuous approximation of the
+    increment-only drop, phi x gamma/delta, would give 0.339 instead of 0.349 at the bridge rate."""
     if design == "immediate":
         return phi
+    t = pd.read_csv(SHOCK_FILE) if shock_table is None else shock_table
     if design == "increment":
-        return phi * GAMMA / DELTA
-    if design.startswith("phasein_"):
-        t = pd.read_csv(SHOCK_FILE) if shock_table is None else shock_table
-        T = design.split("_")[1]
-        row = t[t["design"] == f"phase-in {T}"]
-        return float(row["price_drop"].iloc[0]) * phi / PHI_FULL
-    raise ValueError(design)
+        row = t[t["design"] == SHOCK_INCREMENT]
+    elif design.startswith("phasein_"):
+        row = t[t["design"] == f"phase-in {design.split('_')[1]}"]
+    else:
+        raise ValueError(design)
+    assert len(row) == 1, design
+    return float(row["price_drop"].iloc[0]) * phi / PHI_FULL
 
 
-def collateral(s, loss_frac, thresholds=LTV_THRESHOLDS):
+def collateral(s, loss_frac, thresholds=LTV_THRESHOLDS, groups=None):
     """LTVs of mortgaged owners (primary-residence debt incl. HELOCs, MRTHEL, over HOUSES) before and after the land
-    price falls by loss_frac of the home's land value, and the owners who cross each borrowing threshold.
-    Returns (per-family frame, summary rows)."""
+    price falls by loss_frac of the home's land value, and the owners who cross each borrowing threshold. groups =
+    {name: boolean array over families}: who responds; each summary row then also gives the crossers, their lost
+    equity and their lost borrowing capacity inside each group (e.g. the hand-to-mouth crossers).
+    Returns (per-family frame, summary rows, aggregates)."""
     V0 = s["HOUSES"].values
     M = s["MRTHEL"].values
     loss = loss_frac * s["L_own"].values
@@ -495,12 +513,18 @@ def collateral(s, loss_frac, thresholds=LTV_THRESHOLDS):
         lost_cap = np.maximum(0, th * V0 - M) - np.maximum(0, th * V1 - M)
         f[f"cross_{th:.2f}"] = cross.astype(int)
         f[f"lostcap_{th:.2f}"] = np.where(cross, lost_cap, 0.0)
-        rows.append(dict(threshold=th, n_cross_m=float((w * cross).sum()) / 1e6,
-                         share_of_mortgaged=float((w * cross).sum() / (w * mort).sum()),
-                         above_before_m=float((w * (mort & (ltv0 > th))).sum()) / 1e6,
-                         above_after_m=float((w * (mort & (ltv1 > th))).sum()) / 1e6,
-                         lost_equity_crossers_bn=float((w * np.where(cross, loss, 0)).sum()) / 1e9,
-                         lost_capacity_crossers_bn=float((w * np.where(cross, lost_cap, 0)).sum()) / 1e9))
+        row = dict(threshold=th, n_cross_m=float((w * cross).sum()) / 1e6,
+                   share_of_mortgaged=float((w * cross).sum() / (w * mort).sum()),
+                   above_before_m=float((w * (mort & (ltv0 > th))).sum()) / 1e6,
+                   above_after_m=float((w * (mort & (ltv1 > th))).sum()) / 1e6,
+                   lost_equity_crossers_bn=float((w * np.where(cross, loss, 0)).sum()) / 1e9,
+                   lost_capacity_crossers_bn=float((w * np.where(cross, lost_cap, 0)).sum()) / 1e9)
+        for g, mk in (groups or {}).items():
+            cg = cross & np.asarray(mk, bool)
+            row[f"n_cross_{g}_m"] = float((w * cg).sum()) / 1e6
+            row[f"lost_equity_crossers_{g}_bn"] = float((w * np.where(cg, loss, 0)).sum()) / 1e9
+            row[f"lost_capacity_crossers_{g}_bn"] = float((w * np.where(cg, lost_cap, 0)).sum()) / 1e9
+        rows.append(row)
     agg = dict(ltv_aggregate_before=float((w * M).sum() / (w * V0).sum()),
                ltv_aggregate_after=float((w * M).sum() / (w * np.maximum(V1, 0)).sum()),
                ltv_mortgaged_before=float((w * M * mort).sum() / (w * V0 * mort).sum()),
@@ -508,6 +532,15 @@ def collateral(s, loss_frac, thresholds=LTV_THRESHOLDS):
                median_ltv_before=float(np.nanmedian(ltv0[mort])), n_mortgaged_m=float((w * mort).sum()) / 1e6,
                underwater_after_m=float((w * (mort & (ltv1 > 1))).sum()) / 1e6)
     return f, pd.DataFrame(rows), agg
+
+
+def crossers_bill_flow(s, h, cross, mpc_i):
+    """The T4 overlap in dollars: the crossers' own-home LVT bills at the full rate ($bn/yr) and the response to those
+    bills that the flow impulse already contains (mpc_i x bill, $bn/yr). Under the immediate design their lost equity
+    is exactly these bills capitalized (bill / r); under a phase-in or increment-only design it is less."""
+    w = s["WGT"].values
+    b = h["bill_L_own"].values * np.asarray(cross, bool) * 12.0
+    return float((w * b).sum()) / 1e9, float((w * np.asarray(mpc_i, float) * b).sum()) / 1e9
 
 
 def vat_levy_impact(m, s, lambdas=LAMBDAS, mpw=MPW, levy=LEVY_AK):

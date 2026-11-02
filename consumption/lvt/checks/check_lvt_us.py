@@ -9,6 +9,8 @@
 #   E  household level: aggregates equal the decile accounting; group shares sum to one
 #   F  MPCs: the SCF windfall tabulation against the Fed's FEDS note; the schedules against the rebuild
 #   G  macro: price step, levy channel, LTVs and threshold crossers recomputed, capitalization, the loop
+#   K  the headline: each crosser counted once (flow + credit effect on lost borrowing capacity), the T4-overlap edge,
+#      who responds (hand-to-mouth crossers), corporate land on the wealth reading, the PCE denominator
 #
 # Tolerances: identities that hold to machine precision in run_lvt_us.py are checked to the CSVs' 10 significant digits
 # (about 1e-6 dollars per share-month); recomputations from the SCF file to 1e-6 relative.
@@ -84,9 +86,10 @@ for k, rT in [("m1", L_hh * gs / 100), ("m2", L_hh * (gs + 1.5) / 100), ("m3", 0
 
 # %% B: land by household
 s = pd.read_csv(TIDY / "scf2025_summary.csv.gz", usecols=["Y1", "WGT", "HOUSES", "ORESRE", "NNRESRE", "BUS", "EQUITY", "MRTHEL",
-                                                          "NETWORTH", "INCPCTLECAT", "NINCPCTLECAT", "MPSPEND", "AGE"])
+                                                          "NETWORTH", "INCPCTLECAT", "NINCPCTLECAT", "MPSPEND", "AGE", "LIQ", "STOCKS",
+                                                          "BOND", "NMMF", "CCBAL", "INCOME"])
 w = s["WGT"].values
-for v in ["HOUSES", "ORESRE", "NNRESRE", "BUS", "EQUITY", "MRTHEL", "NETWORTH"]:
+for v in ["HOUSES", "ORESRE", "NNRESRE", "BUS", "EQUITY", "MRTHEL", "NETWORTH", "LIQ", "STOCKS", "BOND", "NMMF", "CCBAL", "INCOME"]:
     s[v] = s[v] / CPI
 dec = np.minimum(s["INCPCTLECAT"].values, 10)
 check("B1", "SCF 2025 families (million)", w.sum() / 1e6, 134.96, 0.01)
@@ -240,13 +243,19 @@ check("G6", "owners crossing 80% LTV (bridge L1 m1, immediate), millions, recomp
 check("G7", "their lost equity, $bn, recomputed", (w * loss * cross).sum() / 1e9, cr["lost_equity_crossers_bn"], 1e-6)
 full = ltv[(ltv["scenario"] == "LVT_full_L1") & (ltv["design"] == "immediate") & ltv["measure"].str.startswith("m1")].iloc[0]
 check("G8", "aggregate LTV after full capture (memo 7.1: 26% -> 48% on Z.1 aggregates)", full["ltv_aggregate_after"], 0.48, 0.02)
+lfl = ltv[ltv["design"] == "land_to_zero"].iloc[0]
+z_lfl = zv("LA153165105", "A_mean", 2024) / (zv("LM155035005", "A_mean", 2024) - L_hh)
+check("G8b", "memo 7.1 like for like (land price to zero, 2024): Z.1 mortgages / (HH real estate - land), recomputed", lfl["z1_ltv_land_to_zero"], z_lfl, 1e-9)
+check("G8c", "memo 7.1 like for like: SCF owners' LTV with the land price at zero, recomputed (sum MRTHEL / sum (HOUSES - s x HOUSES))",
+      lfl["ltv_aggregate_after"], (w * M).sum() / (w * np.maximum(V0 - s_cal * np.clip(V0, 0, None), 0)).sum(), 1e-9)
+check("G8d", "memo 7.1 like for like: SCF within about one point of Z.1 (26% -> 48%)", lfl["ltv_aggregate_after"], lfl["z1_ltv_land_to_zero"], 0.015)
 cap = pd.read_csv(OUT / "us_lvt_capitalization.csv")
 shock = pd.read_csv(REPO / "three-taxes" / "data" / "lvt_shock.csv").set_index("design")["price_drop"]
 for _, r in cap[cap["measure"].str.startswith("m1")].iterrows():
     if r["design"] == "immediate":
         tgt = r["phi"]
-    elif r["design"] == "increment":
-        tgt = r["phi"] * 0.02 / 0.05
+    elif r["design"] == "increment":                       # one convention: the repo table for every design
+        tgt = shock["increment-only (grandfather r0)"] * r["phi"] / 0.98
     else:
         tgt = shock[f"phase-in {r['design'].split('_')[1]}"] * r["phi"] / 0.98
     check(f"G9_{r['scenario']}_{r['design']}", f"capitalized share lost at announcement ({r['scenario']}, {r['design']})", r["loss_fraction"], tgt, 1e-9)
@@ -259,6 +268,109 @@ for _, r in non.iterrows():
     ph_ = float(phi[(phi["rate"] == r["scenario"].split("_")[1]) & (phi["base"] == r["scenario"].split("_")[2]) & phi["measure"].str.startswith("m1")]["phi"].iloc[0])
     check(f"G11_{r['scenario']}_{r['grade']}", f"non-occupier capitalized loss = phi x non-occupier land ({r['scenario']})",
           r["nonocc_capitalized_loss_bn"] / r["nonocc_bill_bn"], 1.0 / inp["r_m1"], 1e-9, "rel")
+
+# %% K: the headline - each crosser counted once
+# The crossers' lost equity is their own-home bills capitalized (bill = r x lost equity at the immediate design), the
+# flow already charges those bills at the decile MPC, so the clean reading adds only a credit effect on the lost
+# borrowing capacity; the T4-overlap reading (flow + 6c x lost equity) is a band edge. Recomputed here from the SCF file.
+mpc_mid = sc["mid"].values[dec - 1]
+Ctot_bn = inp["ce_consumption_bn"]
+cap = np.maximum(0, 0.8 * V0 - M) - np.maximum(0, 0.8 * V1 - M)
+bill_own = phi1 * r1 * s_cal * np.clip(V0, 0, None)                      # $ per year, the immediate-design own-home bill
+cap_bn = (w * cap * cross).sum() / 1e9
+eq_bn = (w * loss * cross).sum() / 1e9
+billx_bn = (w * bill_own * cross).sum() / 1e9
+respx_bn = (w * mpc_mid * bill_own * cross).sum() / 1e9
+check("K1", "crossers' lost borrowing capacity (80%, bridge L1 m1), $bn, recomputed", cap_bn, cr["lost_capacity_crossers_bn"], 1e-6, "rel")
+check("K2", "crossers' own-home bills, $bn/yr, recomputed", billx_bn, cr["crossers_own_bills_bn"], 1e-6, "rel")
+check("K3", "T4: crossers' lost equity = their own-home bills / r (the same money)", cr["lost_equity_crossers_bn"] * r1, cr["crossers_own_bills_bn"], 1e-9, "rel")
+check("K4", "crossers' bill response inside the flow (mid schedule), $bn/yr, recomputed", respx_bn, cr["crossers_bill_response_mid_bn"], 1e-6, "rel")
+liquid = (s["LIQ"] + s["STOCKS"] + s["BOND"] + s["NMMF"] - s["CCBAL"]).values
+inc = s["INCOME"].clip(lower=0).values
+htm = liquid <= inc / 52.0
+liq3 = liquid >= inc / 4.0
+check("K5", "hand-to-mouth crossers (KVW biweekly), millions, recomputed", (w * cross * htm).sum() / 1e6, cr["n_cross_htm_m"], 1e-6, "rel")
+check("K6", "hand-to-mouth crossers' lost equity, $bn, recomputed", (w * loss * cross * htm).sum() / 1e9, cr["lost_equity_crossers_htm_bn"], 1e-6, "rel")
+check("K7", "hand-to-mouth crossers' lost borrowing capacity, $bn, recomputed", (w * cap * cross * htm).sum() / 1e9, cr["lost_capacity_crossers_htm_bn"], 1e-6, "rel")
+check("K8", "share of the crossers' lost equity held by families with >= 3 months' income in liquid assets", (w * loss * cross * liq3).sum() / 1e9 / eq_bn,
+      cr["liquid3m_share_of_lost_equity"], 1e-6, "rel")
+flow = {g: float(imp[(imp["tax"] == "LVT") & (imp["rate"] == "bridge") & (imp["base"] == "L1") & imp["measure"].str.startswith("m1")
+                     & (imp["grade"] == g) & (imp["defer"] == "none")]["impulse_pct"].iloc[0]) for g in ["dn_mid", "dn_high", "dn_low", "dn_meas"]}
+pc = lambda x_bn, c: -100.0 * c * x_bn / Ctot_bn
+nl1 = mac.loc["net demand at impact (flow + collateral; bridge, L1, immediate)"]
+check("K9", "headline L1 central = flow (mid) + 6c x crossers' lost capacity", nl1["central"], flow["dn_mid"] + pc(cap_bn, 0.06), 1e-9)
+check("K10", "headline L1 band low = flow (high schedule) + 7c (top of Mian-Rao-Sufi) x lost capacity", nl1["low"], flow["dn_high"] + pc(cap_bn, 0.07), 1e-9)
+check("K11", "headline L1 band high = flow (low schedule) + 4.7c (Aladangady) x lost capacity", nl1["high"], flow["dn_low"] + pc(cap_bn, 0.047), 1e-9)
+check("K12", "headline L1 at the 10c stress value (labelled, outside the band)", nl1["stress_10c"], flow["dn_high"] + pc(cap_bn, 0.10), 1e-9)
+t4 = mac.loc["net demand at impact, includes the T4 overlap (flow + 6c x crossers' lost equity; bridge, L1)"]
+check("K13", "T4-overlap edge L1 = flow (mid) + 6c x crossers' lost equity (the earlier central)", t4["central"], flow["dn_mid"] + pc(eq_bn, 0.06), 1e-9)
+stk = mac.loc["net demand at impact, crossers' stock response instead of their bill (bridge, L1)"]
+check("K14", "never both: T4 edge - stock-instead-of-bill reading = the crossers' bill response counted twice", t4["central"] - stk["central"],
+      -100.0 * respx_bn / Ctot_bn, 1e-9)
+hm = mac.loc["net demand at impact, only hand-to-mouth crossers respond (bridge, L1)"]
+check("K15", "who responds: hand-to-mouth crossers only = flow (mid) + 6c x their lost capacity", hm["central"],
+      flow["dn_mid"] + pc((w * cap * cross * htm).sum() / 1e9, 0.06), 1e-9)
+ms = mac.loc["net demand at impact, measured windfall MPCs (bridge, L1)"]
+check("K16", "measured windfall MPCs: flow (decile means) + 6c x lost capacity", ms["central"], flow["dn_meas"] + pc(cap_bn, 0.06), 1e-9)
+# L2: corporate land on the wealth reading (3.5c on the capitalized loss instead of the bill at the decile MPC)
+phi2 = float(phi[(phi["rate"] == "bridge") & (phi["base"] == "L2") & phi["measure"].str.startswith("m1")]["phi"].iloc[0])
+ps = N * shares
+q2 = acc[acc["scenario"] == "LVT_bridge_L2_m1"].set_index("decile").loc[DEC]
+nfc_d = np.array([(w * Lnfc)[dec == i].sum() for i in range(1, 11)])
+nfc_bill = phi2 * r1 * nfc_d / (ps * 12)
+loss2 = phi2 * s_cal * np.clip(V0, 0, None)
+V1b = V0 - loss2
+with np.errstate(divide="ignore", invalid="ignore"):
+    cross2 = mort & (M / np.where(V0 > 0, V0, 1) <= 0.8) & (M / np.where(V1b > 0, V1b, 1e-9) > 0.8)
+cap2_bn = (w * cross2 * (np.maximum(0, 0.8 * V0 - M) - np.maximum(0, 0.8 * V1b - M))).sum() / 1e9
+bbar = m["budget_bar"]
+for kk, mpw in [("mid", 0.035), ("low", 0.02), ("high", 0.05)]:
+    dC = sc["mid"].values * (q2["net"].values + nfc_bill) - mpw * phi2 * nfc_d / (ps * 12)
+    fw_ = 100 * float((wd * dC).sum()) / bbar
+    if kk == "mid":
+        fw_mid = fw_
+nl2 = mac.loc["net demand at impact (flow + collateral; bridge, L2, immediate)"]
+check("K17", "headline L2 central: corporate land on the wealth reading (3.5c) + 6c x L2 crossers' lost capacity", nl2["central"],
+      fw_mid + pc(cap2_bn, 0.06), 1e-9)
+f2 = float(imp[(imp["tax"] == "LVT") & (imp["rate"] == "bridge") & (imp["base"] == "L2") & imp["measure"].str.startswith("m1")
+               & (imp["grade"] == "dn_mid") & (imp["defer"] == "none")]["impulse_pct"].iloc[0])
+check("K18", "L2 with corporate land on the flow reading = flow (mid) + 6c x lost capacity",
+      mac.loc["net demand at impact, corporate land on the flow reading (bridge, L2)", "central"], f2 + pc(cap2_bn, 0.06), 1e-9)
+check("K19", "L2 crossers' lost capacity, $bn, recomputed", cap2_bn,
+      col[(col["scenario"] == "LVT_bridge_L2") & (col["design"] == "immediate") & (col["threshold"] == 0.8) & col["measure"].str.startswith("m1")]
+      ["lost_capacity_crossers_bn"].iloc[0], 1e-6, "rel")
+vat_c = mac.loc["net demand at impact, lambda = 0.35 (flow + levy)", "central"]
+check("K20", "VAT net demand at impact unchanged (flow + levy at lambda 0.35, 3.5c)", vat_c,
+      float(imp[(imp["tax"] == "VAT") & (imp["grade"] == "dn_mid")]["impulse_pct"].iloc[0]) - 100 * 0.035 * 0.35 * 0.08 * NW / Ctot, 1e-9)
+pce = inp["pce_2024_bn"]
+dem = mac[mac["unit"] == "% of consumption"]
+check("K21", "every demand row as % of PCE = % of CE consumption x CE/PCE (0.455), max abs gap",
+      float((dem["central_pct_pce"] - dem["central"] * Ctot_bn / pce).abs().max()), 0.0, 1e-9)
+check("K22", "CE consumption / PCE = 0.455", Ctot_bn / pce, 0.455, 0.0005)
+hd = pd.read_csv(OUT / "us_lvt_headline.csv")
+hq = lambda b, c, rd: hd[(hd["base"].fillna("") == b) & (hd["corporate_land"].fillna("") == c) & (hd["reading"] == rd)].iloc[0]
+check("K23", "headline CSV = macro table (L1 clean central)", hq("L1", "not in base", "clean")["central"], nl1["central"], 1e-9)
+check("K24", "headline CSV = macro table (L2 clean central, corporate land on the wealth reading)", hq("L2", "wealth", "clean")["central"], nl2["central"], 1e-9)
+rb = pd.read_csv(OUT / "us_lvt_robustness.csv")
+rb1 = rb[(rb["base"] == "L1") & rb["collateral_capacity_mid_pct"].notna()]
+check("K25", "robustness, L1 rows: net (clean) = flow + 6c x lost capacity, max abs gap",
+      float((rb1["net_clean_mid_pct"] - rb1["impulse_dn_mid"] - rb1["collateral_capacity_mid_pct"]).abs().max()), 0.0, 1e-9)
+lpm = lp[(lp["scenario"] == "LVT_bridge_L1_m1") & (lp["ls"] == "mid")].iloc[0]
+lpv = lp[(lp["scenario"] == "VAT") & (lp["ls"] == "mid") & (lp["measure"].astype(str).str.startswith("m1"))].iloc[0]
+Lore = s_cal * s["ORESRE"].clip(lower=0).values
+key1 = np.array([(w * Lore)[dec == i].sum() for i in range(1, 11)]) / (w * Lore).sum()
+hold_mpc = float((key1 * sc["mid"].values).sum())
+inc_l = 0.4 * lpm["rent_bar_round0"] * 12 * S_CE / 1e9
+check("K27", "loop: the LVT's land-rent increment ($bn/yr) = 0.4 x round-0 rent bar x CE shares x 12", lpm["land_rent_increment_bn"], inc_l, 1e-9, "rel")
+check("K28", "loop: the rental-land holders' uncredited receipt at their MPC (rental-land-weighted mid schedule), % of consumption, LVT",
+      lpm["uncredited_receipt_pct"], 100 * hold_mpc * inc_l / Ctot_bn, 1e-9)
+check("K29", "loop: the same for the VAT's own (smaller) increment", lpv["uncredited_receipt_pct"],
+      100 * hold_mpc * 0.4 * lpv["rent_bar_round0"] * 12 * S_CE / 1e9 / Ctot_bn, 1e-9)
+check("K30", "loop: the rent bar as a share of rent spending (a rent-price effect on a fixed stock)", lpm["rent_bar_share_of_rent_spending"],
+      lpm["rent_bar_round0"] / float(m["Cbar"]["Rented dwellings"]), 1e-9, "rel")
+check("K26", "robustness main rows = the headline (L1 and L2 clean centrals), max abs gap",
+      max(abs(float(rb[rb["variant"].str.startswith("main: SCF 2025") & (rb["base"] == b_)]["net_clean_mid_pct"].iloc[0]) - v_)
+          for b_, v_ in [("L1", nl1["central"]), ("L2", nl2["central"])]), 0.0, 1e-9)
 
 # %% H: deliverables exist
 for f in ["us_lvt_net_by_decile.png", "us_lvt_demand_shifts_top15.png", "us_lvt_who_pays.png", "us_lvt_macro_channels.png"]:

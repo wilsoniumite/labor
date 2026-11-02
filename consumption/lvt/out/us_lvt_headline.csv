@@ -1,0 +1,27 @@
+instrument,base,corporate_land,reading,label,central,low,high,stress_10c,central_pct_pce,low_pct_pce,high_pct_pce
+LVT,L1,not in base,flow,flow impulse only (post's method),0.9764573817,0.7677649388,1.188152005,,0.4444055887,0.3494254189,0.5407521118
+LVT,L1,not in base,clean,flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once),0.1475200316,-0.1993286363,0.5388177474,-0.6137973113,0.06713936286,-0.09071851123,0.2452269016
+LVT,L1,not in base,t4,flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only),-0.9082140319,-1.431018377,-0.2881739356,-2.373354084,-0.413346654,-0.6512855309,-0.1311538116
+LVT,L1,not in base,htm,flow + credit effect on hand-to-mouth crossers' lost borrowing capacity (only constrained crossers respond),0.7679395969,0.52449419,1.024813074,0.4202352976,0.3495049093,0.2387079596,0.4664132463
+LVT,L1,not in base,stock,crossers' stock response (lost equity) instead of their bill response (each crosser counted once),-0.03711659112,-0.4325579172,0.4429358644,,-0.01689251455,-0.1968658944,0.201589109
+LVT,L1,not in base,measured,measured SCF windfall MPCs: flow + credit effect on all crossers' lost capacity,-0.6772679696,-0.8154241946,-0.497664877,,-0.3082384099,-0.3711161142,-0.2264973943
+LVT,L1,not in base,measured_htm,"measured SCF windfall MPCs: flow + credit effect, hand-to-mouth crossers only",-0.05684840422,-0.09160136834,-0.01166955085,,-0.02587286349,-0.04168964338,-0.00531104963
+LVT,L1,all non-occupier land,clean,"flow + credit effect on all crossers' lost capacity, with every non-occupier's land on the wealth reading (3.5c; 5c / 2c)",-0.2346188659,-1.004893623,0.5634948695,,-0.1067798116,-0.4573474997,0.2564579611
+LVT,L2,wealth,flow,flow impulse only (post's method),0.9785414748,0.4660394085,1.484306308,,0.4453541018,0.2121040012,0.6755379506
+LVT,L2,wealth,clean,flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once),0.6660188338,0.1014296607,1.239496906,-0.0548316598,0.3031186997,0.04616269887,0.564120219
+LVT,L2,wealth,t4,flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only),0.2517202192,-0.381918723,0.9149629909,-0.7453293508,0.1145629848,-0.1738189686,0.4164182423
+LVT,L2,wealth,htm,flow + credit effect on hand-to-mouth crossers' lost borrowing capacity (only constrained crossers respond),0.8856871946,0.357709415,1.411570455,0.3112822749,0.4030942328,0.1628008207,0.6424343865
+LVT,L2,wealth,stock,crossers' stock response (lost equity) instead of their bill response (each crosser counted once),0.5943061004,0.008538369384,1.204831993,,0.2704807781,0.003885985342,0.5483435133
+LVT,L2,wealth,measured,measured SCF windfall MPCs: flow + credit effect on all crossers' lost capacity,-0.78824156,-0.8403286668,-0.7205283211,,-0.3587447451,-0.3824506454,-0.3279270747
+LVT,L2,wealth,measured_htm,"measured SCF windfall MPCs: flow + credit effect, hand-to-mouth crossers only",-0.5685731992,-0.5840489125,-0.5484547718,,-0.2587692121,-0.2658125236,-0.2496129071
+LVT,L2,flow,flow,flow impulse only (post's method),1.242285642,0.9830201861,1.504948658,,0.5653894297,0.4473924542,0.6849327036
+LVT,L2,flow,clean,flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once),0.9297630013,0.6184104382,1.260139256,0.4621491178,0.4231540277,0.2814511519,0.5735149721
+LVT,L2,flow,t4,flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only),0.5154643868,0.1350620546,0.9356053415,-0.2283485732,0.2345983128,0.06146948447,0.4258129954
+LVT,L2,flow,htm,flow + credit effect on hand-to-mouth crossers' lost borrowing capacity (only constrained crossers respond),1.149431362,0.8746901925,1.432212806,0.8282630524,0.5231295607,0.3980892737,0.6518291396
+LVT,L2,flow,stock,crossers' stock response (lost equity) instead of their bill response (each crosser counted once),0.858050268,0.5255191469,1.225474344,,0.3905161061,0.2391744384,0.5577382663
+LVT,L2,flow,measured,measured SCF windfall MPCs: flow + credit effect on all crossers' lost capacity,-0.1233715484,-0.1754586552,-0.05565830954,,-0.05614889767,-0.079854798,-0.02533122723
+LVT,L2,flow,measured_htm,"measured SCF windfall MPCs: flow + credit effect, hand-to-mouth crossers only",0.0962968124,0.08082109904,0.1164152398,,0.04382663535,0.03678332385,0.0529829403
+LVT,L2,all non-occupier land,clean,"flow + credit effect on all crossers' lost capacity, with every non-occupier's land on the wealth reading (3.5c; 5c / 2c)",-0.1319379152,-1.505348323,1.21831322,,-0.06004762519,-0.6851145991,0.5544790933
+VAT,,,net,flow + levy at lambda = 0.35 (2-5c),-1.369774562,-2.207413235,-0.5309613628,,-0.6234122266,-1.004638601,-0.2416513014
+VAT,,,measured,measured SCF windfall MPCs: flow + credit effect on all crossers' lost capacity,-1.698473858,-2.452192893,-0.9447548233,,-0.7730099531,-1.116042796,-0.4299771104
+VAT,,,flow,flow impulse only (post's method),0.3889031864,0.304983548,0.4739973505,,0.1769977397,0.1388042077,0.2157258223
