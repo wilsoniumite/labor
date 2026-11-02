@@ -1358,13 +1358,19 @@ EVID = [
                 f"give {POST_CW_FIG0[0]:.0f}-{POST_CW_FIG0[1]:.0f} cents, its body text {POST_CW_BODY[0]:.0f}-"
                 f"{POST_CW_BODY[1]:.0f}; Figs 8-10 use {100 * POST_CW_FIGS:.1f}."),
     dict(source="Fingerprint test (sibling unit, NOTES_fingerprint.md)",
-         ranking="dPCE (spending) and CE (income) category market shares", years="2023-09 to 2026-09",
-         shows=("Depends on the care lines. With them, the dPCE source reads below a K and the CE source above "
-                "its calm-years reference; without them, both sit at their calm-years reference reading over three "
-                "years, 11-13 points short of Zandi's split, except the CE source's four-year real reading."),
+         ranking="dPCE (spending) and CE (income) category market shares",
+         years="2022-09 to 2026-09 (two-, three- and four-year windows)",
+         shows=("Without the care lines, the dPCE source (spending-ranked) reads at its calm-years reference in every "
+                "window (within 2 points, real); the CE source (income-ranked) reads above its reference in most "
+                "windows in real terms (three years: +1.8 like for like, -0.7 to +6.7 by theta year, where Zandi's "
+                "split adds 12.5; two and four years: +5 to +10 and +14 to +15, where it adds 8.2 and 17.0), but "
+                "below it in nominal terms. With the care lines in, the dPCE source reads below its reference, "
+                "because it gives health care to its recipients."),
          consistent="can't tell",
-         caveat=("The category mix cannot tell a care boom from a K as built; the calm-years reference rests on 1-3 "
-                 "non-overlapping windows; backtest false alarms in 2 of 7 CE-source windows.")),
+         caveat=("Can neither confirm nor rule out a K of Zandi's size: where group totals are known, the CE "
+                 "source's three-year error has a standard deviation of 47 points (Zandi's gap: 12.5), and it read "
+                 "+97 for the CE's own +8.7 in 2020-2023; the calm-years reference rests on 1-3 non-overlapping "
+                 "windows; the category mix cannot tell a care boom from a K.")),
     dict(source="Moody's estimates (press reports: top 10% about half of spending)",
          ranking="not published", years="2025",
          shows="Not used: method and data are not public, so the figure cannot be checked or put on a footing.",

@@ -42,8 +42,9 @@
 #      all-CU means at UCC level).
 #
 # Run from the repo root:  venv/bin/python -I consumption/recent/code/fingerprint.py
-# Outputs: consumption/recent/out/fingerprint_*.csv, out/top_tilt_monthly.csv, figures/fig_fingerprint_*.png,
-# figures/fig_top_tilt.png. Checks: consumption/recent/checks/check_fingerprint.py.
+# Outputs: consumption/recent/out/fingerprint_*.csv, out/top_tilt_monthly.csv, out/fingerprint_notes_tables.md (the
+# tables NOTES_fingerprint.md carries verbatim), figures/fig_fingerprint_*.png, figures/fig_top_tilt.png.
+# Checks: consumption/recent/checks/check_fingerprint.py.
 # Plain functions plus top-level code, so each block can be pasted into a notebook cell.
 
 # %% setup
@@ -1653,10 +1654,15 @@ for (kind, T, measure, gsrc, sample, spec), x in POWER.groupby(["kind", "T_years
     if "gap_error" in x and x.gap_error.notna().any():
         sd = x.gap_error.std()
         nov = non_overlapping(x, monthly, L)
+        # power_vs_zandi_err: probability that a two-sided 5% test rejects zero IN THE POSITIVE DIRECTION if the true
+        # gap is Zandi's (normal errors with the all-window sd), the upper tail only; it can fall below 0.05.
+        # power_vs_zandi_err_2sided adds the lower tail: the full rejection probability of the two-sided test.
+        p_up = float(stats.norm.cdf(zandi_gap(T) / sd - z975))
         r.update(err_mean=x.gap_error.mean(), err_sd=sd, err_rmse=float(np.sqrt(np.mean(x.gap_error ** 2))),
                  err_n_nonoverlap=len(nov), err_sd_nonoverlap=nov.gap_error.std(),
                  actual_gap_mean=x.gap_actual.mean(), actual_gap_sd=x.gap_actual.std(),
-                 power_vs_zandi_err=float(stats.norm.cdf(zandi_gap(T) / sd - z975)))
+                 power_vs_zandi_err=p_up,
+                 power_vs_zandi_err_2sided=p_up + float(stats.norm.cdf(-zandi_gap(T) / sd - z975)))
     calm = x[[is_calm(src, a, b) for a, b in zip(x.t0, x.t1)]]
     if len(calm):
         nov = non_overlapping(calm, monthly, L)
@@ -1817,8 +1823,12 @@ def pct(x, _=None):
 
 # --- scatter: category real growth 2023-09 -> 2026-09 against theta_top20, A and B --------------------------
 # Care lines (definition (c), CARE_ROOTS) in slot-3 aqua, the other categories in slot-1 blue; the fit on all
-# categories in a neutral ink, the fit without the care lines in blue (it is fitted on the blue bubbles), Zandi's
-# split in slot-2 orange, the flat split in muted gray. Three hues: the all-pairs-validated scatter set.
+# categories in a neutral ink, the fit without the care lines in blue (it is fitted on the blue bubbles). The two
+# benchmarks are drawn for the sample without the care lines, through the point its fit passes through (the
+# weighted means of theta and growth), so only the slopes differ: the calm-years reading (the estimator's mean
+# reading in 2010s windows of the same length, when no K is claimed) dashed in muted gray, and Zandi's prediction,
+# that reading plus his three-year gap, in slot-2 orange. Not his raw gap: the estimator does not read zero in calm
+# years, so a line of slope 12.5 is not what his split predicts. Three hues: the all-pairs-validated scatter set.
 SC_WIN = "2023-09->2026-09"
 SHORT_B = {154: "Tenant rent", 141: "Tobacco", 177: "Home health care", 291: "Higher education",
            123: "Prescription drugs", 71: "Telephone equipment", 6: "New autos", 9: "New light trucks",
@@ -1865,12 +1875,12 @@ for ax, src in zip(axes, ("A_dPCE", "B_CE")):
                     xytext=(-6 if right else 6, -10 if r.g > yhi else 4), textcoords="offset points", fontsize=7,
                     color=INK2, ha="right" if right else "left")
     xs = np.linspace(cf.theta_top20.min() - 0.01, cf.theta_top20.max() + 0.01, 50)
-    tb = rr.theta_top20_bar
-    for y, col, lab, lw in ((rr.x_b80 + rr.gap * xs, INK2, "fit, all categories", 1.6),
-                            (rc.x_b80 + rc.gap * xs, BLUE, "fit without the care lines", 2.0),
-                            (rr.agg_growth + (xs - tb) * rr.zandi_gap_cum, ORANGE, "Zandi's split", 1.6),
-                            (np.full_like(xs, rr.agg_growth), MUTED, "flat: all groups alike", 1.2)):
-        ax.plot(xs, y, color=col, lw=lw, solid_capstyle="round", zorder=4, label=lab)
+    tb, gb = rc.theta_top20_bar, rc.agg_growth                  # the no-care fit passes through (tb, gb)
+    for y, col, lab, lw, ls in ((rr.x_b80 + rr.gap * xs, INK2, "fit, all categories", 1.6, "-"),
+                                (rc.x_b80 + rc.gap * xs, BLUE, "fit without the care lines", 2.0, "-"),
+                                (gb + (xs - tb) * rc.ref_mean, MUTED, "calm-years reading", 1.6, (0, (4, 2.5))),
+                                (gb + (xs - tb) * rc.zandi_prediction, ORANGE, "Zandi's prediction", 1.8, "-")):
+        ax.plot(xs, y, color=col, lw=lw, ls=ls, solid_capstyle="round", dash_capstyle="round", zorder=4, label=lab)
     # selective labels: the categories that move the slope most (B), the largest residuals (A), and the main care
     # lines (relief for the low-contrast aqua)
     if src == "B_CE":
@@ -1893,26 +1903,35 @@ for ax, src in zip(axes, ("A_dPCE", "B_CE")):
     ax.set_xlabel(f"top 20% share of the category's spending (theta, base year {MAIN_THETA[src]})")
     ttl = ("A: 16 major product lines, BLS distributional PCE (spending-ranked deciles)" if src == "A_dPCE"
            else f"B: {len(cf)} PCE lines, CE income deciles mapped through UCCs")
+    nocare = ("without health care (line 16, A's only care line)" if src == "A_dPCE" else "without the care lines")
     ax.text(0, 1.012, f"all categories: gap {100 * rr.gap:+.1f} pts (95% CI {100 * rr.ci_lo:+.0f} to "
-            f"{100 * rr.ci_hi:+.0f}), placebo p = {rr.p_placebo:.2f}\n"
-            f"without the care lines: gap {100 * rc.gap:+.1f} pts (95% CI {100 * rc.ci_lo:+.0f} to {100 * rc.ci_hi:+.0f}), "
-            f"p = {rc.p_placebo:.2f}; Zandi's split {100 * rr.zandi_gap_cum:+.1f} pts",
+            f"{100 * rr.ci_hi:+.0f}), placebo p = {rr.p_placebo:.2f}; calm-years reading {100 * rr.ref_mean:+.1f}\n"
+            f"{nocare}: gap {100 * rc.gap:+.1f} pts (95% CI {100 * rc.ci_lo:+.0f} to {100 * rc.ci_hi:+.0f}), "
+            f"p = {rc.p_placebo:.2f}\n"
+            f"    calm-years reading {100 * rc.ref_mean:+.1f}; Zandi's prediction (calm + "
+            f"{100 * rc.zandi_gap_cum:.1f}) {100 * rc.zandi_prediction:+.1f}",
             transform=ax.transAxes, fontsize=7.6, color=INK2, va="bottom", linespacing=1.4)
-    ax.set_title(ttl, loc="left", fontsize=9.5, pad=30)
+    ax.set_title(ttl, loc="left", fontsize=9.5, pad=42)
 axes[0].set_ylabel("real growth of category, 2023-09 to 2026-09")
 h, l = axes[1].get_legend_handles_labels()
 order = [l.index(k) for k in ("category outside care (area = 2023-09 spending)",
                               "care line: health care, medical goods, health insurance, child care",
-                              "fit, all categories", "fit without the care lines", "Zandi's split",
-                              "flat: all groups alike")]
+                              "fit, all categories", "fit without the care lines", "calm-years reading",
+                              "Zandi's prediction")]
 fig.legend([h[i] for i in order], ["category outside care (area = spending)",
                                    "care line (health care, medical goods, health insurance, child care)",
-                                   "fit, all categories", "fit without the care lines",
-                                   "Zandi's split (top +4%/yr, bottom 80% 0)", "flat (all groups alike)"],
-           loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.005))
+                                   "fit, all categories", "fit without the care lines (A: without health care)",
+                                   "calm-years reading without them (no K)",
+                                   "Zandi's prediction: calm-years reading + his 12.5 pts"],
+           loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.07), markerscale=0.55)
 fig.suptitle("Do the categories the top 20% buy outgrow the rest? Real category growth vs the top 20% market share",
              x=0.06, ha="left", fontsize=11, fontweight="bold", y=0.995)
-fig.subplots_adjust(left=0.06, right=0.97, top=0.84, bottom=0.19)
+fig.text(0.06, 0.008, "Slopes are cumulative top20 - bottom80 gaps in points. Calm-years reading: the estimator's mean "
+         "reading over 36-month windows in 2010-2019 (A) and 2014-2019 (B), when no K\nis claimed. It is not zero, "
+         "so Zandi's split predicts that reading plus his 12.5 points, not a slope of 12.5. Both benchmark lines are "
+         "for the sample without the care lines\nand pass through the point its fit passes through.",
+         fontsize=7.5, color=MUTED, linespacing=1.35)
+fig.subplots_adjust(left=0.06, right=0.97, top=0.82, bottom=0.24)
 fig.savefig(FIG / "fig_fingerprint_scatter.png", dpi=200)
 plt.close(fig)
 
@@ -1966,40 +1985,69 @@ fig.subplots_adjust(left=0.08, right=0.98, top=0.91, bottom=0.15)
 fig.savefig(FIG / "fig_fingerprint_backtest.png", dpi=200)
 plt.close(fig)
 
-# --- top tilt: 12-month tilt and implied gap, monthly -------------------------------------------------------
-fig, axes = plt.subplots(2, 1, figsize=(12, 7.2), sharex=True, gridspec_kw=dict(hspace=0.16, height_ratios=[1, 1]))
+# --- top tilt: 12-month tilt and implied gap, monthly; one column per source ---------------------------------
+# Each source is compared with its own 2015-2019 level (dashed, muted gray), not with zero: in quiet years both
+# baskets read a tilt from Engel effects, relative prices and trends, and B's is large. The orange line is that
+# level plus what a Zandi-size K would add (kappa x 4 points for the tilt, whose kappa differs by source; 4 points
+# a year for the implied gap), the same comparison as the read's calm reference. 2015-2019 is the span both sources
+# cover (B's monthly series starts in 2015-01). Columns are as wide as their spans, so a year has one width.
+TILT_CALM = ("2015-01", "2019-12")
+TILT_RECENT = ("2024-01", "2026-09")
 tm = TILT_M.copy()
 tm["dt"] = pd.PeriodIndex(tm.date, freq="M").to_timestamp()
-for ax in axes:
-    style_axes(ax)
-    for a, b in NBER:
-        if b >= "2007-01":
-            ax.axvspan(pd.Period(a, "M").to_timestamp(), pd.Period(b, "M").to_timestamp(), color=GRID, alpha=0.9,
-                       lw=0, zorder=0)
-    ax.axvspan(pd.Timestamp("2020-01-01"), pd.Timestamp("2020-12-31"), color=GRID, alpha=0.45, lw=0, zorder=0)
-    ax.axhline(0, color=AXIS, lw=0.8, zorder=1)
-for src, col, lab in (("A_dPCE", BLUE, "A: 16 lines, dPCE theta"), ("B_CE", AQUA, "B: CE-mapped PCE lines")):
+spans = [tm[tm.source == s].shape[0] for s in ("A_dPCE", "B_CE")]
+fig, axes = plt.subplots(2, 2, figsize=(12.4, 7.8), sharex="col", sharey="row",
+                         gridspec_kw=dict(hspace=0.30, wspace=0.05, width_ratios=spans))
+TILT_YLIM = {"tilt_12m": (-0.012, 0.014), "implied_gap_12m": (-0.25, 0.30)}
+for j, (src, col, ttl) in enumerate((("A_dPCE", BLUE, "A: 16 lines, dPCE theta (spending-ranked)"),
+                                     ("B_CE", AQUA, "B: CE-mapped PCE lines (income-ranked)"))):
     x = tm[tm.source == src]
-    axes[0].plot(x.dt, x.tilt_12m, color=col, lw=1.4, label=lab)
-    axes[1].plot(x.dt, x.implied_gap_12m, color=col, lw=1.4, label=lab)
-za = tm[tm.source == "A_dPCE"]
-axes[0].plot(za.dt, za.zandi_tilt_12m, color=ORANGE, lw=1.2, label="tilt a Zandi-size K would give (A weights)")
-axes[1].axhline(ZANDI_TOP - ZANDI_B80, color=ORANGE, lw=1.2, label="Zandi: +4 pts a year")
-axes[0].set_ylabel("top-20 basket minus bottom-80 basket,\nreal growth over 12 months (pts)")
-axes[1].set_ylabel("implied top20 - bottom80 gap\n= tilt / kappa (pts a year)")
-axes[0].yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{100 * v:+.1f}" if v else "0"))
-axes[1].yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{100 * v:+.0f}" if v else "0"))
-ylim = np.nanpercentile(np.abs(tm.implied_gap_12m), 97)
-axes[1].set_ylim(-1.1 * ylim, 1.1 * ylim)
-axes[0].legend(loc="upper left", ncol=3, fontsize=8)
-axes[1].legend(loc="upper left", ncol=3, fontsize=8)
-axes[0].set_title("Top-tilt index: do the top 20%'s categories outgrow the bottom 80%'s? (fixed base-year baskets, "
-                  "12-month real changes)", loc="left", fontsize=10)
-axes[1].text(0.0, -0.16, "Shaded: NBER recessions (dark) and calendar 2020 (light). Lower panel clipped at the 97th "
-             "percentile of |gap|; the 2020-21 swings run off the scale.\nMonthly A from 2007-01 (2006 bases via "
-             "2.4.3U quantity indexes), B from 2015-01 (CE base years 2014-2025).", transform=axes[1].transAxes,
-             fontsize=7.5, color=MUTED, va="top")
-fig.subplots_adjust(left=0.09, right=0.97, top=0.94, bottom=0.11)
+    calm = x[(x.date >= TILT_CALM[0]) & (x.date <= TILT_CALM[1])]
+    rec = x[(x.date >= TILT_RECENT[0]) & (x.date <= TILT_RECENT[1])]
+    for i, (var, unit, zk) in enumerate((("tilt_12m", "pts", "zandi_tilt_12m"),
+                                         ("implied_gap_12m", "pts a year", None))):
+        ax = axes[i, j]
+        style_axes(ax)
+        for a, b in NBER:
+            if b >= x.date.iloc[0]:
+                ax.axvspan(pd.Period(a, "M").to_timestamp(), pd.Period(b, "M").to_timestamp(), color=GRID,
+                           alpha=0.9, lw=0, zorder=0)
+        ax.axvspan(pd.Timestamp("2020-01-01"), pd.Timestamp("2020-12-31"), color=GRID, alpha=0.45, lw=0, zorder=0)
+        ax.axhline(0, color=AXIS, lw=0.8, zorder=1)
+        lvl = float(calm[var].mean())
+        zk_add = x[zk] if zk else pd.Series(ZANDI_TOP - ZANDI_B80, index=x.index)
+        ax.plot(x.dt, x[var], color=col, lw=1.5, zorder=3, solid_joinstyle="round",
+                label="A: 16 lines, dPCE theta" if j == 0 else "B: CE-mapped PCE lines")
+        ax.plot(x.dt, np.full(len(x), lvl), color=MUTED, lw=1.5, ls=(0, (4, 2.5)), zorder=4,
+                label="each source's own 2015-2019 level")
+        ax.plot(x.dt, lvl + zk_add, color=ORANGE, lw=1.6, zorder=4,
+                label="that level plus a Zandi-size K")
+        ax.set_ylim(*TILT_YLIM[var])
+        rec_med = float(rec[var].median())
+        z_now = float(zk_add.loc[rec.index].mean())
+        f = (lambda v: f"{100 * v:+.2f}") if var == "tilt_12m" else (lambda v: f"{100 * v:+.1f}")
+        ax.text(0, 1.02, f"2015-2019 level {f(lvl)} {unit}; with a Zandi-size K {f(lvl + z_now)};\n"
+                         f"median 2024-01 to 2026-09 {f(rec_med)}", transform=ax.transAxes, fontsize=7.8,
+                color=INK2, va="bottom", linespacing=1.4)
+        if i == 0:
+            ax.set_title(ttl, loc="left", fontsize=9, pad=30)
+axes[0, 0].set_ylabel("top-20 basket minus bottom-80 basket,\nreal growth over 12 months (pts)")
+axes[1, 0].set_ylabel("implied top20 - bottom80 gap\n= tilt / kappa (pts a year)")
+axes[0, 0].yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{100 * v:+.1f}" if abs(v) > 1e-12 else "0"))
+axes[1, 0].yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{100 * v:+.0f}" if abs(v) > 1e-12 else "0"))
+h0, l0 = axes[0, 0].get_legend_handles_labels()
+h1, l1 = axes[0, 1].get_legend_handles_labels()
+fig.legend([h0[0], h1[0], h0[1], h0[2]], [l0[0], l1[0], "each source's own 2015-2019 level (dashed)",
+                                          "that level plus a Zandi-size K: kappa x 4 pts (tilt), 4 pts a year (gap)"],
+           loc="lower center", ncol=4, bbox_to_anchor=(0.5, 0.068), fontsize=8)
+fig.suptitle("Top-tilt index: do the top 20%'s categories outgrow the bottom 80%'s? Compare each line with its own "
+             "2015-2019 level, not with zero", x=0.085, ha="left", fontsize=10.5, fontweight="bold", y=0.985)
+fig.text(0.085, 0.008, "Fixed base-year baskets, 12-month real changes. Shaded: NBER recessions (dark) and calendar "
+         "2020 (light). Rows clipped at -1.2 to +1.4 points (tilt) and -25 to +30 points\na year (gap); the 2020-23 "
+         "swings run off the scale. Monthly A from 2007-01 (2006 bases via 2.4.3U quantity indexes), B from 2015-01 "
+         "(CE base years 2014-2025).\nThe Zandi-size K line is drawn over the whole span as a scale; his claim covers "
+         "about 2023-2026.", fontsize=7.4, color=MUTED, linespacing=1.35)
+fig.subplots_adjust(left=0.085, right=0.985, top=0.865, bottom=0.17)
 fig.savefig(FIG / "fig_top_tilt.png", dpi=200)
 plt.close(fig)
 
@@ -2019,5 +2067,229 @@ print(BACKTEST[BACKTEST.spec.isin(["2grp", "2grp_eta"])][["window", "source", "s
 print(FALSE_ALARMS.to_string(index=False))
 print(POWER_SUMMARY[POWER_SUMMARY.ref_mean.notna() | POWER_SUMMARY.err_sd.notna()][
     ["kind", "T_years", "measure", "growth_source", "sample", "spec", "n_windows", "err_sd", "err_n_nonoverlap",
-     "err_sd_nonoverlap", "power_vs_zandi_err", "ref_mean", "ref_min", "ref_max", "ref_n_windows", "ref_n_nonoverlap",
-     "ref_nonoverlap", "latest_gap", "latest_minus_ref"]].round(4).to_string(index=False))
+     "err_sd_nonoverlap", "power_vs_zandi_err", "power_vs_zandi_err_2sided", "ref_mean", "ref_min", "ref_max",
+     "ref_n_windows", "ref_n_nonoverlap", "ref_nonoverlap", "latest_gap", "latest_minus_ref"]].round(4)
+      .to_string(index=False))
+
+# %% 12. Tables for NOTES_fingerprint.md
+# ---------------------------------------------------------------------------------------------------------
+# 12. Tables for NOTES_fingerprint.md, generated from the CSVs written above and read back from out/, so the tables
+#     show exactly what the files hold (the cell can be rerun after the earlier cells' definitions without
+#     recomputing anything). The notes carry every table verbatim; check_fingerprint.py verifies that and
+#     recomputes the numbers the plain-words answer quotes. Every number is rounded once, from the CSV value: the
+#     second review found six numbers in the text rounded twice from rounded table values.
+# ---------------------------------------------------------------------------------------------------------
+NT_READ = pd.read_csv(OUT / "fingerprint_read.csv")
+NT_PW = pd.read_csv(OUT / "fingerprint_power.csv", dtype={"t0": str, "t1": str})
+NT_TM = pd.read_csv(OUT / "top_tilt_monthly.csv")
+NT_SUMM = NT_PW[NT_PW.kind.str.startswith("summary")]
+NT_ROWS = NT_PW[~NT_PW.kind.str.startswith("summary")]
+NT_WIN = {"2023->2025": "2023 -> 2025", "2023-09->2026-09": "2023-09 -> 2026-09",
+          "2022-09->2026-09": "2022-09 -> 2026-09"}
+NT_SAMPLE = {("A_dPCE", "all"): "A, all", ("A_dPCE", "drop_care"): "A, without health care",
+             ("B_CE", "all"): "B, all", ("B_CE", "drop_care"): "B, without care lines"}
+NT_COLS = (("A_dPCE", "nominal"), ("A_dPCE", "real"), ("B_CE", "nominal"), ("B_CE", "real"))
+
+
+def nt_pts(v, nd=1):
+    """Points from a fraction, signed, rounded once: 0.12034 -> '+12.0'."""
+    return f"{100 * v:+.{nd}f}"
+
+
+def nt_p(p):
+    return f"{p:.2f}" if p >= 0.1 else f"{p:.3f}"
+
+
+def nt_md(header, rows):
+    out = ["| " + " | ".join(header) + " |", "|" + "|".join("---" for _ in header) + "|"]
+    return "\n".join(out + ["| " + " | ".join(r) + " |" for r in rows])
+
+
+def nt_read(win, src, ty, measure, sample, spec="2grp"):
+    x = NT_READ[(NT_READ.window == win) & (NT_READ.source == src) & (NT_READ.theta_base_year == ty)
+                & (NT_READ.measure == measure) & (NT_READ["sample"] == sample) & (NT_READ.spec == spec)]
+    assert len(x) == 1, (win, src, ty, measure, sample, spec, len(x))
+    return x.iloc[0]
+
+
+def nt_summ(kind, measure, sample, spec="2grp", T=None):
+    x = NT_SUMM[(NT_SUMM.kind == kind) & (NT_SUMM.measure == measure) & (NT_SUMM["sample"] == sample)
+                & (NT_SUMM.spec == spec) & (NT_SUMM.growth_source == "nipa_current")]
+    x = x if T is None else x[x.T_years == T]
+    assert len(x) == 1, (kind, measure, sample, spec, T, len(x))
+    return x.iloc[0]
+
+
+def nt_gap_ci_p(r):
+    return f"{nt_pts(r.gap)} [{nt_pts(r.ci_lo)}, {nt_pts(r.ci_hi)}], {nt_p(r.p_placebo)}"
+
+
+def nt_start_theta(src, t0):
+    """The theta year the calm reference's rolling windows use for a window starting at t0 (their start year)."""
+    return min(int(t0[:4]), 2023) if src == "A_dPCE" else int(t0[:4])
+
+
+def nt_errors_outside_2020(src, T, measure, sample):
+    """Errors where group totals are known, in the annual rolling windows whose span does not include 2020."""
+    kind = "A_rolling_annual" if src == "A_dPCE" else "B_rolling_annual"
+    x = NT_ROWS[(NT_ROWS.kind == kind) & (NT_ROWS.T_years == T) & (NT_ROWS.measure == measure)
+                & (NT_ROWS["sample"] == sample) & (NT_ROWS.spec == "2grp") & (NT_ROWS.growth_source == "nipa_current")]
+    out = x[[not (int(a) <= 2020 <= int(b)) for a, b in zip(x.t0, x.t1)]]
+    return out.gap_error.mean(), out.gap_error.std(), len(out), len(x)
+
+
+NOTE_TABLES = {}
+READ_HEADER = ["Window (Zandi's gap)", "Source, sample", "Gap [95% CI], placebo p", "Calm reference",
+               "Gap - reference", "Zandi's prediction"]
+# section 5: the read, main theta, both headline samples
+for measure in ("real", "nominal"):
+    rows = []
+    for win, _, t0, _, _ in READ_WINDOWS:
+        for k, (src, sample) in enumerate((s, smp) for s in ("A_dPCE", "B_CE") for smp in HEAD_SAMPLES):
+            r = nt_read(win, src, MAIN_THETA[src], measure, sample)
+            rows.append([f"{NT_WIN[win]} ({nt_pts(r.zandi_gap_cum)})" if k == 0 else "", NT_SAMPLE[(src, sample)],
+                         nt_gap_ci_p(r), nt_pts(r.ref_mean), nt_pts(r.read_minus_ref), nt_pts(r.zandi_prediction)])
+    NOTE_TABLES[f"read_{measure}"] = nt_md(READ_HEADER, rows)
+# section 5: every theta year for the headline sample without the care lines; the calm reference uses the theta of
+# each rolling window's start year, so the start-year rows are the like-for-like comparison
+for measure in ("real", "nominal"):
+    rows = []
+    for win, _, t0, _, _ in READ_WINDOWS:
+        k = 0
+        for src in ("A_dPCE", "B_CE"):
+            for ty in sorted(READ_THETA[src][win]):
+                r = nt_read(win, src, ty, measure, "drop_care")
+                tags = [t for t, ok in (("main", ty == MAIN_THETA[src]),
+                                        ("start year", ty == nt_start_theta(src, t0))) if ok]
+                rows.append([f"{NT_WIN[win]} ({nt_pts(r.zandi_gap_cum)})" if k == 0 else "",
+                             f"{src[0]}, {ty}" + (f" ({', '.join(tags)})" if tags else ""), nt_gap_ci_p(r),
+                             nt_pts(r.ref_mean), nt_pts(r.read_minus_ref), nt_pts(r.zandi_prediction)])
+                k += 1
+    NOTE_TABLES[f"theta_years_{measure}"] = nt_md(
+        ["Window (Zandi's gap)", "Source, theta year", "Gap [95% CI], placebo p", "Calm reference",
+         "Gap - reference", "Zandi's prediction"], rows)
+# section 4: rolling backtest windows whose known gap is at least half of Zandi's gap for that length
+rows = []
+for src, kind in (("A_dPCE", "A_rolling_annual"), ("B_CE", "B_rolling_annual")):
+    x = NT_ROWS[(NT_ROWS.kind == kind) & (NT_ROWS["sample"] == "all") & (NT_ROWS.spec == "2grp")]
+    for (T, t0, t1), w in x.groupby(["T_years", "t0", "t1"], sort=True):
+        wn, wr = w[w.measure == "nominal"], w[w.measure == "real"]
+        act_n, act_r = float(wn.gap_actual.iloc[0]), float(wr.gap_actual.iloc[0])
+        if max(abs(act_n), abs(act_r)) < zandi_gap(T) / 2:
+            continue
+        en = np.sort(wn.gap.to_numpy(float))
+        est_n = nt_pts(en[0]) if len(en) == 1 else f"{nt_pts(en[0])} to {nt_pts(en[-1])}"
+        rows.append([f"{src[0]}, {t0} -> {t1}", nt_pts(zandi_gap(T)),
+                     f"{nt_pts(act_n)} ({nt_pts(act_r)})" if src == "A_dPCE" else f"{nt_pts(act_n)} (nominal only)",
+                     f"{est_n} ({nt_pts(float(wr.gap.iloc[0]))})"])
+NOTE_TABLES["known_gaps"] = nt_md(["Source, window", "Zandi's gap", "Known gap, nominal (real)",
+                                   "Estimate, nominal (real)"], rows)
+# section 4: the tabled backtest windows (two groups, eta = 1, theta of the start year)
+NT_BT = pd.read_csv(OUT / "fingerprint_backtest.csv")
+NT_BT = NT_BT[NT_BT.spec == "2grp"].assign(scope=lambda d: d.actual_source.str.extract(r"\((total|pce_scope)\)")[0])
+
+
+def nt_bt(src, win, measure, gsrc="nipa_current", scope=None):
+    x = NT_BT[(NT_BT.source == src) & (NT_BT.window == win) & (NT_BT.measure == measure)
+              & (NT_BT.growth_source == gsrc)]
+    x = x if scope is None else x[x.scope == scope]
+    x = x.drop_duplicates(["window", "measure", "growth_source", "gap_actual"])
+    assert len(x) == 1, (src, win, measure, gsrc, scope, len(x))
+    return x.iloc[0]
+
+
+rows = []
+for y0, y1 in BACKTEST_WINDOWS:
+    w = f"{y0}->{y1}"
+    n, r = nt_bt("A_dPCE", w, "nominal", "dpce_totals"), nt_bt("A_dPCE", w, "real")
+    rows.append([f"{y0}-{y1}", nt_gap_ci_p(n), nt_pts(n.gap_actual), nt_pts(n.gap_error), nt_gap_ci_p(r),
+                 nt_pts(r.gap_actual), nt_pts(r.gap_error)])
+NOTE_TABLES["backtest_A"] = nt_md(["Window", "Nominal, dPCE totals: estimate [95% CI], p", "actual", "error",
+                                   "Real: estimate [95% CI], p", "actual", "error"], rows)
+rows = []
+for y0, y1 in B_BT_WINDOWS:
+    w = f"{y0}->{y1}"
+    n, r = nt_bt("B_CE", w, "nominal", scope="total"), nt_bt("B_CE", w, "real", scope="total")
+    rows.append([f"{y0}-{y1}", nt_gap_ci_p(n), nt_gap_ci_p(r), nt_pts(n.gap_actual),
+                 nt_pts(nt_bt("B_CE", w, "nominal", scope="pce_scope").gap_actual)])
+NOTE_TABLES["backtest_B"] = nt_md(["Window", "Nominal: estimate [95% CI], p", "Real: estimate [95% CI], p",
+                                   "CE gap, total spending", "CE gap, PCE scope"], rows)
+NOTE_TABLES["error_sd_A"] = nt_md(
+    ["Window length", "nominal", "real"],
+    [[lab] + [f"{100 * nt_summ('summary:A_rolling_annual', m, 'all', T=T).err_sd:.1f}" for m in ("nominal", "real")]
+     for T, lab in ((2.0, "two years"), (3.0, "three years"), (4.0, "four years"))])
+# section 6: benchmarks, three years, eta = 1, both headline samples
+for sample in HEAD_SAMPLES:
+    cells = {k: [] for k in range(11)}
+    for src, measure in NT_COLS:
+        h = nt_summ("summary:" + ("A_rolling_annual" if src == "A_dPCE" else "B_rolling_annual"), measure, sample,
+                    T=3.0)
+        c = nt_summ("summary:" + ("A_rolling_36m" if src == "A_dPCE" else "B_rolling_36m"), measure, sample)
+        m_out, sd_out, n_out, _ = nt_errors_outside_2020(src, 3.0, measure, sample)
+        nov = [v.split(" ")[-1] for v in str(c.ref_nonoverlap).split(" | ")]
+        cells[0].append(f"{100 * h.err_sd:.1f} ({int(h.n_windows)})")
+        cells[1].append(f"{100 * h.err_sd_nonoverlap:.1f} ({int(h.err_n_nonoverlap)})")
+        cells[2].append(f"{nt_pts(m_out)}, {100 * sd_out:.1f} ({n_out})")
+        cells[3].append(f"{100 * h.power_vs_zandi_err_2sided:.0f}%")
+        cells[4].append(f"{100 * h.power_vs_zandi_err:.0f}%")
+        cells[5].append(f"{nt_pts(c.ref_mean)} ({int(c.ref_n_windows)}; {int(c.ref_n_nonoverlap)})")
+        cells[6].append(", ".join(nov))
+        cells[7].append(f"{nt_pts(c.ref_min)} to {nt_pts(c.ref_max)}")
+        cells[8].append(nt_pts(c.latest_gap))
+        cells[9].append(nt_pts(c.latest_minus_ref))
+        cells[10].append(nt_pts(c.zandi_prediction))
+    labels = ["Error sd where group totals are known, all windows (n)", "... non-overlapping windows only (n)",
+              "... windows that do not include 2020: mean error, sd (n)",
+              "Power of a two-sided 5% test if the gap is Zandi's 12.5 (normal errors, all-window sd)",
+              "... of which: rejects zero in the positive direction",
+              "Calm reference reading, 36-month windows (n; non-overlapping)",
+              "... the non-overlapping windows' own readings", "... range over all calm windows",
+              "2023-09 -> 2026-09, theta of the start year", "... minus the reference",
+              "Zandi's prediction (reference + 12.5)"]
+    NOTE_TABLES[f"bench_{sample}"] = nt_md(
+        ["Three years, eta = 1" + (", without the care lines" if sample == "drop_care" else ""), "A nominal", "A real",
+         "B nominal", "B real"], [[labels[k]] + cells[k] for k in range(11)])
+# section 7: the eta variant against eta = 1, three years, main theta
+EW, cols7 = "2023-09->2026-09", [(s, smp) for s in ("A_dPCE", "B_CE") for smp in HEAD_SAMPLES]
+r1 = {k: nt_read(EW, k[0], MAIN_THETA[k[0]], "real", k[1]) for k in cols7}
+re = {k: nt_read(EW, k[0], MAIN_THETA[k[0]], "real", k[1], spec="2grp_eta") for k in cols7}
+NOTE_TABLES["eta"] = nt_md(
+    ["Three years, 2023-09 -> 2026-09, real"] + [NT_SAMPLE[k] for k in cols7],
+    [["Reading, eta = 1"] + [nt_pts(r1[k].gap) for k in cols7],
+     ["Reading, eta variant"] + [nt_pts(re[k].gap) for k in cols7],
+     ["Calm reference, eta = 1"] + [nt_pts(r1[k].ref_mean) for k in cols7],
+     ["Calm reference, eta variant"] + [nt_pts(re[k].ref_mean) for k in cols7],
+     ["Reading minus reference, eta = 1"] + [nt_pts(r1[k].read_minus_ref) for k in cols7],
+     ["Reading minus reference, eta variant"] + [nt_pts(re[k].read_minus_ref) for k in cols7],
+     ["Change in the reading (eta variant minus eta = 1)"] + [nt_pts(re[k].gap - r1[k].gap) for k in cols7],
+     [f"Engel effect proper (uniform real rise of "
+      f"{' / '.join(f'{100 * re[k].eta_agg_real_growth:.1f}' for k in cols7)}%)"]
+     + [nt_pts(re[k].eta_engel_bias_uniform) for k in cols7]])
+# section 8: the top tilt against each source's own 2015-2019 level
+tcells = {k: [] for k in range(7)}
+for src in ("A_dPCE", "B_CE"):
+    x = NT_TM[NT_TM.source == src]
+    calm = x[(x.date >= TILT_CALM[0]) & (x.date <= TILT_CALM[1])]
+    rec = x[(x.date >= TILT_RECENT[0]) & (x.date <= TILT_RECENT[1])]
+    y23 = x[(x.date >= "2023-01") & (x.date <= "2026-09")]
+
+    def two(t, g):
+        return f"{nt_pts(t, 2)} ({nt_pts(g)})"
+    tcells[0].append(two(calm.tilt_12m.mean(), calm.implied_gap_12m.mean()))
+    tcells[1].append(two(y23.tilt_12m.mean(), y23.implied_gap_12m.mean()))
+    tcells[2].append(two(rec.tilt_12m.median(), rec.implied_gap_12m.median()))
+    tcells[3].append(two(rec.tilt_12m.median() - calm.tilt_12m.mean(),
+                         rec.implied_gap_12m.median() - calm.implied_gap_12m.mean()))
+    tcells[4].append(f"{nt_pts(rec.implied_gap_12m.min())} to {nt_pts(rec.implied_gap_12m.max())}")
+    tcells[5].append(two(x.tilt_12m.iloc[-1], x.implied_gap_12m.iloc[-1]) + f", {x.date.iloc[-1]}")
+    tcells[6].append(two(rec.zandi_tilt_12m.mean(), ZANDI_TOP - ZANDI_B80))
+NOTE_TABLES["tilt"] = nt_md(
+    ["Twelve-month top tilt, pts (implied gap, pts a year)", "A (dPCE theta)", "B (CE theta)"],
+    [[lab] + tcells[k] for k, lab in enumerate(
+        ["Mean 2015-01 to 2019-12: the calm level", "Mean 2023-01 to 2026-09", "Median 2024-01 to 2026-09",
+         "... minus the calm level", "Range of the implied gap, 2024-01 to 2026-09", "Latest",
+         "What a Zandi-size K adds, 2024-01 to 2026-09 (kappa x 4 pts; 4 pts a year)"])])
+with open(OUT / "fingerprint_notes_tables.md", "w", encoding="utf-8") as fh:
+    for k, v in NOTE_TABLES.items():
+        fh.write(f"<!-- {k} -->\n{v}\n\n")
+print("Notes tables written:", ", ".join(NOTE_TABLES))

@@ -419,6 +419,241 @@ for src, yb in (("A_dPCE", 2023), ("B_CE", 2024)):
     check(f"{src}: 'drop_care' leaves out the care lines only", int(x["all"] - x["drop_care"]) == n_care,
           f"{int(x['all'])} -> {int(x['drop_care'])} categories ({n_care} care lines)")
 
+# 10. NOTES_fingerprint.md against the CSVs (second review: framing, quoted numbers, double rounding) ------------
+import re
+from scipy import stats as st2
+
+notes_raw = (RECENT / "NOTES_fingerprint.md").read_text(encoding="utf-8")
+flat = " ".join(notes_raw.split())                      # line wrapping removed, so phrases match across lines
+plain = " ".join(notes_raw.split("## Answer in plain words")[1].split("## 1. The question")[0].split())
+# (a) every generated table appears verbatim
+tabtxt = (OUT / "fingerprint_notes_tables.md").read_text(encoding="utf-8")
+blocks = [blk.split(" -->\n", 1) for blk in tabtxt.split("<!-- ")[1:]]
+missing = [k for k, body in blocks if body.strip() not in notes_raw]
+check("NOTES carries every generated table of out/fingerprint_notes_tables.md verbatim", bool(blocks) and not missing,
+      f"{len(blocks)} tables" + (f"; missing: {', '.join(missing)}" if missing else ""))
+
+
+def pp(v, nd=1):
+    """A fraction as signed points, rounded once from the CSV value."""
+    return f"{100 * v:+.{nd}f}"
+
+
+def rv(win, src, ty, meas, sample, spec="2grp"):
+    x = read[(read.window == win) & (read.source == src) & (read.theta_base_year == ty) & (read.measure == meas)
+             & (read["sample"] == sample) & (read.spec == spec)]
+    assert len(x) == 1, (win, src, ty, meas, sample, spec, len(x))
+    return x.iloc[0]
+
+
+def exc(r):
+    return r.gap - r.ref_mean
+
+
+W2, W3, W4 = "2023->2025", "2023-09->2026-09", "2022-09->2026-09"
+Z3 = 1.04 ** 3 - 1
+TY_B = {W2: [2023, 2024, 2025], W3: [2023, 2024, 2025], W4: [2022, 2024]}
+TY_A = {W2: [2023], W3: [2023], W4: [2022, 2023]}
+a_all, a_dc = rv(W3, "A_dPCE", 2023, "real", "all"), rv(W3, "A_dPCE", 2023, "real", "drop_care")
+b_all, b_dc = rv(W3, "B_CE", 2024, "real", "all"), rv(W3, "B_CE", 2024, "real", "drop_care")
+bdc = {(w, t): rv(w, "B_CE", t, "real", "drop_care") for w in TY_B for t in TY_B[w]}
+adc = {(w, t): rv(w, "A_dPCE", t, "real", "drop_care") for w in TY_A for t in TY_A[w]}
+ex2 = [exc(bdc[(W2, t)]) for t in TY_B[W2]]
+ex4 = [exc(bdc[(W4, t)]) for t in TY_B[W4]]
+pos = [exc(r) for r in bdc.values() if exc(r) > 0]
+start_p = [bdc[(W2, 2023)].p_placebo, bdc[(W3, 2023)].p_placebo, bdc[(W4, 2022)].p_placebo]
+rows_pw = pw[~pw.kind.str.startswith("summary")]
+b3 = rows_pw[(rows_pw.kind == "B_rolling_annual") & (rows_pw.T_years == 3) & (rows_pw["sample"] == "drop_care")
+             & (rows_pw.spec == "2grp")]
+sd_b = {m: b3[b3.measure == m].gap_error.std() for m in ("nominal", "real")}
+a3 = rows_pw[(rows_pw.kind == "A_rolling_annual") & (rows_pw.T_years == 3) & (rows_pw["sample"] == "drop_care")
+             & (rows_pw.spec == "2grp") & (rows_pw.growth_source == "nipa_current") & (rows_pw.measure == "real")]
+out20 = b3[[not (int(a) <= 2020 <= int(b)) for a, b in zip(b3.t0, b3.t1)]]
+o_mean = [out20[out20.measure == m].gap_error.mean() for m in ("nominal", "real")]
+o_sd = [out20[out20.measure == m].gap_error.std() for m in ("nominal", "real")]
+btb = bt[(bt.source == "B_CE") & (bt.spec == "2grp") & bt.actual_source.str.contains("(total)", regex=False)]
+miss = btb.groupby("window").gap_error.apply(lambda s: s.abs().max())
+ce_all = rows_pw[rows_pw.kind == "B_rolling_annual"].gap_actual
+ar = rows_pw[(rows_pw.kind == "A_rolling_annual") & (rows_pw["sample"] == "all") & (rows_pw.spec == "2grp")]
+
+
+def known(t0, t1):
+    x = ar[(ar.t0 == t0) & (ar.t1 == t1)]
+    n, r = x[x.measure == "nominal"], x[x.measure == "real"]
+    e = np.sort(n.gap.to_numpy(float))
+    return pp(n.gap_actual.iloc[0]), pp(r.gap_actual.iloc[0]), pp(e[0]), pp(e[-1]), pp(r.gap.iloc[0])
+
+
+k22, k20 = known("2020", "2022"), known("2018", "2020")
+br = rows_pw[(rows_pw.kind == "B_rolling_annual") & (rows_pw["sample"] == "all") & (rows_pw.spec == "2grp")
+             & (rows_pw.t0 == "2020") & (rows_pw.t1 == "2023") & (rows_pw.measure == "nominal")].iloc[0]
+a_alle, a_dce = rv(W3, "A_dPCE", 2023, "real", "all", "2grp_eta"), rv(W3, "A_dPCE", 2023, "real", "drop_care", "2grp_eta")
+b_alle, b_dce = rv(W3, "B_CE", 2024, "real", "all", "2grp_eta"), rv(W3, "B_CE", 2024, "real", "drop_care", "2grp_eta")
+dce = pd.read_csv(OUT / "direct_ce_groups.csv")
+gro = dce[(dce.block == "growth") & (dce.window == "2023->2025")].set_index("group")
+sha = dce[(dce.block == "levels") & (dce.grouping == "quintile") & (dce.group == "q5")].set_index("year").share_total_pct
+zis = dce[(dce.block == "zandi_implied_share") & (dce.base_year == 2023)].iloc[0]
+infl = pd.read_csv(OUT / "fingerprint_influence.csv")
+ib = infl[(infl.window == W3) & (infl.source == "B_CE") & (infl.measure == "real")].set_index("category")
+c16 = cats[(cats.window == W3) & (cats.source == "A_dPCE") & (cats.theta_base_year == 2023) & (cats.measure == "real")
+           & (cats.category == 16)].iloc[0]
+tb24 = thB[thB.base_year == 2024].set_index("category")
+care24 = [c for c in tb24.index if any(a in CARE_ROOTS for a in paths[c])]
+hl = [c for c in care24 if not any(a == 316 for a in paths[c])]
+theta_move = max(max(rv(w, "B_CE", t, "real", "drop_care").gap for t in TY_B[w])
+                 - min(rv(w, "B_CE", t, "real", "drop_care").gap for t in TY_B[w]) for w in TY_B)
+eld = {w: read[(read["sample"] == "elder_care_on_personal_services") & (read.window == w)
+               & (read.measure == "real")].iloc[0].gap for w in (W2, W3, W4)}
+r2dc = {s: read[(read.source == s) & (read.theta_role == "main") & (read.spec == "2grp")
+                & (read["sample"] == "drop_care")].r2_zandi_vs_flat for s in ("A_dPCE", "B_CE")}
+b4 = rv(W4, "B_CE", 2024, "real", "drop_care")
+b4e = rv(W4, "B_CE", 2024, "real", "drop_care", "2grp_eta")
+QUOTED = [
+    ("A three years, with and without health care",
+     f"A reads {pp(a_all.gap)} points over three years in real terms, and {pp(a_dc.gap)} without the health-care line"),
+    ("A against its calm reading and Zandi's prediction",
+     f"as close to A's own calm-years reading ({pp(a_dc.ref_mean)}) as to Zandi's raw {pp(Z3)}; measured against the "
+     f"calm reading, his split predicts {pp(a_dc.ref_mean + Z3)}"),
+    ("B with and without the care lines", f"B reads {pp(b_all.gap)} with the care lines and {pp(b_dc.gap)} without"),
+    ("the care lines move B", f"move B by {100 * (b_dc.gap - b_all.gap):.1f} points"),
+    ("three years without the care lines, by theta year",
+     f"A {pp(exc(a_dc))}; B {pp(exc(bdc[(W3, 2024)]))} with the main theta (2024), {pp(exc(bdc[(W3, 2023)]))} with "
+     f"the start-year theta (2023) that the calm reference itself uses, and {pp(exc(bdc[(W3, 2025)]))} with the 2025 "
+     f"theta"),
+    ("Zandi's predictions relative to the calm readings",
+     f"(A {pp(a_dc.ref_mean + Z3)}, B {pp(b_dc.ref_mean + Z3)})"),
+    ("B over two and four years",
+     f"B reads {100 * min(ex2):.0f}-{100 * max(ex2):.0f} and {100 * min(ex4):.0f}-{100 * max(ex4):.0f} points above "
+     f"its calm reading in real terms"),
+    ("B above its calm level",
+     f"in {len(pos)} of {len(bdc)} window and theta-year combinations, by {100 * min(pos):.0f} to {100 * max(pos):.0f} "
+     f"points"),
+    ("intervals excluding zero",
+     f"all three windows with the start-year thetas (p {min(start_p):.3f}-{max(start_p):.3f})"),
+    ("the main-theta interval", f"only over four years (p {bdc[(W4, 2024)].p_placebo:.3f})"),
+    ("B's error sd, recomputed from the rolling windows",
+     f"standard deviation of {100 * sd_b['nominal']:.0f}-{100 * sd_b['real']:.0f} points, about four times Zandi's"),
+    ("A's error sd", f"standard deviation of {100 * a3.gap_error.std():.0f} points (A, real)"),
+    ("B's errors outside 2020",
+     f"in the other five B overstates the gap by {100 * min(o_mean):.0f}-{100 * max(o_mean):.0f} points on average "
+     f"(sd {100 * min(o_sd):.0f}-{100 * max(o_sd):.0f})"),
+    ("B's backtest misses", f"B missed it by {miss.min() * 100:.0f} to {miss.max() * 100:.0f} points"),
+    ("the CE's own gap across rolling windows", f"ranged from {pp(ce_all.min())} to {pp(ce_all.max())}"),
+    ("the known gap of Zandi's size",
+     f"the dPCE's own {k22[0]} points (nominal; {k22[1]} real) in 2020-2022, which A read as {k22[2]} to {k22[3]} "
+     f"({k22[4]} real)"),
+    ("its mirror image", f"{k20[0]} (nominal; {k20[1]} real) in 2018-2020, as {k20[2]} to {k20[3]} ({k20[4]} real)"),
+    ("B's reading of the CE's 2020-2023 gap", f"For the CE's {pp(br.gap_actual)} in 2020-2023, B read {100 * br.gap:+.0f}"),
+    ("eta variant, B", f"to {pp(b_alle.gap)} with the care lines, {pp(b_dce.gap)} without) and 7 off B's calm reading "
+                       f"({pp(b_all.ref_mean)} to {pp(b_alle.ref_mean)})"),
+    ("eta variant, A", f"A without health care loses 7 points (to {pp(a_dce.gap)}) and its calm reading 3 (to "
+                       f"{pp(a_dce.ref_mean)})"),
+    ("eta variant moves A's comparison",
+     f"A's reading falls {100 * ((a_dc.gap - a_dce.gap) - (a_dc.ref_mean - a_dce.ref_mean)):.1f} points more than its "
+     f"reference ({pp(exc(a_dc))} to {pp(exc(a_dce))} over three years)"),
+    ("CE group growth 2023-2025 (direct unit's CSV)",
+     f"top 20% rose {gro.at['top20', 'g_agg_bn_total']:.2f}% and of the bottom 80% "
+     f"{gro.at['bottom80', 'g_agg_bn_total']:.2f}% from 2023 to 2025 ({gro.at['top20', 'g_agg_bn_total_real2024']:.1f}% "
+     f"and {gro.at['bottom80', 'g_agg_bn_total_real2024']:.1f}% in real terms"),
+    ("CE top-quintile shares", f"{sha[2023]:.2f}% in 2023 and {sha[2025]:.2f}% in 2025"),
+    ("Zandi's implied share change", f"would have added {zis.zandi_minus_observed_pts:.1f} points, about "
+                                     f"{['zero', 'one', 'two', 'three', 'four'][int(round(zis.zandi_minus_observed_in_ses))]} "
+                                     f"standard errors"),
+    ("what carries B", f"({100 * (ib.at[141, 'contrib_to_slope'] + ib.at[154, 'contrib_to_slope']):.1f} of "
+                       f"{100 * b_all.gap:.1f} points)"),
+    ("health care's real growth and theta", f"Health care services grew {100 * c16.g:.0f}% in real terms"),
+    ("A's health-care theta", f"(top-20 share {c16.theta_top20:.2f})"),
+    ("B's health-line and child-care thetas",
+     f"out-of-pocket distributions near the average ({tb24.loc[hl].theta_top20.min():.2f}-"
+     f"{tb24.loc[hl].theta_top20.max():.2f}). Child care, its one other care line "
+     f"(${tb24.at[316, 'base_spending_nipa_bn']:.0f}bn), carries the top-weighted `Personal services` distribution "
+     f"({tb24.at[316, 'theta_top20']:.2f})"),
+    ("what moves B", f"the theta year (up to {100 * theta_move:.0f} points) or the Engel variant "
+                     f"({100 * (b_dc.gap - b_dce.gap):.0f} points)"),
+]
+QUOTED_ELSEWHERE = [
+    ("elder care as first built (real)", f"B reads {pp(eld[W2])} / {pp(eld[W3])} / {pp(eld[W4])} real"),
+    ("the Engel effect proper against the whole change",
+     f"({pp(a_alle.eta_engel_bias_uniform)} against {100 * (a_all.gap - a_alle.gap):.1f}; "
+     f"{pp(a_dce.eta_engel_bias_uniform)} against {100 * (a_dc.gap - a_dce.gap):.1f} without health care)"),
+    ("B's four-year comparison with the eta variant",
+     f"and stays at {pp(exc(b4))} over four" if pp(exc(b4)) == pp(exc(b4e)) else "(the four-year values differ)"),
+    ("R^2 of Zandi's pattern without the care lines",
+     f"(A {r2dc['A_dPCE'].min():+.2f} to {r2dc['A_dPCE'].max():+.2f}, B {r2dc['B_CE'].min():+.2f} to "
+     f"{r2dc['B_CE'].max():+.2f})"),
+]
+miss_q = [lab for lab, ph in QUOTED if ph not in plain]
+check("plain-words answer: every quoted number matches the CSVs, rounded once (own recomputation)", not miss_q,
+      f"{len(QUOTED) - len(miss_q)} of {len(QUOTED)} phrases found" + (f"; missing: {'; '.join(miss_q)}" if miss_q
+                                                                         else ""))
+miss_e = [lab for lab, ph in QUOTED_ELSEWHERE if ph not in flat]
+check("numbers the second review found rounded twice now match the CSVs (sections 5 and 7)", not miss_e,
+      f"{len(QUOTED_ELSEWHERE) - len(miss_e)} of {len(QUOTED_ELSEWHERE)}" + (f"; missing: {'; '.join(miss_e)}"
+                                                                            if miss_e else ""))
+check("A, without health care, stays within 2 points of its calm reference in every window and theta year (real)",
+      max(abs(exc(r)) for r in adc.values()) < 0.02, f"max |gap - reference| {100 * max(abs(exc(r)) for r in adc.values()):.2f}")
+nom_dc = read[read["sample"].eq("drop_care") & read.spec.eq("2grp") & read.measure.eq("nominal")]
+check("without the care lines both sources read below their calm references in nominal terms, every window and theta",
+      bool((nom_dc.gap < nom_dc.ref_mean).all()), f"{len(nom_dc)} readings, gap - reference "
+      f"{100 * (nom_dc.gap - nom_dc.ref_mean).min():+.1f} to {100 * (nom_dc.gap - nom_dc.ref_mean).max():+.1f}")
+ex0 = read[read.spec.isin(["2grp", "2grp_eta"]) & read["sample"].isin(["all", "drop_care"])
+           & ((read.ci_lo > 0) | (read.ci_hi < 0))]
+e1 = ex0[ex0.spec == "2grp"]
+check("intervals excluding zero: one with the main theta, five more with the others (all B without the care lines, "
+      "real), two with the eta variant",
+      len(e1[e1.theta_role == "main"]) == 1 and len(e1[e1.theta_role != "main"]) == 5 and len(ex0) - len(e1) == 2
+      and set(ex0.source) == {"B_CE"} and set(ex0["sample"]) == {"drop_care"} and set(ex0.measure) == {"real"},
+      f"p of the five: {', '.join(f'{v:.3f}' for v in sorted(e1[e1.theta_role != 'main'].p_placebo))}")
+two = read[read.spec.isin(["2grp", "2grp_eta"])]
+exz = two[(two.ci_lo > two.zandi_gap_cum) | (two.ci_hi < two.zandi_gap_cum)]          # own test of the interval
+exz_rob = exz[~exz["sample"].isin(["all", "drop_care"])]
+exz_b = exz_rob[exz_rob.source == "B_CE"]
+n_rob, n_rob_a = len(exz_rob), int((exz_rob.source == "A_dPCE").sum())
+phrase = (f"{n_rob} intervals, {n_rob_a} of them A without energy or the imputed lines and {n_rob - n_rob_a} of them B "
+          f"without energy over two years in nominal terms (p_zandi {exz_rob.p_zandi.min():.3f}-"
+          f"{exz_rob.p_zandi.max():.3f};")
+check("intervals excluding Zandi's gap: none in the headline samples; in the robustness drops only with the eta "
+      "variant, as the notes quote",
+      int(exz["sample"].isin(["all", "drop_care"]).sum()) == 0 and set(exz_rob.spec) == {"2grp_eta"}
+      and set(exz_rob[exz_rob.source == "A_dPCE"]["sample"]) <= {"drop_energy", "drop_imputed", "drop_all4"}
+      and set(exz_b["sample"]) == {"drop_energy"} and set(exz_b.window) == {W2} and set(exz_b.measure) == {"nominal"}
+      and phrase in flat,
+      f"{n_rob} robustness-drop intervals ({', '.join(sorted(set(exz_rob['sample'])))}), p_zandi "
+      f"{exz_rob.p_zandi.min():.3f}-{exz_rob.p_zandi.max():.3f}; headline samples: none")
+# (b) the two-sided power column recomputed from the error sd of the rolling windows
+z = st2.norm.ppf(0.975)
+sm = summ[summ.kind.isin(["summary:A_rolling_annual", "summary:B_rolling_annual"]) & summ.err_sd.notna()]
+own = []
+for r in sm.itertuples():
+    x = rows_pw[(rows_pw.kind == r.kind.replace("summary:", "")) & (rows_pw.T_years == r.T_years)
+                & (rows_pw.measure == r.measure) & (rows_pw.growth_source == r.growth_source)
+                & (rows_pw["sample"] == r.sample) & (rows_pw.spec == r.spec)]
+    sd = x.gap_error.std()
+    Z = 1.04 ** r.T_years - 1
+    up = st2.norm.cdf(Z / sd - z)
+    own.append((up + st2.norm.cdf(-Z / sd - z), r.power_vs_zandi_err_2sided, up, r.power_vs_zandi_err))
+check("power: two-sided column = upper + lower tail at the recomputed error sd; upper-tail column unchanged",
+      all(close(a, b, rel=1e-6) and close(c, d, rel=1e-6) for a, b, c, d in own),
+      f"{len(own)} summary rows; B three-year real: two-sided "
+      f"{100 * sm[(sm.kind == 'summary:B_rolling_annual') & (sm.T_years == 3) & (sm.measure == 'real') & (sm['sample'] == 'all') & (sm.spec == '2grp')].power_vs_zandi_err_2sided.iloc[0]:.1f}%")
+# (c) the known-gap table holds exactly the rolling windows whose known gap reaches half of Zandi's gap
+kg = []
+for kind, s in (("A_rolling_annual", "A"), ("B_rolling_annual", "B")):
+    x = rows_pw[(rows_pw.kind == kind) & (rows_pw["sample"] == "all") & (rows_pw.spec == "2grp")]
+    for (T, t0, t1), w in x.groupby(["T_years", "t0", "t1"]):
+        if w.gap_actual.abs().max() >= (1.04 ** T - 1) / 2:
+            kg.append(f"{s}, {t0} -> {t1}")
+tab_kg = re.findall(r"^\| ([AB], \d{4} -> \d{4}) \|", tabtxt.split("<!-- known_gaps -->")[1].split("<!-- ")[0], re.M)
+check("known-gap table: exactly the rolling windows with |known gap| >= half of Zandi's gap (own selection)",
+      sorted(kg) == sorted(tab_kg), f"{len(kg)} windows: {', '.join(kg)}")
+# (d) the three figures exist at 200 dpi
+from PIL import Image
+dpis = {}
+for fn in ("fig_fingerprint_scatter.png", "fig_fingerprint_backtest.png", "fig_top_tilt.png"):
+    p = RECENT / "figures" / fn
+    dpis[fn] = round(Image.open(p).info.get("dpi", (0, 0))[0]) if p.exists() else None
+check("figures exist and are saved at 200 dpi", all(v == 200 for v in dpis.values()), str(dpis))
+
 nfail = sum(1 for s, _, _ in results if s == "FAIL")
 print(f"\n{sum(1 for s, _, _ in results if s == 'PASS')} PASS, {nfail} FAIL, "
       f"{sum(1 for s, _, _ in results if s == 'INFO')} INFO")
