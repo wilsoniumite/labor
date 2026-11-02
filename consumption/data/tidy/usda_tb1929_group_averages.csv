@@ -1,0 +1,274 @@
+source_table,printed_page,income_group,stage,category,measure,value,mean_of_countries,n_countries,diff
+Table 2,5,low,1,"Food, beverage, and tobacco",budget_share,0.485,,,
+Table 2,5,low,1,Clothing and footwear,budget_share,0.061,,,
+Table 2,5,low,1,Housing and utilities,budget_share,0.135,,,
+Table 2,5,low,1,"Furnishing, household equipment, and maintenance",budget_share,0.052,,,
+Table 2,5,low,1,Medical and health,budget_share,0.045,,,
+Table 2,5,low,1,Transportation and communication,budget_share,0.102,,,
+Table 2,5,low,1,Recreation and culture,budget_share,0.031,,,
+Table 2,5,low,1,Education,budget_share,0.034,,,
+Table 2,5,low,1,Other,budget_share,0.054,,,
+Table 2,5,middle,1,"Food, beverage, and tobacco",budget_share,0.311,,,
+Table 2,5,middle,1,Clothing and footwear,budget_share,0.055,,,
+Table 2,5,middle,1,Housing and utilities,budget_share,0.183,,,
+Table 2,5,middle,1,"Furnishing, household equipment, and maintenance",budget_share,0.056,,,
+Table 2,5,middle,1,Medical and health,budget_share,0.059,,,
+Table 2,5,middle,1,Transportation and communication,budget_share,0.155,,,
+Table 2,5,middle,1,Recreation and culture,budget_share,0.061,,,
+Table 2,5,middle,1,Education,budget_share,0.033,,,
+Table 2,5,middle,1,Other,budget_share,0.087,,,
+Table 2,5,high,1,"Food, beverage, and tobacco",budget_share,0.204,,,
+Table 2,5,high,1,Clothing and footwear,budget_share,0.051,,,
+Table 2,5,high,1,Housing and utilities,budget_share,0.187,,,
+Table 2,5,high,1,"Furnishing, household equipment, and maintenance",budget_share,0.06,,,
+Table 2,5,high,1,Medical and health,budget_share,0.089,,,
+Table 2,5,high,1,Transportation and communication,budget_share,0.149,,,
+Table 2,5,high,1,Recreation and culture,budget_share,0.095,,,
+Table 2,5,high,1,Education,budget_share,0.031,,,
+Table 2,5,high,1,Other,budget_share,0.134,,,
+Table 2,5,low,2,Cereals,conditional_budget_share,0.233,,,
+Table 2,5,low,2,Meat,conditional_budget_share,0.134,,,
+Table 2,5,low,2,Fish,conditional_budget_share,0.063,,,
+Table 2,5,low,2,Dairy and eggs,conditional_budget_share,0.078,,,
+Table 2,5,low,2,Oils and fat,conditional_budget_share,0.049,,,
+Table 2,5,low,2,Fruit and vegetables,conditional_budget_share,0.181,,,
+Table 2,5,low,2,Food other,conditional_budget_share,0.146,,,
+Table 2,5,low,2,Beverages and tobacco,conditional_budget_share,0.116,,,
+Table 2,5,middle,2,Cereals,conditional_budget_share,0.124,,,
+Table 2,5,middle,2,Meat,conditional_budget_share,0.172,,,
+Table 2,5,middle,2,Fish,conditional_budget_share,0.035,,,
+Table 2,5,middle,2,Dairy and eggs,conditional_budget_share,0.099,,,
+Table 2,5,middle,2,Oils and fat,conditional_budget_share,0.03,,,
+Table 2,5,middle,2,Fruit and vegetables,conditional_budget_share,0.145,,,
+Table 2,5,middle,2,Food other,conditional_budget_share,0.208,,,
+Table 2,5,middle,2,Beverages and tobacco,conditional_budget_share,0.187,,,
+Table 2,5,high,2,Cereals,conditional_budget_share,0.086,,,
+Table 2,5,high,2,Meat,conditional_budget_share,0.118,,,
+Table 2,5,high,2,Fish,conditional_budget_share,0.041,,,
+Table 2,5,high,2,Dairy and eggs,conditional_budget_share,0.066,,,
+Table 2,5,high,2,Oils and fat,conditional_budget_share,0.014,,,
+Table 2,5,high,2,Fruit and vegetables,conditional_budget_share,0.098,,,
+Table 2,5,high,2,Food other,conditional_budget_share,0.369,,,
+Table 2,5,high,2,Beverages and tobacco,conditional_budget_share,0.208,,,
+appendix table 1,25,low,1,"Food, beverage, and tobacco",income_elasticity,0.778,0.778468,77.0,-0.000468
+appendix table 1,25,low,1,Clothing and footwear,income_elasticity,0.967,0.96726,77.0,-0.00026
+appendix table 1,25,low,1,Housing and utilities,income_elasticity,1.074,1.074052,77.0,-5.2e-05
+appendix table 1,25,low,1,"Furnishing, household equipment, and maintenance",income_elasticity,1.054,1.054182,77.0,-0.000182
+appendix table 1,25,low,1,Medical and health,income_elasticity,1.851,1.850662,77.0,0.000338
+appendix table 1,25,low,1,Transportation and communication,income_elasticity,1.211,1.211312,77.0,-0.000312
+appendix table 1,25,low,1,Recreation and culture,income_elasticity,2.901,2.90061,77.0,0.00039
+appendix table 1,25,low,1,Education,income_elasticity,0.93,0.929597,77.0,0.000403
+appendix table 1,25,low,1,Other,income_elasticity,1.795,1.794792,77.0,0.000208
+appendix table 1,25,middle,1,"Food, beverage, and tobacco",income_elasticity,0.655,0.655158,38.0,-0.000158
+appendix table 1,25,middle,1,Clothing and footwear,income_elasticity,0.965,0.965447,38.0,-0.000447
+appendix table 1,25,middle,1,Housing and utilities,income_elasticity,1.066,1.065579,38.0,0.000421
+appendix table 1,25,middle,1,"Furnishing, household equipment, and maintenance",income_elasticity,1.05,1.049553,38.0,0.000447
+appendix table 1,25,middle,1,Medical and health,income_elasticity,1.306,1.306079,38.0,-7.9e-05
+appendix table 1,25,middle,1,Transportation and communication,income_elasticity,1.153,1.152921,38.0,7.9e-05
+appendix table 1,25,middle,1,Recreation and culture,income_elasticity,1.401,1.400816,38.0,0.000184
+appendix table 1,25,middle,1,Education,income_elasticity,0.92,0.920263,38.0,-0.000263
+appendix table 1,25,middle,1,Other,income_elasticity,1.309,1.309342,38.0,-0.000342
+appendix table 1,25,high,1,"Food, beverage, and tobacco",income_elasticity,0.495,0.494655,29.0,0.000345
+appendix table 1,25,high,1,Clothing and footwear,income_elasticity,0.964,0.964103,29.0,-0.000103
+appendix table 1,25,high,1,Housing and utilities,income_elasticity,1.062,1.061759,29.0,0.000241
+appendix table 1,25,high,1,"Furnishing, household equipment, and maintenance",income_elasticity,1.047,1.047241,29.0,-0.000241
+appendix table 1,25,high,1,Medical and health,income_elasticity,1.236,1.23631,29.0,-0.00031
+appendix table 1,25,high,1,Transportation and communication,income_elasticity,1.133,1.133517,29.0,-0.000517
+appendix table 1,25,high,1,Recreation and culture,income_elasticity,1.288,1.288448,29.0,-0.000448
+appendix table 1,25,high,1,Education,income_elasticity,0.914,0.913897,29.0,0.000103
+appendix table 1,25,high,1,Other,income_elasticity,1.238,1.238138,29.0,-0.000138
+appendix table 2,29,low,1,"Food, beverage, and tobacco",frisch_own_price_elasticity,-0.571,-0.571026,77.0,2.6e-05
+appendix table 2,29,low,1,Clothing and footwear,frisch_own_price_elasticity,-0.71,-0.709584,77.0,-0.000416
+appendix table 2,29,low,1,Housing and utilities,frisch_own_price_elasticity,-0.788,-0.787896,77.0,-0.000104
+appendix table 2,29,low,1,"Furnishing, household equipment, and maintenance",frisch_own_price_elasticity,-0.773,-0.773286,77.0,0.000286
+appendix table 2,29,low,1,Medical and health,frisch_own_price_elasticity,-1.358,-1.357636,77.0,-0.000364
+appendix table 2,29,low,1,Transportation and communication,frisch_own_price_elasticity,-0.889,-0.888623,77.0,-0.000377
+appendix table 2,29,low,1,Recreation and culture,frisch_own_price_elasticity,-2.128,-2.127779,77.0,-0.000221
+appendix table 2,29,low,1,Education,frisch_own_price_elasticity,-0.682,-0.681961,77.0,-3.9e-05
+appendix table 2,29,low,1,Other,frisch_own_price_elasticity,-1.41,-1.410312,77.0,0.000312
+appendix table 2,29,middle,1,"Food, beverage, and tobacco",frisch_own_price_elasticity,-0.481,-0.480579,38.0,-0.000421
+appendix table 2,29,middle,1,Clothing and footwear,frisch_own_price_elasticity,-0.708,-0.708132,38.0,0.000132
+appendix table 2,29,middle,1,Housing and utilities,frisch_own_price_elasticity,-0.782,-0.781658,38.0,-0.000342
+appendix table 2,29,middle,1,"Furnishing, household equipment, and maintenance",frisch_own_price_elasticity,-0.77,-0.769816,38.0,-0.000184
+appendix table 2,29,middle,1,Medical and health,frisch_own_price_elasticity,-0.958,-0.958132,38.0,0.000132
+appendix table 2,29,middle,1,Transportation and communication,frisch_own_price_elasticity,-0.846,-0.845684,38.0,-0.000316
+appendix table 2,29,middle,1,Recreation and culture,frisch_own_price_elasticity,-1.028,-1.027553,38.0,-0.000447
+appendix table 2,29,middle,1,Education,frisch_own_price_elasticity,-0.675,-0.675026,38.0,2.6e-05
+appendix table 2,29,middle,1,Other,frisch_own_price_elasticity,-0.96,-0.960579,38.0,0.000579
+appendix table 2,29,high,1,"Food, beverage, and tobacco",frisch_own_price_elasticity,-0.363,-0.362793,29.0,-0.000207
+appendix table 2,29,high,1,Clothing and footwear,frisch_own_price_elasticity,-0.707,-0.707103,29.0,0.000103
+appendix table 2,29,high,1,Housing and utilities,frisch_own_price_elasticity,-0.779,-0.779,29.0,0.0
+appendix table 2,29,high,1,"Furnishing, household equipment, and maintenance",frisch_own_price_elasticity,-0.768,-0.768172,29.0,0.000172
+appendix table 2,29,high,1,Medical and health,frisch_own_price_elasticity,-0.907,-0.906931,29.0,-6.9e-05
+appendix table 2,29,high,1,Transportation and communication,frisch_own_price_elasticity,-0.831,-0.831379,29.0,0.000379
+appendix table 2,29,high,1,Recreation and culture,frisch_own_price_elasticity,-0.945,-0.945069,29.0,6.9e-05
+appendix table 2,29,high,1,Education,frisch_own_price_elasticity,-0.67,-0.670414,29.0,0.000414
+appendix table 2,29,high,1,Other,frisch_own_price_elasticity,-0.908,-0.908276,29.0,0.000276
+appendix table 3,33,low,1,"Food, beverage, and tobacco",slutsky_own_price_elasticity,-0.345,-0.344987,77.0,-1.3e-05
+appendix table 3,33,low,1,Clothing and footwear,slutsky_own_price_elasticity,-0.67,-0.669987,77.0,-1.3e-05
+appendix table 3,33,low,1,Housing and utilities,slutsky_own_price_elasticity,-0.662,-0.661987,77.0,-1.3e-05
+appendix table 3,33,low,1,"Furnishing, household equipment, and maintenance",slutsky_own_price_elasticity,-0.731,-0.731299,77.0,0.000299
+appendix table 3,33,low,1,Medical and health,slutsky_own_price_elasticity,-1.29,-1.290468,77.0,0.000468
+appendix table 3,33,low,1,Transportation and communication,slutsky_own_price_elasticity,-0.776,-0.775623,77.0,-0.000377
+appendix table 3,33,low,1,Recreation and culture,slutsky_own_price_elasticity,-2.033,-2.032987,77.0,-1.3e-05
+appendix table 3,33,low,1,Education,slutsky_own_price_elasticity,-0.66,-0.660377,77.0,0.000377
+appendix table 3,33,low,1,Other,slutsky_own_price_elasticity,-1.31,-1.30961,77.0,-0.00039
+appendix table 3,33,middle,1,"Food, beverage, and tobacco",slutsky_own_price_elasticity,-0.379,-0.378947,38.0,-5.3e-05
+appendix table 3,33,middle,1,Clothing and footwear,slutsky_own_price_elasticity,-0.671,-0.671,38.0,0.0
+appendix table 3,33,middle,1,Housing and utilities,slutsky_own_price_elasticity,-0.642,-0.642184,38.0,0.000184
+appendix table 3,33,middle,1,"Furnishing, household equipment, and maintenance",slutsky_own_price_elasticity,-0.725,-0.724447,38.0,-0.000553
+appendix table 3,33,middle,1,Medical and health,slutsky_own_price_elasticity,-0.875,-0.874579,38.0,-0.000421
+appendix table 3,33,middle,1,Transportation and communication,slutsky_own_price_elasticity,-0.707,-0.706579,38.0,-0.000421
+appendix table 3,33,middle,1,Recreation and culture,slutsky_own_price_elasticity,-0.933,-0.933105,38.0,0.000105
+appendix table 3,33,middle,1,Education,slutsky_own_price_elasticity,-0.656,-0.6565,38.0,0.0005
+appendix table 3,33,middle,1,Other,slutsky_own_price_elasticity,-0.837,-0.836605,38.0,-0.000395
+appendix table 3,33,high,1,"Food, beverage, and tobacco",slutsky_own_price_elasticity,-0.323,-0.323241,29.0,0.000241
+appendix table 3,33,high,1,Clothing and footwear,slutsky_own_price_elasticity,-0.671,-0.671069,29.0,6.9e-05
+appendix table 3,33,high,1,Housing and utilities,slutsky_own_price_elasticity,-0.632,-0.631897,29.0,-0.000103
+appendix table 3,33,high,1,"Furnishing, household equipment, and maintenance",slutsky_own_price_elasticity,-0.721,-0.720966,29.0,-3.4e-05
+appendix table 3,33,high,1,Medical and health,slutsky_own_price_elasticity,-0.81,-0.810345,29.0,0.000345
+appendix table 3,33,high,1,Transportation and communication,slutsky_own_price_elasticity,-0.678,-0.677552,29.0,-0.000448
+appendix table 3,33,high,1,Recreation and culture,slutsky_own_price_elasticity,-0.835,-0.834724,29.0,-0.000276
+appendix table 3,33,high,1,Education,slutsky_own_price_elasticity,-0.653,-0.653345,29.0,0.000345
+appendix table 3,33,high,1,Other,slutsky_own_price_elasticity,-0.765,-0.765103,29.0,0.000103
+appendix table 4,37,low,1,"Food, beverage, and tobacco",cournot_own_price_elasticity,-0.737,-0.737247,77.0,0.000247
+appendix table 4,37,low,1,Clothing and footwear,cournot_own_price_elasticity,-0.726,-0.725766,77.0,-0.000234
+appendix table 4,37,low,1,Housing and utilities,cournot_own_price_elasticity,-0.822,-0.821818,77.0,-0.000182
+appendix table 4,37,low,1,"Furnishing, household equipment, and maintenance",cournot_own_price_elasticity,-0.786,-0.785571,77.0,-0.000429
+appendix table 4,37,low,1,Medical and health,cournot_own_price_elasticity,-1.344,-1.344468,77.0,0.000468
+appendix table 4,37,low,1,Transportation and communication,cournot_own_price_elasticity,-0.903,-0.903234,77.0,0.000234
+appendix table 4,37,low,1,Recreation and culture,cournot_own_price_elasticity,-2.086,-2.086364,77.0,0.000364
+appendix table 4,37,low,1,Education,cournot_own_price_elasticity,-0.692,-0.691987,77.0,-1.3e-05
+appendix table 4,37,low,1,Other,cournot_own_price_elasticity,-1.389,-1.388649,77.0,-0.000351
+appendix table 4,37,middle,1,"Food, beverage, and tobacco",cournot_own_price_elasticity,-0.588,-0.588184,38.0,0.000184
+appendix table 4,37,middle,1,Clothing and footwear,cournot_own_price_elasticity,-0.723,-0.723553,38.0,0.000553
+appendix table 4,37,middle,1,Housing and utilities,cournot_own_price_elasticity,-0.821,-0.821,38.0,0.0
+appendix table 4,37,middle,1,"Furnishing, household equipment, and maintenance",cournot_own_price_elasticity,-0.783,-0.783526,38.0,0.000526
+appendix table 4,37,middle,1,Medical and health,cournot_own_price_elasticity,-0.962,-0.961895,38.0,-0.000105
+appendix table 4,37,middle,1,Transportation and communication,cournot_own_price_elasticity,-0.871,-0.871105,38.0,0.000105
+appendix table 4,37,middle,1,Recreation and culture,cournot_own_price_elasticity,-1.025,-1.025289,38.0,0.000289
+appendix table 4,37,middle,1,Education,cournot_own_price_elasticity,-0.684,-0.684053,38.0,5.3e-05
+appendix table 4,37,middle,1,Other,cournot_own_price_elasticity,-0.966,-0.965789,38.0,-0.000211
+appendix table 4,37,high,1,"Food, beverage, and tobacco",cournot_own_price_elasticity,-0.431,-0.430759,29.0,-0.000241
+appendix table 4,37,high,1,Clothing and footwear,cournot_own_price_elasticity,-0.722,-0.722069,29.0,6.9e-05
+appendix table 4,37,high,1,Housing and utilities,cournot_own_price_elasticity,-0.821,-0.821,29.0,0.0
+appendix table 4,37,high,1,"Furnishing, household equipment, and maintenance",cournot_own_price_elasticity,-0.783,-0.782621,29.0,-0.000379
+appendix table 4,37,high,1,Medical and health,cournot_own_price_elasticity,-0.917,-0.916862,29.0,-0.000138
+appendix table 4,37,high,1,Transportation and communication,cournot_own_price_elasticity,-0.863,-0.862655,29.0,-0.000345
+appendix table 4,37,high,1,Recreation and culture,cournot_own_price_elasticity,-0.952,-0.951517,29.0,-0.000483
+appendix table 4,37,high,1,Education,cournot_own_price_elasticity,-0.679,-0.678655,29.0,-0.000345
+appendix table 4,37,high,1,Other,cournot_own_price_elasticity,-0.923,-0.922793,29.0,-0.000207
+appendix table 5,41,low,0,(all),per_capita_food_rel_us,0.13,0.129815,77.0,0.000185
+appendix table 5,41,low,2,Cereals,unconditional_income_elasticity,0.514,0.514065,77.0,-6.5e-05
+appendix table 5,41,low,2,Meat,unconditional_income_elasticity,0.771,0.771195,77.0,-0.000195
+appendix table 5,41,low,2,Fish,unconditional_income_elasticity,0.654,0.653844,77.0,0.000156
+appendix table 5,41,low,2,Dairy and eggs,unconditional_income_elasticity,0.798,0.797792,77.0,0.000208
+appendix table 5,41,low,2,Oils and fat,unconditional_income_elasticity,0.531,0.531403,77.0,-0.000403
+appendix table 5,41,low,2,Fruit and vegetables,unconditional_income_elasticity,0.615,0.614727,77.0,0.000273
+appendix table 5,41,low,2,Food other,unconditional_income_elasticity,1.42,1.420312,77.0,-0.000312
+appendix table 5,41,low,2,Beverages and tobacco,unconditional_income_elasticity,1.325,1.324961,77.0,3.9e-05
+appendix table 5,41,middle,0,(all),per_capita_food_rel_us,0.439,0.439241,38.0,-0.000241
+appendix table 5,41,middle,2,Cereals,unconditional_income_elasticity,0.253,0.253053,38.0,-5.3e-05
+appendix table 5,41,middle,2,Meat,unconditional_income_elasticity,0.649,0.648789,38.0,0.000211
+appendix table 5,41,middle,2,Fish,unconditional_income_elasticity,0.521,0.520684,38.0,0.000316
+appendix table 5,41,middle,2,Dairy and eggs,unconditional_income_elasticity,0.671,0.670868,38.0,0.000132
+appendix table 5,41,middle,2,Oils and fat,unconditional_income_elasticity,0.297,0.297342,38.0,-0.000342
+appendix table 5,41,middle,2,Fruit and vegetables,unconditional_income_elasticity,0.462,0.462526,38.0,-0.000526
+appendix table 5,41,middle,2,Food other,unconditional_income_elasticity,0.882,0.882263,38.0,-0.000263
+appendix table 5,41,middle,2,Beverages and tobacco,unconditional_income_elasticity,0.839,0.838526,38.0,0.000474
+appendix table 5,41,high,0,(all),per_capita_food_rel_us,0.781,0.78147,29.0,-0.00047
+appendix table 5,41,high,2,Cereals,unconditional_income_elasticity,0.019,0.01869,29.0,0.00031
+appendix table 5,41,high,2,Meat,unconditional_income_elasticity,0.49,0.489897,29.0,0.000103
+appendix table 5,41,high,2,Fish,unconditional_income_elasticity,0.379,0.379103,29.0,-0.000103
+appendix table 5,41,high,2,Dairy and eggs,unconditional_income_elasticity,0.506,0.50631,29.0,-0.00031
+appendix table 5,41,high,2,Oils and fat,unconditional_income_elasticity,0.097,0.096724,29.0,0.000276
+appendix table 5,41,high,2,Fruit and vegetables,unconditional_income_elasticity,0.319,0.318724,29.0,0.000276
+appendix table 5,41,high,2,Food other,unconditional_income_elasticity,0.636,0.635966,29.0,3.4e-05
+appendix table 5,41,high,2,Beverages and tobacco,unconditional_income_elasticity,0.613,0.612862,29.0,0.000138
+appendix table 6,45,low,0,(all),per_capita_food_rel_us,0.13,0.129815,77.0,0.000185
+appendix table 6,45,low,2,Cereals,unconditional_frisch_own_price_elasticity,-0.377,-0.377117,77.0,0.000117
+appendix table 6,45,low,2,Meat,unconditional_frisch_own_price_elasticity,-0.566,-0.565675,77.0,-0.000325
+appendix table 6,45,low,2,Fish,unconditional_frisch_own_price_elasticity,-0.48,-0.479636,77.0,-0.000364
+appendix table 6,45,low,2,Dairy and eggs,unconditional_frisch_own_price_elasticity,-0.585,-0.585221,77.0,0.000221
+appendix table 6,45,low,2,Oils and fat,unconditional_frisch_own_price_elasticity,-0.39,-0.389831,77.0,-0.000169
+appendix table 6,45,low,2,Fruit and vegetables,unconditional_frisch_own_price_elasticity,-0.451,-0.450935,77.0,-6.5e-05
+appendix table 6,45,low,2,Food other,unconditional_frisch_own_price_elasticity,-1.042,-1.041766,77.0,-0.000234
+appendix table 6,45,low,2,Beverages and tobacco,unconditional_frisch_own_price_elasticity,-0.972,-0.971974,77.0,-2.6e-05
+appendix table 6,45,middle,0,(all),per_capita_food_rel_us,0.439,0.439241,38.0,-0.000241
+appendix table 6,45,middle,2,Cereals,unconditional_frisch_own_price_elasticity,-0.186,-0.185658,38.0,-0.000342
+appendix table 6,45,middle,2,Meat,unconditional_frisch_own_price_elasticity,-0.476,-0.476026,38.0,2.6e-05
+appendix table 6,45,middle,2,Fish,unconditional_frisch_own_price_elasticity,-0.382,-0.381921,38.0,-7.9e-05
+appendix table 6,45,middle,2,Dairy and eggs,unconditional_frisch_own_price_elasticity,-0.492,-0.492105,38.0,0.000105
+appendix table 6,45,middle,2,Oils and fat,unconditional_frisch_own_price_elasticity,-0.218,-0.218,38.0,0.0
+appendix table 6,45,middle,2,Fruit and vegetables,unconditional_frisch_own_price_elasticity,-0.339,-0.339184,38.0,0.000184
+appendix table 6,45,middle,2,Food other,unconditional_frisch_own_price_elasticity,-0.647,-0.647211,38.0,0.000211
+appendix table 6,45,middle,2,Beverages and tobacco,unconditional_frisch_own_price_elasticity,-0.615,-0.615184,38.0,0.000184
+appendix table 6,45,high,0,(all),per_capita_food_rel_us,0.781,0.78147,29.0,-0.00047
+appendix table 6,45,high,2,Cereals,unconditional_frisch_own_price_elasticity,-0.036,-0.035793,29.0,-0.000207
+appendix table 6,45,high,2,Meat,unconditional_frisch_own_price_elasticity,-0.359,-0.359517,29.0,0.000517
+appendix table 6,45,high,2,Fish,unconditional_frisch_own_price_elasticity,-0.278,-0.278172,29.0,0.000172
+appendix table 6,45,high,2,Dairy and eggs,unconditional_frisch_own_price_elasticity,-0.371,-0.371517,29.0,0.000517
+appendix table 6,45,high,2,Oils and fat,unconditional_frisch_own_price_elasticity,-0.076,-0.075517,29.0,-0.000483
+appendix table 6,45,high,2,Fruit and vegetables,unconditional_frisch_own_price_elasticity,-0.234,-0.233897,29.0,-0.000103
+appendix table 6,45,high,2,Food other,unconditional_frisch_own_price_elasticity,-0.467,-0.466517,29.0,-0.000483
+appendix table 6,45,high,2,Beverages and tobacco,unconditional_frisch_own_price_elasticity,-0.45,-0.449655,29.0,-0.000345
+appendix table 7,49,low,0,(all),per_capita_income_rel_us,0.058,0.057599,77.0,0.000401
+appendix table 7,49,low,1,"Food, beverage, and tobacco",marginal_share,0.392,0.39226,77.0,-0.00026
+appendix table 7,49,low,1,Clothing and footwear,marginal_share,0.056,0.055831,77.0,0.000169
+appendix table 7,49,low,1,Housing and utilities,marginal_share,0.16,0.159766,77.0,0.000234
+appendix table 7,49,low,1,"Furnishing, household equipment, and maintenance",marginal_share,0.054,0.054221,77.0,-0.000221
+appendix table 7,49,low,1,Medical and health,marginal_share,0.053,0.052896,77.0,0.000104
+appendix table 7,49,low,1,Transportation and communication,marginal_share,0.128,0.127636,77.0,0.000364
+appendix table 7,49,low,1,Recreation and culture,marginal_share,0.048,0.048104,77.0,-0.000104
+appendix table 7,49,low,1,Education,marginal_share,0.032,0.031506,77.0,0.000494
+appendix table 7,49,low,1,Other,marginal_share,0.078,0.077779,77.0,0.000221
+appendix table 7,49,middle,0,(all),per_capita_income_rel_us,0.258,0.258257,38.0,-0.000257
+appendix table 7,49,middle,1,"Food, beverage, and tobacco",marginal_share,0.209,0.209079,38.0,-7.9e-05
+appendix table 7,49,middle,1,Clothing and footwear,marginal_share,0.053,0.052553,38.0,0.000447
+appendix table 7,49,middle,1,Housing and utilities,marginal_share,0.178,0.178316,38.0,-0.000316
+appendix table 7,49,middle,1,"Furnishing, household equipment, and maintenance",marginal_share,0.059,0.058974,38.0,2.6e-05
+appendix table 7,49,middle,1,Medical and health,marginal_share,0.087,0.087421,38.0,-0.000421
+appendix table 7,49,middle,1,Transportation and communication,marginal_share,0.165,0.164553,38.0,0.000447
+appendix table 7,49,middle,1,Recreation and culture,marginal_share,0.092,0.092316,38.0,-0.000316
+appendix table 7,49,middle,1,Education,marginal_share,0.028,0.027553,38.0,0.000447
+appendix table 7,49,middle,1,Other,marginal_share,0.129,0.129158,38.0,-0.000158
+appendix table 7,49,high,0,(all),per_capita_income_rel_us,0.638,0.637691,29.0,0.000309
+appendix table 7,49,high,1,"Food, beverage, and tobacco",marginal_share,0.107,0.107448,29.0,-0.000448
+appendix table 7,49,high,1,Clothing and footwear,marginal_share,0.051,0.050897,29.0,0.000103
+appendix table 7,49,high,1,Housing and utilities,marginal_share,0.189,0.188793,29.0,0.000207
+appendix table 7,49,high,1,"Furnishing, household equipment, and maintenance",marginal_share,0.062,0.061655,29.0,0.000345
+appendix table 7,49,high,1,Medical and health,marginal_share,0.106,0.106379,29.0,-0.000379
+appendix table 7,49,high,1,Transportation and communication,marginal_share,0.185,0.185034,29.0,-3.4e-05
+appendix table 7,49,high,1,Recreation and culture,marginal_share,0.117,0.116828,29.0,0.000172
+appendix table 7,49,high,1,Education,marginal_share,0.025,0.025207,29.0,-0.000207
+appendix table 7,49,high,1,Other,marginal_share,0.158,0.157655,29.0,0.000345
+appendix table 8,53,low,0,(all),per_capita_income_rel_us,0.058,0.057599,77.0,0.000401
+appendix table 8,53,low,0,(all),per_capita_food_rel_us,0.13,0.129815,77.0,0.000185
+appendix table 8,53,low,2,Cereals,conditional_marginal_share,0.161,0.160831,77.0,0.000169
+appendix table 8,53,low,2,Meat,conditional_marginal_share,0.145,0.144468,77.0,0.000532
+appendix table 8,53,low,2,Fish,conditional_marginal_share,0.049,0.048649,77.0,0.000351
+appendix table 8,53,low,2,Dairy and eggs,conditional_marginal_share,0.082,0.081584,77.0,0.000416
+appendix table 8,53,low,2,Oils and fat,conditional_marginal_share,0.032,0.032312,77.0,-0.000312
+appendix table 8,53,low,2,Fruit and vegetables,conditional_marginal_share,0.15,0.150377,77.0,-0.000377
+appendix table 8,53,low,2,Food other,conditional_marginal_share,0.22,0.219779,77.0,0.000221
+appendix table 8,53,low,2,Beverages and tobacco,conditional_marginal_share,0.162,0.161883,77.0,0.000117
+appendix table 8,53,middle,0,(all),per_capita_income_rel_us,0.258,0.258257,38.0,-0.000257
+appendix table 8,53,middle,0,(all),per_capita_food_rel_us,0.439,0.439241,38.0,-0.000241
+appendix table 8,53,middle,2,Cereals,conditional_marginal_share,0.051,0.051105,38.0,-0.000105
+appendix table 8,53,middle,2,Meat,conditional_marginal_share,0.143,0.142553,38.0,0.000447
+appendix table 8,53,middle,2,Fish,conditional_marginal_share,0.036,0.0355,38.0,0.0005
+appendix table 8,53,middle,2,Dairy and eggs,conditional_marginal_share,0.084,0.084368,38.0,-0.000368
+appendix table 8,53,middle,2,Oils and fat,conditional_marginal_share,0.012,0.012184,38.0,-0.000184
+appendix table 8,53,middle,2,Fruit and vegetables,conditional_marginal_share,0.094,0.094474,38.0,-0.000474
+appendix table 8,53,middle,2,Food other,conditional_marginal_share,0.345,0.345211,38.0,-0.000211
+appendix table 8,53,middle,2,Beverages and tobacco,conditional_marginal_share,0.234,0.234447,38.0,-0.000447
+appendix table 8,53,high,0,(all),per_capita_income_rel_us,0.638,0.637691,29.0,0.000309
+appendix table 8,53,high,0,(all),per_capita_food_rel_us,0.781,0.78147,29.0,-0.00047
+appendix table 8,53,high,2,Cereals,conditional_marginal_share,0.005,0.005276,29.0,-0.000276
+appendix table 8,53,high,2,Meat,conditional_marginal_share,0.142,0.141862,29.0,0.000138
+appendix table 8,53,high,2,Fish,conditional_marginal_share,0.03,0.030103,29.0,-0.000103
+appendix table 8,53,high,2,Dairy and eggs,conditional_marginal_share,0.086,0.085586,29.0,0.000414
+appendix table 8,53,high,2,Oils and fat,conditional_marginal_share,0.004,0.003759,29.0,0.000241
+appendix table 8,53,high,2,Fruit and vegetables,conditional_marginal_share,0.071,0.071138,29.0,-0.000138
+appendix table 8,53,high,2,Food other,conditional_marginal_share,0.398,0.397586,29.0,0.000414
+appendix table 8,53,high,2,Beverages and tobacco,conditional_marginal_share,0.265,0.264828,29.0,0.000172
