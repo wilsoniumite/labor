@@ -1,0 +1,289 @@
+n,area,status,claim,builder,mine,note
+1,A inputs,OK,"VAT dividend, coherent convention (EUR/share/month)",198.82,198.82,NOTES 198.82
+2,A inputs,OK,"VAT dividend, post convention (the published EUR 193)",193.01,193.01,NOTES 193.01
+3,A inputs,OK,"VAT dividend under Finnish law line by line, coherent",178.04,178.04,NOTES 178
+4,A inputs,OK,"VAT dividend under Finnish law line by line, post",172.38,172.38,NOTES 172.4
+5,A inputs,OK,payment shares in the HBS 2022 population (households x 12ew shares),"4,832,104","4,832,104",
+6,A inputs,OK,"HBS 2022 consumption, EUR million (budget x shares x 12)","116,197","116,197","= 1.0000 x (EUR 39,808 x 2,919,000)"
+7,A inputs,OK,"VAT bridge revenue, EUR million a year",11529,11529,
+8,A inputs,OK,VAT bridge revenue EUR 11.5bn (NOTES),11.5,11.529,
+9,A inputs,OK,"NA housing services 2022 (04.1 + 04.2, ntp 15ag), EUR million",30821,30821,
+10,A inputs,OK,"NA household consumption 2022 (P31DCK), EUR million","129,372","129,372",
+11,A inputs,OK,consumption deflator 2023 (P31DCK current / previous-year prices),1.0429,1.0429,NOTES 1.043
+12,A inputs,OK,"Eurostat 10-year yield (irt_lt_mcby_a, FI), annual 2022, %",1.69,1.69,NOTES 1.69
+13,A inputs,OK,"Eurostat 10-year yield (irt_lt_mcby_a, FI), annual 2023, %",3.04,3.04,NOTES 3.04
+14,A inputs,OK,"Eurostat 10-year yield (irt_lt_mcby_a, FI), annual 2024, %",2.85,2.85,NOTES 2.85
+15,A inputs,OK,"Eurostat 10-year yield (irt_lt_mcby_a, FI), annual 2025, %",2.997,2.997,NOTES 3
+16,A inputs,OK,ECB's identical series agrees with Eurostat's 'to 0.002 points' in 2022 (NOTES),1.6883,1.6871,ECB monthly mean 1.6871 vs Eurostat monthly mean 1.6883 (-0.0012); vs Eurostat's annual 1.69: -0.0029; 12 months each
+17,A inputs,OK,The 2022 annual-mean yield pairs with an END-2022 land stock (info; see review R-yield),1.69,1.69,December 2022 monthly yield 2.71%; mean of 2022 months 1.688%
+18,B land,OK,"survey dwellings 2023 (main + other residential + free-time), EUR million","499,815","499,815",
+19,B land,OK,"survey forest, farmland and business 2023, EUR million",36339,36339,
+20,B land,OK,dwelling land share s_d = 1 - N111(2023) / survey dwelling value,0.19712,0.19712,NOTES 0.197
+21,B land,OK,forest/farmland/business land share s_f (N211 residual),0.76308,0.76308,NOTES 0.763
+22,B land,OK,carry 2023 -> 2022 = N211 end-2022 / end-2023,1.0415,1.0415,NOTES 1.0415
+23,B land,OK,"carry to mid-2022 (mean of end-2021, end-2022 N211) / end-2023",1.0293,1.0293,
+24,B land,OK,household land 2022 = N211 S14 end-2022 = EUR 131.5bn,"131,495","131,495",
+25,B land,OK,N211 S14 end-2023 = EUR 126.3bn (survey year),126.3bn,126.25,
+26,B land,OK,"land per household by decile, every item (max abs diff, EUR)",fi_lvt_land_by_decile.csv,3.8567e-05,
+27,B land,OK,"land per household by quintile, B1 and B2 (pair means; max abs diff, EUR)",fi_lvt_land_by_quintile.csv,4.895e-06,
+28,B land,OK,pair mean = pooled pair within 0.1% (deciles hold equal households),,8.3645e-05,
+29,B land,OK,"land per payment share by quintile, B1, coherent (max abs diff, EUR)",fi_lvt_land_by_quintile.csv,4.3467e-06,
+30,B land,OK,"land per payment share by quintile, B2, coherent (max abs diff, EUR)",fi_lvt_land_by_quintile.csv,2.8636e-06,
+31,B land,OK,"land per payment share by quintile, B1, post (max abs diff, EUR)",fi_lvt_land_by_quintile.csv,4.3467e-06,
+32,B land,OK,"land per payment share by quintile, B2, post (max abs diff, EUR)",fi_lvt_land_by_quintile.csv,2.8636e-06,
+33,B land,OK,"upper bound N211/(N211+N111), households 2022",0.25911,0.25911,NOTES 0.259
+34,B land,OK,"upper bound N211/(N211+N111), households 2023 (band high 0.24)",0.23932,0.23932,NOTES 0.239
+35,B land,OK,"plot gap 1 - rented/own, old housing-company dwellings, whole country 2022",0.093728,0.093728,NOTES 0.094
+36,B land,OK,"plot gap within region groups (major cities / rest), sales-weighted",0.15,0.15,"NOTES 0.15; major cities 0.166 (NOTES 16.6%), rest 0.136 (NOTES 13.6%)"
+37,B land,OK,region-group gaps 16.6% / 13.6% and rented plots 22% of sales (NOTES),16.6 / 13.6 / 22%,16.6 / 13.6 / 21.9%,
+38,B land,OK,"new blocks of flats plot gap 2022: 9.0% nationally, 18.8% Greater Helsinki",9.0 / 18.8%,9.0 / 18.8%,
+39,B land,OK,"single-family plot 2022: EUR 25.9/m2 x 2,837 m2 = EUR 73,000; Greater Helsinki 316,000; under 20,000 inhabitants 41,000",73 / 316 / 41 kEUR,73.5 / 315.9 / 41.3 kEUR,
+40,B land,OK,the residual s_d sits inside its bounds (lower: within-region plot gap; upper: N211/(N211+N111) 2023),0.150 < 0.197 < 0.239,0.150 < 0.197 < 0.239,
+41,B land,OK,FI top income decile's share of residential land B1,0.28784,0.28784,NOTES 0.288
+42,B land,OK,FI top income decile's share of all household land B2,0.2807,0.2807,NOTES 0.281
+43,B land,OK,FI top income decile's share of financial assets,0.5092,0.5092,NOTES 0.509
+44,B land,OK,FI top income decile's share of net wealth,0.37276,0.37276,NOTES 0.373
+45,B land,OK,FI top income decile's share of main residence,0.25203,0.25203,
+46,B land,OK,"US top income decile's share of financial assets (SCF 2025 zip, all implicates, WGT)",0.65631,0.65631,NOTES 0.656
+47,B land,OK,"US top income decile's share of net wealth (SCF 2025 zip, all implicates, WGT)",0.61292,0.61292,NOTES 0.613
+48,B land,OK,US top decile's share of residential land (US unit's L1),0.39387,0.39387,NOTES 0.394
+49,B land,OK,US top decile's share of all land in the wider base (US L2),0.51512,0.51512,NOTES 0.515
+50,B land,OK,FI top quintile's share of VAT-able consumption,0.32658,0.32658,NOTES 0.327
+51,B land,OK,US top quintile's share of VAT-able consumption (CE),0.36636,0.36636,NOTES 0.366
+52,C rates,OK,"bridge-equivalent charge on all household land (B2), % of land value a year",8.8632,8.8632,NOTES 8.9
+53,C rates,OK,"phi for the EUR 199 dividend, B2, 2022 yield ('5.2 times the whole rent')",5.2445,5.2445,NOTES 5.24
+54,C rates,OK,'That is 5.2 times the whole rent',5.2,5.2445,
+55,C rates,OK,"full-capture dividend, B2, 2022 yield (EUR/share/month)",37.153,37.153,NOTES 37.2
+56,C rates,OK,'Taking 98% of it funds a dividend of EUR 37',37,37.153,
+57,C rates,OK,"full capture / VAT dividend, B2, 2022 yield, %",18.686,18.686,NOTES 18.7
+58,C rates,OK,'That is 19% of the VAT bridge's EUR 199',19%,18.686,
+59,C rates,OK,"household land rent at the 2022 yield, HBS population (EUR m; NOTES 'about EUR 2.2bn')",2198.9,2198.9,NOTES 2200
+60,C rates,OK,B2 land held by the HBS population (EUR m),"130,113","130,113",
+61,C rates,OK,"phi, B2, 2022 yield + 1.5",2.7784,2.7784,NOTES 2.78
+62,C rates,OK,"full-capture dividend, B2, 2022 yield + 1.5",70.129,70.129,NOTES 70.1
+63,C rates,OK,"full capture / VAT dividend, B2, 2022 yield + 1.5, %",35.272,35.272,NOTES 35.3
+64,C rates,OK,"phi, B2, 2023 yield + 1.5",1.9523,1.9523,NOTES 1.95
+65,C rates,OK,"full-capture dividend, B2, 2023 yield + 1.5",99.807,99.807,NOTES 99.8
+66,C rates,OK,"full capture / VAT dividend, B2, 2023 yield + 1.5, %",50.198,50.198,NOTES 50.2
+67,C rates,OK,"phi, B2, 2024 yield + 1.5",2.0375,2.0375,NOTES 2.04
+68,C rates,OK,"full-capture dividend, B2, 2024 yield + 1.5",95.63,95.63,NOTES 95.6
+69,C rates,OK,"full capture / VAT dividend, B2, 2024 yield + 1.5, %",48.098,48.098,NOTES 48.1
+70,C rates,OK,"phi, B2, 2025 yield + 1.5",1.9709,1.9709,NOTES 1.97
+71,C rates,OK,"full-capture dividend, B2, 2025 yield + 1.5",98.861,98.861,NOTES 98.9
+72,C rates,OK,"full capture / VAT dividend, B2, 2025 yield + 1.5, %",49.723,49.723,NOTES 49.7
+73,C rates,OK,"phi, B2, 2023 yield",2.9155,2.9155,NOTES 2.92
+74,C rates,OK,"full-capture dividend, B2, 2023 yield",66.831,66.831,NOTES 66.8
+75,C rates,OK,"full capture / VAT dividend, B2, 2023 yield, %",33.613,33.613,NOTES 33.6
+76,C rates,OK,"phi, B2, 2024 yield",3.1099,3.1099,NOTES 3.11
+77,C rates,OK,"full-capture dividend, B2, 2024 yield",62.654,62.654,NOTES 62.7
+78,C rates,OK,"full capture / VAT dividend, B2, 2024 yield, %",31.512,31.512,NOTES 31.5
+79,C rates,OK,"phi, B2, 2025 yield",2.9574,2.9574,NOTES 2.96
+80,C rates,OK,"full-capture dividend, B2, 2025 yield",65.885,65.885,NOTES 65.9
+81,C rates,OK,"full capture / VAT dividend, B2, 2025 yield, %",33.137,33.137,NOTES 33.1
+82,C rates,OK,2023-25 yields + 1.5 = 4.35-4.54%,4.35-4.54,4.350-4.540,
+83,C rates,OK,"phi, residential land B1, m1",6.7207,6.7207,NOTES 6.72
+84,C rates,OK,"full-capture dividend, B1, m1",28.992,28.992,NOTES 29
+85,C rates,OK,"full capture share, B1, m1, %",14.582,14.582,NOTES 14.6
+86,C rates,OK,"phi, residential land B1, m2",3.5605,3.5605,NOTES 3.56
+87,C rates,OK,"full-capture dividend, B1, m2",54.725,54.725,NOTES 54.7
+88,C rates,OK,"full capture share, B1, m2, %",27.524,27.524,NOTES 27.5
+89,C rates,OK,"bridge-equivalent charge on residential land alone, %",11.358,11.358,NOTES 11.4
+90,C rates,OK,"all private land B3 (households + firms + non-profits, N211 2022), EUR m","176,892","176,892",NOTES 176900
+91,C rates,OK,"phi, B3, m1",3.8565,3.8565,NOTES 3.86
+92,C rates,OK,"full-capture dividend, B3, m1",50.525,50.525,NOTES 50.5
+93,C rates,OK,"full capture share, B3, m1, %",25.412,25.412,NOTES 25.4
+94,C rates,OK,"phi, B3, m2",2.0431,2.0431,NOTES 2.04
+95,C rates,OK,"full-capture dividend, B3, m2",95.369,95.369,NOTES 95.4
+96,C rates,OK,"full capture share, B3, m2, %",47.966,47.966,NOTES 48
+97,C rates,OK,B3 adds the balance sheet's whole household N211 (not scaled to the HBS population as B1/B2 are): info,25.4%,25.213,scaling the household part gives 25.2% (m1); immaterial
+98,C rates,OK,"implied land rent-to-value, residential land, m5 (housing services x 0.197), %",5.9834,5.9834,NOTES 6
+99,C rates,OK,"phi, B1, m5",1.8982,1.8982,NOTES 1.9
+100,C rates,OK,"full-capture dividend, B1, m5",102.65,102.65,NOTES 102.6
+101,C rates,OK,"full capture share, B1, m5, %",51.627,51.627,NOTES 51.6
+102,C rates,OK,"implied land rent-to-value, residential land, m3 (housing services x 0.300), %",9.1065,9.1065,NOTES 9.1
+103,C rates,OK,"phi, B1, m3",1.2472,1.2472,NOTES 1.25
+104,C rates,OK,"full-capture dividend, B1, m3",156.22,156.22,NOTES 156.2
+105,C rates,OK,"full capture share, B1, m3, %",78.573,78.573,NOTES 78.6
+106,C rates,OK,"implied land rent-to-value, residential land, m4 (housing services x 0.500), %",15.177,15.177,NOTES 15.2
+107,C rates,OK,"phi, B1, m4",0.74835,0.74835,NOTES 0.75
+108,C rates,OK,"full-capture dividend, B1, m4",260.37,260.37,NOTES 260.4
+109,C rates,OK,"full capture share, B1, m4, %",130.96,130.96,NOTES 131
+110,C rates,OK,housing services x s_d = EUR 6.1bn,6.1,6.0753,
+111,C rates,OK,phi against the Finnish-law VAT dividend (EUR 178.0),4.6962,4.6962,NOTES 4.7
+112,C rates,OK,"full capture share against the Finnish-law dividend, %",20.868,20.868,NOTES 20.9
+113,C rates,OK,"full-capture dividend, post convention (EUR/share/month)",36.051,36.051,
+114,C rates,BAD,rates table: 'post within 0.1 point' of the coherent rows,0.1,phi 0.017; share 0.32 pts,"phi agrees within 0.1 in every row, but the funding share differs by up to 0.32 points (the housing-services rows m3-m5: 131.0% coherent vs 130.6% post); say 'within 0.1 in phi and 0.4 points in share'"
+115,C rates,OK,PV of the bridge charge = the dwellings' whole value at the 2022 yield,1.000,1.0338,phi x s_d > 1: the charge capitalizes to more than the dwelling
+116,C rates,OK,share of dwelling value the bridge charge capitalizes to at yield + 1.5 ('55%'),0.54767,0.54767,NOTES 0.55
+117,D accounting,OK,"LVT bills and nets, every convention x base x rate x quintile (max abs diff, EUR); nets balance under the weights",fi_lvt_accounting_by_quintile.csv,4.3779e-08,
+118,D accounting,OK,"VAT nets by quintile, coherent (rebuilt VAT accounting)",,,
+119,D accounting,OK,"VAT nets by quintile, post (rebuilt VAT accounting)",,,
+120,D accounting,OK,net per share by quintile (coherent unless stated): VAT bridge,+80.3 / +41.5 / +8.0 / -11.5 / -83.9,+80.31 / +41.50 / +8.00 / -11.51 / -83.92,
+121,D accounting,OK,"net per share by quintile (coherent unless stated): LVT B2, same revenue",+117.1 / +82.5 / +32.8 / -1.4 / -174.5,+117.07 / +82.54 / +32.78 / -1.43 / -174.51,
+122,D accounting,OK,"net per share by quintile (coherent unless stated): LVT B1, same revenue",+124.7 / +90.8 / +31.3 / -5.9 / -180.8,+124.70 / +90.80 / +31.29 / -5.93 / -180.82,
+123,D accounting,OK,"net per share by quintile (coherent unless stated): LVT B2, full capture, 2022 yield",+21.9 / +15.4 / +6.1 / -0.3 / -32.6,+21.88 / +15.42 / +6.13 / -0.27 / -32.61,
+124,D accounting,OK,"net per share by quintile (coherent unless stated): LVT B2, full capture, yield + 1.5",+41.3 / +29.1 / +11.6 / -0.5 / -61.6,+41.29 / +29.11 / +11.56 / -0.50 / -61.55,
+125,D accounting,OK,"net per share by quintile (coherent unless stated): VAT, % of budget",+6.1 / +2.6 / +0.4 / -0.5 / -3.0,+6.13 / +2.62 / +0.43 / -0.54 / -2.97,
+126,D accounting,OK,"net per share by quintile (coherent unless stated): LVT B2 same revenue, % of budget",+8.9 / +5.2 / +1.7 / -0.1 / -6.2,+8.94 / +5.22 / +1.75 / -0.07 / -6.18,
+127,D accounting,OK,"net per share by quintile (coherent unless stated): LVT B2 full capture, % of budget",+1.7 / +1.0 / +0.3 / -0.0 / -1.2,+1.67 / +0.98 / +0.33 / -0.01 / -1.15,
+128,D accounting,OK,net per share by quintile (coherent unless stated): post convention: VAT (the published Fig 1),+76.8 /  /  /  / -88.1,+76.75 / +37.27 / +4.23 / -14.18 / -88.06,
+129,D accounting,OK,net per share by quintile (coherent unless stated): post convention: LVT B2 same revenue,+111.2 / +76.7 / +26.9 / -7.3 / -180.5,+111.22 / +76.68 / +26.89 / -7.33 / -180.48,
+130,D accounting,OK,plain words: Q1 gains EUR 117 instead of 80; Q5 pays EUR 175 (6.2%) instead of 84 (3.0%),117/80; 175/84,117.1/80.3; 174.5/83.9,
+131,D accounting,OK,every quintile but the top gains relative to the VAT (both conventions),,"coherent: +36.8, +41.0, +24.8, +10.1, -90.6 ; post: +34.5, +39.4, +22.7, +6.9, -92.4",
+132,D accounting,OK,Q4 at break-even under the LVT (coherent),-1.43,-1.426,post convention Q4 -7.33
+133,D accounting,OK,'At the same revenue the LVT is about twice as redistributive as the VAT',about 2,1.8523,"net redistribution sum_q w_q max(net_q, 0): VAT EUR 21.8, LVT EUR 40.4 per share-month; Q5 payment ratio 2.08, Q1 gain ratio 1.46"
+134,E within deciles,OK,payer share of households by decile (max abs diff vs fi_lvt_within_decile.csv),0,4.8124e-11,
+135,E within deciles,OK,"households paying net under the LVT, all deciles, %",,35.324,NOTES 35.3
+136,E within deciles,OK,"payers: 12% in D1, 27-36% in D4-D7, 80% in D10",12 / 27-36 / 80,12.4 / 26.8-35.5 / 80.5,
+137,E within deciles,OK,"'Whatever the rate, 35% ... pay net': the payer threshold L* = mean land per share x shares carries no tau",rate-invariant,rate-invariant,"identity: a household's net is tau x (L* - L); its sign, hence who pays, does not move with tau"
+138,E within deciles,OK,non-owners: 36% of households and 73% of the bottom decile,36 / 73,36 / 73,
+139,E within deciles,OK,"renters' own land is 2.5% of household land nationally (151z), assigned to owners",2.5%,2.5354,"a modelling approximation: the plain-words 'Renters pay nothing' is the model's assumption, not a measurement (review R-renters)"
+140,E within deciles,OK,"gross payments per share by decile at the bridge rate (max abs diff, EUR)",fi_lvt_within_decile.csv,4.1558e-08,
+141,E within deciles,BAD,'The bottom half makes 22.6% of all gross LVT payments',22.6% (builder: per-share payments x households),19.277,"builder's figure 22.6% weights per-SHARE payments by HOUSEHOLDS; on one unit (per-household payments x households, = per-share payments x shares) the bottom half makes 19.3%. Fix run_lvt_fi.py's gp line (multiply by shares)"
+142,E within deciles,OK,"'In D1-D2, gross payments are a fifth of gross receipts'",1/5,0.19676,
+143,E within deciles,OK,LVT payer share by quintile (pair means; max abs diff),0,4.6902e-11,
+144,F liquidity,OK,"hand-to-mouth shares by decile, all households and owners, three thresholds (max abs diff)",fi_lvt_liquidity.csv,4.8393e-11,
+145,F liquidity,OK,"all households hand-to-mouth: 31% (D1), 37% (D2), 21% (D5), 7.5% (D10)",31/37/21/7.5,31.09/36.71/20.71/7.55,
+146,F liquidity,OK,"owners hand-to-mouth: 17%, 18%, 12%, 5% (D1, D2, D5, D10)",17/18/12/5,16.93/18.45/12.43/5.35,
+147,F liquidity,OK,"nationally (151z): outright owners 8.5%, mortgaged 21.6%, renters 36.2%",8.5/21.6/36.2,8.49/21.55/36.19,
+148,F liquidity,OK,hand-to-mouth by tenure (max abs diff vs fi_lvt_liquidity_tenure.csv),,3.1486e-11,
+149,F liquidity,OK,bottom three deciles: 17-18% of owners hand-to-mouth against 31-37% of all households,17-18 / 31-37,16.9-18.5 / 31.1-36.7,owners' rates are the decile's rate scaled by the national owner/all ratio (judgment: 151u does not cross tenure with income)
+150,F liquidity,OK,"mean liquid assets 9-15 months of income in D1-D9, 26 in D10; median holder's deposits 1.4-4.3 months",9-15 / 26 / 1.4-4.3,8.8-15.3 / 25.9 / 1.41-4.33,
+151,G impulse,OK,"flow impulse, every instrument x convention x base x rate (14) x grade (7); max abs diff, % of consumption",fi_lvt_impulse.csv,4.8318e-10,
+152,G impulse,OK,"flow impulse table, the post's schedule (mid) (coherent, % of consumption)",0.422 / 0.771 / 0.144 / 0.272,0.4219 / 0.7714 / 0.1442 / 0.2721,
+153,G impulse,OK,"flow impulse table, band: high / low schedules (coherent, % of consumption)",0.322 / 0.524 / 0.598 / 0.948 / 0.112 / 0.177,0.3224 / 0.5236 / 0.5977 / 0.9476 / 0.1117 / 0.1771,
+154,G impulse,OK,"flow impulse table, payers graded by liquidity (coherent, % of consumption)",0.339 / 0.659 / 0.123 / 0.233,0.3387 / 0.6593 / 0.1232 / 0.2325,
+155,G impulse,OK,"flow impulse table, unconstrained payers draw on wealth (0.56) (coherent, % of consumption)",0.502 / 1.076 / 0.201 / 0.380,0.5019 / 1.0761 / 0.2011 / 0.3796,
+156,G impulse,OK,"flow impulse table, wealth band 0.68 / 0.25 (coherent, % of consumption)",0.298 / 1.056 / 0.617 / 2.324 / 0.115 / 0.434,0.2980 / 1.0565 / 0.6172 / 2.3242 / 0.1153 / 0.4343,
+157,G impulse,OK,"flow impulse table, post convention, the post's schedule",0.438 / 0.792 / 0.148 / 0.279,0.4383 / 0.7920 / 0.1479 / 0.2792,
+158,G impulse,OK,"LVT/VAT flow ratio at the same revenue: 1.83 (B2), 1.94 (B1); US 2.51",1.83 / 1.94 / 2.51,1.828 / 1.936 / 2.511,
+159,G impulse,OK,"'Under the post's method the flow impulse is 0.77% of consumption, against the VAT's 0.42%'",0.77 / 0.42,0.771 / 0.422,
+160,G impulse,OK,the wealth grade raises the LVT more than the VAT,+0.305 vs +0.080,+0.305 vs +0.080,"LVT payers' hand-to-mouth share by quintile 0.179, 0.170, 0.124, 0.102, 0.064; schedule 1.000, 0.940, 0.814, 0.688, 0.562"
+161,G impulse,OK,payers' hand-to-mouth share by quintile (LVT B2; max abs diff vs fi_lvt_mpc_grades.csv),,4.2845e-11,
+162,G impulse,OK,"VAT payers inside quintiles (sigma 0.45, judgment): 8% of Q1 to 71% of Q5",8 / 71,8.5 / 71.1,
+163,G impulse,OK,"deferral, dividend paid in full (state lends the liens), impulse, full_m1",0.5139,0.5139,
+164,G impulse,OK,deferral raises the impulse by 0.37 points (full_m1),,0.36975,NOTES 0.37
+165,G impulse,OK,"deferral, dividend paid in full (state lends the liens), impulse, bridge",2.7502,2.7502,
+166,G impulse,OK,deferral raises the impulse by 1.98 points (bridge),,1.9788,NOTES 1.98
+167,G impulse,OK,"deferral beside the US: 'US 2.0' (owners 65+ defer, dividend in full; the US unit's output)",2.0,1.9997,
+168,G impulse,OK,"outright owners' main-residence land, share of revenue (%)",27.075,27.075,NOTES 27.1
+169,G impulse,OK,cash-balanced dividend at full capture (EUR 37.2 -> 27.1),27.094,27.094,NOTES 27.1
+170,G impulse,OK,cash-balanced deferral changes the impulse by -0.02 points,,-0.022128,NOTES -0.02
+171,G impulse,OK,"deferral, dividend in full, wealth_mid grade (full capture)",0.52552,0.52552,
+172,G impulse,OK,deferrers' capitalized loss at 3.5c (% of consumption; reported beside the flow),-1.0398,-1.0398,NOTES -1.04
+173,G impulse,OK,same at 5c,-1.4855,-1.4855,NOTES -1.49
+174,H demand shifts,OK,"category shifts, every instrument x convention x base x rate x grade (max abs diff, EUR/share/month)",fi_lvt_demand_shifts.csv,4.9609e-10,
+175,H demand shifts,OK,"demand-shift table, VAT and LVT B2 (post's method, same revenue, coherent): rent, food, ICT, vehicle operation, vehicles, 04.4, imputed, interest",+4.21/+6.87 ; +0.93/+1.66 ; +0.50/+0.92 ; +0.43/+0.85 ; -0.43/-0.70 ; +0.27/+0.59 ; -0.78/-1.01 ; -0.04/-0.04,+4.206/+6.870 ; +0.929/+1.664 ; +0.504/+0.916 ; +0.425/+0.853 ; -0.426/-0.696 ; +0.269/+0.588 ; -0.776/-1.008 ; -0.037/-0.043,double-rounded print: 0.42464 printed 0.43
+176,H demand shifts,OK,charted totals EUR 9.68 (VAT) and 17.27 (LVT),9.68 / 17.27,9.675 / 17.271,
+177,H demand shifts,OK,"all 37 bars keep their sign; LVT/VAT ratio median 1.80 over bars above EUR 0.05, range 0.71 (13.9) to 2.19 (04.4)","37; 1.80 [0.71, 2.19]","37; 1.803 [0.706 13.9, 2.185 04.4]",
+178,H demand shifts,OK,rent's share of the charted impulse: LVT 39.8% vs VAT 43.5%,39.8 / 43.5,39.77 / 43.47,
+179,H demand shifts,OK,"on the post's euro conversion: rent 4.93 -> 7.95, vehicles -0.52 -> -0.86, food 0.92 -> 1.63",4.93/7.95; -0.52/-0.86; 0.92/1.63,4.928/7.951; -0.522/-0.855; 0.919/1.627,
+180,H demand shifts,OK,Fig 3 analogue: the ten largest movers and their quintile segments (max abs diff vs fi_lvt_decomposition_top10.csv),,4.6311e-10,
+181,H demand shifts,OK,"Fig 3 analogue: Q5 supplies 98-99% of every top-10 withdrawal under the LVT, 71-91% under the VAT",98-99 / 71-91,97.6-99.4 / 71.1-90.5,"mechanical: the LVT's Q4 nets to -1.4, so quintile netting leaves only Q5 to withdraw (inside Q4, 40% of households pay); double-rounded print: 90.455 printed 91"
+182,H demand shifts,BAD,"ghost flips (MPC=1 ghost vs MPC-adjusted bar): 12 LVT, 14 VAT, in the section's coherent convention; vehicle operation flips under both",12 / 14,13 / 17,12 / 14 are the POST convention's counts (12 / 14); the section is coherent (13 / 17). No code computes them (run_lvt_fi.py stores dEUR_mpc1 only). Say 'post convention' or print 13 / 17; vehicle operation flips under both in both conventions: True
+183,H demand shifts,OK,"under the wealth grade 35 of 37 bars keep their sign; tools -0.005 -> +0.013, other services -0.006 -> +0.16",35; 2 flips,"35; 05.5 -0.005->+0.013, 13.9 -0.006->+0.163",
+184,H demand shifts,OK,"tenure-aware bars, every version (max abs diff, EUR)",fi_lvt_tenure_aware.csv,1.6696e-09,
+185,H demand shifts,OK,tenure-aware table: LVT B2 (wealth grade) and VAT,+16.88/+4.42 ; +2.05/+0.95 ; -0.36/-0.42 ; -0.73/+0.22 ; -7.89/-1.03 ; -0.43/-0.05,+16.880/+4.415 ; +2.049/+0.947 ; -0.355/-0.421 ; -0.725/+0.222 ; -7.891/-1.026 ; -0.429/-0.050,double-rounded print: -0.72453 printed -0.73
+186,H demand shifts,OK,tenure-aware LVT rent bar 2.5 x the quintile-netted one (EUR 16.9 vs 6.9),2.5,2.4572,"the same under the post's schedule (renters receive at the schedule either way), so the factor is the baskets, not the wealth grade"
+187,H demand shifts,OK,tenure-aware bars over all 47 lines = flow x 1.05 (division-parent over-allocation),1.05,1.0522,
+188,H demand shifts,OK,renters spend 17-39 cents of an extra euro on rent (39 in Q1); the quintile-average basket says 2-28 cents,17-39 / 2-28,17.1-39.3 (Q1 39.3) / 1.8-28.1,
+189,H demand shifts,BAD,'Owners' cuts land on imputed rent and housing-company charges' (tenure-aware extension) describes spending,finding,22% of owners' cut,"owners' basket puts 18-25% of each marginal euro on imputed rent and mortgage interest (quintile average 5-21%), so EUR 8.32 of owners' EUR 37.82 cut (wealth grade, bridge rate) is booked on lines that cannot move at impact. Re-spread over what owners can cut, the tenure-aware charted total EUR 30.8 (fig_fi_demand_shifts) falls toward EUR 22.5. Say the imputed-rent cut is an accounting artifact (the post omits imputed rent because nothing is transacted), or re-spread it"
+190,I macro,OK,"VAT price-level step, central (15 x VAT-able share x 0.9), %",8.9297,8.9297,NOTES 8.9; VAT-able share 0.6615 (NOTES 0.661)
+191,I macro,OK,"VAT step band [7.9, 9.9]; share 0.661",7.9 / 9.9 / 0.661,7.937 / 9.922 / 0.6615,
+192,I macro,OK,LVT price step 0 (land in fixed supply; nothing to pass through),0,0,
+193,I macro,OK,"VAT levy channel, lambda 0.35, 3.5c (impact), % of consumption",-0.55916,-0.55916,NOTES -0.56; net worth EUR 647bn (NOTES 647) = 5.57 years of HBS consumption (NOTES 5.6); levy 8.20% (NOTES 8.2)
+194,I macro,OK,"levy inputs and band: EUR 647bn, 5.6 years, 8.2%; [-0.80, -0.32]; lambda 1 -1.60",647 / 5.6 / 8.2; -0.80/-0.32; -1.60,647.0 / 5.57 / 8.20; -0.799/-0.320; -1.598,
+195,I macro,OK,"VAT net demand at impact, lambda 0.35 (flow + levy)",-0.13725,-0.13725,NOTES -0.14
+196,I macro,OK,"VAT net band [-0.48, +0.20]",-0.48 / +0.20,-0.476 / 0.204,
+197,I macro,OK,dwelling values fall phi x s_d at full capture ('about 19%'; collateral block 19.3%),0.19317,0.19317,NOTES 0.193
+198,I macro,OK,"dwelling value lost by design (immediate, phase-ins, increment-only) from three-taxes/data/lvt_shock.csv (max abs diff)",,4.3287e-11,"T4: increment-only captures 0.404 at phi 0.98, i.e. gamma/delta = 0.40 per unit of phi (discrete timing 0.412)"
+199,J collateral,OK,"US-shape population reproduces Finland's decile counts, mortgaged values and loans exactly",exact,exact,
+200,J collateral,OK,"LTVs at full capture: mortgaged 48.2% -> 59.7%; all owners 25.4% -> 31.5% (151z: 106,965 / 222,127)",48.2/59.7; 25.4/31.5,48.15/59.68; 25.38/31.46,
+201,J collateral,OK,mortgaged owners crossing 80% LTV at full capture,"121,496","121,496",NOTES 121500
+202,J collateral,OK,"'122,000 owners, 14% of the mortgaged'",122k / 14%,121.5k / 14.0%,
+203,J collateral,OK,"above 80%: 175,000 -> 296,000; above 100%: 47,000 -> 172,000",175/296; 47/172,174.7/296.2; 47.1/172.1,
+204,J collateral,OK,"crossers' lost borrowing capacity (EUR m, carried to 2022)",2034.8,2034.8,NOTES 2000
+205,J collateral,OK,crossers' lost equity (EUR m),4893.1,4893.1,NOTES 4900
+206,J collateral,OK,"collateral credit effect, 6c on crossers' lost capacity (% of consumption)",-0.10507,-0.10507,NOTES -0.11
+207,J collateral,OK,"credit-effect band [-0.12, -0.08], stress -0.18 (NOTES table); plain words -0.105 [-0.123, -0.082], stress -0.175",-0.12/-0.08/-0.18,-0.1226/-0.0823/-0.1751,
+208,J collateral,OK,"collateral on crossers' lost equity (T4 overlap, band edge)",-0.25266,-0.25266,NOTES -0.25
+209,J collateral,OK,"T4-overlap band [-0.30, -0.20], stress -0.42",-0.30/-0.20/-0.42,-0.2948/-0.1979/-0.4211,double-rounded print: -0.29477 printed -0.3
+210,J collateral,OK,"collateral, hand-to-mouth crossers only (6c)",-0.014324,-0.014324,NOTES -0.01; hand-to-mouth crossers carry 13.6% of the lost capacity
+211,J collateral,OK,"crossers concentrate in D6-D10, where the mortgages are",D6-D10,80% of crossers in D6-D10,
+212,J collateral,OK,collateral credit effect under phasein_10y,-0.089072,-0.089072,NOTES -0.09
+213,J collateral,OK,collateral credit effect under increment,-0.01688,-0.01688,NOTES -0.02
+214,J collateral,OK,US-shape loan and value quartiles within 4-32% of 151z's,4-32%,3.6-32.1%,"ratios 1.32, 1.08, 0.95, 1.11, 0.96, 0.89"
+215,J collateral,OK,"log-normal LTV method (median 1.1 x aggregate, sigma 0.5-0.8): -0.08 to -0.12",-0.08 / -0.12,-0.0834 / -0.1059 / -0.1211,
+216,J collateral,OK,"non-occupiers' share of B2 land, %",42.745,42.745,NOTES 42.7
+217,J collateral,OK,"capitalized loss per euro of bill: 59 at the 2022 yield, 31 at yield + 1.5 (= 1/r)",59 / 31,59.17 / 31.35,
+218,J collateral,OK,"non-occupiers on the wealth reading: change in impulse, full capture (3.5c)",-1.0883,-1.0883,NOTES -1.09
+219,J collateral,OK,"non-occupier change band [-1.79, -0.39]",-1.79 / -0.39,-1.7916 / -0.3849,
+220,J collateral,OK,"non-occupier wealth versions, B1/B2 x three rates, match fi_lvt_nonoccupier.csv (checked row by row above)",,,
+221,J collateral,OK,"headline readings (clean, T4, hand-to-mouth, stock, wealth grade, non-occupiers) x three rates, central/band/stress (max abs diff)",fi_lvt_headline.csv,4.881e-09,
+222,J collateral,OK,"macro table: net at impact, flow + credit effect (2022 yield) (full capture)",+0.04 / -0.01 / +0.10 / -0.06,"+0.0391 [-0.0109, +0.0948] stress -0.0634",double-rounded print: 0.094763 printed 0.1
+223,J collateral,OK,"macro table: net, includes the T4 overlap (full capture)",-0.11 / -0.18 / -0.02 / -0.31,"-0.1085 [-0.1831, -0.0209] stress -0.3094",
+224,J collateral,OK,"macro table: net, only hand-to-mouth crossers respond (full capture)",+0.13 / +0.10 / +0.17 / ,"+0.1298 [+0.0950, +0.1658] stress +0.0878",
+225,J collateral,OK,"macro table: net, crossers' stock response instead of their bill (full capture)",-0.06 / -0.14 / +0.03 / ,"-0.0610 [-0.1356, +0.0266]",
+226,J collateral,OK,"macro table: net, every non-occupier on the wealth reading (full capture)",-1.05 / -1.80 / -0.29 / ,"-1.0492 [-1.8025, -0.2901]",
+227,J collateral,OK,"macro table: net, unconstrained payers draw on wealth (full capture)",+0.10 / -0.01 / +0.35 / ,"+0.0960 [-0.0072, +0.3520]",
+228,J collateral,OK,"macro table: net, yield + 1.5: +0.17 [0.09, 0.25], stress +0.04","+0.17 [0.09, 0.25] +0.04","+0.1670 [+0.0882, +0.2519] +0.0357",
+229,J collateral,OK,"macro table: notional bridge rate, flow + credit effect (dwellings worthless): -2.77 [-3.54, -1.83], stress -5.31","-2.77 [-3.54, -1.83] -5.31","-2.7724 [-3.5368, -1.8284] -5.3087",
+230,J collateral,OK,"macro table: LVT full capture flow +0.14 [0.11, 0.18]","+0.14 [0.11, 0.18]",0.1442,
+231,K loop,OK,rent bar at full capture (EUR/share/month),1.2836,1.2836,NOTES 1.28
+232,K loop,OK,"land rent increment, EUR m a year",14.672,14.672,NOTES 14.7
+233,K loop,OK,"extra dividend from the loop, % of the dividend",0.369,0.369,NOTES 0.37
+234,K loop,OK,loop multiplier 1 / (1 - phi h ls q),1.0052,1.0052,NOTES 1.005
+235,K loop,OK,"loop band [0.18, 0.72]% of the dividend (ls 0.13-0.30, landlords 0.40-0.70)",0.18 / 0.72,0.1765 / 0.7183,
+236,K loop,OK,"under the VAT the increment, EUR 48m a year (EUR 2.8bn capitalized at the 2022 yield), goes to landlords",48m / 2.8bn,48.08m / 2.845bn,
+237,K loop,OK,the loop's iteration equals the closed form R0 x phi h ls / (1 - phi h ls q) (T5's fixed point),closed form,0.13709,"q = rent bar per euro of round transfer, constant across rounds (the bridge is linear)"
+238,K loop,OK,info: the land share of a rent CHANGE is set at the AVERAGE land share s_d (band 0.13-0.30); with land the residual claimant on a permanent demand-driven rent rise (ls = 1) the loop stays second-order,multiplier 1.005,1.0270,ls = 1: extra dividend 1.91% of the dividend (vs 0.37%); the VAT's leak to landlords EUR 244m a year (EUR 14.4bn capitalized) instead of EUR 48m. The US unit's band is 0.30-0.50; say the marginal share is a judgment
+239,L US compare,OK,"the US numbers in fi_lvt_us_compare.csv are the US unit's current outputs (VAT net, LVT full and bridge nets, non-occupiers)",,,US bridge flow + credit effect +0.1475 (NOTES_us central +0.15)
+240,L US compare,OK,my SCF 2025 crossing logic reproduces the US unit's full-capture crossers and lost capacity (validates the recomputation),"19.927m / $1,751bn","19.927m / $1,751bn",
+241,L US compare,OK,US LVT at Finland's revenue share: flow + credit effect,0.17195,0.17195,"NOTES 0.17; revenue 1.854% of consumption (NOTES 1.85), US phi 0.1698 (NOTES 0.17)"
+242,L US compare,OK,same revenue: 1.85% of consumption; US phi 0.17,1.85 / 0.17,1.854 / 0.170,
+243,L US compare,OK,FI at the US bridge's share of rent (phi 0.848): flow + credit effect,0.040553,0.040553,NOTES 0.04
+244,L US compare,OK,"US-beside-Finland table, every row (US / FI, % of consumption)",+0.39/+0.42 ; -1.76/-0.56 ; -1.37/-0.14 ; +1.13/+0.14 ; -1.16/-0.11 ; -0.04/+0.04 ; +0.15/+0.04 ; +0.17/+0.04 ; -1.50/-0.11 ; -0.48/-1.05,+0.389/+0.422 ; -1.759/-0.559 ; -1.370/-0.137 ; +1.129/+0.144 ; -1.165/-0.105 ; -0.036/+0.039 ; +0.148/+0.041 ; +0.172/+0.039 ; -1.497/-0.109 ; -0.477/-1.049,
+245,L US compare,OK,"US - FI gaps: -1.23, -0.73, -0.07, +0.11, +0.13, -1.39, +0.57",-1.23 -0.73 -0.07 +0.11 +0.13 -1.39 +0.57,-1.233 -0.730 -0.075 +0.107 +0.133 -1.389 +0.572,
+246,L US compare,OK,US full-capture non-occupier change -0.44 (US unit's output),-0.44,-0.44178,
+247,L US compare,OK,what is behind it: land share 0.416 vs 0.197; land / consumption 2.6 vs 1.1; r 4.21% (2024) vs 1.69% (2022); land rent 10.9% vs 1.9% of consumption; US phi 0.85,0.416; 2.6/1.1; 4.21; 10.9/1.9; 0.85,0.416; 2.59/1.13; 4.21; 10.9/1.89; 0.848,
+248,L US compare,OK,'Under the VAT the whole US-Finland gap is the levy on net worth (1.2 points at impact; 0.7 in the post)',1.2 / 0.7,-1.200 of -1.233; post -0.691 of -0.73,post: (central - flow-only) gap from P662/P663 (US) and P878 + Fig 10 flow-only (FI)
+249,M robustness,OK,robustness rows (18 variants x 10 statistics; max abs diff vs fi_lvt_robustness.csv),fi_lvt_robustness.csv,4.9086e-08,
+250,M robustness,OK,robustness table: main,5.24 / 0.187 / -174.5 / 0.771 / 0.039 / -0.109,5.245 / 0.1869 / -174.5 / 0.7714 / 0.03908 / -0.1085,
+251,M robustness,OK,robustness table: s_d 0.13 / 0.24,-166.9 / -179.4 / 0.717 / 0.806 / 0.086 / -0.008,-166.9 / -179.4 / 0.7167 / 0.8064 / 0.0864 / -0.008081,
+252,M robustness,OK,robustness table: s_f 0.5 / 1.5,5.67 / 4.33 / 0.173 / 0.226 / -176.4 / -170.6 / 0.785 / 0.743 / 0.03 / 0.063,5.674 / 4.327 / 0.1727 / 0.2265 / -176.4 / -170.6 / 0.7846 / 0.7433 / 0.03044 / 0.06329,
+253,M robustness,OK,robustness table: carry to mid-2022,5.31 / 0.185 / 0.039,5.307 / 0.1847 / 0.03862,
+254,M robustness,OK,robustness table: post convention,5.25 / 0.187 / -180.5 / 0.792 / 0.043,5.247 / 0.1868 / -180.5 / 0.792 / 0.04287,
+255,M robustness,OK,robustness table: 14qa composition,5.25 / 0.187 / -174 / 0.78 / 0.041,5.245 / 0.1869 / -174 / 0.7798 / 0.04065,double-rounded print: 5.2445 printed 5.25
+256,M robustness,OK,robustness table: yields 2023 / 2024 / 2025,0.154 / 0.138 / 0.151,0.1542 / 0.138 / 0.1506,
+257,M robustness,OK,robustness table: B1,6.72 / 0.146 / -180.8 / 0.817 / 0.014,6.721 / 0.1458 / -180.8 / 0.8167 / 0.01401,
+258,M robustness,OK,robustness table: Finnish-law target,4.7 / 0.209 / -156.3 / 0.691 / 0.039,4.696 / 0.2087 / -156.3 / 0.6908 / 0.03908,
+259,M robustness,OK,robustness table: log-normal LTVs 0.5 / 0.8,0.023 / 0.061,0.02306 / 0.06072,
+260,M robustness,OK,"judgment table, s_d: collateral -0.05 to -0.16; net at full capture +0.09 to -0.01",-0.05/-0.16; +0.09/-0.01,-0.0475/-0.1588; +0.0864/-0.0081,
+261,M robustness,OK,"judgment table, s_f: funding share 17-23%; net +0.03 to +0.06",17-23; +0.03/+0.06,17.3-22.6; +0.0304/+0.0633,
+262,M robustness,OK,"judgment table, yield year: share 32-34%; flow at full capture 0.24-0.26; net +0.14 to +0.15",32-34; 0.24-0.26; 0.14-0.15,31.5-33.6; 0.243-0.259; 0.138-0.154,
+263,M robustness,OK,"judgment table, hand-to-mouth threshold: wealth-grade flow 0.169-0.221 vs 0.201",0.169-0.221,0.1687-0.2207,
+264,M robustness,OK,"log-normal (1.1, 0.6) on US decile aggregates gets the US microdata's lost capacity within -16% to +1%",-16% to +1%,-16.1% to +0.7%,"three US cases (bridge, full, increment-only) x thresholds 0.8 / 0.9 / 1.0"
+265,N review,OK,"T4: the clean reading adds no equity loss to the flow; the non-occupier and stock readings replace the bill response, never add to it",,,checked by construction above: add-back of non-occupiers' bills at the quintile MPC; crossers' own bills x decile MPC removed in 'stock'
+266,N review,OK,T4 dial: the bridge-equivalent charge (phi 5.2) is shown as infeasible (charge beyond the land's rent capitalizes beyond the dwelling),phi > 1 incoherent,phi x s_d = 1.034,the unit caps the price fall at the dwelling's value and labels the -2.77 row 'not a land tax'
+267,N review,OK,deferral 'dividend paid in full' is a state loan of 27% of the revenue (a deficit while it lasts); the NOTES say 'the state lends the liens',+0.37 / +1.98,+0.370,"an impulse from public borrowing, not from the land tax; the cash-balanced row is the LVT's own"
+268,N review,BAD,'Non-occupiers' capitalized losses hit Finland (-1.05% against -0.48%)': robust to putting both countries on the same yield year,-1.05 (FI 2022 yield) vs -0.48 (US 2024 yield),FI at the 2024 yield -0.571,"the FI reading uses 1.69% (2022), the US 4.21% (2024); the capitalized loss per euro of bill is 1/r (59 vs 24). At Finland's own 2023/2024/2025 yields the FI reading is -0.49 / -0.57 / -0.51, beside the US -0.48: the 'opposite directions' contrast and 'Low yields make Finnish land expensive relative to its rent' are a 2022-yield artifact. Report the FI row at 2023-25 yields too, or compare on one year"
+269,N review,OK,info: capitalized loss per euro of bill by yield (1/r),59 (2022),35.1 (FI 2024); 23.8 (US 2024),
+270,N review,OK,info: yield timing. The paper pairs annual-mean land with the annual-mean yield; the unit pairs an end-2022 stock with the 2022 annual mean (mid-2022 carry is the matching stock: phi 5.31),18.7%,30.0% at the Dec-2022 yield (2.71%),the 2022 mean (1.69%) sits in a year when yields rose from 0.2% to 2.7%; the NOTES caveat says so and the 2023-25 rows bound it
+271,N review,BAD,"headline band 'Net demand at impact +0.04% [-0.01, +0.10]' carries the collateral judgment (who responds)","[-0.01, +0.10]",hand-to-mouth-only +0.130,"the band spans the cents (4.7-7c) and the MPC schedules only; 86% of the crossers' lost capacity belongs to owners with more than half a month's income in deposits, who need not borrow at impact. The NOTES table reports the hand-to-mouth reading (+0.13 [0.10, 0.17]) but the plain words omit it: add it to 'The sign turns on ...' or widen the band to +0.17"
+272,N review,OK,"info: the crosser count is a borrowed shape, not a measurement","122,000 (US shape)","108,749 (log-normal sigma 0.6)","log-normal sigma 0.5 / 0.8: 123,433 / 86,345; the Finnish HFCS microdata would measure it (NOTES caveat)"
+273,N review,BAD,'Renters pay nothing; they are 36% of households' (plain words) states a measurement,renters pay nothing,renters hold 2.5% of land,"it is the owner model's assumption (renters' 2.5% of household land, mostly rental flats and cottages, is assigned to owners); say 'in the model'"
+274,N review,BAD,"'Net demand at impact is +0.04% ..., about where the post put the Finnish VAT (+0.04%)' compares like with like",+0.04 vs +0.04,LVT +0.039 vs this unit's VAT -0.137,"the post's +0.04 is its dynamic year-3 central path; on this unit's own impact formulas the Finnish VAT nets -0.14, so the LVT sits 0.18 points above the VAT, not 'about where' it. Quote the impact figure beside the post's"
+275,N review,OK,"'about twice as redistributive' (same revenue): net redistribution sum w max(net, 0)",about 2,1.8523,1.85x; Q5's payment 2.08x
+276,N review,OK,'The ratio is smaller because Finnish land is less top-heavy' (1.8 vs US 2.5),1.83 vs 2.51,FI with US land concentration: 2.61,counterfactual: Finland's land total spread over income deciles with the US L1 shares raises the FI LVT/VAT flow ratio toward the US's; the explanation holds
+277,N review,OK,Fig 3 analogue 'only the top withdraws' is a netting artifact the NOTES flag,Q4 at break-even,inside Q4 40% of households pay net,the NOTES' 'Netting hides payments in the lower deciles' covers it
+278,N review,OK,"SCF use: WGT pooled over all five implicates (sums to 134.96m families), dollar year irrelevant (ratios only), INCPCTLECAT 10-12 merged into the top decile (macro PCTL points 90 95 99)",,134.96m,the US-shape population and my SCF recomputation reproduce the US unit's crossers exactly
+279,N review,OK,"payment units: land per HOUSEHOLD (survey) / 12ew shares per HBS household, both conventions, as the VAT side; the dividend is per adult share (child 0.3)",,,bridge.per_share_monthly's documented Finnish unit; checked above to 1e-6
+280,N review,OK,"decile -> quintile pairing (D1, D2 -> q1 ...) and household weighting consistent on both sides (151u and HBS are household-weighted)",,,the ranking variables differ (README_fin); pair mean vs pooled pair within 0.01%
+281,N review,BAD,s_d band 0.13-0.24: 'the own vs rented plot gap within region groups' (low) to 'N211/(N211+N111)' (high) brackets the evidence,0.13-0.24,0.150-0.259,"the unit's own within-region sales-weighted gap is 0.150, not 0.13 (its evidence row prints 'band low 0.13' beside 0.150; 0.13 is the rest-of-country gap 0.136 rounded down), and 0.24 is the 2023 bound while the flow year's (2022) N211/(N211+N111) is 0.259. On that evidence the net at full capture spans -0.030 (collateral -0.183) to +0.075, not '+0.09 to -0.01': relabel or reset the band (S_D_BAND in lvt_fi.py) and reprint the judgment table row"
+282,N review,OK,info: liquidity grade asymmetry. VAT payers (the quintile's top spenders) get the hand-to-mouth share of all households; LVT payers that of owners,VAT 0.339,VAT at owners' shares 0.362,the VAT's liquidity-graded impulse is a lower bound; the LVT/VAT ratio under that grade (1.95) is correspondingly an upper bound
+283,N review,OK,"'concentration feeds only the flow channel. There, the US raises more demand per euro, not less' (same revenue)",US > FI,US 0.196 vs FI 0.144 at 1.85% of consumption,
+284,N review,OK,"'bridge.py is imported, not forked, and was not edited' (rebuild gates untouched)",unchanged,unchanged,byte-identical to HEAD
+285,N review,OK,yield files vendored once via common.fetch with MANIFEST rows whose sha256 match the files,3 files,3 of 3 match,
+286,N review,OK,the builder's checks: '85 PASS / 0 FAIL / 8 INFO',85 / 0 / 8,85 / 0 / 8,
+287,N review,OK,every NOTES_fi.md phrase the BAD claims quote is verbatim in the NOTES,13 phrases,13 found,
+288,N review,BAD,"printed numbers that only a double rounding reproduces (rounded to 3 decimals, then to 2)",,6 values,"0.42464 printed 0.43 (demand-shift table, VAT and LVT B2 (post's method, same reve); 90.455 printed 91 (Fig 3 analogue: Q5 supplies 98-99% of every top-10 withdrawa); -0.72453 printed -0.73 (tenure-aware table: LVT B2 (wealth grade) and VAT); -0.29477 printed -0.3 (T4-overlap band [-0.30, -0.20], stress -0.42); 0.094763 printed 0.1 (macro table: net at impact, flow + credit effect (2022 yield); 5.2445 printed 5.25 (robustness table: 14qa composition). Print from the unrounded values (e.g. the headline band's top +0.0948 is +0.09, not +0.10)"
