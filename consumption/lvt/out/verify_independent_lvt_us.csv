@@ -1,0 +1,276 @@
+n,area,status,claim,builder,mine,note
+1,"inputs: Z.1, yields, PCE, CE",OK,"Z.1 household land 2024, $bn (HH+NPO RE minus HH structures, annual means of quarters)","23,411","23,411",NOTES 23410.7
+2,"inputs: Z.1, yields, PCE, CE",OK,"Z.1 household land 2025 (task statement 23,466.4 on the 2026:Q2 vintage)","23,466","23,466",NOTES 23466.4
+3,"inputs: Z.1, yields, PCE, CE",OK,"Z.1 noncorporate business land 2024 (paper's conventions), $bn",8354,8354,NOTES 8354.4
+4,"inputs: Z.1, yields, PCE, CE",OK,"NFC land 2024, assumption: 2016-2020 mean land share x 2024 NFC real estate",3995,3995,NOTES 3994.6
+5,"inputs: Z.1, yields, PCE, CE",OK,"NFC land share of NFC real estate, 2016-2020 mean",0.2553,0.2553,NOTES 0.255
+6,"inputs: Z.1, yields, PCE, CE",OK,"NFC land, low variant (structures grown at noncorporate structures' growth)",1700,1700,NOTES 1699.8
+7,"inputs: Z.1, yields, PCE, CE",OK,"NFC land, high variant (2020 share)",4306,4306,NOTES 4306.2
+8,"inputs: Z.1, yields, PCE, CE",OK,"households-only owner-occupied land residual, $bn","19,375","19,375",NOTES 19374.9
+9,"inputs: Z.1, yields, PCE, CE",OK,Z.1 2024 land / HH+NPO real estate,0.4597,0.4597,NOTES 0.46
+10,"inputs: Z.1, yields, PCE, CE",OK,"Z.1 2024 HH+NPO real estate, $tn",50.92,50.92,NOTES 50.9
+11,"inputs: Z.1, yields, PCE, CE",OK,"Z.1 2024 households' owner-occupied real estate, $tn",46.89,46.89,NOTES 46.9
+12,"inputs: Z.1, yields, PCE, CE",OK,"L2 land total, $bn (NOTES: $35.8tn)","35,760","35,760",NOTES 35759.6
+13,"inputs: Z.1, yields, PCE, CE",OK,"GS10 2024 annual mean (12 months), %",4.208,4.208,NOTES 4.208; daily DGS10 2024 mean 4.208 (agrees to 0.000 pp)
+14,"inputs: Z.1, yields, PCE, CE",OK,"PCE housing services 2024, $bn",3149,3149,NOTES 3148.6
+15,"inputs: Z.1, yields, PCE, CE",OK,"rent-to-value r on measure m1, %",4.208,4.208,NOTES 4.21
+16,"inputs: Z.1, yields, PCE, CE",OK,"rent-to-value r on measure m2, %",5.708,5.708,NOTES 5.71
+17,"inputs: Z.1, yields, PCE, CE",OK,"rent-to-value r on measure m3, %",4.035,4.035,NOTES 4.03
+18,"inputs: Z.1, yields, PCE, CE",OK,"rent-to-value r on measure m4, %",6.725,6.725,NOTES 6.72
+19,"inputs: Z.1, yields, PCE, CE",OK,"CE 2024 payment shares, million",279.1,279.1,NOTES 279.1
+20,"inputs: Z.1, yields, PCE, CE",OK,"VAT dividend per adult share per month, $",249.4,249.4,NOTES 249.38
+21,"inputs: Z.1, yields, PCE, CE",OK,"VAT revenue, $bn/yr",835.1,835.1,NOTES 835.1
+22,"inputs: Z.1, yields, PCE, CE",OK,"CE consumption budget, $bn/yr (impulse denominator)",9022,9022,
+23,"SCF: weights, deciles, dollars, units",OK,"SCF 2025 families, million (WGT pooled over the five implicates)",135,135,NOTES 134.96
+24,"SCF: weights, deciles, dollars, units",OK,"SCF 2022 families, million",131.3,131.3,NOTES 131.31
+25,"SCF: weights, deciles, dollars, units",OK,"each SCF 2025 income decile (INCPCTLECAT, 10-12 merged) holds 10.0% +/- 0.03% of families",10.0% +/- 0.03%,9.991-10.009%,
+26,"SCF: weights, deciles, dollars, units",OK,INCPCTLECAT is a pooled weighted decile cut of INCOME (monotone; cut points = my weighted percentiles),Fed groups,monotone True; 9 cut points equal True,tied incomes at a cut (round numbers) are split across the two groups so that each holds exactly 10%
+27,"SCF: weights, deciles, dollars, units",OK,the 2025 extract's CPILAG = 4750/4625 (the factor the unit divides by),1.027027,4750/4625,"CPILAG moves INCOME (2024) to 2025 dollars; balance sheets are interview-date values, so '2024 $' for HOUSES is a CPI deflation, not a 2024 valuation. Harmless here: a uniform s, LTVs and HtM ratios are invariant to it"
+28,"SCF: weights, deciles, dollars, units",OK,PEU rule (person 1; spouse if X7020=2; others if financially dependent) reproduces X7001 on every 2022 record,"README: all 22,975","22,975 of 22,975",
+29,"SCF: weights, deciles, dollars, units",OK,"SCF 2022 adults in PEUs, million (README 225.0)",225,225,NOTES 225
+30,"SCF: weights, deciles, dollars, units",OK,"SCF 2022 minors in PEUs, million (NOTES 74.1)",74.1,74.13,NOTES 74.1
+31,"SCF: weights, deciles, dollars, units",OK,"data defect: tidy xvars IMPLICATE is wrong exactly for YY1 >= 3277 (65537-65541), YY1 is int16 in the Stata file","6,625 records","6,625 records; YY1 dtype int16",
+32,"SCF: weights, deciles, dollars, units",BAD,NOTES 'Data defect found': the cause still sits in acquire_fed.py line 1135 and is 'not fixed here',"FULL[""Y1""] - 10 * FULL[""YY1""]","FULL[""IMPLICATE""] = (FULL[""Y1""].astype(""int64"") - 10 * FULL[""YY1""].astype(""int64","stale: commit aeba577 fixed the line (int64 cast) but the tidy scf2022_roster/xvars files were not regenerated and still carry 6,625 bad IMPLICATE values; the paragraph should say so"
+33,"SCF: weights, deciles, dollars, units",OK,SCF 2025 payment-share scaling to CE deciles c_d: max gap to the builder,0,4.479e-10,c_d 0.92-1.19 (NOTES 0.92-1.19)
+34,"SCF: weights, deciles, dollars, units",OK,SCF 2022 (roster) payment-share scaling c_d: max gap to the builder,0,4.732e-10,
+35,"SCF: weights, deciles, dollars, units",OK,c_d = 0.92-1.19,0.92-1.19,0.922-1.189,
+36,"SCF: weights, deciles, dollars, units",OK,2022 in-sample: predicted shares' decile means within 0.06 of the roster's,within 0.06,max 0.056,
+37,land by household,OK,"land share s, uniform: Z.1 2024 household land / SCF 2025 HOUSES+ORESRE (2024 $)",0.416,0.416,NOTES 0.416
+38,land by household,OK,s on SCF 2025 nominal against Z.1 2025,0.406,0.406,NOTES 0.406
+39,land by household,OK,"s, SCF 2022 (real 2024 $) to Z.1 2024",0.4421,0.4421,NOTES 0.442
+40,land by household,OK,"SCF 2025 HOUSES, $tn (2024 $)",46,46,NOTES 46
+41,land by household,OK,"SCF 2025 ORESRE, $tn (2024 $)",10.27,10.27,NOTES 10.3
+42,land by household,OK,"SCF 2025 property, $tn (2024 $)",56.27,56.27,NOTES 56.3
+43,land by household,OK,"SCF residential land total = Z.1 household land, $bn","23,411","23,411",
+44,land by household,OK,"SCF L2 total = Z.1 HH + NNB + NFC (assumed), $bn","35,760","35,760",
+45,land by household,OK,decile shares of L1 residential land (NOTES row),1.8 2.5 3.7 4.5 6.0 7.1 9.4 10.6 15.0 39.4,1.8 2.5 3.7 4.5 6.0 7.1 9.4 10.6 15.0 39.4,
+46,land by household,OK,decile shares of L2 all land (NOTES row),1.7 1.7 2.8 3.3 4.8 5.4 7.4 8.4 13.0 51.5,1.7 1.7 2.8 3.3 4.8 5.4 7.4 8.4 13.0 51.5,
+47,land by household,OK,decile shares of SCF HOUSES (NOTES row),2.0 2.8 4.0 4.8 6.6 8.0 10.4 11.6 14.9 34.9,2.0 2.8 4.0 4.8 6.6 8.0 10.4 11.6 14.9 34.9,
+48,land by household,OK,decile shares of CE 2024 home values (cross-check row),3.4 ... 25.5,3.4 5.5 6.5 6.7 7.5 8.3 9.8 11.8 15.0 25.5,
+49,land by household,OK,decile shares of VAT-able consumption (CE),4.4 ... 21.7,4.4 5.3 6.3 7.3 8.3 8.9 10.4 12.5 14.9 21.7,
+50,land by household,OK,"homeownership by decile: SCF 39-93%, CE 34-90%","SCF 39-93, CE 34-90","SCF 39-93, CE 34-90","SCF D9 (84.5%) sits below D8 (85.3%): not monotone, as the range implies"
+51,land by household,OK,"top decile: 39% of residential land, 52% with business land, 22% of VAT-able spending",39 / 52 / 22,39.4 / 51.5 / 21.7,
+52,tax and decile accounting,OK,"bridge-equivalent phi, L1 m1",0.8477,0.8477,NOTES 0.848
+53,tax and decile accounting,OK,"full-capture (0.98) dividend, L1 m1, $/share/month",288.3,288.3,NOTES 288; 1.16x VAT (NOTES 1.16x)
+54,tax and decile accounting,OK,"bridge-equivalent phi, L1 m2",0.6249,0.6249,NOTES 0.625
+55,tax and decile accounting,OK,"full-capture (0.98) dividend, L1 m2, $/share/month",391.1,391.1,NOTES 391; 1.57x VAT (NOTES 1.57x)
+56,tax and decile accounting,OK,"bridge-equivalent phi, L1 m3",0.8842,0.8842,NOTES 0.884
+57,tax and decile accounting,OK,"full-capture (0.98) dividend, L1 m3, $/share/month",276.4,276.4,NOTES 276; 1.11x VAT (NOTES 1.11x)
+58,tax and decile accounting,OK,"bridge-equivalent phi, L1 m4",0.5305,0.5305,NOTES 0.53
+59,tax and decile accounting,OK,"full-capture (0.98) dividend, L1 m4, $/share/month",460.7,460.7,NOTES 461; 1.85x VAT (NOTES 1.85x)
+60,tax and decile accounting,OK,"bridge-equivalent phi, L2 m1",0.555,0.555,NOTES 0.555
+61,tax and decile accounting,OK,"full-capture (0.98) dividend, L2 m1, $/share/month",440.4,440.4,NOTES 440; 1.77x VAT (NOTES 1.77x)
+62,tax and decile accounting,OK,"bridge-equivalent phi, L2 m2",0.4091,0.4091,NOTES 0.409
+63,tax and decile accounting,OK,"full-capture (0.98) dividend, L2 m2, $/share/month",597.3,597.3,NOTES 597; 2.40x VAT (NOTES 2.40x)
+64,tax and decile accounting,OK,"bridge-equivalent phi, L2 m3",0.5788,0.5788,NOTES 0.579
+65,tax and decile accounting,OK,"full-capture (0.98) dividend, L2 m3, $/share/month",422.2,422.2,NOTES 422; 1.69x VAT (NOTES 1.69x)
+66,tax and decile accounting,OK,"bridge-equivalent phi, L2 m4",0.3473,0.3473,NOTES 0.347
+67,tax and decile accounting,OK,"full-capture (0.98) dividend, L2 m4, $/share/month",703.7,703.7,NOTES 704; 2.82x VAT (NOTES 2.82x)
+68,tax and decile accounting,OK,both bases fund the bridge dividend on all four measures (phi <= 0.98),all feasible,max phi 0.884,
+69,tax and decile accounting,OK,phi needed on L1 m1 at s = 0.30 (land $16.9tn),1.176,1.176,"NOTES 1.18; land at s=0.30: 16,881 $bn"
+70,tax and decile accounting,OK,phi needed on L1 m1 with the households-only owner-occupied land concept,1.024,1.024,NOTES 1.02
+71,tax and decile accounting,OK,"capitalized loss phi*L on L1 at m4, $tn",12.4,12.42,NOTES 12.4
+72,tax and decile accounting,OK,"capitalized loss phi*L on L1 at m3, $tn",20.7,20.7,NOTES 20.7
+73,tax and decile accounting,OK,"capitalized loss at the bridge rate on m1 ('a $19.8tn loss'), $tn",19.8,19.85,NOTES 19.8
+74,tax and decile accounting,OK,"net per adult share by decile, LVT_bridge_L1_m1 (sum w*net = 0)",183.4 157.3 139.4 130.5 89.7 80.4 40.1 24.7 -39.4 -514.4,183.4 157.3 139.4 130.5 89.7 80.4 40.1 24.7 -39.4 -514.4,max relative gap to builder 8.1e-11
+75,tax and decile accounting,OK,"net as % of budget by decile, LVT_bridge_L1_m1 (NOTES row)",10.0 7.2 6.7 6.2 3.8 3.4 1.6 0.9 -1.3 -11.7,10.02 7.16 6.69 6.16 3.75 3.42 1.59 0.88 -1.29 -11.71,
+76,tax and decile accounting,OK,LVT_bridge_L1_m1: dividend = the VAT dividend,249.4,249.4,
+77,tax and decile accounting,OK,"net per adult share by decile, LVT_bridge_L2_m1 (sum w*net = 0)",188.8 185.6 166.7 161.3 121.9 121.8 83.7 71.8 -1.0 -749.6,188.8 185.6 166.7 161.3 121.9 121.8 83.7 71.8 -1.0 -749.6,max relative gap to builder 1.8e-09
+78,tax and decile accounting,OK,"net as % of budget by decile, LVT_bridge_L2_m1 (NOTES row)",10.3 8.5 8.0 7.6 5.1 5.2 3.3 2.6 -0.0 -17.1,10.32 8.45 7.99 7.61 5.10 5.18 3.32 2.55 -0.03 -17.06,printed value double-rounded: % of budget LVT_bridge_L2_m1 d08: 2.5457 printed 2.6
+79,tax and decile accounting,OK,LVT_bridge_L2_m1: dividend = the VAT dividend,249.4,249.4,
+80,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L1_m1 (sum w*net = 0)",212.0 181.8 161.2 150.9 103.7 92.9 46.4 28.5 -45.5 -594.7,212.0 181.8 161.2 150.9 103.7 92.9 46.4 28.5 -45.5 -594.7,max relative gap to builder 2.1e-08
+81,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L1_m2 (sum w*net = 0)",287.6 246.6 218.7 204.6 140.7 126.1 63.0 38.7 -61.7 -806.7,287.6 246.6 218.7 204.6 140.7 126.1 63.0 38.7 -61.7 -806.7,max relative gap to builder 2.1e-08
+82,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L1_m3 (sum w*net = 0)",203.3 174.3 154.6 144.6 99.4 89.1 44.5 27.4 -43.6 -570.2,203.3 174.3 154.6 144.6 99.4 89.1 44.5 27.4 -43.6 -570.2,max relative gap to builder 8.7e-11
+83,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L1_m4 (sum w*net = 0)",338.8 290.5 257.6 241.1 165.7 148.5 74.2 45.6 -72.7 -950.3,338.8 290.5 257.6 241.1 165.7 148.5 74.2 45.6 -72.7 -950.3,max relative gap to builder 5.2e-11
+84,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L2_m1 (sum w*net = 0)",333.3 327.8 294.4 284.8 215.3 215.2 147.9 126.8 -1.8 -1323.6,333.3 327.8 294.4 284.8 215.3 215.2 147.9 126.8 -1.8 -1323.6,max relative gap to builder 2.6e-08
+85,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L2_m2 (sum w*net = 0)",452.1 444.6 399.3 386.3 292.0 291.9 200.6 172.0 -2.4 -1795.4,452.1 444.6 399.3 386.3 292.0 291.9 200.6 172.0 -2.4 -1795.4,max relative gap to builder 2.6e-08
+86,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L2_m3 (sum w*net = 0)",319.6 314.3 282.2 273.1 206.4 206.3 141.8 121.5 -1.7 -1269.1,319.6 314.3 282.2 273.1 206.4 206.3 141.8 121.5 -1.7 -1269.1,max relative gap to builder 4.8e-09
+87,tax and decile accounting,OK,"net per adult share by decile, LVT_full_L2_m4 (sum w*net = 0)",532.6 523.8 470.4 455.1 344.0 343.8 236.3 202.6 -2.8 -2115.1,532.6 523.8 470.4 455.1 344.0 343.8 236.3 202.6 -2.8 -2115.1,max relative gap to builder 5.0e-09
+88,tax and decile accounting,OK,VAT bridge net and % of budget by decile (NOTES rows),87.8 ... -172.0,87.8 53.4 60.8 55.5 30.2 38.6 16.9 -13.8 -37.9 -172.0,
+89,tax and decile accounting,OK,eight deciles gain under the LVT (L1) instead of seven under the VAT,8 vs 7,8 vs 7,
+90,tax and decile accounting,OK,"decile by decile: D1 2x, D2-D7 2-3x, D8 switches, D9 about the same, D10 3x (L2: 4.4x)",as stated,"D1 2.09x, D2-D7 2.08-2.97x, D9 -39.4 vs -37.9, D10 2.99x, L2 D10 4.36x",
+91,households: who pays,OK,"household nets aggregate exactly to the decile nets (VAT), max gap $",0,8.527e-14,
+92,households: who pays,OK,"household nets aggregate exactly to the decile nets (LVT_bridge_L1_m1), max gap $",0,4.263e-14,
+93,households: who pays,OK,"payer share, VAT, % (all families)",37.85,37.85,NOTES 37.8
+94,households: who pays,OK,"payer share, LVT_bridge_L1_m1, % (all families)",31.55,31.55,NOTES 31.6
+95,households: who pays,OK,"payer share, LVT_bridge_L2_m1, % (all families)",22.43,22.43,NOTES 22.4
+96,households: who pays,OK,"payers owner, VAT, % (all families)",74.6,74.6,NOTES 75
+97,households: who pays,OK,"payers owner, LVT_bridge_L1_m1, % (all families)",98.63,98.63,NOTES 99
+98,households: who pays,OK,"payers owner, LVT_bridge_L2_m1, % (all families)",97.77,97.77,NOTES 98
+99,households: who pays,OK,"payers age65, VAT, % (all families)",34.56,34.56,NOTES 35
+100,households: who pays,OK,"payers age65, LVT_bridge_L1_m1, % (all families)",43.5,43.5,NOTES 44
+101,households: who pays,OK,"payers age65, LVT_bridge_L2_m1, % (all families)",48.59,48.59,NOTES 49
+102,households: who pays,OK,"payers htm, VAT, % (all families)",23.91,23.91,NOTES 24
+103,households: who pays,OK,"payers htm, LVT_bridge_L1_m1, % (all families)",16.07,16.07,NOTES 16
+104,households: who pays,OK,"payers htm, LVT_bridge_L2_m1, % (all families)",11.43,11.43,NOTES 11
+105,households: who pays,OK,"payments owner65, VAT, % (all families)",35.6,35.6,NOTES 36
+106,households: who pays,OK,"payments owner65, LVT_bridge_L1_m1, % (all families)",45.33,45.33,NOTES 45
+107,households: who pays,OK,"payments owner65, LVT_bridge_L2_m1, % (all families)",45.99,45.99,NOTES 46
+108,households: who pays,OK,"payments htm, VAT, % (all families)",13.84,13.84,NOTES 14
+109,households: who pays,OK,"payments htm, LVT_bridge_L1_m1, % (all families)",7.175,7.175,NOTES 7
+110,households: who pays,OK,"payments htm, LVT_bridge_L2_m1, % (all families)",3.477,3.477,"NOTES 4; printed value double-rounded: payments htm, LVT_bridge_L2_m1, % (all families): 3.4769 printed 4"
+111,households: who pays,OK,"net payers in D1 / D5 / D9 / D10, VAT, %",12.8 / 38.6 / 49.6 / 65.4,12.8 / 38.6 / 49.6 / 65.4,NOTES 13 / 39 / 50 / 65
+112,households: who pays,OK,"net payers in D1 / D5 / D9 / D10, LVT_bridge_L1_m1, %",5.8 / 27.7 / 49.2 / 85.0,5.8 / 27.7 / 49.2 / 85.0,NOTES 6 / 28 / 49 / 85
+113,households: who pays,OK,"net payers in D1 / D5 / D9 / D10, LVT_bridge_L2_m1, %",4.2 / 18.5 / 31.6 / 78.0,4.2 / 18.5 / 31.6 / 78.0,NOTES 4 / 19 / 32 / 78
+114,households: who pays,OK,"net per share at the 10th / 50th / 90th percentile, VAT, $",-234 / 47 / 167,-234 / 47 / 167,my quantile does not interpolate; tolerance $2
+115,households: who pays,OK,"net per share at the 10th / 50th / 90th percentile, LVT_bridge_L1_m1, $",-323 / 117 / 249,-322 / 117 / 249,my quantile does not interpolate; tolerance $2
+116,households: who pays,OK,"net per share at the 10th / 50th / 90th percentile, LVT_bridge_L2_m1, $",-236 / 155 / 249,-236 / 155 / 249,my quantile does not interpolate; tolerance $2
+117,households: who pays,OK,68% of families are net recipients; the third with no land (32.6%) pays nothing,32.6% no land; 68% recipients,32.6% no land; 68.4% recipients,
+118,households: who pays,OK,"D10's 10th percentile pays $1,438 per share per month (L1)","-1,438","-1,438",
+119,households: who pays,OK,the top quarter of D1-D6 and the top tenth of D7-D9 (no land) receive the full $249,as stated,9 of 9 deciles,
+120,households: who pays,OK,"among owners 65+, share who are net payers (L1), %",56.91,56.91,NOTES 57
+121,households: who pays,OK,"L1 payers who are renters (with other property), %",1.37,1.375,NOTES 1.4
+122,households: who pays,OK,"net LVT payments by WEALTHY hand-to-mouth families (of 7.2% by all HtM), %",7.09,7.089,'nearly all of them house-rich': borne out
+123,households: who pays,OK,"owners 65+ make 54% (D1), 74-82% (D2-D4), 60-71% (D5-D8), 41% (D9), 36% (D10) of each decile's net payments",54 74 81 82 71 60 60 61 41 36,54 74 81 82 71 60 60 61 41 36,
+124,households: who pays,OK,'Below the top two deciles most net payments come from owners over 65 ... 60-82% of them in deciles 2-8',60-82%,60-82%,D1 is 54%: 'most' also holds there
+125,MPC grades,OK,post mid schedule and monotone diagnostic (NOTES rows),1.00 ... 0.53,1.00 1.00 0.97 0.91 0.85 0.78 0.72 0.66 0.59 0.53,
+126,MPC grades,OK,measured windfall MPC by decile (SCF 2025 MPSPEND),0.29 0.26 0.25 0.23 0.22 0.19 0.21 0.19 0.21 0.18,0.29 0.26 0.25 0.23 0.22 0.19 0.21 0.19 0.21 0.18,
+127,MPC grades,OK,measured MPC by decile x hand-to-mouth,0.28 0.28 0.26 0.25 0.21 0.17 0.17 0.16 0.19 0.09,0.28 0.28 0.26 0.25 0.21 0.17 0.17 0.16 0.19 0.09,
+128,MPC grades,BAD,"'barely higher for hand-to-mouth families: lower, in fact, from D5 up'",lower from D5 up,"lower in d01,d05,d06,d07,d08,d09,d10",D1 is lower too (0.277 vs 0.300); the sentence should say 'lower in D1 and from D5 up'
+129,MPC grades,OK,hand-to-mouth share by decile (biweekly),0.46 0.50 0.44 0.40 0.34 0.35 0.29 0.21 0.14 0.07,0.46 0.50 0.44 0.40 0.34 0.35 0.29 0.21 0.14 0.07,
+130,MPC grades,OK,hand-to-mouth: 32.0% (21.2% wealthy) biweekly; 40.2% (27.4%) monthly,32.0 (21.2); 40.2 (27.4),32.0 (21.2); 40.2 (27.4),
+131,MPC grades,OK,the public extract reproduces FEDS note Fig 3 'within 0.7 points in every usual-income group',within 0.7,max gap 0.705 pp,0.705 at 10-20%: 0.7 after rounding
+132,MPC grades,OK,overall spend / save / pay debt = 22.35 / 47.31 / 30.30 (FEDS Fig 1),22.35 / 47.31 / 30.30,22.35 / 47.31 / 30.30,
+133,MPC grades,OK,FEDS note: +2.6 points for hand-to-mouth conditional on usual income (22.9 vs 20.3),22.9 vs 20.3,22.9 vs 20.3,
+134,MPC grades,OK,measured MPC is about a quarter of the post's level and a quarter of its slope,1/4 and 1/4,"level 0.28, slope 0.23",
+135,flow impulse,OK,flow impulse grid (every rate x base x measure x grade x deferral) equals the builder's us_lvt_impulse.csv,714 rows,"714 cells, max gap 1.6e-07 pp",
+136,flow impulse,OK,"flow impulse row 'dn_mid' (VAT, L1, L2, full L1, full L2), % of consumption",0.389 / 0.976 / 1.242 / 1.129 / 2.194,0.389 / 0.976 / 1.242 / 1.129 / 2.194,
+137,flow impulse,OK,"flow impulse row 'dn_low' (VAT, L1, L2, full L1, full L2), % of consumption",0.474 / 1.188 / 1.505 / 1.374 / 2.658,0.474 / 1.188 / 1.505 / 1.374 / 2.658,
+138,flow impulse,OK,"flow impulse row 'dn_high' (VAT, L1, L2, full L1, full L2), % of consumption",0.305 / 0.768 / 0.983 / 0.888 / 1.736,0.305 / 0.768 / 0.983 / 0.888 / 1.736,
+139,flow impulse,OK,"flow impulse row 'dn_mono' (VAT, L1, L2, full L1, full L2), % of consumption",0.389 / 1.011 / 1.324 / 1.169 / 2.338,0.389 / 1.011 / 1.324 / 1.169 / 2.338,
+140,flow impulse,OK,"flow impulse row 'hh_liq_mid' (VAT, L1, L2, full L1, full L2), % of consumption",0.314 / 0.885 / 1.183 / 1.023 / 2.089,0.314 / 0.885 / 1.183 / 1.023 / 2.089,
+141,flow impulse,OK,"flow impulse row 'hh_liq_mid_monthly' (VAT, L1, L2, full L1, full L2), % of consumption",0.285 / 0.852 / 1.153 / 0.985 / 2.036,0.285 / 0.852 / 1.153 / 0.985 / 2.036,
+142,flow impulse,OK,"flow impulse row 'hh_liqsym_mid' (VAT, L1, L2, full L1, full L2), % of consumption",0.441 / 1.114 / 1.457 / 1.288 / 2.572,0.441 / 1.114 / 1.457 / 1.288 / 2.572,
+143,flow impulse,OK,"flow impulse row 'dn_meas' (VAT, L1, L2, full L1, full L2), % of consumption",0.06 / 0.152 / 0.189 / 0.175 / 0.334,0.060 / 0.152 / 0.189 / 0.175 / 0.334,
+144,flow impulse,OK,"flow impulse row 'hh_meas_htm' (VAT, L1, L2, full L1, full L2), % of consumption",0.053 / 0.136 / 0.163 / 0.157 / 0.287,0.053 / 0.136 / 0.163 / 0.157 / 0.287,
+145,flow impulse,OK,"flow impulse row 'dn_measshape' (VAT, L1, L2, full L1, full L2), % of consumption",0.208 / 0.524 / 0.653 / 0.605 / 1.153,0.208 / 0.524 / 0.653 / 0.605 / 1.153,
+146,flow impulse,OK,the LVT/VAT impulse ratio stays at 2.5-3.0 under every MPC grade tried,2.5-3.0,2.51-2.99,
+147,flow impulse,OK,"monotone diagnostic moves the LVT by +3.6%, the VAT by nothing",+3.6% / 0,+3.6% / +0.0005 pp,
+148,flow impulse,OK,"the liquidity grade lowers the VAT's impulse by 19%, the LVT's by 9%",-19% / -9%,-19.3% / -9.4%,
+149,flow impulse,OK,"deferral table: flows (post's method, liquidity-graded) under the four deferral variants",2.976 / 0.852 / 1.852 / 0.967 ...,reproduced,
+150,flow impulse,OK,deferred share of revenue 29.9% / 12.5%; cash-balanced dividends $175 / $218,29.9% / 12.5%; $175 / $218,29.9% / 12.5%; $175 / $218,
+151,flow impulse,OK,"deferrers' residual wealth effect at 3.5c (5c), own65, % of consumption",-2.3 (-3.29),-2.30 (-3.29),
+152,flow impulse,OK,"deferrers' residual wealth effect at 3.5c (5c), whtm_owners, % of consumption",-0.96 (-1.37),-0.96 (-1.37),
+153,demand shifts,OK,Table 1710: owners' rent = 0.8% of renters'; renters' owner costs = 0.6% of owners',0.8% / 0.6%,0.81% / 0.64%,
+154,demand shifts,OK,"category shifts, three versions, VAT: equal the builder's us_lvt_demand_shifts.csv",,max gap $3.0e-10,
+155,demand shifts,OK,"category shifts, three versions, LVT_bridge_L1_m1: equal the builder's us_lvt_demand_shifts.csv",,max gap $8.0e-10,
+156,demand shifts,OK,"category shifts, three versions, LVT_bridge_L2_m1: equal the builder's us_lvt_demand_shifts.csv",,max gap $1.5e-08,
+157,demand shifts,OK,"category shifts, three versions, LVT_full_L1_m1: equal the builder's us_lvt_demand_shifts.csv",,max gap $4.4e-07,
+158,demand shifts,OK,"category shifts, three versions, LVT_full_L2_m1: equal the builder's us_lvt_demand_shifts.csv",,max gap $7.5e-07,
+159,demand shifts,OK,"VAT decile-netted bars = the rebuild's Fig 5 (36 bars), max gap $",0,4.605e-06,
+160,demand shifts,OK,"demand table row: Rented dwellings ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+3.36 / +8.28 / +10.32 / +4.00 / +18.10,+3.36 / +8.28 / +10.32 / +4.00 / +18.10,
+161,demand shifts,OK,"demand table row: Health insurance ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+1.08 / +2.80 / +3.68 / +0.91 / +2.41,+1.08 / +2.80 / +3.68 / +0.91 / +2.41,
+162,demand shifts,OK,"demand table row: Gasoline and other fuels ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.68 / +1.78 / +2.38 / +0.58 / +1.54,+0.68 / +1.78 / +2.38 / +0.58 / +1.54,
+163,demand shifts,OK,"demand table row: Electricity ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.64 / +1.60 / +2.02 / +0.58 / +1.42,+0.64 / +1.60 / +2.02 / +0.57 / +1.42,printed value double-rounded: demand Electricity VAT|household_liq_tenure: 0.5747 printed 0.58
+164,demand shifts,OK,"demand table row: Home maintenance, repairs & insurance ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.35 / +0.81 / +1.00 / +0.03 / -1.96,+0.35 / +0.81 / +1.00 / +0.03 / -1.96,
+165,demand shifts,OK,"demand table row: Food at home ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.59 / +1.48 / +1.87 / +0.51 / +1.16,+0.59 / +1.48 / +1.87 / +0.51 / +1.16,
+166,demand shifts,OK,"demand table row: Vehicle insurance ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.53 / +1.39 / +1.86 / +0.45 / +1.20,+0.53 / +1.39 / +1.86 / +0.45 / +1.20,
+167,demand shifts,OK,"demand table row: Cars and trucks, used ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.38 / +1.14 / +1.66 / +0.27 / +0.88,+0.38 / +1.14 / +1.66 / +0.27 / +0.88,
+168,demand shifts,OK,"demand table row: Cars and trucks, new ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",-0.39 / -1.09 / -1.59 / -0.48 / -1.31,-0.39 / -1.09 / -1.59 / -0.48 / -1.31,
+169,demand shifts,OK,"demand table row: Telephone services ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.46 / +1.16 / +1.52 / +0.40 / +1.03,+0.46 / +1.16 / +1.52 / +0.40 / +1.03,
+170,demand shifts,OK,"demand table row: Fees and admissions ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",-0.20 / -0.55 / -0.75 / -0.24 / -0.64,-0.20 / -0.55 / -0.75 / -0.24 / -0.64,
+171,demand shifts,OK,"demand table row: Other lodging ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",-0.13 / -0.37 / -0.52 / -0.18 / -0.49,-0.13 / -0.37 / -0.52 / -0.18 / -0.49,
+172,demand shifts,OK,"demand table row: Mortgage interest and charges ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",-0.38 / -0.86 / -0.96 / -0.64 / -3.52,-0.38 / -0.86 / -0.96 / -0.64 / -3.52,
+173,demand shifts,OK,"demand table row: Property taxes ($/share/month; VAT, L1, L2, VAT tenure, L1 tenure)",+0.10 / +0.22 / +0.25 / -0.17 / -2.15,+0.10 / +0.22 / +0.25 / -0.17 / -2.15,
+174,demand shifts,OK,"demand table totals (flow impulse, $)",10.48 / 26.31 / 33.47 / 8.46 / 23.85,10.48 / 26.31 / 33.47 / 8.46 / 23.85,
+175,demand shifts,OK,Engel aggregation: tenure-aware bars add to the household flow (VAT),8.458,8.459,gap +0.011%
+176,demand shifts,OK,Engel aggregation: tenure-aware bars add to the household flow (LVT_bridge_L1_m1),23.84,23.85,gap +0.008%
+177,demand shifts,OK,"all 36 charted bars keep their sign under the LVT (post's method, L1 and L2)",36/36,"36/36 (L1), 36/36 (L2)",
+178,demand shifts,OK,sizes scale by 2.3-3.0 for 31 of the 36 bars,31,31,"outliers: Vehicle finance charges 3.26x, Vehicle rental, leases, licenses 3.60x, Public and other transportation 3.44x, Other entertainment equipment 1.46x, Reading 1.56x"
+179,demand shifts,BAD,"'Under the post's own decile method, every LVT bar is the matching VAT bar times about 2.5' (plain-words summary)",every bar ~2.5x,1.46x-3.60x; 5 bars outside 2.3-3.0,"overstated: the detail (Results 5) is right, 31 of 36 in 2.3-3.0 with outliers at 1.5x and 3.6x; the summary should say 'nearly every'"
+180,demand shifts,OK,each bar's share of the impulse within 0.7 points of the VAT's (rent 31.5% vs 32.1%),0.7 pts; 31.5 vs 32.1,"max 0.69 pts (Cars and trucks, used); rent 31.5 vs 32.1",
+181,demand shifts,OK,"quality ladder survives: new cars fall, used rise, 2.8-3.0x larger under the LVT",2.8-3.0x,"new 2.78x, used 2.99x",
+182,demand shifts,OK,"Fig 6 analog: D10 supplies 87-95% of each top-10 withdrawal under the LVT, 61-83% under the VAT",87-95 / 61-83,87-95 / 61-83,
+183,demand shifts,OK,tenure-aware version: two bars flip (home maintenance; reading at -$0.002),2 flips vs the VAT's tenure-aware bars,"2 vs VAT tenure-aware; 3 vs the post's method (Home maintenance, repairs & insurance, Vehicle rental, leases, licenses, Reading)",against the post's own (decile-netted) VAT bars a third bar also flips: vehicle rental (+0.016 -> -0.015); say which comparison
+184,demand shifts,OK,"marginal spending on rent: renters 24-32 cents, owners 0.3 cents, decile-average basket 3-19 cents",24-32 / 0.3 / 3-19,24.1-31.9 / 0.29 / 2.7-18.9,
+185,demand shifts,OK,rent bar 'doubles' to $18.10 from $8.28: the comparison mixes two changes,$8.28 -> $18.10,"household level, decile baskets $8.14; tenure baskets $18.10 (2.22x)","the tenure effect alone is 2.2x (household level), the liquidity grade moves the decile-netted $8.28 to $8.14; 'doubles' holds either way"
+186,stock channel,OK,"capitalization (share of land value lost), LVT_bridge_L1 m1: immediate / phase-in 5-30y / increment-only",0.848 / 0.801 / 0.746 / 0.653 / 0.574 / 0.339,0.848 / 0.801 / 0.746 / 0.653 / 0.574 / 0.339,
+187,stock channel,OK,"capitalization (share of land value lost), LVT_bridge_L2 m1: immediate / phase-in 5-30y / increment-only",0.555 / 0.524 / 0.489 / 0.428 / 0.376 / 0.222,0.555 / 0.524 / 0.489 / 0.428 / 0.376 / 0.222,
+188,stock channel,OK,"capitalization (share of land value lost), LVT_full_L1 m1: immediate / phase-in 5-30y / increment-only",0.980 / 0.926 / 0.863 / 0.755 / 0.664 / 0.392,0.980 / 0.926 / 0.863 / 0.755 / 0.664 / 0.392,
+189,stock channel,OK,a 10-year phase-in still capitalizes 88% of the immediate loss,88%,88.1%,
+190,stock channel,OK,collateral grid (3 scenarios x 4 measures x 3 designs x 3 thresholds) equals us_lvt_collateral.csv / us_lvt_ltv.csv,108 + 36 rows,max relative gap 2.2e-08,
+191,stock channel,OK,aggregate LTV of SCF owners 28.7% -> 44.4 / 41.7 / 33.5 / 48.5%,28.7 -> 44.4 / 41.7 / 33.5 / 48.5,28.7 -> 44.4 / 41.7 / 33.5 / 48.5,
+192,stock channel,OK,mortgaged owners underwater after: 14.4 / 12.7 / 4.6 / 18.0 million of 56.7,14.4 / 12.7 / 4.6 / 18.0 of 56.7,14.4 / 12.7 / 4.6 / 18.0 of 56.7,
+193,stock channel,OK,crossing 80% LTV: 16.8 (30%) / 14.3 (25%) / 6.3 (11%) / 19.9 (35%) million,16.8 / 14.3 / 6.3 / 19.9,16.8 (30%) / 14.3 (25%) / 6.3 (11%) / 19.9 (35%),
+194,stock channel,OK,"crossers' lost equity / lost borrowing capacity, $bn","2,834/1,246; 2,107/914; 390/163; 3,948/1,751","2,834/1,246; 2,107/914; 390/163; 3,948/1,751",
+195,stock channel,OK,"collateral response at 4.7 / 6 / 10c on lost equity, and 6c on lost capacity, % of consumption (4 designs)",-1.48/-1.89/-3.14/-0.83; -1.10/-1.40/-2.34/-0.61; -0.20/-0.26/-0.43/-0.11; -2.06/-2.63/-4.38/-1.17,-1.48/-1.88/-3.14/-0.83; -1.10/-1.40/-2.34/-0.61; -0.20/-0.26/-0.43/-0.11; -2.06/-2.63/-4.38/-1.16,printed value double-rounded: collateral response table: -1.8847 printed -1.89; collateral response table: -1.1645 printed -1.17
+196,stock channel,OK,"L2 at the bridge rate: LTV 37.4%, 8.3m underwater, 10.3m cross 80% with $1,093bn; -0.57/-0.73/-1.21; capacity -0.31",as stated,"37.4%, 8.3m, 10.3m, $1,093bn; -0.57/-0.73/-1.21; -0.31",
+197,stock channel,OK,"across the four measures: 9.7-17.3m crossers; mid response -0.64 (m4), -0.94 (m2), -1.89 (m1), -2.04 (m3)",as stated,"9.7-17.3m; m1 -1.88, m2 -0.94, m3 -2.04, m4 -0.64",printed value double-rounded: four measures m1: -1.8847 printed -1.89
+198,stock channel,OK,with the 90% or 100% threshold the response is 10-27% smaller,10-27%,10% / 27%,
+199,stock channel,OK,the price fall at the bridge rate ranges from 53% (m4) to 88% (m3),53-88%,53-88%,
+200,stock channel,OK,"non-occupying holders (L1): bills $bn/yr, capitalized $tn; flow vs wealth effect 2/3.5/5c",152 / 3.6 / 0.976 / 1.197 / 0.594 / -0.008,152 / 3.6 / 0.976 / 1.197 / 0.594 / -0.008,
+201,stock channel,OK,"non-occupying holders (L2): bills $bn/yr, capitalized $tn; flow vs wealth effect 2/3.5/5c",388 / 9.2 / 1.242 / 1.714 / 0.181 / -1.353,388 / 9.2 / 1.242 / 1.714 / 0.181 / -1.353,
+202,stock channel,OK,a 3.5-cent wealth effect withdraws 0.83 dollars per dollar of bill (capitalized loss = bill / r),0.83,0.832,
+203,stock channel,OK,"SCF 2025 net worth $161.9tn (2024 $) = 17.9x CE consumption, 8.2x PCE; 8% levy $13.0tn",161.9 / 17.9 / 8.2 / 13.0,161.9 / 17.9 / 8.2 / 13.0,
+204,stock channel,OK,VAT levy channel table (lambda 0.35: -1.00/-1.76/-2.51; lambda 1: -2.87/-5.02/-7.18; 3.5c on PCE -0.80),as printed,-1.00 / -1.76 / -2.51; -2.87 / -5.02 / -7.18,
+205,macro: price step and the headline table,OK,"VAT price step 8.3% [7.4, 9.3] = 15 points x VAT-able share 61.7% x 80-100% pass-through","8.3 [7.4, 9.3]","8.33 [7.41, 9.26]; share 0.6171",
+206,macro: price step and the headline table,OK,"headline table: VAT: flow + levy at lambda = 0.35, central [band], % of consumption","-1.37 [-2.21, -0.53]","-1.370 [-2.207, -0.531]",
+207,macro: price step and the headline table,OK,"headline table: LVT bridge L1: flow + collateral, central [band], % of consumption","-0.91 [-2.37, 0.54]","-0.908 [-2.373, 0.539]",
+208,macro: price step and the headline table,OK,"headline table: LVT bridge L2: flow + collateral, central [band], % of consumption","0.52 [-0.23, 1.26]","0.515 [-0.228, 1.260]",
+209,macro: price step and the headline table,OK,"the post's published path: flow +0.38 (P662); central -0.69 [-0.97, -0.14] (P663-P665); A-K -2.7 (P666)",as cited,"0.38 ; -0.69 [-0.97, -0.14] ; -2.7",
+210,macro: price step and the headline table,OK,"the post's implied levy part at year 3: about -1.07 (lambda 0.35), -3.1 (A-K)",-1.07 / -3.1,-1.07 / -3.08,
+211,macro: price step and the headline table,OK,L2 if business/corporate landholders respond to the capitalized loss at 3.5c: -0.55%,-0.55,-0.546,
+212,macro: price step and the headline table,OK,increment-only grandfathering cuts the collateral channel to -0.26%,-0.26,-0.259,
+213,macro: price step and the headline table,OK,'that is -1.5% to -3.1% of consumption ... lost borrowing capacity -0.65% to -1.4%',-1.5/-3.1; -0.65/-1.4,-1.48/-3.14; -0.65/-1.38,
+214,macro: price step and the headline table,OK,"'What would change': low end (4.7c, capacity only) +0.1% to +0.5%; 10c on lost equity -2.2% (mid) to -2.4%",+0.1..+0.5; -2.2..-2.4,+0.12..+0.54; -2.16..-2.37,
+215,macro: price step and the headline table,OK,"post: price level 7-9% (P497-P498); A-K band [-3.3, -1.2] (P667-P668); bands are the year-5 edges (gate notes)",as cited,"7-9%; [-3.3, -1.2]",
+216,macro: price step and the headline table,OK,"Judgment table: LVT L1 impulse 0.70-1.19% across the post's family of grades, 0.14-0.52% measured",0.70-1.19 / 0.14-0.52,0.703-1.188 / 0.136-0.524,
+217,macro: price step and the headline table,OK,"deferral by owners 65+: +2.0 points (dividend in full, state lends) or -0.12 (cash-balanced)",+2.0 / -0.12,+2.000 / -0.124,"the +2.0 is a deficit-financed transfer of 30% of revenue, not comparable with the balanced VAT (the NOTES say so)"
+218,the loop,OK,loop LVT_bridge_L1_m1 ls 0.3: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),2.1321,2.1321,"R0 8.28, q 0.0495, multiplier 1.0127"
+219,the loop,OK,loop LVT_bridge_L1_m1 ls 0.4: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),2.8550,2.8550,"R0 8.28, q 0.0495, multiplier 1.0171"
+220,the loop,OK,loop LVT_bridge_L1_m1 ls 0.5: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),3.5840,3.5840,"R0 8.28, q 0.0495, multiplier 1.0214"
+221,the loop,OK,loop LVT_bridge_L2_m1 ls 0.3: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),1.7333,1.7333,"R0 10.32, q 0.0540, multiplier 1.0091"
+222,the loop,OK,loop LVT_bridge_L2_m1 ls 0.4: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),2.3180,2.3180,"R0 10.32, q 0.0540, multiplier 1.0121"
+223,the loop,OK,loop LVT_bridge_L2_m1 ls 0.5: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),2.9064,2.9064,"R0 10.32, q 0.0540, multiplier 1.0152"
+224,the loop,OK,loop LVT_full_L1_m1 ls 0.3: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),2.8553,2.8553,"R0 9.57, q 0.0495, multiplier 1.0148"
+225,the loop,OK,loop LVT_full_L1_m1 ls 0.4: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),3.8259,3.8259,"R0 9.57, q 0.0495, multiplier 1.0198"
+226,the loop,OK,loop LVT_full_L1_m1 ls 0.5: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),4.8061,4.8061,"R0 9.57, q 0.0495, multiplier 1.0248"
+227,the loop,OK,loop LVT_full_L2_m1 ls 0.3: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),5.4428,5.4428,"R0 18.22, q 0.0540, multiplier 1.0161"
+228,the loop,OK,loop LVT_full_L2_m1 ls 0.4: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),7.2964,7.2964,"R0 18.22, q 0.0540, multiplier 1.0216"
+229,the loop,OK,loop LVT_full_L2_m1 ls 0.5: extra dividend iterated = closed form phi*ls*R0/(1-phi*ls*q),9.1701,9.1701,"R0 18.22, q 0.0540, multiplier 1.0272"
+230,the loop,OK,"loop table row LVT_bridge_L1_m1: R0, increment, extra dividend, % [low, high], q, 1/(1-phi ls q)",8.28 / 3.31 / 2.86 / 1.14 / 0.86 / 1.44 / 0.0495 / 1.017,8.2787 / 3.3115 / 2.8550 / 1.1449 / 0.8550 / 1.4372 / 0.0495 / 1.0171,
+231,the loop,OK,"loop table row LVT_bridge_L2_m1: R0, increment, extra dividend, % [low, high], q, 1/(1-phi ls q)",10.32 / 4.13 / 2.32 / 0.93 / 0.7 / 1.17 / 0.054 / 1.012,10.3171 / 4.1268 / 2.3180 / 0.9295 / 0.6950 / 1.1655 / 0.0540 / 1.0121,
+232,the loop,OK,"loop table row LVT_full_L1_m1: R0, increment, extra dividend, % [low, high], q, 1/(1-phi ls q)",9.57 / 3.83 / 3.83 / 1.33 / 0.99 / 1.67 / 0.0495 / 1.02,9.5708 / 3.8283 / 3.8259 / 1.3271 / 0.9904 / 1.6671 / 0.0495 / 1.0198,
+233,the loop,OK,tenure-aware round 0: $18.10 -> $7.24 -> $6.14 = 2.46% of the dividend,18.10 / 7.24 / 6.14 / 2.46,18.10 / 7.24 / 6.14 / 2.46,"one round only (no closed form), unlike the decile rows"
+234,the loop,OK,"VAT: the increment, $4.5bn a year [3.4, 5.6], goes to landlords; worth $107bn on m1 ($50-139bn)","4.5 [3.4, 5.6]; 107 (50-139)","4.50 [3.37, 5.62]; 107 (50-139)",
+235,the loop,OK,"holders of rental land: 60% top decile, 16% D9 (ORESRE key); 71% D10 with noncorporate land",60 / 16 / 71,59.5 / 15.5 / 70.6,
+236,the loop,OK,with the tenure-aware VAT rent bar ($4.00) the landlords' gain is about $127bn,127,127,
+237,the loop,OK,at the bridge rate 1 - phi = 15% of the increment leaks to landowners,15%,15.2%,
+238,robustness,OK,"robustness row: main: SCF 2025, uniform s [L1] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.848 / 183 / 90 / -39 / -514 / 31.6 / 0.976 / 0.885 / -1.89,0.848 / 183.389 / 89.718 / -39.355 / -514.441 / 31.553 / 0.976 / 0.885 / -1.885,"printed value double-rounded: robustness main: SCF 2025, uniform s L1 col8: -1.8847 printed -1.89"
+239,robustness,OK,"robustness row: main: SCF 2025, uniform s [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.555 / 189 / 122 / -1 / -750 / 22.4 / 1.242 / 1.183 / -0.73,0.555 / 188.760 / 121.912 / -0.999 / -749.558 / 22.434 / 1.242 / 1.183 / -0.727,
+240,robustness,OK,"robustness row: SCF 2022 (real 2024 $, roster adults) [L1] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.848 / 167 / 88 / -64 / -524 / 29.8 / 0.997 / 0.937 / -2.2,0.848 / 167.445 / 88.326 / -63.516 / -524.233 / 29.823 / 0.997 / 0.937 / -2.196,
+241,robustness,OK,"robustness row: SCF 2022 (real 2024 $, roster adults) [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.555 / 153 / 123 / -10 / -751 / 21.9 / 1.234 / 1.182 / -0.83,0.555 / 153.094 / 123.281 / -10.244 / -751.116 / 21.902 / 1.234 / 1.182 / -0.831,
+242,robustness,OK,"robustness row: s rising with home value [L1] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.848 / 193 / 106 / -41 / -588 / 27.4 / 1.09 / 0.993 / -1.79,0.848 / 193.227 / 105.841 / -40.675 / -587.646 / 27.399 / 1.090 / 0.993 / -1.785,
+243,robustness,OK,rising s: effective range low end (0.30 k),0.2381,0.2381,NOTES 0.24
+244,robustness,OK,rising s: effective range high end (0.60 k),0.4762,0.4762,NOTES 0.48
+245,robustness,OK,"robustness row: NFC land, low ($1.7tn) [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.593 / 186 / 116 / -3 / -724 / 22.9 / 1.207 / 1.141 / -0.83,0.593 / 185.563 / 116.258 / -3.038 / -723.851 / 22.887 / 1.207 / 1.141 / -0.825,
+246,robustness,OK,"robustness row: NFC land, high (2020 share) [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.55 /  /  /  / -753 /  /  /  / ,0.550 / 189.163 / 122.625 / -0.742 / -752.797 / 22.406 / 1.247 / 1.188 / -0.716,
+247,robustness,OK,"robustness row: noncorporate key + ORESRE [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.555 /  /  /  / -733 /  /  /  / ,0.555 / 190.575 / 121.388 / -8.412 / -732.659 / 23.204 / 1.229 / 1.166 / -0.727,
+248,robustness,OK,"robustness row: noncorporate key NNRESRE + ACTBUS [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.555 /  /  /  / -739 /  /  /  / ,0.555 / 187.471 / 118.913 / -5.143 / -738.827 / 22.589 / 1.231 / 1.172 / -0.727,
+249,robustness,OK,"robustness row: CE home-value distribution [L1] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.848 / 140 / 71 / -41 / -365 /  / 0.672 /  / ,0.848 / 140.237 / 70.847 / -41.271 / -365.272 /  / 0.672 /  / ,
+250,robustness,OK,"robustness row: CE home-value distribution [L2] (phi, D1, D5, D9, D10, payers, impulse post / liquidity, collateral 6c)",0.555 / 161 / 110 / -2 / -652 /  / 1.043 /  / ,0.555 / 160.510 / 109.558 / -2.253 / -651.903 /  / 1.043 /  / ,
+251,robustness,OK,CE's home values put 32% of residential land in the top decile (vs 39% SCF),32% vs 39%,31.7% vs 39.4%,
+252,robustness,OK,"s band 0.30-0.60: phi on m1 1.18 to 0.59; full-capture dividend $208-$416; collateral unchanged on m1, -1.0% to -5.0% on m3",as stated,phi 1.176-0.588; $208-$416; m3 -0.99 to -4.96,
+253,robustness,OK,at the bridge rate a uniform s cancels: L1 nets identical at s = 0.30 and calibrated s,identical,identical,
+254,caveats and deliverables,OK,the bridge's consumption budget is 45.5% of PCE,45.5%,45.5%,
+255,caveats and deliverables,OK,"national-accounts VAT: up to $1.83tn ($548 dividend); phi > 0.98 on L1 everywhere, L2 only m2 / m4 (0.90, 0.76)","1.83tn / $548 / 0.90, 0.76","1.84tn / $548 / 0.90, 0.76",
+256,caveats and deliverables,OK,state and local property taxes $789bn in 2025 (aggregates_2025.csv),789,789.4,
+257,caveats and deliverables,OK,the builder's own checks: 228 PASS / 0 FAIL / 1 INFO of 229,228/0/1,228/0/1 of 229,
+258,caveats and deliverables,OK,bridge.py imported unchanged for the US: the US model dict carries no 'mpc_default' (Finland's hook),no key,no key,and the VAT bars equal the rebuild's Fig 5 (above)
+259,caveats and deliverables,OK,the four figures exist as PNG at 200 dpi,4 x 200 dpi,200 / 200 / 200 / 200,
+260,review,BAD,"headline 'LVT at the bridge rate, base L1: flow + collateral -0.91' counts the crossers' tax twice (T4)",-0.91 (flow 0.976 + 6c x crossers' lost equity -1.885),clean readings: flow + 6c x lost capacity +0.15; crossers' wealth response instead of their bill response -0.04,"crossers' lost equity ($2,834bn) is the capitalized value of their own-home bills ($119bn/yr, T4). The flow already takes their bill at the decile MPC (0.87% of consumption); adding 6c x the capitalized loss on top makes them cut spending by 2.1x their annual bill (6c > r = 4.2%). The unit's own rule for non-occupiers is 'either the flow or a wealth effect, never both', and NOTES call the lost-equity row 'an upper reading', yet it is the central value. With either clean reading the LVT's central demand at impact is about zero (-0.04 to +0.15), not -0.91, so the headline sign rests on the double count. Same on L2: +0.86 to +0.93 instead of +0.52"
+261,review,BAD,"the collateral response is applied to every mortgaged owner who crosses 80% LTV, whether or not they would borrow","16.8m crossers, -1.89% at 6c",HtM crossers 6.2m hold 28% of the lost equity; 40% sits with families holding >= 3 months' income in liquid assets,"restricted to hand-to-mouth crossers (KVW, the unit's own flag): -0.52% (lost equity) / -0.21% (lost capacity) at 6c, against -1.89 / -0.83. Aladangady's 4.7c is an average over all homeowners and is driven by the constrained; applying it to unconstrained crossers' lost equity is a judgment the NOTES do not show as one. Report the constrained-crossers version beside the all-crossers one"
+262,review,BAD,"plain words: 'At the housing-collateral responses in the literature (4.7-10 cents per dollar per year), that is -1.5% to -3.1%'",4.7-10c 'in the literature',literature 4.7-7c gives -1.48% to -2.20%,"10c is the unit's own stress value ('no source gives a number for the levered tail', Judgment section); the summary presents it as a measurement and the headline band's lower edge (-2.37) rests on it. Say '4.7-7 cents in the literature, 10 cents as a stress value'"
+263,review,BAD,increment-only grandfathering: loss phi x gamma/delta (0.339) while the phase-in rows come from lvt_shock.csv,0.339; collateral -0.26,table: 0.349; collateral -0.27,"the same repo table the unit uses for the phase-in rows gives a 40.4% loss at 0.98 (discrete timing), not 39.2%: use one convention for all designs (effect small: -0.26 -> -0.27)"
+264,review,BAD,"headline-table header '(same SCF balance sheets, same bands)'",same bands,levy 2-5c vs collateral 4.7-10c,"the flow bands are the same MPC schedules, but the stock channels use different per-dollar bands; say 'same SCF balance sheets, same denominator'"
+265,review,BAD,"'Under the VAT, the same increment ($4.5bn a year of land rent ...) goes to landlords'",the same increment,LVT increment $11.1bn/yr vs VAT $4.5bn/yr,"same mechanism, 2.5x different size; say 'the VAT's own (smaller) increment'"
+266,review,OK,memo 7.1 aggregate LTV (26% -> 48%) 'reproduced on SCF owners: 28.7% -> 48.5%',48.5% at 0.98,"like for like (land price to zero, 2024): SCF 49.2% vs Z.1 48.2%","the two differences (SCF starts higher, 28.7 vs 26.0; its land share is lower, 0.416 vs 0.460) offset; within 1.1 points on the same concept"
+267,review,OK,"non-occupiers: flow OR wealth effect, never both (the wealth version removes their bills from cash)",never both,flow 0.976; wealth 2/3.5/5c 1.197/0.594/-0.008,the same rule is not applied to the threshold crossers (item 1)
+268,review,OK,payment units: the LVT and VAT sides share CE's payment shares; household shares sum to CE decile totals,consistent,CE CUs 135.76m vs SCF families 134.96m (+0.6%),
+269,review,OK,"SCF weighting and deciles: WGT pooled over implicates (134.96m), INCPCTLECAT pooled groups; per-implicate weights kept",pooled,pooled,no implicate averaging error; the 2022 merge on Y1 sidesteps the tidy IMPLICATE defect
+270,review,OK,"denominator: every demand channel is % of CE consumption ($9.0tn, 45.5% of PCE)",CE consumption,"$9,022bn","the stock channels (SCF/Z.1 dollars) and flows (national transfers) are both over the CE budget, so the comparison is internally consistent; on PCE every channel would be x0.455 (the NOTES show PCE only for the levy)"
+271,review,OK,the loop's arithmetic: iteration = T5's closed form; q is net (payers' and recipients' rent propensities),1.017,1.0171,"conceptual: the rental-land holders are charged the extra dividend but not credited the extra rent they collect (net +$1.7bn/yr under the LVT, +$4.5bn under the VAT); second order (< 0.03% of consumption)"
+272,review,OK,LVT price step = 0,0,0 by assumption,"standard incidence (fixed supply, full capitalization), filed under 'accounting'; the unit's own loop adds demand for rent of $8.28/share/month (3.6% of rent spending), so 'nothing' is the pass-through, not the whole rent-price effect"
+273,review,BAD,"headline L2 '+0.52' takes corporate (NFC) land on the flow reading, which the NOTES call unnatural ('holders never see a bill')",+0.52 (all non-occupier land on the flow),"NFC land on the wealth reading: +0.25 at 3.5c (+0.62 at 2c, -0.12 at 5c)","Results 6 says 'for the corporate land in L2 ... the wealth-effect column is the natural reading', but the headline row and the plain-words +0.52 use the flow for it (shareholders paying the corporate bill from cash at their decile MPC). The sign holds at 3.5c; state the natural-reading central (+0.25) or say why the flow reading is kept"
+274,review,OK,tenure baskets are split with CE homeowner rates while families are assigned by the SCF owner flag (rates differ: D2 51% vs 42%),"$18.10 rent, -$1.96 home maintenance","with SCF owner rates: $18.02, -1.88",immaterial: the tenure result does not depend on which survey's tenure rates split the baskets
+275,review,BAD,printed numbers that only a double rounding reproduces (value -> 3 decimals -> 2),,7 found,"% of budget LVT_bridge_L2_m1 d08: 2.5457 printed 2.6; payments htm, LVT_bridge_L2_m1, % (all families): 3.4769 printed 4; demand Electricity VAT|household_liq_tenure: 0.5747 printed 0.58; collateral response table: -1.8847 printed -1.89; collateral response table: -1.1645 printed -1.17; four measures m1: -1.8847 printed -1.89; robustness main: SCF 2025, uniform s L1 col8: -1.8847 printed -1.89; reprint from the unrounded values"
