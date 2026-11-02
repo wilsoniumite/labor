@@ -1,0 +1,399 @@
+n,status,area,claim,builder,mine,published,note
+1,OK,units and accounting,r_q = HBS per-household / per-CU total (fn 30's bridge),"[1.1672, 1.3514, 1.4128, 1.464, 1.4734]","[1.1672, 1.3514, 1.4128, 1.464, 1.4734]",-,max diff 3.2e-05
+2,OK,units and accounting,"12ew adults, children and payment shares per household, decile pairs averaged","[1.2512, 1.5948, 1.7091, 1.8193, 1.9032]","[1.2512, 1.5948, 1.7091, 1.8193, 1.9032]",-,max diffs 4.5e-05; adults = one-person + childless couples + 'other' + 2/couple with children + 1/single parent
+3,OK,units and accounting,population shares per household (12ew total column) and r_total,"[1.6168, 1.404]","[1.6168, 1.404]","[1.617, 1.404]",NOTES: 1.617 and 1.404
+4,OK,units and accounting,weights w_q proportional to s_q / r_q (equal consumption units per quintile),"[0.1788, 0.1968, 0.2017, 0.2072, 0.2154]","[0.1788, 0.1968, 0.2017, 0.2072, 0.2154]",-,max diff 5.0e-05
+5,OK,spec vs code,"budgets B_q are the sum of the 47 budget lines (the code), not the published total that NOTES_fi.md states","[1309.1655, 1581.072, 1877.805, 2112.6871, 2825.5931]","[1309.1655, 1581.0725, 1877.805, 2112.6858, 2825.594]","[1309.321, 1581.2137, 1877.805, 2112.6187, 2825.723]",code = sum of lines (max diff 0.0013); the spec's per-household total differs by up to 0.16 EUR (whole-euro rounding of 14pg children). Immaterial; NOTES should say 'sum of the 47 lines'
+6,OK,units and accounting,VAT-able spending x_q per share-month (post flags),"[775.0359, 1038.2537, 1258.5289, 1381.2098, 1873.7723]","[775.0359, 1038.2541, 1258.5289, 1381.209, 1873.7728]","[775, 1039, 1259, 1382, 1876]",max diff 0.0008; read-off x-positions in 'published'
+7,OK,units and accounting,dividend = 0.15 x sum_q w_q x_q,193.0054,193.0054,193,EUR per adult share per month
+8,OK,units and accounting,net transfers and percent of budget by quintile,"[76.75, 37.2673, 4.226, -14.1761, -88.0605]","[76.75, 37.2673, 4.226, -14.176, -88.0606]","[77, 37, 4, -14, -88]","max diffs 0.0001 EUR, 0.00005 pp; pct mine [5.863, 2.357, 0.225, -0.671, -3.117] vs labels [5.9, 2.4, 0.2, -0.7, -3.1]"
+9,OK,units and accounting,Fig 1: the dividend and all ten labels round to the printed values,19/19 PASS,10/10 labels + dividend,193; +77/+37/+4/-14/-88; 5.9/2.4/0.2/-0.7/-3.1,independent recomputation
+10,OK,units and accounting,nets under equal-household weights (14qa household counts x s_q),"[80.4198, 40.9371, 7.8958, -10.5063, -84.3907]","[80.4198, 40.937, 7.8958, -10.5062, -84.3908]",-,max diff 0.0001; with exactly equal households (w ~ s_q) the dividend is 196.71 instead of 196.68
+11,OK,units and accounting,"EUR 2,051 = total column x r_total / (12 x s_total)",2051.8227,2051.8227,2051,"prints as 2,052 (CLOSE, as the builder says); weighted mean sum_q w_q B_q = 1970.60"
+12,OK,units and accounting,quintiles hold 20% of households (14qa),20.0199 / 19.9749,20.0199 / 19.9749,20 / 20,"P082, P091"
+13,OK,VAT flags,adopted VAT-able amount per budget line (61 builder lines vs my 59) agrees,1339.6839,1339.6838,-,max line diff 6.9e-05 EUR/share-month (total column); line totals = Cbar (7.7e-05). My flags were built from NOTES_fi.md and the HBS code list before reading fi_flags.csv
+14,OK,VAT flags,builder's law reading reproduced (its flag_law column),1196.6192,1196.6192,-,max line diff 6.7e-05; dividend under it 172.38 (NOTES: 172.4)
+15,OK,VAT flags,"13.9's suppressed residual (13.9.0.1, ~EUR 36 per CU in Q5) is left out of the VAT base","out ('rest of 139', 0)",same (parent minus visible subclasses would add it),-,"undocumented micro-choice; counting it moves the dividend to 193.08 and Q5 to -88.33, labels unchanged. Worth a line in NOTES_fi.md"
+16,OK,elasticities,TB-1929 Table 3 betas and Table 4 beta* read from the PDF,README_usda sec. 8: -0.138 / +0.051 / +0.088,"[-0.138, 0.051, 0.088]",-,"stage-one betas [-0.108, -0.002, 0.011, 0.003, 0.02, 0.022, 0.026, -0.002, 0.03] sum to -0.000; phi -0.732"
+17,OK,elasticities,"eta_gq = 1 + beta/w for all 47 lines x 5 quintiles (division parents, food system F3 split by stage-two beta*), on per-CU and per-household shares",235 rows,max |diff| 4.9e-06 / 4.9e-06,-,shares against the sum of the 47 lines with divisions summed from their groups (the code)
+18,OK,spec vs code,budget shares against the published totals (the spec read literally) instead of the sum of lines,sum of lines,bars move by at most 0.0001 EUR,-,immaterial; NOTES_fi.md could say which denominator
+19,OK,elasticities,food-at-home eta Q1/Q5 on the figures' basis vs per-household basis,0.4251/0.2987; 0.4353/0.3015,0.4251/0.2987; 0.4353/0.3015,"[0.44, 0.3]",the text's 0.44 needs per-household shares; the figures need per-CU shares (an inconsistency inside the post)
+20,OK,MPC,"Finnish MPC = US decile knee schedules (NOTES_us.md: knee/top 1.93/0.40, 2.55/0.53, 3.29/0.65) averaged in decile pairs","[1, 0.9401, 0.8139, 0.6877, 0.5615]","[1, 0.9401, 0.8139, 0.6877, 0.5615]",-,"low [0.997, 0.883, 0.735, 0.586, 0.437], high [1, 0.981, 0.885, 0.78, 0.676]"
+21,OK,demand shifts,47 lines: Cbar_post_eur,sum 2051.8227,sum 2051.8227,-,max |diff| 4.5e-06
+22,OK,demand shifts,47 lines: Cbar_weighted_eur,sum 1970.5997,sum 1970.5997,-,max |diff| 5.1e-06
+23,OK,demand shifts,47 lines: dEUR_mid,sum 9.4669,sum 9.4669,-,max |diff| 4.9e-06
+24,OK,demand shifts,47 lines: dPct_mid,sum 25.5078,sum 25.5078,-,max |diff| 5.8e-06
+25,OK,demand shifts,47 lines: dEUR_low,sum 11.8092,sum 11.8092,-,max |diff| 4.6e-06
+26,OK,demand shifts,47 lines: dEUR_high,sum 7.1877,sum 7.1877,-,max |diff| 5.1e-06
+27,OK,demand shifts,47 lines: dEUR_mpc1,sum 0.0070,sum 0.0070,-,max |diff| 4.7e-06
+28,OK,demand shifts,47 lines: dPct_mpc1,sum 1.3099,sum 1.3099,-,max |diff| 5.1e-06
+29,OK,demand shifts,47 lines: dEUR_mid_weighted_units,sum 9.0875,sum 9.0875,-,max |diff| 4.7e-06
+30,OK,demand shifts,"47 lines, coherent machinery (per-household table, household-count weights): coherent_Cbar_eur",sum 2003.9064,sum 2003.9065,-,max |diff| 6.9e-06
+31,OK,demand shifts,"47 lines, coherent machinery (per-household table, household-count weights): coherent_dEUR_mid",sum 8.8960,sum 8.8960,-,max |diff| 4.5e-06
+32,OK,demand shifts,"47 lines, coherent machinery (per-household table, household-count weights): coherent_dPct_mid",sum 26.0118,sum 26.0118,-,max |diff| 5.1e-06
+33,OK,demand shifts,"47 lines, coherent machinery (per-household table, household-count weights): coherent_dEUR_mpc1",sum 0.0010,sum 0.0010,-,max |diff| 4.9e-06
+34,OK,demand shifts,"the ten largest movers are Fig 3's set, in its order",published set and order,"041, 011, 083, 061, 131, 031, 072, 111, 044, 071","041, 011, 083, 061, 131, 031, 072, 111, 044, 071",Fig 3 sorts by signed value
+35,OK,demand shifts,Fig 2's bar order reproduces apart from printed ties and the CLOSE bars,(no claim made),"4 adjacent swaps: 2 printed ties, 2 from bars 097 +0.0076, 132 -0.0128",-,the non-tie swaps come from bars already graded CLOSE (within 0.013)
+36,OK,demand shifts,"fourteen categories flip sign between ghost and MPC-adjusted bar, vehicle operation among them",14,14,'several knife-edge categories flip sign',"flips: 043, 044, 045, 051, 053, 054, 056, 072, 092, 094, 096, 112, 121, 122; the post prints 04.3 at -0.00, so 13 flip there"
+37,OK,demand shifts,vehicle purchases are the one red bar left standing in the top ten,07.1,071,'the one red bar left standing at impact',
+38,OK,demand shifts,vehicles: gross tier rotation several times the net,-,"adds 0.66, withdrawals 1.18, net -0.52",-0.5,gross/net = 3.5
+39,OK,demand shifts,rents: '+EUR 5 almost entirely bottom-quintile money',-,Q1 = 81% of the gross additions,-,
+40,OK,decomposition,Fig 3 quintile segments c_qg = theta eta shock Cbar (MPC-adjusted and MPC=1),60 rows,max |diff| 5.0e-06 / 5.4e-06,-,
+41,OK,decomposition,Fig 3 segments RMSE against the 50 read-offs,0.0074,0.0074,-,41/50 within the +/-0.01 read-off precision
+42,OK,impulse,"impulse table: flow, bar sums, budgets and percentages (3 schedules x 2 conventions)",6 rows,max rel diff 4.7e-06,-,
+43,OK,impulse,division parents over-allocate: all bars / flow impulse (consistent units) = 1 + sum of effective betas,1.0522,1.0522,-,effective sum beta = +0.052 (transport and other counted twice)
+44,OK,gate rows,P070 dividend [FI all] dividend per adult per month,193.0054 PASS,193.0054 PASS,193,
+45,OK,gate rows,P072 net transfer [FI Q1] net transfer per adult share per month,76.7500 PASS,76.7500 PASS,77,
+46,OK,gate rows,P073 net transfer [FI Q1] net transfer as % of budget,5.8625 PASS,5.8625 PASS,5.9,
+47,OK,gate rows,P074 net transfer [FI Q5] net transfer per adult share per month,-88.0605 PASS,-88.0606 PASS,-88,
+48,OK,gate rows,P075 net transfer [FI Q5] net transfer as % of budget,-3.1165 PASS,-3.1165 PASS,-3.1,
+49,OK,gate rows,"P076 net transfer [FI Q3] absolute net transfer, upper bound ('within')",4.2260 PASS,4.2260 PASS,5,
+50,OK,gate rows,P079 dividend [FI all] dividend per adult per month,193.0054 PASS,193.0054 PASS,193,
+51,OK,gate rows,P080 Q1 (lowest 20%) [FI Q1] net transfer per adult share per month,76.7500 PASS,76.7500 PASS,77,
+52,OK,gate rows,P081 Q1 (lowest 20%) [FI Q1] net transfer as % of budget,5.8625 PASS,5.8625 PASS,5.9,
+53,OK,gate rows,P082 Q1 (lowest 20%) [FI Q1] group definition: share of households in the quintile,20.0199 PASS,20.0199 PASS,20,
+54,OK,gate rows,P083 Q2 [FI Q2] net transfer per adult share per month,37.2673 PASS,37.2673 PASS,37,
+55,OK,gate rows,P084 Q2 [FI Q2] net transfer as % of budget,2.3571 PASS,2.3571 PASS,2.4,
+56,OK,gate rows,P085 Q3 [FI Q3] net transfer per adult share per month,4.2260 PASS,4.2260 PASS,4,
+57,OK,gate rows,P086 Q3 [FI Q3] net transfer as % of budget,0.2251 PASS,0.2251 PASS,0.2,
+58,OK,gate rows,P087 Q4 [FI Q4] net transfer per adult share per month,-14.1761 PASS,-14.1760 PASS,-14,
+59,OK,gate rows,P088 Q4 [FI Q4] net transfer as % of budget,-0.6710 PASS,-0.6710 PASS,-0.7,
+60,OK,gate rows,P089 Q5 (highest 20%) [FI Q5] net transfer per adult share per month,-88.0605 PASS,-88.0606 PASS,-88,
+61,OK,gate rows,P090 Q5 (highest 20%) [FI Q5] net transfer as % of budget,-3.1165 PASS,-3.1165 PASS,-3.1,
+62,OK,gate rows,P091 Q5 (highest 20%) [FI Q5] group definition: share of households in the quintile,19.9749 PASS,19.9749 PASS,20,
+63,OK,gate rows,P092 Q1 [FI Q1] VAT-able consumption per adult share per month (x-position),775.0359 PASS,775.0359 PASS,775,
+64,OK,gate rows,P093 Q2 [FI Q2] VAT-able consumption per adult share per month (x-position),1038.2537 PASS,1038.2541 PASS,1039,
+65,OK,gate rows,P094 Q3 [FI Q3] VAT-able consumption per adult share per month (x-position),1258.5289 PASS,1258.5289 PASS,1259,
+66,OK,gate rows,P095 Q4 [FI Q4] VAT-able consumption per adult share per month (x-position),1381.2098 PASS,1381.2090 PASS,1382,
+67,OK,gate rows,P096 Q5 [FI Q5] VAT-able consumption per adult share per month (x-position),1873.7723 PASS,1873.7728 PASS,1876,
+68,OK,gate rows,P097 mean VAT-able consumption = break-even [FI all] mean VAT-able consumption per adult share per month (dashed ,1286.7025 PASS,1286.7025 PASS,1287,
+69,OK,gate rows,P104 VAT-able consumption [FI Q1] VAT-able share of consumption,59.2008 PASS,59.2008 PASS,59,
+70,OK,gate rows,P105 VAT-able consumption [FI upper quintiles] VAT-able share of consumption,66.0951 PASS,66.0951 PASS,66.7,alternative reading 65.3769 -> PASS (builder: PASS)
+71,OK,gate rows,P109 food [FI Q1] income elasticity η (Working model),0.4251 CLOSE,0.4251 CLOSE,0.44,alternative reading 0.4353 -> PASS (builder: PASS)
+72,OK,gate rows,P110 food [FI Q5] income elasticity η (Working model),0.2987 PASS,0.2987 PASS,0.3,alternative reading 0.3015 -> PASS (builder: PASS)
+73,OK,gate rows,P112 recipients [FI gaining quintiles] share of a permanent transfer spent by recipients (MPC ≈ 1),97.2693 PASS,97.2693 PASS,100,
+74,OK,gate rows,"P113 aggregate demand impulse [FI all] aggregate demand impulse, % of charted budget (impact period",0.6280 MISS,0.6280 MISS,0.4,alternative reading 0.4383 -> PASS (builder: PASS)
+75,OK,gate rows,P114 top-quintile withdrawal [FI Q5] factor on the top's withdrawal once MPC applied,0.5615 MISS,0.5615 PASS,0.5,builder stricter (MISS at +/-0.05; mine PASS at +/-0.1)
+76,OK,gate rows,"P115 largest single reallocation [FI all] change in spending per adult share per month (MPC-adjusted, ",4.9276 PASS,4.9276 PASS,5,
+77,OK,gate rows,P116 budget [FI all] average budget per adult share per month,2051.8227 CLOSE,2051.8227 CLOSE,2051,
+78,OK,gate rows,P117 transfer [FI] transfer size as % of budgets (range low),3.1165 PASS,3.1165 PASS,3,
+79,OK,gate rows,P118 transfer [FI] transfer size as % of budgets (range high),5.8625 MISS,5.8625 MISS,8,
+80,OK,gate rows,"P119 actual rents [FI all] change in spending per adult share per month (MPC-adjusted, ",4.9276 CLOSE,4.9276 CLOSE,4.92,
+81,OK,gate rows,"P121 04.1 Actual rents [FI all] change in spending per adult share per month (MPC-adjusted, ",4.9276 CLOSE,4.9276 CLOSE,4.92,
+82,OK,gate rows,"P122 04.1 Actual rents [FI all] percent change in category spending (MPC-adjusted, impact pe",2.8103 CLOSE,2.8103 CLOSE,2.8,
+83,OK,gate rows,P123 04.1 Actual rents [FI all] MPC=1 benchmark (ghost) value,4.7806 PASS,4.7806 PASS,4.78,
+84,OK,gate rows,"P124 01.1 Food (at home) [FI all] change in spending per adult share per month (MPC-adjusted, ",0.9192 CLOSE,0.9192 CLOSE,0.91,
+85,OK,gate rows,"P125 01.1 Food (at home) [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3513 PASS,0.3513 PASS,0.35,
+86,OK,gate rows,P126 01.1 Food (at home) [FI all] MPC=1 benchmark (ghost) value,0.6365 PASS,0.6366 PASS,0.64,
+87,OK,gate rows,"P127 08.3 Information and communication services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.5516 CLOSE,0.5516 CLOSE,0.54,
+88,OK,gate rows,"P128 08.3 Information and communication services [FI all] percent change in category spending (MPC-adjusted, impact pe",1.0529 CLOSE,1.0529 CLOSE,1.04,
+89,OK,gate rows,P129 08.3 Information and communication services [FI all] MPC=1 benchmark (ghost) value,0.2453 PASS,0.2453 PASS,0.24,
+90,OK,gate rows,"P130 06.1 Medicines and health products [FI all] change in spending per adult share per month (MPC-adjusted, ",0.4458 CLOSE,0.4458 CLOSE,0.44,
+91,OK,gate rows,"P131 06.1 Medicines and health products [FI all] percent change in category spending (MPC-adjusted, impact pe",1.1181 CLOSE,1.1181 CLOSE,1.09,
+92,OK,gate rows,P132 06.1 Medicines and health products [FI all] MPC=1 benchmark (ghost) value,0.2355 CLOSE,0.2355 CLOSE,0.22,
+93,OK,gate rows,"P133 13.1 Personal care [FI all] change in spending per adult share per month (MPC-adjusted, ",0.4054 PASS,0.4054 PASS,0.41,
+94,OK,gate rows,"P134 13.1 Personal care [FI all] percent change in category spending (MPC-adjusted, impact pe",1.2099 CLOSE,1.2099 CLOSE,1.2,
+95,OK,gate rows,P135 13.1 Personal care [FI all] MPC=1 benchmark (ghost) value,0.1901 PASS,0.1901 PASS,0.19,
+96,OK,gate rows,"P136 03.1 Clothing [FI all] change in spending per adult share per month (MPC-adjusted, ",0.3533 PASS,0.3533 PASS,0.35,
+97,OK,gate rows,"P137 03.1 Clothing [FI all] percent change in category spending (MPC-adjusted, impact pe",0.5319 PASS,0.5319 PASS,0.53,
+98,OK,gate rows,P138 03.1 Clothing [FI all] MPC=1 benchmark (ghost) value,0.0853 PASS,0.0854 PASS,0.08,
+99,OK,gate rows,"P139 07.2 Operation of personal transport equipment [FI all] change in spending per adult share per month (MPC-adjusted, ",0.3423 PASS,0.3423 PASS,0.34,
+100,OK,gate rows,"P140 07.2 Operation of personal transport equipment [FI all] percent change in category spending (MPC-adjusted, impact pe",0.2677 CLOSE,0.2677 CLOSE,0.26,
+101,OK,gate rows,P141 07.2 Operation of personal transport equipment [FI all] MPC=1 benchmark (ghost) value,-0.3504 PASS,-0.3504 PASS,-0.35,
+102,OK,gate rows,"P142 11.1 Food and beverage serving services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2882 CLOSE,0.2882 CLOSE,0.28,
+103,OK,gate rows,"P143 11.1 Food and beverage serving services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.4178 CLOSE,0.4179 CLOSE,0.41,
+104,OK,gate rows,P144 11.1 Food and beverage serving services [FI all] MPC=1 benchmark (ghost) value,0.1089 PASS,0.1089 PASS,0.1,
+105,OK,gate rows,"P145 04.4 Water & misc. dwelling services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2862 CLOSE,0.2862 CLOSE,0.28,
+106,OK,gate rows,"P146 04.4 Water & misc. dwelling services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3544 PASS,0.3544 PASS,0.35,
+107,OK,gate rows,P147 04.4 Water & misc. dwelling services [FI all] MPC=1 benchmark (ghost) value,-0.0358 PASS,-0.0358 PASS,-0.04,
+108,OK,gate rows,"P148 12.1 Insurance [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2585 CLOSE,0.2585 CLOSE,0.25,
+109,OK,gate rows,"P149 12.1 Insurance [FI all] percent change in category spending (MPC-adjusted, impact pe",0.4454 CLOSE,0.4454 CLOSE,0.43,
+110,OK,gate rows,P150 12.1 Insurance [FI all] MPC=1 benchmark (ghost) value,-0.1849 PASS,-0.1849 PASS,-0.19,
+111,OK,gate rows,"P151 06.2 Outpatient care services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2351 CLOSE,0.2351 CLOSE,0.23,
+112,OK,gate rows,"P152 06.2 Outpatient care services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.7773 CLOSE,0.7773 CLOSE,0.77,
+113,OK,gate rows,P153 06.2 Outpatient care services [FI all] MPC=1 benchmark (ghost) value,0.0272 PASS,0.0272 PASS,0.02,
+114,OK,gate rows,"P154 08.1 Information and communication equipment [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2272 PASS,0.2272 PASS,0.23,
+115,OK,gate rows,"P155 08.1 Information and communication equipment [FI all] percent change in category spending (MPC-adjusted, impact pe",0.7771 PASS,0.7771 PASS,0.78,
+116,OK,gate rows,P156 08.1 Information and communication equipment [FI all] MPC=1 benchmark (ghost) value,0.0331 PASS,0.0331 PASS,0.03,
+117,OK,gate rows,"P157 04.5 Electricity, gas and other fuels [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2327 PASS,0.2327 PASS,0.23,
+118,OK,gate rows,"P158 04.5 Electricity, gas and other fuels [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3065 CLOSE,0.3065 CLOSE,0.3,
+119,OK,gate rows,"P159 04.5 Electricity, gas and other fuels [FI all] MPC=1 benchmark (ghost) value",-0.1095 PASS,-0.1095 PASS,-0.11,
+120,OK,gate rows,"P160 12.2 Financial services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2162 PASS,0.2162 PASS,0.22,
+121,OK,gate rows,"P161 12.2 Financial services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.6596 CLOSE,0.6596 CLOSE,0.67,
+122,OK,gate rows,P162 12.2 Financial services [FI all] MPC=1 benchmark (ghost) value,-0.0198 PASS,-0.0198 PASS,-0.02,
+123,OK,gate rows,"P163 07.3 Passenger transport services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2093 PASS,0.2093 PASS,0.21,
+124,OK,gate rows,"P164 07.3 Passenger transport services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.7436 CLOSE,0.7436 CLOSE,0.75,
+125,OK,gate rows,P165 07.3 Passenger transport services [FI all] MPC=1 benchmark (ghost) value,0.0614 PASS,0.0614 PASS,0.06,
+126,OK,gate rows,"P166 09.3 Garden products and pets [FI all] change in spending per adult share per month (MPC-adjusted, ",0.1928 PASS,0.1928 PASS,0.19,
+127,OK,gate rows,"P167 09.3 Garden products and pets [FI all] percent change in category spending (MPC-adjusted, impact pe",0.8851 CLOSE,0.8851 CLOSE,0.88,
+128,OK,gate rows,P168 09.3 Garden products and pets [FI all] MPC=1 benchmark (ghost) value,0.0762 PASS,0.0762 PASS,0.08,
+129,OK,gate rows,"P169 09.4 Recreational services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.1867 CLOSE,0.1867 CLOSE,0.18,
+130,OK,gate rows,"P170 09.4 Recreational services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.5524 PASS,0.5524 PASS,0.55,
+131,OK,gate rows,P171 09.4 Recreational services [FI all] MPC=1 benchmark (ghost) value,-0.0115 PASS,-0.0115 PASS,-0.01,
+132,OK,gate rows,"P172 02.3 Tobacco [FI all] change in spending per adult share per month (MPC-adjusted, ",0.1614 CLOSE,0.1614 CLOSE,0.17,
+133,OK,gate rows,"P173 02.3 Tobacco [FI all] percent change in category spending (MPC-adjusted, impact pe",1.4674 PASS,1.4674 PASS,1.47,
+134,OK,gate rows,P174 02.3 Tobacco [FI all] MPC=1 benchmark (ghost) value,0.1518 PASS,0.1518 PASS,0.16,
+135,OK,gate rows,"P175 01.2 Non-alcoholic beverages [FI all] change in spending per adult share per month (MPC-adjusted, ",0.1605 PASS,0.1605 PASS,0.16,
+136,OK,gate rows,"P176 01.2 Non-alcoholic beverages [FI all] percent change in category spending (MPC-adjusted, impact pe",0.6722 CLOSE,0.6722 CLOSE,0.68,
+137,OK,gate rows,P177 01.2 Non-alcoholic beverages [FI all] MPC=1 benchmark (ghost) value,0.1197 PASS,0.1197 PASS,0.11,
+138,OK,gate rows,"P178 02.1 Alcoholic beverages [FI all] change in spending per adult share per month (MPC-adjusted, ",0.1158 PASS,0.1158 PASS,0.12,
+139,OK,gate rows,"P179 02.1 Alcoholic beverages [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3980 PASS,0.3980 PASS,0.4,
+140,OK,gate rows,P180 02.1 Alcoholic beverages [FI all] MPC=1 benchmark (ghost) value,0.0431 PASS,0.0431 PASS,0.04,
+141,OK,gate rows,"P181 09.7 Newspapers, books and stationery [FI all] change in spending per adult share per month (MPC-adjusted, ",0.1176 CLOSE,0.1176 CLOSE,0.11,
+142,OK,gate rows,"P182 09.7 Newspapers, books and stationery [FI all] percent change in category spending (MPC-adjusted, impact pe",0.6201 CLOSE,0.6201 CLOSE,0.59,
+143,OK,gate rows,"P183 09.7 Newspapers, books and stationery [FI all] MPC=1 benchmark (ghost) value",0.0065 PASS,0.0065 PASS,0,
+144,OK,gate rows,"P184 13.2 Other personal effects [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0672 CLOSE,0.0672 CLOSE,0.08,
+145,OK,gate rows,"P185 13.2 Other personal effects [FI all] percent change in category spending (MPC-adjusted, impact pe",1.1323 MISS,1.1323 MISS,1.26,
+146,OK,gate rows,P186 13.2 Other personal effects [FI all] MPC=1 benchmark (ghost) value,0.0301 PASS,0.0301 PASS,0.03,
+147,OK,gate rows,"P187 05.6 Goods and services for routine household maintenance [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0746 PASS,0.0746 PASS,0.07,
+148,OK,gate rows,"P188 05.6 Goods and services for routine household maintenance [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3933 CLOSE,0.3933 CLOSE,0.38,
+149,OK,gate rows,P189 05.6 Goods and services for routine household maintenance [FI all] MPC=1 benchmark (ghost) value,-0.0160 PASS,-0.0160 PASS,-0.02,
+150,OK,gate rows,"P190 03.2 Footwear [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0702 PASS,0.0702 PASS,0.07,
+151,OK,gate rows,"P191 03.2 Footwear [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3958 CLOSE,0.3958 CLOSE,0.39,
+152,OK,gate rows,P192 03.2 Footwear [FI all] MPC=1 benchmark (ghost) value,0.0012 PASS,0.0012 PASS,0,
+153,OK,gate rows,"P193 09.2 Other recreational goods [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0596 PASS,0.0596 PASS,0.06,
+154,OK,gate rows,"P194 09.2 Other recreational goods [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3063 CLOSE,0.3063 CLOSE,0.29,
+155,OK,gate rows,P195 09.2 Other recreational goods [FI all] MPC=1 benchmark (ghost) value,-0.0762 PASS,-0.0762 PASS,-0.08,
+156,OK,gate rows,"P196 05.2 Household textiles [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0276 PASS,0.0276 PASS,0.03,
+157,OK,gate rows,"P197 05.2 Household textiles [FI all] percent change in category spending (MPC-adjusted, impact pe",0.4281 MISS,0.4281 MISS,0.51,
+158,OK,gate rows,P198 05.2 Household textiles [FI all] MPC=1 benchmark (ghost) value,0.0011 PASS,0.0011 PASS,0,
+159,OK,gate rows,"P199 09.6 Cultural services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0279 PASS,0.0280 PASS,0.03,
+160,OK,gate rows,"P200 09.6 Cultural services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.3714 CLOSE,0.3714 CLOSE,0.4,
+161,OK,gate rows,P201 09.6 Cultural services [FI all] MPC=1 benchmark (ghost) value,-0.0177 PASS,-0.0177 PASS,-0.02,
+162,OK,gate rows,"P202 05.3 Household appliances [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0222 CLOSE,0.0222 CLOSE,0.03,
+163,OK,gate rows,"P203 05.3 Household appliances [FI all] percent change in category spending (MPC-adjusted, impact pe",0.1541 MISS,0.1541 MISS,0.18,
+164,OK,gate rows,P204 05.3 Household appliances [FI all] MPC=1 benchmark (ghost) value,-0.0578 PASS,-0.0578 PASS,-0.06,
+165,OK,gate rows,"P205 05.4 Glassware, tableware and household utensils [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0152 CLOSE,0.0151 CLOSE,0.01,
+166,OK,gate rows,"P206 05.4 Glassware, tableware and household utensils [FI all] percent change in category spending (MPC-adjusted, impact pe",0.2434 MISS,0.2434 MISS,0.2,
+167,OK,gate rows,"P207 05.4 Glassware, tableware and household utensils [FI all] MPC=1 benchmark (ghost) value",-0.0161 PASS,-0.0161 PASS,-0.02,
+168,OK,gate rows,"P208 11.2 Accommodation services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0089 PASS,0.0089 PASS,0.01,
+169,OK,gate rows,"P209 11.2 Accommodation services [FI all] percent change in category spending (MPC-adjusted, impact pe",0.0904 PASS,0.0904 PASS,0.09,
+170,OK,gate rows,P210 11.2 Accommodation services [FI all] MPC=1 benchmark (ghost) value,-0.0206 PASS,-0.0206 PASS,-0.02,
+171,OK,gate rows,"P211 05.1 Furniture, furnishings and loose carpets (D) [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0060 PASS,0.0060 PASS,0.01,
+172,OK,gate rows,"P212 05.1 Furniture, furnishings and loose carpets (D) [FI all] percent change in category spending (MPC-adjusted, impact pe",0.0236 MISS,0.0236 CLOSE,0.03,builder stricter (MISS at +/-0.005; mine CLOSE at +/-0.005)
+173,OK,gate rows,"P213 05.1 Furniture, furnishings and loose carpets (D) [FI all] MPC=1 benchmark (ghost) value",-0.1470 PASS,-0.1470 PASS,-0.15,
+174,OK,gate rows,"P214 04.3 Maintenance, repair and security of the dwelling [FI all] change in spending per adult share per month (MPC-adjusted, ",0.0006 PASS,0.0006 PASS,-0,
+175,OK,gate rows,"P215 04.3 Maintenance, repair and security of the dwelling [FI all] percent change in category spending (MPC-adjusted, impact pe",0.0019 MISS,0.0020 CLOSE,-0.01,builder stricter (MISS at +/-0.005; mine CLOSE at +/-0.005)
+176,OK,gate rows,"P216 04.3 Maintenance, repair and security of the dwelling [FI all] MPC=1 benchmark (ghost) value",-0.1398 CLOSE,-0.1398 CLOSE,-0.15,
+177,OK,gate rows,"P217 05.5 Tools and equipment for house and garden [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.0169 PASS,-0.0169 PASS,-0.02,
+178,OK,gate rows,"P218 05.5 Tools and equipment for house and garden [FI all] percent change in category spending (MPC-adjusted, impact pe",-0.1432 CLOSE,-0.1432 CLOSE,-0.15,
+179,OK,gate rows,P219 05.5 Tools and equipment for house and garden [FI all] MPC=1 benchmark (ghost) value,-0.0878 PASS,-0.0878 PASS,-0.09,
+180,OK,gate rows,"P220 09.8 Package holidays [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.0258 PASS,-0.0258 PASS,-0.03,
+181,OK,gate rows,"P221 09.8 Package holidays [FI all] percent change in category spending (MPC-adjusted, impact pe",-0.1630 CLOSE,-0.1629 CLOSE,-0.18,
+182,OK,gate rows,P222 09.8 Package holidays [FI all] MPC=1 benchmark (ghost) value,-0.1592 PASS,-0.1592 PASS,-0.16,
+183,OK,gate rows,"P223 09.1 Recreational durables [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.0853 CLOSE,-0.0853 CLOSE,-0.08,
+184,OK,gate rows,"P224 09.1 Recreational durables [FI all] percent change in category spending (MPC-adjusted, impact pe",-0.8541 CLOSE,-0.8541 CLOSE,-0.79,
+185,OK,gate rows,P225 09.1 Recreational durables [FI all] MPC=1 benchmark (ghost) value,-0.1821 PASS,-0.1821 PASS,-0.18,
+186,OK,gate rows,"P226 13.9 Other services [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.1045 CLOSE,-0.1045 CLOSE,-0.11,
+187,OK,gate rows,"P227 13.9 Other services [FI all] percent change in category spending (MPC-adjusted, impact pe",-0.1978 CLOSE,-0.1978 CLOSE,-0.21,
+188,OK,gate rows,P228 13.9 Other services [FI all] MPC=1 benchmark (ghost) value,-0.5879 PASS,-0.5880 PASS,-0.59,
+189,OK,gate rows,"P229 07.1 Purchase of vehicles [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.5222 CLOSE,-0.5222 CLOSE,-0.53,
+190,OK,gate rows,"P230 07.1 Purchase of vehicles [FI all] percent change in category spending (MPC-adjusted, impact pe",-0.4620 CLOSE,-0.4620 CLOSE,-0.47,
+191,OK,gate rows,P231 07.1 Purchase of vehicles [FI all] MPC=1 benchmark (ghost) value,-1.3707 PASS,-1.3707 PASS,-1.38,
+192,OK,gate rows,P233 education [FI all] budget share (reason education is omitted),0.2963 PASS,0.2963 PASS,0.3,
+193,OK,gate rows,"P234 actual rents [FI all] change in spending per adult share per month (MPC-adjusted, ",4.9276 PASS,4.9276 PASS,5,
+194,OK,gate rows,P235 Figure 3 categories [FI all] number of categories shown,10.0000 PASS,10.0000 PASS,10,
+195,OK,gate rows,P236 paying quintiles [FI Q4–Q5] number of quintiles withdrawing (payers),2.0000 PASS,2.0000 PASS,2,
+196,OK,gate rows,P237 gaining quintiles [FI Q1–Q3] number of quintiles adding (gainers),3.0000 PASS,3.0000 PASS,3,
+197,OK,gate rows,"P238 vehicle purchases [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.5222 PASS,-0.5222 PASS,-0.5,
+198,OK,gate rows,"P239 rents [FI all] change in spending per adult share per month (MPC-adjusted, ",4.9276 PASS,4.9276 PASS,5,
+199,OK,gate rows,"P241 04.1 Actual rents [FI all] change in spending per adult share per month (MPC-adjusted, ",4.9276 PASS,4.9276 PASS,4.9,
+200,OK,gate rows,P242 04.1 Actual rents [FI all] MPC=1 benchmark (ghost) value,4.7806 PASS,4.7806 PASS,4.78,
+201,OK,gate rows,"P243 01.1 Food (at home) [FI all] change in spending per adult share per month (MPC-adjusted, ",0.9192 PASS,0.9192 PASS,0.9,
+202,OK,gate rows,P244 01.1 Food (at home) [FI all] MPC=1 benchmark (ghost) value,0.6365 PASS,0.6366 PASS,0.63,
+203,OK,gate rows,"P245 08.3 Information and communication services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.5516 MISS,0.5516 CLOSE,0.5,builder stricter (MISS at +/-0.05; mine CLOSE at +/-0.05)
+204,OK,gate rows,P246 08.3 Information and communication services [FI all] MPC=1 benchmark (ghost) value,0.2453 CLOSE,0.2453 CLOSE,0.23,
+205,OK,gate rows,"P247 06.1 Medicines and health products [FI all] change in spending per adult share per month (MPC-adjusted, ",0.4458 PASS,0.4458 PASS,0.4,
+206,OK,gate rows,P248 06.1 Medicines and health products [FI all] MPC=1 benchmark (ghost) value,0.2355 CLOSE,0.2355 CLOSE,0.22,
+207,OK,gate rows,"P249 13.1 Personal care [FI all] change in spending per adult share per month (MPC-adjusted, ",0.4054 PASS,0.4054 PASS,0.4,
+208,OK,gate rows,P250 13.1 Personal care [FI all] MPC=1 benchmark (ghost) value,0.1901 PASS,0.1901 PASS,0.19,
+209,OK,gate rows,"P251 03.1 Clothing [FI all] change in spending per adult share per month (MPC-adjusted, ",0.3533 MISS,0.3533 CLOSE,0.3,builder stricter (MISS at +/-0.05; mine CLOSE at +/-0.05)
+210,OK,gate rows,P252 03.1 Clothing [FI all] MPC=1 benchmark (ghost) value,0.0853 PASS,0.0854 PASS,0.08,
+211,OK,gate rows,"P253 07.2 Operation of personal transport equipment [FI all] change in spending per adult share per month (MPC-adjusted, ",0.3423 PASS,0.3423 PASS,0.3,
+212,OK,gate rows,P254 07.2 Operation of personal transport equipment [FI all] MPC=1 benchmark (ghost) value,-0.3504 PASS,-0.3504 PASS,-0.35,
+213,OK,gate rows,"P255 11.1 Food and beverage serving services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2882 PASS,0.2882 PASS,0.3,
+214,OK,gate rows,P256 11.1 Food and beverage serving services [FI all] MPC=1 benchmark (ghost) value,0.1089 PASS,0.1089 PASS,0.1,
+215,OK,gate rows,"P257 04.4 Water & misc. dwelling services [FI all] change in spending per adult share per month (MPC-adjusted, ",0.2862 PASS,0.2862 PASS,0.3,
+216,OK,gate rows,P258 04.4 Water & misc. dwelling services [FI all] MPC=1 benchmark (ghost) value,-0.0358 CLOSE,-0.0358 CLOSE,-0.05,
+217,OK,gate rows,"P259 07.1 Purchase of vehicles [FI all] change in spending per adult share per month (MPC-adjusted, ",-0.5222 PASS,-0.5222 PASS,-0.5,
+218,OK,gate rows,P260 07.1 Purchase of vehicles [FI all] MPC=1 benchmark (ghost) value,-1.3707 PASS,-1.3707 PASS,-1.38,
+219,OK,gate rows,P263 Figure 3 categories [FI all] number of categories shown,10.0000 PASS,10.0000 PASS,10,
+220,OK,gate rows,P886 net worth [FI Q5] mean net worth per consumption unit,391207.3742 PASS,391207.3742 PASS,391000,
+221,OK,gate rows,P963 quintile means [FI Q1–Q5] number of points shown in Figure 1,5.0000 PASS,5.0000 PASS,5,
+222,OK,gate rows,P975 04.1 Actual rents [FI Q1] quintile contribution to change in spending per adult share ,4.2563 PASS,4.2563 PASS,4.26,
+223,OK,gate rows,P976 04.1 Actual rents [FI Q2] quintile contribution to change in spending per adult share ,0.9417 CLOSE,0.9417 CLOSE,0.93,
+224,OK,gate rows,P977 04.1 Actual rents [FI Q3] quintile contribution to change in spending per adult share ,0.0552 PASS,0.0552 PASS,0.06,
+225,OK,gate rows,P978 04.1 Actual rents [FI Q4] quintile contribution to change in spending per adult share ,-0.1058 CLOSE,-0.1058 CLOSE,-0.12,
+226,OK,gate rows,P979 04.1 Actual rents [FI Q5] quintile contribution to change in spending per adult share ,-0.2198 PASS,-0.2198 PASS,-0.22,
+227,OK,gate rows,P980 01.1 Food (at home) [FI Q1] quintile contribution to change in spending per adult share ,0.9250 PASS,0.9250 PASS,0.92,
+228,OK,gate rows,P981 01.1 Food (at home) [FI Q2] quintile contribution to change in spending per adult share ,0.4020 CLOSE,0.4020 CLOSE,0.39,
+229,OK,gate rows,P982 01.1 Food (at home) [FI Q3] quintile contribution to change in spending per adult share ,0.0358 CLOSE,0.0358 CLOSE,0.05,
+230,OK,gate rows,P983 01.1 Food (at home) [FI Q4] quintile contribution to change in spending per adult share ,-0.0920 PASS,-0.0920 PASS,-0.1,
+231,OK,gate rows,P984 01.1 Food (at home) [FI Q5] quintile contribution to change in spending per adult share ,-0.3518 PASS,-0.3518 PASS,-0.35,
+232,OK,gate rows,P985 08.3 Information and communication services [FI Q1] quintile contribution to change in spending per adult share ,0.6642 CLOSE,0.6642 CLOSE,0.65,
+233,OK,gate rows,P986 08.3 Information and communication services [FI Q2] quintile contribution to change in spending per adult share ,0.3195 CLOSE,0.3195 CLOSE,0.33,
+234,OK,gate rows,P987 08.3 Information and communication services [FI Q3] quintile contribution to change in spending per adult share ,0.0293 PASS,0.0293 PASS,0.02,
+235,OK,gate rows,P988 08.3 Information and communication services [FI Q4] quintile contribution to change in spending per adult share ,-0.0821 PASS,-0.0821 PASS,-0.09,
+236,OK,gate rows,P989 08.3 Information and communication services [FI Q5] quintile contribution to change in spending per adult share ,-0.3792 PASS,-0.3792 PASS,-0.37,
+237,OK,gate rows,P990 06.1 Medicines and health products [FI Q1] quintile contribution to change in spending per adult share ,0.4814 PASS,0.4814 PASS,0.48,
+238,OK,gate rows,P991 06.1 Medicines and health products [FI Q2] quintile contribution to change in spending per adult share ,0.2628 PASS,0.2628 PASS,0.26,
+239,OK,gate rows,P992 06.1 Medicines and health products [FI Q3] quintile contribution to change in spending per adult share ,0.0246 PASS,0.0246 PASS,0.02,
+240,OK,gate rows,P993 06.1 Medicines and health products [FI Q4] quintile contribution to change in spending per adult share ,-0.0596 CLOSE,-0.0596 CLOSE,-0.07,
+241,OK,gate rows,P994 06.1 Medicines and health products [FI Q5] quintile contribution to change in spending per adult share ,-0.2634 PASS,-0.2634 PASS,-0.27,
+242,OK,gate rows,P995 13.1 Personal care [FI Q1] quintile contribution to change in spending per adult share ,0.4874 PASS,0.4875 PASS,0.49,
+243,OK,gate rows,P996 13.1 Personal care [FI Q2] quintile contribution to change in spending per adult share ,0.2211 PASS,0.2211 PASS,0.22,
+244,OK,gate rows,P997 13.1 Personal care [FI Q3] quintile contribution to change in spending per adult share ,0.0193 PASS,0.0193 PASS,0.02,
+245,OK,gate rows,P998 13.1 Personal care [FI Q4] quintile contribution to change in spending per adult share ,-0.0549 PASS,-0.0549 PASS,-0.06,
+246,OK,gate rows,P999 13.1 Personal care [FI Q5] quintile contribution to change in spending per adult share ,-0.2675 CLOSE,-0.2675 CLOSE,-0.28,
+247,OK,gate rows,P1000 03.1 Clothing [FI Q1] quintile contribution to change in spending per adult share ,0.5183 PASS,0.5183 PASS,0.51,
+248,OK,gate rows,P1001 03.1 Clothing [FI Q2] quintile contribution to change in spending per adult share ,0.2073 PASS,0.2073 PASS,0.2,
+249,OK,gate rows,P1002 03.1 Clothing [FI Q3] quintile contribution to change in spending per adult share ,0.0219 PASS,0.0219 PASS,0.02,
+250,OK,gate rows,P1003 03.1 Clothing [FI Q4] quintile contribution to change in spending per adult share ,-0.0660 PASS,-0.0660 PASS,-0.07,
+251,OK,gate rows,P1004 03.1 Clothing [FI Q5] quintile contribution to change in spending per adult share ,-0.3282 PASS,-0.3282 PASS,-0.33,
+252,OK,gate rows,P1005 07.2 Operation of personal transport equipment [FI Q1] quintile contribution to change in spending per adult share ,0.7594 PASS,0.7594 PASS,0.75,
+253,OK,gate rows,P1006 07.2 Operation of personal transport equipment [FI Q2] quintile contribution to change in spending per adult share ,0.5457 PASS,0.5457 PASS,0.55,
+254,OK,gate rows,P1007 07.2 Operation of personal transport equipment [FI Q3] quintile contribution to change in spending per adult share ,0.0517 PASS,0.0517 PASS,0.05,
+255,OK,gate rows,P1008 07.2 Operation of personal transport equipment [FI Q4] quintile contribution to change in spending per adult share ,-0.1617 PASS,-0.1617 PASS,-0.17,
+256,OK,gate rows,P1009 07.2 Operation of personal transport equipment [FI Q5] quintile contribution to change in spending per adult share ,-0.8528 PASS,-0.8528 PASS,-0.85,
+257,OK,gate rows,P1010 11.1 Food and beverage serving services [FI Q1] quintile contribution to change in spending per adult share ,0.3870 PASS,0.3870 PASS,0.38,
+258,OK,gate rows,P1011 11.1 Food and beverage serving services [FI Q2] quintile contribution to change in spending per adult share ,0.1522 PASS,0.1522 PASS,0.15,
+259,OK,gate rows,P1012 11.1 Food and beverage serving services [FI Q3] quintile contribution to change in spending per adult share ,0.0155 PASS,0.0155 PASS,0.01,
+260,OK,gate rows,P1013 11.1 Food and beverage serving services [FI Q4] quintile contribution to change in spending per adult share ,-0.0478 CLOSE,-0.0478 CLOSE,-0.06,
+261,OK,gate rows,P1014 11.1 Food and beverage serving services [FI Q5] quintile contribution to change in spending per adult share ,-0.2187 PASS,-0.2187 PASS,-0.21,
+262,OK,gate rows,P1015 04.4 Water & misc. dwelling services [FI Q1] quintile contribution to change in spending per adult share ,0.3966 PASS,0.3966 PASS,0.39,
+263,OK,gate rows,P1016 04.4 Water & misc. dwelling services [FI Q2] quintile contribution to change in spending per adult share ,0.3457 PASS,0.3457 PASS,0.34,
+264,OK,gate rows,P1017 04.4 Water & misc. dwelling services [FI Q3] quintile contribution to change in spending per adult share ,0.0333 PASS,0.0333 PASS,0.03,
+265,OK,gate rows,P1018 04.4 Water & misc. dwelling services [FI Q4] quintile contribution to change in spending per adult share ,-0.0934 PASS,-0.0934 PASS,-0.1,
+266,OK,gate rows,P1019 04.4 Water & misc. dwelling services [FI Q5] quintile contribution to change in spending per adult share ,-0.3961 PASS,-0.3961 PASS,-0.39,
+267,OK,gate rows,P1020 07.1 Purchase of vehicles [FI Q1] quintile contribution to change in spending per adult share ,0.2779 PASS,0.2779 PASS,0.27,
+268,OK,gate rows,P1021 07.1 Purchase of vehicles [FI Q2] quintile contribution to change in spending per adult share ,0.3335 PASS,0.3335 PASS,0.34,
+269,OK,gate rows,P1022 07.1 Purchase of vehicles [FI Q3] quintile contribution to change in spending per adult share ,0.0445 PASS,0.0445 PASS,0.05,
+270,OK,gate rows,P1023 07.1 Purchase of vehicles [FI Q4] quintile contribution to change in spending per adult share ,-0.1222 PASS,-0.1222 PASS,-0.13,
+271,OK,gate rows,P1024 07.1 Purchase of vehicles [FI Q5] quintile contribution to change in spending per adult share ,-1.0559 PASS,-1.0559 PASS,-1.06,
+272,OK,gate summary,"gate counts, Fig 1: NOTES table = gate_fi.csv; my PASS count at least the builder's",19/0/0,19/0/0,NOTES 19/0/0,PASS/CLOSE/MISS
+273,OK,gate summary,"gate counts, Fig 2 EUR: NOTES table = gate_fi.csv; my PASS count at least the builder's",20/17/0,20/17/0,NOTES 20/17/0,PASS/CLOSE/MISS
+274,OK,gate summary,"gate counts, Fig 2 pct: NOTES table = gate_fi.csv; my PASS count at least the builder's",8/23/6,8/25/4,NOTES 8/23/6,PASS/CLOSE/MISS
+275,OK,gate summary,"gate counts, Fig 2 ghost: NOTES table = gate_fi.csv; my PASS count at least the builder's",35/2/0,35/2/0,NOTES 35/2/0,PASS/CLOSE/MISS
+276,OK,gate summary,"gate counts, Fig 3 label: NOTES table = gate_fi.csv; my PASS count at least the builder's",15/3/2,15/5/0,NOTES 15/3/2,PASS/CLOSE/MISS
+277,OK,gate summary,"gate counts, text: NOTES table = gate_fi.csv; my PASS count at least the builder's",22/3/3,23/3/2,NOTES 22/3/3,PASS/CLOSE/MISS
+278,OK,gate summary,"gate counts, Fig 3 segment: NOTES table = gate_fi.csv; my PASS count at least the builder's",41/9/0,41/9/0,NOTES 41/9/0,PASS/CLOSE/MISS
+279,OK,gate summary,"gate counts, all: NOTES table = gate_fi.csv; my PASS count at least the builder's",160/57/11,161/61/6,NOTES 160/57/11,PASS/CLOSE/MISS
+280,OK,gate summary,"Fig 2: bars RMSE 0.0058, 20 within 0.005, the rest within 0.013",0.0058; 20/37; <0.013,0.0058; 20/37; max 0.0128,-,
+281,OK,gate summary,Fig 2 ghosts RMSE 0.0052 against the +/-0.01 read-offs,0.0052,0.0052,-,"35/37 within +/-0.01; the 37 printed labels sum to 10.40, the rebuilt bars to 10.46"
+282,OK,judgment calls: flags,"flag grid (18,432 sets, 13 lines): my objective's best set is the adopted set",adopted = best of its grid,same,-,"best: dividend 193.01, 5/5 labels, 5/5 percent labels; 4 of 18,432 sets pass all 16 Fig 1 numbers"
+283,OK,judgment calls: flags,top-20 support for 'maintenance charges of housing companies' = 1,20/20 (NOTES),20/20,-,among the 4 all-pass sets the line takes [1.0]
+284,OK,judgment calls: flags,top-20 support for 'used cars' = 1,20/20 (NOTES),20/20,-,among the 4 all-pass sets the line takes [1.0]
+285,OK,judgment calls: flags,"top-20 support for 'driving lessons, tests, licences' = 1",20/20 (NOTES),20/20,-,among the 4 all-pass sets the line takes [1.0]
+286,OK,judgment calls: flags,top-20 support for 'international air transport' = 1,17/20 (NOTES),17/20,-,"among the 4 all-pass sets the line takes [1.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+287,OK,judgment calls: flags,top-20 support for 'sea and inland-waterway transport' = 0,10/20 (NOTES),8/20,-,"among the 4 all-pass sets the line takes [0.0, 1.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+288,OK,judgment calls: flags,top-20 support for 'letter post' = 0,12/20 (NOTES),10/20,-,"among the 4 all-pass sets the line takes [0.0, 1.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+289,OK,judgment calls: flags,top-20 support for 'games of chance' = 1,19/20 (NOTES),19/20,-,"among the 4 all-pass sets the line takes [1.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+290,OK,judgment calls: flags,top-20 support for 'package holidays' = 0,20/20 (NOTES),20/20,-,among the 4 all-pass sets the line takes [0.0]
+291,OK,judgment calls: flags,top-20 support for 'religious services' = 0,11/20 (NOTES),11/20,-,"among the 4 all-pass sets the line takes [0.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+292,OK,judgment calls: flags,top-20 support for 'other services n.e.c.' = 1,14/20 (NOTES),14/20,-,"among the 4 all-pass sets the line takes [1.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+293,OK,judgment calls: flags,top-20 support for '13.3 Social protection (off-chart)' = 0,10/20 (NOTES),10/20,-,"among the 4 all-pass sets the line takes [0.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+294,OK,judgment calls: flags,top-20 support for '77 Consumption abroad (off-chart)' = 0,20/20 (NOTES),20/20,-,among the 4 all-pass sets the line takes [0.0]
+295,OK,judgment calls: flags,top-20 support for 'domestic services by paid staff' = 1,16/20 (NOTES),16/20,-,"among the 4 all-pass sets the line takes [1.0]; NOTES calls it weak or unidentified, my objective agrees in kind"
+296,OK,judgment calls: flags,"identification: of 3,188,646 sets with every line at 0, 1/2 or 1, the ones passing all 16 Fig 1 numbers keep the big lines in","used cars, maintenance charges, licences in all 20 best","89 pass; used cars 1-1, charges 1-1, licences 0.5-1",-,"lines whose passing range is 0-1: international air transport, sea and inland-waterway transport, letter post, religious services, 13.3 Social protection (off-chart), domestic services by paid staff, toll facilities (07.2.4.2)"
+297,OK,judgment calls: flags,"the 'toll facilities' line (07.2.4.2, EUR 137 per CU) is not in the builder's grid",treated as a clear 24% line,passing sets take it at 0-1,-,Fig 1 does not pin it; see the law review below
+298,BAD,judgment calls: flags,NOTES: on the 14qa composition 'no flag set gets a single Fig 1 label',0/5 and 0/5 (best set),"best set 0/5 and 0/5; but 6,713 of 18,432 sets hit at least one net label, and of the 176 that also give EUR 193, up to 2 net and 2 percent labels",-,"the conclusion stands (14qa cannot reproduce Fig 1; nothing gets more than 2 labels with the dividend right), the sentence overstates it. Reword: 'the best flag set gets none of the ten labels'"
+299,OK,judgment calls: flags,15 points on the net-of-VAT price cannot fund EUR 193 under any flag set,170.8131,170.8131,193,"max over the 18,432-set grid; the post taxes tax-inclusive spending (slope -0.15 in Fig 1)"
+300,OK,judgment calls: budget rows,"budget rows: all consumption, incl. imputed rent, interest, education, abroad (adopted)",5/5 pct; ghosts 0.0052,5/5 pct; ghosts 0.0052,-,avg budget 2051.8; VAT-able share Q1 59.2%
+301,OK,judgment calls: budget rows,budget rows: minus consumption abroad (77),4/5 pct; ghosts 0.0137,4/5 pct; ghosts 0.0137,-,avg budget 2011.8; VAT-able share Q1 59.7%
+302,OK,judgment calls: budget rows,budget rows: minus imputed rent and interest (nothing transacted),0/5 pct; ghosts 0.1194,0/5 pct; ghosts 0.1194,-,avg budget 1723.6; VAT-able share Q1 62.0%
+303,OK,judgment calls: budget rows,"budget rows: minus imputed rent, interest, education, abroad",0/5 pct; ghosts 0.1458,0/5 pct; ghosts 0.1458,-,avg budget 1677.6; VAT-able share Q1 62.8%
+304,OK,judgment calls: budget rows,budget rows: minus education,5/5 pct; ghosts 0.0057,5/5 pct; ghosts 0.0057,-,avg budget 2045.7; VAT-able share Q1 59.4%
+305,OK,"judgment calls: units, weights, conversion","units: post: 12ew pair means, r_q, equal-CU weights (adopted)","budgets 1309.2/1581.1/2825.6; best 5/5, 5/5, EUR 193.0","budgets 1309.2/1581.1/2825.6; best 5/5, 5/5, EUR 193.0",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 42.1 on 28 categories, 25/28 inside both printed intervals (builder: chi2 27.9, 25/27)"
+306,OK,"judgment calls: units, weights, conversion",units: post: 12ew pairs pooled,"budgets 1310.5/1585.0/2825.6; best 5/5, 4/5, EUR 193.2","budgets 1310.5/1585.0/2825.6; best 5/5, 4/5, EUR 193.2",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 42.1 on 28 categories, 25/28 inside both printed intervals (builder: chi2 27.9, 25/27)"
+307,OK,"judgment calls: units, weights, conversion","units: post: 12ew pair means, 'other households' two adults","budgets 1314.2/1596.7/2893.0; best 3/5, 4/5, EUR 192.9","budgets 1314.2/1596.7/2893.0; best 3/5, 4/5, EUR 192.9",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 171.0 on 28 categories, 21/28 inside both printed intervals (builder: chi2 96.6, 22/27)"
+308,OK,"judgment calls: units, weights, conversion",units: post conventions on the 14qa composition (consistent route),"budgets 1252.8/1561.3/2782.8; best 0/5, 0/5, EUR 191.2","budgets 1252.8/1561.3/2782.8; best 0/5, 0/5, EUR 191.2",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 2576.7 on 28 categories, 5/28 inside both printed intervals (builder: chi2 1419.0, 6/27)"
+309,OK,"judgment calls: units, weights, conversion","units: post, equal-HOUSEHOLD weights","budgets 1309.2/1581.1/2825.6; best 0/5, 0/5, EUR 196.2","budgets 1309.2/1581.1/2825.6; best 0/5, 0/5, EUR 196.2",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 42.1 on 28 categories, 25/28 inside both printed intervals (builder: chi2 27.9, 25/27)"
+310,OK,"judgment calls: units, weights, conversion","units: post, CU per household from 14qa means","budgets 1323.5/1591.1/2876.7; best 2/5, 4/5, EUR 193.1","budgets 1323.5/1591.1/2876.7; best 2/5, 4/5, EUR 193.1",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 163.2 on 28 categories, 22/28 inside both printed intervals (builder: chi2 95.3, 22/27)"
+311,OK,"judgment calls: units, weights, conversion","units: post, CU per household implied by 12ew adults/children","budgets 1302.0/1595.9/2885.5; best 3/5, 4/5, EUR 192.6","budgets 1302.0/1595.9/2885.5; best 3/5, 4/5, EUR 192.6",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 835.7 on 28 categories, 17/28 inside both printed intervals (builder: chi2 465.0, 16/27)"
+312,OK,"judgment calls: units, weights, conversion","units: post, EUR conversion from the weighted mean (no total column)","budgets 1309.2/1581.1/2825.6; best 5/5, 5/5, EUR 193.0","budgets 1309.2/1581.1/2825.6; best 5/5, 5/5, EUR 193.0",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 1602.9 on 28 categories, 10/28 inside both printed intervals (builder: chi2 885.5, 10/27)"
+313,OK,"judgment calls: units, weights, conversion","units: coherent: per-household table, equal-household weights, 12ew","budgets 1309.2/1581.2/2825.7; best 0/5, 0/5, EUR 196.4","budgets 1309.2/1581.2/2825.7; best 0/5, 0/5, EUR 196.4",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 17099.2 on 28 categories, 14/28 inside both printed intervals (builder: chi2 9231.5, 15/27)"
+314,OK,"judgment calls: units, weights, conversion","units: coherent: per-household table, equal-household weights, 14qa","budgets 1252.8/1561.4/2782.9; best 0/5, 0/5, EUR 194.9","budgets 1252.8/1561.4/2782.9; best 0/5, 0/5, EUR 194.9",-,"my best-of-grid with my objective; EUR/pct pairs: chi2 22529.2 on 28 categories, 10/28 inside both printed intervals (builder: chi2 12176.7, 10/27)"
+315,OK,"judgment calls: units, weights, conversion","euro conversion: the total column, not the weighted mean the dividend uses",chi2 27.9 (25/27) vs 886 (10/27),chi2 42.1 (25/28) vs 1602.9 (10/28),-,my chi2 uses both labels' rounding (|labels| >= 0.05); same verdict
+316,OK,judgment calls: elasticity mapping,"mapping: adopted: division parents, food system F3 (01+02+11; 01.2 in B&T), own (per-CU) shares","ghosts 0.0052, bars 0.0058","ghosts 0.0052, bars 0.0058",-,max diff over 7 statistics 3.8e-06
+317,OK,judgment calls: elasticity mapping,"mapping: parents pooled into TB-1929 groups (07+08, 12+13)","ghosts 0.0236, bars 0.0285","ghosts 0.0236, bars 0.0285",-,max diff over 7 statistics 3.6e-06
+318,OK,judgment calls: elasticity mapping,mapping: food F2: 01.2 with the six at-home subgroups,"ghosts 0.0072, bars 0.0119","ghosts 0.0072, bars 0.0119",-,max diff over 7 statistics 4.5e-06
+319,OK,judgment calls: elasticity mapping,mapping: food F4: 01.2 in 'Food other',"ghosts 0.0101, bars 0.0106","ghosts 0.0101, bars 0.0106",-,max diff over 7 statistics 4.7e-06
+320,OK,judgment calls: elasticity mapping,"mapping: food F1: food = 01+02+11.1, accommodation its own 'Other' parent","ghosts 0.0115, bars 0.0408","ghosts 0.0115, bars 0.0408",-,max diff over 7 statistics 5.0e-06
+321,OK,judgment calls: elasticity mapping,mapping: food F0: no stage-two split,"ghosts 0.0278, bars 0.0457","ghosts 0.0278, bars 0.0457",-,max diff over 7 statistics 4.8e-06
+322,OK,judgment calls: elasticity mapping,mapping: TB-1929 betas back-solved (unrounded),ghosts 0.00528,not re-derived,-,needs the ERS data-product appendix tables (xls); the printed betas reproduce everything else
+323,OK,judgment calls: elasticity mapping,mapping: eta at per-household budget shares (the text's 0.44),"ghosts 0.0101, bars 0.0106","ghosts 0.0101, bars 0.0106",-,max diff over 7 statistics 4.8e-06
+324,OK,judgment calls: elasticity mapping,mapping: published Fig 1 labels as the net vector,"ghosts 0.0051, bars 0.0058","ghosts 0.0051, bars 0.0058",-,max diff over 7 statistics 4.4e-06
+325,OK,judgment calls: MPC,decile knee family fitted to the 37 Finnish bars,"knee 2.4, top 0.5325, RMSE 0.00483","knee 2.4, top 0.5325, RMSE 0.00483",-,US fit: 2.55 / 0.53
+326,OK,judgment calls: MPC,quintile knee family fitted to the bars,"knee 1.45, top 0.5625, RMSE 0.00487","knee 1.45, top 0.5625, RMSE 0.00487",-,
+327,OK,judgment calls: MPC,free per-quintile MPC fit to the 37 bars,"[0.9991, 0.9415, 0.9175, 0.7758, 0.5582]","[0.9991, 0.9415, 0.9175, 0.7758, 0.5582]",-,RMSE 0.00474 vs 0.00576 for the adopted schedule: the bars barely constrain it
+328,OK,judgment calls: MPC,MPCs implied by the 50 Fig 3 segments,"[0.9992, 0.9336, 0.8349, 0.7458, 0.5614]","[0.9992, 0.9336, 0.8349, 0.7459, 0.5614]",-,"Q3/Q4 a little above the adopted 0.81/0.69, as NOTES says"
+329,OK,judgment calls: MPC,"adopted schedule, out of sample on Finland",0.0058,0.0058,-,the MPC was not fitted to any Finnish number
+330,OK,judgment calls: conventions,convention: post conventions (reproduces the figures),"div 193.01, rent 4.928, flow 0.438%","div 193.01, rent 4.928, flow 0.438%",-,max diff over 20 columns 1.2e-04
+331,OK,judgment calls: conventions,"convention: post conventions, EUR from the weighted mean (no total-column rescale)","div 193.01, rent 4.729, flow 0.438%","div 193.01, rent 4.729, flow 0.438%",-,max diff over 20 columns 1.2e-04
+332,OK,judgment calls: conventions,"convention: post data and units, equal-household weights","div 196.68, rent 4.830, flow 0.421%","div 196.68, rent 4.830, flow 0.421%",-,max diff over 20 columns 9.6e-05
+333,OK,judgment calls: conventions,"convention: coherent machinery, 12ew composition","div 198.82, rent 4.206, flow 0.422%","div 198.82, rent 4.206, flow 0.422%",-,max diff over 20 columns 8.2e-05
+334,OK,judgment calls: conventions,"convention: coherent machinery, 14qa composition","div 193.68, rent 4.206, flow 0.430%","div 193.68, rent 4.206, flow 0.430%",-,max diff over 20 columns 4.9e-05
+335,OK,judgment calls: conventions,"convention: coherent machinery, 12ew, TB-1929 group parents (adding-up holds)","div 198.82, rent 4.206, flow 0.422%","div 198.82, rent 4.206, flow 0.422%",-,max diff over 20 columns 8.2e-05
+336,OK,judgment calls: conventions,coherent machinery: rent still the largest mover; 9 of the 10 stay; electricity enters at the edge,rent 4.21 (2.83%); 9/10; 04.5 enters,rent 4.21 (2.83%); 9/10; enters 045,-,leaves: 044
+337,OK,NOTES statements,equal-CU weights give Q1 18% of the population instead of 15% (household weights),0.179 ... 0.215 vs 0.151 ... 0.230,"[0.179, 0.197, 0.202, 0.207, 0.215] vs [0.151, 0.193, 0.206, 0.22, 0.23]",-,"14qa mean CUs Q1 1.18, Q5 1.50"
+338,OK,NOTES statements,the total-column conversion runs 4.1% above the weighted mean because 1.617 is not the mean of the pairs (1.656),4.1%; 1.617 vs 1.656,4.12%; 1.617 vs 1.656,-,
+339,OK,NOTES statements,eta values NOTES cites: personal care Q1 1.93; accommodation 0.88 -> 0.53 under F3; division 11 alone with the food beta negative,1.93; 0.88/0.53; negative,1.927; 0.877/0.525; -2.26,-,
+340,OK,NOTES statements,gate counts by role (calibration / selection / checks),24/0/0; 55/19/0; 81/38/11,24/0/0; 55/19/0; 81/38/11,-,the demand tier has no fitted parameter
+341,OK,NOTES statements,"impulse arithmetic: charted bars 10.46 (0.63% of charted budget, 0.51% of consumption); bars sit 0.0016 above the labels on average",10.46; 0.63%; 0.51%; 0.0016,10.46; 0.63%; 0.51%; 0.0016,+0.4% of charted budget,flow impulse 8.64 = 0.438% of consumption is the only reading that prints +0.4%
+342,OK,NOTES statements,'three to eight percent of budgets': no rebuilt quantity spans it,nets 0.2-5.9%; dividend 6.8-14.7%; extra VAT 8.9-10.05%,nets 0.2-5.9%; dividend 6.8-14.7%; extra VAT 8.9-10.05%,3-8%,"the gate's two-tails reading (PASS 'three', MISS 'eight') is as fair as any"
+343,OK,NOTES statements,the demand tier cannot tell pair means from pooled pairs,ghosts 0.0052 vs 0.0054,0.0052 vs 0.0054,-,
+344,OK,NOTES statements,12ew deciles are person deciles with unequal household counts; 14qa splits children at 14,"D1 401,798, D10 254,633; shares 1.31-1.93 vs 1.25-1.90","D1 401,798, D10 254,633; shares 1.31-1.93 vs 1.25-1.90",-,
+345,OK,NOTES statements,the pair-mean knee schedule fits the bars within 0.0011 RMSE of a free fit,0.0011,0.001,-,
+346,OK,NOTES statements,for the LVT step: the post's equal-CU weights understate a top-skewed base more than the VAT base,NOTES: run both instruments through the same dict,"mean base, equal-CU / household weights: VAT 0.981, housing wealth (151u, 2023) 0.968",-,"with r_q rising from 1.17 to 1.47, equal-CU weights give Q1 18% and Q5 21.5% of the people instead of 15% and 23%; a land base is skewed to the top like housing wealth, so on the post conventions the LVT dividend and the top's payment come out ~3% low against ~2% for VAT. Report the LVT on the coherent dict as well (no published number to match)"
+347,BAD,review: VAT flags vs Finnish law 2022,post flag 'maintenance charges of housing companies' = 1 is consistent with Finnish VAT law (2022),"post 1, law 0",law 0-0 (central 0),-,shareholders' charges to an asunto-osakeyhtiö are not consideration for a taxable supply (the company is not VAT-registered); economically ~2/3 of the charge is VAT-bearing inputs; moving it to my central law value shifts the dividend by -8.11; NOTES names the deviation and pins it on Fig 1 (fine as a reproduction of the post)
+348,BAD,review: VAT flags vs Finnish law 2022,post flag 'used cars' = 1 is consistent with Finnish VAT law (2022),"post 1, law 0.5",law 0.1-0.35 (central 0.25),-,dealers sell most used cars under the margin scheme (VAT on the margin only); private sales carry none; ex-fleet cars bought from VAT-registered sellers carry full VAT; moving it to my central law value shifts the dividend by -7.48; NOTES names the deviation and pins it on Fig 1 (fine as a reproduction of the post)
+349,OK,review: VAT flags vs Finnish law 2022,"post flag 'driving lessons, tests, licences' = 1 is consistent with Finnish VAT law (2022)","post 1, law 0",law 0-1 (central 0.5),-,"driving lessons and roadworthiness tests (private firms) are 24% supplies, licence fees are public charges: mixed, composition unknown (Q5's EUR 585 per CU against Q4's 90 hints at something else again, e.g. registration tax on imported cars); the builder's law 0 is the low end; moving it to my central law value shifts the dividend by -0.90"
+350,BAD,review: VAT flags vs Finnish law 2022,post flag 'toll facilities (07.2.4.2)' = 1 is consistent with Finnish VAT law (2022),"post 1, law 1",law 0-0 (central 0),-,"Finland has no road tolls to speak of; EUR 137 per CU a year with a flat income profile looks like the annual vehicle tax, outside VAT (unverified: the HBS item list is not vendored); moving it to my central law value shifts the dividend by -1.43; NOT named in NOTES as a deviation (treated as a clear 24% line)"
+351,BAD,review: VAT flags vs Finnish law 2022,post flag 'international air transport' = 1 is consistent with Finnish VAT law (2022),"post 1, law 0",law 0-0 (central 0),-,international passenger transport is zero-rated (exempt with credit); moving it to my central law value shifts the dividend by -1.73; NOTES names the deviation and pins it on Fig 1 (fine as a reproduction of the post)
+352,OK,review: VAT flags vs Finnish law 2022,post flag 'sea and inland-waterway transport' = 0 is consistent with Finnish VAT law (2022),"post 0, law 0",law 0-0.3 (central 0),-,mostly international ferries (zero-rated); domestic 10%
+353,OK,review: VAT flags vs Finnish law 2022,post flag 'letter post' = 0 is consistent with Finnish VAT law (2022),"post 0, law 0",law 0-1 (central 0),-,universal postal service; small either way
+354,BAD,review: VAT flags vs Finnish law 2022,post flag 'games of chance' = 1 is consistent with Finnish VAT law (2022),"post 1, law 0",law 0-0 (central 0),-,lotteries and money gaming are exempt (lottery tax instead); moving it to my central law value shifts the dividend by -1.31; NOTES names the deviation and pins it on Fig 1 (fine as a reproduction of the post)
+355,OK,review: VAT flags vs Finnish law 2022,post flag 'package holidays' = 0 is consistent with Finnish VAT law (2022),"post 0, law 0",law 0-0.15 (central 0.1),-,travel-agent margin scheme: VAT on the margin only; moving it to my central law value shifts the dividend by +0.23
+356,OK,review: VAT flags vs Finnish law 2022,post flag 'religious services' = 0 is consistent with Finnish VAT law (2022),"post 0, law 0",law 0-0 (central 0),-,the HBS counts church tax as consumption (documentation); outside VAT
+357,BAD,review: VAT flags vs Finnish law 2022,post flag 'other services n.e.c.' = 1 is consistent with Finnish VAT law (2022),"post 1, law 0.5",law 0.2-0.5 (central 0.3),-,"the HBS counts labour-union membership fees as consumption (documentation); the steep income profile (Q1 145, Q5 1,057 per CU) fits union fees, outside VAT; legal and funeral services are 24%; moving it to my central law value shifts the dividend by -3.74; NOTES lists it among the post-reading flags (14/20) with law 0.5"
+358,OK,review: VAT flags vs Finnish law 2022,post flag 'domestic services by paid staff' = 1 is consistent with Finnish VAT law (2022),"post 1, law 1",law 0-1 (central 0.5),-,"staff employed by the household are paid wages, not VAT-able supplies; cleaning bought from firms carries 24%; composition unknown; moving it to my central law value shifts the dividend by -0.27"
+359,OK,review: VAT flags vs Finnish law 2022,post flag '13.3 Social protection (off-chart)' = 0 is consistent with Finnish VAT law (2022),"post 0, law 0",law 0-0 (central 0),-,social welfare services are exempt
+360,OK,review: VAT flags vs Finnish law 2022,post flag '77 Consumption abroad (off-chart)' = 0 is consistent with Finnish VAT law (2022),"post 0, law 0",law 0-0 (central 0),-,"foreign VAT, not Finnish"
+361,OK,review: VAT flags vs Finnish law 2022,clear exempt lines match the 2022 Act,"rents, imputed rent, interest, 06.2-06.4, education, insurance, financial services, social protection, abroad: 0",same,-,"letting of dwellings (incl. tenants' garage rents) exempt; health and social care, education, insurance and financial services exempt; 12.2.9.9 also holds interest on consumption loans (HBS documentation), exempt"
+362,OK,review: VAT flags vs Finnish law 2022,clear taxable lines match the 2022 Act (24/14/10%),everything else: 1,same,-,"food and restaurants 14%; medicines, books, newspapers, domestic passenger transport, accommodation, culture and sports services 10%; municipal water, sewerage and refuse collection taxable in Finland; parking (07.2.4.1, EUR 32/CU) mixes taxable garages with municipal street fees outside VAT (small)"
+363,OK,review: VAT flags vs Finnish law 2022,"HBS 'total consumption' includes church tax, union fees and consumer-loan interest",(not used),documentation_ktutk_en.html quotes it,-,"so 13.9.0.2 'religious services' (EUR 210/CU) is mostly church tax and 13.9.0.9 (EUR 512/CU, Q5 1,057) very likely holds union fees: both outside VAT"
+364,BAD,review: VAT flags vs Finnish law 2022,the post's flag set treats VAT embedded in exempt housing consistently,"charges 1 (in), rents 0 (out)","VAT-able share by quintile with rents 0.3 and charges 0.7: [67.4, 68.4, 68.3, 65.9, 66.2]","59% at the bottom, ~2/3 above","a housing company's charge and a landlord's rent both pass on VAT-bearing inputs (energy, water, repairs, management) without being taxable supplies; flagging one in full and the other at zero is what makes the bottom quintile's VAT-able share the lowest. On an embedded-input reading Q1 is no longer lowest and its net falls to +65.8. The post's choice, pinned by Fig 1; a caveat for the LVT comparison"
+365,OK,review: VAT flags vs Finnish law 2022,'15-point surcharge' is modelled as 15% of tax-inclusive spending,documented (fi_base_tests),read literally (15 pp on net-of-VAT prices) the same flags fund 160.8,193,"the post's own formula (each adult pays tau x C_i) is tax-inclusive: effectively +16.5 to +18.6 pp on the existing 10-24% rates. A wording issue in the post, not in the rebuild"
+366,BAD,review: builder's law reading,builder's law flag for 'used cars' = 0.5,0.5,0.1-0.35,-,dealers sell most used cars under the margin scheme (VAT on the margin only); private sales carry none; ex-fleet cars bought from VAT-registered sellers carry full VAT; dividend effect of my central value -2.49
+367,BAD,review: builder's law reading,builder's law flag for 'toll facilities (07.2.4.2)' = 1,1,0-0,-,"Finland has no road tolls to speak of; EUR 137 per CU a year with a flat income profile looks like the annual vehicle tax, outside VAT (unverified: the HBS item list is not vendored); dividend effect of my central value -1.43"
+368,BAD,review: builder's law reading,"'Line by line under the law, the same machinery funds EUR 172.4'",172.4,168.3 (my bracket 164.8-171.8),-,"172.4 lies 0.6 above the top of my bracket, all of it from the two lines above (toll/vehicle-tax line counted as 24%, used cars at 1/2 despite the margin scheme); NOTES should give the range"
+369,BAD,review: builder's law reading,NOTES: the weak and unidentified flags 'move the dividend by at most about EUR 0.5 and the bars by at most a few cents',<= 0.5,"within the 20 best sets 192.77-193.60; flipped singly religious services +2.2, international air transport -1.7, games of chance -1.3, other services n.e.c. -5.3",-,true only among flag sets that reproduce Fig 1 (they trade off against each other); as a sensitivity it understates by 10x. Reword: 'among the Fig 1-consistent sets'
+370,OK,review: MPC schedule,"MPC schedules inside fn 27's range (1.0 at the bottom, 0.40-0.65 at the top) and monotone",pair means,Q5 low/mid/high 0.437/0.562/0.676,1.0 -> 0.40-0.65,decile tops are exactly 0.40/0.53/0.65; the high Q5 of 0.676 is the D9-D10 mean; flat at 1 for roughly the bottom quarter (Kaplan-Violante-Weidner's hand-to-mouth third); a 'quintile-aggregated' literature schedule
+371,OK,review: MPC schedule,"the Finnish bars, fitted on their own, return the US knee family",not fitted,"knee 2.4, top 0.5325",US 2.55 / 0.53,"independent support: one schedule for both countries, as the post implies"
+372,OK,review: MPC schedule,'once the top's withdrawal halves',MISS at +/-0.05,Q5 MPC 0.562,0.5,"the top's withdrawal falls by 44%: wording, as NOTES says"
+373,OK,review: TB-1929 fidelity,parameters and equations as printed,"Table 3 beta, Table 4 beta*, eq. 5 and eq. 11",identical from the PDF,-,"eta evaluated at observed shares (fn 23), not the bulletin's fitted shares at geometric mean prices; the bulletin endorses reuse with newer data"
+374,BAD,review: TB-1929 fidelity,division-level parents respect the bulletin's grouping,division shares with group betas,sum of effective betas +0.052; bars / flow 1.0522,0,TB-1929 estimates one beta for transport+communication and one for 'other' (12+13); giving each division the group beta on its own share breaks Engel adding-up. It is the post's choice (ghost RMSE 0.0052 vs 0.0236) and NOTES documents it; for LVT aggregates use the flow impulse or group parents
+375,BAD,review: TB-1929 fidelity,accommodation (11.2) inside the food system,F3: 11.1 + 11.2 = 'Food other',"F1 (11.2 outside food): ghosts 0.0115, bars 0.0408",-,"TB-1929's food group has restaurants, not hotels (README_usda sec. 8); the post evidently put 11.2 there (its ghost needs a food-like eta); documented in NOTES"
+376,OK,review: TB-1929 fidelity,01.2 non-alcoholic beverages with 'Beverages and tobacco'; 01.1.8-01.1.9 with the six at-home subgroups,F3,"F2 ghosts 0.0072, F4 0.0101 vs 0.0052",-,the bulletin leaves 01.2 open; the at-home sweets and ready meals belong to 'Food other' in TB-1929 but the post (and the US rebuild) keep them at home
+377,OK,review: tuning,nothing continuous was tuned to a Finnish number,MPC out of sample; flags binary,"4 of 18,432 flag sets pass all 16 Fig 1 numbers (89 of 3,188,646 on the 3-level grid)",-,the big lines are sharply identified (used cars and charges = 1 in every passing set); the weak ones are not and NOTES says so; conventions are discrete and each reproduces numbers nothing else does
+378,OK,headline sensitivity,adopted machinery reproduces every headline tested,-,all 13 hold,-,
+379,OK,headline sensitivity,flags: builder's law reading,-,"dividend 172.4, Q1 +63.6 (+4.86%), Q5 -73.5, rent 4.13, flow 0.370%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); rent about EUR 5; rent +4.92
+380,OK,headline sensitivity,flags: my central law reading,-,"dividend 168.3, Q1 +60.8 (+4.65%), Q5 -71.5, rent 3.97, flow 0.359%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); rent about EUR 5; rent +4.92
+381,OK,headline sensitivity,"flags: my law bracket, low",-,"dividend 164.8, Q1 +58.4 (+4.46%), Q5 -67.1, rent 3.80, flow 0.341%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); rent about EUR 5; rent +4.92; flow impulse prints +0.4%
+382,OK,headline sensitivity,"flags: my law bracket, high",-,"dividend 171.8, Q1 +63.2 (+4.83%), Q5 -75.9, rent 4.15, flow 0.376%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); Q3 within EUR 5; rent about EUR 5; rent +4.92
+383,OK,headline sensitivity,"flags: post, with embedded input VAT (rents 0.3, charges 0.7)",-,"dividend 198.1, Q1 +65.8 (+5.03%), Q5 -82.4, rent 4.34, flow 0.398%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); Q3 within EUR 5; VAT-able share lowest in Q1; rent about EUR 5; rent +4.92
+384,OK,headline sensitivity,base: 15 pp on net-of-VAT prices,-,"dividend 160.8, Q1 +63.3 (+4.83%), Q5 -72.6, rent 4.06, flow 0.362%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); rent about EUR 5; rent +4.92
+385,OK,headline sensitivity,weights: household counts (14qa),-,"dividend 196.7, Q1 +80.4 (+6.14%), Q5 -84.4, rent 4.83, flow 0.421%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); Q3 within EUR 5; rent +4.92
+386,OK,headline sensitivity,"coherent machinery, 12ew",-,"dividend 198.8, Q1 +80.3 (+6.13%), Q5 -83.9, rent 4.21, flow 0.422%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); Q3 within EUR 5; rent about EUR 5; rent +4.92; top ten = Fig 3's
+387,OK,headline sensitivity,"coherent machinery, 14qa",-,"dividend 193.7, Q1 +80.3 (+6.41%), Q5 -84.8, rent 4.21, flow 0.430%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); Q3 within EUR 5; rent about EUR 5; rent +4.92; top ten = Fig 3's
+388,OK,headline sensitivity,"coherent machinery, 14qa, my central law reading",-,"dividend 169.2, Q1 +64.1 (+5.12%), Q5 -69.0, rent 3.42, flow 0.353%",-,changes: dividend 193; Q1 +77 (+5.9%); Q5 -88 (-3.1%); Q3 within EUR 5; rent about EUR 5; rent +4.92; top ten = Fig 3's
+389,OK,headline sensitivity,parents: TB-1929 groups (adding-up),-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.93, flow 0.438%",-,no tested headline changes
+390,OK,headline sensitivity,food: F1 (accommodation outside food),-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.93, flow 0.438%",-,no tested headline changes
+391,OK,headline sensitivity,eta at per-household shares,-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.93, flow 0.438%",-,no tested headline changes
+392,OK,headline sensitivity,composition: 12ew pairs pooled,-,"dividend 193.2, Q1 +76.8 (+5.86%), Q5 -87.9, rent 4.92, flow 0.437%",-,no tested headline changes
+393,OK,headline sensitivity,MPC: low schedule,-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.92, flow 0.547%",-,changes: vehicles the one red top-10 bar; top ten = Fig 3's; flow impulse prints +0.4%
+394,OK,headline sensitivity,MPC: high schedule,-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.91, flow 0.333%",-,changes: vehicles the one red top-10 bar; top ten = Fig 3's; flow impulse prints +0.4%
+395,OK,headline sensitivity,MPC: knee refit to the Finnish bars,-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.92, flow 0.434%",-,no tested headline changes
+396,OK,headline sensitivity,MPC: implied by the Fig 3 segments,-,"dividend 193.0, Q1 +76.7 (+5.86%), Q5 -88.1, rent 4.91, flow 0.428%",-,no tested headline changes
+397,OK,headline sensitivity,summary: which headlines survive every alternative tested,-,"3 gainers, 2 payers; rent the largest mover; vehicle operation flips",-,"dividend 160.8-198.8, Q1 net +58.4 to +80.4, rent 3.42-4.93, flow impulse 0.33-0.55% of consumption; 'Q3 within EUR 5' fails under: flags: my law bracket, high, flags: post, with embedded input VAT (rents 0.3, charges 0.7), weights: household counts (14qa), coherent machinery, 12ew, coherent machinery, 14qa, coherent machinery, 14qa, my central law reading; 'vehicles the one red top-10 bar' fails under: MPC: low schedule, MPC: high schedule"
+398,OK,gate summary,365 Finnish gate-list rows = 228 gated + 137 not gated; nothing reproducible left out,228 + 137,228 + 137,-,"the not-gated rows are inputs, vintages, labels, 52 axis ticks and 61 wealth-block (Fig 10) rows"
