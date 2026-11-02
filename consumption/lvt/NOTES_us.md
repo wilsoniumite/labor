@@ -723,14 +723,15 @@ pre-correction unit:
 
 ## Data defect found
 
-`consumption/data/tidy/scf2022_xvars.csv.gz` and `scf2022_roster.csv.gz` carry a wrong `IMPLICATE` for families
+`consumption/data/tidy/scf2022_xvars.csv.gz` and `scf2022_roster.csv.gz` carried a wrong `IMPLICATE` for families
 with YY1 ≥ 3277 (values 65537-65541). The cause was `acquire_fed.py` line 1135, `FULL["Y1"] - 10 * FULL["YY1"]`: YY1
 comes out of the Stata file as a 16-bit integer, so 10·YY1 wrapped past 32,767. Commit aeba577 fixed that line with
-an int64 cast, and the same expression in `build_scfp`. The two tidy files predate the fix and still carry the 6,625
-bad values; the orchestrator will regenerate them. `Y1` is correct in both files. This unit merges on Y1 and
+an int64 cast, and the same expression in `build_scfp`. **The two tidy files were regenerated offline on 2026-11-02:**
+IMPLICATE is now 1-5 on every record (6,625 xvars and 16,810 roster rows corrected, each by exactly 65,536), every
+other column and every other tidy file is byte-identical. `Y1` was always correct. This unit merges on Y1 and
 recomputes IMPLICATE = Y1 − 10·YY1, which reproduces the README's 225.0 million PEU adults and 74.1 million minors, so
-the unit is unaffected before and after the regeneration. Until then, a merge on (YY1, IMPLICATE) silently drops 6,625
-of 22,975 records.
+it was unaffected before and after. The verifier's 'data defect' claim (`verify_independent_lvt_us.py`) now reads BAD
+because the defect it asserts is gone.
 
 ## Files
 

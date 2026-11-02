@@ -125,8 +125,8 @@ def weighted_decile(x, w, n=10):
 
 def scf2022_units():
     """SCF 2022 adults and minors in the primary economic unit, from the full public data (scf2022_xvars), merged on
-    Y1. The tidy file's IMPLICATE column is wrong for YY1 >= 3277 (65537-65541: a 16-bit overflow in the build), so
-    the merge key is Y1 and IMPLICATE is recomputed as Y1 - 10*YY1."""
+    Y1. Early builds of the tidy file had IMPLICATE wrong for YY1 >= 3277 (a 16-bit overflow, fixed and regenerated on
+    2026-11-02); the merge key stays Y1 and IMPLICATE is recomputed as Y1 - 10*YY1, which is right either way."""
     x = pd.read_csv(TIDY / "scf2022_xvars.csv.gz")
     x["IMPLICATE"] = x["Y1"] - 10 * x["YY1"]
     return x[["Y1", "N_ADULTS_PEU", "N_MINORS_PEU", "X42001", "X414"]]
