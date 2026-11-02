@@ -1,0 +1,2 @@
+file,url,what_it_is,date_pulled,sha256,bytes,used_for
+data/IRS_M.FI.L.L40.CI.0000.EUR.N.Z.csv,https://data-api.ecb.europa.eu/service/data/IRS/M.FI.L.L40.CI.0000.EUR.N.Z?format=csvdata,"ECB Data Portal, dataset IRS, series M.FI.L.L40.CI.0000.EUR.N.Z (CSV): long-term interest rate for convergence purposes, Finland, 10 years, monthly average, percent per annum",2026-11-02,d78801acdb0cf6b2a35847dcd58f8de727c30bfd5be897d1bba52ecfed41aa36,152478,"consumption/lvt (lvt_fi.py): cross-check of the Eurostat series (same statistic, second publisher)"

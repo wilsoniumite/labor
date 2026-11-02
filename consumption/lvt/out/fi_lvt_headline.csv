@@ -1,0 +1,24 @@
+instrument,base,rate,reading,label,central,low,high,stress_10c
+LVT,B2,full_m1,flow,flow impulse only (post's method),0.1441501495,0.1116854082,0.177068216,
+LVT,B2,full_m1,clean,flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once),0.03907941162,-0.01089711938,0.09476280463,-0.06343248832
+LVT,B2,full_m1,t4,flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only),-0.1085126669,-0.1830878776,-0.02085099019,-0.3094192858
+LVT,B2,full_m1,htm,flow + credit effect on hand-to-mouth crossers' lost borrowing capacity,0.129826054,0.09497396336,0.1658476745,0.08781191559
+LVT,B2,full_m1,stock,crossers' stock response (lost equity) instead of their bill response (each crosser counted once),-0.06101205113,-0.1355872619,0.02664962556,
+LVT,B2,full_m1,wealth_grade,"clean, with unconstrained payers drawing on wealth (MPC 0.56; 0.68 / 0.25)",0.09601103265,-0.007242924081,0.3519975875,
+LVT,B2,full_m1,nonocc_wealth,"clean, with every non-occupier's land on the wealth reading (3.5c; 5c / 2c)",-1.049188526,-1.802524295,-0.2901458957,
+LVT,B2,full_m2,flow,flow impulse only (post's method),0.2720940692,0.2108144686,0.3342293544,
+LVT,B2,full_m2,clean,flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once),0.1670233313,0.08823194111,0.2519239431,0.03569657217
+LVT,B2,full_m2,t4,flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only),0.0194312528,-0.08395881713,0.1363101482,-0.2102902253
+LVT,B2,full_m2,htm,flow + credit effect on hand-to-mouth crossers' lost borrowing capacity,0.2577699736,0.1941030238,0.3230088129,0.1869409761
+LVT,B2,full_m2,stock,crossers' stock response (lost equity) instead of their bill response (each crosser counted once),0.1090921784,0.005702108451,0.2259710738,
+LVT,B2,full_m2,wealth_grade,"clean, with unconstrained payers drawing on wealth (MPC 0.56; 0.68 / 0.25)",0.2744859769,0.09512950501,0.7374736219,
+LVT,B2,full_m2,nonocc_wealth,"clean, with every non-occupier's land on the wealth reading (3.5c; 5c / 2c)",-0.4305017518,-1.21265238,0.3577580975,
+LVT,B2,bridge,flow,flow impulse only (post's method),0.771426601,0.5976899441,0.9475892496,
+LVT,B2,bridge,clean,flow + credit effect on all crossers' lost borrowing capacity (each crosser counted once),-2.772390683,-3.536763554,-1.828400956,-5.308672196
+LVT,B2,bridge,t4,flow + collateral on all crossers' lost equity: includes the T4 overlap (band edge only),-8.057063686,-9.702215391,-5.968061475,-14.11646053
+LVT,B2,bridge,htm,flow + credit effect on hand-to-mouth crossers' lost borrowing capacity,0.260625227,0.001755007669,0.5474615066,-0.2536456794
+LVT,B2,bridge,stock,crossers' stock response (lost equity) instead of their bill response (each crosser counted once),-6.318657252,-7.963808957,-4.229655041,
+LVT,B2,bridge,wealth_grade,"clean, with unconstrained payers drawing on wealth (MPC 0.56; 0.68 / 0.25)",-2.467718318,-3.517207948,-0.4517963889,
+LVT,B2,bridge,nonocc_wealth,"clean, with every non-occupier's land on the wealth reading (3.5c; 5c / 2c)",-5.071194516,-8.088865106,-1.873907071,
+VAT,,bridge,net,flow + levy at lambda = 0.35 (2-5c),-0.1372503102,-0.4763937148,0.2040869416,
+VAT,,bridge,flow,flow impulse only (post's method),0.4219131612,0.3224112443,0.5236089253,

@@ -1,0 +1,36 @@
+instrument,channel,central,low,high,stress_10c,unit,note
+VAT,price level step (80-100% pass-through),8.929665475,7.937480422,9.921850528,,% of consumer price level,15 points x aggregate VAT-able share 0.661 x pass-through
+LVT,price level step,0,0,0,,% of consumer price level,"land in fixed supply, rents set by demand: nothing to pass through"
+VAT,"flow impulse, post's method (mid; band = high/low schedules)",0.4219131612,0.3224112443,0.5236089253,,% of consumption,"rebuild: 0.422% (coherent), 0.438% (post)"
+VAT,"flow impulse, payers graded by liquidity",0.3387207193,0.3387207193,0.3387207193,,% of consumption,"within-quintile VAT payers (log-normal spending, sigma 0.45), hand-to-mouth payers at 1.0"
+VAT,"flow impulse, unconstrained payers draw on wealth",0.501921671,0.2980467747,1.056467414,,% of consumption,unconstrained payers at 0.56 (band 0.68 / 0.25)
+VAT,"levy channel, lambda = 0.35 (impact; 2-5c per EUR per year)",-0.5591634714,-0.7988049591,-0.3195219837,,% of consumption,"-mpw x 0.35 x 8.2% x survey net worth (EUR 647bn, 2022 euros)"
+VAT,"levy channel, lambda = 1 (impact)",-1.597609918,-2.282299883,-0.9129199533,,% of consumption,full A-K corner
+VAT,"net demand at impact, lambda = 0.35 (flow + levy)",-0.1372503102,-0.4763937148,0.2040869416,,% of consumption,this unit's impact version
+VAT,"post, published: flow-only path (year 3; band)",0.419,0.293,0.509,,% of consumption,"Fig 10 read-offs P803, P806-P807"
+VAT,"post, published: central lambda = 0.35 (year 3; band)",0.04,-0.17,0.29,,% of consumption,P878-P880
+VAT,"post, published: full A-K lambda = 1 (year 3; band)",-0.65,-0.99,-0.09,,% of consumption,P881-P883
+LVT,"flow impulse, post's method (full capture, 2022 yield, B2)",0.1441501495,0.1116854082,0.177068216,,% of consumption,band = high/low schedules
+LVT,"flow impulse, post's method (full capture, yield + 1.5, B2)",0.2720940692,0.2108144686,0.3342293544,,% of consumption,band = high/low schedules
+LVT,"flow impulse, post's method (notional bridge rate, B2)",0.771426601,0.5976899441,0.9475892496,,% of consumption,band = high/low schedules
+LVT,"flow impulse, payers graded by liquidity (full capture, B2)",0.1231990125,0.1231990125,0.1231990125,,% of consumption,owners' hand-to-mouth shares (151u/151z)
+LVT,"flow impulse, unconstrained payers draw on wealth (full capture, B2)",0.2010817705,0.1153396034,0.4343029988,,% of consumption,the verifier's variant: 0.56 (band 0.68 / 0.25)
+LVT,"collateral: credit effect on all crossers' lost borrowing capacity (full capture, immediate)",-0.1050707379,-0.1225825275,-0.08230541134,-0.1751178965,% of consumption,the clean concept: 4.7c / 6c / 7c (stress 10c); US-shape LTVs inside deciles
+LVT,"collateral: credit effect, hand-to-mouth crossers only (full capture, immediate)",-0.01432409554,-0.01671144479,-0.0112205415,-0.02387349256,% of consumption,"deposits at most half a month's income (decile shares, mortgaged-owner ratio from 151z)"
+LVT,"collateral on all crossers' lost equity: includes the T4 overlap (full capture, immediate)",-0.2526628164,-0.2947732858,-0.1979192062,-0.421104694,% of consumption,counts the bill twice (the price fall is the capitalized bill): band edge only
+LVT,"collateral: credit effect, log-normal LTVs (sigma 0.5-0.8; full capture)",-0.1058956024,-0.1210923576,-0.08343006898,,% of consumption,"the second method, 6 cents"
+LVT,collateral: credit effect under a 10-year phase-in (full capture),-0.08907224938,-0.1039176243,-0.06977326201,,% of consumption,
+LVT,collateral: credit effect under increment-only grandfathering (full capture),-0.01688013338,-0.01969348894,-0.01322277115,,% of consumption,launch revenue then near zero (only rent increments are taxed)
+LVT,"non-occupying holders: wealth effect instead of flow (change in impulse, full capture, B2)",-1.088267938,-1.791627175,-0.3849087003,,% of consumption,"cottages, other dwellings, forest and farmland: 2-5c on the capitalized loss (59 EUR per EUR of bill)"
+LVT,"deferral by outright owners, dividend paid in full (state lends the liens)",0.3697542405,0.3697542405,0.3697542405,,% of consumption,change in impulse; deferred = 27% of revenue
+LVT,"deferral by outright owners, cash-balanced dividend",-0.02212824394,-0.02212824394,-0.02212824394,,% of consumption,change in impulse
+LVT,deferral by outright owners: their residual wealth effect (if any),-1.039846142,-1.485494489,0,,% of consumption,0 to 5 cents per EUR of capitalized loss; never added to the flow
+LVT,"the loop: extra dividend (full capture, B2)",0.3689974098,0.1765088714,0.7182667275,,% of the dividend,"land share of a rent change 0.13-0.30, household landlords' share 0.40-0.70"
+LVT,"net demand at impact: flow + credit effect (full capture, 2022 yield)",0.03907941162,-0.01089711938,0.09476280463,-0.06343248832,% of consumption,each crosser counted once; low: high schedule + 7c; high: low schedule + 4.7c; stress: high schedule + 10c
+LVT,"net demand at impact: flow + credit effect (full capture, yield + 1.5)",0.1670233313,0.08823194111,0.2519239431,0.03569657217,% of consumption,each crosser counted once; low: high schedule + 7c; high: low schedule + 4.7c; stress: high schedule + 10c
+LVT,"net demand at impact, includes the T4 overlap (full capture)",-0.1085126669,-0.1830878776,-0.02085099019,-0.3094192858,% of consumption,
+LVT,"net demand at impact, only hand-to-mouth crossers respond (full capture)",0.129826054,0.09497396336,0.1658476745,0.08781191559,% of consumption,
+LVT,"net demand at impact, crossers' stock response instead of their bill (full capture)",-0.06101205113,-0.1355872619,0.02664962556,,% of consumption,
+LVT,"net demand at impact, every non-occupier on the wealth reading (full capture)",-1.049188526,-1.802524295,-0.2901458957,,% of consumption,
+LVT,"net demand at impact, unconstrained payers draw on wealth (full capture)",0.09601103265,-0.007242924081,0.3519975875,,% of consumption,
+LVT,notional bridge rate: flow + credit effect when dwellings lose their whole value (phi 5.2),-2.772390683,-3.536763554,-1.828400956,-5.308672196,% of consumption,not a land tax: the charge is 5.2 times the land rent; sizes the infeasibility

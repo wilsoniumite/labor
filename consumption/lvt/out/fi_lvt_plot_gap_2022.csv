@@ -1,0 +1,46 @@
+source_table,year,region,building_type,own_plot_eur_m2,rented_plot_eur_m2,gap,sales_own,sales_rented,sales_total
+ashi 13mw,2022,Greater Helsinki,old dwellings: Blocks of flats total,5343,4559,0.1467340445,11599,3829,15931
+ashi 13mw,2022,Greater Helsinki,"old dwellings: Blocks of flats, one-room flat",6427,5444,0.1529484985,2674,680,3450
+ashi 13mw,2022,Greater Helsinki,"old dwellings: Blocks of flats, three-room flat+",5119,4385,0.1433873803,4285,1525,6009
+ashi 13mw,2022,Greater Helsinki,"old dwellings: Blocks of flats, two-room flat",5211,4557,0.1255037421,4640,1624,6472
+ashi 13mw,2022,Greater Helsinki,old dwellings: Building types total,4931,4444,0.09876292841,15167,4419,20272
+ashi 13mw,2022,Greater Helsinki,old dwellings: Terraced houses total,3885,3874,0.002831402831,3568,590,4335
+ashi 13mw,2022,Major cities (total),old dwellings: Blocks of flats total,4619,3797,0.1779605975,17090,7026,25666
+ashi 13mw,2022,Major cities (total),"old dwellings: Blocks of flats, one-room flat",5668,4266,0.2473535639,3827,1660,5863
+ashi 13mw,2022,Major cities (total),"old dwellings: Blocks of flats, three-room flat+",4411,3743,0.1514395829,6207,2386,9097
+ashi 13mw,2022,Major cities (total),"old dwellings: Blocks of flats, two-room flat",4484,3690,0.177074041,7056,2980,10706
+ashi 13mw,2022,Major cities (total),old dwellings: Building types total,4331,3610,0.1664742554,22210,8810,32874
+ashi 13mw,2022,Major cities (total),old dwellings: Terraced houses total,3537,2998,0.1523890303,5120,1784,7185
+ashi 13mw,2022,Whole country,old dwellings: Blocks of flats total,3165,2854,0.09826224329,35383,10914,49090
+ashi 13mw,2022,Whole country,"old dwellings: Blocks of flats, one-room flat",3850,3339,0.1327272727,7778,2656,11070
+ashi 13mw,2022,Whole country,"old dwellings: Blocks of flats, three-room flat+",3135,2855,0.08931419458,12079,3588,16509
+ashi 13mw,2022,Whole country,"old dwellings: Blocks of flats, two-room flat",2962,2687,0.09284267387,15526,4670,21511
+ashi 13mw,2022,Whole country,old dwellings: Building types total,2902,2630,0.09372846313,51621,15475,70630
+ashi 13mw,2022,Whole country,old dwellings: Terraced houses total,2385,2147,0.09979035639,16226,4561,21450
+ashi 13mw,2022,Whole country excluding Greater Helsinki,old dwellings: Blocks of flats total,2061,1974,0.0422125182,23680,7073,33043
+ashi 13mw,2022,Whole country excluding Greater Helsinki,"old dwellings: Blocks of flats, one-room flat",2437,2590,-0.06278210915,5030,1968,7538
+ashi 13mw,2022,Whole country excluding Greater Helsinki,"old dwellings: Blocks of flats, three-room flat+",1991,1816,0.08789552988,7789,2062,10494
+ashi 13mw,2022,Whole country excluding Greater Helsinki,"old dwellings: Blocks of flats, two-room flat",2013,1904,0.05414803775,10861,3043,15011
+ashi 13mw,2022,Whole country excluding Greater Helsinki,old dwellings: Building types total,1987,1927,0.03019627579,36280,11037,50149
+ashi 13mw,2022,Whole country excluding Greater Helsinki,old dwellings: Terraced houses total,1858,1849,0.004843918192,12588,3964,17035
+ashi 13mw,2022,Whole country excluding major cities,old dwellings: Blocks of flats total,1742,1456,0.1641791045,18189,3876,23308
+ashi 13mw,2022,Whole country excluding major cities,"old dwellings: Blocks of flats, one-room flat",1939,1853,0.04435275915,3877,988,5125
+ashi 13mw,2022,Whole country excluding major cities,"old dwellings: Blocks of flats, three-room flat+",1720,1401,0.1854651163,5867,1201,7406
+ashi 13mw,2022,Whole country excluding major cities,"old dwellings: Blocks of flats, two-room flat",1703,1390,0.1837933059,8445,1687,10777
+ashi 13mw,2022,Whole country excluding major cities,old dwellings: Building types total,1748,1511,0.135583524,29237,6646,37547
+ashi 13mw,2022,Whole country excluding major cities,old dwellings: Terraced houses total,1758,1591,0.09499431172,11036,2770,14185
+ashi 12de,2022,Espoo-Kauniainen,new dwellings: Terraced houses,5586,4116,0.2631578947,82,72,
+ashi 12de,2022,Greater Helsinki,new dwellings: Blocks of flats,7200,5848,0.1877777778,604,809,1416
+ashi 12de,2022,Greater Helsinki,new dwellings: Building types total,6707,5577,0.1684806918,751,933,1687
+ashi 12de,2022,Greater Helsinki,new dwellings: Terraced houses,5462,4227,0.2261076529,147,124,271
+ashi 12de,2022,Helsinki,new dwellings: Terraced houses,5832,4622,0.2074759945,29,31,
+ashi 12de,2022,"Northern Finland, without Oulu",new dwellings: Terraced houses,2712,3125,-0.1522861357,31,31,
+ashi 12de,2022,"Southern Finland, without Uusimaa and Turku",new dwellings: Terraced houses,3586,3258,0.09146681539,82,101,
+ashi 12de,2022,Tampere,new dwellings: Terraced houses,4222,3702,0.1231643771,28,52,
+ashi 12de,2022,"Uusimaa, without greater Helsinki",new dwellings: Terraced houses,3781,3710,0.01877810103,96,123,
+ashi 12de,2022,"Western Finland, without Tampere and Jyväskylä",new dwellings: Terraced houses,3220,3491,-0.08416149068,112,86,
+ashi 12de,2022,Whole country,new dwellings: Blocks of flats,5435,4947,0.08978840846,2054,2339,4396
+ashi 12de,2022,Whole country,new dwellings: Terraced houses,4042,3559,0.1194952994,589,605,1198
+ashi 12de,2022,Whole country excluding Greater Helsinki,new dwellings: Blocks of flats,4613,4333,0.06069802731,1450,1530,2980
+ashi 12de,2022,Whole country excluding Greater Helsinki,new dwellings: Building types total,4254,4005,0.05853314528,1892,2011,3907
+ashi 12de,2022,Whole country excluding Greater Helsinki,new dwellings: Terraced houses,3466,3387,0.02279284478,442,481,927

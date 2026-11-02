@@ -1,0 +1,471 @@
+convention,instrument,base,rate,grade,category,role,dEUR,dEUR_post_conversion
+coherent,LVT,B2,bridge,post_mid,04.1 Actual rents,chart,16.88007962,16.88007962
+coherent,LVT,B2,bridge,post_mid,01.1 Food (at home),chart,1.643909005,1.643909005
+coherent,LVT,B2,bridge,post_mid,08.3 Information and communication services,chart,0.9084509372,0.9084509372
+coherent,LVT,B2,bridge,post_mid,06.1 Medicines and health products,chart,0.7191205588,0.7191205588
+coherent,LVT,B2,bridge,post_mid,13.1 Personal care,chart,0.6446605513,0.6446605513
+coherent,LVT,B2,bridge,post_mid,03.1 Clothing,chart,0.559067953,0.559067953
+coherent,LVT,B2,bridge,post_mid,07.2 Operation of personal transport equipment,chart,0.906991398,0.906991398
+coherent,LVT,B2,bridge,post_mid,11.1 Food and beverage serving services,chart,0.4987289799,0.4987289799
+coherent,LVT,B2,bridge,post_mid,04.4 Water & misc. dwelling services,chart,-1.132822041,-1.132822041
+coherent,LVT,B2,bridge,post_mid,12.1 Insurance,chart,0.5438036941,0.5438036941
+coherent,LVT,B2,bridge,post_mid,06.2 Outpatient care services,chart,0.3467066892,0.3467066892
+coherent,LVT,B2,bridge,post_mid,08.1 Information and communication equipment,chart,0.37929083,0.37929083
+coherent,LVT,B2,bridge,post_mid,"04.5 Electricity, gas and other fuels",chart,0.5662889841,0.5662889841
+coherent,LVT,B2,bridge,post_mid,12.2 Financial services,chart,0.4268089954,0.4268089954
+coherent,LVT,B2,bridge,post_mid,07.3 Passenger transport services,chart,0.2748188952,0.2748188952
+coherent,LVT,B2,bridge,post_mid,09.3 Garden products and pets,chart,0.3282236662,0.3282236662
+coherent,LVT,B2,bridge,post_mid,09.4 Recreational services,chart,0.3341191236,0.3341191236
+coherent,LVT,B2,bridge,post_mid,02.3 Tobacco,chart,0.2021270314,0.2021270314
+coherent,LVT,B2,bridge,post_mid,01.2 Non-alcoholic beverages,chart,0.2702037847,0.2702037847
+coherent,LVT,B2,bridge,post_mid,02.1 Alcoholic beverages,chart,0.1783640132,0.1783640132
+coherent,LVT,B2,bridge,post_mid,"09.7 Newspapers, books and stationery",chart,0.1977329009,0.1977329009
+coherent,LVT,B2,bridge,post_mid,13.2 Other personal effects,chart,0.125174227,0.125174227
+coherent,LVT,B2,bridge,post_mid,05.6 Goods and services for routine household maintenance,chart,0.1435735401,0.1435735401
+coherent,LVT,B2,bridge,post_mid,03.2 Footwear,chart,0.1455583144,0.1455583144
+coherent,LVT,B2,bridge,post_mid,09.2 Other recreational goods,chart,0.1311200002,0.1311200002
+coherent,LVT,B2,bridge,post_mid,05.2 Household textiles,chart,0.06200770543,0.06200770543
+coherent,LVT,B2,bridge,post_mid,09.6 Cultural services,chart,0.07802006531,0.07802006531
+coherent,LVT,B2,bridge,post_mid,05.3 Household appliances,chart,0.06168759058,0.06168759058
+coherent,LVT,B2,bridge,post_mid,"05.4 Glassware, tableware and household utensils",chart,0.04281948755,0.04281948755
+coherent,LVT,B2,bridge,post_mid,11.2 Accommodation services,chart,0.03638082937,0.03638082937
+coherent,LVT,B2,bridge,post_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.01417570414,0.01417570414
+coherent,LVT,B2,bridge,post_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.09096618717,0.09096618717
+coherent,LVT,B2,bridge,post_mid,05.5 Tools and equipment for house and garden,chart,-0.00864065874,-0.00864065874
+coherent,LVT,B2,bridge,post_mid,09.8 Package holidays,chart,0.01167484734,0.01167484734
+coherent,LVT,B2,bridge,post_mid,09.1 Recreational durables,chart,-0.1346194459,-0.1346194459
+coherent,LVT,B2,bridge,post_mid,13.9 Other services,chart,-0.003355857126,-0.003355857126
+coherent,LVT,B2,bridge,post_mid,07.1 Purchase of vehicles,chart,-0.6024933811,-0.6024933811
+coherent,LVT,B2,bridge,post_mid,04.2 Imputed rentals (off-chart),offchart,-9.17008202,-9.17008202
+coherent,LVT,B2,bridge,post_mid,04.6 Interest on housing loans (off-chart),offchart,-0.5036090704,-0.5036090704
+coherent,LVT,B2,bridge,post_mid,06.3 Inpatient care services (off-chart),offchart,0.0600679216,0.0600679216
+coherent,LVT,B2,bridge,post_mid,06.4 Other health services (off-chart),offchart,0.01247224176,0.01247224176
+coherent,LVT,B2,bridge,post_mid,07.4 Transport services of goods (off-chart),offchart,0.07743915541,0.07743915541
+coherent,LVT,B2,bridge,post_mid,"08.2 Software, excluding games (off-chart)",offchart,0.01076025457,0.01076025457
+coherent,LVT,B2,bridge,post_mid,09.5 Cultural goods (off-chart),offchart,0.01742885429,0.01742885429
+coherent,LVT,B2,bridge,post_mid,10 Education services (off-chart),offchart,0.01970396486,0.01970396486
+coherent,LVT,B2,bridge,post_mid,13.3 Social protection (off-chart),offchart,0.0569623417,0.0569623417
+coherent,LVT,B2,bridge,post_mid,77 Consumption abroad (off-chart),offchart,-0.1865231522,-0.1865231522
+coherent,LVT,B2,bridge,wealth_mid,04.1 Actual rents,chart,16.88007962,16.88007962
+coherent,LVT,B2,bridge,wealth_mid,01.1 Food (at home),chart,2.048581203,2.048581203
+coherent,LVT,B2,bridge,wealth_mid,08.3 Information and communication services,chart,1.186538263,1.186538263
+coherent,LVT,B2,bridge,wealth_mid,06.1 Medicines and health products,chart,0.934715245,0.934715245
+coherent,LVT,B2,bridge,wealth_mid,13.1 Personal care,chart,0.8321729254,0.8321729254
+coherent,LVT,B2,bridge,wealth_mid,03.1 Clothing,chart,0.7638728038,0.7638728038
+coherent,LVT,B2,bridge,wealth_mid,07.2 Operation of personal transport equipment,chart,1.353967584,1.353967584
+coherent,LVT,B2,bridge,wealth_mid,11.1 Food and beverage serving services,chart,0.655391417,0.655391417
+coherent,LVT,B2,bridge,wealth_mid,04.4 Water & misc. dwelling services,chart,-0.724529743,-0.724529743
+coherent,LVT,B2,bridge,wealth_mid,12.1 Insurance,chart,0.8247889037,0.8247889037
+coherent,LVT,B2,bridge,wealth_mid,06.2 Outpatient care services,chart,0.4859487514,0.4859487514
+coherent,LVT,B2,bridge,wealth_mid,08.1 Information and communication equipment,chart,0.517900625,0.517900625
+coherent,LVT,B2,bridge,wealth_mid,"04.5 Electricity, gas and other fuels",chart,0.8096478333,0.8096478333
+coherent,LVT,B2,bridge,wealth_mid,12.2 Financial services,chart,0.5953173991,0.5953173991
+coherent,LVT,B2,bridge,wealth_mid,07.3 Passenger transport services,chart,0.3722486999,0.3722486999
+coherent,LVT,B2,bridge,wealth_mid,09.3 Garden products and pets,chart,0.4321992321,0.4321992321
+coherent,LVT,B2,bridge,wealth_mid,09.4 Recreational services,chart,0.4800723129,0.4800723129
+coherent,LVT,B2,bridge,wealth_mid,02.3 Tobacco,chart,0.2398064928,0.2398064928
+coherent,LVT,B2,bridge,wealth_mid,01.2 Non-alcoholic beverages,chart,0.3347763281,0.3347763281
+coherent,LVT,B2,bridge,wealth_mid,02.1 Alcoholic beverages,chart,0.2363726401,0.2363726401
+coherent,LVT,B2,bridge,wealth_mid,"09.7 Newspapers, books and stationery",chart,0.2769879109,0.2769879109
+coherent,LVT,B2,bridge,wealth_mid,13.2 Other personal effects,chart,0.1616740673,0.1616740673
+coherent,LVT,B2,bridge,wealth_mid,05.6 Goods and services for routine household maintenance,chart,0.2050723158,0.2050723158
+coherent,LVT,B2,bridge,wealth_mid,03.2 Footwear,chart,0.2021483823,0.2021483823
+coherent,LVT,B2,bridge,wealth_mid,09.2 Other recreational goods,chart,0.2113794125,0.2113794125
+coherent,LVT,B2,bridge,wealth_mid,05.2 Household textiles,chart,0.08589155497,0.08589155497
+coherent,LVT,B2,bridge,wealth_mid,09.6 Cultural services,chart,0.111683072,0.111683072
+coherent,LVT,B2,bridge,wealth_mid,05.3 Household appliances,chart,0.1030960297,0.1030960297
+coherent,LVT,B2,bridge,wealth_mid,"05.4 Glassware, tableware and household utensils",chart,0.064354023,0.064354023
+coherent,LVT,B2,bridge,wealth_mid,11.2 Accommodation services,chart,0.05492978761,0.05492978761
+coherent,LVT,B2,bridge,wealth_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.07647052666,0.07647052666
+coherent,LVT,B2,bridge,wealth_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.1753939696,0.1753939696
+coherent,LVT,B2,bridge,wealth_mid,05.5 Tools and equipment for house and garden,chart,0.02002200073,0.02002200073
+coherent,LVT,B2,bridge,wealth_mid,09.8 Package holidays,chart,0.06272162705,0.06272162705
+coherent,LVT,B2,bridge,wealth_mid,09.1 Recreational durables,chart,-0.1157063349,-0.1157063349
+coherent,LVT,B2,bridge,wealth_mid,13.9 Other services,chart,0.2013284064,0.2013284064
+coherent,LVT,B2,bridge,wealth_mid,07.1 Purchase of vehicles,chart,-0.3554645865,-0.3554645865
+coherent,LVT,B2,bridge,wealth_mid,04.2 Imputed rentals (off-chart),offchart,-7.890800999,-7.890800999
+coherent,LVT,B2,bridge,wealth_mid,04.6 Interest on housing loans (off-chart),offchart,-0.4293173017,-0.4293173017
+coherent,LVT,B2,bridge,wealth_mid,06.3 Inpatient care services (off-chart),offchart,0.07225102076,0.07225102076
+coherent,LVT,B2,bridge,wealth_mid,06.4 Other health services (off-chart),offchart,0.02463068829,0.02463068829
+coherent,LVT,B2,bridge,wealth_mid,07.4 Transport services of goods (off-chart),offchart,0.09172148669,0.09172148669
+coherent,LVT,B2,bridge,wealth_mid,"08.2 Software, excluding games (off-chart)",offchart,0.01302458405,0.01302458405
+coherent,LVT,B2,bridge,wealth_mid,09.5 Cultural goods (off-chart),offchart,0.02426215656,0.02426215656
+coherent,LVT,B2,bridge,wealth_mid,10 Education services (off-chart),offchart,0.03092825446,0.03092825446
+coherent,LVT,B2,bridge,wealth_mid,13.3 Social protection (off-chart),offchart,0.07123952287,0.07123952287
+coherent,LVT,B2,bridge,wealth_mid,77 Consumption abroad (off-chart),offchart,-0.1208780871,-0.1208780871
+coherent,LVT,B1,bridge,post_mid,04.1 Actual rents,chart,16.88007962,16.88007962
+coherent,LVT,B1,bridge,post_mid,01.1 Food (at home),chart,1.767928063,1.767928063
+coherent,LVT,B1,bridge,post_mid,08.3 Information and communication services,chart,0.9686093344,0.9686093344
+coherent,LVT,B1,bridge,post_mid,06.1 Medicines and health products,chart,0.76475217,0.76475217
+coherent,LVT,B1,bridge,post_mid,13.1 Personal care,chart,0.6867113955,0.6867113955
+coherent,LVT,B1,bridge,post_mid,03.1 Clothing,chart,0.5981263923,0.5981263923
+coherent,LVT,B1,bridge,post_mid,07.2 Operation of personal transport equipment,chart,0.9677907045,0.9677907045
+coherent,LVT,B1,bridge,post_mid,11.1 Food and beverage serving services,chart,0.5365101911,0.5365101911
+coherent,LVT,B1,bridge,post_mid,04.4 Water & misc. dwelling services,chart,-1.026198695,-1.026198695
+coherent,LVT,B1,bridge,post_mid,12.1 Insurance,chart,0.5744417465,0.5744417465
+coherent,LVT,B1,bridge,post_mid,06.2 Outpatient care services,chart,0.3715373224,0.3715373224
+coherent,LVT,B1,bridge,post_mid,08.1 Information and communication equipment,chart,0.4033267803,0.4033267803
+coherent,LVT,B1,bridge,post_mid,"04.5 Electricity, gas and other fuels",chart,0.6028314025,0.6028314025
+coherent,LVT,B1,bridge,post_mid,12.2 Financial services,chart,0.4556510292,0.4556510292
+coherent,LVT,B1,bridge,post_mid,07.3 Passenger transport services,chart,0.2963877365,0.2963877365
+coherent,LVT,B1,bridge,post_mid,09.3 Garden products and pets,chart,0.3496024424,0.3496024424
+coherent,LVT,B1,bridge,post_mid,09.4 Recreational services,chart,0.3527236048,0.3527236048
+coherent,LVT,B1,bridge,post_mid,02.3 Tobacco,chart,0.2193019758,0.2193019758
+coherent,LVT,B1,bridge,post_mid,01.2 Non-alcoholic beverages,chart,0.2904729308,0.2904729308
+coherent,LVT,B1,bridge,post_mid,02.1 Alcoholic beverages,chart,0.1923780025,0.1923780025
+coherent,LVT,B1,bridge,post_mid,"09.7 Newspapers, books and stationery",chart,0.2096677605,0.2096677605
+coherent,LVT,B1,bridge,post_mid,13.2 Other personal effects,chart,0.1339025429,0.1339025429
+coherent,LVT,B1,bridge,post_mid,05.6 Goods and services for routine household maintenance,chart,0.1543615564,0.1543615564
+coherent,LVT,B1,bridge,post_mid,03.2 Footwear,chart,0.1548516204,0.1548516204
+coherent,LVT,B1,bridge,post_mid,09.2 Other recreational goods,chart,0.1383881885,0.1383881885
+coherent,LVT,B1,bridge,post_mid,05.2 Household textiles,chart,0.06510112281,0.06510112281
+coherent,LVT,B1,bridge,post_mid,09.6 Cultural services,chart,0.08136601548,0.08136601548
+coherent,LVT,B1,bridge,post_mid,05.3 Household appliances,chart,0.06577363888,0.06577363888
+coherent,LVT,B1,bridge,post_mid,"05.4 Glassware, tableware and household utensils",chart,0.04511849681,0.04511849681
+coherent,LVT,B1,bridge,post_mid,11.2 Accommodation services,chart,0.03843821311,0.03843821311
+coherent,LVT,B1,bridge,post_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.01651151622,0.01651151622
+coherent,LVT,B1,bridge,post_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.09342109623,0.09342109623
+coherent,LVT,B1,bridge,post_mid,05.5 Tools and equipment for house and garden,chart,-0.009573307617,-0.009573307617
+coherent,LVT,B1,bridge,post_mid,09.8 Package holidays,chart,0.009120486391,0.009120486391
+coherent,LVT,B1,bridge,post_mid,09.1 Recreational durables,chart,-0.1406016338,-0.1406016338
+coherent,LVT,B1,bridge,post_mid,13.9 Other services,chart,-0.004021480792,-0.004021480792
+coherent,LVT,B1,bridge,post_mid,07.1 Purchase of vehicles,chart,-0.6351665481,-0.6351665481
+coherent,LVT,B1,bridge,post_mid,04.2 Imputed rentals (off-chart),offchart,-9.034829681,-9.034829681
+coherent,LVT,B1,bridge,post_mid,04.6 Interest on housing loans (off-chart),offchart,-0.49593328,-0.49593328
+coherent,LVT,B1,bridge,post_mid,06.3 Inpatient care services (off-chart),offchart,0.06370266323,0.06370266323
+coherent,LVT,B1,bridge,post_mid,06.4 Other health services (off-chart),offchart,0.01407441708,0.01407441708
+coherent,LVT,B1,bridge,post_mid,07.4 Transport services of goods (off-chart),offchart,0.08320030141,0.08320030141
+coherent,LVT,B1,bridge,post_mid,"08.2 Software, excluding games (off-chart)",offchart,0.01140676882,0.01140676882
+coherent,LVT,B1,bridge,post_mid,09.5 Cultural goods (off-chart),offchart,0.01851977378,0.01851977378
+coherent,LVT,B1,bridge,post_mid,10 Education services (off-chart),offchart,0.02038099913,0.02038099913
+coherent,LVT,B1,bridge,post_mid,13.3 Social protection (off-chart),offchart,0.06042763029,0.06042763029
+coherent,LVT,B1,bridge,post_mid,77 Consumption abroad (off-chart),offchart,-0.1913082758,-0.1913082758
+coherent,LVT,B1,bridge,wealth_mid,04.1 Actual rents,chart,16.88007962,16.88007962
+coherent,LVT,B1,bridge,wealth_mid,01.1 Food (at home),chart,2.130616173,2.130616173
+coherent,LVT,B1,bridge,wealth_mid,08.3 Information and communication services,chart,1.220392379,1.220392379
+coherent,LVT,B1,bridge,wealth_mid,06.1 Medicines and health products,chart,0.9610801998,0.9610801998
+coherent,LVT,B1,bridge,wealth_mid,13.1 Personal care,chart,0.8559913508,0.8559913508
+coherent,LVT,B1,bridge,wealth_mid,03.1 Clothing,chart,0.7831250531,0.7831250531
+coherent,LVT,B1,bridge,wealth_mid,07.2 Operation of personal transport equipment,chart,1.374916708,1.374916708
+coherent,LVT,B1,bridge,wealth_mid,11.1 Food and beverage serving services,chart,0.6772390543,0.6772390543
+coherent,LVT,B1,bridge,wealth_mid,04.4 Water & misc. dwelling services,chart,-0.6564263314,-0.6564263314
+coherent,LVT,B1,bridge,wealth_mid,12.1 Insurance,chart,0.8317727712,0.8317727712
+coherent,LVT,B1,bridge,wealth_mid,06.2 Outpatient care services,chart,0.4973025282,0.4973025282
+coherent,LVT,B1,bridge,wealth_mid,08.1 Information and communication equipment,chart,0.5290682203,0.5290682203
+coherent,LVT,B1,bridge,wealth_mid,"04.5 Electricity, gas and other fuels",chart,0.8246546018,0.8246546018
+coherent,LVT,B1,bridge,wealth_mid,12.2 Financial services,chart,0.6088462935,0.6088462935
+coherent,LVT,B1,bridge,wealth_mid,07.3 Passenger transport services,chart,0.3834783195,0.3834783195
+coherent,LVT,B1,bridge,wealth_mid,09.3 Garden products and pets,chart,0.4438902048,0.4438902048
+coherent,LVT,B1,bridge,wealth_mid,09.4 Recreational services,chart,0.4864339689,0.4864339689
+coherent,LVT,B1,bridge,wealth_mid,02.3 Tobacco,chart,0.2521955405,0.2521955405
+coherent,LVT,B1,bridge,wealth_mid,01.2 Non-alcoholic beverages,chart,0.3483102303,0.3483102303
+coherent,LVT,B1,bridge,wealth_mid,02.1 Alcoholic beverages,chart,0.244387234,0.244387234
+coherent,LVT,B1,bridge,wealth_mid,"09.7 Newspapers, books and stationery",chart,0.2821533768,0.2821533768
+coherent,LVT,B1,bridge,wealth_mid,13.2 Other personal effects,chart,0.1669886419,0.1669886419
+coherent,LVT,B1,bridge,wealth_mid,05.6 Goods and services for routine household maintenance,chart,0.2099820855,0.2099820855
+coherent,LVT,B1,bridge,wealth_mid,03.2 Footwear,chart,0.2064657719,0.2064657719
+coherent,LVT,B1,bridge,wealth_mid,09.2 Other recreational goods,chart,0.2117614671,0.2117614671
+coherent,LVT,B1,bridge,wealth_mid,05.2 Household textiles,chart,0.08721516265,0.08721516265
+coherent,LVT,B1,bridge,wealth_mid,09.6 Cultural services,chart,0.1124960815,0.1124960815
+coherent,LVT,B1,bridge,wealth_mid,05.3 Household appliances,chart,0.1035981406,0.1035981406
+coherent,LVT,B1,bridge,wealth_mid,"05.4 Glassware, tableware and household utensils",chart,0.06495435555,0.06495435555
+coherent,LVT,B1,bridge,wealth_mid,11.2 Accommodation services,chart,0.05543409111,0.05543409111
+coherent,LVT,B1,bridge,wealth_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.07299561892,0.07299561892
+coherent,LVT,B1,bridge,wealth_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.1724447619,0.1724447619
+coherent,LVT,B1,bridge,wealth_mid,05.5 Tools and equipment for house and garden,chart,0.01687159073,0.01687159073
+coherent,LVT,B1,bridge,wealth_mid,09.8 Package holidays,chart,0.0561928152,0.0561928152
+coherent,LVT,B1,bridge,wealth_mid,09.1 Recreational durables,chart,-0.1235280699,-0.1235280699
+coherent,LVT,B1,bridge,wealth_mid,13.9 Other services,chart,0.1844507101,0.1844507101
+coherent,LVT,B1,bridge,wealth_mid,07.1 Purchase of vehicles,chart,-0.407836985,-0.407836985
+coherent,LVT,B1,bridge,wealth_mid,04.2 Imputed rentals (off-chart),offchart,-7.860327681,-7.860327681
+coherent,LVT,B1,bridge,wealth_mid,04.6 Interest on housing loans (off-chart),offchart,-0.4274747206,-0.4274747206
+coherent,LVT,B1,bridge,wealth_mid,06.3 Inpatient care services (off-chart),offchart,0.07486070065,0.07486070065
+coherent,LVT,B1,bridge,wealth_mid,06.4 Other health services (off-chart),offchart,0.02494349546,0.02494349546
+coherent,LVT,B1,bridge,wealth_mid,07.4 Transport services of goods (off-chart),offchart,0.0956972357,0.0956972357
+coherent,LVT,B1,bridge,wealth_mid,"08.2 Software, excluding games (off-chart)",offchart,0.01343722918,0.01343722918
+coherent,LVT,B1,bridge,wealth_mid,09.5 Cultural goods (off-chart),offchart,0.0246986273,0.0246986273
+coherent,LVT,B1,bridge,wealth_mid,10 Education services (off-chart),offchart,0.0309130634,0.0309130634
+coherent,LVT,B1,bridge,wealth_mid,13.3 Social protection (off-chart),offchart,0.07352688374,0.07352688374
+coherent,LVT,B1,bridge,wealth_mid,77 Consumption abroad (off-chart),offchart,-0.1330033672,-0.1330033672
+coherent,VAT,,bridge,post_mid,04.1 Actual rents,chart,4.414985883,4.414985883
+coherent,VAT,,bridge,post_mid,01.1 Food (at home),chart,0.9465638593,0.9465638593
+coherent,VAT,,bridge,post_mid,08.3 Information and communication services,chart,0.5086676235,0.5086676235
+coherent,VAT,,bridge,post_mid,06.1 Medicines and health products,chart,0.3841080106,0.3841080106
+coherent,VAT,,bridge,post_mid,13.1 Personal care,chart,0.3639599173,0.3639599173
+coherent,VAT,,bridge,post_mid,03.1 Clothing,chart,0.3222138806,0.3222138806
+coherent,VAT,,bridge,post_mid,07.2 Operation of personal transport equipment,chart,0.4328011103,0.4328011103
+coherent,VAT,,bridge,post_mid,11.1 Food and beverage serving services,chart,0.2831802647,0.2831802647
+coherent,VAT,,bridge,post_mid,04.4 Water & misc. dwelling services,chart,0.222322707,0.222322707
+coherent,VAT,,bridge,post_mid,12.1 Insurance,chart,0.2602593765,0.2602593765
+coherent,VAT,,bridge,post_mid,06.2 Outpatient care services,chart,0.1996728385,0.1996728385
+coherent,VAT,,bridge,post_mid,08.1 Information and communication equipment,chart,0.2221853847,0.2221853847
+coherent,VAT,,bridge,post_mid,"04.5 Electricity, gas and other fuels",chart,0.2835693265,0.2835693265
+coherent,VAT,,bridge,post_mid,12.2 Financial services,chart,0.2193714256,0.2193714256
+coherent,VAT,,bridge,post_mid,07.3 Passenger transport services,chart,0.1631895498,0.1631895498
+coherent,VAT,,bridge,post_mid,09.3 Garden products and pets,chart,0.1809810144,0.1809810144
+coherent,VAT,,bridge,post_mid,09.4 Recreational services,chart,0.1614619204,0.1614619204
+coherent,VAT,,bridge,post_mid,02.3 Tobacco,chart,0.1392823482,0.1392823482
+coherent,VAT,,bridge,post_mid,01.2 Non-alcoholic beverages,chart,0.1608046122,0.1608046122
+coherent,VAT,,bridge,post_mid,02.1 Alcoholic beverages,chart,0.1058877504,0.1058877504
+coherent,VAT,,bridge,post_mid,"09.7 Newspapers, books and stationery",chart,0.1010340521,0.1010340521
+coherent,VAT,,bridge,post_mid,13.2 Other personal effects,chart,0.06769414246,0.06769414246
+coherent,VAT,,bridge,post_mid,05.6 Goods and services for routine household maintenance,chart,0.07495681269,0.07495681269
+coherent,VAT,,bridge,post_mid,03.2 Footwear,chart,0.0718571402,0.0718571402
+coherent,VAT,,bridge,post_mid,09.2 Other recreational goods,chart,0.06566462998,0.06566462998
+coherent,VAT,,bridge,post_mid,05.2 Household textiles,chart,0.02878149026,0.02878149026
+coherent,VAT,,bridge,post_mid,09.6 Cultural services,chart,0.03678483552,0.03678483552
+coherent,VAT,,bridge,post_mid,05.3 Household appliances,chart,0.03049261467,0.03049261467
+coherent,VAT,,bridge,post_mid,"05.4 Glassware, tableware and household utensils",chart,0.02083803633,0.02083803633
+coherent,VAT,,bridge,post_mid,11.2 Accommodation services,chart,0.01141676356,0.01141676356
+coherent,VAT,,bridge,post_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.005287103269,0.005287103269
+coherent,VAT,,bridge,post_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.008254841908,0.008254841908
+coherent,VAT,,bridge,post_mid,05.5 Tools and equipment for house and garden,chart,-0.01133658756,-0.01133658756
+coherent,VAT,,bridge,post_mid,09.8 Package holidays,chart,0.006618837653,0.006618837653
+coherent,VAT,,bridge,post_mid,09.1 Recreational durables,chart,-0.08232345506,-0.08232345506
+coherent,VAT,,bridge,post_mid,13.9 Other services,chart,-0.05455900081,-0.05455900081
+coherent,VAT,,bridge,post_mid,07.1 Purchase of vehicles,chart,-0.4212980357,-0.4212980357
+coherent,VAT,,bridge,post_mid,04.2 Imputed rentals (off-chart),offchart,-1.026175138,-1.026175138
+coherent,VAT,,bridge,post_mid,04.6 Interest on housing loans (off-chart),offchart,-0.04967000897,-0.04967000897
+coherent,VAT,,bridge,post_mid,06.3 Inpatient care services (off-chart),offchart,0.03153764488,0.03153764488
+coherent,VAT,,bridge,post_mid,06.4 Other health services (off-chart),offchart,0.006998366235,0.006998366235
+coherent,VAT,,bridge,post_mid,07.4 Transport services of goods (off-chart),offchart,0.05177851857,0.05177851857
+coherent,VAT,,bridge,post_mid,"08.2 Software, excluding games (off-chart)",offchart,0.006736977546,0.006736977546
+coherent,VAT,,bridge,post_mid,09.5 Cultural goods (off-chart),offchart,0.009065179574,0.009065179574
+coherent,VAT,,bridge,post_mid,10 Education services (off-chart),offchart,0.007883052986,0.007883052986
+coherent,VAT,,bridge,post_mid,13.3 Social protection (off-chart),offchart,0.03069065816,0.03069065816
+coherent,VAT,,bridge,post_mid,77 Consumption abroad (off-chart),offchart,-0.1084408783,-0.1084408783
+post,LVT,B2,bridge,post_mid,04.1 Actual rents,chart,18.70229659,19.48785058
+post,LVT,B2,bridge,post_mid,01.1 Food (at home),chart,1.451254325,1.511003428
+post,LVT,B2,bridge,post_mid,08.3 Information and communication services,chart,0.9135760626,0.9516619251
+post,LVT,B2,bridge,post_mid,06.1 Medicines and health products,chart,0.7708586282,0.8027729546
+post,LVT,B2,bridge,post_mid,13.1 Personal care,chart,0.6651504253,0.692987672
+post,LVT,B2,bridge,post_mid,03.1 Clothing,chart,0.5502430236,0.5731485099
+post,LVT,B2,bridge,post_mid,07.2 Operation of personal transport equipment,chart,0.708268782,0.7371746355
+post,LVT,B2,bridge,post_mid,11.1 Food and beverage serving services,chart,0.4442775996,0.4628654185
+post,LVT,B2,bridge,post_mid,04.4 Water & misc. dwelling services,chart,-1.419501363,-1.477475813
+post,LVT,B2,bridge,post_mid,12.1 Insurance,chart,0.5067900705,0.5276401106
+post,LVT,B2,bridge,post_mid,06.2 Outpatient care services,chart,0.3770232234,0.3922570004
+post,LVT,B2,bridge,post_mid,08.1 Information and communication equipment,chart,0.3608637854,0.3759900446
+post,LVT,B2,bridge,post_mid,"04.5 Electricity, gas and other fuels",chart,0.4605998094,0.4797605771
+post,LVT,B2,bridge,post_mid,12.2 Financial services,chart,0.4006769198,0.4172653493
+post,LVT,B2,bridge,post_mid,07.3 Passenger transport services,chart,0.3183264642,0.331164972
+post,LVT,B2,bridge,post_mid,09.3 Garden products and pets,chart,0.3332687117,0.3470663733
+post,LVT,B2,bridge,post_mid,09.4 Recreational services,chart,0.3496583054,0.3639786332
+post,LVT,B2,bridge,post_mid,02.3 Tobacco,chart,0.211713738,0.2207693868
+post,LVT,B2,bridge,post_mid,01.2 Non-alcoholic beverages,chart,0.2436833506,0.2537720876
+post,LVT,B2,bridge,post_mid,02.1 Alcoholic beverages,chart,0.165993571,0.1727799124
+post,LVT,B2,bridge,post_mid,"09.7 Newspapers, books and stationery",chart,0.2135348975,0.2227154818
+post,LVT,B2,bridge,post_mid,13.2 Other personal effects,chart,0.1165038716,0.1213272497
+post,LVT,B2,bridge,post_mid,05.6 Goods and services for routine household maintenance,chart,0.1340537959,0.1397104077
+post,LVT,B2,bridge,post_mid,03.2 Footwear,chart,0.1315297402,0.1368634791
+post,LVT,B2,bridge,post_mid,09.2 Other recreational goods,chart,0.1014678438,0.1055902093
+post,LVT,B2,bridge,post_mid,05.2 Household textiles,chart,0.05511623921,0.05726941192
+post,LVT,B2,bridge,post_mid,09.6 Cultural services,chart,0.05716536088,0.0594177996
+post,LVT,B2,bridge,post_mid,05.3 Household appliances,chart,0.03872391102,0.04040834288
+post,LVT,B2,bridge,post_mid,"05.4 Glassware, tableware and household utensils",chart,0.02894465406,0.03021325538
+post,LVT,B2,bridge,post_mid,11.2 Accommodation services,chart,0.02454267285,0.02555876432
+post,LVT,B2,bridge,post_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.008408161643,0.008756268034
+post,LVT,B2,bridge,post_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.08236691645,0.08573606591
+post,LVT,B2,bridge,post_mid,05.5 Tools and equipment for house and garden,chart,-0.0179811506,-0.01872558841
+post,LVT,B2,bridge,post_mid,09.8 Package holidays,chart,-0.05587448577,-0.05818774596
+post,LVT,B2,bridge,post_mid,09.1 Recreational durables,chart,-0.1277308972,-0.1328265832
+post,LVT,B2,bridge,post_mid,13.9 Other services,chart,-0.09749269141,-0.1014733855
+post,LVT,B2,bridge,post_mid,07.1 Purchase of vehicles,chart,-0.7595093252,-0.7903465985
+post,LVT,B2,bridge,post_mid,04.2 Imputed rentals (off-chart),offchart,-9.549385502,-9.941975495
+post,LVT,B2,bridge,post_mid,04.6 Interest on housing loans (off-chart),offchart,-0.491020521,-0.5113492669
+post,LVT,B2,bridge,post_mid,06.3 Inpatient care services (off-chart),offchart,0.06460058811,0.0684658278
+post,LVT,B2,bridge,post_mid,06.4 Other health services (off-chart),offchart,0.01093199756,0.01143430769
+post,LVT,B2,bridge,post_mid,07.4 Transport services of goods (off-chart),offchart,0.0958653704,0.1003119697
+post,LVT,B2,bridge,post_mid,"08.2 Software, excluding games (off-chart)",offchart,0.009209731834,0.008563414322
+post,LVT,B2,bridge,post_mid,09.5 Cultural goods (off-chart),offchart,0.009471312596,0.009612669227
+post,LVT,B2,bridge,post_mid,10 Education services (off-chart),offchart,0.01339915211,0.01398719339
+post,LVT,B2,bridge,post_mid,13.3 Social protection (off-chart),offchart,0.06533444611,0.0666119591
+post,LVT,B2,bridge,post_mid,77 Consumption abroad (off-chart),offchart,-0.2556848,-0.2659818213
+post,LVT,B2,bridge,wealth_mid,04.1 Actual rents,chart,18.70229659,19.48785058
+post,LVT,B2,bridge,wealth_mid,01.1 Food (at home),chart,1.876240352,1.953486412
+post,LVT,B2,bridge,wealth_mid,08.3 Information and communication services,chart,1.219220617,1.270048426
+post,LVT,B2,bridge,wealth_mid,06.1 Medicines and health products,chart,1.014578101,1.056582659
+post,LVT,B2,bridge,wealth_mid,13.1 Personal care,chart,0.8738002853,0.9103697487
+post,LVT,B2,bridge,wealth_mid,03.1 Clothing,chart,0.7732544228,0.8054434154
+post,LVT,B2,bridge,wealth_mid,07.2 Operation of personal transport equipment,chart,1.168542105,1.216232625
+post,LVT,B2,bridge,wealth_mid,11.1 Food and beverage serving services,chart,0.6158094965,0.6415739181
+post,LVT,B2,bridge,wealth_mid,04.4 Water & misc. dwelling services,chart,-0.9286081761,-0.9665338514
+post,LVT,B2,bridge,wealth_mid,12.1 Insurance,chart,0.8083874609,0.8416456322
+post,LVT,B2,bridge,wealth_mid,06.2 Outpatient care services,chart,0.5357597664,0.5574073581
+post,LVT,B2,bridge,wealth_mid,08.1 Information and communication equipment,chart,0.5169512353,0.5386201826
+post,LVT,B2,bridge,wealth_mid,"04.5 Electricity, gas and other fuels",chart,0.7162500352,0.7460457501
+post,LVT,B2,bridge,wealth_mid,12.2 Financial services,chart,0.5841128834,0.6082957471
+post,LVT,B2,bridge,wealth_mid,07.3 Passenger transport services,chart,0.4328748802,0.4503332702
+post,LVT,B2,bridge,wealth_mid,09.3 Garden products and pets,chart,0.4488492381,0.4674320502
+post,LVT,B2,bridge,wealth_mid,09.4 Recreational services,chart,0.5098565209,0.5307377995
+post,LVT,B2,bridge,wealth_mid,02.3 Tobacco,chart,0.2570408814,0.2680353118
+post,LVT,B2,bridge,wealth_mid,01.2 Non-alcoholic beverages,chart,0.3124775596,0.3254144465
+post,LVT,B2,bridge,wealth_mid,02.1 Alcoholic beverages,chart,0.2316292702,0.2410990064
+post,LVT,B2,bridge,wealth_mid,"09.7 Newspapers, books and stationery",chart,0.3064208807,0.3195949461
+post,LVT,B2,bridge,wealth_mid,13.2 Other personal effects,chart,0.154462728,0.160857641
+post,LVT,B2,bridge,wealth_mid,05.6 Goods and services for routine household maintenance,chart,0.2007456333,0.2092164126
+post,LVT,B2,bridge,wealth_mid,03.2 Footwear,chart,0.1899600945,0.1976632767
+post,LVT,B2,bridge,wealth_mid,09.2 Other recreational goods,chart,0.1811881993,0.1885493885
+post,LVT,B2,bridge,wealth_mid,05.2 Household textiles,chart,0.08030948391,0.0834468567
+post,LVT,B2,bridge,wealth_mid,09.6 Cultural services,chart,0.09098122559,0.09456608244
+post,LVT,B2,bridge,wealth_mid,05.3 Household appliances,chart,0.08249611359,0.08608457039
+post,LVT,B2,bridge,wealth_mid,"05.4 Glassware, tableware and household utensils",chart,0.04983204996,0.0520161149
+post,LVT,B2,bridge,wealth_mid,11.2 Accommodation services,chart,0.04319093015,0.04497907832
+post,LVT,B2,bridge,wealth_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.07772146581,0.08093921305
+post,LVT,B2,bridge,wealth_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.1779645389,0.1852440287
+post,LVT,B2,bridge,wealth_mid,05.5 Tools and equipment for house and garden,chart,0.01283008361,0.01336126204
+post,LVT,B2,bridge,wealth_mid,09.8 Package holidays,chart,-0.008177729128,-0.00851629538
+post,LVT,B2,bridge,wealth_mid,09.1 Recreational durables,chart,-0.1061113116,-0.1103445076
+post,LVT,B2,bridge,wealth_mid,13.9 Other services,chart,0.1120089011,0.1165823021
+post,LVT,B2,bridge,wealth_mid,07.1 Purchase of vehicles,chart,-0.5137194554,-0.5345772734
+post,LVT,B2,bridge,wealth_mid,04.2 Imputed rentals (off-chart),offchart,-8.140461064,-8.475127996
+post,LVT,B2,bridge,wealth_mid,04.6 Interest on housing loans (off-chart),offchart,-0.4274518617,-0.4451488008
+post,LVT,B2,bridge,wealth_mid,06.3 Inpatient care services (off-chart),offchart,0.07871477426,0.08342450646
+post,LVT,B2,bridge,wealth_mid,06.4 Other health services (off-chart),offchart,0.02450989771,0.02563609353
+post,LVT,B2,bridge,wealth_mid,07.4 Transport services of goods (off-chart),offchart,0.1148288482,0.1201550455
+post,LVT,B2,bridge,wealth_mid,"08.2 Software, excluding games (off-chart)",offchart,0.01178419234,0.01095720519
+post,LVT,B2,bridge,wealth_mid,09.5 Cultural goods (off-chart),offchart,0.01620665606,0.01644853577
+post,LVT,B2,bridge,wealth_mid,10 Education services (off-chart),offchart,0.02107676326,0.02200174767
+post,LVT,B2,bridge,wealth_mid,13.3 Social protection (off-chart),offchart,0.08195088716,0.08355330868
+post,LVT,B2,bridge,wealth_mid,77 Consumption abroad (off-chart),offchart,-0.1887642034,-0.1963661767
+post,LVT,B1,bridge,post_mid,04.1 Actual rents,chart,18.70229659,19.48785058
+post,LVT,B1,bridge,post_mid,01.1 Food (at home),chart,1.578980883,1.643988574
+post,LVT,B1,bridge,post_mid,08.3 Information and communication services,chart,0.981289658,1.022198417
+post,LVT,B1,bridge,post_mid,06.1 Medicines and health products,chart,0.8255620896,0.8597411946
+post,LVT,B1,bridge,post_mid,13.1 Personal care,chart,0.7140061347,0.7438880443
+post,LVT,B1,bridge,post_mid,03.1 Clothing,chart,0.5951551263,0.6199302111
+post,LVT,B1,bridge,post_mid,07.2 Operation of personal transport equipment,chart,0.7615157056,0.7925946717
+post,LVT,B1,bridge,post_mid,11.1 Food and beverage serving services,chart,0.4859634863,0.5062953718
+post,LVT,B1,bridge,post_mid,04.4 Water & misc. dwelling services,chart,-1.289172876,-1.341824525
+post,LVT,B1,bridge,post_mid,12.1 Insurance,chart,0.5397597397,0.5619661973
+post,LVT,B1,bridge,post_mid,06.2 Outpatient care services,chart,0.4071257087,0.4235757888
+post,LVT,B1,bridge,post_mid,08.1 Information and communication equipment,chart,0.3850023448,0.4011404154
+post,LVT,B1,bridge,post_mid,"04.5 Electricity, gas and other fuels",chart,0.4944824625,0.515052735
+post,LVT,B1,bridge,post_mid,12.2 Financial services,chart,0.4287125907,0.4464617253
+post,LVT,B1,bridge,post_mid,07.3 Passenger transport services,chart,0.3469648159,0.3609583446
+post,LVT,B1,bridge,post_mid,09.3 Garden products and pets,chart,0.3569229799,0.3716999521
+post,LVT,B1,bridge,post_mid,09.4 Recreational services,chart,0.3723346595,0.3875837021
+post,LVT,B1,bridge,post_mid,02.3 Tobacco,chart,0.2325920397,0.2425407178
+post,LVT,B1,bridge,post_mid,01.2 Non-alcoholic beverages,chart,0.2651702285,0.276148544
+post,LVT,B1,bridge,post_mid,02.1 Alcoholic beverages,chart,0.1829619288,0.1904419904
+post,LVT,B1,bridge,post_mid,"09.7 Newspapers, books and stationery",chart,0.2282483042,0.2380614673
+post,LVT,B1,bridge,post_mid,13.2 Other personal effects,chart,0.1254540396,0.1306479637
+post,LVT,B1,bridge,post_mid,05.6 Goods and services for routine household maintenance,chart,0.1450428669,0.1511631799
+post,LVT,B1,bridge,post_mid,03.2 Footwear,chart,0.1415795908,0.147320867
+post,LVT,B1,bridge,post_mid,09.2 Other recreational goods,chart,0.1083693104,0.112772064
+post,LVT,B1,bridge,post_mid,05.2 Household textiles,chart,0.05839607018,0.06067737286
+post,LVT,B1,bridge,post_mid,09.6 Cultural services,chart,0.05994177377,0.06230360916
+post,LVT,B1,bridge,post_mid,05.3 Household appliances,chart,0.04244741855,0.04429381739
+post,LVT,B1,bridge,post_mid,"05.4 Glassware, tableware and household utensils",chart,0.03091189505,0.03226671763
+post,LVT,B1,bridge,post_mid,11.2 Accommodation services,chart,0.02662402923,0.02772629095
+post,LVT,B1,bridge,post_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.01119118201,0.01165450825
+post,LVT,B1,bridge,post_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.08508077205,0.08856092949
+post,LVT,B1,bridge,post_mid,05.5 Tools and equipment for house and garden,chart,-0.01924510283,-0.02004186954
+post,LVT,B1,bridge,post_mid,09.8 Package holidays,chart,-0.06111060359,-0.06364064434
+post,LVT,B1,bridge,post_mid,09.1 Recreational durables,chart,-0.1355877619,-0.140996889
+post,LVT,B1,bridge,post_mid,13.9 Other services,chart,-0.1027856129,-0.1069824207
+post,LVT,B1,bridge,post_mid,07.1 Purchase of vehicles,chart,-0.8011844138,-0.8337137612
+post,LVT,B1,bridge,post_mid,04.2 Imputed rentals (off-chart),offchart,-9.410651204,-9.797537615
+post,LVT,B1,bridge,post_mid,04.6 Interest on housing loans (off-chart),offchart,-0.4906846769,-0.5109995185
+post,LVT,B1,bridge,post_mid,06.3 Inpatient care services (off-chart),offchart,0.06891446119,0.07303781236
+post,LVT,B1,bridge,post_mid,06.4 Other health services (off-chart),offchart,0.01297672347,0.01357298592
+post,LVT,B1,bridge,post_mid,07.4 Transport services of goods (off-chart),offchart,0.1035104694,0.1083116773
+post,LVT,B1,bridge,post_mid,"08.2 Software, excluding games (off-chart)",offchart,0.009739536407,0.009056038446
+post,LVT,B1,bridge,post_mid,09.5 Cultural goods (off-chart),offchart,0.01027961833,0.01043303869
+post,LVT,B1,bridge,post_mid,10 Education services (off-chart),offchart,0.01474371403,0.01539076337
+post,LVT,B1,bridge,post_mid,13.3 Social protection (off-chart),offchart,0.06977354676,0.07113785942
+post,LVT,B1,bridge,post_mid,77 Consumption abroad (off-chart),offchart,-0.2648129552,-0.2754775886
+post,LVT,B1,bridge,wealth_mid,04.1 Actual rents,chart,18.70229659,19.48785058
+post,LVT,B1,bridge,wealth_mid,01.1 Food (at home),chart,1.959431606,2.040102705
+post,LVT,B1,bridge,wealth_mid,08.3 Information and communication services,chart,1.257395777,1.309815061
+post,LVT,B1,bridge,wealth_mid,06.1 Medicines and health products,chart,1.046811888,1.090150958
+post,LVT,B1,bridge,wealth_mid,13.1 Personal care,chart,0.9017055452,0.939442873
+post,LVT,B1,bridge,wealth_mid,03.1 Clothing,chart,0.7960728363,0.8292117126
+post,LVT,B1,bridge,wealth_mid,07.2 Operation of personal transport equipment,chart,1.181767769,1.229998055
+post,LVT,B1,bridge,wealth_mid,11.1 Food and beverage serving services,chart,0.6396699762,0.6664326797
+post,LVT,B1,bridge,wealth_mid,04.4 Water & misc. dwelling services,chart,-0.8454155847,-0.8799435565
+post,LVT,B1,bridge,wealth_mid,12.1 Insurance,chart,0.8156887361,0.8492472919
+post,LVT,B1,bridge,wealth_mid,06.2 Outpatient care services,chart,0.5502704275,0.5725043283
+post,LVT,B1,bridge,wealth_mid,08.1 Information and communication equipment,chart,0.5271600826,0.5492569523
+post,LVT,B1,bridge,wealth_mid,"04.5 Electricity, gas and other fuels",chart,0.7280396134,0.75832577
+post,LVT,B1,bridge,wealth_mid,12.2 Financial services,chart,0.5959419154,0.6206145131
+post,LVT,B1,bridge,wealth_mid,07.3 Passenger transport services,chart,0.4487236422,0.4668212328
+post,LVT,B1,bridge,wealth_mid,09.3 Garden products and pets,chart,0.4618222766,0.4809421856
+post,LVT,B1,bridge,wealth_mid,09.4 Recreational services,chart,0.5186749139,0.5399173516
+post,LVT,B1,bridge,wealth_mid,02.3 Tobacco,chart,0.2720183316,0.2836533936
+post,LVT,B1,bridge,wealth_mid,01.2 Non-alcoholic beverages,chart,0.3266756615,0.3402003641
+post,LVT,B1,bridge,wealth_mid,02.1 Alcoholic beverages,chart,0.2414291723,0.2512995595
+post,LVT,B1,bridge,wealth_mid,"09.7 Newspapers, books and stationery",chart,0.3130587881,0.3265182395
+post,LVT,B1,bridge,wealth_mid,13.2 Other personal effects,chart,0.1598044317,0.1664204967
+post,LVT,B1,bridge,wealth_mid,05.6 Goods and services for routine household maintenance,chart,0.2054738829,0.2141441782
+post,LVT,B1,bridge,wealth_mid,03.2 Footwear,chart,0.1947240685,0.2026204374
+post,LVT,B1,bridge,wealth_mid,09.2 Other recreational goods,chart,0.1810173945,0.1883716444
+post,LVT,B1,bridge,wealth_mid,05.2 Household textiles,chart,0.08169373513,0.08488518512
+post,LVT,B1,bridge,wealth_mid,09.6 Cultural services,chart,0.09113739967,0.09472841012
+post,LVT,B1,bridge,wealth_mid,05.3 Household appliances,chart,0.08230745246,0.08588770279
+post,LVT,B1,bridge,wealth_mid,"05.4 Glassware, tableware and household utensils",chart,0.05011079932,0.05230708144
+post,LVT,B1,bridge,wealth_mid,11.2 Accommodation services,chart,0.043616606,0.04542237757
+post,LVT,B1,bridge,wealth_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.07412053982,0.07718920509
+post,LVT,B1,bridge,wealth_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.1746834361,0.1818287152
+post,LVT,B1,bridge,wealth_mid,05.5 Tools and equipment for house and garden,chart,0.009257835323,0.009641119063
+post,LVT,B1,bridge,wealth_mid,09.8 Package holidays,chart,-0.01735690242,-0.01807549572
+post,LVT,B1,bridge,wealth_mid,09.1 Recreational durables,chart,-0.1153338899,-0.1199350107
+post,LVT,B1,bridge,wealth_mid,13.9 Other services,chart,0.09029181091,0.09397848809
+post,LVT,B1,bridge,wealth_mid,07.1 Purchase of vehicles,chart,-0.5744950474,-0.59782045
+post,LVT,B1,bridge,wealth_mid,04.2 Imputed rentals (off-chart),offchart,-8.115305269,-8.448938007
+post,LVT,B1,bridge,wealth_mid,04.6 Interest on housing loans (off-chart),offchart,-0.4314891007,-0.4493531856
+post,LVT,B1,bridge,wealth_mid,06.3 Inpatient care services (off-chart),offchart,0.0818190768,0.08671454839
+post,LVT,B1,bridge,wealth_mid,06.4 Other health services (off-chart),offchart,0.02502786673,0.0261778625
+post,LVT,B1,bridge,wealth_mid,07.4 Transport services of goods (off-chart),offchart,0.1201160986,0.1256875385
+post,LVT,B1,bridge,wealth_mid,"08.2 Software, excluding games (off-chart)",offchart,0.012079091,0.01123140855
+post,LVT,B1,bridge,wealth_mid,09.5 Cultural goods (off-chart),offchart,0.0163299043,0.01657362345
+post,LVT,B1,bridge,wealth_mid,10 Education services (off-chart),offchart,0.02172389403,0.02267727872
+post,LVT,B1,bridge,wealth_mid,13.3 Social protection (off-chart),offchart,0.08494433343,0.08660528712
+post,LVT,B1,bridge,wealth_mid,77 Consumption abroad (off-chart),offchart,-0.2051732313,-0.2134360343
+post,VAT,,bridge,post_mid,04.1 Actual rents,chart,4.975087122,5.184056085
+post,VAT,,bridge,post_mid,01.1 Food (at home),chart,0.9043865895,0.9416207853
+post,VAT,,bridge,post_mid,08.3 Information and communication services,chart,0.5352031186,0.5575150784
+post,VAT,,bridge,post_mid,06.1 Medicines and health products,chart,0.4323227993,0.4502214002
+post,VAT,,bridge,post_mid,13.1 Personal care,chart,0.3923657844,0.4087867062
+post,VAT,,bridge,post_mid,03.1 Clothing,chart,0.3458373531,0.3602338514
+post,VAT,,bridge,post_mid,07.2 Operation of personal transport equipment,chart,0.3384736406,0.3522874211
+post,VAT,,bridge,post_mid,11.1 Food and beverage serving services,chart,0.2857734961,0.2977297729
+post,VAT,,bridge,post_mid,04.4 Water & misc. dwelling services,chart,0.214275345,0.2230266541
+post,VAT,,bridge,post_mid,12.1 Insurance,chart,0.2526909236,0.2630869756
+post,VAT,,bridge,post_mid,06.2 Outpatient care services,chart,0.2290028857,0.2382558406
+post,VAT,,bridge,post_mid,08.1 Information and communication equipment,chart,0.2210086793,0.2302726584
+post,VAT,,bridge,post_mid,"04.5 Electricity, gas and other fuels",chart,0.2310077943,0.2406176261
+post,VAT,,bridge,post_mid,12.2 Financial services,chart,0.2102731425,0.2189786632
+post,VAT,,bridge,post_mid,07.3 Passenger transport services,chart,0.2039726592,0.2121991339
+post,VAT,,bridge,post_mid,09.3 Garden products and pets,chart,0.187185008,0.1949346565
+post,VAT,,bridge,post_mid,09.4 Recreational services,chart,0.1822004602,0.1896625175
+post,VAT,,bridge,post_mid,02.3 Tobacco,chart,0.1574048474,0.1641375376
+post,VAT,,bridge,post_mid,01.2 Non-alcoholic beverages,chart,0.1576798772,0.1642079835
+post,VAT,,bridge,post_mid,02.1 Alcoholic beverages,chart,0.1148486542,0.1195440299
+post,VAT,,bridge,post_mid,"09.7 Newspapers, books and stationery",chart,0.1143265689,0.1192418531
+post,VAT,,bridge,post_mid,13.2 Other personal effects,chart,0.06504687059,0.06773987678
+post,VAT,,bridge,post_mid,05.6 Goods and services for routine household maintenance,chart,0.07316312003,0.07625035353
+post,VAT,,bridge,post_mid,03.2 Footwear,chart,0.06898126776,0.07177856722
+post,VAT,,bridge,post_mid,09.2 Other recreational goods,chart,0.05885071124,0.06124165734
+post,VAT,,bridge,post_mid,05.2 Household textiles,chart,0.02706533615,0.02812267141
+post,VAT,,bridge,post_mid,09.6 Cultural services,chart,0.02749159008,0.02857481812
+post,VAT,,bridge,post_mid,05.3 Household appliances,chart,0.02235687283,0.02332936316
+post,VAT,,bridge,post_mid,"05.4 Glassware, tableware and household utensils",chart,0.01499151359,0.01564856943
+post,VAT,,bridge,post_mid,11.2 Accommodation services,chart,0.009485661243,0.009878377207
+post,VAT,,bridge,post_mid,"05.1 Furniture, furnishings and loose carpets (D)",chart,0.007630456969,0.0079463656
+post,VAT,,bridge,post_mid,"04.3 Maintenance, repair and security of the dwelling",chart,0.0026722935,0.002781601418
+post,VAT,,bridge,post_mid,05.5 Tools and equipment for house and garden,chart,-0.01549415807,-0.01613563188
+post,VAT,,bridge,post_mid,09.8 Package holidays,chart,-0.02367879919,-0.02465912541
+post,VAT,,bridge,post_mid,09.1 Recreational durables,chart,-0.0816487928,-0.08490608306
+post,VAT,,bridge,post_mid,13.9 Other services,chart,-0.0973492452,-0.1013240823
+post,VAT,,bridge,post_mid,07.1 Purchase of vehicles,chart,-0.4964628518,-0.5166200245
+post,VAT,,bridge,post_mid,04.2 Imputed rentals (off-chart),offchart,-1.205624766,-1.255189863
+post,VAT,,bridge,post_mid,04.6 Interest on housing loans (off-chart),offchart,-0.0794487268,-0.08273798439
+post,VAT,,bridge,post_mid,06.3 Inpatient care services (off-chart),offchart,0.03436477046,0.03642091389
+post,VAT,,bridge,post_mid,06.4 Other health services (off-chart),offchart,0.007331484844,0.007668356407
+post,VAT,,bridge,post_mid,07.4 Transport services of goods (off-chart),offchart,0.06609954195,0.06916548928
+post,VAT,,bridge,post_mid,"08.2 Software, excluding games (off-chart)",offchart,0.00577818794,0.00537268818
+post,VAT,,bridge,post_mid,09.5 Cultural goods (off-chart),offchart,0.005826837427,0.005913801309
+post,VAT,,bridge,post_mid,10 Education services (off-chart),offchart,0.01123013733,0.01172298824
+post,VAT,,bridge,post_mid,13.3 Social protection (off-chart),offchart,0.03649859865,0.03721227171
+post,VAT,,bridge,post_mid,77 Consumption abroad (off-chart),offchart,-0.1429075545,-0.148662774

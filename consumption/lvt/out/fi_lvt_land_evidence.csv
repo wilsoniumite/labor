@@ -1,0 +1,9 @@
+evidence,value,role,note
+residual: 1 - N111 / survey dwelling value (2023),0.1971155535,central (the paper's construction),market value of household dwellings (151u) minus residential structures at current cost (11zx N111)
+"N211 / (N211 + N111), households, 2022",0.259109575,upper bound,"N211 holds all household land, forest and farmland included"
+"N211 / (N211 + N111), households, 2023",0.2393179729,upper bound (band high 0.24),
+"own vs rented plot price gap, old housing-company dwellings, whole country 2022",0.09372846313,lower bound,"rented plots are 22% of sales and cluster in high-price cities, which pulls the national gap down"
+"same, sales-weighted mean of the gaps within 'major cities' and 'rest of country'",0.1500039654,lower bound (band low 0.13),removes the city/country composition effect; municipal ground rents below market still bias it down
+"own vs rented plot gap, new blocks of flats, whole country / Greater Helsinki 2022",0.08978840846,lower bound,Greater Helsinki 0.188
+"single-family plot, whole country 2022: mean price EUR (25.9/m2 x 2,837 m2)",73478.3,regional spread (not a share),"Greater Helsinki EUR 315,878; municipalities under 20,000 EUR 41,254; mean owner-occupied main residence EUR 194,236 (151u 2023)"
+"forest + farmland + business land share (residual from N211, 2023)",0.7630771337,central,"band 0.5-1.5: forest at the bare-land taxation value (below market), farmland at purchase prices, business net wealth mostly not land"

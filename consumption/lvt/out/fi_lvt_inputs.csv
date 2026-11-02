@@ -1,0 +1,46 @@
+item,value,unit,source
+vat_dividend_coherent,198.8246052,EUR/share/month,"bridge.fi_vat_accounting, convention='coherent'"
+vat_dividend_post,193.0053685,EUR/share/month,"bridge.fi_vat_accounting, convention='post' (the published 193)"
+vat_dividend_law_coherent,178.0374063,EUR/share/month,Finnish law line by line (bridge.fi_vat_flags('law'))
+vat_dividend_law_post,172.3842192,EUR/share/month,Finnish law line by line; rebuild NOTES_fi: 172.4
+payment_shares_hbs_coherent,4832104.017,shares,HBS 2022 households x 12ew pair-mean shares (equal-household design)
+consumption_hbs_meur,116197.0144,EUR million/yr,"bridge budget x payment shares x 12 (= HBS 39,808 x 2,919,000)"
+vat_revenue_meur,11528.89408,EUR million/yr,coherent dividend x payment shares x 12
+na_consumption_2022_meur,129372,EUR million/yr,ntp 15ag P31DCK 2022
+housing_services_2022_meur,30821,EUR million/yr,"ntp 15ag 04.1 + 04.2, 2022"
+consumption_deflator_2023,1.042939886,ratio,ntp 15ag P31DCK 2023 current / previous-year prices
+yield_2022,1.69,% a year,"Eurostat irt_lt_mcby_a FI (EMU convergence 10-year), annual 2022"
+yield_2023,3.04,% a year,"same, 2023"
+yield_2024,2.85,% a year,"same, 2024"
+yield_2025,2.99698,% a year,"same, 2025"
+n211_s14_2022_meur,131495,EUR million,rtp 11zx S14 N211 end-2022
+n211_s14_2023_meur,126251,EUR million,rtp 11zx S14 N211 end-2023
+n111_s14_2022_meur,375993,EUR million,rtp 11zx S14 N111 end-2022
+n111_s14_2023_meur,401294,EUR million,rtp 11zx S14 N111 end-2023
+survey_dwellings_2023_meur,499815.3866,EUR million,"151u: main residence + other residential + free-time, mean x households"
+survey_ffb_2023_meur,36339.20113,EUR million,"151u: forest, farmland and business"
+s_d_residual,0.1971155535,share,1 - N111_2023 / survey dwellings (the paper's residual construction)
+s_f_residual,0.7630771337,share,(N211_2023 - s_d x dwellings) / survey forest-farmland-business
+carry_2023_to_2022,1.041536305,ratio,N211 end-2022 / end-2023 (S14)
+carry_mid2022_alt,1.029267095,ratio,"mean(N211 end-2021, end-2022) / end-2023"
+survey_households_2023,2950000,households,151u
+judgment_s_d_band_low,0.13,share,own vs rented plot price gap within region groups (lower bound)
+judgment_s_d_band_high,0.24,share,N211/(N211+N111) 2023 (upper bound)
+judgment_s_f_band_low,0.5,share,judgment
+judgment_s_f_band_high,1.5,share,judgment
+judgment_mpw_low,0.02,per EUR/yr,post fn 31
+judgment_mpw_mid,0.035,per EUR/yr,midpoint
+judgment_mpw_high,0.05,per EUR/yr,post fn 31
+judgment_mpc_coll_low,0.047,per EUR/yr,Aladangady 2017
+judgment_mpc_coll_mid,0.06,per EUR/yr,Mian-Rao-Sufi 2013 midpoint
+judgment_mpc_coll_lit_high,0.07,per EUR/yr,Mian-Rao-Sufi 2013 top
+judgment_mpc_coll_stress,0.1,per EUR/yr,"stress, judgment (no source)"
+judgment_mpc_unconstrained_low,0.25,MPC,judgment
+judgment_mpc_unconstrained_mid,0.5615436242,MPC,schedule's q5 (mid)
+judgment_mpc_unconstrained_high,0.6760804769,MPC,high schedule's q5
+judgment_sigma_c_mid,0.45,log sd,judgment
+judgment_ltv_sigma_mid,0.6,log sd,US-calibrated log-normal (band method)
+judgment_phi_full,0.98,share,design memo 1.1
+judgment_gamma,0.02,,T4
+judgment_delta,0.05,,T4
+judgment_hh_landlord_share_mid,0.55,share,judgment from the balance sheet

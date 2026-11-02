@@ -1,0 +1,20 @@
+country,item,top_decile,top_quintile,bottom_half,source
+FI,main residence,0.2520250674,0.405710654,0.2555505949,"151u 2023, income deciles"
+FI,dwellings (main + other + free-time),0.2878370342,0.4387713111,0.2396004794,"151u 2023, income deciles"
+FI,"forest, farmland, business",0.2553462766,0.4055986782,0.3110797038,"151u 2023, income deciles"
+FI,financial assets,0.5091965003,0.6203247081,0.1653849231,"151u 2023, income deciles"
+FI,net wealth,0.3727639285,0.5037951575,0.225278767,"151u 2023, income deciles"
+FI,deposits,0.2607179927,0.4010011584,0.2672090647,"151u 2023, income deciles"
+FI,housing loans,0.2404934849,0.4380208286,0.1679068173,"151u 2023, income deciles"
+FI,disposable income,0.2435000334,0.3923849865,0.2788687799,"151u 2023, income deciles"
+FI,land B1,0.2878373741,0.4387718292,0.2396001714,this unit
+FI,land B2,0.2807010696,0.4314857193,0.2552998474,this unit
+FI,VAT-able consumption (coherent),,0.3265848036,,"HBS 2022 quintiles, the bridge's weights"
+FI,VAT-able consumption (post),,0.3137117244,,"HBS 2022 quintiles, the bridge's weights"
+US,land L1 (residential),0.3938748418,0.543683704,0.1845381335,consumption/lvt/out/us_lvt_land_by_decile.csv
+US,land L2 (all),0.5151173142,0.6450249041,0.1425959678,consumption/lvt/out/us_lvt_land_by_decile.csv
+US,VAT-able consumption (CE),0.2173143932,0.3663595595,0.315559571,consumption/lvt/out/us_lvt_land_by_decile.csv
+US,home value (SCF),0.3488657893,0.4974713043,0.2029119712,consumption/lvt/out/us_lvt_land_by_decile.csv
+US,financial assets,0.6563087131,0.7748032917,0.06014255243,"SCF 2025 summary extract, INCPCTLECAT deciles"
+US,net wealth,0.612922542,0.7282892649,0.1012023555,"SCF 2025 summary extract, INCPCTLECAT deciles"
+US,income (pretax),0.4585755574,0.6016644978,0.1500193206,"SCF 2025 summary extract, INCPCTLECAT deciles"

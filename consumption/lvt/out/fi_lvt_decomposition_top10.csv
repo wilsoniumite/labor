@@ -1,0 +1,101 @@
+instrument,category,quintile,segment_eur,net_eur
+LVT_B2,04.1 Actual rents,q1,4.980877005,6.869507007
+LVT_B2,04.1 Actual rents,q2,1.929371704,6.869507007
+LVT_B2,04.1 Actual rents,q3,0.3695231429,6.869507007
+LVT_B2,04.1 Actual rents,q4,-0.009701559231,6.869507007
+LVT_B2,04.1 Actual rents,q5,-0.4005632855,6.869507007
+LVT_B2,01.1 Food (at home),q1,1.228579534,1.66445628
+LVT_B2,01.1 Food (at home),q2,0.8933252601,1.66445628
+LVT_B2,01.1 Food (at home),q3,0.2866558575,1.66445628
+LVT_B2,01.1 Food (at home),q4,-0.009836164481,1.66445628
+LVT_B2,01.1 Food (at home),q5,-0.734268207,1.66445628
+LVT_B2,08.3 Information and communication services,q1,0.8178410908,0.9155872151
+LVT_B2,08.3 Information and communication services,q2,0.6543984301,0.9155872151
+LVT_B2,08.3 Information and communication services,q3,0.2268514402,0.9155872151
+LVT_B2,08.3 Information and communication services,q4,-0.008465258013,0.9155872151
+LVT_B2,08.3 Information and communication services,q5,-0.775038488,0.9155872151
+LVT_B2,07.2 Operation of personal transport equipment,q1,1.038801448,0.8531199247
+LVT_B2,07.2 Operation of personal transport equipment,q2,1.194976474,0.8531199247
+LVT_B2,07.2 Operation of personal transport equipment,q3,0.4020968052,0.8531199247
+LVT_B2,07.2 Operation of personal transport equipment,q4,-0.0170756423,0.8531199247
+LVT_B2,07.2 Operation of personal transport equipment,q5,-1.76567916,0.8531199247
+LVT_B2,06.1 Medicines and health products,q1,0.5588741025,0.7183535163
+LVT_B2,06.1 Medicines and health products,q2,0.5254942222,0.7183535163
+LVT_B2,06.1 Medicines and health products,q3,0.1878493277,0.7183535163
+LVT_B2,06.1 Medicines and health products,q4,-0.006061909719,0.7183535163
+LVT_B2,06.1 Medicines and health products,q5,-0.5478022264,0.7183535163
+LVT_B2,07.1 Purchase of vehicles,q1,0.3764937844,-0.6958974899
+LVT_B2,07.1 Purchase of vehicles,q2,0.7526724385,-0.6958974899
+LVT_B2,07.1 Purchase of vehicles,q3,0.3473488799,-0.6958974899
+LVT_B2,07.1 Purchase of vehicles,q4,-0.01357238851,-0.6958974899
+LVT_B2,07.1 Purchase of vehicles,q5,-2.158840204,-0.6958974899
+LVT_B2,13.1 Personal care,q1,0.5918528768,0.6428131302
+LVT_B2,13.1 Personal care,q2,0.4408767219,0.6428131302
+LVT_B2,13.1 Personal care,q3,0.1476050953,0.6428131302
+LVT_B2,13.1 Personal care,q4,-0.005760981288,0.6428131302
+LVT_B2,13.1 Personal care,q5,-0.5317605825,0.6428131302
+LVT_B2,04.4 Water & misc. dwelling services,q1,0.470838392,0.587914259
+LVT_B2,04.4 Water & misc. dwelling services,q2,0.6475498466,0.587914259
+LVT_B2,04.4 Water & misc. dwelling services,q3,0.2401457356,0.587914259
+LVT_B2,04.4 Water & misc. dwelling services,q4,-0.008898738278,0.587914259
+LVT_B2,04.4 Water & misc. dwelling services,q5,-0.761720977,0.587914259
+LVT_B2,03.1 Clothing,q1,0.642886168,0.5602483476
+LVT_B2,03.1 Clothing,q2,0.4423330887,0.5602483476
+LVT_B2,03.1 Clothing,q3,0.1707295728,0.5602483476
+LVT_B2,03.1 Clothing,q4,-0.007045372552,0.5602483476
+LVT_B2,03.1 Clothing,q5,-0.6886551093,0.5602483476
+LVT_B2,"04.5 Electricity, gas and other fuels",q1,0.6015238512,0.5421210525
+LVT_B2,"04.5 Electricity, gas and other fuels",q2,0.5918850727,0.5421210525
+LVT_B2,"04.5 Electricity, gas and other fuels",q3,0.2145951745,0.5421210525
+LVT_B2,"04.5 Electricity, gas and other fuels",q4,-0.009082516568,0.5421210525
+LVT_B2,"04.5 Electricity, gas and other fuels",q5,-0.8568005294,0.5421210525
+VAT,04.1 Actual rents,q1,3.416953082,4.206268794
+VAT,04.1 Actual rents,q2,0.9701009053,4.206268794
+VAT,04.1 Actual rents,q3,0.09014742864,4.206268794
+VAT,04.1 Actual rents,q4,-0.0783049374,4.206268794
+VAT,04.1 Actual rents,q5,-0.1926276852,4.206268794
+VAT,01.1 Food (at home),q1,0.842823186,0.929429403
+VAT,01.1 Food (at home),q2,0.4491698732,0.929429403
+VAT,01.1 Food (at home),q3,0.06993144802,0.929429403
+VAT,01.1 Food (at home),q4,-0.07939138705,0.929429403
+VAT,01.1 Food (at home),q5,-0.3531037172,0.929429403
+VAT,08.3 Information and communication services,q1,0.5610507212,0.5043922881
+VAT,08.3 Information and communication services,q2,0.3290358764,0.5043922881
+VAT,08.3 Information and communication services,q3,0.05534179499,0.5043922881
+VAT,08.3 Information and communication services,q4,-0.06832628477,0.5043922881
+VAT,08.3 Information and communication services,q5,-0.3727098197,0.5043922881
+VAT,07.1 Purchase of vehicles,q1,0.2582801373,-0.426250153
+VAT,07.1 Purchase of vehicles,q2,0.3784487004,-0.426250153
+VAT,07.1 Purchase of vehicles,q3,0.08473788167,-0.426250153
+VAT,07.1 Purchase of vehicles,q4,-0.1095478579,-0.426250153
+VAT,07.1 Purchase of vehicles,q5,-1.038169015,-0.426250153
+VAT,07.2 Operation of personal transport equipment,q1,0.712632696,0.4246438291
+VAT,07.2 Operation of personal transport equipment,q2,0.6008421067,0.4246438291
+VAT,07.2 Operation of personal transport equipment,q3,0.09809397259,0.4246438291
+VAT,07.2 Operation of personal transport equipment,q4,-0.1378239383,0.4246438291
+VAT,07.2 Operation of personal transport equipment,q5,-0.8491010079,0.4246438291
+VAT,06.1 Medicines and health products,q1,0.3833956521,0.3810829561
+VAT,06.1 Medicines and health products,q2,0.2642219846,0.3810829561
+VAT,06.1 Medicines and health products,q3,0.04582699131,0.3810829561
+VAT,06.1 Medicines and health products,q4,-0.04892795578,0.3810829561
+VAT,06.1 Medicines and health products,q5,-0.2634337162,0.3810829561
+VAT,13.1 Personal care,q1,0.4060195644,0.361486006
+VAT,13.1 Personal care,q2,0.2216757436,0.361486006
+VAT,13.1 Personal care,q3,0.03600916491,0.361486006
+VAT,13.1 Personal care,q4,-0.04649904911,0.361486006
+VAT,13.1 Personal care,q5,-0.2557194177,0.361486006
+VAT,03.1 Clothing,q1,0.4410291342,0.3170530739
+VAT,03.1 Clothing,q2,0.2224080145,0.3170530739
+VAT,03.1 Clothing,q3,0.04165052249,0.3170530739
+VAT,03.1 Clothing,q4,-0.0568658546,0.3170530739
+VAT,03.1 Clothing,q5,-0.3311687427,0.3170530739
+VAT,"04.5 Electricity, gas and other fuels",q1,0.4126539915,0.2772725973
+VAT,"04.5 Electricity, gas and other fuels",q2,0.2976037452,0.2772725973
+VAT,"04.5 Electricity, gas and other fuels",q3,0.05235180408,0.2772725973
+VAT,"04.5 Electricity, gas and other fuels",q4,-0.07330841098,0.2772725973
+VAT,"04.5 Electricity, gas and other fuels",q5,-0.4120285325,0.2772725973
+VAT,11.1 Food and beverage serving services,q1,0.3339247464,0.2760599443
+VAT,11.1 Food and beverage serving services,q2,0.1646889994,0.2760599443
+VAT,11.1 Food and beverage serving services,q3,0.02906603894,0.2760599443
+VAT,11.1 Food and beverage serving services,q4,-0.04042197086,0.2760599443
+VAT,11.1 Food and beverage serving services,q5,-0.2111978696,0.2760599443

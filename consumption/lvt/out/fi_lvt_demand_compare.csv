@@ -1,0 +1,593 @@
+category,vat,lvt,ratio,same_sign,vat_share_of_chart,lvt_share_of_chart,comparison,convention
+04.1 Actual rents,4.206268794,6.869507007,1.633159302,True,0.4347400757,0.3977396079,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+01.1 Food (at home),0.929429403,1.66445628,1.790836695,True,0.09606143327,0.09637084402,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+08.3 Information and communication services,0.5043922881,0.9155872151,1.815228418,True,0.05213160458,0.05301185362,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+06.1 Medicines and health products,0.3810829561,0.7183535163,1.885031867,True,0.03938693444,0.04159216165,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+13.1 Personal care,0.361486006,0.6428131302,1.77825177,True,0.03736148623,0.0372184266,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+03.1 Clothing,0.3170530739,0.5602483476,1.767049096,True,0.03276910823,0.03243798396,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+07.2 Operation of personal transport equipment,0.4246438291,0.8531199247,2.009024661,True,0.04388918052,0.04939504159,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+11.1 Food and beverage serving services,0.2760599443,0.4892570863,1.772285681,True,0.02853225197,0.02832764002,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+04.4 Water & misc. dwelling services,0.2690486722,0.587914259,2.185159489,True,0.0278076,0.0340398207,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+12.1 Insurance,0.2566608702,0.5183235885,2.01948816,True,0.0265272553,0.03001056999,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+06.2 Outpatient care services,0.1974765873,0.3465996251,1.755142874,True,0.02041024736,0.02006787369,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+08.1 Information and communication equipment,0.2198898345,0.3842008134,1.74724227,True,0.02272677472,0.02224495597,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+"04.5 Electricity, gas and other fuels",0.2772725973,0.5421210525,1.955191598,True,0.02865758606,0.03138842636,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+12.2 Financial services,0.2172907653,0.4154143567,1.911790204,True,0.02245814721,0.02405219809,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+07.3 Passenger transport services,0.1612187643,0.2738606101,1.698689426,True,0.01666281002,0.01585633606,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+09.3 Garden products and pets,0.1793617688,0.3267235282,1.821589575,True,0.01853798527,0.01891706171,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+09.4 Recreational services,0.1592267688,0.3216099797,2.019823565,True,0.01645692677,0.01862099086,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+02.3 Tobacco,0.1374735303,0.2243119864,1.631674009,True,0.01420861478,0.01298750571,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+01.2 Non-alcoholic beverages,0.1580013998,0.2783834376,1.761904882,True,0.01633027842,0.01611820458,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+02.1 Alcoholic beverages,0.1031803038,0.1774854936,1.720148973,True,0.01066422886,0.01027628482,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+"09.7 Newspapers, books and stationery",0.09983672833,0.1928966923,1.932121531,True,0.0103186527,0.01116858236,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+13.2 Other personal effects,0.06726626822,0.1241589218,1.845782813,True,0.006952323776,0.007188713952,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+05.6 Goods and services for routine household maintenance,0.07368729664,0.1387861823,1.883447876,True,0.007615970945,0.008035622014,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+03.2 Footwear,0.07058355059,0.140352776,1.988462961,True,0.007295182413,0.008126326683,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+09.2 Other recreational goods,0.06433568236,0.1241198428,1.929253538,True,0.006649432262,0.007186451306,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+05.2 Household textiles,0.02833919037,0.05977669185,2.109329557,True,0.002929004867,0.003461028274,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+09.6 Cultural services,0.03627203442,0.07529360838,2.07580329,True,0.00374890616,0.00435944679,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+05.3 Household appliances,0.02960774111,0.05735192094,1.937058309,True,0.00306011628,0.003320635749,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+"05.4 Glassware, tableware and household utensils",0.02040315484,0.04095996455,2.007530937,True,0.002108773717,0.002371553042,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+11.2 Accommodation services,0.01064263991,0.02681670897,2.519742207,True,0.001099972994,0.001552668525,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.00380366918,0.004535597064,1.192426799,True,0.0003931292812,0.0002626078692,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.006585783768,0.06578050436,9.988257537,True,0.0006806755047,0.003808644781,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+05.5 Tools and equipment for house and garden,-0.01196848658,-0.01527616718,1.276365819,True,-0.001237006244,-0.0008844792991,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+09.8 Package holidays,0.005594104387,0.006727714368,1.202643695,True,0.0005781802077,0.0003895299141,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+09.1 Recreational durables,-0.08267313008,-0.1448995769,1.752680426,True,-0.008544704248,-0.008389583244,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+13.9 Other services,-0.05721950531,-0.04040745337,0.7061832002,True,-0.005913937813,-0.002339563034,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+07.1 Purchase of vehicles,-0.426250153,-0.6958974899,1.632603496,True,-0.04405520258,-0.04029197357,"LVT B2 bridge vs VAT, the post's method (mid)",coherent
+04.1 Actual rents,4.206268794,1.283648322,0.3051750578,True,0.4347400757,0.3977396079,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+01.1 Food (at home),0.929429403,0.3110232669,0.3346389365,True,0.09606143327,0.09637084402,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+08.3 Information and communication services,0.5043922881,0.1710882588,0.3391968172,True,0.05213160458,0.05301185362,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+06.1 Medicines and health products,0.3810829561,0.1342328183,0.3522404142,True,0.03938693444,0.04159216165,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+13.1 Personal care,0.361486006,0.1201172071,0.332287295,True,0.03736148623,0.0372184266,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+03.1 Clothing,0.3170530739,0.1046890047,0.3301939433,True,0.03276910823,0.03243798396,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+07.2 Operation of personal transport equipment,0.4246438291,0.1594155096,0.3754099286,True,0.04388918052,0.04939504159,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+11.1 Food and beverage serving services,0.2760599443,0.09142345109,0.3311724608,True,0.02853225197,0.02832764002,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+04.4 Water & misc. dwelling services,0.2690486722,0.1098587062,0.4083227965,True,0.0278076,0.0340398207,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+12.1 Insurance,0.2566608702,0.09685486951,0.3773651567,True,0.0265272553,0.03001056999,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+06.2 Outpatient care services,0.1974765873,0.06476622365,0.3279691255,True,0.02041024736,0.02006787369,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+08.1 Information and communication equipment,0.2198898345,0.07179244872,0.3264928045,True,0.02272677472,0.02224495597,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+"04.5 Electricity, gas and other fuels",0.2772725973,0.101301706,0.3653505865,True,0.02865758606,0.03138842636,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+12.2 Financial services,0.2172907653,0.07762506704,0.3572405248,True,0.02245814721,0.02405219809,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+07.3 Passenger transport services,0.1612187643,0.05117408168,0.3174201335,True,0.01666281002,0.01585633606,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+09.3 Garden products and pets,0.1793617688,0.06105214077,0.3403854745,True,0.01853798527,0.01891706171,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+09.4 Recreational services,0.1592267688,0.06009661397,0.377427831,True,0.01645692677,0.01862099086,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+02.3 Tobacco,0.1374735303,0.04191533754,0.3048975134,True,0.01420861478,0.01298750571,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+01.2 Non-alcoholic beverages,0.1580013998,0.05201922529,0.3292326862,True,0.01633027842,0.01611820458,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+02.1 Alcoholic beverages,0.1031803038,0.03316525564,0.3214301027,True,0.01066422886,0.01027628482,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+"09.7 Newspapers, books and stationery",0.09983672833,0.03604501971,0.3610396726,True,0.0103186527,0.01116858236,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+13.2 Other personal effects,0.06726626822,0.0232005574,0.344906266,True,0.006952323776,0.007188713952,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+05.6 Goods and services for routine household maintenance,0.07368729664,0.02593383337,0.3519444267,True,0.007615970945,0.008035622014,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+03.2 Footwear,0.07058355059,0.02622656986,0.3715677327,True,0.007295182413,0.008126326683,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+09.2 Other recreational goods,0.06433568236,0.02319325503,0.3605037544,True,0.006649432262,0.007186451306,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+05.2 Household textiles,0.02833919037,0.01116997917,0.3941530802,True,0.002929004867,0.003461028274,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+09.6 Cultural services,0.03627203442,0.01406949785,0.3878883022,True,0.00374890616,0.00435944679,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+05.3 Household appliances,0.02960774111,0.01071688216,0.3619621679,True,0.00306011628,0.003320635749,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+"05.4 Glassware, tableware and household utensils",0.02040315484,0.007653851974,0.3751308087,True,0.002108773717,0.002371553042,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+11.2 Accommodation services,0.01064263991,0.005011018031,0.4708435195,True,0.001099972994,0.001552668525,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.00380366918,0.0008475297506,0.2228189967,True,0.0003931292812,0.0002626078692,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.006585783768,0.01229186228,1.866423604,True,0.0006806755047,0.003808644781,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+05.5 Tools and equipment for house and garden,-0.01196848658,-0.002854531824,0.2385039917,True,-0.001237006244,-0.0008844792991,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+09.8 Package holidays,0.005594104387,0.001257152697,0.2247281441,True,0.0005781802077,0.0003895299141,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+09.1 Recreational durables,-0.08267313008,-0.02707619317,0.3275089881,True,-0.008544704248,-0.008389583244,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+13.9 Other services,-0.05721950531,-0.007550608751,0.1319586513,True,-0.005913937813,-0.002339563034,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+07.1 Purchase of vehicles,-0.426250153,-0.1300366452,0.3050711989,True,-0.04405520258,-0.04029197357,"LVT B2 full_m1 vs VAT, the post's method (mid)",coherent
+04.1 Actual rents,4.206268794,2.422981153,0.5760404937,True,0.4347400757,0.3977396079,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+01.1 Food (at home),0.929429403,0.587079421,0.631655744,True,0.09606143327,0.09637084402,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+08.3 Information and communication services,0.5043922881,0.3229417429,0.6402590811,True,0.05213160458,0.05301185362,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+06.1 Medicines and health products,0.3810829561,0.253374373,0.6648798351,True,0.03938693444,0.04159216165,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+13.1 Personal care,0.361486006,0.2267301128,0.6272168468,True,0.03736148623,0.0372184266,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+03.1 Clothing,0.3170530739,0.1976082397,0.6232654907,True,0.03276910823,0.03243798396,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+07.2 Operation of personal transport equipment,0.4246438291,0.3009085654,0.7086140072,True,0.04388918052,0.04939504159,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+11.1 Food and beverage serving services,0.2760599443,0.172568526,0.6251125149,True,0.02853225197,0.02832764002,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+04.4 Water & misc. dwelling services,0.2690486722,0.2073664336,0.7707394797,True,0.0278076,0.0340398207,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+12.1 Insurance,0.2566608702,0.18282073,0.7123046449,True,0.0265272553,0.03001056999,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+06.2 Outpatient care services,0.1974765873,0.1222510375,0.6190659824,True,0.02041024736,0.02006787369,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+08.1 Information and communication equipment,0.2198898345,0.1355135571,0.6162793173,True,0.02272677472,0.02224495597,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+"04.5 Electricity, gas and other fuels",0.2772725973,0.1912144629,0.689626255,True,0.02865758606,0.03138842636,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+12.2 Financial services,0.2172907653,0.1465230555,0.6743179136,True,0.02245814721,0.02405219809,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+07.3 Passenger transport services,0.1612187643,0.09659486423,0.5991539798,True,0.01666281002,0.01585633606,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+09.3 Garden products and pets,0.1793617688,0.1152404314,0.6425027595,True,0.01853798527,0.01891706171,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+09.4 Recreational services,0.1592267688,0.1134368039,0.7124229473,True,0.01645692677,0.01862099086,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+02.3 Tobacco,0.1374735303,0.07911829985,0.5755166081,True,0.01420861478,0.01298750571,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+01.2 Non-alcoholic beverages,0.1580013998,0.09819013531,0.6214510468,True,0.01633027842,0.01611820458,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+02.1 Alcoholic beverages,0.1031803038,0.06260187307,0.6067230933,True,0.01066422886,0.01027628482,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+"09.7 Newspapers, books and stationery",0.09983672833,0.06803764075,0.6814890862,True,0.0103186527,0.01116858236,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+13.2 Other personal effects,0.06726626822,0.04379276811,0.6510360879,True,0.006952323776,0.007188713952,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+05.6 Goods and services for routine household maintenance,0.07368729664,0.04895202867,0.6643211369,True,0.007615970945,0.008035622014,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+03.2 Footwear,0.07058355059,0.04950459044,0.7013615783,True,0.007295182413,0.008126326683,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+09.2 Other recreational goods,0.06433568236,0.04377898435,0.6804775008,True,0.006649432262,0.007186451306,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+05.2 Household textiles,0.02833919037,0.02108416187,0.7439930922,True,0.002929004867,0.003461028274,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+09.6 Cultural services,0.03627203442,0.02655721784,0.7321678604,True,0.00374890616,0.00435944679,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+05.3 Household appliances,0.02960774111,0.02022890774,0.6832303643,True,0.00306011628,0.003320635749,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+"05.4 Glassware, tableware and household utensils",0.02040315484,0.01444721171,0.7080871478,True,0.002108773717,0.002371553042,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+11.2 Accommodation services,0.01064263991,0.00945866717,0.8887519688,True,0.001099972994,0.001552668525,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.00380366918,0.001599775091,0.420587337,True,0.0003931292812,0.0002626078692,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.006585783768,0.02320179921,3.523012602,True,0.0006806755047,0.003808644781,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+05.5 Tools and equipment for house and garden,-0.01196848658,-0.005388139952,0.4501939253,True,-0.001237006244,-0.0008844792991,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+09.8 Package holidays,0.005594104387,0.0023729687,0.424190994,True,0.0005781802077,0.0003895299141,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+09.1 Recreational durables,-0.08267313008,-0.05110831729,0.618197439,True,-0.008544704248,-0.008389583244,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+13.9 Other services,-0.05721950531,-0.01425233249,0.2490817147,True,-0.005913937813,-0.002339563034,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+07.1 Purchase of vehicles,-0.426250153,-0.2454537859,0.5758444523,True,-0.04405520258,-0.04029197357,"LVT B2 full_m2 vs VAT, the post's method (mid)",coherent
+04.1 Actual rents,4.433535255,7.790100054,1.757085397,True,0.3977686871,0.3409368214,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+01.1 Food (at home),1.036814662,2.044399049,1.971807619,True,0.09302111813,0.08947393598,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+08.3 Information and communication services,0.5786831747,1.18725753,2.051653793,True,0.05191839771,0.05196079713,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+06.1 Medicines and health products,0.4419975,0.9301421918,2.104406002,True,0.03965520857,0.04070804227,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+13.1 Personal care,0.4106986181,0.8270381958,2.013735035,True,0.03684713004,0.03619565496,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+03.1 Clothing,0.3681129123,0.7574455887,2.057644715,True,0.03302641829,0.03314990688,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+07.2 Operation of personal transport equipment,0.5425209415,1.292919799,2.383170308,True,0.04867398818,0.05658514829,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+11.1 Food and beverage serving services,0.3150610865,0.6361613312,2.019168214,True,0.02826670535,0.0278418532,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+04.4 Water & misc. dwelling services,0.3437327912,0.8370603874,2.435206674,True,0.03083907834,0.03663428015,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+12.1 Insurance,0.3316999098,0.7963376177,2.400777312,True,0.02975951019,0.03485203197,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+06.2 Outpatient care services,0.2319729211,0.4827044319,2.080865429,True,0.02081218688,0.02112575109,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+08.1 Information and communication equipment,0.2548938572,0.5190865891,2.036481361,True,0.02286861141,0.02271803064,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"04.5 Electricity, gas and other fuels",0.3420595011,0.779121906,2.277737948,True,0.03068895381,0.03409857951,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+12.2 Financial services,0.2625848944,0.5820334952,2.216553608,True,0.02355863722,0.02547292697,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+07.3 Passenger transport services,0.1841948637,0.3684316119,2.000227392,True,0.01652562681,0.01612455575,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.3 Garden products and pets,0.2072050102,0.4285765459,2.068369608,True,0.01859005514,0.01875682267,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.4 Recreational services,0.1992373124,0.4654707762,2.336263076,True,0.01787520784,0.0203715133,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+02.3 Tobacco,0.1459178274,0.2576202109,1.765515671,True,0.01309148101,0.0112748508,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+01.2 Non-alcoholic beverages,0.1748868701,0.3384759354,1.935399353,True,0.01569053063,0.01481353368,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+02.1 Alcoholic beverages,0.1170849109,0.2314471169,1.976745894,True,0.0105046444,0.01012937495,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"09.7 Newspapers, books and stationery",0.1215325334,0.2708846693,2.228906629,True,0.01090367697,0.01185537509,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+13.2 Other personal effects,0.07747521027,0.1601912395,2.067645108,True,0.006950934388,0.00701083319,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.6 Goods and services for routine household maintenance,0.08945898205,0.1988704552,2.223035079,True,0.008026096508,0.008703644419,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+03.2 Footwear,0.08613093974,0.1956453976,2.271488018,True,0.007727510631,0.008562498495,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.2 Other recreational goods,0.08463157292,0.2029556378,2.398107832,True,0.007592990177,0.00888243406,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.2 Household textiles,0.03548183165,0.0832766783,2.347023094,True,0.003183365142,0.003644636885,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.6 Cultural services,0.04589244381,0.1084755889,2.363691707,True,0.004117386255,0.00474747721,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.3 Household appliances,0.04003605056,0.09779378938,2.442643268,True,0.003591961347,0.004279984015,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"05.4 Glassware, tableware and household utensils",0.02630629256,0.06203300063,2.358105023,True,0.002360152531,0.002714898898,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+11.2 Accommodation services,0.01577863063,0.04501484585,2.852899399,True,0.001415629927,0.001970092599,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.017158903,0.06519028821,3.79921072,True,0.001539465443,0.002853078843,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.03232437133,0.1501345765,4.644624795,True,0.002900083568,0.006570699343,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.5 Tools and equipment for house and garden,-0.005119648257,0.01291924594,-2.523463584,False,-0.0004593254927,0.0005654159273,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.8 Package holidays,0.01681874879,0.0564670164,3.357385088,True,0.001508947429,0.002471301389,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.1 Recreational durables,-0.08040388891,-0.1258640132,1.565397084,True,-0.007213690088,-0.005508488503,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+13.9 Other services,-0.006113331941,0.1631665169,-26.69027601,False,-0.0005484769782,0.007141047385,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+07.1 Purchase of vehicles,-0.374270711,-0.4498837476,1.202027662,True,-0.03357888474,-0.01968934081,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",coherent
+04.1 Actual rents,4.206268794,7.325246553,1.741507001,True,0.4347400757,0.3999195969,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+01.1 Food (at home),0.929429403,1.763254037,1.897136061,True,0.09606143327,0.09626431524,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+08.3 Information and communication services,0.5043922881,0.96928582,1.921690404,True,0.05213160458,0.05291786311,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+06.1 Medicines and health products,0.3810829561,0.7598588404,1.993946012,True,0.03938693444,0.04148426116,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+13.1 Personal care,0.361486006,0.6813610652,1.88488919,True,0.03736148623,0.03719869912,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+03.1 Clothing,0.3170530739,0.5914892949,1.865584483,True,0.03276910823,0.03229217729,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+07.2 Operation of personal transport equipment,0.4246438291,0.9043103259,2.12957369,True,0.04388918052,0.04937054587,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+11.1 Food and beverage serving services,0.2760599443,0.5166370879,1.871467044,True,0.02853225197,0.02820564392,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+04.4 Water & misc. dwelling services,0.2690486722,0.616816935,2.292584944,True,0.0278076,0.03367493206,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+12.1 Insurance,0.2566608702,0.5447683146,2.122521887,True,0.0265272553,0.02974145964,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+06.2 Outpatient care services,0.1974765873,0.3681984644,1.864517052,True,0.02041024736,0.02010168264,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+08.1 Information and communication equipment,0.2198898345,0.4045586145,1.83982409,True,0.02272677472,0.02208675392,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+"04.5 Electricity, gas and other fuels",0.2772725973,0.5711156459,2.059762311,True,0.02865758606,0.03117988414,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+12.2 Financial services,0.2172907653,0.4418080225,2.033257243,True,0.02245814721,0.02412037397,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+07.3 Passenger transport services,0.1612187643,0.2925154787,1.814400947,True,0.01666281002,0.01596979316,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+09.3 Garden products and pets,0.1793617688,0.3458092666,1.927998753,True,0.01853798527,0.01887935123,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+09.4 Recreational services,0.1592267688,0.3374553812,2.119338248,True,0.01645692677,0.0184232734,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+02.3 Tobacco,0.1374735303,0.2378564176,1.730197931,True,0.01420861478,0.01298569843,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+01.2 Non-alcoholic beverages,0.1580013998,0.2942557448,1.862361632,True,0.01633027842,0.01606480246,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+02.1 Alcoholic beverages,0.1031803038,0.1873456539,1.8157114,True,0.01066422886,0.01022807872,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+"09.7 Newspapers, books and stationery",0.09983672833,0.2032872255,2.036196788,True,0.0103186527,0.01109840395,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+13.2 Other personal effects,0.06726626822,0.1323524478,1.967590165,True,0.006952323776,0.007225741439,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+05.6 Goods and services for routine household maintenance,0.07368729664,0.1479310904,2.007552145,True,0.007615970945,0.008076252669,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+03.2 Footwear,0.07058355059,0.1480485215,2.097493258,True,0.007295182413,0.008082663785,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+09.2 Other recreational goods,0.06433568236,0.1296296031,2.014894353,True,0.006649432262,0.007077088564,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+05.2 Household textiles,0.02833919037,0.06234263126,2.199873407,True,0.002929004867,0.003403576901,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+09.6 Cultural services,0.03627203442,0.07799337377,2.150234334,True,0.00374890616,0.004258024405,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+05.3 Household appliances,0.02960774111,0.0602727162,2.035708026,True,0.00306011628,0.003290570521,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+"05.4 Glassware, tableware and household utensils",0.02040315484,0.04269082802,2.092364066,True,0.002108773717,0.002330692709,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+11.2 Accommodation services,0.01064263991,0.02812798261,2.642951641,True,0.001099972994,0.001535638614,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.00380366918,0.004889042151,1.285348941,True,0.0003931292812,0.0002669157621,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.006585783768,0.067035612,10.17883586,True,0.0006806755047,0.00365978875,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+05.5 Tools and equipment for house and garden,-0.01196848658,-0.01693881782,1.415284857,True,-0.001237006244,-0.000924769582,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+09.8 Package holidays,0.005594104387,0.002632381484,0.4705635258,True,0.0005781802077,0.0001437140626,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+09.1 Recreational durables,-0.08267313008,-0.151065459,1.827261879,True,-0.008544704248,-0.008247372566,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+13.9 Other services,-0.05721950531,-0.04360449376,0.7620564619,True,-0.005913937813,-0.002380574011,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+07.1 Purchase of vehicles,-0.426250153,-0.7327734453,1.71911597,True,-0.04405520258,-0.0400055423,"LVT B1 bridge vs VAT, the post's method (mid)",coherent
+04.1 Actual rents,4.206268794,1.068149201,0.2539422119,True,0.4347400757,0.3999195969,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+01.1 Food (at home),0.929429403,0.2571133104,0.2766356536,True,0.09606143327,0.09626431524,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+08.3 Information and communication services,0.5043922881,0.1413388433,0.2802161068,True,0.05213160458,0.05291786311,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+06.1 Medicines and health products,0.3810829561,0.1108007229,0.2907522394,True,0.03938693444,0.04148426116,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+13.1 Personal care,0.361486006,0.09935437288,0.2748498454,True,0.03736148623,0.03719869912,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+03.1 Clothing,0.3170530739,0.08624949526,0.2720348811,True,0.03276910823,0.03229217729,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+07.2 Operation of personal transport equipment,0.4246438291,0.1318642786,0.3105291295,True,0.04388918052,0.04937054587,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+11.1 Food and beverage serving services,0.2760599443,0.07533473294,0.2728926615,True,0.02853225197,0.02820564392,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+04.4 Water & misc. dwelling services,0.2690486722,0.08994270863,0.3342990244,True,0.0278076,0.03367493206,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+12.1 Insurance,0.2566608702,0.07943675831,0.3095008532,True,0.0265272553,0.02974145964,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+06.2 Outpatient care services,0.1974765873,0.05368978269,0.2718792309,True,0.02041024736,0.02010168264,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+08.1 Information and communication equipment,0.2198898345,0.05899172919,0.2682785648,True,0.02272677472,0.02208675392,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+"04.5 Electricity, gas and other fuels",0.2772725973,0.08327866051,0.3003494082,True,0.02865758606,0.03117988414,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+12.2 Financial services,0.2172907653,0.06442334506,0.2964845052,True,0.02245814721,0.02412037397,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+07.3 Passenger transport services,0.1612187643,0.04265387828,0.2645714255,True,0.01666281002,0.01596979316,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+09.3 Garden products and pets,0.1793617688,0.05042504566,0.2811359745,True,0.01853798527,0.01887935123,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+09.4 Recreational services,0.1592267688,0.0492069029,0.3090366229,True,0.01645692677,0.0184232734,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+02.3 Tobacco,0.1374735303,0.03468363019,0.2522931514,True,0.01420861478,0.01298569843,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+01.2 Non-alcoholic beverages,0.1580013998,0.04290763956,0.271564933,True,0.01633027842,0.01606480246,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+02.1 Alcoholic beverages,0.1031803038,0.02731827646,0.2647625125,True,0.01066422886,0.01022807872,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+"09.7 Newspapers, books and stationery",0.09983672833,0.02964283672,0.2969131423,True,0.0103186527,0.01109840395,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+13.2 Other personal effects,0.06726626822,0.01929930418,0.2869090955,True,0.006952323776,0.007225741439,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+05.6 Goods and services for routine household maintenance,0.07368729664,0.02157094302,0.2927362518,True,0.007615970945,0.008076252669,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+03.2 Footwear,0.07058355059,0.02158806653,0.3058512409,True,0.007295182413,0.008082663785,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+09.2 Other recreational goods,0.06433568236,0.01890226574,0.2938068744,True,0.006649432262,0.007077088564,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+05.2 Household textiles,0.02833919037,0.009090647161,0.3207800591,True,0.002929004867,0.003403576901,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+09.6 Cultural services,0.03627203442,0.01137279944,0.3135418131,True,0.00374890616,0.004258024405,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+05.3 Household appliances,0.02960774111,0.008788817304,0.2968418722,True,0.00306011628,0.003290570521,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+"05.4 Glassware, tableware and household utensils",0.02040315484,0.006225070175,0.3051033149,True,0.002108773717,0.002330692709,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+11.2 Accommodation services,0.01064263991,0.004101552342,0.3853886233,True,0.001099972994,0.001535638614,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.00380366918,0.0007129079452,0.18742638,True,0.0003931292812,0.0002669157621,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.006585783768,0.009774965919,1.484252484,True,0.0006806755047,0.00365978875,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+05.5 Tools and equipment for house and garden,-0.01196848658,-0.00246997621,0.2063733116,True,-0.001237006244,-0.000924769582,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+09.8 Package holidays,0.005594104387,0.0003838473092,0.06861640089,True,0.0005781802077,0.0001437140626,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+09.1 Recreational durables,-0.08267313008,-0.02202798884,0.2664467745,True,-0.008544704248,-0.008247372566,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+13.9 Other services,-0.05721950531,-0.006358298637,0.1111211746,True,-0.005913937813,-0.002380574011,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+07.1 Purchase of vehicles,-0.426250153,-0.106851198,0.2506772075,True,-0.04405520258,-0.0400055423,"LVT B1 full_m1 vs VAT, the post's method (mid)",coherent
+04.1 Actual rents,4.206268794,2.016210622,0.4793347076,True,0.4347400757,0.3999195969,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+01.1 Food (at home),0.929429403,0.4853203906,0.5221702574,True,0.09606143327,0.09626431524,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+08.3 Information and communication services,0.5043922881,0.2667875207,0.5289286276,True,0.05213160458,0.05291786311,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+06.1 Medicines and health products,0.3810829561,0.2091445597,0.5488163572,True,0.03938693444,0.04148426116,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+13.1 Personal care,0.361486006,0.1875387275,0.5187994124,True,0.03736148623,0.03719869912,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+03.1 Clothing,0.3170530739,0.1628023017,0.513485959,True,0.03276910823,0.03229217729,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+07.2 Operation of personal transport equipment,0.4246438291,0.2489035791,0.5861467,True,0.04388918052,0.04937054587,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+11.1 Food and beverage serving services,0.2760599443,0.1421998805,0.515105083,True,0.02853225197,0.02820564392,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+04.4 Water & misc. dwelling services,0.2690486722,0.1697735151,0.6310141349,True,0.0278076,0.03367493206,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+12.1 Insurance,0.2566608702,0.1499427568,0.5842057525,True,0.0265272553,0.02974145964,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+06.2 Outpatient care services,0.1974765873,0.101343436,0.5131921578,True,0.02041024736,0.02010168264,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+08.1 Information and communication equipment,0.2198898345,0.1113512521,0.5063956341,True,0.02272677472,0.02208675392,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+"04.5 Electricity, gas and other fuels",0.2772725973,0.1571946314,0.5669317232,True,0.02865758606,0.03117988414,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+12.2 Financial services,0.2172907653,0.1216038288,0.559636433,True,0.02245814721,0.02412037397,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+07.3 Passenger transport services,0.1612187643,0.08051235013,0.4993981345,True,0.01666281002,0.01596979316,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+09.3 Garden products and pets,0.1793617688,0.09518100335,0.530664946,True,0.01853798527,0.01887935123,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+09.4 Recreational services,0.1592267688,0.09288166878,0.5833294835,True,0.01645692677,0.0184232734,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+02.3 Tobacco,0.1374735303,0.06546791733,0.476221984,True,0.01420861478,0.01298569843,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+01.2 Non-alcoholic beverages,0.1580013998,0.08099134331,0.5125988973,True,0.01633027842,0.01606480246,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+02.1 Alcoholic beverages,0.1031803038,0.05156526741,0.4997588253,True,0.01066422886,0.01022807872,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+"09.7 Newspapers, books and stationery",0.09983672833,0.05595304684,0.5604455171,True,0.0103186527,0.01109840395,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+13.2 Other personal effects,0.06726626822,0.0364288641,0.5415621389,True,0.006952323776,0.007225741439,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+05.6 Goods and services for routine household maintenance,0.07368729664,0.04071675044,0.5525613274,True,0.007615970945,0.008076252669,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+03.2 Footwear,0.07058355059,0.04074907233,0.5773168393,True,0.007295182413,0.008082663785,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+09.2 Other recreational goods,0.06433568236,0.03567942469,0.5545822066,True,0.006649432262,0.007077088564,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+05.2 Household textiles,0.02833919037,0.0171592689,0.6054960879,True,0.002929004867,0.003403576901,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+09.6 Cultural services,0.03627203442,0.02146700012,0.5918333632,True,0.00374890616,0.004258024405,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+05.3 Household appliances,0.02960774111,0.01658954272,0.5603109896,True,0.00306011628,0.003290570521,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+"05.4 Glassware, tableware and household utensils",0.02040315484,0.01175028039,0.5759050737,True,0.002108773717,0.002330692709,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+11.2 Accommodation services,0.01064263991,0.007741983414,0.7274495315,True,0.001099972994,0.001535638614,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.00380366918,0.001345666476,0.3537811551,True,0.0003931292812,0.0002669157621,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.006585783768,0.01845097117,2.801636346,True,0.0006806755047,0.00365978875,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+05.5 Tools and equipment for house and garden,-0.01196848658,-0.004662262788,0.38954489,True,-0.001237006244,-0.000924769582,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+09.8 Package holidays,0.005594104387,0.0007245401872,0.1295185319,True,0.0005781802077,0.0001437140626,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+09.1 Recreational durables,-0.08267313008,-0.04157945823,0.5029379944,True,-0.008544704248,-0.008247372566,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+13.9 Other services,-0.05721950531,-0.01200175897,0.209749436,True,-0.005913937813,-0.002380574011,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+07.1 Purchase of vehicles,-0.426250153,-0.2016895395,0.4731717703,True,-0.04405520258,-0.0400055423,"LVT B1 full_m2 vs VAT, the post's method (mid)",coherent
+04.1 Actual rents,4.433535255,8.125395674,1.832712543,True,0.3977686871,0.3476259213,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+01.1 Food (at home),1.036814662,2.107315489,2.032490055,True,0.09302111813,0.09015653117,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+08.3 Information and communication services,0.5786831747,1.216216628,2.101696889,True,0.05191839771,0.05203296465,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+06.1 Medicines and health products,0.4419975,0.9533762757,2.1569721,True,0.03965520857,0.04078795907,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+13.1 Personal care,0.4106986181,0.8481873079,2.065230489,True,0.03684713004,0.03628769677,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+03.1 Clothing,0.3681129123,0.7707422233,2.093765792,True,0.03302641829,0.03297439118,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+07.2 Operation of personal transport equipment,0.5425209415,1.306421278,2.408056865,True,0.04867398818,0.05589215818,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+11.1 Food and beverage serving services,0.3150610865,0.6500529171,2.063259936,True,0.02826670535,0.0278109834,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+04.4 Water & misc. dwelling services,0.3437327912,0.847472785,2.465498802,True,0.03083907834,0.03625712759,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+12.1 Insurance,0.3316999098,0.8000662605,2.412018324,True,0.02975951019,0.03422895106,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+06.2 Outpatient care services,0.2319729211,0.4915982447,2.119205304,True,0.02081218688,0.02103187335,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+08.1 Information and communication equipment,0.2548938572,0.5274637448,2.069346632,True,0.02286861141,0.02256629432,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"04.5 Electricity, gas and other fuels",0.3420595011,0.7883292825,2.304655418,True,0.03068895381,0.0337268121,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+12.2 Financial services,0.2625848944,0.5936754424,2.260889545,True,0.02355863722,0.02539900589,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+07.3 Passenger transport services,0.1841948637,0.3774376545,2.049121495,True,0.01652562681,0.01614778131,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.3 Garden products and pets,0.2072050102,0.4385193555,2.116354981,True,0.01859005514,0.01876101806,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.4 Recreational services,0.1992373124,0.4696997473,2.357488874,True,0.01787520784,0.0200949977,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+02.3 Tobacco,0.1459178274,0.2673000391,1.831853201,True,0.01309148101,0.01143580277,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+01.2 Non-alcoholic beverages,0.1748868701,0.3486860403,1.993780551,True,0.01569053063,0.01491771119,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+02.1 Alcoholic beverages,0.1170849109,0.2362898468,2.018106731,True,0.0105046444,0.01010910471,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"09.7 Newspapers, books and stationery",0.1215325334,0.2748634883,2.261645344,True,0.01090367697,0.01175938713,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+13.2 Other personal effects,0.07747521027,0.1650987635,2.13098826,True,0.006950934388,0.007063361843,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.6 Goods and services for routine household maintenance,0.08945898205,0.2025179376,2.263807758,True,0.008026096508,0.008664253097,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+03.2 Footwear,0.08613093974,0.1987352205,2.307361571,True,0.007727510631,0.008502418452,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.2 Other recreational goods,0.08463157292,0.2019776262,2.386551724,True,0.007592990177,0.008641137148,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.2 Household textiles,0.03548183165,0.08419474537,2.372897381,True,0.003183365142,0.00360207393,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.6 Cultural services,0.04589244381,0.1087896076,2.370534201,True,0.004117386255,0.004654307198,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.3 Household appliances,0.04003605056,0.09739689761,2.432729908,True,0.003591961347,0.004166896927,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"05.4 Glassware, tableware and household utensils",0.02630629256,0.06219651859,2.364320949,True,0.002360152531,0.002660931595,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+11.2 Accommodation services,0.01577863063,0.04492624529,2.847284174,True,0.001415629927,0.001922063618,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"05.1 Furniture, furnishings and loose carpets (D)",0.017158903,0.06017431539,3.506885924,True,0.001539465443,0.002574416393,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+"04.3 Maintenance, repair and security of the dwelling",0.03232437133,0.1462195385,4.523507573,True,0.002900083568,0.006255658656,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+05.5 Tools and equipment for house and garden,-0.005119648257,0.009193918402,-1.79581056,False,-0.0004593254927,0.0003933401502,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.8 Package holidays,0.01681874879,0.04874301424,2.898135577,True,0.001508947429,0.002085355091,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+09.1 Recreational durables,-0.08040388891,-0.1338552453,1.66478571,True,-0.007213690088,-0.005726681483,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+13.9 Other services,-0.006113331941,0.1442635555,-23.59818784,False,-0.0005484769782,0.006171976529,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+07.1 Purchase of vehicles,-0.374270711,-0.5057186586,1.351210885,True,-0.03357888474,-0.02163598201,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",coherent
+04.1 Actual rents,4.728946294,7.630580721,1.613590057,True,0.4710283146,0.4318382759,"LVT B2 bridge vs VAT, the post's method (mid)",post
+01.1 Food (at home),0.8828073867,1.562768521,1.770225923,True,0.08793233199,0.08844192709,"LVT B2 bridge vs VAT, the post's method (mid)",post
+08.3 Information and communication services,0.529552175,0.9470084848,1.788319508,True,0.05274622569,0.05359415309,"LVT B2 bridge vs VAT, the post's method (mid)",post
+06.1 Medicines and health products,0.4281043543,0.7914692316,1.848776411,True,0.04264148077,0.0447917034,"LVT B2 bridge vs VAT, the post's method (mid)",post
+13.1 Personal care,0.3890964416,0.678905268,1.744825178,True,0.03875608427,0.0384213589,"LVT B2 bridge vs VAT, the post's method (mid)",post
+03.1 Clothing,0.3392182273,0.5857218512,1.72668154,True,0.03378794767,0.03314781976,"LVT B2 bridge vs VAT, the post's method (mid)",post
+07.2 Operation of personal transport equipment,0.3288780505,0.6922882154,2.104999754,True,0.03275801081,0.03917874148,"LVT B2 bridge vs VAT, the post's method (mid)",post
+11.1 Food and beverage serving services,0.276592952,0.4793535018,1.733064774,True,0.02755013567,0.02712810431,"LVT B2 bridge vs VAT, the post's method (mid)",post
+04.4 Water & misc. dwelling services,0.2749514289,0.6129284335,2.229224398,True,0.02738663121,0.0346875248,"LVT B2 bridge vs VAT, the post's method (mid)",post
+12.1 Insurance,0.2482693223,0.5005872729,2.016307404,True,0.02472895085,0.02832978941,"LVT B2 bridge vs VAT, the post's method (mid)",post
+06.2 Outpatient care services,0.2259913896,0.3926317934,1.737375013,True,0.02250994973,0.02222025334,"LVT B2 bridge vs VAT, the post's method (mid)",post
+08.1 Information and communication equipment,0.2180457334,0.3801971348,1.743657759,True,0.02171851993,0.02151653737,"LVT B2 bridge vs VAT, the post's method (mid)",post
+"04.5 Electricity, gas and other fuels",0.2233985712,0.4598217018,2.058301892,True,0.02225169117,0.02602273906,"LVT B2 bridge vs VAT, the post's method (mid)",post
+12.2 Financial services,0.2076320091,0.4002147981,1.927519749,True,0.02068125735,0.02264939914,"LVT B2 bridge vs VAT, the post's method (mid)",post
+07.3 Passenger transport services,0.2012021255,0.3322664872,1.651406447,True,0.02004080659,0.01880399307,"LVT B2 bridge vs VAT, the post's method (mid)",post
+09.3 Garden products and pets,0.1851271233,0.3401675221,1.837480732,True,0.0184396505,0.01925113719,"LVT B2 bridge vs VAT, the post's method (mid)",post
+09.4 Recreational services,0.1793407734,0.3512934747,1.958804281,True,0.01786329913,0.01988078942,"LVT B2 bridge vs VAT, the post's method (mid)",post
+02.3 Tobacco,0.1547840949,0.248737146,1.606994221,True,0.01541732276,0.01407680807,"LVT B2 bridge vs VAT, the post's method (mid)",post
+01.2 Non-alcoholic beverages,0.1541318036,0.2677493329,1.737145266,True,0.01535235106,0.01515276681,"LVT B2 bridge vs VAT, the post's method (mid)",post
+02.1 Alcoholic beverages,0.1112237829,0.1846126779,1.659830956,True,0.01107848297,0.01044780515,"LVT B2 bridge vs VAT, the post's method (mid)",post
+"09.7 Newspapers, books and stationery",0.1127182709,0.2160653892,1.916862168,True,0.01122734196,0.01222781182,"LVT B2 bridge vs VAT, the post's method (mid)",post
+13.2 Other personal effects,0.06451744229,0.1180050265,1.829040679,True,0.006426281927,0.006678271162,"LVT B2 bridge vs VAT, the post's method (mid)",post
+05.6 Goods and services for routine household maintenance,0.07154755664,0.1360976364,1.902198241,True,0.007126518875,0.007702188184,"LVT B2 bridge vs VAT, the post's method (mid)",post
+03.2 Footwear,0.06743280504,0.1330176456,1.972595468,True,0.006716667632,0.007527881933,"LVT B2 bridge vs VAT, the post's method (mid)",post
+09.2 Other recreational goods,0.0572972401,0.1033920865,1.804486331,True,0.005707111216,0.005851279481,"LVT B2 bridge vs VAT, the post's method (mid)",post
+05.2 Household textiles,0.02653759118,0.05561241983,2.095609185,True,0.002643285854,0.00314727966,"LVT B2 bridge vs VAT, the post's method (mid)",post
+09.6 Cultural services,0.02689403193,0.05687643774,2.114834915,True,0.002678789258,0.003218814362,"LVT B2 bridge vs VAT, the post's method (mid)",post
+05.3 Household appliances,0.02126180466,0.03977998914,1.870960146,True,0.002117789332,0.002251273207,"LVT B2 bridge vs VAT, the post's method (mid)",post
+"05.4 Glassware, tableware and household utensils",0.01450994565,0.02947059662,2.03106182,True,0.001445268104,0.001667832646,"LVT B2 bridge vs VAT, the post's method (mid)",post
+11.2 Accommodation services,0.008540017231,0.02041616743,2.3906471,True,0.00085063134,0.00115541436,"LVT B2 bridge vs VAT, the post's method (mid)",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.005778721613,0.008537467389,1.477397245,True,0.0005755915446,0.0004831618107,"LVT B2 bridge vs VAT, the post's method (mid)",post
+"04.3 Maintenance, repair and security of the dwelling",0.0005694536843,0.06507485369,114.2759376,True,5.672062918e-05,0.003682788198,"LVT B2 bridge vs VAT, the post's method (mid)",post
+05.5 Tools and equipment for house and garden,-0.01622218854,-0.02100636993,1.294915904,True,-0.001615816643,-0.001188815754,"LVT B2 bridge vs VAT, the post's method (mid)",post
+09.8 Package holidays,-0.02479696481,-0.05529197137,2.229787871,True,-0.00246991017,-0.003129144486,"LVT B2 bridge vs VAT, the post's method (mid)",post
+09.1 Recreational durables,-0.08202463137,-0.1352419073,1.648796283,True,-0.008170091489,-0.007653759815,"LVT B2 bridge vs VAT, the post's method (mid)",post
+13.9 Other services,-0.1004125957,-0.1181778239,1.176922307,True,-0.01000163098,-0.006688050304,"LVT B2 bridge vs VAT, the post's method (mid)",post
+07.1 Purchase of vehicles,-0.5018204037,-0.8219349534,1.637906604,True,-0.04998399312,-0.04651585327,"LVT B2 bridge vs VAT, the post's method (mid)",post
+04.1 Actual rents,4.728946294,1.425288574,0.3013966506,True,0.4710283146,0.4318382759,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+01.1 Food (at home),0.8828073867,0.2919038796,0.3306540974,True,0.08793233199,0.08844192709,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+08.3 Information and communication services,0.529552175,0.1768882896,0.3340337326,True,0.05274622569,0.05359415309,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+06.1 Medicines and health products,0.4281043543,0.1478356751,0.3453262589,True,0.04264148077,0.0447917034,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+13.1 Personal care,0.3890964416,0.1268102595,0.3259095842,True,0.03875608427,0.0384213589,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+03.1 Clothing,0.3392182273,0.1094048661,0.3225205997,True,0.03378794767,0.03314781976,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+07.2 Operation of personal transport equipment,0.3288780505,0.1293100118,0.3931852905,True,0.03275801081,0.03917874148,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+11.1 Food and beverage serving services,0.276592952,0.08953670681,0.3237129008,True,0.02755013567,0.02712810431,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+04.4 Water & misc. dwelling services,0.2749514289,0.1144866852,0.4163887623,True,0.02738663121,0.0346875248,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+12.1 Insurance,0.2482693223,0.09350288611,0.3766187672,True,0.02472895085,0.02832978941,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+06.2 Outpatient care services,0.2259913896,0.07333827258,0.3245179947,True,0.02250994973,0.02222025334,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+08.1 Information and communication equipment,0.2180457334,0.07101564767,0.3256915261,True,0.02171851993,0.02151653737,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+"04.5 Electricity, gas and other fuels",0.2233985712,0.08588843255,0.3844627657,True,0.02225169117,0.02602273906,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+12.2 Financial services,0.2076320091,0.07475467459,0.3600344423,True,0.02068125735,0.02264939914,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+07.3 Passenger transport services,0.2012021255,0.06206285536,0.3084602372,True,0.02004080659,0.01880399307,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+09.3 Garden products and pets,0.1851271233,0.0635386611,0.34321638,True,0.0184396505,0.01925113719,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+09.4 Recreational services,0.1793407734,0.06561683753,0.3658779668,True,0.01786329913,0.01988078942,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+02.3 Tobacco,0.1547840949,0.04646071184,0.3001646382,True,0.01541732276,0.01407680807,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+01.2 Non-alcoholic beverages,0.1541318036,0.05001192947,0.3244750811,True,0.01535235106,0.01515276681,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+02.1 Alcoholic beverages,0.1112237829,0.03448313438,0.3100338209,True,0.01107848297,0.01044780515,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+"09.7 Newspapers, books and stationery",0.1127182709,0.04035807255,0.3580437513,True,0.01122734196,0.01222781182,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+13.2 Other personal effects,0.06451744229,0.02204173208,0.341639893,True,0.006426281927,0.006678271162,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+05.6 Goods and services for routine household maintenance,0.07154755664,0.02542118525,0.3553047294,True,0.007126518875,0.007702188184,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+03.2 Footwear,0.06743280504,0.02484588491,0.3684539728,True,0.006716667632,0.007527881933,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+09.2 Other recreational goods,0.0572972401,0.01931223389,0.3370534751,True,0.005707111216,0.005851279481,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+05.2 Household textiles,0.02653759118,0.01038764275,0.3914312601,True,0.002643285854,0.00314727966,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+09.6 Cultural services,0.02689403193,0.01062374409,0.3950223646,True,0.002678789258,0.003218814362,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+05.3 Household appliances,0.02126180466,0.007430360291,0.3494698785,True,0.002117789332,0.002251273207,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+"05.4 Glassware, tableware and household utensils",0.01450994565,0.00550470615,0.3793746911,True,0.001445268104,0.001667832646,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+11.2 Accommodation services,0.008540017231,0.00381346207,0.446540325,True,0.00085063134,0.00115541436,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.005778721613,0.001594682654,0.2759576877,True,0.0005755915446,0.0004831618107,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+"04.3 Maintenance, repair and security of the dwelling",0.0005694536843,0.01215509655,21.34518906,True,5.672062918e-05,0.003682788198,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+05.5 Tools and equipment for house and garden,-0.01622218854,-0.003923703862,0.2418726581,True,-0.001615816643,-0.001188815754,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+09.8 Package holidays,-0.02479696481,-0.01032778735,0.4164940114,True,-0.00246991017,-0.003129144486,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+09.1 Recreational durables,-0.08202463137,-0.02526134671,0.3079726941,True,-0.008170091489,-0.007653759815,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+13.9 Other services,-0.1004125957,-0.02207400828,0.219833061,True,-0.01000163098,-0.006688050304,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+07.1 Purchase of vehicles,-0.5018204037,-0.1535262571,0.3059386504,True,-0.04998399312,-0.04651585327,"LVT B2 full_m1 vs VAT, the post's method (mid)",post
+04.1 Actual rents,4.728946294,2.690337604,0.5689084706,True,0.4710283146,0.4318382759,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+01.1 Food (at home),0.8828073867,0.5509901633,0.6241340655,True,0.08793233199,0.08844192709,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+08.3 Information and communication services,0.529552175,0.3338897301,0.6305133769,True,0.05274622569,0.05359415309,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+06.1 Medicines and health products,0.4281043543,0.2790507713,0.6518288556,True,0.04264148077,0.0447917034,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+13.1 Personal care,0.3890964416,0.2393637442,0.6151784458,True,0.03875608427,0.0384213589,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+03.1 Clothing,0.3392182273,0.2065097768,0.6087814869,True,0.03378794767,0.03314781976,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+07.2 Operation of personal transport equipment,0.3288780505,0.2440822117,0.7421663176,True,0.03275801081,0.03917874148,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+11.1 Food and beverage serving services,0.276592952,0.1690071566,0.6110320435,True,0.02755013567,0.02712810431,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+04.4 Water & misc. dwelling services,0.2749514289,0.2161020862,0.7859645869,True,0.02738663121,0.0346875248,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+12.1 Insurance,0.2482693223,0.1764936134,0.7108957796,True,0.02472895085,0.02832978941,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+06.2 Outpatient care services,0.2259913896,0.1384314139,0.6125517178,True,0.02250994973,0.02222025334,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+08.1 Information and communication equipment,0.2180457334,0.1340472876,0.6147668451,True,0.02171851993,0.02151653737,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+"04.5 Electricity, gas and other fuels",0.2233985712,0.1621207691,0.7257019069,True,0.02225169117,0.02602273906,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+12.2 Financial services,0.2076320091,0.1411049775,0.6795916396,True,0.02068125735,0.02264939914,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+07.3 Passenger transport services,0.2012021255,0.1171482299,0.5822415128,True,0.02004080659,0.01880399307,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+09.3 Garden products and pets,0.1851271233,0.1199339224,0.647846303,True,0.0184396505,0.01925113719,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+09.4 Recreational services,0.1793407734,0.1238566342,0.6906217243,True,0.01786329913,0.01988078942,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+02.3 Tobacco,0.1547840949,0.08769803004,0.5665829561,True,0.01541732276,0.01407680807,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+01.2 Non-alcoholic beverages,0.1541318036,0.09440121598,0.6124707152,True,0.01535235106,0.01515276681,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+02.1 Alcoholic beverages,0.1112237829,0.06508946668,0.5852117684,True,0.01107848297,0.01044780515,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+"09.7 Newspapers, books and stationery",0.1127182709,0.076178847,0.675834063,True,0.01122734196,0.01222781182,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+13.2 Other personal effects,0.06451744229,0.0416053996,0.6448705672,True,0.006426281927,0.006678271162,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+05.6 Goods and services for routine household maintenance,0.07154755664,0.04798436743,0.6706639567,True,0.007126518875,0.007702188184,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+03.2 Footwear,0.06743280504,0.04689844548,0.6954841261,True,0.006716667632,0.007527881933,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+09.2 Other recreational goods,0.0572972401,0.03645326988,0.6362133642,True,0.005707111216,0.005851279481,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+05.2 Household textiles,0.02653759118,0.01960744401,0.7388554555,True,0.002643285854,0.00314727966,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+09.6 Cultural services,0.02689403193,0.02005310275,0.7456339308,True,0.002678789258,0.003218814362,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+05.3 Household appliances,0.02126180466,0.01402535463,0.6596502441,True,0.002117789332,0.002251273207,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+"05.4 Glassware, tableware and household utensils",0.01450994565,0.01039054001,0.7160977898,True,0.001445268104,0.001667832646,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+11.2 Accommodation services,0.008540017231,0.007198191718,0.8428778917,True,0.00085063134,0.00115541436,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.005778721613,0.00301008146,0.5208905467,True,0.0005755915446,0.0004831618107,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+"04.3 Maintenance, repair and security of the dwelling",0.0005694536843,0.02294364378,40.29062313,True,5.672062918e-05,0.003682788198,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+05.5 Tools and equipment for house and garden,-0.01622218854,-0.007406281254,0.4565525322,True,-0.001615816643,-0.001188815754,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+09.8 Package holidays,-0.02479696481,-0.01949446251,0.7861632524,True,-0.00246991017,-0.003129144486,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+09.1 Recreational durables,-0.08202463137,-0.04768266035,0.5813212392,True,-0.008170091489,-0.007653759815,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+13.9 Other services,-0.1004125957,-0.04166632332,0.4149511624,True,-0.01000163098,-0.006688050304,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+07.1 Purchase of vehicles,-0.5018204037,-0.2897921657,0.5774818312,True,-0.04998399312,-0.04651585327,"LVT B2 full_m2 vs VAT, the post's method (mid)",post
+04.1 Actual rents,4.990443077,8.728316323,1.749006288,True,0.4298360377,0.3677437371,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+01.1 Food (at home),0.9897718983,1.951208065,1.971371453,True,0.08525087341,0.08220881546,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+08.3 Information and communication services,0.6086208891,1.242589879,2.041648423,True,0.0524216362,0.05235312618,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+06.1 Medicines and health products,0.4948613294,1.028402464,2.078162916,True,0.04262331616,0.04332892522,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+13.1 Personal care,0.441846473,0.8822106119,1.996645138,True,0.0380570491,0.03716953137,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+03.1 Clothing,0.3926812653,0.796766214,2.029040559,True,0.03382235937,0.03356956535,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+07.2 Operation of personal transport equipment,0.4490713247,1.142007443,2.543042453,True,0.03867933887,0.04811536033,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+11.1 Food and beverage serving services,0.3167641296,0.635431841,2.006009461,True,0.02728347689,0.02677218278,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+04.4 Water & misc. dwelling services,0.3604071348,0.8997567999,2.496501076,True,0.03104252917,0.03790879201,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+12.1 Insurance,0.3274502827,0.797244473,2.434703878,True,0.0282038949,0.03358971548,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+06.2 Outpatient care services,0.2646238883,0.5460964135,2.063670128,True,0.02279254204,0.02300827886,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+08.1 Information and communication equipment,0.2571501089,0.530550874,2.063195214,True,0.02214881168,0.02235331007,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+"04.5 Electricity, gas and other fuels",0.2911261639,0.706775259,2.42772841,True,0.02507523177,0.02977804257,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+12.2 Financial services,0.2565041226,0.5805017463,2.263128329,True,0.02209317169,0.02445785346,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+07.3 Passenger transport services,0.2269115462,0.4418981239,1.947446621,True,0.01954430868,0.0186181689,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+09.3 Garden products and pets,0.215984103,0.4525883119,2.09547048,True,0.0186031079,0.01906857074,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+09.4 Recreational services,0.222210072,0.5077811681,2.285140199,True,0.01913936206,0.02139397078,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+02.3 Tobacco,0.1640745069,0.2872299802,1.750606999,True,0.01413203895,0.01210164967,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+01.2 Non-alcoholic beverages,0.1711043529,0.3299146169,1.928148591,True,0.01473753251,0.0139000501,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+02.1 Alcoholic beverages,0.125615167,0.2435355566,1.938743247,True,0.01081946529,0.01026070463,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+"09.7 Newspapers, books and stationery",0.1377015425,0.3067152615,2.227391617,True,0.01186048704,0.01292260871,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+13.2 Other personal effects,0.07479788434,0.1552049869,2.074991669,True,0.006442479302,0.006539137651,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+05.6 Goods and services for routine household maintenance,0.0885056414,0.2005811838,2.26630959,True,0.007623153621,0.00845093961,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+03.2 Footwear,0.08303098576,0.1894581094,2.281775986,True,0.007151611465,0.007982299291,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+09.2 Other recreational goods,0.07631438824,0.1807819978,2.368911053,True,0.006573098572,0.007616755055,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+05.2 Household textiles,0.03385705331,0.08012944549,2.366698743,True,0.002916170251,0.00337603504,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+09.6 Cultural services,0.03609661496,0.08995194395,2.491977268,True,0.003109067815,0.003789879148,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+05.3 Household appliances,0.03159087126,0.08194159018,2.593837615,True,0.002720979825,0.0034523848,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+"05.4 Glassware, tableware and household utensils",0.01997109905,0.04967342919,2.487265676,True,0.001720147481,0.002092854087,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+11.2 Accommodation services,0.01328002715,0.0381930278,2.875975129,True,0.001143833155,0.001609158772,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.02070117895,0.07515978485,3.630700697,True,0.001783030604,0.00316665198,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+"04.3 Maintenance, repair and security of the dwelling",0.02993508444,0.1599803211,5.344241517,True,0.002578363862,0.006740333298,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+05.5 Tools and equipment for house and garden,-0.00876496072,0.009042634589,-1.03167999,False,-0.0007549421822,0.0003809866777,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+09.8 Package holidays,-0.01603417623,-0.009469678761,0.5905934066,True,-0.001381053079,-0.0003989790159,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+09.1 Recreational durables,-0.07782303984,-0.113569571,1.459330954,True,-0.006703041508,-0.004784943272,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+13.9 Other services,-0.04923281257,0.08894545309,-1.806629531,False,-0.004240512666,0.003747473409,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+07.1 Purchase of vehicles,-0.4510406197,-0.5787471025,1.283137432,True,-0.03884895786,-0.02438392634,"LVT B2 bridge vs VAT, unconstrained payers draw on wealth",post
+04.1 Actual rents,4.728946294,8.148403672,1.723090762,True,0.4710283146,0.4336347083,"LVT B1 bridge vs VAT, the post's method (mid)",post
+01.1 Food (at home),0.8828073867,1.659797986,1.880136042,True,0.08793233199,0.08832969555,"LVT B1 bridge vs VAT, the post's method (mid)",post
+08.3 Information and communication services,0.529552175,1.006384725,1.900444891,True,0.05274622569,0.05355691304,"LVT B1 bridge vs VAT, the post's method (mid)",post
+06.1 Medicines and health products,0.4281043543,0.8404402086,1.963166691,True,0.04264148077,0.04472582108,"LVT B1 bridge vs VAT, the post's method (mid)",post
+13.1 Personal care,0.3890964416,0.7232288598,1.858739332,True,0.03875608427,0.03848816876,"LVT B1 bridge vs VAT, the post's method (mid)",post
+03.1 Clothing,0.3392182273,0.6206368492,1.829609376,True,0.03378794767,0.03302851576,"LVT B1 bridge vs VAT, the post's method (mid)",post
+07.2 Operation of personal transport equipment,0.3288780505,0.7349529202,2.234727794,True,0.03275801081,0.03911208968,"LVT B1 bridge vs VAT, the post's method (mid)",post
+11.1 Food and beverage serving services,0.276592952,0.507772845,1.835812668,True,0.02755013567,0.02702221667,"LVT B1 bridge vs VAT, the post's method (mid)",post
+04.4 Water & misc. dwelling services,0.2749514289,0.6459806611,2.349435548,True,0.02738663121,0.03437724084,"LVT B1 bridge vs VAT, the post's method (mid)",post
+12.1 Insurance,0.2482693223,0.5285891836,2.129095849,True,0.02472895085,0.02813000259,"LVT B1 bridge vs VAT, the post's method (mid)",post
+06.2 Outpatient care services,0.2259913896,0.4183529889,1.851189948,True,0.02250994973,0.022263548,"LVT B1 bridge vs VAT, the post's method (mid)",post
+08.1 Information and communication equipment,0.2180457334,0.3996013752,1.832649366,True,0.02171851993,0.02126564082,"LVT B1 bridge vs VAT, the post's method (mid)",post
+"04.5 Electricity, gas and other fuels",0.2233985712,0.4854521281,2.173031481,True,0.02225169117,0.02583437204,"LVT B1 bridge vs VAT, the post's method (mid)",post
+12.2 Financial services,0.2076320091,0.4252277527,2.047987469,True,0.02068125735,0.02262940324,"LVT B1 bridge vs VAT, the post's method (mid)",post
+07.3 Passenger transport services,0.2012021255,0.3568572432,1.773625613,True,0.02004080659,0.01899092053,"LVT B1 bridge vs VAT, the post's method (mid)",post
+09.3 Garden products and pets,0.1851271233,0.3610566363,1.950317327,True,0.0184396505,0.0192144002,"LVT B1 bridge vs VAT, the post's method (mid)",post
+09.4 Recreational services,0.1793407734,0.3704382497,2.065555103,True,0.01786329913,0.0197136628,"LVT B1 bridge vs VAT, the post's method (mid)",post
+02.3 Tobacco,0.1547840949,0.2645314486,1.709035084,True,0.01541732276,0.01407760614,"LVT B1 bridge vs VAT, the post's method (mid)",post
+01.2 Non-alcoholic beverages,0.1541318036,0.2838037076,1.841305305,True,0.01535235106,0.01510322057,"LVT B1 bridge vs VAT, the post's method (mid)",post
+02.1 Alcoholic beverages,0.1112237829,0.1960021365,1.762232244,True,0.01107848297,0.0104306724,"LVT B1 bridge vs VAT, the post's method (mid)",post
+"09.7 Newspapers, books and stationery",0.1127182709,0.228734915,2.029262099,True,0.01122734196,0.01217261713,"LVT B1 bridge vs VAT, the post's method (mid)",post
+13.2 Other personal effects,0.06451744229,0.1263016198,1.957635258,True,0.006426281927,0.006721410508,"LVT B1 bridge vs VAT, the post's method (mid)",post
+05.6 Goods and services for routine household maintenance,0.07154755664,0.1450761458,2.027688332,True,0.007126518875,0.007720537014,"LVT B1 bridge vs VAT, the post's method (mid)",post
+03.2 Footwear,0.06743280504,0.141215263,2.094162669,True,0.006716667632,0.007515071889,"LVT B1 bridge vs VAT, the post's method (mid)",post
+09.2 Other recreational goods,0.0572972401,0.1081591777,1.887685647,True,0.005707111216,0.005755921696,"LVT B1 bridge vs VAT, the post's method (mid)",post
+05.2 Household textiles,0.02653759118,0.05825253297,2.195094972,True,0.002643285854,0.003100032983,"LVT B1 bridge vs VAT, the post's method (mid)",post
+09.6 Cultural services,0.02689403193,0.05891529031,2.19064551,True,0.002678789258,0.003135303031,"LVT B1 bridge vs VAT, the post's method (mid)",post
+05.3 Household appliances,0.02126180466,0.04204446528,1.977464564,True,0.002117789332,0.002237486037,"LVT B1 bridge vs VAT, the post's method (mid)",post
+"05.4 Glassware, tableware and household utensils",0.01450994565,0.030809023,2.123303818,True,0.001445268104,0.001639567974,"LVT B1 bridge vs VAT, the post's method (mid)",post
+11.2 Accommodation services,0.008540017231,0.02152934651,2.520995676,True,0.00085063134,0.001145730167,"LVT B1 bridge vs VAT, the post's method (mid)",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.005778721613,0.008841976001,1.53009205,True,0.0005755915446,0.0004705446414,"LVT B1 bridge vs VAT, the post's method (mid)",post
+"04.3 Maintenance, repair and security of the dwelling",0.0005694536843,0.0664390963,116.6716419,True,5.672062918e-05,0.003535698439,"LVT B1 bridge vs VAT, the post's method (mid)",post
+05.5 Tools and equipment for house and garden,-0.01622218854,-0.02308907348,1.423302006,True,-0.001615816643,-0.001228734369,"LVT B1 bridge vs VAT, the post's method (mid)",post
+09.8 Package holidays,-0.02479696481,-0.06226860718,2.511138264,True,-0.00246991017,-0.003313756951,"LVT B1 bridge vs VAT, the post's method (mid)",post
+09.1 Recreational durables,-0.08202463137,-0.1432831583,1.746830872,True,-0.008170091489,-0.007625119357,"LVT B1 bridge vs VAT, the post's method (mid)",post
+13.9 Other services,-0.1004125957,-0.1263709356,1.25851677,True,-0.01000163098,-0.006725099297,"LVT B1 bridge vs VAT, the post's method (mid)",post
+07.1 Purchase of vehicles,-0.5018204037,-0.8678789172,1.729461199,True,-0.04998399312,-0.04618603057,"LVT B1 bridge vs VAT, the post's method (mid)",post
+04.1 Actual rents,4.728946294,1.185263153,0.2506400114,True,0.4710283146,0.4336347083,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+01.1 Food (at home),0.8828073867,0.2414334725,0.2734837476,True,0.08793233199,0.08832969555,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+08.3 Information and communication services,0.529552175,0.146388272,0.2764378637,True,0.05274622569,0.05355691304,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+06.1 Medicines and health products,0.4281043543,0.1222500568,0.2855613486,True,0.04264148077,0.04472582108,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+13.1 Personal care,0.3890964416,0.1052005464,0.2703713917,True,0.03875608427,0.03848816876,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+03.1 Clothing,0.3392182273,0.09027755843,0.2661341613,True,0.03378794767,0.03302851576,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+07.2 Operation of personal transport equipment,0.3288780505,0.106905923,0.3250625052,True,0.03275801081,0.03911208968,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+11.1 Food and beverage serving services,0.276592952,0.07386041088,0.2670364894,True,0.02755013567,0.02702221667,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+04.4 Water & misc. dwelling services,0.2749514289,0.09396405797,0.3417478437,True,0.02738663121,0.03437724084,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+12.1 Insurance,0.2482693223,0.07688834617,0.3096973297,True,0.02472895085,0.02813000259,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+06.2 Outpatient care services,0.2259913896,0.06085343861,0.2692732617,True,0.02250994973,0.022263548,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+08.1 Information and communication equipment,0.2180457334,0.05812583727,0.266576357,True,0.02171851993,0.02126564082,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+"04.5 Electricity, gas and other fuels",0.2233985712,0.07061364938,0.3160881871,True,0.02225169117,0.02583437204,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+12.2 Financial services,0.2076320091,0.06185343867,0.297899341,True,0.02068125735,0.02262940324,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+07.3 Passenger transport services,0.2012021255,0.05190829495,0.2579907882,True,0.02004080659,0.01899092053,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+09.3 Garden products and pets,0.1851271233,0.05251913679,0.2836922858,True,0.0184396505,0.0192144002,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+09.4 Recreational services,0.1793407734,0.05388378208,0.3004547213,True,0.01786329913,0.0197136628,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+02.3 Tobacco,0.1547840949,0.03847862617,0.2485954788,True,0.01541732276,0.01407760614,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+01.2 Non-alcoholic beverages,0.1541318036,0.04128196035,0.267835446,True,0.01535235106,0.01510322057,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+02.1 Alcoholic beverages,0.1112237829,0.0285103831,0.2563335139,True,0.01107848297,0.0104306724,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+"09.7 Newspapers, books and stationery",0.1127182709,0.0332716784,0.295175557,True,0.01122734196,0.01217261713,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+13.2 Other personal effects,0.06451744229,0.01837177711,0.2847567489,True,0.006426281927,0.006721410508,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+05.6 Goods and services for routine household maintenance,0.07154755664,0.02110271126,0.2949466376,True,0.007126518875,0.007720537014,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+03.2 Footwear,0.06743280504,0.02054110898,0.304615965,True,0.006716667632,0.007515071889,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+09.2 Other recreational goods,0.0572972401,0.01573278561,0.2745819097,True,0.005707111216,0.005755921696,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+05.2 Household textiles,0.02653759118,0.008473387386,0.3192975327,True,0.002643285854,0.003100032983,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+09.6 Cultural services,0.02689403193,0.008569791772,0.3186503159,True,0.002678789258,0.003135303031,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+05.3 Household appliances,0.02126180466,0.00611576911,0.2876411108,True,0.002117789332,0.002237486037,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+"05.4 Glassware, tableware and household utensils",0.01450994565,0.004481466703,0.3088548235,True,0.001445268104,0.001639567974,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+11.2 Accommodation services,0.008540017231,0.003131649113,0.3667029033,True,0.00085063134,0.001145730167,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.005778721613,0.001286149874,0.2225665051,True,0.0005755915446,0.0004705446414,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+"04.3 Maintenance, repair and security of the dwelling",0.0005694536843,0.009664201226,16.97100483,True,5.672062918e-05,0.003535698439,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+05.5 Tools and equipment for house and garden,-0.01622218854,-0.0033585263,0.207032873,True,-0.001615816643,-0.001228734369,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+09.8 Package holidays,-0.02479696481,-0.009057563743,0.3652690485,True,-0.00246991017,-0.003313756951,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+09.1 Recreational durables,-0.08202463137,-0.02084190411,0.2540932372,True,-0.008170091489,-0.007625119357,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+13.9 Other services,-0.1004125957,-0.01838185976,0.1830632863,True,-0.01000163098,-0.006725099297,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+07.1 Purchase of vehicles,-0.5018204037,-0.126241279,0.2515666523,True,-0.04998399312,-0.04618603057,"LVT B1 full_m1 vs VAT, the post's method (mid)",post
+04.1 Actual rents,4.728946294,2.237271868,0.4731015599,True,0.4710283146,0.4336347083,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+01.1 Food (at home),0.8828073867,0.4557235369,0.5162208017,True,0.08793233199,0.08832969555,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+08.3 Information and communication services,0.529552175,0.2763186908,0.5217969143,True,0.05274622569,0.05355691304,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+06.1 Medicines and health products,0.4281043543,0.2307560243,0.5390181669,True,0.04264148077,0.04472582108,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+13.1 Personal care,0.3890964416,0.1985738124,0.5103459996,True,0.03875608427,0.03848816876,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+03.1 Clothing,0.3392182273,0.1704055689,0.502347914,True,0.03378794767,0.03302851576,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+07.2 Operation of personal transport equipment,0.3288780505,0.2017928369,0.6135795216,True,0.03275801081,0.03911208968,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+11.1 Food and beverage serving services,0.276592952,0.1394169886,0.5040511249,True,0.02755013567,0.02702221667,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+04.4 Water & misc. dwelling services,0.2749514289,0.1773641094,0.6450743323,True,0.02738663121,0.03437724084,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+12.1 Insurance,0.2482693223,0.1451324404,0.5845766164,True,0.02472895085,0.02813000259,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+06.2 Outpatient care services,0.2259913896,0.1148653664,0.5082731982,True,0.02250994973,0.022263548,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+08.1 Information and communication equipment,0.2180457334,0.1097168171,0.5031825909,True,0.02171851993,0.02126564082,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+"04.5 Electricity, gas and other fuels",0.2233985712,0.1332884861,0.5966398325,True,0.02225169117,0.02583437204,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+12.2 Financial services,0.2076320091,0.1167529405,0.5623070401,True,0.02068125735,0.02262940324,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+07.3 Passenger transport services,0.2012021255,0.09798074608,0.4869766949,True,0.02004080659,0.01899092053,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+09.3 Garden products and pets,0.1851271233,0.09913375523,0.5354901726,True,0.0184396505,0.0192144002,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+09.4 Recreational services,0.1793407734,0.1017096242,0.5671305094,True,0.01786329913,0.0197136628,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+02.3 Tobacco,0.1547840949,0.07263125296,0.4692423534,True,0.01541732276,0.01407760614,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+01.2 Non-alcoholic beverages,0.1541318036,0.07792275356,0.5055592146,True,0.01535235106,0.01510322057,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+02.1 Alcoholic beverages,0.1112237829,0.05381545685,0.4838484671,True,0.01107848297,0.0104306724,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+"09.7 Newspapers, books and stationery",0.1127182709,0.06280275391,0.5571656964,True,0.01122734196,0.01217261713,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+13.2 Other personal effects,0.06451744229,0.03467808816,0.5374994254,True,0.006426281927,0.006721410508,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+05.6 Goods and services for routine household maintenance,0.07154755664,0.03983292836,0.5567335941,True,0.007126518875,0.007720537014,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+03.2 Footwear,0.06743280504,0.03877286251,0.5749851648,True,0.006716667632,0.007515071889,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+09.2 Other recreational goods,0.0572972401,0.0296967965,0.5182936638,True,0.005707111216,0.005755921696,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+05.2 Household textiles,0.02653759118,0.01599414542,0.6026977096,True,0.002643285854,0.003100032983,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+09.6 Cultural services,0.02689403193,0.01617611583,0.6014760401,True,0.002678789258,0.003135303031,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+05.3 Household appliances,0.02126180466,0.01154396655,0.5429438719,True,0.002117789332,0.002237486037,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+"05.4 Glassware, tableware and household utensils",0.01450994565,0.008459099872,0.5829863237,True,0.001445268104,0.001639567974,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+11.2 Accommodation services,0.008540017231,0.005911219331,0.692178853,True,0.00085063134,0.001145730167,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.005778721613,0.002427703016,0.4201107405,True,0.0005755915446,0.0004705446414,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+"04.3 Maintenance, repair and security of the dwelling",0.0005694536843,0.01824189462,32.03402687,True,5.672062918e-05,0.003535698439,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+05.5 Tools and equipment for house and garden,-0.01622218854,-0.006339466802,0.3907898609,True,-0.001615816643,-0.001228734369,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+09.8 Package holidays,-0.02479696481,-0.0170968215,0.689472346,True,-0.00246991017,-0.003313756951,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+09.1 Recreational durables,-0.08202463137,-0.03934063557,0.479619779,True,-0.008170091489,-0.007625119357,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+13.9 Other services,-0.1004125957,-0.0346971199,0.345545493,True,-0.01000163098,-0.006725099297,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+07.1 Purchase of vehicles,-0.5018204037,-0.2382897515,0.4748506632,True,-0.04998399312,-0.04618603057,"LVT B1 full_m2 vs VAT, the post's method (mid)",post
+04.1 Actual rents,4.990443077,9.104840503,1.824455337,True,0.4298360377,0.3748891929,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+01.1 Food (at home),0.9897718983,2.011486042,2.03227233,True,0.08525087341,0.0828223601,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+08.3 Information and communication services,0.6086208891,1.274546284,2.094154681,True,0.0524216362,0.0524790772,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+06.1 Medicines and health products,0.4948613294,1.056365944,2.134670626,True,0.04262331616,0.04349556435,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+13.1 Personal care,0.441846473,0.9067240468,2.052124668,True,0.0380570491,0.03733410222,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+03.1 Clothing,0.3926812653,0.8120990586,2.068087099,True,0.03382235937,0.03343794551,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+07.2 Operation of personal transport equipment,0.4490713247,1.147186204,2.55457461,True,0.03867933887,0.04723506248,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+11.1 Food and beverage serving services,0.3167641296,0.6493218702,2.049859215,True,0.02728347689,0.02673564152,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+04.4 Water & misc. dwelling services,0.3604071348,0.9113801845,2.528751783,True,0.03104252917,0.03752581736,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+12.1 Insurance,0.3274502827,0.8007707883,2.445472888,True,0.0282038949,0.03297150723,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+06.2 Outpatient care services,0.2646238883,0.5573322064,2.106129609,True,0.02279254204,0.02294799354,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+08.1 Information and communication equipment,0.2571501089,0.5372198813,2.089129511,True,0.02214881168,0.02211987433,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+"04.5 Electricity, gas and other fuels",0.2911261639,0.7123265149,2.446796624,True,0.02507523177,0.02932983967,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+12.2 Financial services,0.2565041226,0.5900469148,2.300340863,True,0.02209317169,0.02429501226,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+07.3 Passenger transport services,0.2269115462,0.4547173992,2.003941213,True,0.01954430868,0.01872285832,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+09.3 Garden products and pets,0.215984103,0.4634885558,2.145938286,True,0.0186031079,0.01908400817,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+09.4 Recreational services,0.222210072,0.5139297339,2.312810258,True,0.01913936206,0.02116090919,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+02.3 Tobacco,0.1640745069,0.2984524571,1.819005662,True,0.01413203895,0.01228869421,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+01.2 Non-alcoholic beverages,0.1711043529,0.3400652485,1.987472807,True,0.01473753251,0.01400208894,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+02.1 Alcoholic beverages,0.125615167,0.2491493218,1.983433433,True,0.01081946529,0.01025865177,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+"09.7 Newspapers, books and stationery",0.1377015425,0.3118137155,2.264417013,True,0.01186048704,0.01283884019,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+13.2 Other personal effects,0.07479788434,0.1600584185,2.139878954,True,0.006442479302,0.006590359415,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+05.6 Goods and services for routine household maintenance,0.0885056414,0.2037938574,2.302608672,True,0.007623153621,0.008391153552,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+03.2 Footwear,0.08303098576,0.1928269254,2.322348983,True,0.007151611465,0.007939593273,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+09.2 Other recreational goods,0.07631438824,0.178993805,2.34547913,True,0.006573098572,0.007370018513,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+05.2 Household textiles,0.03385705331,0.08103205719,2.39335823,True,0.002916170251,0.003336471683,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+09.6 Cultural services,0.03609661496,0.08954781165,2.480781418,True,0.003109067815,0.003687105427,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+05.3 Household appliances,0.03159087126,0.08064799045,2.552889086,True,0.002720979825,0.003320657845,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+"05.4 Glassware, tableware and household utensils",0.01997109905,0.04947698708,2.477429357,True,0.001720147481,0.002037200734,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+11.2 Accommodation services,0.01328002715,0.03787320383,2.851892048,True,0.001143833155,0.001559418291,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+"05.1 Furniture, furnishings and loose carpets (D)",0.02070117895,0.06967321218,3.365663973,True,0.001783030604,0.002868774502,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+"04.3 Maintenance, repair and security of the dwelling",0.02993508444,0.1556445826,5.199403493,True,0.002578363862,0.006408620988,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+05.5 Tools and equipment for house and garden,-0.00876496072,0.004839349237,-0.5521244637,False,-0.0007549421822,0.000199258815,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+09.8 Package holidays,-0.01603417623,-0.0199794405,1.246053443,True,-0.001381053079,-0.0008226477246,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+09.1 Recreational durables,-0.07782303984,-0.1229554968,1.579936958,True,-0.006703041508,-0.005062657269,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+13.9 Other services,-0.04923281257,0.06496937745,-1.319635708,False,-0.004240512666,0.002675095458,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
+07.1 Purchase of vehicles,-0.4510406197,-0.6429544525,1.425491241,True,-0.03884895786,-0.02647346493,"LVT B1 bridge vs VAT, unconstrained payers draw on wealth",post
