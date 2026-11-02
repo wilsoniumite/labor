@@ -35,13 +35,20 @@ sign.
   the state lends), and on the MPC level (at the SCF's measured windfall MPCs: LVT -0.68, VAT -1.70).
 - **Funding.** US: the bridge needs 53-88% of measured residential land rent (35-58% of all land rent) on the paper's
   four land-rent measures; full capture funds $276-461 per adult share a month on residential land. Finland:
-  household land rent cannot fund the bridge. Full capture funds EUR 37 of the bridge's EUR 199 at the 2022 yield
-  (31-35% at 2023-25 yields or the paper's +1.5-point band); a bridge-sized charge would be 8.9% of land value a year,
-  a levy on dwellings, not a rent tax. At full capture Finnish net demand at impact is about +0.04%.
-- **US vs Finland.** The post found the VAT's demand sign is mostly a wealth-concentration story. For the LVT the gap
-  between the countries closes on the clean reading (US -0.04, Finland +0.04 at full capture), but not because land is
-  less top-heavy: the VAT's US-Finland gap is entirely its levy channel, which the LVT does not have. Each country's
-  LVT stock channel can reopen it (US mortgage collateral; Finnish holders of cottages, rental flats and forest).
+  household land rent cannot fund the bridge. Full capture funds EUR 37 a month per adult share, 19% of the bridge's
+  EUR 199, at the 2022 yield (19-50% across every yield case: 30% at the December 2022 yield, 32-34% at 2023-25
+  yields, up to 50% with the paper's +1.5-point band); a bridge-sized charge would be 8.9% of land value a year, a levy
+  on dwellings, not a rent tax. At equal (notional) revenue the Finnish LVT is about twice as redistributive (bottom
+  quintile +EUR 117 against +80, top -175 against -84). At full capture Finnish net demand at impact is +0.04%
+  [-0.01, +0.09], against the Finnish VAT's -0.14% [-0.48, +0.20] on the same impact formulas.
+- **US vs Finland.** The post found the VAT's demand sign is mostly a wealth-concentration story. The VAT's US-Finland
+  gap at impact (1.2 points on the same formulas) is entirely its levy channel, which the LVT does not have, so on
+  the clean reading the two countries' LVTs nearly coincide: at the US bridge's share of rent, US +0.15 and Finland
+  +0.13. Land being less top-heavy than financial wealth (top income decile: 29% of Finnish and 39% of US residential
+  land) is true but works through the flow channel, not the sign. With both countries on the same year's yields their
+  non-occupier stock channels are also close (2024 yields: US -0.48, Finland -0.57); only the collateral reading that
+  double-counts the bill separates them (US -1.50, Finland -0.01), because land is 42% of US house values against 20%
+  of Finnish ones and far more US owners cross 80% LTV.
 - **The loop** is real and second-order, as three-taxes T5 says: the LVT taxes back the land part of its own rent bar,
   about +1.1% of the dividend; under the VAT the same kind of increment goes to landlords, 60% of it to the top decile.
 
