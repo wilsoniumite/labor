@@ -32,7 +32,7 @@ from lambda_compute2 import pull_fred, annualize  # cache/, retries, courtesy de
 
 # concept -> (ordered candidate IDs, unit divisor to $B [pop stays thousands])
 CANDIDATES = {
-    "re_hh":          (["HNOREMV"], 1e3),               # HH+NPO real estate, $M, Q
+    "re_hh":          (["HOOREVLMHMV"], 1e3),           # HH real estate (owner-occupied, incl. vacant land), $M, Q; matches str_hh_res (was HNOREMV, HH+NPO: STATE Open 10)
     "re_nfc":         (["BOGZ1LM105035005A"], 1e3),     # NFC real estate, $M, A
     "re_nnb":         (["BOGZ1LM115035005A"], 1e3),     # NNB real estate, $M, A
     "str_hh_res":     (["BOGZ1LM155012665Q"], 1e3),     # HH residential structures, $M

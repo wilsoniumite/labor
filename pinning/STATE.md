@@ -135,7 +135,9 @@ both at tag `pre-cleanup-2026-09-04`.
    end with ∎). Once the journal's requirements are known, adjust `reference_docx` in
    `code/build_submission_docx.py` and rebuild. The blind file keeps the AI-use note,
    which names no author.
-10. **The coverage figure's Z.1 land residual mixes sectors** (found in the paths
+10. → Resolved 2026-11-02 (her yes, polish 2): the numerator is now households' own real estate
+    (HOOREVLMHMV); 2025 median 0.30 [0.15–0.59], as estimated below. Log.
+    **The coverage figure's Z.1 land residual mixes sectors** (found in the paths
     thread's feasibility study; levels verified on FRED 2026-09-30).
     `code/feasibility_kappa.py` takes households-and-nonprofits real estate (HNOREMV,
     $54.07T in 2026Q2) less households' residential structures alone (BOGZ1LM155012665Q,
@@ -165,6 +167,17 @@ README's corner table now carries the new pointers. `check_interior.py` is what 
 Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-02 — polish 2: the coverage ratio's land residual matched (Open 10).** Her yes.
+  `code/feasibility_kappa.py` takes households' own real estate (HOOREVLMHMV, first cached
+  2026-11-02) in place of households-and-nonprofits' (HNOREMV), so the residual nets households'
+  structures from households' real estate. 2025: 0.30 [0.15–0.59] (was 0.33 [0.18–0.59]); the
+  1950s stay about 0.05; the top of the band is a rent-bill member and does not move. The figure
+  gate in `code/fig_kappa_measurement.py` is re-anchored (kappa_med 0.298, stock_med 0.250;
+  flow members unchanged at 0.326). Text: Section 9's estimate, the Figure 6 caption's series,
+  "about 30 percent" (was "about one-third") in Section 10, Appendix D.5's D = 0.31 (was 0.29;
+  0.64 x 0.70^2 = 0.314 on the printed inputs, 0.316 unrounded), and the summary table. Figure 6
+  now points at the script-built file (no in-image title). Word diff: exactly these changes.
 
 - **2026-11-02 — polish 1: the slips fixed.** Her yes to all. "both parameters" becomes
   "both" (2.3); "meters" twice; Proposition 2 gains its serial comma; "urbanization";

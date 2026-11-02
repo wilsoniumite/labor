@@ -31,8 +31,10 @@ GRID = ROOT / "data" / "kappa_results.csv"
 OUT = ROOT / "paper" / "figures" / "fig_kappa_measurement.png"
 
 # Frozen from the built grid, 2026-09-01 (guards column drift on rebuilds).
-ANCHORS_2025 = {"kappa_med": (0.326, 0.02), "flow_med": (0.326, 0.02),
-                "stock_med": (0.303, 0.02)}
+# 2026-11-02: kappa_med and stock_med re-anchored after the Z.1 land residual was matched to households
+# (HOOREVLMHMV in place of HNOREMV; STATE Open 10). Before: kappa_med 0.326, stock_med 0.303.
+ANCHORS_2025 = {"kappa_med": (0.298, 0.02), "flow_med": (0.326, 0.02),
+                "stock_med": (0.250, 0.02)}
 
 years, kmin, kmed, kmax, flow_med, stock_med = [], [], [], [], [], []
 with open(GRID, newline="", encoding="utf-8") as f:

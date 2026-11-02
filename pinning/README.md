@@ -54,7 +54,7 @@ caption also states.
 | Reported | Source in this folder |
 |---|---|
 | Fork 4.8x; durables +277%, food +13%, shelter −21% over 1964–2024 | `effort/data/fig3_realwage_fan.csv`; anchored by `checks/check_fan.py` |
-| Coverage ratio 0.33 [0.18–0.59] in 2025, about 0.05 in the 1950s | `data/kappa_results.csv` (`code/feasibility_kappa.py`; method in `docs/feasibility_empirics_spec.md`) |
+| Coverage ratio 0.30 [0.15–0.59] in 2025, about 0.05 in the 1950s | `data/kappa_results.csv` (`code/feasibility_kappa.py`; method in `docs/feasibility_empirics_spec.md`) |
 | Labor-origin financing 69.6% (2004), 65.8% (2023), 64.2% (2025 extension); production content 50.1/47.2 (1997/2023), 66.4/46.2 (1950/2025 extension) | `effort/archive_v28/expected/DF19_…`, `DF21_…`, `LR_Q1_…`; verified by `effort/checks/check_effort_reproduction.py` |
 | Share of tax revenue from labor-income bases 0.68 (2025), 0.64 (1965) | `data/lambda_results.csv`, column `lamR_med` (`code/lambda_compute2.py`) |
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
