@@ -293,6 +293,30 @@ pre = {n: sum(J[n][f"{y}-09-01"] for y in range(2016, 2020)) for n in J}
 pre_share = 100 * pre["Health care and social assistance"] / sum(pre.values())
 check("E5 jobs, four years to Sep 2019: care share of net job growth from the watch page",
       abs(jw.loc["pre4y", "care_share_of_net_job_growth_pct"] - pre_share) < 1e-9, f"{pre_share:.2f}%")
+# the page's latest two years (Sep 2024 - Sep 2026) beside the jobs window: jobs from the raw page, spending recomputed
+jcw = pd.read_csv(OUT / "jobs_windows_compare.csv").set_index("window")
+two_s = {n: J[n]["2026-09-01"] + J[n]["2025-09-01"] for n in J}
+share_s = 100 * two_s["Health care and social assistance"] / sum(two_s.values())
+tot_s, con_s, rel_s = run("M", "2024-09", "2026-09")
+mcs = members(CARE["C"])
+rs, ra = jcw.loc["jobs_latest"], jcw.loc["jobs"]
+hj = headline[(headline.window == "jobs") & (headline.care_variant == "C")].iloc[0]
+worst = max(abs(share_s - rs.care_share_of_net_job_growth_pct), abs(100 * tot_s - rs.real_pce_growth_pct_leaf),
+            abs(100 * con_s[mcs].sum() / tot_s - rs.care_C_share_of_real_growth_pct),
+            abs(100 * rel_s["care C"] - rs.care_C_real_growth_pct),
+            abs(100 * rel_s["outside C"] - rs.outside_care_C_real_growth_pct),
+            abs(100 * (X["M"].loc["2026-09", 1] / X["M"].loc["2024-09", 1] - 1) - rs.real_pce_growth_pct_bea),
+            abs(100 * (PI["M"].loc["2026-09", 36] / PI["M"].loc["2024-09", 36] - 1) - rs.real_pi_ex_transfers_growth_pct),
+            abs(ra.care_share_of_net_job_growth_pct - jw.loc["jobs", "care_share_of_net_job_growth_pct"]),
+            abs(ra.care_C_share_of_real_growth_pct - hj.care_share_of_growth_pct),
+            abs(ra.outside_care_C_real_growth_pct - hj.outside_care_real_growth_pct))
+check("E6 jobs window against the page's latest two years: Sep 2024 - Sep 2026 jobs -31k / +1,285k / -122k (113.5%) "
+      "from the raw page, and care (c)'s share of real PCE growth and outside-care growth over the same months "
+      "recomputed; the Aug 2024 - Aug 2026 row agrees with the main tables",
+      (two_s["Private jobs outside care"], two_s["Health care and social assistance"], two_s["Government"])
+      == (-31.0, 1285.0, -122.0) and round(share_s, 1) == 113.5 and worst < 1e-6,
+      f"{share_s:.2f}%; care share of real growth {100 * con_s[mcs].sum() / tot_s:.2f}%, outside care "
+      f"{100 * rel_s['outside C']:.2f}%; max |diff| {worst:.1e}")
 
 # %% F. financing identities
 for w, f, a, b in WINDOWS:
@@ -328,6 +352,14 @@ tlines = [l for l in tab.splitlines() if l.startswith("|")]
 missing = [l for l in tlines if notes.exists() and l not in notes.read_text(encoding="utf-8")]
 check("G1 every results-table line in out/notes_tables_sectors.md appears verbatim in NOTES_sectors.md",
       notes.exists() and not missing, f"{len(tlines)} lines, {len(missing)} missing")
+gen = re.split(r"<!-- ([\w-]+) -->\n", (OUT / "notes_text_sectors.md").read_text(encoding="utf-8"))[1:]
+passages = dict(zip(gen[0::2], gen[1::2]))
+flat = lambda s: re.sub(r"\s+", " ", s).strip()                                               # noqa: E731
+flat_notes = flat(notes.read_text(encoding="utf-8")) if notes.exists() else ""
+gmiss = [k for k, s in passages.items() if flat(s) not in flat_notes]
+check("G3 every generated passage in out/notes_text_sectors.md (prose whose numbers are read from the CSVs) appears in "
+      "NOTES_sectors.md, line wrapping aside", len(passages) >= 10 and not gmiss,
+      f"{len(passages)} passages, missing: {gmiss}")
 from PIL import Image                                    # noqa: E402  (matplotlib's own dependency)
 figs = ["fig_care_share_of_growth.png", "fig_outside_care.png", "fig_contributions_2024-08_2026-08.png",
         "fig_contributions_2022-09_2026-09.png"]
@@ -386,7 +418,12 @@ check("I1 care in dollars: shares of the level at both ends (current dollars and
 gtm = pd.read_csv(OUT / "gap_timing.csv").set_index("period")
 worst = 0.0
 mc = members(CARE["C"])
-for p, a, b in [("pre", "2022-09", "2026-03"), ("6m", "2026-03", "2026-09"), ("4y", "2022-09", "2026-09")]:
+# the month in which income's lead over spending, measured from Sep 2022, was largest: the base of the 'low' rows
+cum_gap = (X["M"].loc["2022-09":, 1] / X["M"].loc["2022-09", 1] - PI["M"].loc["2022-09":, 36] / PI["M"].loc["2022-09", 36])
+LOW = cum_gap.idxmin()
+GAP_ROWS = [("pre", "2022-09", "2026-03"), ("6m", "2026-03", "2026-09"), ("4y", "2022-09", "2026-09"),
+            ("12m", "2025-09", "2026-09"), ("low_pre", LOW, "2026-03"), ("low", LOW, "2026-09")]
+for p, a, b in GAP_ROWS:
     tot, con, rel = run("M", a, b)
     p0, p1 = V["M"].loc[a, 1], V["M"].loc[b, 1]
     c0, c1 = (V["M"].loc[a, mc] * SG[mc]).sum(), (V["M"].loc[b, mc] * SG[mc]).sum()
@@ -400,17 +437,61 @@ for p, a, b in [("pre", "2022-09", "2026-03"), ("6m", "2026-03", "2026-09"), ("4
                 abs(100 * (tot - gyr - care_r) - r.outside_care_C_part_of_real_gap_pp),
                 abs(100 * (p1 / p0 - 1 - gY) - r.nominal_gap_pp), abs(100 * care_n - r.care_C_part_of_nominal_gap_pp),
                 abs(100 * (p1 / p0 - 1 - gY - care_n) - r.outside_care_C_part_of_nominal_gap_pp))
+    if p != "pre":                               # shares are left blank where the gap is not clearly positive
+        worst = max(worst, abs(100 * care_r / (tot - gyr) - r.care_C_share_of_real_gap_pct),
+                    abs(100 * care_n / (p1 / p0 - 1 - gY) - r.care_C_share_of_nominal_gap_pct))
+    if r.start != a or r.end != b:
+        worst = np.inf
 g9 = fin[(fin.block == "gap")].set_index(["window", "item"])["value"]
 lab_c = CARE_LABEL["C"]
 same = all(abs(gtm.loc[p, "care_C_share_of_real_gap_pct"]
                - g9[(w, f"Share of the real gap from {lab_c}, % (gap on the leaf Fisher)")]) < 1e-9
            and abs(gtm.loc[p, "care_C_share_of_nominal_gap_pct"] - g9[(w, f"Share of the nominal gap from {lab_c}, %")])
-           < 1e-9 for p, w in [("6m", "6m"), ("4y", "4y")])
-check("I2 when the gap opened: real and nominal gaps and their care (c) / outside-care parts for Sep 2022-Mar 2026, the "
-      "watch window and the four years reproduced, and the last two agree with care_financing.csv",
-      worst < 1e-6 and same and pd.isna(gtm.loc["pre", "care_C_share_of_real_gap_pct"]),
-      f"max |diff| {worst:.1e} pp; Sep 2022-Mar 2026 care {gtm.loc['pre', 'care_C_part_of_real_gap_pp']:+.2f} / rest "
-      f"{gtm.loc['pre', 'outside_care_C_part_of_real_gap_pp']:+.2f} pp")
+           < 1e-9 for p, w in [("6m", "6m"), ("4y", "4y"), ("12m", "12m")])
+check("I2 when the gap opened and how its split depends on the starting month: real and nominal gaps, their care (c) / "
+      "outside-care parts and care's shares from Sep 2022 (to Mar and Sep 2026), from the month of income's largest "
+      "lead (found here: Jan 2024) and over twelve and six months reproduced; the 6m, 12m and 4y rows agree with "
+      "care_financing.csv",
+      worst < 1e-6 and same and pd.isna(gtm.loc["pre", "care_C_share_of_real_gap_pct"]) and LOW == "2024-01"
+      and len(gtm) == len(GAP_ROWS),
+      f"max |diff| {worst:.1e} pp; low month {LOW} ({100 * cum_gap.min():+.2f} pt); care's share of the real / nominal "
+      "gap: " + ", ".join(f"{p} {gtm.loc[p, 'care_C_share_of_real_gap_pct']:.1f} / "
+                          f"{gtm.loc[p, 'care_C_share_of_nominal_gap_pct']:.1f}" for p, _, _ in GAP_ROWS[1:]))
+# the indexes behind the gap path quoted in the notes (outside_care_monthly.csv), recomputed from the raw tables
+mon = pd.read_csv(OUT / "outside_care_monthly.csv").pivot(index="date", columns="series", values="index_2022_09_100")
+ix_x = 100 * X["M"].loc["2007-01":, 1] / X["M"].loc["2022-09", 1]
+ix_y = 100 * PI["M"].loc["2007-01":, 36] / PI["M"].loc["2022-09", 36]
+dmon = max((mon["real_pce_bea"] - ix_x).abs().max(), (mon["real_pi_ex_transfers"] - ix_y).abs().max())
+from_low = 100 * (X["M"].loc[LOW:, 1] / X["M"].loc[LOW, 1] - PI["M"].loc[LOW:, 36] / PI["M"].loc[LOW, 36])
+check("I6 the gap path: BEA real PCE and real income excl. transfers indexed to Sep 2022 in outside_care_monthly.csv "
+      "reproduced; measured from Jan 2024 the gap was about 2 points by Dec 2024 and 4.2 by Sep 2026",
+      dmon < 1e-9 and round(from_low["2024-12"], 1) == 2.0 and round(from_low["2026-09"], 1) == 4.2,
+      f"max |diff| {dmon:.1e}; from {LOW}: Dec 2024 {from_low['2024-12']:.2f}, Jan 2025-Mar 2026 "
+      f"{from_low.loc['2025-01':'2026-03'].min():.2f} to {from_low.loc['2025-01':'2026-03'].max():.2f}, Sep 2026 "
+      f"{from_low['2026-09']:.2f} pt")
+# care (c) by the indicator behind the advance estimate (Handbook Tables 5.A and 5.B), path-based membership
+adv = pd.read_csv(OUT / "care_advance_sources.csv").set_index("group")
+ADV = {"CES employment, hours and earnings": [176, 183, 187, 317, 344, 357], "Judgmental trend": [174, 316, 275],
+       "Monthly retail sales (Census MRTS)": [121, 66], "Dental patient volumes (American Dental Association)": [175],
+       "Care (c)": CARE["C"]}
+parts_ = [members(t) for g, t in ADV.items() if g != "Care (c)"]
+partition_ok = sorted(sum(parts_, [])) == sorted(mc) and len(set(sum(parts_, []))) == len(mc)
+_, con_q3, _ = run("M", "2026-06", "2026-09")
+_, con_6m, _ = run("M", "2026-03", "2026-09")
+lvl_ = lambda ms: (V["M"].loc["2026-09", ms] * SG[ms]).sum()                                   # noqa: E731
+worst = 0.0
+for g, tops in ADV.items():
+    ms, r = members(tops), adv.loc[g]
+    worst = max(worst, abs(100 * lvl_(ms) / lvl_(mc) - r.share_of_care_C_2026_09_pct),
+                abs(100 * con_q3[ms].sum() - r.contribution_q3_pp), abs(100 * con_6m[ms].sum() - r.contribution_6m_pp),
+                abs(100 * con_q3[ms].sum() / con_q3[mc].sum() - r.share_of_care_C_contribution_q3_pct),
+                abs(100 * con_6m[ms].sum() / con_6m[mc].sum() - r.share_of_care_C_contribution_6m_pct))
+ces = adv.loc["CES employment, hours and earnings"]
+check("I5 care (c) by advance-estimate indicator: the four groups partition care (c); their shares of care spending in "
+      "Sep 2026 and their contributions in Jul-Sep 2026 and over the watch window reproduced",
+      partition_ok and worst < 1e-6 and len(adv) == len(ADV),
+      f"max |diff| {worst:.1e}; CES-based {ces.share_of_care_C_2026_09_pct:.1f}% of care, {ces.contribution_q3_pp:.3f} "
+      f"of {adv.loc['Care (c)', 'contribution_q3_pp']:.3f} pp in Jul-Sep")
 hbe = pd.read_csv(OUT / "care_share_history_bea.csv", dtype={"period": str}).set_index("period")
 worst, n = 0.0, 0
 for per_, f, a, b in [("2015-09 to 2019-09", "M", "2015-09", "2019-09"), ("2018-09 to 2022-09", "M", "2018-09", "2022-09"),

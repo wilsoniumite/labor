@@ -26,6 +26,7 @@ Each folder is a self-contained thread whose `STATE.md` is the session entry poi
 | `long-record/` | One Schedule, Seven Centuries: the model's configurations fitted to the English wage record (parked at Breakpoint A). |
 | `progress_and_prosperity/` | The book program (`PLAN.md`: phases, chapter map, papers P1 to P5), the lambda series (is the labor content of machine production falling?), and data notes (the Swedish deflator fork). |
 | `three-drivers/` | Napkin-grade data support for a blog post; not a paper. |
+| `consumption/` | Blog support for the 2026-06-14 post: its VAT-bridge consumption machinery rebuilt and gated on the published numbers, a land-value-tax dividend run through it (US, Finland), and the 2022-2026 moves in the US consumption breakdown by sector and income group. |
 | `tools/` | Editing utilities shared across threads: word-level diff reports, reading views, HTML-to-PDF rendering. |
 
 ## History

@@ -12,9 +12,14 @@
 #   3. Groupings (functional partition of PCE; three care definitions with variants; imputed items), the
 #      outside-care indexes beside real personal income excluding transfers, and the Medicare + Medicaid arithmetic;
 #      care's share of PCE at both ends of each window in dollars and at start prices (and why its share of the dollar
-#      increase sits below its share of real growth); when the spending-income gap opened; Table 4's BEA residuals.
+#      increase sits below its share of real growth); when the spending-income gap opened and how its split between
+#      care and the rest depends on the starting month; care by the indicator behind BEA's advance estimate; Table 4's
+#      BEA residuals.
 #   4. Cross-checks against BEA's published contributions (Tables 2.8.2 monthly, 2.3.2 and 2.4.2 annual).
-#   5. The jobs side, read from the vendored watch page, and the figures.
+#   5. The jobs side, read from the vendored watch page (the jobs window and the page's latest two years), and the
+#      figures.
+#   6. The NOTES tables (out/notes_tables_sectors.md) and the NOTES passages with new or corrected numbers
+#      (out/notes_text_sectors.md), every number read back from the CSVs and rounded once.
 #
 # Run from the repo root:  venv/bin/python -I consumption/recent/code/sectors.py      (about 25 s)
 # Inputs (nothing is downloaded):
@@ -50,7 +55,10 @@ TIDY = common.TIDY
 SURVEY_XLSX = common.RAW / "bea" / "nipa" / "xls_survey" / "Section2All_xls.xlsx"
 WATCH_JOBS = common.RAW / "watch" / "jobs-outside-care.html"
 
-# The windows. 'jobs' is the watch site's two-year jobs window, '6m' its spending-and-income window.
+# The windows. '6m' is the watch site's spending-and-income window. 'jobs' (Aug 2024 to Aug 2026) is not a window the
+# watch page uses: it is the window of this repository's earlier payroll finding (paths/STATE.md), made when August 2026
+# was the latest payroll month, kept so that this unit, NOTES_fingerprint.md and the independent verifier stay
+# comparable. The page's chart runs to Sep 2026; JOB_WINDOWS_COMPARE below sets the two windows side by side.
 WINDOWS = [
     # key,   freq, start,     end,       label
     ("jobs", "M", "2024-08", "2026-08", "Aug 2024 to Aug 2026 (jobs window)"),
@@ -539,6 +547,38 @@ headline = headline.merge(jobs[["window", "care_share_of_net_job_growth_pct",
                                 "care_share_of_private_job_growth_pct"]], on="window", how="left")
 headline.to_csv(OUT / "headline_sectors.csv", index=False, float_format="%.12g")
 
+# %% the jobs window against the page's latest two years (Table 11a). The page's chart runs to Sep 2026, so its latest
+# two years are Sep 2024 to Sep 2026; the jobs window ends in August for the historical reason given at WINDOWS. Same
+# arithmetic as above: jobs as sums of twelve-month changes, spending on the monthly leaf-Fisher chain, care (c).
+JOB_WINDOWS_COMPARE = [("jobs", "2024-08", "2026-08", "Aug 2024 to Aug 2026 (jobs window)"),
+                       ("jobs_latest", "2024-09", "2026-09", "Sep 2024 to Sep 2026 (the page's latest two years)")]
+jc_rows = []
+for key, a, b, wlabel in JOB_WINDOWS_COMPARE:
+    C, FQ, FP, AGG, PARTS = CHAIN["M"]
+    G = window_growth(FQ, a, b)
+    contrib = float(window_contrib(C, FQ, a, b).reindex(members("care C")).fillna(0.0).sum())
+    g_out = window_growth(AGG["outside care C"], a, b)
+    ch = {nm: jobs_change(nm, a, b) for nm in JOBS12}
+    tot = sum(ch.values())
+    jc_rows.append({"window": key, "label": wlabel, "start": a, "end": b,
+                    **{f"jobs_change_k: {nm}": v for nm, v in ch.items()}, "jobs_change_k: total": tot,
+                    "care_share_of_net_job_growth_pct": 100 * ch["Health care and social assistance"] / tot,
+                    "care_share_of_private_job_growth_pct": 100 * ch["Health care and social assistance"]
+                    / (ch["Health care and social assistance"] + ch["Private jobs outside care"]),
+                    "real_pce_growth_pct_bea": 100 * bea_growth("M", 1, a, b, "X"), "real_pce_growth_pct_leaf": 100 * G,
+                    "care_C_contribution_pp": 100 * contrib, "care_C_share_of_real_growth_pct": 100 * contrib / G,
+                    "care_C_real_growth_pct": 100 * window_growth(AGG["care C"], a, b),
+                    "outside_care_C_real_growth_pct": 100 * g_out,
+                    "outside_care_C_real_growth_annualized_pct": 100 * annualize(g_out, "M", a, b),
+                    "real_pi_ex_transfers_growth_pct": 100 * float(PI["M"].loc[b, 36] / PI["M"].loc[a, 36] - 1)})
+jobs_compare = pd.DataFrame(jc_rows)
+# the jobs-window row must agree with the main tables
+_jw, _hj = jobs_compare.set_index("window").loc["jobs"], headline.set_index(["window", "care_variant"]).loc[("jobs", "C")]
+assert abs(_jw["care_share_of_net_job_growth_pct"] - _hj["care_share_of_net_job_growth_pct"]) < 1e-9
+assert abs(_jw["care_C_share_of_real_growth_pct"] - _hj["care_share_of_growth_pct"]) < 1e-9
+assert abs(_jw["outside_care_C_real_growth_pct"] - _hj["outside_care_real_growth_pct"]) < 1e-9
+jobs_compare.to_csv(OUT / "jobs_windows_compare.csv", index=False, float_format="%.12g")
+
 # %% monthly series: real PCE, outside care, outside care and imputed, beside real income excl. transfers
 BASE = "2022-09"
 
@@ -925,12 +965,26 @@ dollar_split = pd.DataFrame(dollar_rows)
 dollar_split.to_csv(OUT / "care_dollar_shares.csv", index=False, float_format="%.12g")
 
 
-# %% when the spending-income gap opened, care (c): Sep 2022 to Mar 2026, the watch window, and the four years. Same
+# %% when the spending-income gap opened, care (c), and how its split depends on the starting month (Table 9a). Same
 # arithmetic as the gap block above: in volumes, care's part is its contribution minus its start share times real
-# income growth (gap on the leaf Fisher); in dollars, s0 (g_care - g_Y).
+# income growth (gap on the leaf Fisher); in dollars, s0 (g_care - g_Y). The starting months: Sep 2022 (to Mar 2026 and
+# to Sep 2026); the month in which income's lead over spending, measured from Sep 2022, was largest (GAP_MIN, Jan 2024),
+# which by construction gives the largest gap since; and the twelve- and six-month windows.
+GAP_PATH = (X["M"][1] / X["M"].loc["2022-09", 1] - PI["M"][36] / PI["M"].loc["2022-09", 36]).loc["2022-09":]
+GAP_MIN = (GAP_PATH.idxmin(), 100 * GAP_PATH.min())                    # income furthest ahead of spending
+LOW = GAP_MIN[0]
+
+
+def month_label(t):
+    return pd.Timestamp(f"{t}-01").strftime("%b %Y")
+
+
 GAP_TIMING = [("pre", "2022-09", "2026-03", "Sep 2022 to Mar 2026"),
               ("6m", "2026-03", "2026-09", "Mar 2026 to Sep 2026 (watch window)"),
-              ("4y", "2022-09", "2026-09", "Sep 2022 to Sep 2026 (4 years)")]
+              ("4y", "2022-09", "2026-09", "Sep 2022 to Sep 2026 (4 years)"),
+              ("12m", "2025-09", "2026-09", "Sep 2025 to Sep 2026 (12 months)"),
+              ("low_pre", LOW, "2026-03", f"{month_label(LOW)} to Mar 2026 (from income's largest lead)"),
+              ("low", LOW, "2026-09", f"{month_label(LOW)} to Sep 2026 (from income's largest lead)")]
 gt_rows = []
 for key, a, b, plabel in GAP_TIMING:
     C, FQ, FP, AGG, PARTS = CHAIN["M"]
@@ -958,9 +1012,50 @@ for key, a, b, plabel in GAP_TIMING:
                     "care_C_real_growth_pct": 100 * window_growth(AGG["care C"], a, b),
                     "outside_care_C_real_growth_pct": 100 * window_growth(AGG["outside care C"], a, b)})
 gap_timing = pd.DataFrame(gt_rows)
+# the windows Table 9 also covers must agree with it
+_g9 = financing[financing.block == "gap"].set_index(["window", "item"])["value"]
+for _p in ["6m", "12m", "4y"]:
+    _r = gap_timing.set_index("period").loc[_p]
+    assert abs(_r["care_C_share_of_real_gap_pct"]
+               - _g9[(_p, f"Share of the real gap from {CARE_LABEL['C']}, % (gap on the leaf Fisher)")]) < 1e-9
+    assert abs(_r["care_C_share_of_nominal_gap_pct"] - _g9[(_p, f"Share of the nominal gap from {CARE_LABEL['C']}, %")]) < 1e-9
 gap_timing.to_csv(OUT / "gap_timing.csv", index=False, float_format="%.12g")
-GAP_PATH = (X["M"][1] / X["M"].loc["2022-09", 1] - PI["M"][36] / PI["M"].loc["2022-09", 36]).loc["2022-09":]
-GAP_MIN = (GAP_PATH.idxmin(), 100 * GAP_PATH.min())                    # income furthest ahead of spending
+
+# %% care (c) by the indicator BEA uses for the current quarter's advance estimate (NIPA Handbook ch. 5, Table 5.A for
+# goods and Table 5.B for services, current quarterly column; NPISHs from the chapter's technical note). Jul-Sep 2026
+# are advance estimates. Every care (c) leaf falls in exactly one group, so the table says how much of care's level, and
+# of its growth in those months, comes from lines extrapolated from the CES payroll survey behind the jobs series.
+ADVANCE_SOURCES = [
+    ("CES employment, hours and earnings", [176, 183, 187, 317, 344, 357],
+     "paramedical services (176) and hospitals (183), with trade-source volume data; nursing homes (187), with CMS "
+     "occupancy data; social assistance (317; 'most components'); NPISH health (344 - 357; 'based primarily on' CES)"),
+    ("Judgmental trend", [174, 316, 275], "physician services (174), child care (316), net health insurance (275)"),
+    ("Monthly retail sales (Census MRTS)", [121, 66],
+     "pharmaceutical and other medical products (121), therapeutic appliances and equipment (66)"),
+    ("Dental patient volumes (American Dental Association)", [175], "dental services (175)"),
+]
+ADV_WINDOWS = [("q3", "2026-06", "2026-09"), ("6m", "2026-03", "2026-09")]     # Jul-Sep 2026; the watch window
+_care_c = members("care C")
+_wc = {k: window_contrib(CHAIN["M"][0], CHAIN["M"][1], a, b) for k, a, b in ADV_WINDOWS}
+_care_lvl = nominal("M", "2026-09", "care C")
+adv_rows, _seen = [], []
+for grp, tops, desc in ADVANCE_SOURCES + [("Care (c)", CARE_TOPS["C"], "all of care (c)")]:
+    ls = [c for c in _care_c if any(is_under(c, t) for t in tops)]
+    if grp != "Care (c)":
+        _seen += ls
+    lvl = float((V["M"].loc["2026-09", ls] * SIGN_ROOT[ls]).sum())
+    adv_rows.append({"group": grp, "lines": desc, "n_leaves": len(ls), "value_2026_09_musd_saar": lvl,
+                     "share_of_care_C_2026_09_pct": 100 * lvl / _care_lvl,
+                     **{f"contribution_{k}_pp": 100 * float(_wc[k].reindex(ls).fillna(0.0).sum())
+                        for k, _, _ in ADV_WINDOWS}})
+assert sorted(_seen) == sorted(_care_c), "the advance-estimate groups must partition care (c)"
+care_advance = pd.DataFrame(adv_rows)
+for k, a, b in ADV_WINDOWS:
+    care_advance[f"share_of_care_C_contribution_{k}_pct"] = (100 * care_advance[f"contribution_{k}_pp"]
+                                                             / care_advance[f"contribution_{k}_pp"].iloc[-1])
+assert abs(care_advance["contribution_6m_pp"].iloc[-1]
+           - headline.set_index(["window", "care_variant"]).loc[("6m", "C"), "care_contribution_pp"]) < 1e-9
+care_advance.to_csv(OUT / "care_advance_sources.csv", index=False, float_format="%.12g")
 
 
 # %% leaves: the quantity relative implied by 2.4.5U / 2.4.4U against BEA's 2.4.3U relative, month by month
@@ -1131,7 +1226,8 @@ handles = [Line2D([], [], marker="o", ls="", ms=6.5, color=MUTED, mec=SURFACE,
            Line2D([], [], marker="o", ls="", ms=6.5, color=SLOT[0], mec=SURFACE,
                   label="Care's share of real PCE growth (exact Fisher contributions)"),
            Line2D([], [], marker="D", ls="", ms=6, color=SLOT[1], mec=SURFACE,
-                  label="Health care and social assistance share of net job growth (watch site; BLS)")]
+                  label="Health care and social assistance share of net job growth (computed from watch-page chart "
+                        "data; BLS)")]
 leg = fig.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.005, y_head), ncol=2, fontsize=7.8,
                  handletextpad=0.3, columnspacing=1.6, labelcolor=INK2)
 y_leg = leg.get_window_extent(renderer=fig.canvas.get_renderer()).y0 / fig.bbox.height
@@ -1147,7 +1243,7 @@ plt.close(fig)
 F2 = [("outside_care_C", "Real PCE outside care (c)", "Outside care (c)"),
       ("real_pi_ex_transfers", "Real personal income excl. current transfer receipts", "Income excl. transfers"),
       ("real_pce_bea", "Real PCE (BEA chained dollars)", "Real PCE"),
-      ("outside_care_C_and_imputed", "Real PCE outside care (c) and imputed items", "Outside care and imputed")]
+      ("outside_care_C_and_imputed", "Real PCE excl. care (c) and imputed items", "Excl. care and imputed")]
 m2 = monthly[monthly.date >= BASE]
 g12 = monthly.pivot(index="date", columns="series", values="pct_change_12m")
 fig, ax = plt.subplots(figsize=(9.6, 5.6))
@@ -1184,9 +1280,12 @@ ax.set_xticklabels([("Sep " if d_.endswith("-09") else "Mar ") + d_[:4] for d_ i
 ax.set_xlim(-0.5, xe + 0.5)
 ax.set_ylabel("Index, Sep 2022 = 100", fontsize=8, color=INK2)
 yrs = ["2023-09", "2024-09", "2025-09", "2026-09"]
+oc12 = [g12.loc[y_, "outside_care_C"] for y_ in yrs]                  # outside care (c), twelve-month growth
+oc4a = hC.loc["4y", "outside_care_real_growth_annualized_pct"]         # the same over the four years, a year
 y_head = header(fig, [
     (f"Real non-transfer income slowed from {g12.loc['2023-09', 'real_pi_ex_transfers']:.1f}% to "
-     f"{g12.loc['2026-09', 'real_pi_ex_transfers']:.1f}% a year; spending outside care held near 2%",
+     f"{g12.loc['2026-09', 'real_pi_ex_transfers']:.1f}% a year; spending outside care grew "
+     f"{min(oc12):.1f}-{max(oc12):.1f}% a year ({oc4a:.1f}% on average)",
      dict(fontsize=10.5, color=INK, fontweight="bold")),
     ("Twelve-month growth to each September 2023-2026: outside care (c) " +
      ", ".join(f"{g12.loc[y_, 'outside_care_C']:.1f}%" for y_ in yrs) + "; real income excluding transfers " +
@@ -1291,9 +1390,10 @@ tabs["T1"] = pd.DataFrame([{
     f"{f2(h.loc[(w, 'C'), 'pce_implicit_price_change_pct'])}",
     "Outside care (c) real growth, % (annualized)": f"{f2(h.loc[(w, 'C'), 'outside_care_real_growth_pct'])} "
     f"({f1(h.loc[(w, 'C'), 'outside_care_real_growth_annualized_pct'])})",
-    "Outside care (c) and imputed, %": f2(h.loc[(w, "C"), "outside_care_and_imputed_real_growth_pct"]),
+    "Excl. care (c) and imputed items, real growth, %": f2(h.loc[(w, "C"), "outside_care_and_imputed_real_growth_pct"]),
     "Real income excl. transfers, %": f2(h.loc[(w, "C"), "real_pi_ex_transfers_growth_pct"]),
-    "Care share of net job growth, % (watch)": f1(h.loc[(w, "C"), "care_share_of_net_job_growth_pct"]),
+    "Care share of net job growth, % (computed from the watch page's chart data)":
+        f1(h.loc[(w, "C"), "care_share_of_net_job_growth_pct"]),
 } for w in WORDER])
 tabs["T2"] = pd.DataFrame([{"Care definition": CARE_LABEL[k],
                             **{WLABEL[w]: f"{f1(h.loc[(w, k), 'care_share_of_growth_pct'])} "
@@ -1454,10 +1554,323 @@ tabs["T14"] = pd.DataFrame([{
     "Outside care part, dollars, pp": f2(gz.loc[p, "outside_care_C_part_of_nominal_gap_pp"]),
     "Care (c) share, dollars, %": f1(gz.loc[p, "care_C_share_of_nominal_gap_pct"]) if pd.notna(
         gz.loc[p, "care_C_share_of_nominal_gap_pct"]) else "n/a",
-} for p in ["pre", "6m", "4y"]])
+} for p in ["pre", "low_pre", "4y", "low", "12m", "6m"]])
+jcz = jobs_compare.set_index("window")
+tabs["T15"] = pd.DataFrame([{
+    "Window": jcz.loc[w, "label"],
+    "Private outside care, thousands": f"{jcz.loc[w, 'jobs_change_k: Private jobs outside care']:+.0f}",
+    "Health care and social assistance, thousands": f"{jcz.loc[w, 'jobs_change_k: Health care and social assistance']:+.0f}",
+    "Government, thousands": f"{jcz.loc[w, 'jobs_change_k: Government']:+.0f}",
+    "Care share of net job growth, %": f1(jcz.loc[w, "care_share_of_net_job_growth_pct"]),
+    "Real PCE growth, % (BEA)": f2(jcz.loc[w, "real_pce_growth_pct_bea"]),
+    "Care (c) share of real growth, %": f1(jcz.loc[w, "care_C_share_of_real_growth_pct"]),
+    "Outside care (c) real growth, % (annualized)": f"{f2(jcz.loc[w, 'outside_care_C_real_growth_pct'])} "
+                                                    f"({f1(jcz.loc[w, 'outside_care_C_real_growth_annualized_pct'])})",
+    "Real income excl. transfers, %": f2(jcz.loc[w, "real_pi_ex_transfers_growth_pct"]),
+} for w in jcz.index])
+tabs["T16"] = pd.DataFrame([{
+    "Indicator for the advance estimate (Handbook ch. 5)": r.group,
+    "Care (c) lines": r.lines,
+    "Share of care (c) spending, Sep 2026, %": f1(r.share_of_care_C_2026_09_pct),
+    "Contribution to real PCE growth, Jul-Sep 2026, pp (share of care's, %)":
+        f"{r.contribution_q3_pp:.3f} ({f1(r.share_of_care_C_contribution_q3_pct)})",
+    "Contribution, Mar to Sep 2026 (watch window), pp (share of care's, %)":
+        f"{r.contribution_6m_pp:.3f} ({f1(r.share_of_care_C_contribution_6m_pct)})",
+} for r in care_advance.itertuples()])
 with open(OUT / "notes_tables_sectors.md", "w", encoding="utf-8") as fh:
     for k, df in tabs.items():
         fh.write(f"<!-- {k} -->\n{md(df)}\n\n")
+
+# %% the passages of NOTES_sectors.md that carry new or corrected numbers (out/notes_text_sectors.md). Every number is
+# read back from the CSVs just written and rounded once, so the prose cannot drift from the tables or be rounded twice.
+# Words that describe a number ('a fifth', 'two thirds', 'barely') are asserted against it here. The notes embed each
+# passage verbatim (check G3, insensitive to line wrapping).
+import textwrap                                         # noqa: E402
+
+H_ = pd.read_csv(OUT / "headline_sectors.csv").set_index(["window", "care_variant"])
+HC_, HS_ = H_.xs("C", level="care_variant"), H_.xs("S", level="care_variant")
+JW_ = pd.read_csv(OUT / "jobs_watch_windows.csv").set_index("window")
+JC_ = pd.read_csv(OUT / "jobs_windows_compare.csv").set_index("window")
+HI_ = pd.read_csv(OUT / "care_share_history.csv", dtype={"period": str}).set_index("period")
+HB_ = pd.read_csv(OUT / "care_share_history_bea.csv", dtype={"period": str}).set_index("period")
+DS_ = pd.read_csv(OUT / "care_dollar_shares.csv").set_index(["window", "care_variant"]).xs("C", level="care_variant")
+GT_ = pd.read_csv(OUT / "gap_timing.csv").set_index("period")
+FN_ = pd.read_csv(OUT / "care_financing.csv")
+AD_ = pd.read_csv(OUT / "care_advance_sources.csv").set_index("group")
+G4_ = pd.read_csv(OUT / f"sector_groups_{window_tag('2022-09', '2026-09')}.csv").set_index("group")
+IX_ = pd.read_csv(OUT / "outside_care_monthly.csv").pivot(index="date", columns="series", values="index_2022_09_100")
+NJ = "care_share_of_net_job_growth_pct"
+PRIV, CAREJ, GOV = (f"jobs_change_k: {n}" for n in ["Private jobs outside care", "Health care and social assistance",
+                                                     "Government"])
+W5 = [w[0] for w in WINDOWS]
+pre_, jj_, jl_ = HI_.loc["2015-09 to 2019-09"], JC_.loc["jobs"], JC_.loc["jobs_latest"]
+d4_, dpre_, dcov_, d7_, d12_ = (DS_.loc[w] for w in ["4y", "pre4y", "covid4y", "7y", "12m"])
+g_pre, g_6, g_12, g_4, g_low, g_lowp = (GT_.loc[p] for p in ["pre", "6m", "12m", "4y", "low", "low_pre"])
+gap6_ = FN_[(FN_.window == "6m") & (FN_.block == "gap")].set_index("item")["value"]
+gap4_ = FN_[(FN_.window == "4y") & (FN_.block == "gap")].set_index("item")["value"]
+br6_ = FN_[(FN_.window == "6m") & (FN_.block == "bridge")].set_index("item")["increment_musd"] / 1000    # $bn
+mm6_ = gap6_[f"Share of the nominal gap from {MM}, %"]
+mmg6_ = gap6_["Gross upper bound: increase in Medicare + Medicaid / (increase in PCE - increase in income excl. "
+              "transfers), %"]
+dsav6_, dC6_, dY6_ = br6_["- Personal saving"], br6_["Change in PCE (published)"], br6_["Personal income excl. transfers"]
+path_ = (IX_["real_pce_bea"] - IX_["real_pi_ex_transfers"]).loc[BASE:]    # cumulative real gap since Sep 2022, points
+from_low = 100 * (IX_["real_pce_bea"] / IX_.loc[LOW, "real_pce_bea"]
+                  - IX_["real_pi_ex_transfers"] / IX_.loc[LOW, "real_pi_ex_transfers"]).loc[LOW:]
+cy_ = HI_.loc[["2022", "2023", "2024", "2025"], "care_C_share_of_growth_pct"]
+lv_ = {y: HI_.loc[str(y + 1), "care_C_share_of_level_pct"] for y in [2019, 2020, 2021, 2022]}   # calendar-year shares
+pre_ann = 100 * ((1 + pre_["outside_care_C_real_growth_pct"] / 100) ** (1 / 4) - 1)
+ces_, jud_, mrts_, care_ = (AD_.loc[g] for g in ["CES employment, hours and earnings", "Judgmental trend",
+                                                 "Monthly retail sales (Census MRTS)", "Care (c)"])
+LOWL = month_label(LOW)
+
+
+def out_share(r, kind):
+    """Outside care's share of a gap row of gap_timing.csv, % (real: of the leaf-Fisher gap, as the care share)."""
+    return (100 * r.outside_care_C_part_of_real_gap_pp / r.real_gap_pp_leaf if kind == "real"
+            else 100 * r.outside_care_C_part_of_nominal_gap_pp / r.nominal_gap_pp)
+
+
+# the words, checked against the numbers they describe
+assert jj_[NJ] > 100 and jl_[NJ] > 100                                              # 'above 100%'
+assert (JC_["care_C_share_of_real_growth_pct"] < 50).all() and (JC_["outside_care_C_real_growth_pct"] > 0).all()
+assert abs(jj_[PRIV]) < 50 and jl_[PRIV] < 0 and jj_[GOV] < 0                         # 'flat'; 'fell'
+assert abs(pre_["care_C_share_of_growth_pct"] - pre_["care_C_share_of_level_pct"]) < 2.5   # 'about its share'
+assert 23 < pre_["care_C_share_of_growth_pct"] < 28                                  # 'about a quarter'
+assert abs(HC_.loc["4y", "real_pce_growth_pct_bea"] - HB_.loc["2015-09 to 2019-09", "real_pce_growth_pct_bea"]) < 0.5
+assert 0.18 < 1 - HC_.loc["4y", "outside_care_real_growth_pct"] / pre_["outside_care_C_real_growth_pct"] < 0.23
+assert 0.7 < d4_.share_change_pp / d4_.share_change_at_start_prices_pp < 0.8         # 'about three quarters'
+assert 4.2 < d4_.share_change_pp / dpre_.share_change_pp < 4.8                       # 'about four and a half times'
+assert 0.5 * d4_.share_change_pp < d7_.start_share_of_pce_pct - d4_.start_share_of_pce_pct < d4_.share_change_pp
+assert lv_[2020] >= lv_[2019] and lv_[2020] > lv_[2021] > lv_[2022]                  # 'came in calendar 2021-22'
+assert d12_.share_change_pp < 0 < d12_.share_change_at_start_prices_pp               # 'slipped ... still rising'
+assert abs(g_pre.real_gap_pp_bea) < 0.25 and "2024-01" <= LOW <= "2024-04"           # 'about equally'; 'early 2024'
+assert path_.idxmin() == LOW and (path_.loc["2023-01":"2025-12"] < 0).sum() >= 24    # 'negative through most of'
+assert max(g_6.care_C_share_of_real_gap_pct, g_6.care_C_share_of_nominal_gap_pct,
+           g_12.care_C_share_of_real_gap_pct, g_12.care_C_share_of_nominal_gap_pct) < 50     # 'most ... outside care'
+assert 45 < g_low.care_C_share_of_real_gap_pct < 50 and g_low.care_C_share_of_nominal_gap_pct < 45   # 'only barely'
+assert g_4.care_C_share_of_real_gap_pct > 100 and 95 < g_4.care_C_share_of_nominal_gap_pct < 102    # item 6
+assert HC_.loc["4y", "outside_care_real_growth_pct"] < HC_.loc["4y", "real_pi_ex_transfers_growth_pct"]
+assert abs(gap4_[f"Share of the nominal gap from {MM}, %"] - 200 / 3) < 3                     # 'two thirds'
+assert HC_.loc["annual", "real_pce_growth_pct_bea"] < HC_.loc["annual", "real_pi_ex_transfers_growth_pct"]
+assert dsav6_ > 0.5 * (dC6_ - dY6_)                                                  # 'mostly by lower saving'
+assert 0.4 < from_low["2024-12"] / g_low.real_gap_pp_bea < 0.6                       # 'about half ... in 2024'
+assert 0.28 < ces_.contribution_q3_pp / care_.contribution_q3_pp < 0.40              # 'about a third'
+assert ces_.share_of_care_C_2026_09_pct > 50                                         # 'much of care spending'
+_ends = {s: 100 * (IX_.loc["2026-09", "real_pce_bea"] / IX_.loc[s, "real_pce_bea"]
+                   - IX_.loc["2026-09", "real_pi_ex_transfers"] / IX_.loc[s, "real_pi_ex_transfers"])
+         for s in IX_.loc[BASE:"2026-08"].index}
+assert max(_ends, key=_ends.get) == LOW                                              # 'give the largest gap'
+
+TXT = {}
+TXT["intro"] = ("", (
+    "Question 2 of the consumption thread, sectors unit (Stella's question about the 2026-06-14 post). The watch "
+    "site's \"private jobs outside care\" page says health care and social assistance \"have accounted for most US "
+    "job growth\", and the page's own chart data put their share of net job growth above 100% over the latest two "
+    f"years: {jl_[NJ]:.1f}% from Sep 2024 to Sep 2026 (the page prints no share). The jobs window used below is Aug "
+    f"2024 to Aug 2026 ({jj_[NJ]:.1f}%). It ends in August for a historical reason, not an analytical one: it is the "
+    "window of this repository's earlier payroll finding (`paths/STATE.md`), made when August 2026 was the latest "
+    "month, and `NOTES_fingerprint.md` uses it too. Table 11a sets the two windows side by side, and the answer does "
+    "not change. Does the national-accounts breakdown of consumer spending show the same thing?"))
+TXT["brief-1"] = ("   ", (
+    "1. **In volumes the breakdown has moved toward care, but far less than jobs have.** Under the broad definition "
+    "(c), care is health care services (including the part of nonprofit health output households don't pay for), "
+    "medical goods, net health insurance, child care and social assistance. It was "
+    f"{HC_.loc[W5, 'care_start_share_of_pce_pct'].min():.0f}-{HC_.loc[W5, 'care_start_share_of_pce_pct'].max():.0f}% "
+    "of PCE at the start of every window and took "
+    f"{HC_.loc[W5, 'care_share_of_growth_pct'].min():.0f}-{HC_.loc[W5, 'care_share_of_growth_pct'].max():.0f}% of the "
+    "growth of real PCE in every window from six months to four years examined here (the five in Table 1; "
+    f"{cy_.min():.0f}-{cy_.max():.0f}% in single calendar years 2022-2025, and "
+    f"{HS_.loc[W5, 'care_share_of_growth_pct'].min():.0f}-{HS_.loc[W5, 'care_share_of_growth_pct'].max():.0f}% for "
+    "care services alone, definition (s), the closest match to the jobs series). In the four years to Sep 2019 it "
+    f"took {pre_['care_C_share_of_growth_pct']:.1f}%, about its share of the level. Health care and social assistance "
+    f"took {JW_.loc['pre4y', NJ]:.1f}% of net job growth in the four years to Sep 2019, {JW_.loc['4y', NJ]:.0f}% in the "
+    f"four years to Sep 2026 and {jj_[NJ]:.0f}% in the two years to Aug 2026 ({jl_[NJ]:.1f}% to Sep 2026). The watch "
+    f"page does not print these job shares. They are computed from its chart data: the {jj_[NJ]:.0f}% is "
+    f"{jj_[CAREJ]:,.0f} / ({jj_[PRIV]:,.0f} + {jj_[CAREJ]:,.0f} - {-jj_[GOV]:,.0f}) thousand jobs. Two- and four-year "
+    "changes are sums of the page's twelve-month changes, exact only if the chart is a single data vintage."))
+TXT["brief-2"] = ("   ", (
+    "2. **Spending outside care slowed, but it did not stall the way jobs outside care did.** Real spending outside "
+    f"care grew {HC_.loc['jobs', 'outside_care_real_growth_pct']:.1f}% in the jobs window "
+    f"({HC_.loc['jobs', 'outside_care_real_growth_annualized_pct']:.1f}% a year), while private jobs outside care grew "
+    f"by {jj_[PRIV]:.0f} thousand, that is, were flat: the figure is the sum of two twelve-month changes from the "
+    "watch chart. Over the page's latest two years, Sep 2024 to Sep 2026, real spending outside care grew "
+    f"{jl_['outside_care_C_real_growth_pct']:.1f}% ({jl_['outside_care_C_real_growth_annualized_pct']:.1f}% a year) "
+    f"while private jobs outside care fell by {-jl_[PRIV]:.0f} thousand (Table 11a). Over the four years to Sep 2026 "
+    "total real PCE grew about as much as in the four years to Sep 2019 "
+    f"({HC_.loc['4y', 'real_pce_growth_pct_bea']:.1f}% against "
+    f"{HB_.loc['2015-09 to 2019-09', 'real_pce_growth_pct_bea']:.1f}%). Care's contribution rose from "
+    f"{pre_['care_C_contribution_pp']:.1f} to {HC_.loc['4y', 'care_contribution_pp']:.1f} points, so spending outside "
+    f"care grew {HC_.loc['4y', 'outside_care_real_growth_pct']:.1f}% instead of "
+    f"{pre_['outside_care_C_real_growth_pct']:.1f}%: about "
+    f"{HC_.loc['4y', 'outside_care_real_growth_annualized_pct']:.1f}% a year instead of {pre_ann:.1f}%, a fifth less "
+    "growth over the four years."))
+TXT["brief-3"] = ("   ", (
+    "3. **In dollars the shift since 2022 is about three quarters of the shift in volumes, and most of it recovers an "
+    f"earlier fall.** Care's share of the PCE level rose from {d4_.start_share_of_pce_pct:.1f}% in Sep 2022 to "
+    f"{d4_.end_share_of_pce_pct:.1f}% in Sep 2026 in current dollars ({d4_.share_change_pp:+.2f} points), against "
+    f"{d4_.share_change_at_start_prices_pp:+.2f} points with both ends valued at Sep 2022 prices. That is about four "
+    f"and a half times the dollar shift of the four years to Sep 2019 ({dpre_.share_change_pp:+.2f} points). But "
+    f"{d7_.start_share_of_pce_pct - d4_.start_share_of_pce_pct:.1f} of the {d4_.share_change_pp:.1f} points recover a "
+    f"fall from Sep 2019 to Sep 2022 ({d7_.start_share_of_pce_pct:.2f}% to {d4_.start_share_of_pce_pct:.2f}%), which "
+    f"came in calendar 2021-22 (calendar-year shares {lv_[2020]:.1f}% in 2020, {lv_[2021]:.1f}% in 2021 and "
+    f"{lv_[2022]:.1f}% in 2022; Table 4 shows each as the next year's share at start). Over the four years to Sep 2022 "
+    f"care's dollar share fell {-dcov_.share_change_pp:.1f} points, as care prices rose "
+    f"{dcov_.care_price_change_pct:.1f}% and all PCE prices {dcov_.pce_price_change_pct:.1f}%. Against Sep 2019, care's "
+    f"share of spending in Sep 2026 is up {d7_.share_change_pp:.1f} points in dollars ({d7_.start_share_of_pce_pct:.1f}% "
+    f"to {d7_.end_share_of_pce_pct:.1f}%) and {d7_.share_change_at_start_prices_pp:.1f} points in volumes. In the "
+    f"latest year it slipped in dollars ({d12_.start_share_of_pce_pct:.1f}% to {d12_.end_share_of_pce_pct:.1f}%) while "
+    f"still rising in volumes, because care prices rose {d12_.care_price_change_pct:.1f}% and all PCE prices "
+    f"{d12_.pce_price_change_pct:.2f}%."))
+TXT["brief-5"] = ("   ", (
+    "5. **Measured from Sep 2022, the gap between spending and income opened in 2026, and most of the 2026 gap is "
+    "outside care.** From Sep 2022 to Mar 2026 real PCE and real personal income excluding transfers grew about "
+    f"equally ({g_pre.real_pce_growth_pct_bea:.1f}% against {g_pre.real_pi_ex_transfers_growth_pct:.1f}%, after "
+    f"income had run up to {-path_.min():.1f} points ahead in early 2024). In the accounts, care's growth beyond that "
+    f"of non-transfer income added {g_pre.care_C_part_of_real_gap_pp:.2f} points to the gap and spending outside care, "
+    f"growing less than income, took {-g_pre.outside_care_C_part_of_real_gap_pp:.2f} points off it (Table 9a). This "
+    "is an accounting split; it does not show that one caused the other. Real PCE rose "
+    f"{g_6.real_pce_growth_pct_bea:.2f}% in the six months to Sep 2026 against {g_6.real_pi_ex_transfers_growth_pct:.2f}% "
+    "for real personal income excluding transfers, which took the gap since Sep 2022 from "
+    f"{path_['2026-03']:.1f} to {path_['2026-09']:.2f} points. The six-month gap itself is "
+    f"{g_6.real_gap_pp_bea:.2f} points in volumes and {g_6.nominal_gap_pp:.2f} in dollars. Care (c), whoever paid, "
+    f"accounts for {g_6.care_C_share_of_real_gap_pct:.0f}% of that gap measured in volumes and "
+    f"{g_6.care_C_share_of_nominal_gap_pct:.0f}% measured in dollars, so {out_share(g_6, 'real'):.0f}% and "
+    f"{out_share(g_6, 'nominal'):.0f}% of it is spending outside care. Both halves of the heading depend on the "
+    f"starting month (Table 9a). Care (c) is {g_12.care_C_share_of_real_gap_pct:.0f}% (volumes) and "
+    f"{g_12.care_C_share_of_nominal_gap_pct:.0f}% (dollars) of the twelve-month gap and "
+    f"{g_4.care_C_share_of_real_gap_pct:.0f}% and {g_4.care_C_share_of_nominal_gap_pct:.0f}% of the four-year gap "
+    f"(item 6). Measured from {LOWL}, when income's lead was largest, the gap is {g_low.real_gap_pp_bea:.1f} points, "
+    f"{g_lowp.real_gap_pp_bea:.1f} of them already open by Mar 2026, and care is "
+    f"{g_low.care_C_share_of_real_gap_pct:.0f}% and {g_low.care_C_share_of_nominal_gap_pct:.0f}% of it "
+    f"({g_lowp.care_C_share_of_real_gap_pct:.0f}% and {g_lowp.care_C_share_of_nominal_gap_pct:.0f}% of the part to "
+    "Mar 2026). So 'opened in 2026' holds only from Sep 2022, and 'most of it is outside care' holds for the six- and "
+    f"twelve-month gaps, only barely in volumes for the gap since {LOWL}, and not over four years. "
+    f"Medicare and Medicaid growing faster than income accounts for {mm6_:.0f}% of the dollar gap, and at most "
+    f"{mmg6_:.0f}% even if all of their increase is counted as care paid by transfers. They are an upper-bound proxy "
+    "for government-paid care (benefits are gross of premiums, and some of the increase replaces private payment), "
+    "and the monthly Medicare series is interpolated, so over six months this is rough. In the accounts the gap as a "
+    f"whole was financed mostly by lower saving: personal saving fell by ${dsav6_:.0f} billion (annual rate), "
+    f"{100 * dsav6_ / dC6_:.0f}% of the increase in PCE and {100 * dsav6_ / (dC6_ - dY6_):.0f}% of its excess over the "
+    "increase in non-transfer income. Saving is the residual of income minus outlays, so this restates the gap rather "
+    "than explaining it, and the identity cannot say which spending the lower saving paid for. Jul-Sep 2026 are "
+    "advance estimates (item 8)."))
+TXT["brief-6"] = ("   ", (
+    "6. **Over the whole four years care's excess growth is about the size of the gap, but that adds up two different "
+    f"periods.** Real spending outgrew real non-transfer income by {g_4.real_gap_pp_bea:.2f} points from Sep 2022 to "
+    "Sep 2026. Care's excess growth over income was larger than the gap in volumes "
+    f"({g_4.care_C_share_of_real_gap_pct:.0f}% of it) and about equal to it in dollars "
+    f"({g_4.care_C_share_of_nominal_gap_pct:.0f}%), so spending outside care grew a little less than income "
+    f"({HC_.loc['4y', 'outside_care_real_growth_pct']:.1f}% against {HC_.loc['4y', 'real_pi_ex_transfers_growth_pct']:.1f}%). "
+    "That total is care's excess growth to Mar 2026, netted out in the accounts by spending outside care growing less "
+    "than income (an accounting split, not a trade-off), plus the 2026 gap, most of which is outside care (Table 9a). "
+    "Medicare and Medicaid growing faster than income accounts for two thirds of the dollar gap over the four years "
+    "(item 5's upper-bound caveat applies). On calendar-year averages 2022 to 2025, spending grew *less* than "
+    f"non-transfer income ({HC_.loc['annual', 'real_pce_growth_pct_bea']:.2f}% against "
+    f"{HC_.loc['annual', 'real_pi_ex_transfers_growth_pct']:.2f}%)."))
+TXT["brief-8"] = ("   ", (
+    "8. **The latest months are not independent evidence.** For the current quarter, BEA estimates spending on "
+    "hospitals, nursing homes, paramedical services and most social services, and nonprofit health output, from BLS "
+    "employment, hours and earnings (with trade-source volume or nursing-home occupancy data for some); physician "
+    "services, child care and net health insurance from judgmental trends; and medical goods from monthly retail sales "
+    "(NIPA Handbook ch. 5, Tables 5.A and 5.B). That is the same CES survey behind the watch site's jobs series. July "
+    "to September 2026 are advance estimates of this kind. The lines built from CES data are "
+    f"{ces_.share_of_care_C_2026_09_pct:.0f}% of care (c) spending in Sep 2026 and the judgmental trends "
+    f"{jud_.share_of_care_C_2026_09_pct:.0f}% (Table 12). In Jul-Sep the CES-based lines gave "
+    f"{ces_.contribution_q3_pp:.2f} of care's {care_.contribution_q3_pp:.2f} points of real PCE growth, the judgmental "
+    f"trends {jud_.contribution_q3_pp:.2f} and medical goods {mrts_.contribution_q3_pp:.2f}: about a third of care's "
+    "growth in those months echoes the jobs data."))
+TXT["method-jobs"] = ("", (
+    "**Jobs.** The watch page embeds its chart data, twelve-month changes in thousands for private jobs outside health "
+    "care and social assistance, health care and social assistance, and government (BLS via FRED). Changes over two or "
+    "four years are sums of the twelve-month changes ending in each year. Those cover the jobs, twelve-month and "
+    "four-year windows, and the four years to Sep 2019 for context. A sum equals the change between its end months "
+    "only if every point on the chart comes from one data vintage. The page does not say which vintage its chart uses "
+    "(its trigger history uses the data as published at each date). The six-month and calendar-year windows cannot be "
+    "built from twelve-month changes, so they have no jobs figure. The page's text says health care and social "
+    f"assistance \"have accounted for most US job growth\". It does not print the {jj_[NJ]:.0f}%, which is derived "
+    f"here from its chart data: care {jj_[CAREJ]:+,.0f}k, private outside care {jj_[PRIV]:+,.0f}k, government "
+    f"{jj_[GOV]:+,.0f}k, so {jj_[CAREJ]:,.0f} / ({jj_[PRIV]:,.0f} + {jj_[CAREJ]:,.0f} - {-jj_[GOV]:,.0f}) = "
+    f"{jj_[NJ]:.1f}%. The chart runs to Sep 2026, so its latest two years are Sep 2024 to Sep 2026: care "
+    f"{jl_[CAREJ]:+,.0f}k, private outside care {jl_[PRIV]:+,.0f}k, government {jl_[GOV]:+,.0f}k, so {jl_[NJ]:.1f}%. "
+    "The jobs window ends in August for the historical reason given at the top (judgment call 10); Table 11a sets the "
+    "two windows side by side."))
+TXT["table-9a"] = ("", (
+    "**Table 9a. When the gap opened, and how its split depends on the starting month: care (c) and the rest.** The "
+    f"same arithmetic as Table 9, with the real gap split on the leaf Fisher. {LOWL} is the month in which income's "
+    f"lead over spending, measured from Sep 2022, was largest ({path_.min():.2f} points), so the windows that start "
+    "there give the largest gap to Sep 2026. Shares are n/a where the gap is under 0.25 points."))
+TXT["gap-path"] = ("", (
+    "Measured from Sep 2022 (BEA real PCE against real income excluding transfers, both indexed to Sep 2022), the "
+    f"cumulative real gap was negative through most of 2023-2025, lowest at {path_.min():.2f} points in {LOWL}. It "
+    f"stayed between {path_.loc['2025-09':'2026-03'].min():.2f} and {path_.loc['2025-09':'2026-03'].max():+.2f} points "
+    f"from Sep 2025 to Mar 2026 and reached {path_['2026-09']:.2f} points in Sep 2026 (`out/outside_care_monthly.csv`). "
+    f"Measured from {LOWL} instead, spending outgrew income by {from_low['2024-12']:.1f} points during 2024, stayed "
+    f"{from_low.loc['2025-01':'2026-03'].min():.1f} to {from_low.loc['2025-01':'2026-03'].max():.1f} points ahead "
+    f"through Mar 2026 and was {g_low.real_gap_pp_bea:.1f} points ahead by Sep 2026. So 'the gap opened in 2026' "
+    f"describes the Sep 2022 base: measured from {LOWL}, about half of it opened in 2024."))
+TXT["plain-1"] = ("", (
+    "Care is taking a bigger slice of real spending growth than it used to. Before the pandemic it took about a "
+    "quarter, roughly its weight in the budget. Since 2022 it has taken "
+    f"{HC_.loc[W5, 'care_share_of_growth_pct'].min():.0f}-{HC_.loc[W5, 'care_share_of_growth_pct'].max():.0f}% of "
+    f"real growth in each of the five windows examined here ({cy_.min():.0f}-{cy_.max():.0f}% in single calendar "
+    f"years 2022-2025, and {HS_.loc[W5, 'care_share_of_growth_pct'].min():.0f}-"
+    f"{HS_.loc[W5, 'care_share_of_growth_pct'].max():.0f}% for care services only, definition (s), the closest match "
+    "to the jobs series), and its own volume has grown about "
+    f"{G4_.loc[CARE_LABEL['C'], 'real_growth_annualized_pct']:.1f}% a year against about "
+    f"{HC_.loc['4y', 'outside_care_real_growth_annualized_pct']:.0f}% for everything else. So the spending data do "
+    "lean the same way as the jobs data, toward health care, drugs and care services."))
+TXT["plain-2"] = ("", (
+    "But the lean is much milder than in jobs. Outside care, real spending kept growing at about "
+    f"{HC_.loc['4y', 'outside_care_real_growth_annualized_pct']:.0f}% a year. That is below its pre-pandemic pace of "
+    f"{pre_ann:.1f}%, a fifth less growth over four years, but it is not a stall. Over the last year it even outgrew "
+    f"real non-transfer income by a wide margin ({HC_.loc['12m', 'outside_care_real_growth_pct']:.1f}% against "
+    f"{HC_.loc['12m', 'real_pi_ex_transfers_growth_pct']:.1f}%). Private employment outside care was flat over the "
+    f"two years to Aug 2026 ({jj_[PRIV]:+.0f} thousand, summed from the watch page's twelve-month changes; "
+    f"{jl_[PRIV]:+.0f} thousand to Sep 2026) and grew {JW_.loc['12m', PRIV]:.0f} thousand over the year to Sep 2026."))
+TXT["plain-4"] = ("", (
+    "On the watch site's spending-and-income gap, the answer depends on the month you start from. From Sep 2022 to "
+    "Mar 2026 spending and non-transfer income grew about equally: care grew faster than income and the rest of "
+    "spending more slowly, and in the accounts the two netted out, which does not show that one paid for the other. "
+    "Measured from Sep 2022, the gap opened in the six months to Sep 2026. Care accounts for "
+    f"{g_6.care_C_share_of_nominal_gap_pct:.0f}% (in dollars) to {g_6.care_C_share_of_real_gap_pct:.0f}% (in volumes) "
+    f"of that six-month gap; the rest, {out_share(g_6, 'real'):.0f}% in volumes and "
+    f"{out_share(g_6, 'nominal'):.0f}% in dollars, is spending outside care. Medicare and Medicaid growing faster than "
+    f"income account for {mm6_:.0f}% of the dollar gap, or {mmg6_:.0f}% if all of their increase is counted. They are "
+    "an upper-bound proxy for government-paid care, and the monthly Medicare series is interpolated, so over six "
+    f"months this is rough. Measured from {LOWL}, when income was furthest ahead, spending has outgrown income by "
+    f"{g_low.real_gap_pp_bea:.1f} points, about half of it during 2024, and care is "
+    f"{g_low.care_C_share_of_real_gap_pct:.0f}% of that in volumes and {g_low.care_C_share_of_nominal_gap_pct:.0f}% in "
+    "dollars. Over the full four years care is more than all of it. Three of the six months to Sep 2026 are advance "
+    f"estimates in which much of care spending ({ces_.share_of_care_C_2026_09_pct:.0f}%) is extrapolated from the "
+    "same CES jobs data, and as item 8 shows, those lines gave about a third of care's growth in the three months. So "
+    "this split is not independent of the jobs figures, and it will be revised from 2026-11-25."))
+TXT["plain-5"] = ("", (
+    f"In the accounts, lower measured saving covers {100 * dsav6_ / (dC6_ - dY6_):.0f}% of the rise in spending above "
+    f"non-transfer income over the six months to Sep 2026 (${dsav6_:.0f} of ${dC6_ - dY6_:.0f} billion at annual "
+    "rates). Saving is the residual of income minus outlays, so it carries the revisions to both, and this restates "
+    "the gap rather than explaining it. The accounts cannot say whether the lower saving paid for care or for anything "
+    "else."))
+TXT["jc-10"] = ("    ", (
+    "10. **The jobs window ends in August.** Aug 2024 to Aug 2026 is the window of this repository's earlier payroll "
+    "finding (`paths/STATE.md`), made when August 2026 was the latest month; `NOTES_fingerprint.md` and the "
+    "independent verifier use it too, so it is kept. The page's chart runs to Sep 2026. Over Sep 2024 to Sep 2026 "
+    f"care's share of net job growth is {jl_[NJ]:.1f}% instead of {jj_[NJ]:.1f}%, its share of real PCE growth "
+    f"{jl_['care_C_share_of_real_growth_pct']:.1f}% instead of {jj_['care_C_share_of_real_growth_pct']:.1f}%, and "
+    f"real spending outside care grew {jl_['outside_care_C_real_growth_pct']:.1f}% instead of "
+    f"{jj_['outside_care_C_real_growth_pct']:.1f}% (Table 11a)."))
+
+
+def wrap(text, rest=""):
+    out = textwrap.fill(text, width=118, subsequent_indent=rest, break_long_words=False, break_on_hyphens=False)
+    # a wrapped line must not begin like a Markdown list item, heading or quote, or the notes would render it as one
+    bad = [ln for ln in out.splitlines()[1:] if re.match(r"\s*(\d+[.)]|[-+*]|#+|>)(\s|$)", ln)]
+    assert not bad, f"a wrapped line starts like Markdown markup: {bad}"
+    return out
+
+
+with open(OUT / "notes_text_sectors.md", "w", encoding="utf-8") as fh:
+    for k, (rest, text) in TXT.items():
+        fh.write(f"<!-- {k} -->\n{wrap(text, rest)}\n\n")
 
 # %% print the headline
 pd.set_option("display.width", 250)
@@ -1488,8 +1901,8 @@ v1_ = leaf_vq.iloc[0]
 print(f"2.4.5U/2.4.4U vs 2.4.3U, monthly since 2022-01: max {v1_.max_gap_pct_monthly_since_2022_01:.3f}% (line "
       f"{v1_.line}, {v1_.label}, {v1_.month_of_max_since_2022_01})")
 MINE = (["headline_sectors.csv", "jobs_watch_windows.csv", "outside_care_monthly.csv", "care_financing.csv",
-         "notes_tables_sectors.md", "care_share_history.csv", "care_share_history_bea.csv", "care_dollar_shares.csv",
-         "gap_timing.csv", "leaf_vp_vs_q.csv",
+         "notes_tables_sectors.md", "notes_text_sectors.md", "care_share_history.csv", "care_share_history_bea.csv", "care_dollar_shares.csv",
+         "gap_timing.csv", "leaf_vp_vs_q.csv", "jobs_windows_compare.csv", "care_advance_sources.csv",
          "published_comparison.csv", "published_comparison_windows.csv", "leaf_fisher_vs_bea.csv"]
         + [f"sector_{k}_{window_tag(a, b)}.csv" for k in ("contributions", "groups") for _, _, a, b, _ in WINDOWS])
 assert all((OUT / f).exists() for f in MINE)

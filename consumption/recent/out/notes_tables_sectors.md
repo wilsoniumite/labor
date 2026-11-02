@@ -1,5 +1,5 @@
 <!-- T1 -->
-| Window | Real PCE growth, % (BEA) | Care (c) share of PCE at start, % | Care (c) contribution, pp | Care (c) share of real growth, % | Care (c) share of the nominal increase, % | Care (c) real growth, % | Prices: care (c) / all PCE, % | Outside care (c) real growth, % (annualized) | Outside care (c) and imputed, % | Real income excl. transfers, % | Care share of net job growth, % (watch) |
+| Window | Real PCE growth, % (BEA) | Care (c) share of PCE at start, % | Care (c) contribution, pp | Care (c) share of real growth, % | Care (c) share of the nominal increase, % | Care (c) real growth, % | Prices: care (c) / all PCE, % | Outside care (c) real growth, % (annualized) | Excl. care (c) and imputed items, real growth, % | Real income excl. transfers, % | Care share of net job growth, % (computed from the watch page's chart data) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Aug 2024 to Aug 2026 (jobs window) | 5.62 | 24.0 | 2.02 | 35.9 | 26.7 | 8.43 | 4.75 / 6.23 | 4.73 (2.3) | 4.97 | 2.69 | 107.2 |
 | 12 months to Sep 2026 | 2.54 | 24.4 | 0.93 | 37.0 | 22.7 | 3.86 | 1.90 / 3.65 | 2.09 (2.1) | 2.02 | 0.54 | 104.8 |
@@ -174,6 +174,24 @@
 | Period | Real PCE growth, % (BEA) | Real income excl. transfers, % | Real gap, pp (BEA) | Real gap, pp (leaf Fisher) | Care (c) part, volumes, pp | Outside care part, volumes, pp | Care (c) share, volumes, % | Nominal gap, pp | Care (c) part, dollars, pp | Outside care part, dollars, pp | Care (c) share, dollars, % |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Sep 2022 to Mar 2026 | 8.89 | 8.76 | 0.13 | 0.12 | 1.67 | -1.55 | n/a | 0.14 | 1.70 | -1.56 | n/a |
-| Mar 2026 to Sep 2026 (watch window) | 1.82 | 0.05 | 1.77 | 1.76 | 0.73 | 1.03 | 41.3 | 1.80 | 0.45 | 1.34 | 25.2 |
+| Jan 2024 to Mar 2026 (from income's largest lead) | 5.90 | 3.54 | 2.36 | 2.36 | 1.31 | 1.05 | 55.7 | 2.52 | 1.25 | 1.26 | 49.9 |
 | Sep 2022 to Sep 2026 (4 years) | 10.87 | 8.82 | 2.05 | 2.04 | 2.46 | -0.43 | 121.0 | 2.31 | 2.28 | 0.04 | 98.4 |
+| Jan 2024 to Sep 2026 (from income's largest lead) | 7.83 | 3.59 | 4.24 | 4.22 | 2.08 | 2.14 | 49.3 | 4.58 | 1.79 | 2.80 | 39.0 |
+| Sep 2025 to Sep 2026 (12 months) | 2.54 | 0.54 | 1.99 | 1.98 | 0.80 | 1.18 | 40.5 | 2.07 | 0.40 | 1.67 | 19.2 |
+| Mar 2026 to Sep 2026 (watch window) | 1.82 | 0.05 | 1.77 | 1.76 | 0.73 | 1.03 | 41.3 | 1.80 | 0.45 | 1.34 | 25.2 |
+
+<!-- T15 -->
+| Window | Private outside care, thousands | Health care and social assistance, thousands | Government, thousands | Care share of net job growth, % | Real PCE growth, % (BEA) | Care (c) share of real growth, % | Outside care (c) real growth, % (annualized) | Real income excl. transfers, % |
+|---|---|---|---|---|---|---|---|---|
+| Aug 2024 to Aug 2026 (jobs window) | +1 | +1349 | -92 | 107.2 | 5.62 | 35.9 | 4.73 (2.3) | 2.69 |
+| Sep 2024 to Sep 2026 (the page's latest two years) | -31 | +1285 | -122 | 113.5 | 5.03 | 39.5 | 3.98 (2.0) | 2.30 |
+
+<!-- T16 -->
+| Indicator for the advance estimate (Handbook ch. 5) | Care (c) lines | Share of care (c) spending, Sep 2026, % | Contribution to real PCE growth, Jul-Sep 2026, pp (share of care's, %) | Contribution, Mar to Sep 2026 (watch window), pp (share of care's, %) |
+|---|---|---|---|---|
+| CES employment, hours and earnings | paramedical services (176) and hospitals (183), with trade-source volume data; nursing homes (187), with CMS occupancy data; social assistance (317; 'most components'); NPISH health (344 - 357; 'based primarily on' CES) | 56.9 | 0.099 (34.5) | 0.410 (55.5) |
+| Judgmental trend | physician services (174), child care (316), net health insurance (275) | 23.3 | 0.050 (17.5) | 0.154 (20.9) |
+| Monthly retail sales (Census MRTS) | pharmaceutical and other medical products (121), therapeutic appliances and equipment (66) | 16.0 | 0.132 (46.3) | 0.206 (27.9) |
+| Dental patient volumes (American Dental Association) | dental services (175) | 3.8 | 0.005 (1.7) | -0.032 (-4.3) |
+| Care (c) | all of care (c) | 100.0 | 0.286 (100.0) | 0.739 (100.0) |
 
