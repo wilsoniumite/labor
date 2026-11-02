@@ -952,8 +952,8 @@ tt = DPI.query("metric == 'total' and income_concept == 'Personal income'").set_
 dd = {y: tt[y] - pi_now[str(y)] for y in tt.index}
 check("summary-file personal income totals vs current NIPA Table 2.1 line 1", None,
       ", ".join(f"{y}: {tt[y]:.0f} vs {pi_now[str(y)]:.0f}" for y in [2019, 2021, 2022, 2023, 2024]),
-      f"max |diff| {max(abs(x) for x in dd.values()):.0f} billion $; 2000-2018 max |diff| "
-      f"{max(abs(dd[y]) for y in dd if y <= 2018):.0f}")
+      f"max |diff| {max(abs(x) for x in dd.values()):.0f} billion $; 2000-2020 max |diff| "
+      f"{max(abs(dd[y]) for y in dd if y <= 2020):.1f} (totals are rounded to $1bn)")
 
 # ---------------------------------------------------------------------------------------------------------
 # 10. bea_pce_price_by_income_decile: income-stratified PCE price index (ISPCEPX)
@@ -1070,7 +1070,7 @@ dd = [(y, T.at[y, "Disposable Personal Income"] - cur21.at[str(y), 27], T.at[y, 
       for y in T.index]
 check("joint file totals vs current NIPA Table 2.1 (DPI line 27, PCE line 29)", None,
       "; ".join(f"{y}: DPI {a:+.0f}, PCE {b:+.0f} bn" for y, a, b in dd if y >= 2019),
-      f"2000-2018 max |diff| DPI {max(abs(a) for y, a, b in dd if y <= 2018):.0f}, PCE {max(abs(b) for y, a, b in dd if y <= 2018):.0f} bn")
+      f"2000-2020 max |diff| DPI {max(abs(a) for y, a, b in dd if y <= 2020):.1f}, PCE {max(abs(b) for y, a, b in dd if y <= 2020):.1f} bn")
 
 # ---------------------------------------------------------------------------------------------------------
 # 12. Headline facts for the report
