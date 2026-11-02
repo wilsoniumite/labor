@@ -201,6 +201,8 @@ US_VAT_FLAGS = dict(US_VAT_START, **{
     # D10 below D9) matches the gap between START and the published points; every good combination has it at 1/2.
     # Water: with refuse collection in (Nordic reading) the dividend comes out $250.9; with municipal refuse
     # collection outside the scope (Art. 13, public bodies acting as public authorities) it is $249.4.
+    # Used cars is the one value that is not a Directive reading: the margin scheme (Arts. 311-325) taxes dealer
+    # sales on the margin only, about 0.1 of the line ($242.5 dividend; run_us.py carries it as a sensitivity).
     "Cars and trucks, used": 0.5, "Water and other public services": 0.6878,
 })
 US_VAT_REASONS = {
@@ -217,8 +219,11 @@ US_VAT_REASONS = {
         "school housing not; Table 2500 2024 taxable share 72.7%",
     "Natural gas": "goods; taxable", "Electricity": "goods; taxable", "Fuel oil and other fuels": "goods; taxable",
     "Telephone services": "electronic communications; taxable",
-    "Water and other public services": "water and sewerage taxable (Annex I), septic cleaning taxable; refuse collection "
-        "by municipalities outside the scope (Art. 13): Table 2500 2024 share 68.8% (Nordic reading, all taxable: 1.0)",
+    "Water and other public services": "water supply taxable even from public bodies (Art. 13 with Annex I(2), which "
+        "covers the supply of water only); public sewerage is outside the scope under Art. 13 unless member-state "
+        "practice differs, and is counted taxable here as in the Nordics, with septic cleaning (a private service); "
+        "refuse collection by municipalities outside the scope (Art. 13): Table 2500 2024 share 68.8% (everything "
+        "taxable, the full Nordic reading: 1.0)",
     "Personal services (incl. childcare)": "child care, elderly and adult day care: exempt social services, Art. 132(1)(g),(h)",
     "Other household expenses": "housekeeping, gardening, pest control, moving, repairs, internet: taxable services",
     "Housekeeping supplies": "goods taxable; postage exempt (Art. 132(1)(a)), 4.9% of the line in 2024",
@@ -794,6 +799,10 @@ FI_FOOD_MAPS = {
 # and vehicle fees in, package holidays and consumption abroad out; games of chance and international flights in,
 # less firmly); on the lines it cannot see (sea transport, letter post, church fees, social services) the best
 # combination is the law reading. rate = the existing rate, used only for the tax-exclusive test.
+# flag_law is the first-pass law reading (EUR 172.4), kept unchanged because consumption/lvt reads it through
+# fi_vat_flags('law'). After independent review the statutory reading is a bracket that run_fi.py builds on top of it
+# (FI_LAW there; out/fi_vat_law.csv): 07.2.4.2 'toll facilities', inside 'fuels, parts, repairs, parking, hire' here,
+# is outside VAT (law 0), used cars are 0.1-0.35 (central 0.25), and six more mixed lines carry a composition bracket.
 FI_VAT_LINES = [
     dict(line="maintenance charges of housing companies", cat="044", codes=["04441"], flag_law=0.0, flag=1.0, rate=0.24,
          reason="housing-company maintenance charges to shareholder-residents are not a VAT-able supply (real-estate "

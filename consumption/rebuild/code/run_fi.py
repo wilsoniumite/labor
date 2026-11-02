@@ -4,8 +4,9 @@
 # Run from the repo root:  venv/bin/python -I consumption/rebuild/code/run_fi.py
 # Outputs (consumption/rebuild/out/): fi_accounting_by_quintile.csv, fi_demand_shifts.csv, fi_decomposition_top10.csv,
 #   fi_flags.csv, fi_mpc_schedules.csv, fi_eta.csv (the deliverables), plus the evidence for each call:
-#   fi_units_tests.csv, fi_budget_tests.csv, fi_base_tests.csv, fi_flags_search.csv, fi_mapping_tests.csv,
-#   fi_mpc_tests.csv, fi_mpc_fit_surface.csv, fi_impulse.csv, fi_convention_compare.csv.
+#   fi_units_tests.csv, fi_budget_tests.csv, fi_base_tests.csv, fi_flags_search.csv, fi_vat_law.csv (the statutory
+#   reading as a bracket), fi_mapping_tests.csv, fi_mpc_tests.csv, fi_mpc_fit_surface.csv, fi_impulse.csv,
+#   fi_convention_compare.csv.
 # Figure (consumption/rebuild/figures/): fig2_rebuilt.png.
 # Gate: consumption/rebuild/checks/gate_fi.py. Write-up: consumption/rebuild/NOTES_fi.md.
 # Plain functions plus top-level code; each %% block pastes into a notebook cell.
@@ -180,6 +181,7 @@ def units_scores(mm, label):
     d = demand_post(mm, PUB_NET, MID)
     fs = flag_search(mm, desc=f"flags ({label})")
     b = fs.iloc[0]
+    at = np.round(fs["dividend"]) == PUB_DIV                  # flag sets that fund the published EUR 193
     return dict(variant=label, budget_q1=bud["q1"], budget_q2=bud["q2"], budget_q5=bud["q5"],
                 budgets_in_fig1_range=in_rng, avg_budget_eur_conversion=mm["budget_bar_post"],
                 avg_budget_weighted=mm["budget_bar"], cbar_chi2=float((z ** 2).sum()),
@@ -188,7 +190,11 @@ def units_scores(mm, label):
                 pct_rmse_pub_nets=rmse(d["pct"].loc[CH] - PUB2["pub_pct"]),
                 seg_rmse_pub_nets=rmse((d["seg"].loc[PUB3.index] - PUB3).values),
                 best_flag_objective=float(b["objective"]), best_dividend=float(b["dividend"]),
-                best_labels_exact=int(b["labels_exact"]), best_pct_exact=int(b["pct_exact"]))
+                best_labels_exact=int(b["labels_exact"]), best_pct_exact=int(b["pct_exact"]),
+                grid_sets=len(fs), sets_with_any_net_label=int((fs["labels_exact"] >= 1).sum()),
+                sets_funding_193=int(at.sum()),
+                max_net_labels_funding_193=int(fs.loc[at, "labels_exact"].max()) if at.any() else 0,
+                max_pct_labels_funding_193=int(fs.loc[at, "pct_exact"].max()) if at.any() else 0)
 
 
 # %% step 1: units - composition route (payment shares), per-CU -> per-share conversion and population weights.
@@ -224,6 +230,15 @@ ADOPTED_UNITS = UNIT_VARIANTS[0][0]
 assert ut["best_flag_objective"].idxmin() == ADOPTED_UNITS, ut["best_flag_objective"].idxmin()
 assert ut.loc[ADOPTED_UNITS, "cbar_chi2"] <= ut["cbar_chi2"].min() + 1e-9
 assert ut.loc[ADOPTED_UNITS, "budgets_in_fig1_range"] >= 4
+# the consistent route (14qa): the best flag set gets none of the ten Fig 1 labels, and no set that funds EUR 193 gets
+# more than two net labels or two percent labels
+u14 = ut.loc["post conventions on the 14qa composition (consistent route)"]
+assert u14["best_labels_exact"] == 0 and u14["best_pct_exact"] == 0
+assert u14["max_net_labels_funding_193"] <= 2 and u14["max_pct_labels_funding_193"] <= 2
+print(f"   14qa: best set {int(u14['best_labels_exact'])}/5 net and {int(u14['best_pct_exact'])}/5 percent labels; "
+      f"{int(u14['sets_with_any_net_label']):,} of {int(u14['grid_sets']):,} sets hit at least one net label; of the "
+      f"{int(u14['sets_funding_193'])} that fund EUR 193, at most {int(u14['max_net_labels_funding_193'])} net and "
+      f"{int(u14['max_pct_labels_funding_193'])} percent labels")
 
 
 # %% step 2: budget rows (which categories make up the per-share budget B_q). Nets do not depend on them; the
@@ -262,13 +277,21 @@ assert bt["pct_exact"].idxmax() == list(BUDGET_ALTS)[0] and bt["ghost_rmse"].idx
 # (1 + existing rate): run the whole flag grid both ways.
 fs_incl = flag_search(m, desc="flags, tax-inclusive")
 fs_excl = flag_search(m, inclusive=False, desc="flags, tax-exclusive")
+# what the adopted reading means on the existing rates: 15% of tax-inclusive spending is 15 x (1 + r) points on the
+# net-of-VAT price, r the existing rate (10, 14 or 24% on the lines in the base)
+_r_in = m["line_meta"]["rate"][[k for k, v in B.fi_vat_flags().items() if v > 0 and k in m["line_meta"].index]]
+_div_adopted = {inc: float(B.fi_vat_accounting(m, inclusive=inc)["dividend"].iloc[0]) for inc in (True, False)}
 base_tests = pd.DataFrame([
     dict(base="tax-inclusive spending (adopted)", best_objective=fs_incl.iloc[0]["objective"],
          dividend=fs_incl.iloc[0]["dividend"], labels_exact=fs_incl.iloc[0]["labels_exact"],
-         max_dividend_over_grid=fs_incl["dividend"].max(), min_dividend_over_grid=fs_incl["dividend"].min()),
+         max_dividend_over_grid=fs_incl["dividend"].max(), min_dividend_over_grid=fs_incl["dividend"].min(),
+         dividend_adopted_flags=_div_adopted[True], points_on_net_price_min=100 * B.TAU * (1 + _r_in.min()),
+         points_on_net_price_max=100 * B.TAU * (1 + _r_in.max())),
     dict(base="tax-exclusive (net-of-VAT price)", best_objective=fs_excl.iloc[0]["objective"],
          dividend=fs_excl.iloc[0]["dividend"], labels_exact=fs_excl.iloc[0]["labels_exact"],
-         max_dividend_over_grid=fs_excl["dividend"].max(), min_dividend_over_grid=fs_excl["dividend"].min())])
+         max_dividend_over_grid=fs_excl["dividend"].max(), min_dividend_over_grid=fs_excl["dividend"].min(),
+         dividend_adopted_flags=_div_adopted[False], points_on_net_price_min=100 * B.TAU,
+         points_on_net_price_max=100 * B.TAU)])
 base_tests.to_csv(OUT / "fi_base_tests.csv", index=False, float_format="%.4f")
 print("\nstep 3, base:"); print(base_tests.round(2).to_string(index=False))
 assert fs_excl["dividend"].max() < PUB_DIV - 20
@@ -287,30 +310,137 @@ for k in ["13.3 Social protection (off-chart)", "77 Consumption abroad (off-char
     whole[k] = 0.0
 
 
-def score_flags(fl, label):
-    acc = B.fi_vat_accounting(m, fl)
+# The statutory reading (2022 Act, line by line), revised after the independent review. bridge.FI_VAT_LINES keeps the
+# first-pass flag_law (EUR 172.4; the LVT unit reads it through fi_vat_flags('law')); here the 07.2.4.2 'toll
+# facilities' line is split out of 'fuels, parts, repairs, parking, hire' (adopted and first-pass flags 1, as the
+# rest of the line, so the post and first-pass readings are unchanged) and each line whose composition the HBS does not
+# publish gets a bracket. FI_LAW: line -> (low, central, high, reason); central = the first-pass reading corrected on
+# the two lines the review found outside any defensible bracket (07.2.4.2 and used cars); the brackets follow the
+# review (checks/verify_independent_fi.py, LAW_RANGE). Every other line keeps its first-pass value.
+TOLL = dict(line="toll facilities (07.2.4.2)", cat="072", codes=["07242"], flag_law=1.0, flag=1.0, rate=0.24,
+            reason="labelled toll facilities, but Finland has essentially no road tolls; EUR 137 per CU a year with a "
+                   "flat income profile is most likely the annual vehicle tax or private-road fees, both outside VAT "
+                   "(unverified: the HBS item list is not vendored)")
+LAW_LINES = []
+for _l in B.FI_VAT_LINES:
+    if _l["line"] == "fuels, parts, repairs, parking, hire":
+        LAW_LINES.append(TOLL)
+    LAW_LINES.append(_l)
+FI_LAW = {
+    "used cars": (0.10, 0.25, 0.35, "dealers sell most used cars under the margin scheme (VAT on the margin only), private "
+                  "sales carry none, ex-fleet cars bought from VAT-registered sellers carry full VAT; mix unknown"),
+    "toll facilities (07.2.4.2)": (0.0, 0.0, 0.0, TOLL["reason"]),
+    "driving lessons, tests, licences": (0.0, 0.0, 1.0, "lessons and roadworthiness tests are 24% supplies, licences and "
+                                         "vehicle charges public fees outside VAT; mix unknown (Q5's EUR 585 per CU "
+                                         "against Q4's 90 suggests something else again, e.g. registration tax)"),
+    "sea and inland-waterway transport": (0.0, 0.0, 0.3, "mostly international ferry crossings (zero-rated); domestic 10%"),
+    "letter post": (0.0, 0.0, 1.0, "universal-service letters exempt; other letter services 24%"),
+    "package holidays": (0.0, 0.0, 0.15, "travel-agent margin scheme: VAT on the margin only, none outside the EU"),
+    "other services n.e.c.": (0.2, 0.5, 0.5, "legal, funeral and agency services 24%; union fees (counted as consumption "
+                              "by the HBS) and administrative fees outside VAT; the steep income profile fits union fees"),
+    "domestic services by paid staff": (0.0, 1.0, 1.0, "cleaning and household services bought from firms 24%; staff "
+                                        "employed by the household are paid wages, outside VAT"),
+}
+m_law = B.build_fi_model(lines=LAW_LINES)
+m_law_coh = B.build_fi_model(convention="coherent", lines=LAW_LINES)
+flags_adopted_law = B.fi_vat_flags(lines=LAW_LINES)
+law_first = B.fi_vat_flags("law", lines=LAW_LINES)
+LAW_READ = {k: dict(law_first, **{ln: v[i] for ln, v in FI_LAW.items()}) for i, k in enumerate(["low", "central", "high"])}
+for mm_, m0_ in [(m_law, m), (m_law_coh, B.build_fi_model(convention="coherent"))]:     # the split changes nothing else
+    for f_new, f_old in [(flags_adopted_law, flags_adopted), (law_first, law)]:
+        assert abs(float(B.fi_vat_accounting(mm_, f_new)["dividend"].iloc[0])
+                   - float(B.fi_vat_accounting(m0_, f_old)["dividend"].iloc[0])) < 1e-9
+
+
+def score_flags(fl, label, mm=None):
+    mm = m if mm is None else mm
+    acc = B.fi_vat_accounting(mm, fl)
     o = fig1_objective(acc["vatable"].values, acc["net"].values, float(acc["dividend"].iloc[0]),
                        acc["net_pct_budget"].values, acc["vatable_pct_budget"]["q1"])[0]
+    eur = demand_post(mm, acc["net"], MID)["eur"]
     return dict(reading=label, objective=float(o), dividend=float(acc["dividend"].iloc[0]),
                 **{f"net_{q}": acc["net"][q] for q in Q}, **{f"pct_{q}": acc["net_pct_budget"][q] for q in Q},
                 labels_exact=int((np.round(acc["net"]) == PUB_NET).sum()),
                 pct_exact=int((np.round(acc["net_pct_budget"], 1) == PUB_PCT).sum()),
-                vatable_share_q1=acc["vatable_pct_budget"]["q1"])
+                vatable_share_q1=acc["vatable_pct_budget"]["q1"],
+                lowest_vatable_share_quintile=acc["vatable_pct_budget"].idxmin(), rent_eur=eur["04.1 Actual rents"],
+                max_abs_bar_change_eur=float((eur.loc[CH] - EUR_ADOPTED.loc[CH]).abs().max()))
 
 
-readings = pd.DataFrame([score_flags(flags_adopted, "adopted (grid best)"), score_flags(law, "Finnish law, line by line"),
-                         score_flags(whole, "whole COICOP groups (13.9 and 09.8 taxable)")])
+EUR_ADOPTED = demand_post(m, B.fi_vat_accounting(m)["net"], MID)["eur"]
+# the weak and unidentified lines (NOTES: Fig 1 sees them faintly or not at all), each flipped on its own
+WEAK = ["sea and inland-waterway transport", "letter post", "religious services", "13.3 Social protection (off-chart)",
+        "international air transport", "games of chance", "other services n.e.c.", "domestic services by paid staff"]
+flips = [(f"adopted, '{k}' flipped {flags_adopted[k]:g} -> {1 - flags_adopted[k]:g}", dict(flags_adopted, **{k: 1 - flags_adopted[k]}))
+         for k in WEAK] + [("adopted, 'other services n.e.c.' at 1/2", dict(flags_adopted, **{"other services n.e.c.": 0.5}))]
+readings = pd.DataFrame(
+    [score_flags(flags_adopted, "adopted (grid best)"),
+     score_flags(law, "Finnish law, first pass (bridge flag_law; fi_vat_flags('law'), read by the LVT unit)"),
+     score_flags(LAW_READ["central"], "Finnish law 2022, statutory central (07.2.4.2 split out; fi_vat_law.csv)", m_law),
+     score_flags(LAW_READ["low"], "Finnish law 2022, statutory bracket low", m_law),
+     score_flags(LAW_READ["high"], "Finnish law 2022, statutory bracket high", m_law),
+     score_flags(whole, "whole COICOP groups (13.9 and 09.8 taxable)"),
+     score_flags(dict(flags_adopted, **{"rest of other services": 1.0}),
+                 "adopted, with 13.9's suppressed residual (13.9.0.1) in the base"),
+     score_flags(dict(flags_adopted, **{"04.1 Actual rents": 0.3, "maintenance charges of housing companies": 0.7}),
+                 "adopted, with VAT embedded in exempt housing (rents 0.3, housing-company charges 0.7)")]
+    + [score_flags(f, lab) for lab, f in flips])
 top20 = fs.head(20).copy()
 top20["grid"] = "top 20 of the grid"
+for i_, r_ in top20.iterrows():                 # how far the bars move across the Fig 1-consistent sets
+    a_ = B.fi_vat_accounting(m, dict(flags_adopted, **{k: r_[k] for k in FLAG_GRID}))
+    top20.loc[i_, "max_abs_bar_change_eur"] = float((demand_post(m, a_["net"], MID)["eur"].loc[CH] - EUR_ADOPTED.loc[CH]).abs().max())
 stability = {k: top20[k].value_counts().to_dict() for k in FLAG_GRID}
 fs_out = pd.concat([top20, readings.assign(grid="named readings")], ignore_index=True)
 fs_out.to_csv(OUT / "fi_flags_search.csv", index=False, float_format="%.4f")
 print(f"\nstep 4, VAT flags: {len(fs)} combinations; best objective {best['objective']:.1f} (dividend "
       f"EUR {best['dividend']:.2f}, {int(best['labels_exact'])}/5 net labels, {int(best['pct_exact'])}/5 percent labels)")
-print(readings.round(2).to_string(index=False))
+print(readings[["reading", "objective", "dividend", "net_q1", "net_q3", "net_q5", "labels_exact", "pct_exact",
+                "vatable_share_q1", "lowest_vatable_share_quintile", "rent_eur", "max_abs_bar_change_eur"]].round(2).to_string(index=False))
 print("   value counts across the 20 best combinations:")
 for k, v in stability.items():
     print(f"     {k:42s} {v}")
+print(f"   across the 20 best: dividend EUR {top20['dividend'].min():.2f}-{top20['dividend'].max():.2f}, largest bar change "
+      f"EUR {top20['max_abs_bar_change_eur'].max():.3f}")
+
+# The statutory dividend as a range, and the lines that drive it (post and coherent conventions): each bracketed line at
+# its low and high end with the others at central, and the move from the first-pass reading. The accounting is linear in
+# the flags, so the line effects add up to the bracket exactly.
+law_rows = []
+for conv, mm_ in [("post", m_law), ("coherent", m_law_coh)]:
+    dv = lambda f: float(B.fi_vat_accounting(mm_, f)["dividend"].iloc[0])
+    cen = LAW_READ["central"]
+    d_cen = dv(cen)
+    for ln, (lo_, c_, hi_, why) in FI_LAW.items():
+        lm_ = mm_["line_meta"].loc[ln]
+        law_rows.append(dict(kind="line", convention=conv, name=ln, hbs_codes=lm_["codes"],
+                             eur_month_weighted=float(mm_["lines"].loc[ln] @ mm_["w"]), post_flag=flags_adopted_law[ln],
+                             law_first_pass=law_first[ln], law_low=lo_, law_central=c_, law_high=hi_,
+                             dividend_change_at_low=dv(dict(cen, **{ln: lo_})) - d_cen,
+                             dividend_change_at_high=dv(dict(cen, **{ln: hi_})) - d_cen,
+                             dividend_change_first_pass_to_central=d_cen - dv(dict(cen, **{ln: law_first[ln]})),
+                             dividend_change_post_to_central=d_cen - dv(dict(cen, **{ln: flags_adopted_law[ln]})),
+                             reason=why))
+    for nm, f in [("post flags (adopted)", flags_adopted_law), ("first-pass law reading", law_first),
+                  ("statutory central", cen), ("statutory bracket low", LAW_READ["low"]),
+                  ("statutory bracket high", LAW_READ["high"])]:
+        a_ = B.fi_vat_accounting(mm_, f)
+        law_rows.append(dict(kind="dividend", convention=conv, name=nm, dividend=float(a_["dividend"].iloc[0]),
+                             **{f"net_{q}": a_["net"][q] for q in Q}, vatable_share_q1=a_["vatable_pct_budget"]["q1"]))
+law_out = pd.DataFrame(law_rows)
+law_out.to_csv(OUT / "fi_vat_law.csv", index=False, float_format="%.4f")
+LAW_DIV = law_out[law_out["kind"] == "dividend"].set_index(["convention", "name"])["dividend"]
+_ll = law_out[(law_out["kind"] == "line") & (law_out["convention"] == "post")].set_index("name")
+assert abs(LAW_DIV[("post", "statutory central")] + _ll["dividend_change_at_low"].sum() - LAW_DIV[("post", "statutory bracket low")]) < 1e-9
+assert abs(LAW_DIV[("post", "statutory central")] + _ll["dividend_change_at_high"].sum() - LAW_DIV[("post", "statutory bracket high")]) < 1e-9
+assert LAW_DIV[("post", "statutory bracket low")] <= LAW_DIV[("post", "statutory central")] <= LAW_DIV[("post", "statutory bracket high")]
+print(f"\nstatutory VAT dividend (fi_vat_law.csv), post conventions: EUR {LAW_DIV[('post', 'statutory central')]:.2f} "
+      f"(bracket {LAW_DIV[('post', 'statutory bracket low')]:.2f}-{LAW_DIV[('post', 'statutory bracket high')]:.2f}; first pass "
+      f"{LAW_DIV[('post', 'first-pass law reading')]:.2f}); coherent: {LAW_DIV[('coherent', 'statutory central')]:.2f} "
+      f"({LAW_DIV[('coherent', 'statutory bracket low')]:.2f}-{LAW_DIV[('coherent', 'statutory bracket high')]:.2f}; first pass "
+      f"{LAW_DIV[('coherent', 'first-pass law reading')]:.2f})")
+print(_ll[["post_flag", "law_first_pass", "law_low", "law_central", "law_high", "eur_month_weighted", "dividend_change_at_low",
+           "dividend_change_at_high", "dividend_change_first_pass_to_central"]].round(3).to_string())
 
 
 # %% step 5: the accounting tier
@@ -529,21 +659,40 @@ print(f"step 10, impulse (mid, post units): charted bars EUR {im['bars_chart_eur
       f"of the charted budget (text '+0.4% of charted budget'); all bars {im['pct_consumption']:.3f}% of consumption")
 
 
-# %% step 11: flags table (line, category, law reading, adopted flag, what pinned it)
+# %% step 11: flags table (line, category, law reading, adopted flag, what pinned it). One row per VAT line of the
+# statutory model (07.2.4.2 split out of 'fuels, parts, repairs, parking, hire'; same adopted base). flag_law is the
+# first-pass law reading (bridge.FI_VAT_LINES, fi_vat_flags('law')); law_low / law_central / law_high are the
+# statutory reading after review (fi_vat_law.csv), which adopted_vs_law compares against.
 PINNED = {k: "Fig 1 (net labels, dividend, positions, percent labels, Q1 59%): grid best; "
              f"value counts across the 20 best: {stability[k]}" for k in FLAG_GRID}
-lm = m["line_meta"]
+PINNED["toll facilities (07.2.4.2)"] = ("not pinned: outside the step-4 grid; the post counts it with the rest of 07.2 "
+                                        "(Fig 1 cannot tell it from the vehicle-operation line it sits in)")
+lm = m_law["line_meta"]
+
+
+def adopted_vs_law(ln, fa_, lo_, c_, hi_):
+    """How the adopted (post) flag relates to the statutory reading of the line."""
+    if fa_ == c_:
+        return "same"
+    where = "pinned by Fig 1" if ln in FLAG_GRID else "not pinned"
+    if lo_ <= fa_ <= hi_:
+        return f"inside the statutory bracket {lo_:g}-{hi_:g} (central {c_:g}); {where}"
+    return f"the post's whole-group reading, {where} (law: {c_:g}" + (f", bracket {lo_:g}-{hi_:g})" if lo_ != hi_ else ")")
+
+
 rows = []
-for ln in m["lines"].index:
+for ln in m_law["lines"].index:
+    lo_, c_, hi_, why = FI_LAW.get(ln, (lm.loc[ln, "flag_law"],) * 3 + ("",))
+    fa_ = flags_adopted_law[ln]
     rows.append(dict(line=ln, category=lm.loc[ln, "cat"], coicop=lm.loc[ln, "code"], hbs_codes=lm.loc[ln, "codes"],
-                     flag_law=lm.loc[ln, "flag_law"], vat_flag=flags_adopted[ln],
-                     adopted_vs_law=("same" if flags_adopted[ln] == lm.loc[ln, "flag_law"] else
-                                     "the post's whole-group reading, pinned by Fig 1 (law: "
-                                     f"{lm.loc[ln, 'flag_law']:g})"), existing_rate=lm.loc[ln, "rate"],
+                     flag_law=lm.loc[ln, "flag_law"], vat_flag=fa_,
+                     adopted_vs_law=adopted_vs_law(ln, fa_, lo_, c_, hi_), existing_rate=lm.loc[ln, "rate"],
                      reason=lm.loc[ln, "reason"],
                      pinned_by=PINNED.get(ln, "not a judgment line (law and the post's grouping agree)"),
-                     eur_month_total_column=m["lines_total"][ln], vatable_eur_month_total_column=flags_adopted[ln] * m["lines_total"][ln],
-                     **{f"eur_month_{q}": m["lines"].loc[ln, q] for q in Q}))
+                     eur_month_total_column=m_law["lines_total"][ln],
+                     vatable_eur_month_total_column=fa_ * m_law["lines_total"][ln],
+                     **{f"eur_month_{q}": m_law["lines"].loc[ln, q] for q in Q},
+                     law_low=lo_, law_central=c_, law_high=hi_, law_reason=why))
 flags_out = pd.DataFrame(rows)
 flags_out.to_csv(OUT / "fi_flags.csv", index=False, float_format="%.4f")
 

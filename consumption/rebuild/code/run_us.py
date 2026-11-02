@@ -5,7 +5,8 @@
 # Outputs (consumption/rebuild/out/): us_accounting_by_decile.csv, us_demand_shifts.csv, us_decomposition_top10.csv,
 #   us_flags.csv, us_mpc_schedules.csv, us_eta.csv, plus the calibration evidence us_budget_tests.csv,
 #   us_flags_search.csv, us_mapping_tests.csv, us_mpc_fit_surface.csv, us_mpc_params.csv, us_impulse.csv,
-#   us_sensitivity.csv. Figures (consumption/rebuild/figures/): fig5_rebuilt.png, us_mpc_fit.png.
+#   us_sensitivity.csv, us_flag_variants.csv (every bar under the rent-0 and used-cars-0.1 flag variants).
+#   Figures (consumption/rebuild/figures/): fig5_rebuilt.png, us_mpc_fit.png.
 # Gate: consumption/rebuild/checks/gate_us.py. Write-up: consumption/rebuild/NOTES_us.md.
 # Plain functions plus top-level code; each %% block pastes into a notebook cell.
 
@@ -65,15 +66,18 @@ print(f"CE 2024 deciles: {len(m['C'])} budget categories ({len(CH)} charted), bu
 # The VAT base and the nets do not depend on this (the candidate rows carry flag 0); the budget enters through
 # Fig 4's percent-of-budget labels (D1 +4.8%, D10 -3.9%), the 59-64% VAT-able range and every demand shock.
 vals = m["vals"]
-tot = vals.loc[B.EXP, DEC]
 pip_ = vals.loc[B.EXP + " > Personal insurance and pensions", DEC]
 cc = vals.loc[B.EXP + " > Cash contributions", DEC]
 off = m["spend"].loc[["Education", "Mortgage interest and charges", "Property taxes"]].sum()
 acc0 = B.vat_accounting(m)
-budget_alts = {"total - pensions/insurance - cash contributions (chosen)": tot - pip_ - cc,
-               "total - pensions/insurance (cash contributions in)": tot - pip_,
-               "total expenditures (both in)": tot,
-               "chosen minus education, mortgage interest, property taxes": tot - pip_ - cc - off}
+# Every alternative starts from the model's own budget, the sum of the 40 lines (annual per CU). It equals the printed
+# total minus personal insurance and pensions minus cash contributions within $4 a CU-year (CE prints whole dollars).
+lines40 = m["spend"].sum()
+assert np.allclose(lines40 / 12.0 / m["units"]["shares"], m["budget"], rtol=0, atol=1e-9)
+budget_alts = {"sum of the 40 lines = total - pensions/insurance - cash contributions (chosen)": lines40,
+               "40 lines + cash contributions": lines40 + cc,
+               "40 lines + cash contributions + pensions/insurance (total expenditures)": lines40 + cc + pip_,
+               "chosen minus education, mortgage interest, property taxes": lines40 - off}
 rows = []
 for name, b in budget_alts.items():
     bm = b / 12.0 / m["units"]["shares"]
@@ -192,7 +196,13 @@ print(f"\nstep 3, accounting: dividend ${acc['dividend'].iloc[0]:.2f} (published
 print(acc_out[["decile", "net_usd_month", "pub_net_label", "net_pct_budget", "vatable_pct_budget"]].round(2).T.to_string(header=False))
 
 # %% step 4: elasticities - the stage-one mapping and the food split, tested on the Fig 5 ghosts (MPC=1: no MPC
-# enters) and on the bars at each variant's best knee/top
+# enters) and on the bars at each variant's best knee/top. Every bar RMSE in this file is on one knee x top grid,
+# the step-5 calibration grid (knee 1-9 by 0.05, top 0.40-0.65 by 0.0025), except the flag-variant refits of step 5b,
+# which also use knee steps of 0.01 and say so.
+KNEES = np.round(np.arange(1.0, 9.0001, 0.05), 3)
+TOPS = np.round(np.arange(0.40, 0.65001, 0.0025), 4)
+
+
 def knee_fit(D, y, knees, tops):
     """SSE over a knee x top grid for contributions-per-unit-MPC D (categories x groups) against bars y."""
     S = np.empty((len(knees), len(tops)))
@@ -202,7 +212,7 @@ def knee_fit(D, y, knees, tops):
     return S
 
 
-def mapping_score(mm, net, knees=np.arange(1, 6.001, 0.25), tops=np.arange(0.40, 0.65001, 0.005)):
+def mapping_score(mm, net, knees=KNEES, tops=TOPS):
     sh = B.shifts_from_transfers(mm, net, mpc=np.ones(10))
     gg = sh.loc[CH, "dUSD_mpc1"] - PUB5["pub_ghost"]
     D = B.decompose(mm, (net / mm["budget"]).values).loc[CH].values
@@ -262,8 +272,6 @@ assert ch0["ghost_rmse"] < 0.9 * tel["ghost_rmse"] and ch0["bars_rmse_best_knee"
 D1 = B.decompose(m, (NET / m["budget"]).values)
 Dch = D1.loc[CH].values
 y = PUB5["pub_usd"].values
-KNEES = np.round(np.arange(1.0, 9.0001, 0.05), 3)
-TOPS = np.round(np.arange(0.40, 0.65001, 0.0025), 4)
 S = np.empty((len(KNEES), len(TOPS)))
 for i, k in enumerate(tqdm(KNEES, desc="MPC fit surface (knee x top)", leave=False)):
     P = np.stack([B.mpc_knee(k, t) for t in TOPS], axis=1)
@@ -359,6 +367,63 @@ print(f"   low knee {k_low_exact:.3f} -> {B.US_MPC_KNEE['low']}, high knee {k_hi
 print(params[["schedule", "knee", "top", "fit_rmse_usd", "impulse_pct_consumption", "fig7_published"]].round(4).to_string(index=False))
 print("   schedules:\n" + sched_out.round(3).T.to_string(header=False))
 
+# %% step 5b: two flag variants the independent review asked to carry beside the adopted flags. The outputs keep the
+# adopted flags (rent 0.0167, used cars 1/2) and the mid schedule; the variants go to us_sensitivity.csv and
+# us_flag_variants.csv.
+#   rent 0: the post's own 'rent exempt', as Directive-consistent as 0.0167 (renter-paid repairs). The step-2 grid takes
+#           0.0167 only through the read-off point positions (+/-5); the printed numbers prefer 0, and the Fig 5 bars
+#           refit as well. An equally good alternative, carried with its own MPC refit.
+#   used cars 0.1: the Directive's margin scheme (Arts. 311-325) instead of the post-calibrated 1/2; a sensitivity at
+#           the mid schedule (its refit is a diagnostic: Fig 5 cannot be matched at the printing floor).
+# Refits use knee steps of 0.01 (top steps 0.0025, as in step 5) so that nearby optima can be told apart.
+KNEES_FINE = np.round(np.arange(1.0, 9.0001, 0.01), 2)
+
+
+def knee_refit(net, knees=KNEES_FINE, tops=TOPS):
+    """Least-squares (knee, top) on the 36 Fig 5 dollar bars for one net vector: (rmse, knee, top)."""
+    S_ = knee_fit(B.decompose(m, (net / m["budget"]).values).loc[CH].values, y, knees, tops)
+    a_, b_ = np.unravel_index(S_.argmin(), S_.shape)
+    return float(np.sqrt(S_[a_, b_] / len(CH))), float(knees[a_]), float(tops[b_])
+
+
+def fig4_terms(fl):
+    """Step 2's objective for one flag set, split into the printed numbers (net labels, dividend, D1/D10 percent of
+    budget, the 59-64 range) and the read-off point positions (+/-5)."""
+    a_ = B.vat_accounting(m, fl)
+    net, cv, div = a_["net"].values, a_["vatable"].values, float(a_["dividend"].iloc[0])
+    pct, sh_ = 100 * net / m["budget"].values, 100 * cv / m["budget"].values
+    s_lab, s_x, s_pct = 0.5 / np.sqrt(3), 5 / np.sqrt(3), 0.05 / np.sqrt(3)
+    xw = np.array([1, 0, 1, 1, 1, 1, 1, 1, 1, 1.0])
+    printed = ((((net - PUB_NET.values) / s_lab) ** 2).sum() + ((div - PUB_DIV) / s_lab) ** 2
+               + ((pct[0] - PUB_D1_PCT) / s_pct) ** 2 + ((pct[9] - PUB_D10_PCT) / s_pct) ** 2
+               + 100.0 * ((np.round(sh_.min()) != 59) | (np.round(sh_.max()) != 64)))
+    return float(printed), float(((((cv - PUB_X.values) / s_x) ** 2) * xw).sum())
+
+
+FLAG_VARIANTS = {"adopted": B.US_VAT_FLAGS,
+                 "rent 0": dict(B.US_VAT_FLAGS, **{"Rented dwellings": 0.0}),
+                 "used cars 0.1": dict(B.US_VAT_FLAGS, **{"Cars and trucks, used": 0.1})}
+VAR = {}
+for name, fl in FLAG_VARIANTS.items():
+    a_ = B.vat_accounting(m, fl)
+    pt, xt = fig4_terms(fl)
+    VAR[name] = dict(acc=a_, dividend=float(a_["dividend"].iloc[0]), refit=knee_refit(a_["net"]), printed_term=pt,
+                     x_term=xt, labels_exact=int((np.round(a_["net"]) == PUB_NET).sum()),
+                     label_sse=float(((a_["net"] - PUB_NET) ** 2).sum()))
+assert abs(VAR["adopted"]["printed_term"] + VAR["adopted"]["x_term"] - best["objective"]) < 1e-6   # same objective as step 2
+_r0 = fs[(fs["Rented dwellings"] == 0.0) & np.all([np.isclose(fs[k], B.US_VAT_FLAGS[k], rtol=0, atol=1e-9)
+                                                    for k in FLAG_GRID if k != "Rented dwellings"], axis=0)]
+assert len(_r0) == 1 and abs(VAR["rent 0"]["printed_term"] + VAR["rent 0"]["x_term"] - _r0["objective"].iloc[0]) < 1e-6
+va, vr, vu = VAR["adopted"], VAR["rent 0"], VAR["used cars 0.1"]
+assert vr["printed_term"] < va["printed_term"] and vr["x_term"] > va["x_term"]        # only the read-offs prefer 0.0167
+assert vr["labels_exact"] > va["labels_exact"] and round(vr["dividend"]) == PUB_DIV
+assert vr["refit"][0] <= va["refit"][0] + 1e-4                                         # the bars refit as well
+print(f"\nstep 5b, flag variants (Fig 4 objective = printed numbers + read-off positions; refit on knee 0.01 x top 0.0025):")
+for name, v in VAR.items():
+    print(f"   {name:14s} dividend ${v['dividend']:.2f}; labels exact {v['labels_exact']}/10, label SSE {v['label_sse']:.2f}; "
+          f"objective {v['printed_term']:.1f} + {v['x_term']:.1f}; Fig 5 refit knee {v['refit'][1]:.2f}, top {v['refit'][2]:.4f}, "
+          f"RMSE ${v['refit'][0]:.4f}")
+
 # %% step 6: elasticities table
 det = m["eta_detail"]
 rows = []
@@ -429,7 +494,8 @@ imp_out.to_csv(OUT / "us_impulse.csv", index=False, float_format="%.5f")
 im = imp["mid"]
 print(f"step 9, impulse (mid): flow ${im['flow_usd']:.3f} = {im['flow_pct_consumption']:.3f}% of consumption (Fig 7 0.390); "
       f"charted bars ${im['bars_chart_usd']:.3f} = {im['bars_chart_pct_consumption']:.3f}% of consumption, "
-      f"{im['bars_chart_pct_charted']:.3f}% of the charted budget (caption '+0.4% of charted budget', footer '~+0.5% of consumption')")
+      f"{im['bars_chart_pct_charted']:.3f}% of the charted budget (caption '+0.4% of charted budget', footer '~+0.5% of consumption'); "
+      f"flow / charted budget {im['flow_pct_charted']:.3f}% (the caption's own denominator)")
 
 # %% step 10: flags table (category, VAT-able share, USDA group, rationale, what pinned it)
 GROUP_REASON = {
@@ -442,12 +508,21 @@ GROUP_REASON = {
     "recreation": "TB-1929 'Recreation and culture' (CE entertainment, reading)",
     "education": "TB-1929 'Education'", "other": "TB-1929 'Other' (CE personal care, miscellaneous)"}
 SPECIAL_GROUP = {"Telephone services": "TB-1929 'Transportation and communication' (COICOP 08), not CE utilities: pinned by "
-                 "Fig 5 (telephone ghost 0.264 vs 0.30 read off with housing; bar RMSE at the best knee $0.0088 -> $0.0027)"}
+                 f"Fig 5 (telephone ghost 0.264 vs 0.30 read off with housing; bar RMSE at the best knee "
+                 f"${tel['bars_rmse_best_knee']:.4f} -> ${ch0['bars_rmse_best_knee']:.4f} on the calibration grid)"}
 for c in ["Personal services (incl. childcare)", "Health insurance", "Vehicle insurance", "Other lodging",
           "Vehicle finance charges", "Home maintenance, repairs & insurance", "Reading"]:
     SPECIAL_GROUP[c] = "CE major category; the COICOP-style reassignment was tested and fits Fig 5 worse (us_mapping_tests.csv)"
-PINNED = {"Cars and trucks, used": "Fig 4: decile profile of the point positions and net labels (every good grid combination has 1/2)",
-          "Water and other public services": "Fig 4: the $249 dividend level, given the other flags (Nordic reading 1.0 gives $250.9)"}
+PINNED = {"Cars and trucks, used": "post-calibrated 1/2, pinned by Fig 4: decile profile of the point positions and net labels "
+                                   "(every good grid combination has 1/2). Not a Directive reading: the margin scheme "
+                                   f"(Arts. 311-325) gives about 0.1, which funds ${vu['dividend']:.1f} with {vu['labels_exact']} "
+                                   "labels exact (a sensitivity: us_sensitivity.csv, us_flag_variants.csv)",
+          "Water and other public services": "Fig 4: the $249 dividend level, given the other flags (Nordic reading 1.0 gives $250.9)",
+          "Rented dwellings": "not pinned by a printed number: the grid takes 0.0167 over 0 only through the read-off point "
+                              f"positions (+/-5). Rent 0 (the post's 'rent exempt') gets {vr['labels_exact']} labels exact "
+                              f"against {va['labels_exact']} and refits the Fig 5 bars as well (knee {vr['refit'][1]:.2f}, "
+                              f"top {vr['refit'][2]:.4f}, RMSE ${vr['refit'][0]:.4f}): an equally good alternative, carried in "
+                              "us_sensitivity.csv and us_flag_variants.csv. The outputs use 0.0167"}
 fl_rows = []
 for c in m["C"].index:
     fl_rows.append(dict(category=c, role=m["prov"].loc[c, "role"], ce_source=m["prov"].loc[c, "ce_source"],
@@ -483,11 +558,40 @@ def headline(mm, net, mpc=None, label=""):
                 impulse_pct=ii["flow_pct_consumption"], bars_rmse=float(np.sqrt((gap ** 2).mean())))
 
 
+def variant_cols(v):
+    """The step-5b columns: labels exact, label SSE, the two objective terms, and the Fig 5 refit (knee step 0.01)."""
+    return dict(labels_exact=v["labels_exact"], label_sse=v["label_sse"], fig4_printed_term=v["printed_term"],
+                fig4_readoff_term=v["x_term"], refit_knee=v["refit"][1], refit_top=v["refit"][2], refit_rmse=v["refit"][0])
+
+
 rows = [headline(m, NET, label="rebuild as calibrated")]
 rows[-1]["dividend"] = float(acc["dividend"].iloc[0])
+rows[-1].update(variant_cols(va))
 a_s = B.vat_accounting(m, B.US_VAT_START)
 rows.append(headline(m, a_s["net"], label="START flags (Directive + Table 2500, used cars and water at 1)"))
 rows[-1]["dividend"] = float(a_s["dividend"].iloc[0])
+MPC_R0 = B.mpc_knee(vr["refit"][1], vr["refit"][2])
+rows.append(headline(m, vr["acc"]["net"], mpc=MPC_R0, label=f"rent flag 0 (the post's 'rent exempt'), MPC refit (knee "
+                     f"{vr['refit'][1]:.2f}, top {vr['refit'][2]:.4f}): an equally good alternative"))
+rows[-1].update(dividend=vr["dividend"], **variant_cols(vr))
+rows.append(headline(m, vu["acc"]["net"], label="used cars 0.1 (Directive margin scheme, Arts. 311-325), MPC mid: sensitivity"))
+rows[-1].update(dividend=vu["dividend"], **variant_cols(vu))
+# every bar of the two variants beside the adopted ones (rent 0 at its own refit, used cars 0.1 at the mid schedule)
+fv = pd.DataFrame({"role": m["prov"]["role"], "pub_usd": PUB5["pub_usd"], "pub_ghost": PUB5["pub_ghost"]})
+for tag, v, mp in [("adopted", va, sched["mid"].values), ("rent_0_refit", vr, MPC_R0), ("used_cars_0.1", vu, sched["mid"].values)]:
+    s_ = B.shifts_from_transfers(m, v["acc"]["net"], mpc=mp)
+    fv[f"dUSD_{tag}"], fv[f"dPct_{tag}"], fv[f"ghost_{tag}"] = s_["dUSD_mpc"], s_["dPct_mpc"], s_["dUSD_mpc1"]
+fv = fv.loc[list(PUB5.index) + [c for c in m["C"].index if c not in PUB5.index]]
+fv.index.name = "category"
+assert np.allclose(fv["dUSD_adopted"], ds.loc[fv.index, "dUSD_mid"], rtol=0, atol=1e-12)
+fv.to_csv(OUT / "us_flag_variants.csv", float_format="%.5f")
+_g = lambda c: float(np.sqrt(((fv.loc[CH, c] - fv.loc[CH, "pub_usd" if c.startswith("dUSD") else "pub_ghost"]) ** 2).mean()))
+print(f"\nflag variants, Fig 5 (us_flag_variants.csv): bars RMSE adopted ${_g('dUSD_adopted'):.4f}, rent 0 at its refit "
+      f"${_g('dUSD_rent_0_refit'):.4f}, used cars 0.1 at mid ${_g('dUSD_used_cars_0.1'):.4f}; ghosts RMSE "
+      f"${_g('ghost_adopted'):.4f} / ${_g('ghost_rent_0_refit'):.4f} / ${_g('ghost_used_cars_0.1'):.4f}; largest |bar change| "
+      f"rent 0 ${(fv['dUSD_rent_0_refit'] - fv['dUSD_adopted']).abs().max():.3f}, used cars 0.1 "
+      f"${(fv['dUSD_used_cars_0.1'] - fv['dUSD_adopted']).abs().max():.3f} "
+      f"({(fv['dUSD_used_cars_0.1'] - fv['dUSD_adopted']).abs().idxmax()})")
 rows.append(headline(m, PUB_NET, label="published Fig 4 labels as nets"))
 rows[-1]["dividend"] = PUB_DIV
 for fmap in ["A2", "B", "F"]:

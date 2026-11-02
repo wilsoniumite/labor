@@ -10,13 +10,21 @@ through exactly what the gate checks.
 Result in one paragraph. All 36 Fig 5 bars come back within the printed rounding (±$0.005; RMSE $0.0027). The
 ten largest movers come back in the published order. The accounting reproduces the $249 dividend, the 59-64% range,
 D1's +4.8% and D10's -3.9%. Four of the ten Fig 4 net labels are off by $0.5 to $1.2 a month. Of the 301 published US
-numbers the static machinery should reproduce, 256 PASS, 43 are CLOSE and 2 MISS. The two MISSes are the impulse
-quoted with two different denominators in the Fig 5 caption and footer. Swap the denominators and both PASS.
+numbers the static machinery should reproduce, 256 PASS, 43 are CLOSE and 2 MISS. The two MISSes are the impulse in
+the Fig 5 caption ("+0.4% of charted budget") and footer ("≈ +0.5% of consumption"), gated as the sum of the charted
+bars over each label's own denominator. Swap the denominators and both PASS. The caption also passes on its own
+denominator if its numerator is the flow impulse (0.442% of the charted budget); the footer has no such reading.
+
+Which flags the outputs use: the EU Directive reading, except used cars (post-calibrated 1/2; the Directive's margin
+scheme gives about 0.1), with rent at 0.0167. Two alternatives are carried beside it (`us_sensitivity.csv`,
+`us_flag_variants.csv`). Rent at 0 is equally good: it fits the printed Fig 4 numbers better and the Fig 5 bars as
+well, and only the read-off point positions prefer 0.0167. Used cars at 0.1 is what the Directive would give, but
+the published figures rule it out.
 
 ## Run
 
 ```
-venv/bin/python -I consumption/rebuild/code/run_us.py      # about 30 s; writes out/us_*.csv, figures/
+venv/bin/python -I consumption/rebuild/code/run_us.py      # about 40 s; writes out/us_*.csv, figures/
 venv/bin/python -I consumption/rebuild/checks/gate_us.py   # writes out/gate_us.csv, prints the summary
 ```
 
@@ -50,15 +58,16 @@ a CE pretax-income decile.
 
 | Call | Choice | Reason | Pinned by | Alternatives tested |
 |---|---|---|---|---|
-| Budget rows | total expenditures minus personal insurance and pensions minus cash contributions | pensions, Social Security and life insurance are saving and contributions, cash contributions are transfers to others | Fig 4: D1 +4.8% and D10 -3.9% of budget, the 59-64% range | cash contributions in: 4.69% / -3.77% / 57.6-61.5% (all fail); everything in: 4.63% / -3.04%; off-chart rows out: 5.24% / -4.74% (`us_budget_tests.csv`) |
+| Budget rows | total expenditures minus personal insurance and pensions minus cash contributions, computed as the sum of the 40 lines (within $4 a CU-year of the printed rows, which CE rounds to whole dollars) | pensions, Social Security and life insurance are saving and contributions, cash contributions are transfers to others | Fig 4: D1 +4.8% and D10 -3.9% of budget, the 59-64% range (58.9-63.9%; top 63.928) | on the same 40-line budget: cash contributions in: 4.69% / -3.76% / 57.6-61.5% (all fail); everything in: 4.63% / -3.04%; off-chart rows out: 5.24% / -4.74% (`us_budget_tests.csv`) |
 | Payment units | printed one-decimal People and Children rows | footnote 26 | the labels: these rows reproduce 6 of 10 exactly; random ±0.05 perturbations of the same rows reproduce a median of 1 | none needed |
 | Decile weights | CU count x shares | balanced budget per share | dividend, labels | equal CU weights: the same to ±$0.1 |
-| VAT flags | EU Directive reading; mixed lines at their 2024 Table 2500 composition; two lines calibrated | the task's starting point; Table 2500 gives the within-line split for 2024 | used cars and water, see below | grid of 1,280 Directive-consistent sets; looser grid of 983,040 (`us_flags_search.csv`) |
-| Used cars | 1/2 | dealer sales taxable, private sales outside VAT; CE cannot split them | Fig 4 point profile and labels: every one of the 20 best sets has 1/2; the line's dip at D7 and fall from D9 to D10 is the gap's signature | 0, 1/4, 3/4, 1 all worse |
-| Water and other public services | 0.688: water, sewerage and septic taxable; municipal refuse collection outside the scope (Art. 13) | Directive reading for public bodies | the $249 dividend level, given the rest: the Nordic reading (1.0) gives $250.9 with Directive-consistent flags | 1.0 |
-| Other mixed lines | home maintenance/repairs/insurance 0.722; other lodging 0.727; vehicle rental, leases, licences 0.706; miscellaneous 0.483; housekeeping 0.951; rent 0.017 (renter-paid repairs); education 0.063 (books, supplies) | Table 2500 2024 composition; insurance, credit, ground rent, licences, registration and vehicle property tax, tuition, lotteries, postage exempt or outside | not pinned (Directive reading) | trips-only lodging 0.673; tolls as public charges 0.626 (both in the grid, both worse) |
+| VAT flags | EU Directive reading, except used cars (post-calibrated 1/2; the Directive's margin scheme, Arts. 311-325, gives about 0.1); mixed lines at their 2024 Table 2500 composition; two lines calibrated | the task's starting point; Table 2500 gives the within-line split for 2024 | used cars and water, see below | grid of 1,280 Directive-consistent sets; looser grid of 983,040 (`us_flags_search.csv`) |
+| Used cars | 1/2, the post's own value and not a Directive reading | dealer sales taxed in full, private sales outside VAT; CE cannot split them. The Directive's margin scheme (Arts. 311-325) taxes dealer sales on the margin only, about 0.1 of the line | Fig 4 point profile and labels: every one of the 20 best sets has 1/2; the line's dip at D7 and fall from D9 to D10 is the gap's signature | 0, 1/4, 3/4, 1 all worse. 0.1 is carried as a sensitivity: dividend $242.5, 2 of 10 labels exact, 17 of 36 bars within rounding at the mid schedule (RMSE $0.0215), and the best refit reaches only $0.0058 (knee 3.68, top 0.55) |
+| Water and other public services | 0.688: water taxable; sewerage and septic cleaning taxed as in Nordic practice; municipal refuse collection outside the scope (Art. 13) | public bodies are outside the scope (Art. 13) except for the Annex I activities, and Annex I(2) covers only the supply of water. Public sewerage is outside under Art. 13 unless member-state practice differs; the Nordic countries tax it | the $249 dividend level, given the rest: the Nordic reading (1.0) gives $250.9 with Directive-consistent flags | 1.0 |
+| Rent | 0.0167 (renter-paid repair services and materials, Table 2500 2024); the outputs use it | letting is exempt (Art. 135(1)(l)); the repairs part is taxable | not pinned by a printed number. The grid takes it over 0 only through the read-off point positions (±5): objective 40.7 + 22.5 (printed numbers + read-offs) against 26.5 + 42.7 at 0 | 0, the post's own "rent exempt", equally Directive-consistent and equally good: 8 of 10 labels exact against 6, label SSE 2.10 against 3.23, dividend $248.80, ghost RMSE 0.0050 against 0.0058, and the Fig 5 bars refit as well (knee 2.46, top 0.5275, RMSE $0.0027; the adopted flags give knee 2.56, top 0.53 on the same knee-step-0.01 grid). Every bar then moves by $0.002 or less (`us_flag_variants.csv`) |
+| Other mixed lines | home maintenance/repairs/insurance 0.722; other lodging 0.727; vehicle rental, leases, licences 0.706; miscellaneous 0.483; housekeeping 0.951; education 0.063 (books, supplies) | Table 2500 2024 composition; insurance, credit, ground rent, licences, registration and vehicle property tax, tuition, lotteries, postage exempt or outside | not pinned (Directive reading) | trips-only lodging 0.673; tolls as public charges 0.626 (both in the grid, both worse) |
 | Clear lines | taxable: food, alcohol, tobacco, energy, telephone, furnishings, apparel, new cars, fuel, repairs, transport, drugs, medical supplies, recreation, personal care, reading; exempt: mortgage interest, property taxes, vehicle finance, vehicle and health insurance, medical services, child and elderly care | Directive Arts. 132, 135, Annex III | not pinned | drugs at the OTC share (0.42), local transit exempt (0.90), non-profit clubs exempt (0.71): in the grid, worse |
-| Stage-one mapping | CE major categories, with telephone in "Transportation and communication" | TB-1929's own grouping (COICOP 08), as README_usda sec. 8 maps it | Fig 5: telephone ghost 0.264 vs 0.30 read off when in housing; ghost RMSE $0.0088 to $0.0058, bar RMSE at the best knee $0.0088 to $0.0032 | personal services, health insurance, vehicle insurance, other lodging, vehicle finance to "Other"; lodging to recreation; home maintenance to furnishings; reading to "Other": none improves both fits by more than 10% (`us_mapping_tests.csv`) |
+| Stage-one mapping | CE major categories, with telephone in "Transportation and communication" | TB-1929's own grouping (COICOP 08), as README_usda sec. 8 maps it | Fig 5: telephone ghost 0.264 vs 0.30 read off when in housing; ghost RMSE $0.0088 to $0.0058, bar RMSE at the best knee $0.0085 to $0.0027 | personal services, health insurance, vehicle insurance, other lodging, vehicle finance to "Other"; lodging to recreation; home maintenance to furnishings; reading to "Other": none improves both fits by more than 10% (`us_mapping_tests.csv`) |
 | Food split | A: food at home = the six named at-home subgroups (beta* = -0.138); food away from home = "Food other" (+0.088); alcohol and tobacco = "Beverages and tobacco" (+0.051, one eta for both) | the bulletin's "Food other" is its only restaurant subgroup | the four food ghosts: 0.440 / 0.083 / -0.029 / 0.117 against 0.44 / 0.08 / -0.03 / 0.12 read off | A2 (non-alcoholic drinks in B&T), B and B2 (CE lines mapped one by one, at-home sweets and miscellaneous foods sharing "Food other" with restaurants), F (no split): ghost RMSE 0.0077 to 0.019, bar RMSE 0.006 to 0.030 |
 | Where eta is evaluated | observed decile shares of the consumption budget (stage one) and of food spending (stage two), not the bulletin's fitted shares | the post (fn. 23) | the ghosts | back-solved unrounded betas: no change at the second decimal |
 | MPC mid | flat at 1.0 through decile 2.55, then linear to 0.53 at D10: 1.00, 1.00, 0.97, 0.91, 0.85, 0.78, 0.72, 0.66, 0.59, 0.53 | footnote 27 shape; knee family per the task | least squares on the 36 Fig 5 dollar bars: RMSE $0.0027 against a printing floor of $0.0029; the 68% region (rounding noise only) is the single grid point | integer knees: knee 2 top 0.5125 (RMSE $0.011), knee 3 top 0.545 ($0.010); fit surface in `us_mpc_fit_surface.csv` and `figures/us_mpc_fit.png` |
@@ -104,10 +113,14 @@ pass-through ("7-9%") and 2.47 to 3.09 points per ramp year ("2.5-3"), from an a
 
 1. **The impulse denominators (P436, P438: MISS as labelled).** The charted bars sum to $10.950 a share-month,
    the same as the sum of the 36 printed labels. That is 0.406% of total consumption and 0.462% of the charted
-   budget. The caption says "+0.4% of charted budget" and the footer "≈ +0.5% of consumption", so each label sits
-   on the other one's denominator. The exact flow impulse is $10.48, 0.389% of consumption, which is Fig 7's 0.390.
-   It differs from the charted sum because the off-chart rows absorb $0.47 of withdrawals: mortgage interest
-   -$0.38 and education -$0.19 (property taxes +$0.10).
+   budget. The caption says "+0.4% of charted budget" and the footer "≈ +0.5% of consumption". With the charted bars
+   as the numerator, each label sits on the other one's denominator. The exact flow impulse is $10.48, 0.389% of
+   consumption, which is Fig 7's 0.390. It differs from the charted sum because the off-chart rows absorb $0.47 of
+   withdrawals: mortgage interest -$0.38 and education -$0.19 (property taxes +$0.10).
+   The caption does have a consistent reading on its own denominator: the flow impulse over the charted budget is
+   0.442%, which prints as 0.4 (PASS; `gate_us.csv` columns `alt2_*`). The footer has none: "of consumption" passes
+   only with the swapped denominator (bars / charted budget, 0.462). The two rows stay MISS in the counts, since the
+   gate scores each number as labelled.
 2. **Fig 4 labels at D8, D10, D2, D4 (CLOSE, $0.5 to $1.2).** The rebuilt nets are -13.81, -172.05, 53.43 and
    55.49 against -15, -173, 54 and 56. No Directive-consistent flag set reproduces all ten labels and the
    dividend at once: the dividend pins the level of the base and the labels its decile profile, and they pull
@@ -139,13 +152,23 @@ pass-through ("7-9%") and 2.47 to 3.09 points per ramp year ("2.5-3"), from an a
 
 ## What remains uncertain
 
-- **The used-car flag is pinned only by Fig 4.** One half has a story (dealer sales in, private sales out), but
-  the EU margin scheme would tax dealer sales on the margin only, nearer 0.1. If the LVT comparison leans on
-  vehicle categories, carry this.
+- **The used-car flag is pinned only by Fig 4.** One half has a story (dealer sales taxed in full, private sales
+  out), but the EU margin scheme would tax dealer sales on the margin only, about 0.1. At 0.1, with everything else
+  as adopted, the dividend is $242.52, D1 gains $83.28 and D10 pays $169.68, and the flow impulse is 0.377% of
+  consumption. No bar changes sign. Rent moves most in dollars ($3.25 against $3.36, -3.4%); in percent the small
+  bars move most (other entertainment equipment and reading about -8%, public transportation +3%). Used cars
+  (+$0.378) overtakes miscellaneous for tenth place. All bars are in `us_flag_variants.csv`. If the LVT comparison
+  leans on vehicle categories, carry this.
+- **Rent at 0 or 0.0167.** The printed numbers prefer 0 and the read-off point positions prefer 0.0167 (see the
+  judgment-call table). At 0, with its own MPC refit, every bar moves by $0.002 or less and the top ten keep their
+  order, so the choice does not matter downstream.
 - **Beyond used cars, the flags are weakly identified.** Water, drugs, transit, lodging and licences trade off
   against each other within ±$1 a share-month on the nets. The demand tier notices little: across the 20 best
   Directive-consistent flag sets (MPC held at the mid schedule) the rent bar stays between $3.34 and $3.38, health
   insurance between $1.07 and $1.09, and new cars at -$0.39.
+- **Which grid each RMSE comes from.** Every bar RMSE above is on the calibration grid (knee step 0.05, top step
+  0.0025), including the mapping tests. The rent and used-car refits use knee steps of 0.01; on that grid the adopted
+  flags refit at knee 2.56, top 0.53, with the same RMSE ($0.0027).
 - **The MPC shape inside the deciles.** The knee line fits every Fig 5 bar at the printing floor, but Fig 6 says
   the post's mid schedule was not exactly a knee line (D6 and D8 higher). The low and high knees are pinned by the
   two Fig 7 band edges with no degrees of freedom left, so the band is reproduced, not tested.
@@ -164,6 +187,25 @@ pass-through ("7-9%") and 2.47 to 3.09 points per ramp year ("2.5-3"), from an a
   is in `us_flags.csv` and `us_demand_shifts.csv`.
 - **The Table 2500 shares are all-CU compositions applied to every decile.** For example, the homeowners-insurance
   part of the home-maintenance line is surely larger at the top. The detail table has no decile split.
+
+## Independent verification
+
+`checks/verify_independent_us.py` re-derives the unit from the raw files without importing `code/` (426 claims;
+`out/verify_independent_us.csv`, headline sensitivity in `out/verify_independent_us_sensitivity.csv`). Every number
+reproduced. Its notes were applied without changing any output the LVT and recent units read
+(`us_accounting_by_decile.csv`, `us_demand_shifts.csv`, `us_impulse.csv`, `us_mpc_schedules.csv`, the figures and
+every `bridge.py` function are byte-identical, and no gate status moved). Rerun afterwards, unedited, it reports 421
+OK and 5 BAD. The water-line reason now cites the Directive correctly, which turned one BAD to OK. The other five are
+verdicts fixed in the script, each addressed here:
+- P438 "a MISS under every reading": the caption's flow / charted-budget reading (0.442%, PASS) is now in
+  `gate_us.csv` and in the worst misses above; the row stays MISS as labelled.
+- the budget tests' denominator: `us_budget_tests.csv` now uses the 40-line sum (top VAT-able share 63.928).
+- rent 0.0167 "not pinned": rent 0 is carried as an equally good alternative with its own refit; the outputs use
+  0.0167.
+- two bar RMSEs for one fit: the mapping tests now use the calibration grid, so the chosen mapping's figure is $0.0027
+  everywhere.
+- used cars at 1/2 is not a Directive reading: it is labelled as the post's value, with 0.1 as a sensitivity. This
+  one stays BAD by design.
 
 ## For the LVT step
 
@@ -190,6 +232,10 @@ pass-through ("7-9%") and 2.47 to 3.09 points per ramp year ("2.5-3"), from an a
     `us_mpc_schedules.csv`, `us_eta.csv`: the deliverables.
   - `us_budget_tests.csv`, `us_flags_search.csv`, `us_mapping_tests.csv`, `us_mpc_fit_surface.csv`,
     `us_mpc_params.csv`, `us_impulse.csv`, `us_sensitivity.csv`: the evidence for each call.
-  - `gate_us.csv`: the gate.
+  - `us_flag_variants.csv`: every bar, percent change and ghost under the adopted flags, rent at 0 (at its own MPC
+    refit) and used cars at 0.1 (at the mid schedule); the accounting side of the same variants is in
+    `us_sensitivity.csv`.
+  - `gate_us.csv`: the gate (`alt_*` and `alt2_*` hold alternative readings of a published number; they never change
+    a status).
 - `figures/fig5_rebuilt.png`: the rebuilt Fig 5 with the published labels and ghosts marked, and the gaps.
 - `figures/us_mpc_fit.png`: the fit surface and the schedules.

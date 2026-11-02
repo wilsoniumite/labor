@@ -243,6 +243,12 @@ def is_us(row):
     return False
 
 
+# A second alternative reading where a published number has two (alt2_*: reported, never changes the status). The
+# caption's '+0.4% of charted budget' (P438) also has a same-denominator reading: the flow impulse (all 40 lines'
+# spending response, $10.48) over the charted budget. The footer (P436, 'of consumption') has none.
+ALT2 = {"P438": (imp["mid"]["flow_pct_charted"], "flow impulse sum_d w_d mpc_d net_d / charted budget (the caption's own "
+                 "denominator)")}
+
 rows = []
 for _, r in G[G.apply(is_us, axis=1)].iterrows():
     res = rebuilt(r)
@@ -268,9 +274,15 @@ for _, r in G[G.apply(is_us, axis=1)].iterrows():
     if alt is not None:
         ag = alt - float(r["value"])
         alt_status = "PASS" if abs(ag) <= tol + 1e-9 else ("CLOSE" if abs(ag) <= 0.10 * abs(float(r["value"])) else "MISS")
+    alt2, alt2note = ALT2.get(r["id"], (None, ""))
+    alt2_status = ""
+    if alt2 is not None:
+        ag = alt2 - float(r["value"])
+        alt2_status = "PASS" if abs(ag) <= tol + 1e-9 else ("CLOSE" if abs(ag) <= 0.10 * abs(float(r["value"])) else "MISS")
     rows.append(dict(base, rebuilt=val, gap=gap, rel_gap=gap / float(r["value"]) if float(r["value"]) else np.nan,
                      tolerance=tol, tolerance_kind="exact" if exact else tol_kind, status=status, role=role, scope=scope,
-                     note=note, alt_rebuilt=alt, alt_status=alt_status, alt_note=altnote))
+                     note=note, alt_rebuilt=alt, alt_status=alt_status, alt_note=altnote, alt2_rebuilt=alt2,
+                     alt2_status=alt2_status, alt2_note=alt2note))
 gate = pd.DataFrame(rows)
 gate.to_csv(OUT / "gate_us.csv", index=False, float_format="%.5f")
 
@@ -294,7 +306,8 @@ print(f"\nheadline scope (text, Fig 4, Fig 5, Fig 6 diamonds): {cnt['PASS']} PAS
 bad = gated[gated["status"] != "PASS"].copy()
 bad["abs_rel"] = bad["rel_gap"].abs()
 print("\nnot PASS (sorted by status, then |relative gap|):")
-cols = ["id", "scope", "item", "group", "quantity", "published", "rebuilt", "gap", "tolerance", "status", "alt_status"]
+cols = ["id", "scope", "item", "group", "quantity", "published", "rebuilt", "gap", "tolerance", "status", "alt_status",
+        "alt2_status"]
 bad["quantity"] = bad["quantity"].str.slice(0, 48)
 bad["item"] = bad["item"].astype(str).str.slice(0, 30)
 print(bad.sort_values(["status", "abs_rel"], ascending=[False, False])[cols].round(4).to_string(index=False))

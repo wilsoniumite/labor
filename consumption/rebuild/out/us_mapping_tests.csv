@@ -1,18 +1,18 @@
 test,variant,ghost_rmse,ghost_max_abs,worst_ghost,bars_rmse_best_knee,best_knee,best_top,ghost_Food at home,ghost_Food away from home,ghost_Alcoholic beverages,ghost_Tobacco products,bar_Food at home,bar_Food away from home,bar_Alcoholic beverages,bar_Tobacco products
-stage-one mapping,"chosen: CE majors, telephone in transport & communication",0.00582,0.01965,Rented dwellings,0.00316,2.50000,0.53000,,,,,,,,
-stage-one mapping,telephone in housing (CE utilities),0.00877,0.03553,Telephone services,0.00878,2.50000,0.53000,,,,,,,,
-stage-one mapping,personal services in other (social protection),0.02824,0.13971,Personal services (incl. childcare),0.00664,2.50000,0.53000,,,,,,,,
-stage-one mapping,health insurance in other (COICOP 12),0.01548,0.05891,Miscellaneous,0.03696,2.25000,0.52500,,,,,,,,
-stage-one mapping,vehicle insurance in other (COICOP 12),0.01388,0.06300,Miscellaneous,0.03393,2.25000,0.52000,,,,,,,,
-stage-one mapping,other lodging in other (COICOP 11.2),0.02899,0.13679,Other lodging,0.00387,2.50000,0.53000,,,,,,,,
-stage-one mapping,other lodging in recreation,0.01282,0.04488,Fees and admissions,0.00942,2.50000,0.53000,,,,,,,,
-stage-one mapping,vehicle finance charges in other,0.00708,0.02531,Vehicle finance charges,0.00607,2.50000,0.52500,,,,,,,,
-stage-one mapping,home maintenance in furnishings,0.00550,0.01247,"Home maintenance, repairs & insurance",0.00344,2.50000,0.53000,,,,,,,,
-stage-one mapping,reading in other,0.00728,0.02428,Reading,0.00354,2.50000,0.53000,,,,,,,,
-food split,"chosen A: Food other = restaurants, B&T = alcohol + tobacco, at home = six named",0.00582,0.01965,Rented dwellings,0.00316,2.50000,0.53000,0.44040,0.08311,-0.02896,0.11677,0.58973,0.32894,0.03414,0.12044
-food split,A2: nonalcoholic beverages in Beverages and tobacco,0.00767,0.02237,Tobacco products,0.00623,2.50000,0.53000,0.46015,0.08311,-0.02958,0.09763,0.61730,0.32894,0.02594,0.10106
-food split,B: CE food-at-home lines mapped; at-home 'other foods' share Food other with restaurants,0.01022,0.03744,Food at home,0.01185,2.50000,0.52500,0.47744,0.04607,-0.02896,0.11677,0.63806,0.28061,0.03414,0.12044
-food split,"B2: as B, nonalcoholic beverages in Beverages and tobacco",0.01144,0.04865,Food at home,0.01322,2.50000,0.53000,0.48865,0.05461,-0.02958,0.09763,0.65477,0.29148,0.02594,0.10106
-food split,"F: no split, stage-one food eta for all four",0.01902,0.08468,Food at home,0.03017,2.50000,0.53000,0.52468,0.02937,-0.01894,0.07560,0.73769,0.23459,0.02191,0.07799
-parameters,TB-1929 betas back-solved (unrounded) instead of printed,0.00588,0.01974,Rented dwellings,0.00309,2.50000,0.53000,,,,,,,,
-nets,published Fig 4 labels as the net vector,0.00792,0.01503,Miscellaneous,0.00291,2.50000,0.52500,,,,,,,,
+stage-one mapping,"chosen: CE majors, telephone in transport & communication",0.00582,0.01965,Rented dwellings,0.00270,2.55000,0.53000,,,,,,,,
+stage-one mapping,telephone in housing (CE utilities),0.00877,0.03553,Telephone services,0.00848,2.60000,0.53250,,,,,,,,
+stage-one mapping,personal services in other (social protection),0.02824,0.13971,Personal services (incl. childcare),0.00653,2.50000,0.52750,,,,,,,,
+stage-one mapping,health insurance in other (COICOP 12),0.01548,0.05891,Miscellaneous,0.03692,2.35000,0.52750,,,,,,,,
+stage-one mapping,vehicle insurance in other (COICOP 12),0.01388,0.06300,Miscellaneous,0.03387,2.35000,0.52500,,,,,,,,
+stage-one mapping,other lodging in other (COICOP 11.2),0.02899,0.13679,Other lodging,0.00362,2.55000,0.53000,,,,,,,,
+stage-one mapping,other lodging in recreation,0.01282,0.04488,Fees and admissions,0.00915,2.60000,0.53250,,,,,,,,
+stage-one mapping,vehicle finance charges in other,0.00708,0.02531,Vehicle finance charges,0.00589,2.55000,0.53000,,,,,,,,
+stage-one mapping,home maintenance in furnishings,0.00550,0.01247,"Home maintenance, repairs & insurance",0.00310,2.45000,0.52750,,,,,,,,
+stage-one mapping,reading in other,0.00728,0.02428,Reading,0.00319,2.55000,0.53000,,,,,,,,
+food split,"chosen A: Food other = restaurants, B&T = alcohol + tobacco, at home = six named",0.00582,0.01965,Rented dwellings,0.00270,2.55000,0.53000,0.44040,0.08311,-0.02896,0.11677,0.58973,0.32894,0.03414,0.12044
+food split,A2: nonalcoholic beverages in Beverages and tobacco,0.00767,0.02237,Tobacco products,0.00616,2.55000,0.53000,0.46015,0.08311,-0.02958,0.09763,0.61730,0.32894,0.02594,0.10106
+food split,B: CE food-at-home lines mapped; at-home 'other foods' share Food other with restaurants,0.01022,0.03744,Food at home,0.01175,2.50000,0.52750,0.47744,0.04607,-0.02896,0.11677,0.63806,0.28061,0.03414,0.12044
+food split,"B2: as B, nonalcoholic beverages in Beverages and tobacco",0.01144,0.04865,Food at home,0.01318,2.50000,0.52750,0.48865,0.05461,-0.02958,0.09763,0.65477,0.29148,0.02594,0.10106
+food split,"F: no split, stage-one food eta for all four",0.01902,0.08468,Food at home,0.03011,2.40000,0.52750,0.52468,0.02937,-0.01894,0.07560,0.73769,0.23459,0.02191,0.07799
+parameters,TB-1929 betas back-solved (unrounded) instead of printed,0.00588,0.01974,Rented dwellings,0.00268,2.55000,0.53000,,,,,,,,
+nets,published Fig 4 labels as the net vector,0.00792,0.01503,Miscellaneous,0.00275,2.45000,0.52500,,,,,,,,

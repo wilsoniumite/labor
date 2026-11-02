@@ -1,5 +1,5 @@
 budget,D1_net_pct,D10_net_pct,vatable_share_min,vatable_share_max,D1_pass,D10_pass,range_pass
-total - pensions/insurance - cash contributions (chosen),4.7986,-3.9149,58.8751,63.9291,True,True,True
-total - pensions/insurance (cash contributions in),4.6930,-3.7648,57.5790,61.4775,False,False,False
-total expenditures (both in),4.6255,-3.0363,49.5812,56.7515,False,False,False
-"chosen minus education, mortgage interest, property taxes",5.2397,-4.7373,64.0894,77.3584,False,False,False
+sum of the 40 lines = total - pensions/insurance - cash contributions (chosen),4.7986,-3.9149,58.8751,63.9282,True,True,True
+40 lines + cash contributions,4.6930,-3.7647,57.5790,61.4767,False,False,False
+40 lines + cash contributions + pensions/insurance (total expenditures),4.6255,-3.0362,49.5806,56.7515,False,False,False
+"chosen minus education, mortgage interest, property taxes",5.2397,-4.7372,64.0875,77.3570,False,False,False

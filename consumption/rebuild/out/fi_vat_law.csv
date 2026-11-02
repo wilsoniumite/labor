@@ -1,0 +1,27 @@
+kind,convention,name,hbs_codes,eur_month_weighted,post_flag,law_first_pass,law_low,law_central,law_high,dividend_change_at_low,dividend_change_at_high,dividend_change_first_pass_to_central,dividend_change_post_to_central,reason,dividend,net_q1,net_q2,net_q3,net_q4,net_q5,vatable_share_q1
+line,post,used cars,07112,66.4997,1.0000,0.5000,0.1000,0.2500,0.3500,-1.4962,0.9975,-2.4937,-7.4812,"dealers sell most used cars under the margin scheme (VAT on the margin only), private sales carry none, ex-fleet cars bought from VAT-registered sellers carry full VAT; mix unknown",,,,,,,
+line,post,toll facilities (07.2.4.2),07242,9.5337,1.0000,1.0000,0.0000,0.0000,0.0000,0.0000,0.0000,-1.4301,-1.4301,"labelled toll facilities, but Finland has essentially no road tolls; EUR 137 per CU a year with a flat income profile is most likely the annual vehicle tax or private-road fees, both outside VAT (unverified: the HBS item list is not vendored)",,,,,,,
+line,post,"driving lessons, tests, licences",07243,12.0214,1.0000,0.0000,0.0000,0.0000,1.0000,0.0000,1.8032,0.0000,-1.8032,"lessons and roadworthiness tests are 24% supplies, licences and vehicle charges public fees outside VAT; mix unknown (Q5's EUR 585 per CU against Q4's 90 suggests something else again, e.g. registration tax)",,,,,,,
+line,post,sea and inland-waterway transport,0734,1.9734,0.0000,0.0000,0.0000,0.0000,0.3000,0.0000,0.0888,0.0000,0.0000,mostly international ferry crossings (zero-rated); domestic 10%,,,,,,,
+line,post,letter post,07411,0.7644,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.1147,0.0000,0.0000,universal-service letters exempt; other letter services 24%,,,,,,,
+line,post,package holidays,rest of 098,15.2178,0.0000,0.0000,0.0000,0.0000,0.1500,0.0000,0.3424,0.0000,0.0000,"travel-agent margin scheme: VAT on the margin only, none outside the EU",,,,,,,
+line,post,other services n.e.c.,13909,35.6194,1.0000,0.5000,0.2000,0.5000,0.5000,-1.6029,0.0000,0.0000,-2.6715,"legal, funeral and agency services 24%; union fees (counted as consumption by the HBS) and administrative fees outside VAT; the steep income profile fits union fees",,,,,,,
+line,post,domestic services by paid staff,05621,3.5439,1.0000,1.0000,0.0000,1.0000,1.0000,-0.5316,0.0000,0.0000,0.0000,"cleaning and household services bought from firms 24%; staff employed by the household are paid wages, outside VAT",,,,,,,
+dividend,post,post flags (adopted),,,,,,,,,,,,,193.0054,76.7500,37.2673,4.2260,-14.1761,-88.0605,59.2008
+dividend,post,first-pass law reading,,,,,,,,,,,,,172.3842,63.6091,33.1171,4.1412,-13.9252,-73.5254,55.3916
+dividend,post,statutory central,,,,,,,,,,,,,168.4604,61.0146,32.0638,4.4074,-13.8607,-70.7213,54.7147
+dividend,post,statutory bracket low,,,,,,,,,,,,,164.8297,58.3645,30.8270,4.1389,-13.9537,-67.0513,54.2153
+dividend,post,statutory bracket high,,,,,,,,,,,,,171.8070,63.2225,33.9174,5.3857,-13.0530,-75.9403,55.2945
+line,coherent,used cars,07112,71.8814,1.0000,0.5000,0.1000,0.2500,0.3500,-1.6173,1.0782,-2.6956,-8.0867,"dealers sell most used cars under the margin scheme (VAT on the margin only), private sales carry none, ex-fleet cars bought from VAT-registered sellers carry full VAT; mix unknown",,,,,,,
+line,coherent,toll facilities (07.2.4.2),07242,9.9247,1.0000,1.0000,0.0000,0.0000,0.0000,0.0000,0.0000,-1.4887,-1.4887,"labelled toll facilities, but Finland has essentially no road tolls; EUR 137 per CU a year with a flat income profile is most likely the annual vehicle tax or private-road fees, both outside VAT (unverified: the HBS item list is not vendored)",,,,,,,
+line,coherent,"driving lessons, tests, licences",07243,13.8325,1.0000,0.0000,0.0000,0.0000,1.0000,0.0000,2.0749,0.0000,-2.0749,"lessons and roadworthiness tests are 24% supplies, licences and vehicle charges public fees outside VAT; mix unknown (Q5's EUR 585 per CU against Q4's 90 suggests something else again, e.g. registration tax)",,,,,,,
+line,coherent,sea and inland-waterway transport,0734,2.0128,0.0000,0.0000,0.0000,0.0000,0.3000,0.0000,0.0906,0.0000,0.0000,mostly international ferry crossings (zero-rated); domestic 10%,,,,,,,
+line,coherent,letter post,07411,0.7248,0.0000,0.0000,0.0000,0.0000,1.0000,0.0000,0.1087,0.0000,0.0000,universal-service letters exempt; other letter services 24%,,,,,,,
+line,coherent,package holidays,rest of 098,15.9034,0.0000,0.0000,0.0000,0.0000,0.1500,0.0000,0.3578,0.0000,0.0000,"travel-agent margin scheme: VAT on the margin only, none outside the EU",,,,,,,
+line,coherent,other services n.e.c.,13909,38.2516,1.0000,0.5000,0.2000,0.5000,0.5000,-1.7213,0.0000,0.0000,-2.8689,"legal, funeral and agency services 24%; union fees (counted as consumption by the HBS) and administrative fees outside VAT; the steep income profile fits union fees",,,,,,,
+line,coherent,domestic services by paid staff,05621,3.6427,1.0000,1.0000,0.0000,1.0000,1.0000,-0.5464,0.0000,0.0000,0.0000,"cleaning and household services bought from firms 24%; staff employed by the household are paid wages, outside VAT",,,,,,,
+dividend,coherent,post flags (adopted),,,,,,,,,,,,,198.8246,80.3104,41.5027,7.9967,-11.5098,-83.9228,60.3500
+dividend,coherent,first-pass law reading,,,,,,,,,,,,,178.0374,66.7411,36.5402,6.9637,-11.5371,-69.8608,56.6745
+dividend,coherent,statutory central,,,,,,,,,,,,,173.8532,64.0604,35.5029,6.9172,-11.4649,-67.2505,55.9088
+dividend,coherent,statutory bracket low,,,,,,,,,,,,,169.9681,61.2243,34.2741,6.4209,-11.6356,-63.7408,55.3747
+dividend,coherent,statutory bracket high,,,,,,,,,,,,,177.5634,66.5528,37.5605,8.1993,-10.6211,-72.5800,56.5290
