@@ -1,0 +1,16 @@
+item,value
+"s, uniform: Z.1 2024 household land / SCF 2025 property value in 2024 dollars (main)",0.4160292885
+"s, uniform: Z.1 2025 household land / SCF 2025 property value in 2025 dollars",0.4060464303
+Z.1 2024 aggregate land / household real estate (HH+NPO),0.4597202418
+Z.1 2024 owner-occupied land (households only) / owner-occupied real estate,0.4132165043
+"s, uniform, SCF 2022 (real 2024 dollars) to Z.1 2024",0.4421257773
+"SCF 2025 HOUSES + ORESRE, $bn 2024",56271.64396
+"Z.1 2024 HH+NPO real estate, $bn",50923.692
+"Z.1 2024 households' owner-occupied real estate, $bn",46887.89
+"SCF 2025 HOUSES, $bn 2024",46001.6733
+"SCF 2025 ORESRE, $bn 2024",10269.97066
+rising s: scale k (raw rule 0.30 + 0.30 F(V) times k),0.7935997803
+rising s: effective range low,0.2380799341
+rising s: effective range high,0.4761598682
+"land at s = 0.30 (fixed aggregate property value), $bn",16881.49319
+"land at s = 0.60 (fixed aggregate property value), $bn",33762.98638

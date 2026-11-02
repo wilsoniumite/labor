@@ -742,7 +742,7 @@ def build_scfp(year):
     missing = [v for v in keep if v not in txt.columns]
     assert not missing, f"SCF {year}: variables not in the extract: {missing}"
     out = txt[keep].copy()
-    imp = (num["Y1"] - 10 * num["YY1"]).astype(int)
+    imp = (num["Y1"].astype("int64") - 10 * num["YY1"].astype("int64")).astype(int)
     out.insert(2, "IMPLICATE", imp.astype(str))
     write_csv(out, f"scf{year}_summary.csv.gz", gz=True)
     return txt, num, out
@@ -1132,7 +1132,7 @@ def read_full_2022(cols):
 
 print("\n[SCF] 2022 full public data: roster and selected X-variables")
 FULL = read_full_2022(["YY1", "Y1"] + XFAM + sum(ROSTER.values(), []))
-FULL["IMPLICATE"] = (FULL["Y1"] - 10 * FULL["YY1"]).astype(int)
+FULL["IMPLICATE"] = (FULL["Y1"].astype("int64") - 10 * FULL["YY1"].astype("int64")).astype(int)  # int64 first: read_stata gives int16 YY1, and 10*YY1 wraps past 32,767 for YY1 >= 3277
 XDOLLAR = ["X42001", "X414", "X4112", "X4712"]                 # weight and dollar amounts (may carry cents)
 for c in ["YY1", "Y1"] + XFAM + sum(ROSTER.values(), []):
     v = FULL[c]

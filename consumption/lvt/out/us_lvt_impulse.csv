@@ -1,0 +1,715 @@
+tax,rate,base,measure,phi,grade,defer,impulse_pct,impulse_usd,dividend_scale,deferred_share_of_revenue,residual_wealth_pct_mid,residual_wealth_pct_high,grade_label
+VAT,,,,,dn_mid,none,0.3889031864,10.47649986,1,0,0,0,"post mid schedule, decile-netted (the post's method)"
+VAT,,,,,dn_low,none,0.4739973505,12.76881586,1,0,0,0,"post low schedule, decile-netted"
+VAT,,,,,dn_high,none,0.304983548,8.215823907,1,0,0,0,"post high schedule, decile-netted"
+VAT,,,,,dn_mono,none,0.3893607959,10.48882721,1,0,0,0,"monotone diagnostic schedule, decile-netted"
+VAT,,,,,dn_meas,none,0.06020389005,1.621807348,1,0,0,0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+VAT,,,,,dn_measshape,none,0.2078337704,5.598746788,1,0,0,0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+VAT,,,,,hh_mid,none,0.3889031864,10.47649986,1,0,0,0,"post mid, household level (equals decile-netted without deferral)"
+VAT,,,,,hh_liq_mid,none,0.3139611931,8.457668926,1,0,0,0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+VAT,,,,,hh_liq_low,none,0.3717742028,10.01506935,1,0,0,0,as hh_liq_mid with the low schedule
+VAT,,,,,hh_liq_high,none,0.2540229481,6.843017676,1,0,0,0,as hh_liq_mid with the high schedule
+VAT,,,,,hh_liq_mono,none,0.3239043394,8.725523172,1,0,0,0,as hh_liq_mid with the monotone diagnostic schedule
+VAT,,,,,hh_liq_mid_monthly,none,0.2850485848,7.678804294,1,0,0,0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+VAT,,,,,hh_liqsym_mid,none,0.4405276765,11.86719035,1,0,0,0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+VAT,,,,,hh_meas_htm,none,0.0534627981,1.440211899,1,0,0,0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mid,none,0.9764573817,26.30437594,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mid,own65,2.97613251,80.17278568,1,0.2993100402,-2.304397612,-3.291996589,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mid,own65_cash,0.8524444335,22.96364313,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mid,whtm_owners,1.851581419,49.87897539,1,0.124663171,-0.9597857572,-1.37112251,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mid,whtm_owners_cash,0.9670615086,26.05126445,0.875336829,0.124663171,-0.9597857572,-1.37112251,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_low,none,1.188152005,32.00712862,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_low,own65,2.931921327,78.98179915,1,0.2993100402,-2.304397612,-3.291996589,"post low schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_low,own65_cash,1.035174139,27.88612204,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"post low schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_low,whtm_owners,1.965159098,52.93859688,1,0.124663171,-0.9597857572,-1.37112251,"post low schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_low,whtm_owners_cash,1.175160477,31.6571553,0.875336829,0.124663171,-0.9597857572,-1.37112251,"post low schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_high,none,0.7677649388,20.68249773,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_high,own65,2.996591197,80.72391367,1,0.2993100402,-2.304397612,-3.291996589,"post high schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_high,own65_cash,0.6718572911,18.09888183,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"post high schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_high,whtm_owners,1.730202823,46.60920831,1,0.124663171,-0.9597857572,-1.37112251,"post high schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_high,whtm_owners_cash,0.761946963,20.52576972,0.875336829,0.124663171,-0.9597857572,-1.37112251,"post high schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mono,none,1.011268509,27.24213829,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mono,own65,3.072707022,82.77436595,1,0.2993100402,-2.304397612,-3.291996589,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mono,own65_cash,0.8794456554,23.69101772,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mono,whtm_owners,1.921808896,51.77080395,1,0.124663171,-0.9597857572,-1.37112251,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_mono,whtm_owners_cash,1.008311585,27.16248297,0.875336829,0.124663171,-0.9597857572,-1.37112251,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_meas,none,0.1516693805,4.085757842,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_meas,own65,0.7304784799,19.67805345,1,0.2993100402,-2.304397612,-3.291996589,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_meas,own65_cash,0.128614776,3.464699519,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_meas,whtm_owners,0.3979279107,10.71961312,1,0.124663171,-0.9597857572,-1.37112251,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_meas,whtm_owners_cash,0.1472505937,3.966721996,0.875336829,0.124663171,-0.9597857572,-1.37112251,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_measshape,none,0.5235877481,14.10471078,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_measshape,own65,2.521732343,67.93189012,1,0.2993100402,-2.304397612,-3.291996589,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_measshape,own65_cash,0.4439994462,11.96071489,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_measshape,whtm_owners,1.373712861,37.00587471,1,0.124663171,-0.9597857572,-1.37112251,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,dn_measshape,whtm_owners_cash,0.5083333663,13.69377939,0.875336829,0.124663171,-0.9597857572,-1.37112251,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_mid,none,0.9764573817,26.30437594,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_mid,own65,2.97613251,80.17278568,1,0.2993100402,-2.304397612,-3.291996589,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_mid,own65_cash,0.8524444335,22.96364313,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_mid,whtm_owners,1.851581419,49.87897539,1,0.124663171,-0.9597857572,-1.37112251,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_mid,whtm_owners_cash,0.9670615086,26.05126445,0.875336829,0.124663171,-0.9597857572,-1.37112251,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid,none,0.8851309327,23.84417103,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid,own65,2.91328909,78.47987313,1,0.2993100402,-2.304397612,-3.291996589,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid,own65_cash,0.7574607026,20.40491623,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid,whtm_owners,1.838420706,49.52444448,1,0.124663171,-0.9597857572,-1.37112251,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid,whtm_owners_cash,0.9521165819,25.64866934,0.875336829,0.124663171,-0.9597857572,-1.37112251,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_low,none,1.067332453,28.75242139,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_low,own65,2.848975345,76.74735214,1,0.2993100402,-2.304397612,-3.291996589,as hh_liq_mid with the low schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_low,own65_cash,0.9093049714,24.49538532,0.7006899598,0.2993100402,-2.304397612,-3.291996589,as hh_liq_mid with the low schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_low,whtm_owners,1.94796238,52.47534169,1,0.124663171,-0.9597857572,-1.37112251,as hh_liq_mid with the low schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_low,whtm_owners_cash,1.155588505,31.12991416,0.875336829,0.124663171,-0.9597857572,-1.37112251,as hh_liq_mid with the low schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_high,none,0.7030206809,18.93837932,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_high,own65,2.95197723,79.52207672,1,0.2993100402,-2.304397612,-3.291996589,as hh_liq_mid with the high schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_high,own65_cash,0.6048011058,16.29248337,0.7006899598,0.2993100402,-2.304397612,-3.291996589,as hh_liq_mid with the high schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_high,whtm_owners,1.720714394,46.35360349,1,0.124663171,-0.9597857572,-1.37112251,as hh_liq_mid with the high schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_high,whtm_owners_cash,0.7512044957,20.2363829,0.875336829,0.124663171,-0.9597857572,-1.37112251,as hh_liq_mid with the high schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mono,none,0.92833935,25.00814446,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mono,own65,3.01616141,81.25110744,1,0.2993100402,-2.304397612,-3.291996589,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mono,own65_cash,0.7947934677,21.41060794,0.7006899598,0.2993100402,-2.304397612,-3.291996589,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mono,whtm_owners,1.910260004,51.45969321,1,0.124663171,-0.9597857572,-1.37112251,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mono,whtm_owners_cash,0.9952466294,26.8105316,0.875336829,0.124663171,-0.9597857572,-1.37112251,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid_monthly,none,0.8522187757,22.95756423,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid_monthly,own65,2.888962904,77.82456021,1,0.2993100402,-2.304397612,-3.291996589,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid_monthly,own65_cash,0.7244247082,19.51497343,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid_monthly,whtm_owners,1.805508549,48.63783769,1,0.124663171,-0.9597857572,-1.37112251,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liq_mid_monthly,whtm_owners_cash,0.9151273636,24.6522323,0.875336829,0.124663171,-0.9597857572,-1.37112251,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liqsym_mid,none,1.113929946,30.00769169,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liqsym_mid,own65,3.166051124,85.28892359,1,0.2993100402,-2.304397612,-3.291996589,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liqsym_mid,own65_cash,0.9062652509,24.41349956,0.7006899598,0.2993100402,-2.304397612,-3.291996589,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liqsym_mid,whtm_owners,2.267958058,61.09557109,1,0.124663171,-0.9597857572,-1.37112251,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_liqsym_mid,whtm_owners_cash,1.326753171,35.74084731,0.875336829,0.124663171,-0.9597857572,-1.37112251,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_meas_htm,none,0.1359230836,3.661574952,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_meas_htm,own65,0.7211149306,19.42581272,1,0.2993100402,-2.304397612,-3.291996589,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_meas_htm,own65_cash,0.1200451205,3.233845163,0.7006899598,0.2993100402,-2.304397612,-3.291996589,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_meas_htm,whtm_owners,0.3569341554,9.615299537,1,0.124663171,-0.9597857572,-1.37112251,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L1,m1_z1hh_x_gs10,0.8476941798,hh_meas_htm,whtm_owners_cash,0.1065874967,2.871315876,0.875336829,0.124663171,-0.9597857572,-1.37112251,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mid,none,1.242285642,33.46541198,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mid,own65,2.551407116,68.73128638,1,0.1959484294,-1.508613251,-2.155161788,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mid,own65_cash,1.161098448,31.27834419,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mid,whtm_owners,1.815200538,48.89892612,1,0.08161287388,-0.6283401372,-0.8976287674,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mid,whtm_owners_cash,1.236134474,33.29970822,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"post mid schedule, decile-netted (the post's method)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_low,none,1.504948658,40.54118082,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_low,own65,2.646537025,71.29395112,1,0.1959484294,-1.508613251,-2.155161788,"post low schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_low,own65_cash,1.404799086,37.84329348,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"post low schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_low,whtm_owners,2.013629622,54.24432398,1,0.08161287388,-0.6283401372,-0.8976287674,"post low schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_low,whtm_owners_cash,1.496443533,40.31206481,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"post low schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_high,none,0.9830201861,26.48116857,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_high,own65,2.44215936,65.7883069,1,0.1959484294,-1.508613251,-2.155161788,"post high schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_high,own65_cash,0.9202326065,24.7897603,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"post high schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_high,whtm_owners,1.613096583,43.45453243,1,0.08161287388,-0.6283401372,-0.8976287674,"post high schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_high,whtm_owners_cash,0.9792113488,26.3785639,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"post high schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mono,none,1.323708973,35.65884095,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mono,own65,2.673264901,72.01396216,1,0.1959484294,-1.508613251,-2.155161788,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mono,own65_cash,1.237408891,33.33403922,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mono,whtm_owners,1.919809788,51.71695082,1,0.08161287388,-0.6283401372,-0.8976287674,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_mono,whtm_owners_cash,1.321773173,35.60669323,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"monotone diagnostic schedule, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_meas,none,0.1891510926,5.095461964,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_meas,own65,0.5680783543,15.30322457,1,0.1959484294,-1.508613251,-2.155161788,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_meas,own65_cash,0.174058002,4.688875527,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_meas,whtm_owners,0.3503684449,9.438428615,1,0.08161287388,-0.6283401372,-0.8976287674,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_meas,whtm_owners_cash,0.1862582583,5.017533115,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_measshape,none,0.6529808077,17.59037616,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_measshape,own65,1.961100291,52.82925837,1,0.1959484294,-1.508613251,-2.155161788,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_measshape,own65_cash,0.6008769666,16.18677263,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_measshape,whtm_owners,1.209529731,32.58301423,1,0.08161287388,-0.6283401372,-0.8976287674,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,dn_measshape,whtm_owners_cash,0.6429942661,17.3213529,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_mid,none,1.242285642,33.46541198,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_mid,own65,2.551407116,68.73128638,1,0.1959484294,-1.508613251,-2.155161788,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_mid,own65_cash,1.161098448,31.27834419,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_mid,whtm_owners,1.815200538,48.89892612,1,0.08161287388,-0.6283401372,-0.8976287674,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_mid,whtm_owners_cash,1.236134474,33.29970822,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"post mid, household level (equals decile-netted without deferral)"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid,none,1.182900404,31.86565794,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid,own65,2.508371764,67.5719751,1,0.1959484294,-1.508613251,-2.155161788,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid,own65_cash,1.107753433,29.8413052,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid,whtm_owners,1.793673196,48.31901007,1,0.08161287388,-0.6283401372,-0.8976287674,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid,whtm_owners_cash,1.213392571,32.68707364,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_low,none,1.427493042,38.45463646,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_low,own65,2.590519722,69.78492447,1,0.1959484294,-1.508613251,-2.155161788,as hh_liq_mid with the low schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_low,own65_cash,1.335140268,35.9667838,0.8040515706,0.1959484294,-1.508613251,-2.155161788,as hh_liq_mid with the low schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_low,whtm_owners,1.985914481,53.49771743,1,0.08161287388,-0.6283401372,-0.8976287674,as hh_liq_mid with the low schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_low,whtm_owners_cash,1.467145575,39.52281942,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,as hh_liq_mid with the low schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_high,none,0.9401021489,25.32501757,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_high,own65,2.410988576,64.94861022,1,0.1959484294,-1.508613251,-2.155161788,as hh_liq_mid with the high schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_high,own65_cash,0.8817725331,23.75370051,0.8040515706,0.1959484294,-1.508613251,-2.155161788,as hh_liq_mid with the high schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_high,whtm_owners,1.597257535,43.02785094,1,0.08161287388,-0.6283401372,-0.8976287674,as hh_liq_mid with the high schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_high,whtm_owners_cash,0.9624943627,25.92823203,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,as hh_liq_mid with the high schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mono,none,1.267991563,34.157893,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mono,own65,2.632768989,70.92305978,1,0.1959484294,-1.508613251,-2.155161788,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mono,own65_cash,1.187679132,31.99439009,0.8040515706,0.1959484294,-1.508613251,-2.155161788,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mono,whtm_owners,1.899107337,51.15925619,1,0.08161287388,-0.6283401372,-0.8976287674,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mono,whtm_owners_cash,1.299977345,35.01954456,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,as hh_liq_mid with the monotone diagnostic schedule
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid_monthly,none,1.153073888,31.06217393,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid_monthly,own65,2.483151605,66.8925798,1,0.1959484294,-1.508613251,-2.155161788,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid_monthly,own65_cash,1.079401012,29.07753123,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid_monthly,whtm_owners,1.76384668,47.51552606,1,0.08161287388,-0.6283401372,-0.8976287674,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liq_mid_monthly,whtm_owners_cash,1.181890449,31.8384512,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liqsym_mid,none,1.45655934,39.23764126,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liqsym_mid,own65,2.800015516,75.42844382,1,0.1959484294,-1.508613251,-2.155161788,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liqsym_mid,own65_cash,1.320608101,35.57530785,0.8040515706,0.1959484294,-1.508613251,-2.155161788,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liqsym_mid,whtm_owners,2.212063552,59.58985243,1,0.08161287388,-0.6283401372,-0.8976287674,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_liqsym_mid,whtm_owners_cash,1.595887699,42.9909495,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_meas_htm,none,0.1627533804,4.384345065,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_meas_htm,own65,0.5458592169,14.70467254,1,0.1959484294,-1.508613251,-2.155161788,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_meas_htm,own65_cash,0.1523586007,4.104324454,0.8040515706,0.1959484294,-1.508613251,-2.155161788,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_meas_htm,whtm_owners,0.307442053,8.282052542,1,0.08161287388,-0.6283401372,-0.8976287674,measured windfall MPC by decile x hand-to-mouth cell
+LVT,bridge,L2,m1_z1hh_x_gs10,0.5549574717,hh_meas_htm,whtm_owners_cash,0.1435483374,3.866988465,0.9183871261,0.08161287388,-0.6283401372,-0.8976287674,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mid,none,1.128860215,30.40989196,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mid,own65,3.440639242,92.68593773,1,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mid,own65_cash,0.9854916605,26.54774659,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mid,whtm_owners,2.14057125,57.66395128,1,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mid,whtm_owners_cash,1.117997859,30.11727551,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_low,none,1.373595564,37.00271489,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_low,own65,3.389527696,91.30906524,1,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_low,own65_cash,1.196741325,32.23851272,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_low,whtm_owners,2.271875828,61.20111023,1,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_low,whtm_owners_cash,1.358576353,36.59811868,0.875336829,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_high,none,0.8875956188,23.91056617,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_high,own65,3.464291065,93.32308429,1,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_high,own65_cash,0.7767189642,20.92370647,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_high,whtm_owners,2.000248211,53.88384777,1,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_high,whtm_owners_cash,0.8808695889,23.72937647,0.875336829,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mono,none,1.169104569,31.49401773,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mono,own65,3.552286843,95.69356564,1,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mono,own65_cash,1.01670716,27.38864784,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mono,whtm_owners,2.221759643,59.85105134,1,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_mono,whtm_owners_cash,1.165686137,31.40193002,0.875336829,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_meas,none,0.1753415282,4.723451901,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_meas,own65,0.84448959,22.74935094,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_meas,own65_cash,0.1486886232,4.005460471,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_meas,whtm_owners,0.4600354253,12.39270141,1,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_meas,whtm_owners_cash,0.1702330691,4.585837262,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_measshape,none,0.605307911,16.30613598,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_measshape,own65,2.915317522,78.53451622,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_measshape,own65_cash,0.5132976817,13.827511,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_measshape,whtm_owners,1.588118258,42.78165178,1,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,dn_measshape,whtm_owners_cash,0.5876726664,15.83106753,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_mid,none,1.128860215,30.40989196,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_mid,own65,3.440639242,92.68593773,1,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_mid,own65_cash,0.9854916605,26.54774659,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_mid,whtm_owners,2.14057125,57.66395128,1,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_mid,whtm_owners_cash,1.117997859,30.11727551,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid,none,1.02327978,27.5657049,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid,own65,3.36798739,90.72879996,1,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid,own65_cash,0.8756831251,23.5896605,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid,whtm_owners,2.125356449,57.25408615,1,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid,whtm_owners_cash,1.100720369,29.65184444,0.875336829,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_low,none,1.233918823,33.24002173,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_low,own65,3.29363573,88.72587177,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_low,own65_cash,1.051226838,28.31855896,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_low,whtm_owners,2.251995092,60.66555142,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_low,whtm_owners_cash,1.335949641,35.98858717,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_high,none,0.8127462517,21.89423046,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_high,own65,3.412713871,91.93366787,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_high,own65_cash,0.6991968304,18.83537021,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_high,whtm_owners,1.989278853,53.58834884,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_high,whtm_owners_cash,0.8684504664,23.39482294,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mono,none,1.073232051,28.91134817,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mono,own65,3.486915745,93.93256105,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mono,own65_cash,0.9188426875,24.75231785,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mono,whtm_owners,2.208408231,59.49138327,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mono,whtm_owners_cash,1.150582038,30.99504703,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,none,0.9852307827,26.54071891,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,own65,3.339864439,89.97120757,1,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,own65_cash,0.8374909619,22.56081783,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,whtm_owners,2.087307452,56.22910015,1,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,whtm_owners_cash,1.057957973,28.49988619,0.875336829,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,none,1.287789126,34.69121123,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,own65,3.660199841,98.60058864,1,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,own65_cash,1.047712686,28.2238927,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,whtm_owners,2.621934832,70.63120297,1,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,whtm_owners_cash,1.533829226,41.31918231,0.875336829,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_meas_htm,none,0.1571375918,4.23306369,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_meas_htm,own65,0.8336646031,22.45774116,1,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_meas_htm,own65_cash,0.138781439,3.73857499,0.7006899598,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_meas_htm,whtm_owners,0.4126434753,11.11602954,1,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m1_z1hh_x_gs10,0.98,hh_meas_htm,whtm_owners_cash,0.1232233855,3.31946311,0.875336829,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mid,none,1.531226232,41.24906136,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mid,own65,4.667005704,125.7225096,1,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mid,own65_cash,1.336756015,36.01030973,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mid,whtm_owners,2.903547141,78.21743887,1,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mid,whtm_owners_cash,1.516492146,40.85214599,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_low,none,1.863193983,50.19180139,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_low,own65,4.597676182,123.8548707,1,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_low,own65_cash,1.62330259,43.72946774,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_low,whtm_owners,3.08165335,83.01536734,1,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_low,whtm_owners_cash,1.84282139,49.64299267,0.875336829,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_high,none,1.203966334,32.43314421,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_high,own65,4.699087881,126.5867579,1,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_high,own65_cash,1.053569288,28.38166125,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_high,whtm_owners,2.713207969,73.08997173,1,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_high,whtm_owners_cash,1.194842908,32.18737205,0.875336829,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mono,none,1.585815108,42.71960821,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mono,own65,4.818448489,129.8021633,1,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mono,own65_cash,1.379097831,37.15093816,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mono,whtm_owners,3.013673971,81.18409934,1,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_mono,whtm_owners_cash,1.581178225,42.59469715,0.875336829,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_meas,none,0.2378394987,6.407058519,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_meas,own65,1.14549578,30.85803048,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_meas,own65_cash,0.2016865484,5.433149351,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_meas,whtm_owners,0.6240084481,16.80990191,1,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_meas,whtm_owners_cash,0.2309102026,6.220393117,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_measshape,none,0.8210612258,22.11822406,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_measshape,own65,3.954440599,106.5270171,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_measshape,own65_cash,0.6962552712,18.75612878,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_measshape,whtm_owners,2.154180211,58.03055736,1,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,dn_measshape,whtm_owners_cash,0.7971401515,21.47382427,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_mid,none,1.531226232,41.24906136,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_mid,own65,4.667005704,125.7225096,1,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_mid,own65_cash,1.336756015,36.01030973,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_mid,whtm_owners,2.903547141,78.21743887,1,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_mid,whtm_owners_cash,1.516492146,40.85214599,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,none,1.388013167,37.39110467,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,own65,4.568458143,123.0677782,1,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,own65_cash,1.187807803,31.99785632,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,whtm_owners,2.882909243,77.66148319,1,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,whtm_owners_cash,1.493056342,40.2208187,0.875336829,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_low,none,1.673731472,45.08795027,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_low,own65,4.467604901,120.350935,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_low,own65_cash,1.425921552,38.41230275,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_low,whtm_owners,3.054686411,82.28891628,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_low,whtm_owners_cash,1.812129711,48.81620239,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_high,none,1.102437985,29.69811458,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_high,own65,4.629126735,124.7021039,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_high,own65_cash,0.9484155026,25.54896752,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_high,whtm_owners,2.698328741,72.68914645,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_high,whtm_owners_cash,1.177997167,31.73357171,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,none,1.455770207,39.21638316,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,own65,4.729776802,127.4134739,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,own65_cash,1.246350972,33.5749262,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,whtm_owners,2.995563641,80.69623276,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,whtm_owners_cash,1.560690487,42.04278657,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,none,1.336402151,36.00077713,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,own65,4.530311169,122.0401528,1,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,own65_cash,1.136002592,30.60229745,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,whtm_owners,2.831298227,76.27115565,1,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,whtm_owners_cash,1.435051904,38.65826147,0.875336829,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,none,1.746803071,47.05639544,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,own65,4.964825527,133.7453529,1,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,own65_cash,1.421154831,38.28389405,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,whtm_owners,3.556485862,95.80668125,1,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,whtm_owners_cash,2.080540633,56.04681165,0.875336829,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,none,0.2131470304,5.741878471,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,own65,1.130812382,30.46248058,1,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,own65_cash,0.1882480906,5.071136372,0.7006899598,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,whtm_owners,0.559724318,15.07817869,1,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,whtm_owners_cash,0.1671445923,4.50263808,0.875336829,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mid,none,1.082302817,29.15570174,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mid,own65,3.298737518,88.86330672,1,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mid,own65_cash,0.9448471886,25.4528422,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mid,whtm_owners,2.052288019,55.28572634,1,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mid,whtm_owners_cash,1.071888456,28.87515363,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_low,none,1.316944586,35.47661796,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_low,own65,3.249733958,87.54322035,1,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_low,own65_cash,1.147384318,30.90890499,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_low,whtm_owners,2.178177223,58.67700282,1,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_low,whtm_owners_cash,1.30254481,35.08870844,0.875336829,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_high,none,0.8509886574,22.92442659,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_high,own65,3.321413874,89.47417554,1,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_high,own65_cash,0.7446848706,20.06075345,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_high,whtm_owners,1.9177523,51.66152503,1,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_high,whtm_owners_cash,0.8445400281,22.75070967,0.875336829,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mono,none,1.12088738,30.19511509,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mono,own65,3.405780456,91.74689151,1,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mono,own65_cash,0.9747752726,26.25906231,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mono,whtm_owners,2.130127972,57.38262419,1,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_mono,whtm_owners_cash,1.117609933,30.10682534,0.875336829,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_meas,none,0.1681099462,4.528643344,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_meas,own65,0.8096604435,21.81110316,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_meas,own65_cash,0.1425562826,3.840263918,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_meas,whtm_owners,0.4410622592,11.88159125,1,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_meas,whtm_owners_cash,0.1632121743,4.396704323,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_measshape,none,0.5803432955,15.63362468,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_measshape,own65,2.795081557,75.29552998,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_measshape,own65_cash,0.4921278291,13.25722522,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_measshape,whtm_owners,1.522619755,41.01721509,1,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,dn_measshape,whtm_owners_cash,0.5634353785,15.17814939,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_mid,none,1.082302817,29.15570174,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_mid,own65,3.298737518,88.86330672,1,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_mid,own65_cash,0.9448471886,25.4528422,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_mid,whtm_owners,2.052288019,55.28572634,1,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_mid,whtm_owners_cash,1.071888456,28.87515363,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid,none,0.9810768192,26.42881703,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid,own65,3.229082035,86.98688686,1,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid,own65_cash,0.8395674688,22.61675598,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid,whtm_owners,2.03770072,54.89276521,1,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid,whtm_owners_cash,1.055323538,28.42891826,0.875336829,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_low,none,1.18302851,31.86910894,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_low,own65,3.157796849,85.06656511,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_low,own65_cash,1.007871261,27.15062125,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_low,whtm_owners,2.159116425,58.16353198,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_low,whtm_owners_cash,1.280851288,34.50431573,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_high,none,0.7792262906,20.99125028,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_high,own65,3.271963869,88.1420626,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_high,own65_cash,0.6703599696,18.05854611,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_high,whtm_owners,1.90723535,51.37821331,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_high,whtm_owners_cash,0.8326331054,22.42995407,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mono,none,1.028968916,27.71896215,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mono,own65,3.343105447,90.05851575,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mono,own65_cash,0.8809470084,23.73146204,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mono,whtm_owners,2.117327211,57.03778985,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mono,whtm_owners_cash,1.10312877,29.71672336,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,none,0.9445970702,25.44610437,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,own65,3.202118954,86.26053973,1,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,own65_cash,0.8029504587,21.6303457,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,whtm_owners,2.001220971,53.91005255,1,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,whtm_owners_cash,1.014324785,27.32447004,0.875336829,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,none,1.234677049,33.26044727,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,own65,3.509242816,94.53402064,1,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,own65_cash,1.004502042,27.05985929,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,whtm_owners,2.513798802,67.71817178,1,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,whtm_owners_cash,1.470569757,39.61506202,0.875336829,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_meas_htm,none,0.1506567917,4.058480135,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_meas_htm,own65,0.7992819098,21.5315202,1,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_meas_htm,own65_cash,0.1330576988,3.584385551,0.7006899598,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_meas_htm,whtm_owners,0.3956248877,10.65757295,1,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m3_pce_housing_x_0.30,0.98,hh_meas_htm,whtm_owners_cash,0.1181413035,3.182559034,0.875336829,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mid,none,1.803838029,48.59283623,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mid,own65,5.497895864,148.1055112,1,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mid,own65_cash,1.574745314,42.42140367,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mid,whtm_owners,3.420480032,92.14287724,1,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mid,whtm_owners_cash,1.78648076,48.12525605,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_low,none,2.194907643,59.12769659,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_low,own65,5.416223263,145.9053673,1,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_low,own65_cash,1.912307196,51.51484166,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_low,whtm_owners,3.630295372,97.7950047,1,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_low,whtm_owners_cash,2.170908017,58.48118073,0.875336829,0.124663171,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_high,none,1.418314429,38.20737765,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_high,own65,5.53568979,149.1236259,1,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_high,own65_cash,1.241141451,33.43458909,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_high,whtm_owners,3.196253834,86.10254171,1,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_high,whtm_owners_cash,1.407566714,37.91784945,0.875336829,0.124663171,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mono,none,1.868145633,50.32519182,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mono,own65,5.676300759,152.9114859,1,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mono,own65_cash,1.624625454,43.76510385,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mono,whtm_owners,3.550213286,95.63770698,1,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_mono,whtm_owners_cash,1.862683222,50.17804223,0.875336829,0.124663171,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_meas,none,0.2801832436,7.547738907,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_meas,own65,1.349434073,36.35183861,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_meas,own65_cash,0.2375938043,6.400439863,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_meas,whtm_owners,0.7351037654,19.80265208,1,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_meas,whtm_owners_cash,0.2720202906,7.327840539,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_measshape,none,0.9672388259,26.05604113,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_measshape,own65,4.658469262,125.49255,1,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_measshape,own65_cash,0.8202130485,22.09537536,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_measshape,whtm_owners,2.537699592,68.36202515,1,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,dn_measshape,whtm_owners_cash,0.9390589641,25.29691565,0.875336829,0.124663171,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_mid,none,1.803838029,48.59283623,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_mid,own65,5.497895864,148.1055112,1,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_mid,own65_cash,1.574745314,42.42140367,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_mid,whtm_owners,3.420480032,92.14287724,1,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_mid,whtm_owners_cash,1.78648076,48.12525605,0.875336829,0.124663171,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid,none,1.635128032,44.04802838,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid,own65,5.381803392,144.9781448,1,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid,own65_cash,1.399279115,37.6945933,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid,whtm_owners,3.396167867,91.48794201,1,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid,whtm_owners_cash,1.758872564,47.38153043,0.875336829,0.124663171,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_low,none,1.971714183,53.11518156,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_low,own65,5.262994748,141.7776085,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_low,own65_cash,1.679785434,45.25103542,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_low,whtm_owners,3.598527375,96.93921996,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_low,whtm_owners_cash,2.134752147,57.50719289,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_high,none,1.298710484,34.98541714,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_high,own65,5.453273115,146.9034377,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_high,own65_cash,1.117266616,30.09757685,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_high,whtm_owners,3.178725583,85.63035552,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_high,whtm_owners_cash,1.387721842,37.38325678,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mono,none,1.714948194,46.19827025,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mono,own65,5.571842412,150.0975262,1,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mono,own65_cash,1.468245014,39.55243674,0.7006899598,0.2993100402,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mono,whtm_owners,3.528878685,95.06298309,1,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mono,whtm_owners_cash,1.838547951,49.52787227,0.875336829,0.124663171,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,none,1.57432845,42.41017394,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,own65,5.336864924,143.7675662,1,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,own65_cash,1.338250765,36.05057616,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,whtm_owners,3.335368285,89.85008758,1,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,whtm_owners_cash,1.690541308,45.54078339,0.875336829,0.124663171,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,none,2.057795081,55.43407878,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,own65,5.848738026,157.5567011,1,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,own65_cash,1.674170071,45.09976549,0.7006899598,0.2993100402,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,whtm_owners,4.189664669,112.8636196,1,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,whtm_owners_cash,2.450949595,66.02510336,0.875336829,0.124663171,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_meas_htm,none,0.2510946528,6.764133558,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_meas_htm,own65,1.332136516,35.885867,1,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_meas_htm,own65_cash,0.2217628313,5.973975918,0.7006899598,0.2993100402,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_meas_htm,whtm_owners,0.6593748129,17.76262158,1,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L1,m4_pce_housing_x_0.50,0.98,hh_meas_htm,whtm_owners_cash,0.1969021726,5.304265057,0.875336829,0.124663171,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mid,none,2.19375356,59.09660724,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mid,own65,4.505532587,121.372653,1,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mid,own65_cash,2.050385006,55.23446187,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mid,whtm_owners,3.205464596,86.35066656,1,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mid,whtm_owners_cash,2.182891205,58.80399079,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_low,none,2.657590465,71.5917151,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_low,own65,4.673522597,125.8980654,1,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_low,own65_cash,2.480736226,66.82751292,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_low,whtm_owners,3.555870728,95.79011044,1,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_low,whtm_owners_cash,2.642571254,71.18711889,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_high,none,1.735916411,46.76312425,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_high,own65,4.312611857,116.1756424,1,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_high,own65_cash,1.625039756,43.77626454,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_high,whtm_owners,2.848569003,76.73640585,1,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_high,whtm_owners_cash,1.729190381,46.58193455,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mono,none,2.337539109,62.96998582,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mono,own65,4.720721382,127.1695337,1,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mono,own65_cash,2.1851417,58.86461594,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mono,whtm_owners,3.390194182,91.32701943,1,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_mono,whtm_owners_cash,2.334120676,62.87789811,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_meas,none,0.3340221191,8.998081798,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_meas,own65,1.003170181,27.02398083,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_meas,own65_cash,0.3073692141,8.280090368,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_meas,whtm_owners,0.6187160162,16.66733131,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_meas,whtm_owners_cash,0.3289136599,8.860467159,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_measshape,none,1.153099515,31.0628643,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_measshape,own65,3.463109126,93.29124453,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_measshape,own65_cash,1.061089286,28.58423931,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_measshape,whtm_owners,2.135909862,57.53838009,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,dn_measshape,whtm_owners_cash,1.13546427,30.58779584,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_mid,none,2.19375356,59.09660724,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_mid,own65,4.505532587,121.372653,1,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_mid,own65_cash,2.050385006,55.23446187,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_mid,whtm_owners,3.205464596,86.35066656,1,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_mid,whtm_owners_cash,2.182891205,58.80399079,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid,none,2.088885103,56.27159985,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid,own65,4.429536414,119.325424,1,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid,own65_cash,1.956182986,52.69679316,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid,whtm_owners,3.167449438,85.32659219,1,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid,whtm_owners_cash,2.142731254,57.72213872,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_low,none,2.520811508,67.90708414,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_low,own65,4.57460158,123.2332737,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_low,own65_cash,2.357725645,63.51378245,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_low,whtm_owners,3.506928532,94.47167712,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_low,whtm_owners_cash,2.59083396,69.7933896,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_high,none,1.660127402,44.72147593,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_high,own65,4.257567336,114.6928211,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_high,own65_cash,1.557123071,41.94668543,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_high,whtm_owners,2.82059881,75.98292855,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_high,whtm_owners_cash,1.699669837,45.786693,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mono,none,2.239147674,60.31946021,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mono,own65,4.649209608,125.243108,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mono,own65_cash,2.097323864,56.49892809,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mono,whtm_owners,3.353635703,90.34218588,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mono,whtm_owners_cash,2.2956314,61.84105164,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,none,2.036214427,54.85272657,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,own65,4.385000107,118.1256791,1,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,own65_cash,1.906115416,51.34804388,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,whtm_owners,3.114778762,83.90771891,1,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liq_mid_monthly,whtm_owners_cash,2.087101624,56.22355544,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,none,2.572139715,69.28979318,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,own65,4.94455043,133.1991706,1,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,own65_cash,2.332063275,62.82247464,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,whtm_owners,3.906285422,105.2297849,1,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_liqsym_mid,whtm_owners_cash,2.818179815,75.91776426,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_meas_htm,none,0.2874063706,7.742319697,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_meas_htm,own65,0.963933382,25.96699716,1,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_meas_htm,own65_cash,0.2690502179,7.247830996,0.8040515706,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_meas_htm,whtm_owners,0.5429122541,14.62528555,1,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m1_z1hh_x_gs10,0.98,hh_meas_htm,whtm_owners_cash,0.2534921644,6.828719116,0.9183871261,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mid,none,2.975685523,80.16074447,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mid,own65,6.111464994,164.6341927,1,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mid,own65_cash,2.781215305,74.92199283,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mid,whtm_owners,4.348006432,117.129122,1,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mid,whtm_owners_cash,2.960951436,79.7638291,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_low,none,3.604850432,97.10955414,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_low,own65,6.339332632,170.7726234,1,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_low,own65_cash,3.364959039,90.6472205,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_low,whtm_owners,4.8233098,129.9331201,1,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_low,whtm_owners_cash,3.58447784,96.56074542,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_high,none,2.354658894,63.43116853,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_high,own65,5.84978044,157.5847822,1,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_high,own65_cash,2.204261847,59.37968557,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_high,whtm_owners,3.863900529,104.0879961,1,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_high,whtm_owners_cash,2.345535467,63.18539637,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mono,none,3.170721365,85.41473325,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mono,own65,6.403354746,172.4972883,1,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mono,own65_cash,2.964004088,79.8460632,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mono,whtm_owners,4.598580227,123.8792244,1,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_mono,whtm_owners_cash,3.166084482,85.28982219,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_meas,none,0.4530795081,12.20531887,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_meas,own65,1.36073579,36.65629083,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_meas,own65_cash,0.4169265578,11.23140971,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_meas,whtm_owners,0.8392484576,22.60816227,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_meas,whtm_owners_cash,0.446150212,12.01865347,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_measshape,none,1.564105283,42.13477632,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_measshape,own65,4.697484656,126.5435693,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_measshape,own65_cash,1.439299328,38.77268104,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_measshape,whtm_owners,2.897224268,78.04710963,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,dn_measshape,whtm_owners_cash,1.540184208,41.49037653,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_mid,none,2.975685523,80.16074447,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_mid,own65,6.111464994,164.6341927,1,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_mid,own65_cash,2.781215305,74.92199283,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_mid,whtm_owners,4.348006432,117.129122,1,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_mid,whtm_owners_cash,2.960951436,79.7638291,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,none,2.83343821,76.32880376,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,own65,6.008381076,161.8572582,1,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,own65_cash,2.653436328,71.47980854,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,whtm_owners,4.296441318,115.740031,1,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid,whtm_owners_cash,2.906477048,78.29636639,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_low,none,3.419318581,92.11158938,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_low,own65,6.205152639,167.1580049,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_low,own65_cash,3.198103102,86.15235837,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_low,whtm_owners,4.75692286,128.1447502,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_low,whtm_owners_cash,3.51429953,94.67024134,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_high,none,2.251855981,60.66180399,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_high,own65,5.775116089,155.5734306,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_high,own65_cash,2.112137234,56.89797925,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_high,whtm_owners,3.825960762,103.0659526,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_high,whtm_owners_cash,2.305492749,62.10670238,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,none,3.037259716,81.81946584,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,own65,6.306353627,169.8842159,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,own65_cash,2.844884846,76.63715989,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,whtm_owners,4.548991003,122.5433611,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mono,whtm_owners_cash,3.113876256,83.88340668,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,none,2.761993826,74.40419347,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,own65,5.947970442,160.2298815,1,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,own65_cash,2.585522891,69.65031694,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,whtm_owners,4.224996934,113.8154207,1,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liq_mid_monthly,whtm_owners_cash,2.831019034,76.26363461,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,none,3.48894199,93.9871452,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,own65,6.706964445,180.6761027,1,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,own65_cash,3.163293749,85.21464382,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,whtm_owners,5.29862478,142.737431,1,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_liqsym_mid,whtm_owners_cash,3.822679551,102.9775614,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,none,0.3898482453,10.5019584,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,own65,1.307513597,35.22256051,1,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,own65_cash,0.3649493054,9.831216301,0.8040515706,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,whtm_owners,0.7364255328,19.83825862,1,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m2_z1hh_x_gs10p150,0.98,hh_meas_htm,whtm_owners_cash,0.3438458071,9.262718009,0.9183871261,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mid,none,2.10327694,56.6592955,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mid,own65,4.319711641,116.3669005,1,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mid,own65_cash,1.965821312,52.95643596,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mid,whtm_owners,3.073262142,82.7893201,1,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mid,whtm_owners_cash,2.092862579,56.37874739,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_low,none,2.547983895,68.63906966,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_low,own65,4.480773267,120.7056721,1,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_low,own65_cash,2.378423626,64.0713567,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_low,whtm_owners,3.409216532,91.83945453,1,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_low,whtm_owners_cash,2.533584119,68.25116015,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_high,none,1.664322293,44.83448034,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_high,own65,4.134747509,111.3842293,1,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_high,own65_cash,1.558018506,41.9708072,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_high,whtm_owners,2.731085936,73.57157877,1,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_high,whtm_owners_cash,1.657873664,44.66076342,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mono,none,2.241132364,60.37292497,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mono,own65,4.52602544,121.9247014,1,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mono,own65_cash,2.095020257,56.43687218,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mono,whtm_owners,3.250372956,87.56043406,1,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_mono,whtm_owners_cash,2.237854918,60.28463521,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_meas,none,0.3202460993,8.626975377,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_meas,own65,0.9617965967,25.9094352,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_meas,own65_cash,0.2946924358,7.938595951,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_meas,whtm_owners,0.5931984124,15.97992328,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_meas,whtm_owners_cash,0.3153483275,8.495036357,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_measshape,none,1.10554242,29.78174365,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_measshape,own65,3.320280681,89.44364895,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_measshape,own65_cash,1.017326953,27.40534419,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_measshape,whtm_owners,2.047818879,55.16533406,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,dn_measshape,whtm_owners_cash,1.088634503,29.32626836,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_mid,none,2.10327694,56.6592955,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_mid,own65,4.319711641,116.3669005,1,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_mid,own65_cash,1.965821312,52.95643596,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_mid,whtm_owners,3.073262142,82.7893201,1,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_mid,whtm_owners_cash,2.092862579,56.37874739,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid,none,2.002733556,53.95079943,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid,own65,4.246849766,114.404105,1,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid,own65_cash,1.87550445,50.52342791,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid,whtm_owners,3.036814838,81.80748146,1,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid,whtm_owners_cash,2.054358938,55.34151397,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_low,none,2.41684609,65.10640335,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_low,own65,4.385932033,118.1507838,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_low,own65_cash,2.26048635,60.89429388,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_low,whtm_owners,3.36229285,90.57539715,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_low,whtm_owners_cash,2.483980617,66.91491222,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_high,none,1.591659039,42.8770354,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_high,own65,4.08197318,109.9625638,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_high,own65_cash,1.492902898,40.21668513,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_high,whtm_owners,2.704269313,72.84917702,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_high,whtm_owners_cash,1.629570631,43.89831989,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mono,none,2.146798871,57.83171455,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mono,own65,4.457463014,120.077727,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mono,own65_cash,2.010824278,54.16875202,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mono,whtm_owners,3.215322252,86.61621784,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mono,whtm_owners_cash,2.200953049,59.29055123,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,none,1.952235167,52.59044451,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,own65,4.204150262,113.253841,1,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,own65_cash,1.827501809,49.23030488,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,whtm_owners,2.986316449,80.44712654,1,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liq_mid_monthly,whtm_owners_cash,2.001023632,53.90473651,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,none,2.466057376,66.43208554,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,own65,4.740623143,127.7056589,1,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,own65_cash,2.23588237,60.23149756,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,whtm_owners,3.745179129,100.8898101,1,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_liqsym_mid,whtm_owners_cash,2.701950084,72.78670029,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_meas_htm,none,0.2755529165,7.423004468,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_meas_htm,own65,0.9241780347,24.89604453,1,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_meas_htm,own65_cash,0.2579538236,6.948909884,0.8040515706,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_meas_htm,whtm_owners,0.5205210126,14.02209728,1,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m3_pce_housing_x_0.30,0.98,hh_meas_htm,whtm_owners_cash,0.2430374284,6.547083367,0.9183871261,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mid,none,3.505461567,94.43215917,1,0,-0,-0,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mid,own65,7.199519402,193.9448341,1,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mid,own65_cash,3.276368853,88.26072661,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mid,whtm_owners,5.12210357,137.9822002,1,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mid,whtm_owners_cash,3.488104298,93.96457898,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid schedule, decile-netted (the post's method)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_low,none,4.246639824,114.3984494,1,0,-0,-0,"post low schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_low,own65,7.467955444,201.1761201,1,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_low,own65_cash,3.964039377,106.7855945,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post low schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_low,whtm_owners,5.682027553,153.0657576,1,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_low,whtm_owners_cash,4.222640198,113.7519336,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post low schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_high,none,2.773870489,74.7241339,1,0,-0,-0,"post high schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_high,own65,6.891245849,185.6403822,1,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_high,own65_cash,2.596697511,69.95134534,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post high schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_high,whtm_owners,4.551809893,122.619298,1,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_high,whtm_owners_cash,2.763122773,74.4346057,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post high schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mono,none,3.735220607,100.6215416,1,0,-0,-0,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mono,own65,7.543375733,203.2078356,1,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mono,own65_cash,3.491700429,94.06145364,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mono,whtm_owners,5.417288261,145.9340568,1,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_mono,whtm_owners_cash,3.729758197,100.474392,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"monotone diagnostic schedule, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_meas,none,0.5337434988,14.3782923,1,0,-0,-0,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_meas,own65,1.602994328,43.182392,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_meas,own65_cash,0.4911540596,13.23099325,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_meas,whtm_owners,0.9886640206,26.63320547,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_meas,whtm_owners_cash,0.5255805458,14.15839393,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall MPC by decile (SCF 2025), decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_measshape,none,1.8425707,49.63623941,1,0,-0,-0,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_measshape,own65,5.533801135,149.0727482,1,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_measshape,own65_cash,1.695544922,45.67557365,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_measshape,whtm_owners,3.413031466,91.94222344,1,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,dn_measshape,whtm_owners_cash,1.814390838,48.87711393,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"measured windfall shape, scaled to 1.0 at D1, decile-netted"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_mid,none,3.505461567,94.43215917,1,0,-0,-0,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_mid,own65,7.199519402,193.9448341,1,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_mid,own65_cash,3.276368853,88.26072661,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_mid,whtm_owners,5.12210357,137.9822002,1,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_mid,whtm_owners_cash,3.488104298,93.96457898,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"post mid, household level (equals decile-netted without deferral)"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid,none,3.33788926,89.91799906,1,0,-0,-0,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid,own65,7.078082943,190.6735083,1,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid,own65_cash,3.12584075,84.20571319,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid,whtm_owners,5.061358063,136.3458024,1,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid,whtm_owners_cash,3.423931564,92.23585661,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"recipients mid; payers 1.0 if hand-to-mouth (biweekly), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_low,none,4.028076817,108.5106722,1,0,-0,-0,as hh_liq_mid with the low schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_low,own65,7.309886722,196.9179731,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_low,own65_cash,3.76747725,101.4904898,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the low schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_low,whtm_owners,5.603821417,150.9589952,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_low,whtm_owners_cash,4.139967695,111.5248537,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the low schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_high,none,2.652765064,71.46172566,1,0,-0,-0,as hh_liq_mid with the high schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_high,own65,6.803288634,183.2709396,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_high,own65_cash,2.488171496,67.02780855,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the high schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_high,whtm_owners,4.507115522,121.415295,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_high,whtm_owners_cash,2.715951052,73.16386648,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the high schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mono,none,3.577998119,96.38619092,1,0,-0,-0,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mono,own65,7.429105024,200.1295449,1,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mono,own65_cash,3.351373797,90.28125336,0.8040515706,0.1959484294,-2.664061774,-3.805802534,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mono,whtm_owners,5.358870421,144.3603631,1,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mono,whtm_owners_cash,3.668255081,98.81758539,0.9183871261,0.08161287388,-1.109586528,-1.585123612,as hh_liq_mid with the monotone diagnostic schedule
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,none,3.253725278,87.65074086,1,0,-0,-0,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,own65,7.006917104,188.7564016,1,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,own65_cash,3.045836348,82.05050813,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,whtm_owners,4.977194082,134.0785442,1,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liq_mid_monthly,whtm_owners_cash,3.335039387,89.84122752,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"as hh_liq_mid, hand-to-mouth on the monthly band"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,none,4.110095627,110.7201426,1,0,-0,-0,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,own65,7.901038571,212.8427649,1,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,own65_cash,3.726470616,100.3858293,0.8040515706,0.1959484294,-2.664061774,-3.805802534,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,whtm_owners,6.241965215,168.1496834,1,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_liqsym_mid,whtm_owners_cash,4.503250141,121.3111671,0.9183871261,0.08161287388,-1.109586528,-1.585123612,"1.0 for every hand-to-mouth family (recipient or payer), else mid"
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_meas_htm,none,0.4592548609,12.37167411,1,0,-0,-0,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_meas_htm,own65,1.540296724,41.49340755,1,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_meas_htm,own65_cash,0.4299230394,11.58151647,0.8040515706,0.1959484294,-2.664061774,-3.805802534,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_meas_htm,whtm_owners,0.8675350209,23.37016214,1,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell
+LVT,full,L2,m4_pce_housing_x_0.50,0.98,hh_meas_htm,whtm_owners_cash,0.4050623806,10.91180561,0.9183871261,0.08161287388,-1.109586528,-1.585123612,measured windfall MPC by decile x hand-to-mouth cell

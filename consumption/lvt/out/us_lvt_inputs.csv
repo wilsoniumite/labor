@@ -1,0 +1,54 @@
+item,value,source
+year,2024,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_hh,23410.652,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_nnb,8354.417,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+re_hh,50923.692,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+str_hh,27513.04,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+re_ownocc,46887.89,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+mortg,13253.914,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+re_nfc,15644.373,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+re_nnb,17038.344,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_hh_ownocc,19374.85,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+land_share_re,0.4597202418,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+nfc_share_2016_2020,0.2553352738,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+nfc_share_2020,0.2752528728,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+nfc_land_2020,3910.258,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+nfc_structures_proxy,13944.61346,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+nnb_structures_growth_2020,1.354398377,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_nfc_share_2016_2020,3994.560263,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_nfc_structures_proxy,1699.759544,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_nfc_share_2020,4306.158611,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+L_nfc,3994.560263,Z.1 2026:Q2 vintage (consumption/data/tidy/z1_land.csv)
+rT_m1,985.1982717,household land x 10y yield
+rT_m2,1336.358052,household land x (10y yield + 1.5)
+rT_m3,944.5659,30% of PCE housing services
+rT_m4,1574.2765,50% of PCE housing services
+r_m1,0.04208333333,rent-to-value implied by the measure (rT / household land)
+r_m2,0.05708333333,rent-to-value implied by the measure (rT / household land)
+r_m3,0.04034769728,rent-to-value implied by the measure (rT / household land)
+r_m4,0.06724616213,rent-to-value implied by the measure (rT / household land)
+gs10_2024,4.208333333,"pinning/cache/GS10.csv, mean of 12 months"
+pce_housing_2024_bn,3148.553,"BEA Table 2.4.5U line 153 (DHSGRC), Oct 2026 vintage"
+pce_2024_bn,19822.499,BEA Table 2.4.5U line 1
+ce_payment_shares,279079970,CE 2024 Table 1110: sum of N_d x (adults + 0.3 children)
+ce_consumption_bn,9021.621939,bridge budget x payment shares x 12
+vat_dividend_usd_month,249.3750091,rebuilt VAT accounting
+vat_revenue_bn,835.1468408,dividend x payment shares x 12
+cpi_2025_to_2024,1.027027027,SCF macro CPILAG for 2025 (4750/4625)
+scf2025_families_m,134.9636907,SCF 2025 summary extract
+scf2022_families_m,131.3063894,SCF 2022 summary extract
+s_uniform_2025,0.4160292885,calibrated: Z.1 household land / SCF 2025 HOUSES+ORESRE (2024 $)
+s_uniform_2022,0.4421257773,calibrated: Z.1 household land / SCF 2022 HOUSES+ORESRE (2024 $)
+judgment_mpw_low,0.02,post fn 31
+judgment_mpw_mid,0.035,midpoint of 2-5c
+judgment_mpw_high,0.05,post fn 31
+judgment_mpc_coll_low,0.047,Aladangady 2017
+judgment_mpc_coll_mid,0.06,Mian-Rao-Sufi 2013 5-7c midpoint
+judgment_mpc_coll_high,0.1,"stress, judgment"
+judgment_phi_full,0.98,design memo 1.1
+judgment_gamma,0.02,T4
+judgment_delta,0.05,T4
+judgment_levy_ak,0.08,post
+judgment_ls_rent_low,0.3,paper's 30% flow measure
+judgment_ls_rent_mid,0.4,judgment
+judgment_ls_rent_high,0.5,paper's 50% flow measure

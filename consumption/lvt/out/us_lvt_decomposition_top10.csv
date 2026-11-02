@@ -1,0 +1,331 @@
+scenario,rank,category,decile,contrib
+VAT,1,Rented dwellings,d01,1.130167217
+VAT,1,Rented dwellings,d02,0.6039676161
+VAT,1,Rented dwellings,d03,0.7259668761
+VAT,1,Rented dwellings,d04,0.6339320262
+VAT,1,Rented dwellings,d05,0.3024439816
+VAT,1,Rented dwellings,d06,0.3560293994
+VAT,1,Rented dwellings,d07,0.1241470418
+VAT,1,Rented dwellings,d08,-0.07189904584
+VAT,1,Rented dwellings,d09,-0.1310166055
+VAT,1,Rented dwellings,d10,-0.314640258
+VAT,1,Rented dwellings,net,3.359098249
+VAT,2,Health insurance,d01,0.4245471496
+VAT,2,Health insurance,d02,0.2922073425
+VAT,2,Health insurance,d03,0.4134408344
+VAT,2,Health insurance,d04,0.387218796
+VAT,2,Health insurance,d05,0.1900843824
+VAT,2,Health insurance,d06,0.2511729275
+VAT,2,Health insurance,d07,0.1099311293
+VAT,2,Health insurance,d08,-0.08192462131
+VAT,2,Health insurance,d09,-0.210830888
+VAT,2,Health insurance,d10,-0.6961435688
+VAT,2,Health insurance,net,1.079703484
+VAT,3,Gasoline and other fuels,d01,0.2669053982
+VAT,3,Gasoline and other fuels,d02,0.1445695577
+VAT,3,Gasoline and other fuels,d03,0.2407146364
+VAT,3,Gasoline and other fuels,d04,0.2311829555
+VAT,3,Gasoline and other fuels,d05,0.1177306342
+VAT,3,Gasoline and other fuels,d06,0.1588245654
+VAT,3,Gasoline and other fuels,d07,0.06642569746
+VAT,3,Gasoline and other fuels,d08,-0.05152638048
+VAT,3,Gasoline and other fuels,d09,-0.1276615856
+VAT,3,Gasoline and other fuels,d10,-0.3662819282
+VAT,3,Gasoline and other fuels,net,0.6808835506
+VAT,4,Electricity,d01,0.2388987799
+VAT,4,Electricity,d02,0.1387397586
+VAT,4,Electricity,d03,0.1919085937
+VAT,4,Electricity,d04,0.1732261919
+VAT,4,Electricity,d05,0.07799261933
+VAT,4,Electricity,d06,0.1003224109
+VAT,4,Electricity,d07,0.04084877366
+VAT,4,Electricity,d08,-0.02767131336
+VAT,4,Electricity,d09,-0.06863220844
+VAT,4,Electricity,d10,-0.2239797159
+VAT,4,Electricity,net,0.6416538903
+VAT,5,Food at home,d01,0.245665671
+VAT,5,Food at home,d02,0.1141210858
+VAT,5,Food at home,d03,0.1547299317
+VAT,5,Food at home,d04,0.1572361732
+VAT,5,Food at home,d05,0.06796293649
+VAT,5,Food at home,d06,0.08720553839
+VAT,5,Food at home,d07,0.03716295333
+VAT,5,Food at home,d08,-0.02690587743
+VAT,5,Food at home,d09,-0.06309198776
+VAT,5,Food at home,d10,-0.1843586159
+VAT,5,Food at home,net,0.5897278089
+VAT,6,Vehicle insurance,d01,0.1621367232
+VAT,6,Vehicle insurance,d02,0.1160937357
+VAT,6,Vehicle insurance,d03,0.2073849175
+VAT,6,Vehicle insurance,d04,0.1842239177
+VAT,6,Vehicle insurance,d05,0.08710651333
+VAT,6,Vehicle insurance,d06,0.1257621962
+VAT,6,Vehicle insurance,d07,0.05033486712
+VAT,6,Vehicle insurance,d08,-0.03846617201
+VAT,6,Vehicle insurance,d09,-0.08903879646
+VAT,6,Vehicle insurance,d10,-0.2735570024
+VAT,6,Vehicle insurance,net,0.5319809
+VAT,7,Telephone services,d01,0.1716611482
+VAT,7,Telephone services,d02,0.09780349624
+VAT,7,Telephone services,d03,0.1460888828
+VAT,7,Telephone services,d04,0.134183857
+VAT,7,Telephone services,d05,0.06450411903
+VAT,7,Telephone services,d06,0.0888871269
+VAT,7,Telephone services,d07,0.03594120047
+VAT,7,Telephone services,d08,-0.02664911248
+VAT,7,Telephone services,d09,-0.06430579744
+VAT,7,Telephone services,d10,-0.1925612255
+VAT,7,Telephone services,net,0.4555536952
+VAT,8,Audio & visual equipment and services,d01,0.1413135413
+VAT,8,Audio & visual equipment and services,d02,0.1023862945
+VAT,8,Audio & visual equipment and services,d03,0.1384429114
+VAT,8,Audio & visual equipment and services,d04,0.141515423
+VAT,8,Audio & visual equipment and services,d05,0.05760244456
+VAT,8,Audio & visual equipment and services,d06,0.0719809375
+VAT,8,Audio & visual equipment and services,d07,0.03059758889
+VAT,8,Audio & visual equipment and services,d08,-0.02111455179
+VAT,8,Audio & visual equipment and services,d09,-0.05229829513
+VAT,8,Audio & visual equipment and services,d10,-0.1904984923
+VAT,8,Audio & visual equipment and services,net,0.419927802
+VAT,9,"Cars and trucks, new",d01,0.1625797198
+VAT,9,"Cars and trucks, new",d02,0.09900824256
+VAT,9,"Cars and trucks, new",d03,0.09730745513
+VAT,9,"Cars and trucks, new",d04,0.127809327
+VAT,9,"Cars and trucks, new",d05,0.08455843548
+VAT,9,"Cars and trucks, new",d06,0.05337780092
+VAT,9,"Cars and trucks, new",d07,0.03922811241
+VAT,9,"Cars and trucks, new",d08,-0.04049521971
+VAT,9,"Cars and trucks, new",d09,-0.1354582132
+VAT,9,"Cars and trucks, new",d10,-0.8799632406
+VAT,9,"Cars and trucks, new",net,-0.3920475802
+VAT,10,Miscellaneous,d01,0.2004782101
+VAT,10,Miscellaneous,d02,0.1374893241
+VAT,10,Miscellaneous,d03,0.1693905049
+VAT,10,Miscellaneous,d04,0.1489295837
+VAT,10,Miscellaneous,d05,0.09912826187
+VAT,10,Miscellaneous,d06,0.1072853961
+VAT,10,Miscellaneous,d07,0.05182570948
+VAT,10,Miscellaneous,d08,-0.0368048055
+VAT,10,Miscellaneous,d09,-0.09527171092
+VAT,10,Miscellaneous,d10,-0.4007625308
+VAT,10,Miscellaneous,net,0.3816879431
+LVT_bridge_L1_m1,1,Rented dwellings,d01,2.360690278
+LVT_bridge_L1_m1,1,Rented dwellings,d02,1.777801374
+LVT_bridge_L1_m1,1,Rented dwellings,d03,1.664880387
+LVT_bridge_L1_m1,1,Rented dwellings,d04,1.490824327
+LVT_bridge_L1_m1,1,Rented dwellings,d05,0.8973356144
+LVT_bridge_L1_m1,1,Rented dwellings,d06,0.7413033125
+LVT_bridge_L1_m1,1,Rented dwellings,d07,0.294183103
+LVT_bridge_L1_m1,1,Rented dwellings,d08,0.1285527108
+LVT_bridge_L1_m1,1,Rented dwellings,d09,-0.1361069981
+LVT_bridge_L1_m1,1,Rented dwellings,d10,-0.940802524
+LVT_bridge_L1_m1,1,Rented dwellings,net,8.278661584
+LVT_bridge_L1_m1,2,Health insurance,d01,0.8867929572
+LVT_bridge_L1_m1,2,Health insurance,d02,0.8601232931
+LVT_bridge_L1_m1,2,Health insurance,d03,0.948155569
+LVT_bridge_L1_m1,2,Health insurance,d04,0.9106263402
+LVT_bridge_L1_m1,2,Health insurance,d05,0.5639705086
+LVT_bridge_L1_m1,2,Health insurance,d06,0.5229773819
+LVT_bridge_L1_m1,2,Health insurance,d07,0.2604965875
+LVT_bridge_L1_m1,2,Health insurance,d08,0.1464780517
+LVT_bridge_L1_m1,2,Health insurance,d09,-0.2190223077
+LVT_bridge_L1_m1,2,Health insurance,d10,-2.081531559
+LVT_bridge_L1_m1,2,Health insurance,net,2.799066823
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d01,0.5575112861
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d02,0.4255459257
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d03,0.5520376896
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d04,0.5436752835
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d05,0.3493006885
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d06,0.3306950961
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d07,0.1574046189
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d08,0.09212717378
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d09,-0.1326216256
+LVT_bridge_L1_m1,3,Gasoline and other fuels,d10,-1.095215739
+LVT_bridge_L1_m1,3,Gasoline and other fuels,net,1.780460398
+LVT_bridge_L1_m1,4,Electricity,d01,0.4990111363
+LVT_bridge_L1_m1,4,Electricity,d02,0.4083856928
+LVT_bridge_L1_m1,4,Electricity,d03,0.4401094103
+LVT_bridge_L1_m1,4,Electricity,d04,0.4073777792
+LVT_bridge_L1_m1,4,Electricity,d05,0.2314000583
+LVT_bridge_L1_m1,4,Electricity,d06,0.2088853775
+LVT_bridge_L1_m1,4,Electricity,d07,0.09679665998
+LVT_bridge_L1_m1,4,Electricity,d08,0.04947523716
+LVT_bridge_L1_m1,4,Electricity,d09,-0.07129877799
+LVT_bridge_L1_m1,4,Electricity,d10,-0.6697193914
+LVT_bridge_L1_m1,4,Electricity,net,1.600423182
+LVT_bridge_L1_m1,5,Food at home,d01,0.5131458002
+LVT_bridge_L1_m1,5,Food at home,d02,0.3359197046
+LVT_bridge_L1_m1,5,Food at home,d03,0.3548465323
+LVT_bridge_L1_m1,5,Food at home,d04,0.3697738913
+LVT_bridge_L1_m1,5,Food at home,d05,0.2016425093
+LVT_bridge_L1_m1,5,Food at home,d06,0.1815742031
+LVT_bridge_L1_m1,5,Food at home,d07,0.08806261326
+LVT_bridge_L1_m1,5,Food at home,d08,0.04810666735
+LVT_bridge_L1_m1,5,Food at home,d09,-0.06554330292
+LVT_bridge_L1_m1,5,Food at home,d10,-0.551248757
+LVT_bridge_L1_m1,5,Food at home,net,1.476279862
+LVT_bridge_L1_m1,6,Vehicle insurance,d01,0.3386707564
+LVT_bridge_L1_m1,6,Vehicle insurance,d02,0.3417262737
+LVT_bridge_L1_m1,6,Vehicle insurance,d03,0.4756017018
+LVT_bridge_L1_m1,6,Vehicle insurance,d04,0.4332412415
+LVT_bridge_L1_m1,6,Vehicle insurance,d05,0.2584405094
+LVT_bridge_L1_m1,6,Vehicle insurance,d06,0.2618545906
+LVT_bridge_L1_m1,6,Vehicle insurance,d07,0.1192752335
+LVT_bridge_L1_m1,6,Vehicle insurance,d08,0.06877602657
+LVT_bridge_L1_m1,6,Vehicle insurance,d09,-0.09249822387
+LVT_bridge_L1_m1,6,Vehicle insurance,d10,-0.8179599137
+LVT_bridge_L1_m1,6,Vehicle insurance,net,1.387128196
+LVT_bridge_L1_m1,7,Telephone services,d01,0.35856535
+LVT_bridge_L1_m1,7,Telephone services,d02,0.2878882664
+LVT_bridge_L1_m1,7,Telephone services,d03,0.3350297702
+LVT_bridge_L1_m1,7,Telephone services,d04,0.3155615271
+LVT_bridge_L1_m1,7,Telephone services,d05,0.1913803772
+LVT_bridge_L1_m1,7,Telephone services,d06,0.185075507
+LVT_bridge_L1_m1,7,Telephone services,d07,0.08516750563
+LVT_bridge_L1_m1,7,Telephone services,d08,0.04764758156
+LVT_bridge_L1_m1,7,Telephone services,d09,-0.06680427279
+LVT_bridge_L1_m1,7,Telephone services,d10,-0.5757752938
+LVT_bridge_L1_m1,7,Telephone services,net,1.163736319
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d01,0.3002695641
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d02,0.3610692703
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d03,0.4840945894
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d04,0.5576669268
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d05,0.3543406984
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d06,0.3519041331
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d07,0.1343437223
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d08,0.1118504622
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d09,-0.1738680742
+LVT_bridge_L1_m1,8,"Cars and trucks, used",d10,-1.34458029
+LVT_bridge_L1_m1,8,"Cars and trucks, used",net,1.137091002
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d01,0.3395960863
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d02,0.2914344824
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d03,0.2231579414
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d04,0.3005704807
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d05,0.2508804945
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d06,0.1111400932
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d07,0.09295628529
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d08,0.07240388533
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d09,-0.1407211758
+LVT_bridge_L1_m1,9,"Cars and trucks, new",d10,-2.631168824
+LVT_bridge_L1_m1,9,"Cars and trucks, new",net,-1.089750251
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d01,0.2951753493
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d02,0.3013779054
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d03,0.3174950477
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d04,0.3328032448
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d05,0.1709034669
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d06,0.1498744415
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d07,0.07250509972
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d08,0.03775200128
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d09,-0.05433024258
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,d10,-0.5696075369
+LVT_bridge_L1_m1,10,Audio & visual equipment and services,net,1.053948777
+LVT_bridge_L2_m1,1,Rented dwellings,d01,2.429829738
+LVT_bridge_L2_m1,1,Rented dwellings,d02,2.098242137
+LVT_bridge_L2_m1,1,Rented dwellings,d03,1.99021252
+LVT_bridge_L2_m1,1,Rented dwellings,d04,1.842668043
+LVT_bridge_L2_m1,1,Rented dwellings,d05,1.219332362
+LVT_bridge_L2_m1,1,Rented dwellings,d06,1.123658861
+LVT_bridge_L2_m1,1,Rented dwellings,d07,0.6134895357
+LVT_bridge_L2_m1,1,Rented dwellings,d08,0.3738761497
+LVT_bridge_L2_m1,1,Rented dwellings,d09,-0.003455648508
+LVT_bridge_L2_m1,1,Rented dwellings,d10,-1.370782521
+LVT_bridge_L2_m1,1,Rented dwellings,net,10.31707118
+LVT_bridge_L2_m1,2,Health insurance,d01,0.9127651854
+LVT_bridge_L2_m1,2,Health insurance,d02,1.015156678
+LVT_bridge_L2_m1,2,Health insurance,d03,1.133433428
+LVT_bridge_L2_m1,2,Health insurance,d04,1.125539761
+LVT_bridge_L2_m1,2,Health insurance,d05,0.7663436969
+LVT_bridge_L2_m1,2,Health insurance,d06,0.7927229774
+LVT_bridge_L2_m1,2,Health insurance,d07,0.5432396657
+LVT_bridge_L2_m1,2,Health insurance,d08,0.4260092971
+LVT_bridge_L2_m1,2,Health insurance,d09,-0.00556080232
+LVT_bridge_L2_m1,2,Health insurance,d10,-3.032865033
+LVT_bridge_L2_m1,2,Health insurance,net,3.676784853
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d01,0.5738395736
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d02,0.5022486795
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d03,0.6599106638
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d04,0.6719859963
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d05,0.4746425156
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d06,0.5012637454
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d07,0.3282516418
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d08,0.2679379749
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d09,-0.00336715767
+LVT_bridge_L2_m1,3,Gasoline and other fuels,d10,-1.595768031
+LVT_bridge_L2_m1,3,Gasoline and other fuels,net,2.380945602
+LVT_bridge_L2_m1,4,Electricity,d01,0.5136260821
+LVT_bridge_L2_m1,4,Electricity,d02,0.4819953912
+LVT_bridge_L2_m1,4,Electricity,d03,0.5261106236
+LVT_bridge_L2_m1,4,Electricity,d04,0.5035214422
+LVT_bridge_L2_m1,4,Electricity,d05,0.3144348392
+LVT_bridge_L2_m1,4,Electricity,d06,0.3166260036
+LVT_bridge_L2_m1,4,Electricity,d07,0.2018597852
+LVT_bridge_L2_m1,4,Electricity,d08,0.1438912572
+LVT_bridge_L2_m1,4,Electricity,d09,-0.001810219307
+LVT_bridge_L2_m1,4,Electricity,d10,-0.9758048183
+LVT_bridge_L2_m1,4,Electricity,net,2.024450387
+LVT_bridge_L2_m1,5,Food at home,d01,0.5281747196
+LVT_bridge_L2_m1,5,Food at home,d02,0.396467732
+LVT_bridge_L2_m1,5,Food at home,d03,0.4241866363
+LVT_bridge_L2_m1,5,Food at home,d04,0.4570428053
+LVT_bridge_L2_m1,5,Food at home,d05,0.2739991962
+LVT_bridge_L2_m1,5,Food at home,d06,0.275228046
+LVT_bridge_L2_m1,5,Food at home,d07,0.1836458014
+LVT_bridge_L2_m1,5,Food at home,d08,0.1399109785
+LVT_bridge_L2_m1,5,Food at home,d09,-0.001664092369
+LVT_bridge_L2_m1,5,Food at home,d10,-0.8031889177
+LVT_bridge_L2_m1,5,Food at home,net,1.873802905
+LVT_bridge_L2_m1,6,Vehicle insurance,d01,0.3485896829
+LVT_bridge_L2_m1,6,Vehicle insurance,d02,0.4033209093
+LVT_bridge_L2_m1,6,Vehicle insurance,d03,0.568538418
+LVT_bridge_L2_m1,6,Vehicle insurance,d04,0.5354888408
+LVT_bridge_L2_m1,6,Vehicle insurance,d05,0.3511783903
+LVT_bridge_L2_m1,6,Vehicle insurance,d06,0.3969161151
+LVT_bridge_L2_m1,6,Vehicle insurance,d07,0.2487366096
+LVT_bridge_L2_m1,6,Vehicle insurance,d08,0.200024689
+LVT_bridge_L2_m1,6,Vehicle insurance,d09,-0.002348456389
+LVT_bridge_L2_m1,6,Vehicle insurance,d10,-1.191796498
+LVT_bridge_L2_m1,6,Vehicle insurance,net,1.858648701
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d01,0.3090638035
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d02,0.4261503947
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d03,0.5786908898
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d04,0.6892797535
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d05,0.481491065
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d06,0.5334121547
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d07,0.2801604408
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d08,0.3253001814
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d09,-0.004414372219
+LVT_bridge_L2_m1,7,"Cars and trucks, used",d10,-1.959100995
+LVT_bridge_L2_m1,7,"Cars and trucks, used",net,1.660033316
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d01,0.3495421137
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d02,0.3439642472
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d03,0.2667649474
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d04,0.3715069639
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d05,0.3409055663
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d06,0.1684648489
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d07,0.1938510666
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d08,0.2105757684
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d09,-0.003572798811
+LVT_bridge_L2_m1,8,"Cars and trucks, new",d10,-3.833705952
+LVT_bridge_L2_m1,8,"Cars and trucks, new",net,-1.591703228
+LVT_bridge_L2_m1,9,Telephone services,d01,0.3690669457
+LVT_bridge_L2_m1,9,Telephone services,d02,0.3397788415
+LVT_bridge_L2_m1,9,Telephone services,d03,0.4004975063
+LVT_bridge_L2_m1,9,Telephone services,d04,0.3900359896
+LVT_bridge_L2_m1,9,Telephone services,d05,0.2600546368
+LVT_bridge_L2_m1,9,Telephone services,d06,0.2805352814
+LVT_bridge_L2_m1,9,Telephone services,d07,0.1776083431
+LVT_bridge_L2_m1,9,Telephone services,d08,0.1385757968
+LVT_bridge_L2_m1,9,Telephone services,d09,-0.001696107392
+LVT_bridge_L2_m1,9,Telephone services,d10,-0.8389249485
+LVT_bridge_L2_m1,9,Telephone services,net,1.515532285
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d01,0.3038203904
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d02,0.3556999277
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d03,0.3795363461
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d04,0.4113468587
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d05,0.2322298642
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d06,0.2271779194
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d07,0.1512021578
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d08,0.1097959957
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d09,-0.001379401679
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,d10,-0.8299383088
+LVT_bridge_L2_m1,10,Audio & visual equipment and services,net,1.339491749

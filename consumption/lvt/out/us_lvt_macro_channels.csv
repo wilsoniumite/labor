@@ -1,0 +1,31 @@
+instrument,channel,central,low,high,unit,note
+VAT,price level step (80-100% pass-through),8.331452613,7.405735656,9.25716957,% of consumer price level,15 points x aggregate VAT-able share 0.617; post: 7-9% (P497-P498)
+LVT,price level step,0,0,0,% of consumer price level,"land in fixed supply, rents set by demand: nothing to pass through; no indexation plumbing needed"
+VAT,"flow impulse, post's method (mid; band = high/low schedules)",0.3889031864,0.304983548,0.4739973505,% of consumption,rebuild: 0.389% (Fig 7 central 0.390)
+VAT,"flow impulse, household level, payers graded by liquidity",0.3139611931,0.2540229481,0.3717742028,% of consumption,VAT bills split within deciles by SCF non-housing spending
+VAT,"flow impulse, measured windfall MPCs (SCF 2025)",0.06020389005,0.0534627981,0.2078337704,% of consumption,central: decile means; low: decile x HtM cells; high: the measured shape scaled to 1.0 at D1
+VAT,"levy channel, lambda = 0.35 (impact; 2-5c per $ per year)",-1.758677748,-2.512396783,-1.004958713,% of consumption,-mpw x 0.35 x 8% x SCF 2025 net worth
+VAT,"levy channel, lambda = 1 (impact)",-5.024793567,-7.178276524,-2.87131061,% of consumption,full A-K corner
+VAT,"net demand at impact, lambda = 0.35 (flow + levy)",-1.369774562,-2.207413235,-0.5309613628,% of consumption,this unit's impact version
+VAT,"post, published: flow-only path (year 3)",0.38,0.38,0.38,% of consumption,P662
+VAT,"post, published: central lambda = 0.35 (year 3; band = year 5)",-0.69,-0.97,-0.14,% of consumption,P663-P665
+VAT,"post, published: full A-K lambda = 1 (year 3; band = year 5)",-2.7,-3.3,-1.2,% of consumption,P666-P668
+LVT,"flow impulse, post's method (bridge, L1)",0.9764573817,0.7677649388,1.188152005,% of consumption,measure m1 (bridge-rate flows do not depend on the measure)
+LVT,"flow impulse, post's method (bridge, L2)",1.242285642,0.9830201861,1.504948658,% of consumption,measure m1 (bridge-rate flows do not depend on the measure)
+LVT,"flow impulse, post's method (full, L1)",1.128860215,0.8875956188,1.373595564,% of consumption,measure m1 (bridge-rate flows do not depend on the measure)
+LVT,"flow impulse, post's method (full, L2)",2.19375356,1.735916411,2.657590465,% of consumption,measure m1 (bridge-rate flows do not depend on the measure)
+LVT,"flow impulse, household level, payers graded by liquidity (bridge, L1)",0.8851309327,0.7030206809,1.067332453,% of consumption,
+LVT,"flow impulse, measured windfall MPCs (bridge, L1)",0.1516693805,0.1359230836,0.5235877481,% of consumption,
+LVT,"collateral, owners crossing 80% LTV, lost equity (bridge, L1, immediate)",-1.884671414,-3.141119023,-1.476325941,% of consumption,4.7 / 6 / 10 cents per $ (Aladangady 2017; Mian-Rao-Sufi 2013; stress)
+LVT,"collateral, lost borrowing capacity only (bridge, L1, immediate)",-0.8289373501,-1.38156225,-0.6493342576,% of consumption,"the part that is credit, not wealth: the cleanest collateral-only base"
+LVT,"collateral, full capture (L1, immediate)",-2.625912929,-4.376521548,-2.056965127,% of consumption,
+LVT,"collateral under increment-only grandfathering (bridge rate, L1)",-0.2594164399,-0.4323607331,-0.2032095446,% of consumption,but the launch revenue is then near zero (only rent increments are taxed)
+LVT,"non-occupying holders: wealth effect instead of flow (change in impulse, bridge, L1)",-0.3821388975,-0.9843363939,0.220058599,% of consumption,2 / 3.5 / 5 cents per $
+LVT,"non-occupying holders: wealth effect instead of flow (change in impulse, bridge, L2)",-1.061700917,-2.595395188,0.471993355,% of consumption,
+LVT,"deferral by owners 65+, dividend paid in full (state lends the liens)",1.999675128,1.999675128,1.999675128,% of consumption,"change in impulse; deferred = 30% of revenue, a deficit while it lasts"
+LVT,"deferral by owners 65+, cash-balanced dividend",-0.1240129482,-0.1240129482,-0.1240129482,% of consumption,change in impulse
+LVT,deferral by owners 65+: their residual wealth effect (if any),-2.304397612,-3.291996589,0,% of consumption,0 to 5 cents per $ of capitalized loss; never added to the flow
+LVT,"the loop: extra dividend (bridge, L1)",1.144856181,0.8549965939,1.437198165,% of the dividend,land share of the rent change 0.30-0.50
+LVT,"net demand at impact (flow + collateral; bridge, L1, immediate)",-0.9082140319,-2.373354084,0.5388177474,% of consumption,low: high MPC schedule (smallest flow) + 10c on lost equity; high: low schedule + 4.7c on lost capacity
+LVT,"collateral, owners crossing 80% LTV, lost equity (bridge, L2, immediate)",-0.7268212556,-1.211368759,-0.5693433169,% of consumption,the broader base lowers the rate on homes (phi 0.555) and with it the price fall
+LVT,"net demand at impact (flow + collateral; bridge, L2, immediate)",0.5154643868,-0.2283485732,1.260139256,% of consumption,same pairing of extremes as for L1
