@@ -1,0 +1,3 @@
+file,url,what_it_is,date_pulled,sha256,bytes,used_for
+jobs-outside-care.html,https://watch.wilsoniumite.com/indicators/jobs-outside-care/,"watch.wilsoniumite.com indicator page 'Private jobs outside care' as of 2026-11-02 (12 months to Sep 2026: private ex care +192k, care +520k, government -216k)",2026-11-02,722385c31fd7e9e677e2125c964bfd387097695e661292cb6d0690b39378a418,34960,Q2: the jobs mirror
+spending-and-income.html,https://watch.wilsoniumite.com/indicators/spending-and-income/,watch.wilsoniumite.com indicator page 'Spending and income' as of 2026-11-02 (real consumer spending +1.8% over 6 months to Sep 2026 vs real income ex transfers +0.1%),2026-11-02,b454317c44739d0d7d39643fcb75135edd118122b6ebb09ddbe59b97482f0eac,20602,Q2: the gap to explain
