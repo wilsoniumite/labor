@@ -6,16 +6,23 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-09-24 — the version posted to SSRN on 2026-09-23 is ahead of
-`paper/main.tex`; its PDF is in `paper/ssrn-7226858.pdf`, and the source port waits on her
-Overleaf export (Open 0). Before that, 2026-09-21: the interior revision landed. The folder dates from the
+**State as of:** 2026-11-02 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
+(Log, 2026-11-02; branch `ssrn-rebuild`). Next: the polish pass for the next submission, the
+Economic Modelling special issue "Artificial Intelligence, Data Investment and the Digital
+Economy" (deadline 2027-02-28). STRECO desk-rejected the 4 September Word build on
+2026-11-02, without comments. Before that, 2026-09-24: the SSRN PDF staged; 2026-09-21: the
+interior revision landed. The folder dates from the
 2026-09-04 restructure; its history is `../dynamics/STATE.md` logs 1–52 (the revision
 thread, under its old name the-link-revision) and the former `effort-accounting/STATE.md`,
 both at tag `pre-cleanup-2026-09-04`.
 
 ## Where things stand
 
-- `paper/main.tex` is the interior revision of 2026-09-21, ported verbatim from her
+- **2026-11-02:** `paper/main.tex` is the SSRN version, rebuilt from its PDF (Log). The
+  bullets below describe the interior revision of 2026-09-21 that it replaced; the batteries
+  and the Word build still describe that revision until the polish pass updates them.
+- `paper/main.tex` was the interior revision of 2026-09-21, ported verbatim from her
   `Downloads/wages-and-scarcity-interior-source.zip` (`v5_interior.tex`, 104,177 bytes)
   plus the repository's one standing edit: the AI-use note names the repository ("the
   code and data are public at" the GitHub URL). The bundle had started from her raw
@@ -52,7 +59,13 @@ both at tag `pre-cleanup-2026-09-04`.
 
 ## Open — her calls
 
-0. **The SSRN version's source** (her go to bring it in, 2026-09-24). The posted PDF
+0. → Source resolved 2026-11-02: rebuilt from the PDF (Log), since the Overleaf copy was not
+   at the SSRN state and the original TeX was on a machine she could not reach. If the
+   original turns up, diff it against the rebuild. Still open from this item: scripts for the
+   two new figures (replacement closure; labour-market clearing), `check_cost_system.py` and
+   the revised `check_interior.py` that the data note names, and the old
+   `checks/check_interior.py`, which still checks the superseded Appendix B instance.
+   **The SSRN version's source** (her go to bring it in, 2026-09-24). The posted PDF
    (SSRN 7226858, compiled 2026-09-23 on Overleaf's TeX Live) is a revision beyond
    anything on disk: `main.tex` is `v5_interior.tex`; her Overleaf edit of the same evening
    (`Downloads/v5 (4).tex`, 17:50 — "Existing characterizations of the wage", "our model")
@@ -152,6 +165,34 @@ README's corner table now carries the new pointers. `check_interior.py` is what 
 Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-02 — the SSRN version rebuilt from its PDF.** Her go ("start the rebuild"); the
+  Overleaf copy was not at the SSRN state and the original TeX sat on a machine she could not
+  reach. Method: verbatim transcription of `paper/ssrn-7226858.pdf`, reusing the 21 September
+  `main.tex` wherever text or math carried over; nothing re-voiced. Six parallel transcribers
+  (front and Sections 1-2; 3-4; 5-7; 8-12; Appendices A-C; D-F, notes, references), then one
+  assembly. Same preamble plus `array`, which the SSRN table on p. 34 needs.
+  Verification: 39 pages, as in the SSRN PDF; the extracted text matches word for word in
+  every section (the only diff is text-extraction order inside the underbraces of (11), whose
+  page renders identically); at 100 dpi, 37 of 39 pages are pixel-identical, and pages 18 and 20
+  differ by a sub-pixel offset of one caption line each; `lint_tex_structure` green
+  (84 labels, 95 refs, 8 figures); no undefined or duplicate references.
+  Labels follow the printed numbering (`sec:N`, `app:X`, `eq:N`, `prop:N`, `lem:B.1`, `fig:N`).
+  Figures: `paper/figures/ssrn/` holds the eight images extracted from the SSRN PDF, which
+  `main.tex` points at so it reproduces the posted version. They are placeholders: the polish
+  pass points each figure back at a script-built file (the Route). Found on the way: the
+  script-built `fig_schedule.png` and `fig_eras_workers.png` still label the ratio `w/c`
+  where the SSRN prints `w/p_m`; Figures 5 and 6 in the SSRN carry in-image titles (the
+  script builds do not); and the SSRN Figure 7 is a different plot from the adopted full-band
+  `fig_consumption_financing_and_human_effort.png` (Open 2).
+  Slips seen while transcribing, left as printed and marked `% SLIP:` in the source, for her
+  one-word calls: Section 2.3 "This paper endogenizes both parameters" (no antecedent left
+  for "parameters"); "metres" twice in the loom example (otherwise American spelling);
+  Proposition 2 lacks a serial comma; "urbanisation" (otherwise -ization); "Identifying ...
+  and attributing ... requires" (agreement); Appendix A.1 uses `k` for machine types, then for
+  non-produced inputs; the Appendix C display uses `I` for expenditure and for the identity
+  matrix; Proposition E.1 proof "A $H$-free good's"; the Zeira reference prints without its
+  hanging indent.
 
 - **2026-09-24 — the SSRN version staged.** Her go ("you can bring the ssrn version in").
   Only the PDF exists on disk (no newer TeX or bundle in Downloads, Desktop, Documents or

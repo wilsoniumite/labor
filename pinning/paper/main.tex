@@ -1,7 +1,12 @@
 % ============================================================
 % Pinning the Wage to Scarcity and Technology
-% Task assignment, recursive machine production, and non-produced inputs.
-% Numerical checks: check_interior.py in the source bundle.
+% The SSRN version of 2026-09-23 (SSRN 7226858, paper/ssrn-7226858.pdf), rebuilt from that PDF on
+% 2026-11-02 because its Overleaf source was unavailable. Transcribed verbatim, checked word for word
+% and page by page against the PDF (STATE.md log). Nothing re-voiced: lines marked '% SLIP:' record
+% slips seen while transcribing, left as printed for the authors' decision.
+% Labels follow the printed numbering (sec:N, app:X, eq:N, prop:N, lem:B.1, fig:N).
+% Figures: each \includegraphics points at figures/ssrn/, the images extracted from the SSRN PDF, so
+% this file reproduces it; the polish pass points each back to its script-built file in figures/.
 
 % ============================================================
 % Style: orthodox macro working paper (12pt, onehalf spacing, plain theorem
@@ -19,6 +24,7 @@
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage[labelfont=bf, labelsep=period, font={footnotesize,stretch=1}, justification=justified]{caption}
 \usepackage{microtype}
 \usepackage{titlesec}
@@ -31,7 +37,6 @@
 
 % hanging-indent entry for the hand-formatted reference list
 \newcommand{\refentry}[1]{\par\hangindent=1.5em\hangafter=1\noindent #1}
-
 \title{\bfseries Pinning the Wage to Scarcity and Technology\thanks{Views are the
   authors' own and do not represent those of KTH, SEB, or the Stockholm School of
   Economics. Written in collaboration with Claude (Anthropic); see the AI-use note
@@ -48,34 +53,36 @@
     Enskilda Banken (SEB). Email: \texttt{thmwi@kth.se}.}
 }
 
+\date{September 23, 2026}
+
 \begin{document}
 \maketitle
 
 \begin{abstract}
-\noindent We endogenize labor's replacement cost and workers' outside option in a task model with recursive machine production, linking both to rents on non-produced inputs. As machine production sheds labor, rents account for more of replacement cost, while rising rents reduce the outside option in goods units. At an interior task margin, we derive category prices and bounds on wage purchasing power from human productivity and direct requirements for non-produced inputs. The associated rent bill places a ceiling on purchasing power that falls with the wage--rent ratio. U.S. wage measures deflated by durables and shelter prices diverged by a factor of 4.8 over 1964--2024. Taxing pure rents to fund uniform transfers preserves fixed-factor supply and introduces no benefit withdrawal upon employment. Full capture of measured U.S. site rents could fund about one-third of a per-person subsistence bundle in 2025.
+\noindent We connect technological change to wages by jointly pricing labor's machine substitute and workers' outside options. Combining task assignment with a production network identifies two automation channels: improved machine capability and reduced labor requirements within machine production. Both can lower wages relative to rents on non-produced inputs. At an interior task margin, we derive bounds on wage purchasing power: embodied rent costs impose a ceiling, while feasible human production supplies a lower bound. Technological progress can expand productive capacity while reducing wage purchasing power over housing and other scarce services. The same prices connect participation to household or public support, living costs, and preferences. U.S. wage measures deflated by durables and shelter prices diverged by a factor of 4.8 over 1964--2024. Uniform transfers financed from pure rents redistribute purchasing power while preserving fixed-factor supply and avoiding benefit withdrawal upon employment.
 \end{abstract}
 
-\section{Introduction}\label{sec:intro}
+\section{Introduction}\label{sec:1}
 
-Suppose a firm can perform a task with a worker or with a machine. For the tasks where the firm is indifferent, the worker's wage is tied to the cost of the machine substitute. That mechanism is established and used by the factor-price condition at the task margin in Acemoglu and Restrepo (2018), with the same threshold logic in Zeira (1998) and, for tasks that move abroad rather than to machines, in Grossman and Rossi-Hansberg (2008). This paper examines that mechanism with two questions around that margin.
+Suppose a firm can perform a task with a worker or with a machine. For the tasks where the firm is indifferent, the worker's wage is tied to the cost of the machine substitute. That mechanism is established and used by the factor-price condition at the task margin in Acemoglu and Restrepo (2018), with the same threshold logic in Zeira (1998) and, for offshoring, in Grossman and Rossi-Hansberg (2008). This paper examines that mechanism with two questions around that margin.
 
-\textbf{What prices the substitute?} A machine is itself produced --- from other machines, labor, energy, sites, minerals, permissions. Its rental is an equilibrium object. Tracing the machine rental through its input costs eventually leads to non-produced inputs: resources whose supply is not generated by the production process. Land and mineral deposits are examples. A grid connection or fabrication bottleneck can hold the same position over shorter horizons, while its capacity is fixed. While machine production still employs labor, part of the machine's cost will be the wage itself, and thus the substitute will remain relatively expensive. As machine production sheds labor, that cost component is reduced, and such ``terminal'' rents account for an increasing share of the replacement price.
+\textbf{What prices the substitute?} A machine is itself produced --- from other machines, labor, energy, sites, minerals, permissions. Its rental belongs to the same cost system as the goods and services households consume. Tracing input costs through production leads to human hours and to non-produced inputs: resources whose supply is not generated by the production process. Land and mineral deposits are examples. A grid connection or fabrication bottleneck can occupy the same position over a horizon on which its capacity is fixed. While machine production employs labor, wages remain part of the substitute's cost. As the production chain sheds labor, rents can account for a larger share of the replacement price.
 
-\textbf{What prices the alternative to working at all?} A worker sells an hour when the wage beats the best alternative use of that hour. Life outside the market wage still requires somewhere to live, food, energy, warmth, and usually access to a household. The value of exit is therefore also a price --- and it depends on the same scarce inputs that anchor the machine's cost. When machine-made goods cheapen while housing and energy do not, the outside option falls in the consumption units relevant to participation toward a ``participation floor,'' and its lower bound, the ``dependency floor''.
+\textbf{What prices the alternative to working at all?} Life outside employment still requires somewhere to live, food, energy, and care. We focus on dependence: support from a household or public institution provides a living standard, and a wage buys consumption beyond it. The choice to work depends on that gain and the value of non-work time. The cost of support traces back through the same production network as the firm's machine substitute.
 
-This paper endogenizes the two prices that bound the labor margin. On the demand side,
+This paper endogenizes the two sides of the labor margin. On the demand side,
 \[
-\textit{labor demand} \to \textit{replacement cost} \to \textit{terminal rents};
+\textit{labor demand} \;\to\; \textit{replacement cost} \;\to\; \textit{rents on non-produced inputs};
 \]
 on the supply side,
 \[
-\textit{labor supply} \to \textit{outside option} \to \textit{terminal rents}.
+\textit{labor supply} \;\to\; \textit{outside option} \;\to\; \textit{rents on non-produced inputs}.
 \]
-Replacement cost is the firm's opportunity cost of employing labor; the outside option is the worker's opportunity cost of supplying it. Both are formed partly in the market for non-produced inputs. Technological change therefore moves the two sides together: it changes relative capability at final tasks (``task automation''), the labor embodied in machine production (``recursive automation''), and the relative price of the scarce inputs at which both chains terminate.
+Both chains trace prices back to non-produced inputs. The same cost system prices the machine substitute and the household's living basket. Participation depends on wage purchasing power, the support available outside employment, and preferences. Technological change affects relative capability at tasks (``task automation''), the labor embodied in machine services (``recursive automation''), and the prices of the inputs on which production and consumption depend.
 
-At an interior task margin, the wage relative to rent links automation to purchasing power. At a given marginal task and machine recipe, a fall in relative human productivity lowers the wage relative to terminal rent; removing labor from the machine recipe lowers it further. Category prices combine task costs with direct requirements for non-produced inputs. A category must cover the associated rent bill, placing an upper bound on the quantity an hour's wage can buy. A feasible human method supplies the complementary lower bound through its labor cost and rent bill. The two bounds describe purchasing power as humans and machines divide the tasks of production. In the model with one non-produced input, if the wage--rent ratio tends to zero, wage purchasing power tends to zero for categories whose direct requirement remains bounded away from zero. Categories with no direct requirement and bounded human production hours retain a positive lower bound set by human productivity.
+At an interior task margin, the wage relative to rent links automation to purchasing power. Holding the selected input requirements fixed, a fall in relative human productivity at the margin lowers the wage relative to rent; reducing the labor embodied in machine services lowers it further. Every good's price resolves into its direct and indirect labor and non-produced input requirements. The embodied rent bill places an upper bound on what an hour's wage can buy. A feasible human production method supplies a complementary lower bound through its labor cost and rent bill. If the wage--rent ratio tends to zero, wage purchasing power tends to zero for goods whose embodied requirement for the non-produced input stays bounded away from zero. A feasible method requiring bounded human hours and no non-produced input anywhere in its chain preserves a positive lower bound.
 
-Combining the task margin of Acemoglu and Restrepo with the input--output price logic of Leontief (1936) and Sraffa (1960), and pricing the outside option in the same relative price, yields the real-wage fork. The resulting distinction between wage and ownership income motivates the policy pair associated with George (1879): a tax on pure rents funding a uniform transfer.
+Combining the task margin of Acemoglu and Restrepo with the input--output price logic of Leontief (1936) and Sraffa (1960) yields these purchasing-power bounds. Pricing the household's living basket through the same network connects replacement to participation through labor-market clearing. With support maintained and positive work costs, vanishing wage purchasing power also brings participation toward zero. The distinction between wage and ownership income then motivates the policy pair associated with George (1879): a tax on pure rents funding a uniform transfer.
 
 The next section locates the contribution in the wage-determination
 literature. The main text then develops the task and outside-option closures,
@@ -83,438 +90,294 @@ derives the interior purchasing-power and income results, and turns to history,
 measurement, stabilizers, and AI. The appendices provide the general
 environment, transition results, and extensions.
 
-\section{How existing literature characterizes the wage}\label{sec:accounts}
+\section{Existing characterizations of the wage}\label{sec:2}
 
-Accounts of the aggregate wage differ less in their mechanisms than in where they stop. Each family below determines the wage relative to a quantity that labor itself helps produce, or leaves it inside an interval whose endpoints it takes as given, or determines its growth rate while not fixing its level. We do not present the model of Sections~\ref{sec:model}--\ref{sec:floor} as an alternative to these accounts. Instead, we focus on the objects they take as given.
+Accounts of the aggregate wage organize its determination around different objects: marginal products, bargaining endpoints, task thresholds, institutions, and growth paths. Sections~\ref{sec:3}--\ref{sec:4} connect these objects to the costs of the firm's substitute and the worker's outside option.
 
-\subsection{Marginal product}\label{sec:marginal-product}
+\subsection{Marginal product}\label{sec:2.1}
 
-The textbook answer sets the wage equal to the marginal product of labor. As a statement about competitive equilibrium it is correct, and this paper's Proposition~\ref{prop:margin} is an instance of it: $w = c\cdot \gamma (x^*)$  is the marginal product, evaluated at the margin the machine alternative sets. What the identity does not supply is a level: the marginal product is a function of the capital stock and the technology, two variables constantly changing. Applied work often proceeds under Cobb--Douglas, which imposes fixed factor shares and requires an aggregate capital measure. Both assumptions become fragile when factor shares and capital prices are themselves moving rapidly (Sraffa 1960; Samuelson 1966). In growth theory the wage's growth rate is pinned along a balanced path, but Uzawa (1961) shows the balanced path requires technical change to be labor-augmenting in form --- and the form of technical change is precisely what is at issue under automation.
+The textbook answer sets the wage equal to the marginal product of labor. Its level depends on the capital stock and the technology, two variables constantly changing. Applied work often proceeds under Cobb--Douglas, which imposes fixed factor shares and requires an aggregate capital measure. Both assumptions become fragile when factor shares and capital prices are themselves moving rapidly (Sraffa 1960; Samuelson 1966). In growth theory the wage's growth rate is pinned along a balanced path, but Uzawa (1961) shows the balanced path requires technical change to be labor-augmenting in form --- and the form of technical change is precisely what is at issue under automation.
 
-\subsection{Search, matching, and bargaining}\label{sec:search}
+\subsection{Search, matching, and bargaining}\label{sec:2.2}
 
-The search-and-matching framework (Diamond 1982; Mortensen and Pissarides 1994; Pissarides 2000) places the wage between the worker's outside option and the value of the match, dividing the surplus by a bargaining parameter. The framework is explicit that the level is not determined within it: two endpoints and a split, and it supplies none of the three.
+The search-and-matching framework (Diamond 1982; Mortensen and Pissarides 1994; Pissarides 2000) places the wage between the worker's outside option and the value of the match, dividing the surplus by a bargaining parameter. Determining the wage level therefore requires values for both endpoints and the bargaining parameter.
 
-Shimer (2005) showed that the calibrated model generates almost none of the observed volatility --- in U.S. data the vacancy--unemployment ratio is roughly twenty times as volatile as labor productivity, while the model makes them comparable. Hagedorn and Manovskii (2008) resolve the puzzle by setting the value of non-market activity close to productivity, so that the surplus workers and firms split is small; Hall (2005) resolves it with rigid wages; and Ljungqvist and Sargent (2017) show that these and the other proposed resolutions operate through one channel, the \emph{fundamental surplus} --- ``an upper bound on the fraction of a job's output that the invisible hand can allocate to vacancy creation'' --- which every successful calibration makes small, and whose leading deduction from productivity is the value of non-work. The central calibration debate of modern macro-labor is, in other words, a debate about the level of an object the framework treats as a parameter.
+Shimer (2005) showed that the calibrated model generates almost none of the observed volatility --- in U.S. data the vacancy--unemployment ratio is roughly twenty times as volatile as labor productivity, while the calibrated search model makes them comparable. Hagedorn and Manovskii (2008) resolve the puzzle by setting the value of non-market activity close to productivity, so that the surplus workers and firms split is small; Hall (2005) resolves it with rigid wages; and Ljungqvist and Sargent (2017) show that these and the other proposed resolutions operate through one channel, the \emph{fundamental surplus} --- ``an upper bound on the fraction of a job's output that the invisible hand can allocate to vacancy creation'' --- which every successful calibration makes small, and whose leading deduction from productivity is the value of non-work. The central calibration debate of modern macro-labor is, in other words, a debate about the level of an object the framework treats as a parameter.
 
 Our contribution is to endogenize both endpoints --- the firm's machine alternative and the worker's outside option --- and to show that both depend partly on the same scarcity market.
 
-\subsection{Task and assignment models}\label{sec:tasks}
+\subsection{Task and assignment models}\label{sec:2.3}
 
-The task framework (Zeira 1998; Acemoglu and Autor 2011; Acemoglu and Restrepo 2018, 2022) determines the wage at the threshold task and is the direct ancestor of what follows. Its equilibrating force is the creation of new labor tasks: displacement met by reinstatement (Acemoglu and Restrepo 2018; Autor 2015). In each version the machine rental and the outside option enter as parameters; the wage is passed through the threshold rather than determined at it. This paper endogenizes both parameters and abstracts from the creation of new labor tasks, a modeling choice motivated by our reading of history and recent U.S. measures. Acemoglu and Restrepo (2026) add institutional wage wedges and show that automation is directed at the tasks where wedges are largest;  Cross-border trade is treated similarly: a tradable task stays domestically only while the wage beats both the machine rental and the foreign wage, so the foreign wage is a second machine rental with a different cost composition. Offshoring is still a temporary condition: once the machine undercuts the foreign worker, the task shifts onward to machines wherever they sit.
+% SLIP: Sec. 2.3 (p. 4): "This paper endogenizes both parameters" no longer has an antecedent; the preceding sentence ("The threshold links the wage to the machine rental and the outside option.") does not call them parameters.
+The task framework (Zeira 1998; Acemoglu and Autor 2011; Acemoglu and Restrepo 2018, 2022) determines the wage at the threshold task and is the direct ancestor of what follows. Its equilibrating force is the creation of new labor tasks: displacement met by reinstatement (Acemoglu and Restrepo 2018; Autor 2015). The threshold links the wage to the machine rental and the outside option. This paper endogenizes both parameters and abstracts from the creation of new labor tasks, a modeling choice motivated by our reading of history and recent U.S. measures. Acemoglu and Restrepo (2026) add institutional wage wedges and show that automation is directed at the tasks where wedges are largest. Cross-border trade is treated similarly: a tradable task stays domestically only while the wage beats both the machine rental and the foreign wage, so the foreign wage is a second machine rental with a different cost composition. Offshoring is still a temporary condition: once the machine undercuts the foreign worker, the task shifts onward to machines wherever they sit.
 
-\subsection{Institutional accounts}\label{sec:institutions}
+\subsection{Institutional accounts}\label{sec:2.4}
 
-Efficiency wages (Shapiro and Stiglitz 1984), monopsony (Manning 2003), and firm-level rent sharing (Card, Cardoso, Heining, and Kline 2018) explain why individual wages depart from a common base and why the dispersion moves. In the notation below they are accounts of a multiplicative wedge on particular tasks. The model takes them as given at that layer and focuses instead on the common base.
+Efficiency wages (Shapiro and Stiglitz 1984), monopsony (Manning 2003), and firm-level rent sharing (Card, Cardoso, Heining, and Kline 2018) explain why individual wages depart from a common base and why the dispersion moves. In the notation below they are accounts of a multiplicative wedge on particular tasks. Our model takes these wedges as given and studies the common base.
 
-\subsection{The classical accounts}\label{sec:classical}
+\subsection{The classical accounts}\label{sec:2.5}
 
-The wage was pinned to land and to the cost of subsistence before it was pinned to anything else. Ricardo (1817) priced land at the margin and the wage at its natural price, Malthus (1798) supplying the mechanism; the machinery chapter added in 1821 concedes that machinery can injure the laboring class. Marx priced labor power at its cost of reproduction and read enclosure --- the legal extinction of common access to land --- as the manufacture of a labor supply. Lewis (1954) pinned the modern-sector wage to what the traditional sector affords --- the closest antecedent to our participation mechanism, differing in that his traditional sector is exhausted by absorption rather than priced away by rent. Polanyi (1944) recorded the institutional half of the same event. George (1879) drew the fiscal consequence derived below inside the model. These accounts were not refuted. The premise they shared --- that the human advantage over tools varied little from task to task --- stopped holding, and the conclusions lapsed with it. This is the classical configuration of the schedule.
+The wage was pinned to land and to the cost of subsistence before it was pinned to anything else. Ricardo (1817) priced land at the margin and the wage at its natural price, Malthus (1798) supplying the mechanism; the machinery chapter added in 1821 concedes that machinery can injure the laboring class. Marx priced labor power at its cost of reproduction and read enclosure --- the legal extinction of common access to land --- as the manufacture of a labor supply. Lewis (1954) pinned the modern-sector wage to what the traditional sector affords --- a close antecedent to our participation mechanism. His traditional sector supplies an outside option until its surplus labor is absorbed. Polanyi (1944) recorded the institutional half of the same event. George (1879) drew the fiscal consequence derived below inside our model. These accounts describe configurations in which subsistence and access to scarce inputs strongly constrain wage bargains. Uneven machine capability across tasks adds the replacement margin developed below.
 
-\subsection{Automation and the wage}\label{sec:automation}
+\subsection{Automation and the wage}\label{sec:2.6}
 
-Korinek and Stiglitz (2019) pose the below-subsistence scenario this model resolves through exit; Korinek and Suh (2024) is the closest formal predecessor on wage collapse under transformative AI, differing in where the collapse ends --- here at non-produced factors rather than accumulated capital --- and in the treatment of the outside option. Susskind (2017) and Sachs and Kotlikoff (2012) reach technological immiseration through other channels; Moll, Rachel, and Restrepo (2022) route automation's gains to wealth-holders, where this model identifies the fixed-supply input to which the residual income accrues. Aghion, Jones, and Jones (2019) supply the strongest stabilizer --- expenditure concentrating on whatever remains human-required --- granted a theorem in Appendix~\ref{app:human}. Caselli and Manning (2019) prove that real wages cannot fall in terms of goods produced entirely from reproducible inputs; Section~\ref{sec:limit} gives a human-production lower bound for categories without direct requirements for non-produced inputs and shows how persistent requirements constrain other categories. Hémous and Olsen (2022) endogenize automation's direction.
+Korinek and Stiglitz (2019) pose the below-subsistence scenario explored here through dependence and exit; Korinek and Suh (2024) is the closest formal predecessor on wage collapse under transformative AI. Our account connects that collapse to non-produced factors and the cost of the outside option. Susskind (2017) and Sachs and Kotlikoff (2012) reach technological immiseration through other channels; Moll, Rachel, and Restrepo (2022) route automation's gains to wealth-holders, where this model identifies the fixed-supply input to which the residual income accrues. Aghion, Jones, and Jones (2019) supply the strongest stabilizer --- expenditure concentrating on whatever remains human-required --- granted a theorem in Appendix~\ref{app:E}. Caselli and Manning (2019) prove that real wages cannot fall in terms of goods produced entirely from reproducible inputs; Section~\ref{sec:6} gives a lower bound from feasible human production and shows how persistent requirements for non-produced inputs constrain wage purchasing power. Hémous and Olsen (2022) endogenize automation's direction.
 
-\subsection{Other empirical measures}\label{sec:data}
+\subsection{Empirical measures}\label{sec:2.7}
 
-Three empirical objects meet the model below. Factor shares: the labor share's decline is documented and global (Karabarbounis and Neiman 2014), and its capital-side counterpart resolves substantially into housing --- which is to say land (Rognlie 2015; Knoll, Schularick, and Steger 2017; Piketty and Zucman 2014). The long wage record: real wages measured against the cost of a subsistence basket --- welfare ratios in the sense of Allen (2001), extended for England by Clark (2005) --- are the same object this paper refers to as the participation floor, computed at the household level. Payroll incidence: the quasi-experimental literature (Gruber 1997; Kugler and Kugler 2009; Saez, Schoefer, and Seim 2019) provides evidence about labor-demand and participation elasticities. Schedule slope contributes to these elasticities, but incidence alone does not identify it when machine prices, output, and participation also respond.
+Three empirical objects meet our model below. Factor shares: the labor share's decline is documented and global (Karabarbounis and Neiman 2014), and its capital-side counterpart resolves substantially into housing --- which is to say land (Rognlie 2015; Knoll, Schularick, and Steger 2017; Piketty and Zucman 2014). The long wage record: real wages measured against the cost of a subsistence basket --- welfare ratios in the sense of Allen (2001), extended for England by Clark (2005) --- measure the wage relative to a costed living basket. This measures affordability; a reservation wage also reflects available support and preferences. Payroll incidence: the quasi-experimental literature (Gruber 1997; Kugler and Kugler 2009; Saez, Schoefer, and Seim 2019) provides evidence about labor-demand and participation elasticities. Interpreting incidence in terms of schedule slope requires accounting for responses in machine prices, output, and participation.
 
-\section{The model: task assignment and replacement cost}\label{sec:model}
+\section{The model: task assignment and the cost system}\label{sec:3}
 
-\subsection{Tasks and the assignment margin}
+The model connects task assignment, production costs, and participation through a common price system. Proofs of the main price and participation results are collected in Appendix~\ref{app:A.2}.
+
+\subsection{Tasks and the assignment margin}\label{sec:3.1}
 
 \textbf{Tasks.} Producing one unit of the final good requires a continuum of tasks
 $x \in [0,1]$, each in equal amount (Leontief aggregation over tasks): the good's
 unit cost is the sum of its tasks' unit costs. One human-hour completes
 $\gamma_L(x)$ units of task $x$; one machine-hour completes $\gamma_M(x)$.
 Relative human productivity is
-\begin{equation}\label{eq:gamma}
+\begin{equation}\label{eq:1}
 \gamma(x) = \gamma_L(x) / \gamma_M(x).
 \end{equation}
 
-A machine-hour rents for $c$. We begin by treating $c$ as given and then price it
-from the machine sector's own production recipe below. Institutional wage wedges
+A machine-hour rents for $p_m$, the machine-service price in the goods and services vector introduced below. The assignment condition compares labor with this rental; the production network determines the rental itself. Institutional wage wedges
 --- union premia, licensing rents, efficiency wages --- are set aside until
-Section~\ref{sec:stabilizers}.
+Section~\ref{sec:10}.
 
-\textbf{People and non-produced inputs.} $N$ identical workers each supply one hour or exit to an
-outside option worth $s$ --- the value of the best life available without selling
-labor. $s$ is a parameter here and is priced in Section~\ref{sec:floor}; it
-presupposes access to the resources needed outside work. The baseline has one
-non-produced input with a fixed stock. Land services provide a concrete example:
-parcels differ in quality, and idle parcels have reservation rent zero.
+\textbf{People and non-produced inputs.} Each of $N$ workers can supply one hour per period. A worker's reservation wage $s$ is the payment that makes work as attractive as the best available arrangement without that hour's earnings. Section~\ref{sec:4} derives it from support, living costs, and preferences. The baseline has one non-produced input, with rental $r$ and fixed service endowment $T$ per period. Land services provide a concrete example.
 
 Labor, at wage $w$, holds task $x$ when it is the cheaper input:
-$w/\gamma_L(x) \le c/\gamma_M(x)$, i.e.
-$w \le c\cdot\gamma(x)$. The right-hand side is labor's \emph{replacement value} at task $x$: the wage at which labor and the machine alternative cost the same there. Relabel tasks so $\gamma$ increases, and assume the
+$w/\gamma_L(x) \le p_m/\gamma_M(x)$, i.e.
+$w \le p_m\cdot\gamma(x)$. The right-hand side is labor's \emph{replacement value} at task $x$: the wage at which labor and the machine alternative cost the same there. Relabel tasks so $\gamma$ increases, and assume the
 relabeled schedule is continuous and strictly increasing where labor is employed
 (ties permit more than one cost-minimizing assignment). Some tasks cannot be performed by machines at any price:
 $\gamma_M(x)=0$ there, so relative human productivity is unbounded.
 Let $H$ denote the set of tasks closed to machines. The relabeling places
-these tasks last, and Figure~\ref{fig:schedule} represents them as a wall at
+these tasks last, and Figure~\ref{fig:1} represents them as a wall at
 the right edge of the schedule. Where labor holds at least one
 machine-contestable task, $x^*$ denotes the marginal such task and the usual
 indifference condition applies. If labor holds only tasks in $H$, there is no
 machine-contestable marginal task and the machine comparison does not pin the
-wage; Section~\ref{sec:interval} treats that boundary case. On the
+wage; Section~\ref{sec:5} treats that boundary case. On the
 machine-contestable set, competitive assignment gives a threshold: machines
 take the tasks below $x^*$ and labor the tasks above it, while labor performs
-the required tasks in $H$. We call the threshold the \emph{task-assignment margin}, or task margin. An active contestable margin can coexist with human-required tasks in $H$. Appendix~\ref{app:human} treats the case in which human-required services determine the wage.
+the required tasks in $H$. We call the threshold the \emph{task-assignment margin}, or task margin. An active contestable margin can coexist with human-required tasks in $H$. Appendix~\ref{app:E} treats the case in which human-required services determine the wage.
 
-\begin{proposition}[the task margin]\label{prop:margin}
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_schedule.png}
+\caption{The task-assignment schedule. Tasks are ordered so $\gamma(x)$
+increases. On the machine-contestable set, the ratio $w/p_m$ divides tasks:
+machines hold tasks with $\gamma(x)<w/p_m$, labor holds tasks with
+$\gamma(x)>w/p_m$, and an interior margin $x^*$ satisfies equality. Tasks in
+$H$ are closed to machines and appear as a wall at the right edge. If labor
+holds no machine-contestable task, the wall marks the boundary assignment in
+which wages are determined within the human-required sector. A cheaper machine
+or a lower $\gamma$ near an interior margin shifts tasks toward machines.}
+\label{fig:1}
+\end{figure}
+
+\begin{proposition}[the task margin]\label{prop:1}
 (i) At an interior machine-contestable task margin,
 \[
-w=c\gamma(x^*).
+w=p_m\gamma(x^*).
 \]
-(ii) Holding the machine rental fixed, movement of the margin changes the wage at rate $dw/dx^*=c\gamma'(x^*)$. Where a fixed-output labor-demand schedule absorbs additional final-task hours by lowering $x^*$, a steeper capability schedule requires a larger wage change for the same movement of the margin.
+(ii) Holding the machine rental fixed, movement of the margin changes the wage at rate $dw/dx^*=p_m\gamma'(x^*)$. Where a fixed-output labor-demand schedule absorbs additional final-task hours by lowering $x^*$, a steeper capability schedule requires a larger wage change for the same movement of the margin.
 (iii) A worker supplies the market hour only if its wage reaches the reservation value $s$.
 \end{proposition}
 
-\begin{proof}
-(i) At the boundary between human and machine assignment, continuity and cost minimization give $w/\gamma_L(x^*)=c/\gamma_M(x^*)$. (ii) Differentiate the equality at fixed $c$. If output is $Y$, final-task labor demand is $Y\int_{x^*}^1 dx/\gamma_L(x)$, including the human-required tail. Thus $dN_F/dx^*=-Y/\gamma_L(x^*)$ and $dw/dN_F=-c\gamma'(x^*)\gamma_L(x^*)/Y$. (iii) is the participation condition. Output, the rental, and labor used in machine production also respond in a full equilibrium; Appendix~\ref{app:equilibrium} supplies a complete interior example under stated conditions.
-\end{proof}
+% SLIP: p.7, loom example: British "metres" (twice) in an otherwise American-spelled paper (labor, behavior, modeling, center).
+Suppose a loom weaves four metres per hour and a worker weaves one. At $p_m=\$80$ per loom-hour, the two methods have the same weaving cost when the hourly wage is \$20. If the loom improves to five metres per hour, labor's replacement value falls to \$16 at the same rental, with the worker's productivity unchanged. Improvements can differ across weaving, pattern preparation, and repair, changing relative capability unevenly across tasks. This comparison holds the rental and the task fixed; in equilibrium both $p_m$ and the assignment margin may move.
 
-If $c=\$10$ and
-$\gamma(x^*)=4$, the marginal task supports a wage of \$40 while leaving the firm
-indifferent. Let machines improve uniformly by 25\%, so that $\gamma(x^*)$ falls
-to 3.2. Holding $c$ fixed, the replacement value of labor at that task falls to
-\$32 --- a 20\% reduction delivered entirely by an improvement in the competing
-technology, with no human becoming less productive at anything. This arithmetic
-holds $c$ and the assignment margin fixed for illustration; in equilibrium both
-$c$ and $x^*$ may move as well.
+\subsection{The cost recursion}\label{sec:3.2}
 
-\begin{figure}[t!]
+Let $p_i$ be the price of one unit of good or service $i$. Producing that unit requires $a_{ij}$ units of each input $j$, $\lambda_i$ human hours, and $b_i$ units of the non-produced input's services. Under constant returns and competitive free entry, an active production method satisfies the unit-cost equation
+\begin{equation}\label{eq:2}
+p_i = \sum_j a_{ij}p_j + \lambda_i w + b_i r.
+\end{equation}
+The intermediate-input term records the goods and services used to supply $i$. A steam engine delivering the same useful power with less coal uses fewer units of an intermediate input. Coal's price includes extraction and transport, which use labor, machinery, and access to deposits. Tracing these costs through successive rows reaches the human hours and non-produced services in the full chain. Housing services similarly combine structures and maintenance with site access. Each input payment is counted once.
+
+These are prices per unit. Quantities supplied or consumed per period turn them into expenditure flows. The economy is a stationary flow benchmark, with $p_m$ pricing the use of machine services. Appendix~\ref{app:A.4} treats timing and durability.
+
+Collecting the equations gives the input--output price system of Leontief (1936) and Sraffa (1960):
+\begin{equation}\label{eq:3}
+\mathbf{p} = \mathbf{A}\mathbf{p} + \bm{\lambda}w + \mathbf{b}r,
+\qquad
+\mathbf{p} = (I-\mathbf{A})^{-1}(\bm{\lambda}w + \mathbf{b}r).
+\end{equation}
+Row $i$ of $\mathbf{A}$ records inputs per unit of output $i$. The coefficients are nonnegative, and the spectral radius of $\mathbf{A}$ is below one, so intermediate production can deliver positive net output. Define the total requirements, including all intermediate rounds, by
+\begin{equation}\label{eq:4}
+\widetilde{\bm{\lambda}} = (I-\mathbf{A})^{-1}\bm{\lambda},
+\qquad
+\widetilde{\mathbf{b}} = (I-\mathbf{A})^{-1}\mathbf{b}.
+\end{equation}
+Thus $p_i = w\widetilde{\lambda}_i + r\widetilde{b}_i$. The tilde distinguishes the full production chain from the direct requirements in one row. A directly rented non-produced service can also be recorded in $\mathbf{p}$ with price $p_h = r$, zero intermediate and labor requirements, and $b_h = 1$. Its quantity is drawn from the fixed endowment.
+
+Equation~\eqref{eq:2} is a cost equation. The technology determines which input combinations are feasible, and firms choose the cheapest. With fixed recipes the coefficients are technological constants; with substitution they describe the methods selected at the prevailing prices. Task assignment determines the human and machine coefficients in the relevant rows. Automation can therefore change $\mathbf{A}$, $\bm{\lambda}$, and $\mathbf{b}$, as well as the task margin.
+
+We call the tracing of prices through intermediate inputs the \emph{cost recursion}. An input is \emph{terminal over a horizon} when its supply cannot expand through production within that horizon. Land is a lasting example; installed grid connections or fabrication capacity may be terminal temporarily. Electricity, structures, and extraction are activities whose input costs are traced through the system. We reserve \emph{pure rent}
+for income due to fixed supply and \emph{site rent} for the land component of
+real-estate income, excluding structures. Several non-produced inputs enter as $\mathbf{B}\mathbf{r}$ in Appendix~\ref{app:A}. Long-run applications require persistent non-produced inputs.
+
+\subsection{Closing the replacement price}\label{sec:3.3}
+
+The task margin prices labor against machine services, and the machine-service row prices the substitute against the human hours and non-produced inputs embodied in it.
+
+% SLIP: p.9, Proposition 2: no serial comma in "$\gamma(x^*)>0$, $\widetilde{b}_m>0$ and $1-\gamma(x^*)\widetilde{\lambda}_m>0$" (minor; the paper otherwise uses serial commas, e.g. "A, lambda, and b" on p.8).
+\begin{proposition}[replacement closure]\label{prop:2}
+At an active contestable margin with $r>0$, suppose $\gamma(x^*)>0$, $\widetilde{b}_m>0$ and $1-\gamma(x^*)\widetilde{\lambda}_m>0$. The conditions $w=p_m\gamma(x^*)$ and $p_m=w\widetilde{\lambda}_m+r\widetilde{b}_m$ imply
+\begin{equation}\label{eq:5}
+\frac{p_m}{r}
+=
+\frac{\widetilde{b}_m}{1-\gamma(x^*)\widetilde{\lambda}_m},
+\qquad
+\frac{w}{r}
+=
+\frac{\gamma(x^*)\widetilde{b}_m}{1-\gamma(x^*)\widetilde{\lambda}_m}.
+\end{equation}
+Holding the other total requirements fixed, the wage--rent ratio rises with $\gamma(x^*)$ and with $\widetilde{\lambda}_m$.
+\end{proposition}
+
+The denominator measures the feedback from the wage into the cost of its substitute. At the margin, $\gamma(x^*)\widetilde{\lambda}_m$ is the labor share of machine-service cost. A positive rent bill requires this share to be below one. The closure is a price condition at the equilibrium assignment; household choices and market clearing also determine $x^*$ and the selected recipes.
+
+\subsection{Two margins of automation}\label{sec:3.4}
+
+\textbf{Task automation} improves machine capability at tasks near the assignment margin, lowering relative human productivity there. A faster loom reduces the machine time needed to replace an hour of weaving. \textbf{Recursive automation} reduces the human hours embodied in machine services, $\widetilde{\lambda}_m$. Automating the manufacture and maintenance of looms can lower the labor required to supply a loom-hour. Software developers illustrate how the two channels can meet: generating code automatically changes the machine alternative to a programming task; when that work builds or maintains systems supplying machine services, fewer developer hours can also reduce the labor embodied in those services.
+
+Holding the other terms in \eqref{eq:5} fixed, either channel lowers the wage supported by a given rent. With labor in the machine supply chain, task automation also cheapens that chain's labor. Actual technological changes may alter several coefficients and move the margin together. Figure~\ref{fig:2} traces both channels from a common starting point.
+
+When the labor requirement of the full machine-service chain vanishes and $\gamma(x^*)\widetilde{\lambda}_m\to0$, equation~\eqref{eq:5} gives
+\begin{equation}\label{eq:6}
+\frac{p_m/r}{\widetilde{b}_m} \to 1.
+\end{equation}
+The service price is then accounted for by its embodied claim on the non-produced input. Interest and institutional rents introduce additional income components outside the two-factor flow benchmark.
+
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.88\linewidth]{figures/fig_schedule.png}
-\caption{The task-assignment schedule. Tasks are ordered so $\gamma(x)$
-increases. On the machine-contestable set, the ratio $w/c$ divides tasks:
-machines hold tasks with $\gamma(x)<w/c$, labor holds tasks with
-$\gamma(x)>w/c$, and an interior margin $x^*$ satisfies equality. Tasks in
-$H$ are closed to machines and appear as a wall at the right edge. If labor
-holds no machine-contestable task, the wall marks a boundary case rather
-than an additional price schedule. A cheaper machine or a lower $\gamma$
-near an interior margin shifts tasks toward machines.}
-\label{fig:schedule}
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_replacement_closure.png}
+\caption{The replacement closure \eqref{eq:5}, with $\widetilde{b}_m=1$ and illustrative values. Each curve holds the full-chain labor in a machine-hour, $\widetilde{\lambda}_m$, fixed. The gap between a curve and the line $\widetilde{\lambda}_m=0$ is the feedback from the wage into the cost of its substitute. From A, task automation lowers $\gamma(x^*)$ and moves the economy along its curve; recursive automation lowers $\widetilde{\lambda}_m$ and moves it down to the line, where $w/r=\gamma(x^*)\widetilde{b}_m$.}
+\label{fig:2}
 \end{figure}
 
+\section{The outside option: pricing exit}\label{sec:4}
 
-\subsection{Pricing the machine substitute}
+A person who declines paid work still needs somewhere to live, food, energy, and care. Our participation benchmark focuses on dependence: a household or public institution provides the living standard available outside employment. For example, an adult may live with parents who provide housing and basic consumption while the adult decides whether to take paid work. If support continues during employment, earnings buy additional consumption. The parents may themselves finance that support from wages. Access to support, its security, and the obligations it carries help determine the value of exit.
 
-The task-margin condition prices labor against the machine at the marginal task. The remaining object is the machine rental $c$. A machine is itself
-produced, so its price depends on the inputs required to reproduce machine
-services.
-
-Suppose one unit of machine services is produced with three kinds of inputs:
-$a$ units of machine services themselves ($a<1$: machines net-reproduce);
-$\lambda$ labor-hours --- the fabrication, operation, maintenance, and
-installation the machine sector still buys; and $b$ units of services from a
-non-produced input, such as a site or mineral deposit, renting at $r$. As a price equation this is
-the one-sector version of the input-output cost systems of Leontief (1936) and
-Sraffa (1960): with free entry and constant returns, the rental equals unit cost,
-\begin{equation}\label{eq:recursion}
-c = a\cdot c + \lambda\cdot w + b\cdot r.
+Let $\mathbf{z}$ specify a basket of goods and services supplied per person per period. Its cost is
+\begin{equation}\label{eq:7}
+P_s = \mathbf{z}^{\mathsf{T}}\mathbf{p} = \sum_i z_i p_i.
 \end{equation}
+The production network therefore prices both the machine substitute and the support on which a person can live. Housing services include their site costs; a direct rental of space enters at $p_h = r$ and is counted once.
 
-The first term is recursively embodied machine content; the second is the wage
-bill inside the substitute; the third is the claim on the inputs at which the
-recursion terminates. We call this backward tracing of the machine rental
-through its own input costs the \emph{machine-sector cost recursion}, below
-simply the recursion. Call an input \emph{terminal over a horizon} when its
-supply cannot expand through the production process within that horizon;
-the propositions say ``non-produced'' for inputs outside the production
-recursion. Land is a lasting example; produced bottlenecks such as grid
-connections or fabrication capacity may be terminal only temporarily.
-Electricity, structures, and extraction are produced activities whose costs
-are traced through the recursion. The scalar model follows one non-produced
-input: $r$ is its service rental, $b$ the services required per unit of machine
-output, and $T$ its fixed service endowment per period. Several inputs carry
-separate rentals in Appendix~\ref{app:environment}. We reserve \emph{pure rent}
-for income due to fixed supply and \emph{site rent} for the land component of
-real-estate income, excluding structures. The results hold over horizons on
-which the specified service endowments are fixed; long-run applications require
-persistent non-produced inputs.
-
-
-\subsection{Closing the replacement price}
-
-The task margin and the machine-sector price equation form a closed system. The
-first prices labor against the substitute; the second prices the substitute
-against its own inputs.
-
-\begin{proposition}[replacement closure]\label{prop:replacement}
-Let the task margin hold,
-\[
-w = c\cdot\gamma(x^*),
-\]
-and let machine services be priced by free entry,
-\[
-c = ac + \lambda w + br.
-\]
-If $1-a-\lambda\gamma(x^*)>0$, then
-\begin{equation}\label{eq:closure}
-c =
-\frac{b\cdot r}{1-a-\lambda\gamma(x^*)},
+Suppose the provider maintains one basket in both work and exit, and consumption expands in the same proportions as the basket. Earnings purchase additional consumption. A person chooses whether to supply one market hour, $n\in\{0,1\}$, with utility
+\begin{equation}\label{eq:8}
+u_n = \log\left(1+\frac{wn}{P_s}\right) - \chi n,
 \qquad
-w =
-\frac{\gamma(x^*)\cdot b\cdot r}
-     {1-a-\lambda\gamma(x^*)}.
+\chi\ge0.
 \end{equation}
+Consumption is measured in baskets, with one supplied through support. The parameter $\chi$ is the utility cost of the market hour, including the value of time it displaces. Non-work time is valuable and heterogeneous (Mas and Pallais 2019).
 
-The wage is a claim on terminal rents, scaled by relative productivity at the
-assignment margin and amplified by the production recursion. On the viable set
-both prices rise in $\lambda$ and in $\gamma(x^*)$.
-\end{proposition}
-
-\begin{proof}
-Substitute $w=c\gamma(x^*)$ into the zero-profit condition:
-\[
-c = ac + \lambda c\gamma(x^*) + br,
-\]
-so
-\[
-c\cdot(1-a-\lambda\gamma(x^*)) = br.
-\]
-Multiply by $\gamma(x^*)$ for the wage. The derivatives are
-\[
-\frac{\partial w}{\partial\lambda}
-=
-\frac{\gamma(x^*)^2br}
-     {(1-a-\lambda\gamma(x^*))^2},
-\]
-and
-\[
-\frac{\partial w}{\partial\gamma(x^*)}
-=
-\frac{br(1-a)}
-     {(1-a-\lambda\gamma(x^*))^2},
-\]
-both positive; and
-\[
-\frac{\partial c}{\partial\gamma(x^*)}
-=
-\frac{\lambda br}
-     {(1-a-\lambda\gamma(x^*))^2},
-\]
-positive exactly when $\lambda>0$.
-\end{proof}
-
-The viability condition has an intuitive reading:
-$a+\lambda\gamma(x^*)$ is the produced content of one unit of machine services
-once its labor is priced at the task margin --- direct machine content $a$, plus
-the machine-equivalent $\lambda\gamma(x^*)$ of its labor. If that reaches one,
-the sector cannot deliver services at any finite price.
-
-
-\subsection{Two margins of automation}
-
-The closure separates two kinds of automation that are usually discussed as one.
-
-\textbf{Task automation} lowers $\gamma(x^*)$: machines improve at tasks near the
-assignment margin, so a marginal human hour replaces less machine service. This
-is the automation margin of the task literature.
-
-\textbf{Recursive automation} lowers $\lambda$: fewer human hours are required to
-produce, operate, and maintain machine services themselves. This removes the wage
-bill from the substitute's own cost base and therefore lowers the replacement
-price directly. 
-
-Either change lowers the wage supported by a given terminal rent. And they
-interact: with $\lambda>0$, task automation also cheapens the machine, because it
-cheapens the machine sector's own labor.
-
-A worked instance shows the recursion's amplification. At
-\[
-(a,\lambda,\gamma(x^*),b,r)=(0.5,0.1,3,0.2,1),
-\]
-the recipe gives $c=1$ and $w=3$, and one checks
-\[
-1 = 0.5\cdot1 + 0.1\cdot3 + 0.2\cdot1.
-\]
-Now let recursive automation run $\lambda$ from 0.1 to 0, holding everything
-else fixed. Then $c$ falls to 0.4 and the wage falls to 1.2 --- a 60\% reduction
-from removing one tenth of an hour of labor from the machine recipe, because
-that tenth of an hour, priced at the margin wage, was 30\% of the recipe's cost.
-
-In the limit $\lambda\to0$,
-\begin{equation}\label{eq:lambda-zero}
-c \to \frac{b\cdot r}{1-a},
-\end{equation}
-and the replacement price contains no wage at all: its reproducible components
-are internal to the recursion, and what remains in unit cost is the claim on the
-terminal input. Time preference and durability add an interest term to the
-recursion but do not change the conclusion; Appendix~\ref{app:environment} has
-the derivation, along with the matrix version for many machine types and several
-terminal inputs.
-
-\textbf{Ideas are the boundary case.} An idea's reproduction requires
-approximately nothing of anything. so its competitive price is approximately zero. Any positive
-price on an idea is institutional scarcity, chosen because at marginal-cost
-pricing, ideas with fixed creation costs are not created (Romer 1990).
-Institutional rents are therefore real, revocable, and policy-elastic; the income accounting in Section~\ref{sec:limit} treats them as additional claims when they are present, rather than identifying them with physical scarcity.
-
-\section{The outside option: pricing exit}\label{sec:floor}
-
-The firm-side condition supplies labor's replacement value. Participation supplies the other side: a worker accepts when the wage reaches the outside option $s$. For long-run technological change, treating $s$ as fixed hides the relative price of the consumption required outside market work.
-
-Exit is a consumption problem. A person who leaves the labor market lives on
-household production, family, savings, transfers, informal work, a plot --- and
-every one of those arrangements uses housing, space, energy, food, and care.
-Field evidence prices the components: the value of non-work time and household
-production is substantial and heterogeneous (Mas and Pallais 2019), and the
-calibration that resolves the volatility puzzle sets the aggregate outside
-option high for exactly this reason (Hagedorn and Manovskii 2008). If the inputs
-of unwaged life become expensive relative to goods, the value of exit falls with
-no change in anyone's capabilities.
-
-Model the exit life directly. Let $q = r/p$ be the price of non-produced services relative to the goods price $p$ (the machine-made good is the numeraire below). An independent exit arrangement yields a gross exit value $s_0$ in goods units and requires $h_e$ units of the non-produced input's services. Land provides a concrete example: the requirement is quality-adjusted access to space, so no particular parcel is needed. If independent access is unaffordable, exit degrades to a dependency floor $\underline{s} < s_0$. In the housing example, this means access through someone else's household, in the modern economy often a parent's spare room. So
-\begin{equation}\label{eq:exit}
-s(q) = \max( s_0 - q\cdot h_e , \underline{s} ),
-\end{equation}
-falling one-for-one with $q\cdot h_e$ until the dependency floor binds; thereafter, further rent increases do not reduce $s$. We call $s(q)$ the \emph{participation floor}: the value, in goods units, of not supplying the market hour. The functional form is deliberately minimal; the only essential property is $\partial s/\partial q \le 0$. An exit bundle that also contains produced goods adds a goods term whose relative cost falls with automation. The bundle retains a direct requirement for non-produced services: supplying one's own hours still requires access to the site on which to live, alongside the resources embodied in food and energy.
-
-\begin{proposition}[the endogenous outside option]\label{prop:exit}
-In the land-access example: (i) While suitable parcels lie idle --- parcels on which the gross exit value $s_0$ is attainable --- the marginal such parcel rents at zero: the exit plot is free and $s = s_0$. An unpriced margin of this kind is what ``a commons'' is, economically: idle land, family access, public provision --- any arrangement supplying the scarce input below its rental price. (ii) Once no suitable parcel lies idle, the exit plot pays the ruling rent and $s = s(q)$ above. The trigger is the exhaustion of suitable idle land. (iii) For workers with $\partial s/\partial q < 0$, a rise in $q$ shifts labor supply outward: participation weakly rises, and by Proposition~\ref{prop:margin}(ii) the equilibrium wage weakly falls where the schedule has slope holding the labor-demand schedule fixed. The full equilibrium effect also includes the response of replacement costs and output.
-\end{proposition}
-
-\begin{proof}
-(i) Any positive rent on the marginal parcel is undercut by an idle neighbor of reservation rent zero. (ii) With no idle neighbor, the exit plot must outbid other uses for the marginal suitable parcel, whose rent is now positive; the net exit value is $s_0 - q\cdot h_e$ until $\underline{s}$ binds. (iii) A lower reservation value moves the participation step down: more workers accept at any wage; the wage response is Proposition~\ref{prop:margin}'s comparative statics.
-\end{proof}
-
-A parcel rents at zero because little can be done with it --- which is why the truly idle margin supports no exit either. Free and livable together is a particular historical configuration. When no suitable parcel idles, the dependency floor $\underline{s}$ is not land-free but otherwise-funded, in three modern forms. Dependency: a room supplied out of someone else's wage or ownership, an unpaid transfer from the employed to the exited. Public provision: the out-of-work payment of Appendix~\ref{app:conditionality}, unconditional in few places and limited in scope where it exists. Tolerated use: living on land one does not hold, its price paid in eviction risk rather than rent. Each is a commons in the degraded sense: the scarce input supplied below its rent, from someone's budget, the state's, or the law's forbearance. None is insulated from $q$: the host's capacity to share inherits the host's rent bill, so the flat segment at $\underline{s}$ is an upper bound.
-
-This is the model's understanding of enclosure. Close the idle margin --- by law, as in the historical enclosures, or by price, as when housing scarcity does the same work parcel by parcel --- and three things happen at once: the outside option falls, participation rises, and the wage falls at given technology. Enclosure therefore expands labor supply. Marx said so as history; Lewis (1954) built the two-sector version, with the traditional sector's per-head product as the modern sector's wage anchor; Polanyi (1944) documented the institutional campaign. The mechanism is visible in rent-to-wage ratios, household formation, and coresidence. Appendix~\ref{app:race} analyzes the timing between the closing of this margin and the arrival of a funded replacement.
-
-\section{The two sides of the wage}\label{sec:interval}
-
-The two closures can now be assembled. On the labor-demand side, competitive
-assignment requires
-\[
-w = c(r)\cdot\gamma(x^*)
-\]
-at an active machine-contestable margin. On the labor-supply side,
-participation requires
-\[
-w \ge s(q), \qquad q=r/p.
-\]
-The first is an equilibrium equality at
-an interior task margin; the second is a participation constraint. Terminal
-scarcity nevertheless enters both:
-\[
-r
-\to c(r)
-\to c(r)\gamma(x^*)
-\to \textit{labor demand},
+\begin{proposition}[dependence, living costs, and participation]\label{prop:3}
+Suppose $P_s>0$ and the supported basket remains available in both states. Under \eqref{eq:8}, work is optimal exactly when
+\begin{equation}\label{eq:9}
+w \ge s,
 \qquad
-q=r/p
-\to s(q)
-\to \textit{labor supply}.
-\]
-
-The two channels can pull the equilibrium wage in opposite directions. A higher
-terminal rent makes the machine substitute more expensive and therefore raises
-the replacement value of labor at a given assignment margin. The same rise in
-rent can erode the outside option, expand participation, and move the assignment
-margin in the opposite direction. Which effect dominates is a parameter
-question. What is not ambiguous is that both sides are formed partly in the
-market for non-produced inputs.
-
-In bargaining language, the same objects delimit the surplus
-available for bargaining: the value generated by employing labor relative to
-the firm's alternative, and the value of work relative to the worker's
-alternative. The present competitive benchmark selects the wage through the
-task-assignment condition, while participation determines who enters and
-therefore where the assignment margin settles. Institutions can insert wedges
-between those objects, but need not supply their underlying levels.
-
-Automation can shift both sides: task and recursive automation lower the replacement value at a given margin, while a higher $q$ can lower the reduced-form outside option. Participation then helps determine which task is marginal. The wage response depends on the local schedule, the machine recipe, and output demand.
-
-\textbf{Heterogeneity and skill premia.} Workers differ in productivity across tasks and in their outside options. For each type, an active machine-contestable margin prices the wage against the machine substitute. When a type works only at tasks in $H$, its wage depends on demand for those services, the supply of that type, institutions, and participation. The outside option supplies a lower bound; statements about the dependency floor concern the bottom of the support. Relative wages also reflect comparative advantage and substitution between worker types, together with their relative supplies. Training takes time and resources to acquire. Where entry into training is open, those costs discipline the long-run premium, while a shortage of trained workers can sustain a higher return. These comparisons guide the historical discussion; a full account of skill premia would jointly determine task assignment, training, and labor supplies.
-
-\section{Purchasing power at an interior margin}\label{sec:limit}
-
-At an active task margin, the replacement closure determines the wage relative to the rental of the non-produced input:
-\begin{equation}\label{eq:fork-price}
-\frac{w}{r}=\frac{b\gamma(x^*)}{1-a-\lambda\gamma(x^*)}.
+s = (e^{\chi}-1)P_s.
 \end{equation}
-At a given marginal task, a fall in $\gamma(x^*)$ or in $\lambda$ lowers this ratio, holding the other recipe coefficients fixed. In equilibrium the margin can move as well. The relevant empirical object is therefore the cost of replacing labor that remains employed, not average machine capability across all tasks.
-
-\subsection{Category costs and wage purchasing power}
-
-Let category $j$ require $b_j\ge0$ units of services from the non-produced input directly, alongside a task list $\mathcal X_j$. This direct requirement is unavoidable under either human or machine assignment. Each task has a feasible human method, and
-\[
-\bar L_j=\int_{\mathcal X_j}\frac{dx}{\gamma_{Lj}(x)}\in(0,\infty)
-\]
-is the hours required to perform that list entirely by human labor. It is a technological alternative, not the hours actually employed. Task quantities are included in the integration measure; produced inputs other than the machine services priced by $c$ are traced into the task list. The machine sector's inputs are already priced in $c$ and are not counted again. A category can have $b_j=0$ while using the non-produced input indirectly through its machine supply chain.
-
-At an active margin, $c/w=1/\gamma(x^*)$. Express each category's task cost in units of the wage:
-\begin{equation}\label{eq:effective-hours}
-L_j^*=\int_{\mathcal X_j}\frac{1}{\gamma_{Lj}(x)}
-\min\left\{1,\frac{\gamma_j(x)}{\gamma(x^*)}\right\}dx,
-\qquad \gamma_j(x)=\frac{\gamma_{Lj}(x)}{\gamma_{Mj}(x)}.
-\end{equation}
-On a human-required task the minimum is one. $L_j^*$ is the wage-equivalent cost of the task list, including machine work; it is not a count of human hours. It depends on the task technologies and the equilibrium margin, and satisfies $0\le L_j^*\le\bar L_j$.
-
-\begin{proposition}[the real-wage fork at an interior margin]\label{prop:fork}
-With an active replacement margin and the category requirements above, competitive prices satisfy
-\begin{equation}\label{eq:composites}
-p_j=wL_j^*+rb_j,\qquad
-\frac{w}{p_j}=\frac{1}{L_j^*+b_j(r/w)},\qquad
-\frac{r}{w}=\frac{1-a-\lambda\gamma(x^*)}{b\gamma(x^*)}.
-\end{equation}
-For arbitrary cost-minimizing task assignments, including boundary assignments, the prices also obey
-\begin{equation}\label{eq:category-bounds}
-rb_j\le p_j\le rb_j+w\bar L_j.
-\end{equation}
-Consequently, when $b_j>0$,
-\begin{equation}\label{eq:fork-pair}
-\frac{1}{\bar L_j+b_j(r/w)}
-\le\frac{w}{p_j}
-\le\frac{w/r}{b_j}.
-\end{equation}
-When $b_j=0$, wage purchasing power satisfies $w/p_j\ge1/\bar L_j$.
+For $\chi>0$, the reservation wage rises with the cost of the basket.
 \end{proposition}
 
-\begin{proof}
-The competitive category price is
+At a fixed wage, a higher basket price reduces the consumption gained from working. With support maintained, participation weakly falls. The condition depends on the wage relative to living costs, so a proportional rescaling of prices leaves the choice unchanged.
+
+Maintaining that support requires resources from the provider. Rising housing or care costs can strain a family budget or the capacity of public provision, changing the support available. Appendix~\ref{app:B} gives a fully funded household example, and Appendix~\ref{app:D.3} measures how much support rents can finance. Payments that change upon employment are treated in Appendix~\ref{app:D.1}.
+
+Personal assets, pensions, and savings can also support life outside employment. These sources, together with preferences and the nonpecuniary value of work, influence participation and the prospect of an independent life. The benchmark isolates the choice faced by someone whose living standard is sustained through dependence.
+
+Access to common land is a historical example of support through shared resources. Enclosure could remove that access and increase the need for wage income, the mechanism emphasized by Marx, Lewis (1954), and Polanyi (1944). In a modern economy, housing arrangements, household support, and public provision shape the corresponding outside option.
+
+\section{Replacement meets participation}\label{sec:5}
+
+Replacement pricing and participation jointly determine the wage and task assignment. For $N$ potential workers facing the same wage and funded support, let $F$ be the continuous distribution function of the work cost $\chi$, with $F(0)=0$. Aggregating Section~\ref{sec:4}'s choice gives employed hours
+\begin{equation}\label{eq:10}
+N_a=NF\left(\log\left[1+\frac{w}{P_s}\right]\right).
+\end{equation}
+The production network prices the basket through its total human hours $L_s=\mathbf{z}^{\mathsf{T}}\widetilde{\bm\lambda}$ and non-produced services $B_s=\mathbf{z}^{\mathsf{T}}\widetilde{\mathbf{b}}$, so $P_s=wL_s+rB_s$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_labor_market_clearing.png}
+\caption{Labor-market clearing in the numerical economy of Appendix~\ref{app:B} ($N=4$, $T=10$, $h=1$, $a=0.3$, $b=0.4$, $\chi$ uniform on $[0,1]$). The participation curve $N_a/N=\log(1+w/P_s)$ holds support and preferences fixed. Each demand curve traces labor demand $n_D/N$ against $w/P_s$ as the task margin moves. At baseline ($\lambda=0.05$, $\gamma(x)=0.2+0.8x$), the equilibrium has $w/P_s\simeq0.40$ and $N_a/N\simeq0.34$. Recursive automation ($\lambda=0$) moves it to about $0.37$ and $0.32$; task automation, which halves $\gamma$ at every task, moves it to about $0.24$ and $0.21$.}
+\label{fig:3}
+\end{figure}
+
+For a transparent equilibrium, suppose all households consume in the basket's proportions, support is fully funded, and the endowment $T$ is fully used at $r>0$. With $B_s>0$, total production supports $T/B_s$ baskets and requires $TL_s/B_s$ human hours. Labor-market clearing is therefore
+\begin{equation}\label{eq:11}
+\underbrace{\frac{TL_s}{B_s}}_{\text{hours required}}
+=\underbrace{NF\left(\log\left[1+\frac{w}{P_s}\right]\right)}_{\text{hours supplied}}.
+\end{equation}
+The requirements $L_s$ and $B_s$ depend on task assignment. Together with replacement pricing in \eqref{eq:5}, this condition links participation to the equilibrium margin $x^*$. Appendix~\ref{app:B} constructs the household budgets and proves existence and uniqueness under explicit funding conditions.
+
+In that economy, labor demand falls with $x^*$, while $w/r$ and $w/P_s$ rise. Holding technology and support fixed, a lower willingness to work weakly raises $x^*$ and $w/r$, provided an interior equilibrium remains. Workers occupy tasks at which their relative productivity is higher. This participation response can cushion a wage decline from automation; the overall effect depends on how technology changes replacement costs and the living basket. Figure~\ref{fig:3} draws this market for the numerical economy of Appendix~\ref{app:B}. With support and preferences fixed, participation depends only on $w/P_s$, so technology moves only the demand side. In that example, both automation channels lower the real wage and participation together.
+
+\textbf{Heterogeneity and skill premia.} Workers differ in task productivity, access to support, living costs, and preferences. An active contestable margin prices each type's wage against machine services. For a type employed only at human-required tasks in $H$, demand, supply, institutions, and participation determine the wage. Relative wages also reflect substitution between worker types and their relative supplies. Training takes time and resources; open entry disciplines the long-run premium through those costs, while shortages can sustain a higher return. These comparisons guide the historical discussion. A full account of skill premia would jointly determine assignment, training, and household labor supply.
+
+\section{Purchasing power at an interior margin}\label{sec:6}
+
+Equation~\eqref{eq:5} links technology to the wage relative to rent. What that wage buys also depends on the labor and non-produced inputs embodied in each good.
+
+\subsection{What an hour's wage buys}\label{sec:6.1}
+
+For every good or service, the total requirements in \eqref{eq:4} give an exact price. A feasible alternative method also bounds that price from above. Where the entire production chain can be performed by a human method, let $\bar L_i\in(0,\infty)$ and $\bar b_i\ge0$ be its total human hours and non-produced services per unit of output. The barred coefficients describe this feasible alternative's complete chain, including its intermediate inputs; the tilde coefficients describe the selected method.
+
+\begin{proposition}[the real-wage fork at an interior margin]\label{prop:4}
+At positive wages and rents, every positively priced good or service in the two-factor cost system satisfies
+\begin{equation}\label{eq:12}
+p_i=w\widetilde\lambda_i+r\widetilde b_i,\qquad
+\frac{w}{p_i}=\frac{1}{\widetilde\lambda_i+\widetilde b_i(r/w)}.
+\end{equation}
+At an active contestable margin, \eqref{eq:5} determines $r/w$. If the stated human method is feasible and $\widetilde b_i>0$,
+\begin{equation}\label{eq:13}
+\frac{1}{\bar L_i+\bar b_i(r/w)}
+\le\frac{w}{p_i}
+\le\frac{w/r}{\widetilde b_i}.
+\end{equation}
+A feasible human method with $\bar b_i=0$ gives $w/p_i\ge1/\bar L_i$. The price identity and bounds hold also at boundary task assignments, with their corresponding selected recipes.
+\end{proposition}
+
+The rent bound counts the whole supply chain. An hour's wage buys $w/r$ units of the non-produced service; a unit of output embodies $\widetilde b_i$ units. A good with no direct requirement may still use that input through electricity, materials, or machinery. The human-method bound likewise counts its entire chain. For cloth, consider a feasible hand-production method covering the fibers, spinning, weaving, tools, and workspace. The wage and rent bill for that complete chain caps the competitive price of cloth. Cheaper machine production raises what an hour's wage can buy above the lower bound. Ownership income and transfers fund consumption in addition to wages. Appendix~\ref{app:A.3} gives the task-level representation of these costs.
+
+Changes in purchasing power depend jointly on the wage--rent ratio and the requirements embodied in each good. Building taller can supply more floor space on a given site, lowering direct site area per unit. Higher crop yields can reduce the acreage needed for a given number of calories. These changes also alter requirements for structures, machinery, fertilizer, and energy; $\widetilde b_i$ counts the non-produced inputs throughout those supply chains. At given wages, rents, and total human requirements, a lower $\widetilde b_i$ reduces the price. Equilibrium affordability also depends on the wage--rent ratio. The ratio $\bar b_i/\bar L_i$ describes how strongly rents enter the human-method lower bound; ordering actual price changes requires the selected recipes.
+
+\begin{corollary}[vanishing wage purchasing power and participation]
+Along a sequence of equilibria with an active contestable margin, suppose
 \[
-p_j=rb_j+\int_{\mathcal X_j}
-\min\left\{\frac{w}{\gamma_{Lj}(x)},
-            \frac{c}{\gamma_{Mj}(x)}\right\}dx,
+\gamma(x^*)\widetilde b_m\to0,\qquad
+1-\gamma(x^*)\widetilde\lambda_m\ge\varepsilon>0.
 \]
-where machine cost is infinite on tasks closed to machines. At an active margin, dividing each task cost by $w$ and substituting $c/w=1/\gamma(x^*)$ gives $L_j^*$ and \eqref{eq:composites}. Every task cost is nonnegative and no larger than the human method's cost. Integrating gives \eqref{eq:category-bounds}; dividing and inverting gives \eqref{eq:fork-pair} and the case $b_j=0$.
-\end{proof}
+Then $w/r\to0$. Wage purchasing power tends to zero for every good whose total non-produced input requirement stays bounded away from zero. A persistent unavoidable direct requirement is sufficient. A feasible human method with no non-produced input and uniformly bounded human hours preserves a positive lower bound on wage purchasing power.
 
-The upper bound comes from the rent bill: an hour's wage buys $w/r$ units of the non-produced input's services, and a unit of category $j$ requires at least $b_j$ units. The lower bound is the feasible human method. Machine substitution can make a category cheaper than that method, raising purchasing power above the lower bound. The quantities measure what wages buy; ownership income and transfers also fund consumption.
-
-The exact formula separates the wage-equivalent task cost $L_j^*$ from the direct rent bill $b_j(r/w)$. At given $L_j^*$ and $b_j>0$, a rise in $r/w$ lowers wage purchasing power; at given $r/w$, a fall in $L_j^*$ raises it. Both can move under automation, so the net change depends on task technologies, movement of the margin, and direct input requirements. The ratio $b_j/\bar L_j$ measures the non-produced input requirement per hour of the feasible human method and describes the lower bound's sensitivity to $r/w$. Ordering actual category price changes also requires information about their task costs.
-
-\begin{corollary}[a vanishing wage--rent ratio]
-Along a sequence of equilibria with an active replacement margin, suppose
-\[
-b\gamma(x^*)\to0,\qquad
-1-a-\lambda\gamma(x^*)\ge\varepsilon>0.
-\]
-Then $w/r\to0$. Wage purchasing power tends to zero for every category whose direct requirement for the non-produced input stays bounded away from zero. For a category with no direct requirement, a uniform upper bound on $\bar L_j$ preserves a positive lower bound on wage purchasing power.
+If $B_s$ stays bounded away from zero, one basket remains funded in work and exit, and the distribution $F$ of work costs is fixed and continuous with $F(0)=0$, then
+\begin{equation}\label{eq:14}
+\frac{w}{P_s}\to0,\qquad
+\frac{N_a}{N}\to0.
+\end{equation}
 \end{corollary}
 
 \begin{proof}
-Equation~\eqref{eq:fork-price} gives $0<w/r\le b\gamma(x^*)/\varepsilon\to0$. If $b_j\ge\underline b_j>0$, Proposition~\ref{prop:fork} gives $0<w/p_j\le(w/r)/\underline b_j\to0$. Its bound for $b_j=0$ gives the final statement.
+Equation~\eqref{eq:5} bounds $w/r$ above by $\gamma(x^*)\widetilde b_m/\varepsilon\to0$. If $\widetilde b_i\ge\underline b_i>0$, then $0<w/p_i\le(w/r)/\underline b_i\to0$. The human-method lower bound with $\bar b_i=0$ remains positive when human hours are uniformly bounded. For the basket, $P_s\ge rB_s$ gives $0<w/P_s\le(w/r)/B_s\to0$. Equation~\eqref{eq:10} and continuity of $F$ at zero then give $N_a/N\to0$.
 \end{proof}
 
-The sufficient conditions concern replacement at the equilibrium margin. At fixed positive $\gamma(x^*)$ and $b$, sending $\lambda$ to zero leaves a positive wage--rent ratio, $b\gamma(x^*)/(1-a)$. The path therefore depends on both the machine recipe and relative capability at the tasks labor still holds. Human-required work can sustain a boundary assignment, and falling direct requirements for non-produced inputs can sustain a category's wage purchasing power. Appendix~\ref{app:equilibrium} gives a complete equilibrium with a strictly increasing schedule and an illustrative sequence with a persistent two-to-one capability ratio.
+The conditions concern replacement at the equilibrium margin. At fixed positive $\gamma(x^*)$ and $\widetilde b_m$, eliminating embodied labor from machine services leaves $w/r=\gamma(x^*)\widetilde b_m>0$. Human-required work can sustain a boundary assignment, and falling non-produced input requirements can sustain purchasing power. Appendix~\ref{app:B} gives a complete interior equilibrium and a sequence with a persistent two-to-one capability ratio across tasks.
 
-\textbf{Flat-case remark.} If relative capability is constant at $\bar\gamma$ across a category's tasks and $w=c\bar\gamma$, every task is at cost parity and $L_j^*=\bar L_j$. The upper price bound is then attained:
-\[
-p_j=w\bar L_j+rb_j,\qquad
-\frac{w}{p_j}=\frac{1}{\bar L_j+b_j(r/w)}.
-\]
-The category's real wage is exactly $1/\bar L_j$ when $b_j=0$; a higher ratio $b_j/\bar L_j$ makes the rent term dominate sooner as $r/w$ rises.
+The participation conclusion depends on maintaining the outside option. As wages buy less additional consumption, fewer people choose work when their basic support remains available. If providers' resources shrink and support falls, the participation response can change. Section~\ref{sec:7} connects the funded basket to the income available for redistribution.
 
-\subsection{Factor income while labor remains employed}
+\subsection{Factor income while labor remains employed}\label{sec:6.2}
 
-\begin{proposition}[income accounting]\label{prop:income}
+\begin{proposition}[labor's share]\label{prop:5}
 In the competitive flow economy with human hours and one non-produced input as the two primary factors, let $N_a\le N$ be total employed hours, including labor in machine production, and let $T$ be the fixed, fully employed service endowment of the non-produced input. Final expenditure and factor income satisfy
-\begin{equation}\label{eq:income}
+\begin{equation}\label{eq:15}
 I=wN_a+rT,\qquad
 \frac{wN_a}{I}=\frac{(w/r)N_a}{(w/r)N_a+T}.
 \end{equation}
@@ -522,93 +385,115 @@ At given $N_a$ and $T$, a lower wage--rent ratio lowers labor's share. With boun
 \end{proposition}
 
 \begin{proof}
-Intermediate payments cancel when final expenditure is traced through the machine sector's zero-profit condition, leaving the payments for all human hours and non-produced services. Appendix~\ref{app:accounting} gives the cancellation explicitly. Divide by $r$ for the share formula; bounded hours give the limit.
+Intermediate payments cancel when final expenditure is traced through the cost system, leaving the payments for all human hours and non-produced services. Appendix~\ref{app:C} gives the cancellation explicitly. Divide by $r$ for the share formula; bounded hours give the limit.
 \end{proof}
 
-Ownership of the non-produced input receives the non-wage component of income in this two-factor flow benchmark. The wage bill includes work at final tasks as well as in machine production; setting $\lambda=0$ leaves final-task wages in the income identity. Interest, institutional rents, and transitional capacity rents add income components outside this benchmark. Labor's share responds jointly to the wage--rent ratio and employment, so increased employment can offset a local fall in $w/r$.
+Ownership of the non-produced input receives the non-wage component of income in this two-factor flow benchmark. The wage bill includes work throughout the network; eliminating labor from machine services leaves any human hours used elsewhere in the income identity. Interest, institutional rents, and transitional capacity rents add income components outside this benchmark. Labor's share responds jointly to the wage--rent ratio and employment, so increased employment can offset a local fall in $w/r$. When the funded-support conditions for \eqref{eq:14} also hold, both the wage--rent ratio and the employed fraction tend to zero.
 
-\section{Distribution: rent taxation and a uniform transfer}\label{sec:fiscal}
+\section{Distribution: rent taxation and a uniform transfer}\label{sec:7}
 
 The income identity separates two sources of purchasing power: hours sold and ownership claims. A lower wage--rent ratio increases the importance of ownership at given employment. Rent taxation and transfers determine how this income is distributed across households.
 
 Let non-produced inputs supply fixed service endowments $T_j$ at gross competitive rents $r_j$, and write $R=\sum_jr_jT_j$. A tax at rate $\tau_R$ on pure ownership rents finances a uniform per-person transfer $d=\tau_RR/N$, paid identically in and out of work.
 
-\begin{proposition}[sharing rents while labor remains employed]\label{prop:welfare}
-(i) A tax on the pure ownership rent of a fixed factor does not change its physical supply. Producers continue to face the gross rental for using it; the ownership tax introduces no direct wedge between their cost and that rental.
+\begin{proposition}[sharing rents while labor remains employed]\label{prop:6}
+(i) The physical supply of the fixed factor is invariant to a tax on its pure ownership rent. Producers continue to pay the gross competitive rental for using it.
 
-(ii) An unconditional transfer has no withdrawal at the work--exit boundary: the transfer differential between working and not working is zero. In the reduced-form participation comparison with a fixed reservation value, the common payment cancels. Household participation can also respond through income effects.
+(ii) An unconditional transfer pays the same amount in work and exit. Its direct payment differential at the participation boundary is zero, while participation can respond through income effects.
 
-(iii) If person $i$ owns shares $\omega_{ij}$ of the terminal stocks and supplies $n_i$ hours at wage $w$, receipts are
+(iii) At given gross prices and hours, aggregate receipts remain $wN_a+R$, since
 \[
-y_i=wn_i+(1-\tau_R)\sum_j\omega_{ij}r_jT_j+\tau_RR/N.
+(1-\tau_R)R+Nd=R.
 \]
-At given gross prices and hours, aggregate receipts are $wN_a+R$, and the tax redistributes the rent component toward an equal per-person allocation.
+The tax redistributes the rent component toward an equal per-person allocation.
 \end{proposition}
 
 \begin{proof}
-(i) The taxed stock is fixed by assumption, and its user pays the gross rental regardless of the owner's after-tax receipt. (ii) Subtract the same payment from the resources in work and exit. (iii) Sum over people, using $\sum_i n_i=N_a$ and $\sum_i\omega_{ij}=1$ for every stock.
+(i) The taxed stock is fixed by assumption, and its user pays the gross rental regardless of the owner's after-tax receipt. (ii) The common payment enters both budgets equally, leaving their monetary difference unchanged. (iii) Add after-tax rents and total transfers, using $Nd=\tau_RR$.
 \end{proof}
 
-Redistribution can change demand, rents, and willingness to work. For example, with utility $\log g-\chi n$ and positive goods-unit resources $A$ in exit, a common transfer $d$ raises the reservation wage to $(e^\chi-1)(A+d)$: the additional resources allow the person to refuse more work. This income effect coexists with a zero benefit-withdrawal differential. The policy's allocation effects therefore depend on household preferences, ownership, and equilibrium prices.
+Rent revenue can finance the basket underlying the participation choice. Define coverage by $\kappa=R/(NP_s)$, with $R>0$. Funding exactly one basket per person requires $d=P_s$, hence
+\begin{equation}\label{eq:16}
+\tau_R=\frac{NP_s}{R}=\frac{1}{\kappa}.
+\end{equation}
+A tax rate between zero and one can meet this budget exactly when $\kappa\ge1$, evaluated at equilibrium prices. Appendix~\ref{app:D.3} relates coverage to the basket's input requirements.
 
-A wage-funded transfer draws on the labor market as both a financing base and a participation margin. Its incidence depends on demand and supply elasticities. Appendix~\ref{app:fiscal} states the local incidence comparison and the conditions under which the rent base can cover a subsistence bundle. The fiscal lineage is George (1879); the Henry George theorem of Arnott and Stiglitz (1979) is related but distinct.
+Replacing existing household or public financing while maintaining total support and prices leaves the participation comparison unchanged. If the payment supplements the existing basket, Section~\ref{sec:4}'s preferences instead give the reservation wage $(e^\chi-1)(P_s+d)$: the extra consumption available in both states reduces the gain from work. Redistribution can also change demand, rents, and the resources of support providers. These equilibrium effects determine whether the promised basket remains funded.
 
-\section{History as four configurations of the model}\label{sec:history}
+A wage-funded transfer draws on the labor market as both a financing base and a participation margin. Its incidence depends on demand and supply elasticities. The limiting case also constrains how much support that base can finance.
 
-The model can be applied to the long record as four configurations of the relative-productivity schedule (Figure~\ref{fig:eras}). Because schedules may differ across worker types, the figure shows each configuration for both an untrained entrant and a worker with accumulated training or experience. The comparison is interpretive: the baseline model does not separately solve for the two wage schedules or for investment in training.
+\begin{corollary}[fiscal capacity as wage income vanishes]
+In the one-input economy, let $N,T>0$ be fixed and $N_a\le N$. Along a sequence of equilibria with $w/r\to0$, revenue from any wage tax with a rate between zero and one becomes a vanishing fraction of total income, while $R/I\to1$. If the basket's total non-produced input requirement $B_s$ stays bounded away from zero, that revenue also funds a vanishing fraction of one basket per person.
+
+In a fully automated economy, $\widetilde{\bm\lambda}=\mathbf{0}$. With $r>0$ and $B_s>0$, full rent capture yields coverage
+\begin{equation}\label{eq:17}
+\kappa=\frac{T}{NB_s}.
+\end{equation}
+It funds one basket per person exactly when $NB_s\le T$, the physical feasibility condition for the basket under these recipes.
+\end{corollary}
+
+As the wage--rent ratio tends to zero, maintaining access to a living basket with a persistent non-produced input requirement increasingly depends on ownership income or transfers. Support financed by another household member's wage faces the same aggregate constraint. A system funded entirely from wages becomes unable to sustain a fixed positive basket entitlement for everyone sufficiently far along the path, while labor may still be employed. A uniform rent dividend gives each person a claim on the income that remains. Broad ownership, collective funds, and other transfer arrangements can also distribute those claims. The financing constraint establishes the need for income beyond wages; institutions determine its distribution and the pace of adjustment.
+
+Appendix~\ref{app:D} proves the corollary and develops payroll-tax incidence and rent-base coverage while labor remains employed. The fiscal lineage is George (1879); the Henry George theorem of Arnott and Stiglitz (1979) is related but distinct.
+
+\section{History as four configurations of the model}\label{sec:8}
+
+The model can be applied to the long record as four configurations of the relative-productivity schedule (Figure~\ref{fig:4}). Because schedules may differ across worker types, the figure shows each configuration for both an untrained entrant and a worker with accumulated training or experience. The comparison illustrates differences in worker-specific task mixes; a joint determination of their wages and training decisions requires the extension described in Section~\ref{sec:5}.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.88\linewidth]{figures/fig_eras_workers.png}
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_eras_workers.png}
 \caption{Four schematic configurations of the task schedule, shown for
 an untrained entrant (top) and a worker with accumulated training or experience
 (bottom). Each panel uses a different worker-specific task mix, held fixed
 across eras within that panel; differences in wall location reflect these
-mixes, not an effect of training on machine capability. Closed tasks appear as
+mixes. Closed tasks appear as
 a wall at the right edge. Dot heights are illustrative wage--machine-rental
-ratios $w/c$, not purchasing power over goods or non-produced services. A dot on the
-contestable schedule marks an interior margin satisfying $w/c=\gamma(x^*)$;
-a dot on the wall marks the absence of such a margin and does not imply a
-binding participation constraint. Industrialization opens physical tasks;
+ratios $w/p_m$. A dot on the
+contestable schedule marks an interior margin satisfying $w/p_m=\gamma(x^*)$;
+a dot on the wall marks employment confined to human-required tasks, whose
+wage also depends on demand, labor supply, and institutions. Industrialization opens physical tasks;
 computing extends competition into cognitive tasks while many trained tasks
 remain closed. Relative human advantage continues to vary across the open
 task range. In the candidate AI configuration, machine competition extends
 across more tasks, while the schedules keep rising and retain an illustrative
 positive training premium. The chosen curvatures illustrate differences in
 relative capability across tasks.}
-\label{fig:eras}
+\label{fig:4}
 \end{figure}
 
-\textbf{Pre-industrial: land access and labor scarcity.} With machines scarcely present, nearly every task is closed to them; the margin sits at the wall for entrant and master alike, so the machine prices no one's hour. Demand for human services, labor scarcity, institutions, and participation then determine wages. A configuration with wages near the outside option additionally invokes demographic adjustment, with the outside option tracking access to land --- the world Ricardo and Malthus wrote down, and the one the new long-run estimates describe: pre-industrial English real wages strongly shaped by population and land, with productivity growth beginning well before wages escaped Malthusian pressure (Bouscasse, Nakamura, and Steinsson 2025). The classical account is one configuration of our model. The entrant is the farm servant hired by the year; the trained worker is the craftsman after a seven-year apprenticeship, whose premium over the servant is the cost of those years, recovered.
+\textbf{Pre-industrial: land access and labor scarcity.} With machines scarcely present, nearly every task is closed to them; the margin sits at the wall for entrant and master alike, so the machine prices no one's hour. Demand for human services, labor scarcity, institutions, and participation then determine wages. A configuration with wages near the outside option additionally invokes demographic adjustment, with the outside option tracking access to land --- the world Ricardo and Malthus wrote down, and the one long-run estimates describe: pre-industrial English real wages strongly shaped by population and land, with productivity growth beginning well before wages escaped Malthusian pressure (Bouscasse, Nakamura, and Steinsson 2025). The classical account is one configuration of our model. The entrant is the farm servant hired by the year; the trained worker is the craftsman after a seven-year apprenticeship, whose premium over the servant is the cost of those years, recovered.
 
-\textbf{Industrial: comparative advantage widens.} The Industrial Revolution created a large and uneven productivity gap across tasks: engines were far better than muscle at physical tasks but ineffective at cognitive ones. The schedule became enormously dispersed and steep. It did so for the entrant first: the young mill hand or hand-loom weaver held the tasks engines were reaching one by one, and the margin sat on the steep stretch, where what the engine cost at the next task priced the hour. The trained worker, the millwright, the engineer, the clerk, held tasks closed to engines; that margin stayed at the wall, so no machine set the wage, and it was instead a scarcity price on trained hands and heads, kept scarce by the years the training took. That dispersion opened high-productivity tasks to labor and could support a higher wage; by Proposition~\ref{prop:margin}(ii), steepness also makes employment less responsive to a given wage change and the wage more responsive to shifts in labor supply. Meanwhile machine production itself remained labor-intensive: in the recursion, both $\gamma (x^*)$ and $\lambda$ supported the wage. The escape was neither immediate nor smooth --- real wages grew slowly in the early decades as capital deepening and urbanisation preceded substantial wage growth (Crafts 2022).
+% SLIP: "urbanisation" (British -isation spelling) in the next paragraph; the paper otherwise uses American -ization ("Computerization", "polarization", "Industrialization").
+\textbf{Industrial: comparative advantage widens.} The Industrial Revolution created a large and uneven productivity gap across tasks: engines were far better than muscle at physical tasks but ineffective at cognitive ones. The schedule became enormously dispersed and steep. It did so for the entrant first: the young mill hand or hand-loom weaver held the tasks engines were reaching one by one, and the margin sat on the steep stretch, where what the engine cost at the next task priced the hour. The trained worker, the millwright, the engineer, the clerk, held tasks closed to engines; that margin stayed at the wall, with the wage a scarcity price on trained hands and heads, kept scarce by the years the training took. That dispersion opened high-productivity tasks to labor and could support a higher wage; by Proposition~\ref{prop:1}(ii), steepness also makes employment less responsive to a given wage change and the wage more responsive to shifts in labor supply. Meanwhile machine production itself remained labor-intensive: both relative human productivity at the margin and the labor embodied in machine services supported the wage. The escape was neither immediate nor smooth --- real wages grew slowly in the early decades as capital deepening and urbanisation preceded substantial wage growth (Crafts 2022).
 
-\textbf{Post-industrial: machine competition broadens.} Computerization reached the simple-cognitive region of the schedule --- the routine-task evidence of Autor, Levy, and Murnane (2003) and the polarization it produced (Autor and Dorn 2013) are the cross-sectional trace. The entrant is the young clerk, cashier, or assembler whose routine tasks software and machines reached at similar cost: an interior machine-contestable margin could price the wage on a schedule of uneven relative capability. The trained worker, the developer, the physician, the engineer, held tasks computers could not: the margin stayed at the wall, and the premium for training was what the period's expansion of higher education chased. AI is a candidate extension of machine competition to further tasks, including those previously closed to machines. It may also reduce $\lambda$, the labor inside the machine sector itself. As trained tasks become contestable, skill premia depend on the replacement costs and labor supplies of the different worker types. The interior result connects these replacement costs to wage purchasing power.
+\textbf{Post-industrial: machine competition broadens.} Computerization reached the simple-cognitive region of the schedule --- the routine-task evidence of Autor, Levy, and Murnane (2003) and the polarization it produced (Autor and Dorn 2013) are the cross-sectional trace. The entrant is the young clerk, cashier, or assembler whose routine tasks software and machines reached at similar cost: an interior machine-contestable margin could price the wage on a schedule of uneven relative capability. The trained worker, the developer, the physician, the engineer, held tasks computers could not: the margin stayed at the wall, and the premium for training was what the period's expansion of higher education chased. AI is a candidate extension of machine competition to further tasks, including those previously closed to machines. It may also reduce $\widetilde{\lambda}_m$, the labor embodied in machine services. As trained tasks become contestable, skill premia depend on the replacement costs and labor supplies of the different worker types. The interior result connects these replacement costs to wage purchasing power.
 
-\section{Measurement}\label{sec:measurement}
+\section{Measurement}\label{sec:9}
 
 In this section we observe three empirical objects: the real-wage fork, the size of the rent base relative to the cost of a subsistence bundle, and the separation between the origin of consumption finance and the human effort embodied in production.
 
-\textbf{The fork.} Over 1964--2024, the durables-to-shelter real-wage ratio reaches $4.8\times$ (Figure~\ref{fig:fork}). This descriptive comparison is consistent with the distinction in Proposition~\ref{prop:fork} between task costs and persistent requirements for non-produced inputs. Identifying the underlying task schedules and attributing the price changes requires additional task-level evidence. Food lies between the endpoints. Deflated by the food CPI, the same paycheck rose 13 percent over 1964--2024, compared with 277 percent for durables and a decline of 21 percent for shelter. The intermediate result is consistent with a category that combines direct acreage with processing labor and rising yields. Energy can be seen to be volatile, likely as world oil prices dominate the series, making it a measure of shocks rather than a trend.
+% SLIP: "Identifying the underlying task schedules and attributing the price changes requires" (possible subject-verb agreement slip, compound subject with singular verb) in the next paragraph.
+\textbf{The fork.} Over 1964--2024, the durables-to-shelter real-wage ratio reaches $4.8\times$ (Figure~\ref{fig:5}). This descriptive comparison is consistent with the distinction in Proposition~\ref{prop:4} between task costs and persistent requirements for non-produced inputs. Identifying the underlying task schedules and attributing the price changes requires additional task-level evidence. Food lies between the endpoints. Deflated by the food CPI, the same paycheck rose 13 percent over 1964--2024, compared with 277 percent for durables and a decline of 21 percent for shelter. The intermediate result is consistent with food production combining acreage, processing labor, and rising yields. Energy is volatile, consistent with the importance of world oil-price shocks in the series.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.88\linewidth]{figures/fig_deflator_fork.png}
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_deflator_fork.png}
 \caption{U.S. average hourly earnings for production and nonsupervisory
 workers deflated by the consumer-price indexes for durables, food, energy,
 and shelter, 1950 = 100, through the last complete calendar year, 2024.
 Values before 1964 use the spliced wage series. The energy index begins in
 1957; its 1950--1956 values are a linear backcast estimated over 1957--1966.
 Over 1964--2024 the ratio of the durables-deflated to the shelter-deflated
-wage reaches $4.8\times$, a ratio that does not depend on the index base.}
-\label{fig:fork}
+wage reaches $4.8\times$, a ratio invariant to the index base.}
+\label{fig:5}
 \end{figure}
 
-\textbf{The floor's coverage.} The coverage ratio $\kappa$ is the fraction of one subsistence bundle that a full tax on site rents could finance per person. Figure~\ref{fig:kappa} measures aggregate site-rent flow against population times a costed subsistence bundle. The 2025 estimate is $\kappa=0.33$ [0.18--0.59], up from roughly 0.05 in the 1950s. The measures are intended as lower-bound constructions, and the physical ceiling remains land per head.
+\textbf{Coverage of basic living costs.} The coverage ratio $\kappa$ is the fraction of one subsistence bundle that a full tax on site rents could finance per person. Figure~\ref{fig:6} measures aggregate site-rent flow against population times a costed subsistence bundle. The 2025 estimate is $\kappa=0.33$ [0.18--0.59], up from roughly 0.05 in the 1950s. The measures are intended as lower-bound constructions. The underlying resource constraint is the non-produced input required by the basket relative to its available supply per person.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.88\linewidth]{figures/fig_kappa_measurement.png}
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_kappa_measurement.png}
 \caption{The coverage ratio $\kappa=rT/(N\cdot P_s)$ is aggregate site-rent flow divided by the cost of providing the specified subsistence bundle to every person; U.S., 1953--2025. The
 line is the median and the band is the min--max range across specifications
 combining land sources, capitalization rates, and subsistence bundles. The
@@ -620,14 +505,14 @@ economy-wide scopes. The red specifications apply land shares of 0.30 and
 0.50 to PCE housing services (BEA, DHSGRC1A027NBEA). Every specification
 uses population times the Orshansky 1963 subsistence bundle as the
 denominator.}
-\label{fig:kappa}
+\label{fig:6}
 \end{figure}
 
-\textbf{Financing versus production.} Consumption remains substantially more labor-financed than production is labor-intensive. In the common benchmark-data window, labor-origin resources finance 69.6\% of consumption in 2004 and 65.8\% in 2023, while full-chain human effort accounts for 48.9\% and 47.2\% of consumed production in the same years --- a gap of about nineteen percentage points at the end of the overlap (Figure~\ref{fig:labor-linkages}). The production account is the aggregate counterpart of the recursion: the human-effort share declines as machine-producing and machine-operating chains shed labor. Appendix~\ref{app:effort} gives the two accounts' construction and bounds.
+\textbf{Financing versus production.} Consumption remains substantially more labor-financed than production is labor-intensive. In the common benchmark-data window, labor-origin resources finance 69.6\% of consumption in 2004 and 65.8\% in 2023, while full-chain human effort accounts for 48.9\% and 47.2\% of consumed production in the same years --- a gap of about nineteen percentage points at the end of the overlap (Figure~\ref{fig:7}). The production account is the aggregate counterpart of the recursion: the human-effort share declines as machine-producing and machine-operating chains shed labor. Appendix~\ref{app:F} gives the two accounts' construction and bounds.
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=0.92\linewidth]{figures/fig_consumption_financing_and_human_effort.png}
+\includegraphics[width=0.92\textwidth]{figures/ssrn/fig_consumption_financing_and_human_effort.png}
 \caption{Two labor linkages in U.S. consumption, 1950--2025. The upper
 series is the share of consumption financed from labor-origin resources; the
 lower is the share of consumed production that resolves into human effort
@@ -637,65 +522,72 @@ the BEA full-chain production benchmark in 1997--2023. Values outside those
 windows are model-based extensions. In the common benchmark-data window,
 consumption is substantially more labor-financed than production is
 labor-intensive.}
-\label{fig:labor-linkages}
+\label{fig:7}
 \end{figure}
 
-\section{Possible stabilizers}\label{sec:stabilizers}
+\section{Possible stabilizers}\label{sec:10}
 
-Three stabilizers can preserve wage purchasing power over scarce services, but they work through different margins. Human-required tasks can persist by preference or by law; Appendix~\ref{app:human} shows that this can preserve aggregate labor income while leaving the median worker exposed. Institutions can reserve tasks for people outright, which is quantity rather than price protection. Supply expansion --- building, densifying, powering --- works on the other side of the model by loosening the terminal-input constraint and directly lowering $q$.
+Several mechanisms can sustain purchasing power as technology changes. Human-required tasks can persist by preference or by law; Appendix~\ref{app:E} shows that this can preserve aggregate labor income while leaving the median worker exposed. Institutions can reserve tasks for people outright, protecting employment through an allocation rule. Supply expansion --- building, densifying, powering --- works through the cost system by expanding services or reducing the scarce inputs required to supply them. Lower living costs can improve affordability, while cheaper machine services also affect replacement values.
 
-The wedge result behind that distinction is Acemoglu and Restrepo's (2026). Let a task pay a premium over the base wage --- a union premium, a licensing rent, an efficiency wage --- as a multiplicative wedge $\mu (x) > 1$. Labor then holds the task only while $w \le c\cdot \gamma (x)/\mu (x)$: allocation runs on the wedge-deflated schedule, a premium raises its own task's flip priority one-for-one, and automation is directed at the best-paid versions of each job --- their targeting result, with the documented losses concentrated in the 70th--95th within-group percentiles. A wage premium therefore increases the incentive to automate the protected task; protection survives only in quantity form --- a scope-of-practice rule extended to software, an enforceable automation ban, a mandated human in the loop. Under pressure, nothing moves while the saving from flipping runs below the cost of confrontation with a legal or strike risk; past it, everything the rule covers flips at once.
+Substitution can also change the services people choose. Replacing a journey and an in-person meeting with a video call changes the bundle of transport, space, equipment, and electricity used to communicate. Its resource requirements depend on those services' full production chains and on how well they meet the same need. The participation comparison holds the living basket fixed; consumer substitution can change its composition across equilibria.
 
-\section{Implications for artificial intelligence, and conclusion}\label{sec:ai}
+Acemoglu and Restrepo's (2026) wedge result clarifies the role of wage premia. Let a task pay a premium over the base wage --- a union premium, a licensing rent, an efficiency wage --- as a multiplicative wedge $\mu (x) > 1$. Labor then holds the task only while $w \le p_m\cdot \gamma (x)/\mu (x)$: allocation runs on the wedge-deflated schedule, a premium raises its own task's flip priority one-for-one, and automation is directed at the best-paid versions of each job --- their targeting result, with the documented losses concentrated in the 70th--95th within-group percentiles. A wage premium therefore increases the incentive to automate the protected task; protection survives only in quantity form --- a scope-of-practice rule extended to software, an enforceable automation ban, a mandated human in the loop. Under pressure, nothing moves while the saving from flipping runs below the cost of confrontation with a legal or strike risk; past it, everything the rule covers flips at once.
 
-AI may move both automation margins at once. It can lower $\gamma(x^*)$ where models become effective substitutes at final tasks, and it can lower $\lambda$ because software generation, chip design, datacenter operation, logistics, and research are themselves part of the machine sector's labor. Either change lowers $w/r$ at a given margin and recipe; the equilibrium effect also depends on reinstatement, demand, and participation. Section~\ref{sec:limit} translates the resulting wage--rent ratio into category purchasing power through task costs and direct requirements for non-produced inputs. The path of purchasing power depends on how these components change together. If replacement at the active margin drives $w/r$ toward zero while direct requirements for the non-produced input remain bounded away from zero, wage command over those categories falls toward zero. The implications for the AI buildout concern the inputs that remain scarce: sites, power, water, minerals, and legally protected assets. Model weights are reproducible ideas; the ownership claims on the scarce services needed to use them are a separate part of the cost structure.
+\section{Artificial intelligence and conclusion}\label{sec:11}
 
-The relative-price mechanism also affects fiscal capacity: a rise in $q$ lowers the modeled exit option and raises the rent base in goods units. Coverage of a rent-funded subsistence transfer remains near one-third, while 0.68 of tax revenue is still raised from labor-income bases. A tax on pure fixed-factor rents can fund a payment paid equally in and out of work. Its scale, income effects, and equilibrium consequences remain empirical questions. Appendix~\ref{app:fiscal} asks how much the rent base can finance and how alternative financing changes incentives.
+AI may move both automation margins at once. It can lower $\gamma(x^*)$ where models become effective substitutes at tasks, and it can lower $\widetilde{\lambda}_m$ because software generation, chip design, datacenter operation, logistics, and research contribute to the machine-service supply chain. Either change lowers $w/r$ when the other terms in the replacement closure are held fixed; the equilibrium effect also depends on demand, participation, and changes in the recipes. Section~\ref{sec:6} translates that ratio into purchasing power through the labor and non-produced inputs embodied in goods and services. If replacement at the active margin drives $w/r$ toward zero while an embodied non-produced input requirement remains bounded away from zero, wage command over that output falls toward zero. For the AI buildout, the relevant scarcity may lie in sites, water, mineral deposits, grid access, or legally protected rights. Electricity and equipment are themselves outputs whose costs trace through the same system.
+
+On the household side, falling wage purchasing power reduces the consumption gained from employment relative to a supported living standard. Participation helps determine which task is marginal and, with support maintained and positive work costs, tends to zero as wages buy vanishing additional consumption. Maintaining that standard depends on the resources of families and public institutions. Rent income provides a potential fiscal base. For the measured U.S. site-rent base, full capture covers about one-third of the specified subsistence bundle in 2025, while 0.68 of tax revenue is raised from labor-income bases. A tax on pure fixed-factor rents can fund a payment paid equally in and out of work; the coverage ratio determines whether it can finance the full basket. Its scale, income effects, and equilibrium consequences remain empirical questions.
 
 The remaining empirical question is whether the machine-production recursion
 is paying a smaller share of cost to wages and a larger share to
-terminal-input rents, and whether the same scarcity is eroding the value of
-exit. Although it requires a significant re-framing of the last 70 years of world economic history, we consider the answer to be obvious.
+terminal-input rents, and whose resources are keeping pace with the resulting cost of living outside paid work.
 
-The intuitive reading of that re-framing, and of what our paper may conjecture, is this: labor may currently be behaving as a kind of grand market distortion, and may have been doing so for many decades. Our economies have almost no mechanism to limit the supply of labor. With other goods, like oil six years ago or capital when inflation rates near zero, the economy can signal its desire to have supply lowered. However, as wages represent the majority of consumer demand, this mechanism is unavailable for labor itself. Instead, the economy dutifully creates jobs, \textit{at cost}. Either with significant wedges, the ``Bullshit Jobs`` dynamic, or near the subsistence and dependency floors, the ``gig economy``. A K-shaped graph in many of our measures of economic health then should come as no surprise. The hollowing out of our middle class, as no surprise. Youth unemployment, adult children living with their parents, and the loss of the atomic family, as no surprise. The difficulty of governments to maintain fiscal restraint, as no surprise. The stagnant growth of developed economies despite significant advances in computing, as no surprise.
+We close with a conjecture that the model suggests but does not establish. Wages finance most consumption, and most benefits are conditioned on work or means. When consumption depends on earning a wage, a lower wage need not reduce the labor offered, so the economy has little way to signal that it wants less labor, as it can for oil in a glut or for capital when returns approach zero. Labor may then have been behaving for decades as a large market distortion: jobs are created at cost, behind institutional wedges or at wages barely above living costs. If the conjecture holds, it would connect developments usually studied separately, including polarized job growth, youth unemployment, delayed household formation, persistent fiscal strain, and slow growth despite rapid advances in computing. Each needs its own test. The first is whether machine production is shifting its costs from wages to rents.
 
-This work represents in many ways the synthesis of centuries of economic thought. The classical economists may not have been wrong, they just did not know what technology could do to the wage. George was not wrong, he simply wrote his work at a time when his policies were needed the least. Keynes was not wrong, but he did not foresee the change that cognitive automation would bring. Rather, we may now be able to bring all these ideas together into a substantive wage equation.
+The mechanism also joins older lines of thought. The classical economists tied wages to subsistence and scarcity, George drew the fiscal consequences of rent, and Keynes put employment and demand at the center of the economy. Automation that reaches the machines' own supply chains gives them a common setting, and perhaps a common wage equation.
 
-\section{Future Work}
-There is much still to be done. The model is static: it describes prices and limits, but not the path the economy takes between them. A dynamic extension could ask whether automation arrives smoothly or in waves, how quickly rents adjust, and what happens when wages fall faster than institutions can respond. It may also have implications for monetary policy. When machine-made goods become cheaper while housing, energy, and other scarce necessities become more expensive, a single inflation rate can hide significant nuances. Can one interest rate stabilize both sides of a divide? Do low interest rates support employment and demand, or do they mainly raise scarce-asset rents and accelerate the replacement of labor? The present model cannot answer these questions, but it may provide the relative-price structure needed to ask them.
+\section{Future Work}\label{sec:12}
+There is much still to be done. The static model describes prices and limiting configurations. A dynamic extension could ask whether automation arrives smoothly or in waves, how quickly rents adjust, and what happens when wages fall faster than institutions can respond. It may also have implications for monetary policy. When machine-made goods become cheaper while housing, energy, and other scarce necessities become more expensive, a single inflation rate can hide significant nuances. Can one interest rate stabilize both sides of a divide? Do low interest rates support employment and demand, or do they mainly raise scarce-asset rents and accelerate the replacement of labor? The relative-price structure developed here provides a starting point for these questions.
 
-The model’s implications for participation have also not been fully explored. A worsening outside option may keep people in poorly paid work because leaving becomes unaffordable, but falling wages may eventually cause others to withdraw from the labor market entirely. Adding households would open further questions. If wages buy ever more manufactured goods but ever less housing, energy, and care, then forming a household may become harder even while measured productivity rises. Delayed household formation, adult children remaining with their parents, and declining fertility may therefore reflect not only changing preferences, but a growing separation between wages and the scarce goods required to begin an independent life.
+Participation also invites further study. The benchmark holds real support fixed. A richer account would let families and public institutions adjust provision as living costs and their own resources change. Personal assets, pensions, and savings would add further ways to sustain life outside employment. Richer household structure would open further questions. If wages buy ever more manufactured goods but ever less housing, energy, and care, then forming a household may become harder even while measured productivity rises. Delayed household formation, adult children remaining with their parents, and declining fertility may therefore reflect changing preferences alongside a growing separation between wages and the scarce goods required to begin an independent life.
 
 The model also suggests avenues for choosing the tax mix as automation changes the sources of income. Labor and ownership both finance consumption, and site rents may cover only part of a desired transfer. The relevant question is the best mixture of value-added, income, corporate, land-value, and other pure-rent taxes. Our input-output and consumption financing measurements may help significantly with this. Sovereign wealth funds may provide another instrument. A country with little land, energy, or mineral wealth of its own cannot tax rents earned elsewhere, but it can acquire claims on them. For resource-poor countries, owning part of the world’s scarce-resource base may eventually matter as much as taxing the domestic one.
 
 Finally, structuring a society that no longer orbits around labor is not a trivial problem. Work provides more than a wage. It provides structure to the day, social contact, status, a sense of contribution, and an understanding of the complexity of the real economy. An income transfer can replace a wage; it cannot by itself replace all of those functions. Some may emerge naturally through family, community, education, art, care, or voluntary work. Others may have to be deliberately nurtured. The economic problem may be how to distribute purchasing power without labor. The larger human problem is how to distribute purpose, status, and a meaningful place in society once labor is no longer the institution that provides them.
 
-
 \appendix
 \counterwithin{proposition}{section}
 \titleformat{\section}{\normalfont\Large\bfseries}{Appendix~\thesection.}{0.6em}{}
 
-\section{The environment and assignment equilibrium}\label{app:environment}
+\section{The environment and supporting results}\label{app:A}
 
-The economy below generalizes the model of
-Sections~\ref{sec:model}--\ref{sec:floor}. The main text uses one machine
-type and no government. Capability-closed tasks are introduced with the
-assignment problem; tasks reserved by preference or law, and limits in which
-a positive closed set remains, are treated in Appendix~\ref{app:human}. Notation is defined here, and the machine sector's general form --- many machine types, durability --- is stated here as well.
+The price system in Section~\ref{sec:3} applies to goods and services throughout production and consumption. This appendix states the equilibrium conditions, proves the main results, and develops the task-level cost representation and timing extensions.
 
-\textbf{Tasks and technology.} A final good requires a continuum of tasks $x\in[0,1]$ in equal amounts. One human-hour completes $\gamma _L(x)$ units of task $x$, one machine-hour $\gamma _M(x)$; relative human productivity is $\gamma (x) = \gamma _L(x)/\gamma _M(x)$. A set $H$ of measure $|H| \ge 0$ is closed to machines --- by capability, preference, or law.
+\subsection{Environment and equilibrium}\label{app:A.1}
 
-\textbf{Machines.} Machine services are produced. With one machine type, a unit takes $a$ units of machine services, $\lambda$ labor-hours, and $b$ units of non-produced services renting at $r$. With many produced inputs, $\mathbf{c}$ is the vector of their prices, $\mathbf{A}$ the produced-input requirements matrix, $\boldsymbol{\Lambda}$ the labor requirements, $\mathbf{B}$ the requirements of terminal inputs with rent vector $\mathbf{r}$; free entry gives $\mathbf{c} = \mathbf{A}\mathbf{c} + \boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r}$, hence $\mathbf{c} = (I-\mathbf{A})^{-1}(\boldsymbol{\Lambda}w + \mathbf{B}\mathbf{r})$ provided the spectral radius of $\mathbf{A}$ is below one --- the many-good statement of net reproduction. The scalar text carries the full logic: produced-input prices pass backward until anchored by factors outside the recursion and, during transition, by the labor still embodied in produced inputs. The task margin selects which machine type is the binding alternative at $x^*$: the one minimizing delivered task cost, and the threshold condition holds against that minimum. Free entry prices every produced input at unit cost.
+\textbf{Tasks and technology.} A unit of a task-produced good requires tasks $x\in[0,1]$ in equal amounts. One human-hour completes $\gamma_L(x)$ units of task $x$, one machine-hour $\gamma_M(x)$; relative human productivity is $\gamma=\gamma_L/\gamma_M$. Tasks in $H$ are closed to machines by capability, preference, or law. Firms select the least-cost feasible method for every task. With several machine types, the relevant alternative minimizes delivered task cost; an active margin satisfies $w/\gamma_L(x^*)=\min_k p_{m_k}/\gamma_{M_k}(x^*)$.
 
-\textbf{Durability, time preference, horizon.} With one-period building and time preference $\rho$ (the interest rate, distinct from the rent $r$), the $\lambda = 0$ recursion becomes $c = br(1+\rho )/(1 - a(1+\rho ))$, finite iff $a(1+\rho ) < 1$; with wear at rate $\delta$, the user-cost recursion gives $c = br(\rho +\delta )/(1 - a(\rho +\delta ))$. With $\lambda > 0$ the same closures hold with the recipe's labor priced at the margin: $c = br(1+\rho )/(1 - (1+\rho )(a + \lambda \gamma (x^*)))$ and $c = br(\rho +\delta )/(1 - (\rho +\delta )(a + \lambda \gamma (x^*)))$, finite iff $(1+\rho )(a + \lambda \gamma (x^*)) < 1$, respectively $(\rho +\delta )(a + \lambda \gamma (x^*)) < 1$. The added term is interest, competitive and real: another income component, with no change in the destination of the recursion. (These displays are computer-algebra-checked.) Whether an input is terminal is horizon-relative: installed transformer capacity can be fixed over a short horizon and expanded over a longer one, while land provides a persistent non-produced input. The propositions apply over horizons on which the specified input supplies are fixed.
+% SLIP: A.1 (pp. 24-25): index k labels machine types in the "Tasks and technology" paragraph (p_{m_k}, \gamma_{M_k}) but non-produced inputs from "The cost system" on (B_{ik}, \widetilde{B}_{mk}r_k, T_k).
+\textbf{The cost system.} For many non-produced inputs with rental vector $\mathbf{r}$, let $B_{ik}$ be the direct requirement of input $k$ per unit of output $i$. Then
+\[
+\mathbf{p}=\mathbf{A}\mathbf{p}+\boldsymbol{\lambda}w+\mathbf{B}\mathbf{r},\qquad
+\mathbf{p}=w\widetilde{\boldsymbol{\lambda}}+\widetilde{\mathbf{B}}\mathbf{r},\qquad
+\widetilde{\mathbf{B}}=(I-\mathbf{A})^{-1}\mathbf{B}.
+\]
+The selected recipes are nonnegative and productive, with spectral radius of $\mathbf{A}$ below one. Unused feasible methods have unit costs at least as high as the equilibrium output price. The matrix records which good or service each activity uses; it changes when firms switch methods. At an active margin against machine $m$, the replacement closure is
+\[
+w=\frac{\gamma(x^*)\sum_k\widetilde{B}_{mk}r_k}{1-\gamma(x^*)\widetilde{\lambda}_m}.
+\]
+One rental ratio can summarize the closure only after specifying a common input or rental benchmark.
 
-\textbf{Non-produced inputs.} Each input supplies a fixed service endowment $T_j$ at rent $r_j$. Services enter machine production, final production, and household use. For the land example, parcels differ in quality, idle parcels have reservation rent zero, and $r(z)$ is the rent schedule over parcels $z$. Housing and independent exit use these services alongside production.
+\textbf{Non-produced inputs.} Input $k$ supplies a fixed service endowment $T_k$ at rental $r_k$. Its services enter production and household use. A direct household rental can be included as a pass-through service in $\mathbf{p}$, with its endowment use counted in $\mathbf{B}$. Horizon matters: installed capacity can be fixed temporarily and expanded later, while land supplies a persistent non-produced input.
 
-\textbf{People.} $N$ workers each supply one hour or exit; types may differ in schedules and outside options (heterogeneous workers, below). Exit yields the gross exit value $s_0$ using $h_e$ units of the non-produced input's services, degrading to the dependency floor $\underline{s}$: $s(q) = \max(s_0 - q\cdot h_e, \underline{s})$. The main participation comparison uses this reduced-form outside option. Appendix~\ref{app:equilibrium} specifies household utility, housing requirements, and ownership for a complete interior example. Appendix~\ref{app:accounting} gives a CES expenditure comparison conditional on prices.
+\textbf{People.} Each of $N$ workers supplies one hour or exits. Types may differ in task productivity, access to support, living requirements, and preferences. Section~\ref{sec:4}'s log-utility example gives $s=(e^\chi-1)\mathbf{z}^{\mathsf{T}}\mathbf{p}$ when a provider maintains the same real support in work and exit. Appendix~\ref{app:B} specifies the provider's budget and market clearing for a complete interior example.
 
-\textbf{Government.} Four instruments: a payroll tax $\tau _w$; a tax $\tau _R$ on pure ownership rents of terminal inputs, returned as the uniform per-person transfer $d = \tau _R R/N$; a uniform consumption tax; and a transfer program --- the pair $(m_w,m_e)$, what it pays per period in work and out of it.
+\textbf{Government.} The instruments are a payroll tax $\tau_w$; a tax $\tau_R$ on pure ownership rents, returned as a uniform transfer $d=\tau_RR/N$; a uniform consumption tax; and a transfer program paying $(m_w,m_e)$ per period in work and exit.
 
-\textbf{Equilibrium.} An equilibrium of a configuration is wages and machine rentals $(w,c)$, rentals for the non-produced inputs, a task assignment, and a participation set such that every task is held by the input that costs less at ruling prices, free entry holds in machine production, the non-produced input markets clear, and each worker participates exactly when work beats exit at the ruling prices and transfers. The configurations:
+\textbf{Equilibrium.} Prices, gross outputs $\mathbf{y}$, final consumption $\mathbf{f}$, task assignment, and participation form an equilibrium when firms choose cost-minimizing methods, active activities satisfy the cost equations, and households choose their preferred affordable consumption and work arrangements. Commodity clearing requires $\mathbf{f}=(I-\mathbf{A}^{\mathsf{T}})\mathbf{y}$, labor clearing requires $N_a=\boldsymbol{\lambda}^{\mathsf{T}}\mathbf{y}$, and fully employed non-produced inputs satisfy $\mathbf{T}=\mathbf{B}^{\mathsf{T}}\mathbf{y}$. Unused fixed inputs have zero rent. Pass-through services ensure direct household rentals enter these accounts once. Output, participation, and the assignment margin are jointly determined; the replacement closure alone supplies a price condition.
 
 \begin{center}
 {\small
@@ -703,167 +595,234 @@ a positive closed set remains, are treated in Appendix~\ref{app:human}. Notation
 \toprule
 Where & Configuration \\
 \midrule
-Main text, Sections~\ref{sec:model}--\ref{sec:interval}
-& one machine type; capability-closed tasks permitted; no government \\
-Section~\ref{sec:limit}
-& an active contestable margin; heterogeneous tasks and general category-price bounds \\
-Section~\ref{sec:fiscal} & the rent tax and transfer $(\tau _R,d)$; the payroll contrast $\tau _w$ \\
-Appendix~\ref{app:equilibrium} & strictly increasing capability; explicit household participation and market clearing \\
-Appendix~\ref{app:fiscal} & government in full, sloped regime \\
-Appendix~\ref{app:human}
-& $H$ of positive measure retained while $\gamma\to0$ outside $H$ \\
+Sections~\ref{sec:3}--\ref{sec:5}
+& \raggedright goods and services in a common cost system; one wage and one non-produced input; capability-closed tasks permitted \tabularnewline
+Section~\ref{sec:6}
+& \raggedright an active contestable margin; embodied input requirements and feasible-method price bounds \tabularnewline
+Section~\ref{sec:7}
+& \raggedright pure-rent taxation and a uniform transfer \tabularnewline
+Appendix~\ref{app:B}
+& \raggedright strictly increasing capability; household participation and market clearing \tabularnewline
+Appendix~\ref{app:D}
+& \raggedright conditional transfers, payroll incidence, and fiscal coverage \tabularnewline
+Appendix~\ref{app:E}
+& \raggedright a positive human-required set while machine costs vanish outside it \tabularnewline
 \bottomrule
 \end{tabular}
 }
 \end{center}
 
-\textbf{Equilibrium determination.} The replacement closure supplies the price condition at an active contestable margin. Output, participation, and $x^*$ are jointly determined by household choices and market clearing. Appendix~\ref{app:equilibrium} specifies a household economy with a strictly increasing schedule and establishes conditions for a unique interior equilibrium. Labor-market clearing includes final-task hours and the $\lambda$ hours per unit of gross machine services.
+\textbf{Heterogeneous workers.} With type-specific schedules, replacement applies at each type's active contestable margin. Cross-type assignment, relative labor supplies, and training determine skill premia jointly. Reservation wages depend on each type's support, living costs, and preferences. The eras figure illustrates distinct worker-specific task mixes with schematic wage ratios.
 
-\textbf{Heterogeneous workers.} With type-specific schedules, the replacement comparison applies at each type's active contestable margin. Cross-type assignment, relative labor supplies, and training determine skill premia jointly. Floor statements refer to the bottom of the support. The eras figure illustrates distinct worker-specific task mixes, with schematic wage ratios for each type.
+\subsection{Proofs of the main results}\label{app:A.2}
 
-\section{Equilibrium with heterogeneous tasks}\label{app:equilibrium}
+\begin{proof}[Proof of Proposition~\ref{prop:1}]
+(i) At the boundary between human and machine assignment, continuity and cost minimization give $w/\gamma_L(x^*)=p_m/\gamma_M(x^*)$. (ii) Differentiate the equality at fixed $p_m$. If output is $Y$, final-task labor demand is $Y\int_{x^*}^1dx/\gamma_L(x)$, including the human-required tail. Thus $dN_F/dx^*=-Y/\gamma_L(x^*)$ and $dw/dN_F=-p_m\gamma'(x^*)\gamma_L(x^*)/Y$. (iii) is the participation condition. Output, the rental, and labor used in machine production also respond in a full equilibrium; Appendix~\ref{app:B} supplies a complete interior example under stated conditions.
+\end{proof}
 
-In this example the non-produced input is land, shared between housing and machine production. An explicit household budget and utility function determine participation. Task assignment, output, and participation are solved jointly. Human hours enter both final production and machine production, and household budgets clear goods and land markets.
-
-There is a mass $N$ of one-person households. Each owns $T/N$ units of land and requires the same fixed housing service $h$ in work and exit. Let
+\begin{proof}[Proof of Proposition~\ref{prop:2}]
+Substitute $w=p_m\gamma(x^*)$ into the machine-service row to obtain $p_m(1-\gamma(x^*)\widetilde{\lambda}_m)=r\widetilde{b}_m$. The conditional derivatives are
 \[
-S=T-Nh>0,\qquad A=S/N.
+\frac{\partial(w/r)}{\partial\widetilde{\lambda}_m}=\frac{(\gamma(x^*))^2\widetilde{b}_m}{(1-\gamma(x^*)\widetilde{\lambda}_m)^2},\qquad
+\frac{\partial(w/r)}{\partial\gamma(x^*)}=\frac{\widetilde{b}_m}{(1-\gamma(x^*)\widetilde{\lambda}_m)^2},
 \]
-Households have utility $\log g-\chi n$, where $n\in\{0,1\}$ and $\chi$ has a continuous distribution function $F$. A participant supplies one hour. There are no other resources. Normalize $r=1$ and write $v=w/r$. After housing, each household has nonlabor purchasing power $A$; at wage $v$ its goods consumption is $(A+vn)/p$. Work is optimal exactly when
+both positive.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:3}]
+Exit provides utility zero. Work provides $\log(1+w/P_s)-\chi$, which is nonnegative exactly when \eqref{eq:9} holds. Holding the supported basket and preferences fixed, differentiation along a change in rents gives
+\begin{equation}\label{eq:18}
+\frac{ds}{dr}=(e^\chi-1)\frac{dP_s}{dr}.\qedhere
+\end{equation}
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:4}]
+Equation~\eqref{eq:12} follows from the cost system. All total requirements are nonnegative, so the rent bill is a lower bound on price. The feasible human method costs $w\bar{L}_i+r\bar{b}_i$, and competitive production selects a method costing at most that amount. Thus
+\begin{equation}\label{eq:19}
+r\widetilde{b}_i\le p_i\le w\bar{L}_i+r\bar{b}_i.
+\end{equation}
+Dividing by $w$ and inverting proves the purchasing-power bounds.
+\end{proof}
+
+\subsection{Task-level costs}\label{app:A.3}
+
+Task assignment determines the selected requirements in the common cost system. Consider a good supplied by a task list $\mathcal{X}_i$, using human or machine services, with direct requirement $b_i$ and no other intermediate inputs. Machine services are priced by $p_m$. At an active margin,
+\begin{equation}\label{eq:20}
+p_i=rb_i+w\int_{\mathcal{X}_i}\frac{1}{\gamma_{Li}(x)}\min\left\{1,\frac{\gamma_i(x)}{\gamma(x^*)}\right\}dx,\qquad
+\gamma_i=\frac{\gamma_{Li}}{\gamma_{Mi}}.
+\end{equation}
+The minimum is one on human-required tasks. The all-human method has $\bar{L}_i=\int_{\mathcal{X}_i}dx/\gamma_{Li}(x)$ and $\bar{b}_i=b_i$. Actual machine use can embody additional non-produced services through the machine supply chain. A persistent direct requirement alone gives the price bound $p_i\ge rb_i$, since $\widetilde{b}_i\ge b_i$.
+
+\textbf{Uniform relative capability.} If $\gamma_i(x)=\bar{\gamma}$ throughout the task list in \eqref{eq:20} and $w=p_m\bar{\gamma}$, every task is at cost parity. Then $p_i=w\bar{L}_i+rb_i$, so $w/p_i=1/[\bar{L}_i+b_i(r/w)]$. For $b_i=0$, an hour's wage buys exactly $1/\bar{L}_i$ units.
+
+\subsection{Timing and institutional rents}\label{app:A.4}
+
+The main cost system prices contemporaneous service flows. A dated construction process requires an additional user-cost relation. Let $a$, $\lambda$, and $b$ be the machine-service, labor, and non-produced input requirements for construction, respectively. If all inputs are advanced one period to deliver one unit of service, $p_m=(1+\rho)(ap_m+\lambda w+br)$, with interest rate $\rho$. At the task margin,
 \[
-\chi\leq\log(1+v/A),\qquad
-n_S(v)=NF\bigl(\log(1+v/A)\bigr).
+p_m=\frac{(1+\rho)br}{1-(1+\rho)(a+\lambda\gamma(x^*))}.
 \]
-The common goods price cancels from this utility difference. Individual goods demands still depend on it and will clear the output market below.
+For a durable asset costing $V_m=ap_m+\lambda w+br$ to build and supplying one service unit per period, suppose there are no separate operating costs or capital gains. With depreciation $\delta$, the user cost is $p_m=(\rho+\delta)V_m$, giving
+\[
+p_m=\frac{(\rho+\delta)br}{1-(\rho+\delta)(a+\lambda\gamma(x^*))}.
+\]
+Each expression requires a positive denominator. These are distinct timing conventions for the construction coefficients; interest introduces an income component beyond the main two-factor flow accounting.
 
-The final good has no direct land requirement and requires one unit of each task on $[0,1]$ per unit of output. Set $\gamma_L(x)=1$, $\gamma_M(x)=1/\gamma(x)$, where $\gamma$ is positive, continuous, and strictly increasing. Assume $1-a-\lambda\gamma(1)>0$. At an interior threshold $x$, machines perform tasks below $x$ and people those above it. Define
-\begin{equation}\label{eq:example-functions}
-J(x)=\int_0^x\gamma(t)dt,
-\qquad
-v(x)=\frac{b\gamma(x)}{1-a-\lambda\gamma(x)},
-\qquad c(x)=\frac{b}{1-a-\lambda\gamma(x)}.
-\end{equation}
-All residual land $S$ goes into machine production. Land and machine clearing therefore imply
-\begin{equation}\label{eq:example-quantities}
-X=\frac{S}{b},\qquad
-Y(x)=\frac{(1-a)S}{bJ(x)},\qquad
-n_D(x)=\frac{S}{b}\left[\lambda+\frac{(1-a)(1-x)}{J(x)}\right].
-\end{equation}
-The first component of $n_D$ is machine-sector labor; the second is final-task labor.
+\textbf{Ideas and institutional rents.} An idea's reproduction requires approximately nothing of anything, so its competitive reproduction cost is approximately zero. Legal exclusion can sustain a positive price and help finance fixed creation costs (Romer 1990). These institutional rents are revocable and policy-dependent; the income accounting in Section~\ref{sec:6} treats them as additional claims when present.
 
-\begin{lemma}[Interior equilibrium in the example]\label{lem:existence}
-If
-\begin{equation}\label{eq:example-condition}
-NF\bigl(\log(1+v(1)/A)\bigr)>\frac{\lambda S}{b},
+\section{Equilibrium with heterogeneous tasks}\label{app:B}
+
+This example funds dependence through a supporting household that owns the non-produced endowment. Task assignment, output, and participation are solved jointly. The input is land, used both for living space and in machine production.
+
+There are $N$ potential workers and one nonworking supporting household. Each consumption basket contains one unit of a final good and $h>0$ units of space. The household owns $T$ units of land, commits to providing one basket to each worker in both work and exit, and consumes its remaining income in the same proportions. Workers spend their wages on additional baskets and have the preferences in \eqref{eq:8}, with $\chi$ continuously distributed on $[0,\infty)$ according to $F$. Normalize $r=1$ and write $v=w/r$. At final-good price $p$, a basket costs $P_s=p+h$.
+
+The final good requires one unit of each task on $[0,1]$ per unit of output. Set $\gamma_L(x)=1$ and $\gamma_M(x)=1/\gamma(x)$, where $\gamma$ is positive, continuously differentiable, and $\gamma'(x)>0$. One unit of machine service requires $a$ units of machine service, $\lambda$ human hours, and $b>0$ units of land service. Assume $0\le a<1$, $\lambda\ge0$, and $1-a-\lambda\gamma(1)>0$.
+
+At an interior threshold $x$, machines perform tasks below $x$ and people those above it. The task condition and machine cost equation give
+\begin{equation}\label{eq:21}
+J(x)=\int_0^x\gamma(t)\,dt,\qquad
+v(x)=\frac{b\gamma(x)}{1-a-\lambda\gamma(x)},\qquad
+p_m(x)=\frac{b}{1-a-\lambda\gamma(x)}.
 \end{equation}
-there is a unique interior threshold $x^*\in(0,1)$ satisfying $n_D(x^*)=n_S(v(x^*))$. Together with \eqref{eq:example-functions}--\eqref{eq:example-quantities} and
-\begin{equation}\label{eq:example-price}
-p=v(x^*)(1-x^*)+c(x^*)J(x^*),
+The final-good and basket prices are
+\begin{equation}\label{eq:22}
+p(x)=v(x)(1-x)+p_m(x)J(x),\qquad
+P_s(x)=p(x)+h.
 \end{equation}
-it gives a competitive equilibrium. The normalized prices, aggregate quantities, and participation mass are unique within this interior example.
+If final-good output is $Y$, total consumption contains $Y$ baskets and uses $hY$ units of space. Machine and land clearing give
+\begin{equation}\label{eq:23}
+Y(x)=\frac{T}{h+bJ(x)/(1-a)},\qquad
+X(x)=\frac{Y(x)J(x)}{1-a}.
+\end{equation}
+Labor demand and supply are
+\begin{equation}\label{eq:24}
+n_D(x)=Y(x)\left[1-x+\frac{\lambda J(x)}{1-a}\right],\qquad
+n_S(x)=NF\left(\log\left[1+\frac{v(x)}{P_s(x)}\right]\right).
+\end{equation}
+The two components of demand are final-task and machine-sector hours.
+
+These equations are a three-row instance of the common cost system. Ordering the final good, machine services, and directly rented space gives
+\[
+\mathbf{p}=\begin{pmatrix}p\\p_m\\r\end{pmatrix},\qquad
+\mathbf{A}=\begin{pmatrix}0&J(x)&0\\0&a&0\\0&0&0\end{pmatrix},\qquad
+\boldsymbol{\lambda}=\begin{pmatrix}1-x\\\lambda\\0\end{pmatrix},\qquad
+\mathbf{b}=\begin{pmatrix}0\\b\\1\end{pmatrix}.
+\]
+Gross output is $(Y,X,hY)^{\mathsf{T}}$, and final consumption is $(Y,0,hY)^{\mathsf{T}}$. With $\mathbf{z}=(1,0,h)^{\mathsf{T}}$, the basket requirements are $L_s=1-x+\lambda J(x)/(1-a)$ and $B_s=h+bJ(x)/(1-a)$. Thus $Y=T/B_s$ and $n_D=TL_s/B_s$, giving \eqref{eq:11}. Structures and maintenance could enter the space-service row through their own input requirements.
+
+\begin{lemma}[Interior equilibrium with funded support]\label{lem:B.1}
+Suppose
+\begin{equation}\label{eq:25}
+n_S(1)>n_D(1),\qquad
+T>NP_s(1).
+\end{equation}
+Then there is a unique interior threshold $x^*\in(0,1)$ satisfying $n_D(x^*)=n_S(x^*)$. The prices and quantities in \eqref{eq:21}--\eqref{eq:24} give a competitive equilibrium with the promised support fully funded.
 \end{lemma}
 
 \begin{proof}
-As $x\downarrow0$, $J(x)\downarrow0$ and $n_D(x)\to\infty$. The function $(1-x)/J(x)$ is strictly decreasing, since its derivative is
+The function $Y(x)$ is decreasing. The bracket in labor demand is positive and has derivative $-1+\lambda\gamma(x)/(1-a)<0$, so $n_D(x)$ is strictly decreasing. Meanwhile $v'(x)>0$ and
 \[
--\frac{J(x)+(1-x)\gamma(x)}{J(x)^2}<0.
+p'(x)=v'(x)\left[1-x+\frac{\lambda J(x)}{1-a}\right]>0,\qquad
+\frac{d}{dx}\left(\frac{v(x)}{P_s(x)}\right)=\frac{v'(x)\,[h+bJ(x)/(1-a)]}{P_s(x)^2}>0
 \]
-At $x=1$, $n_D(1)=\lambda S/b$. Meanwhile $v(x)$ is strictly increasing and $n_S(v(x))$ is continuous and nondecreasing, bounded by $N$. Condition~\eqref{eq:example-condition} makes demand strictly below supply at $x=1$. The intermediate value theorem and strict monotonicity give exactly one crossing.
+for $x<1$. Thus $n_S(x)$ is continuous and nondecreasing. The funding condition implies $T/h>N$, so demand exceeds supply at $x=0$; at $x=1$, it lies below supply by assumption. There is exactly one crossing. Since $P_s(x)$ is increasing, $T>NP_s(1)$ ensures that the provider can fund support throughout.
 
-At that crossing, assignment is cost-minimizing because $v/c=\gamma(x^*)$. The recursion prices machines, and \eqref{eq:example-quantities} clears machines, labor, and land. For the final good, multiply \eqref{eq:example-price} by output:
+At the crossing, assignment is cost-minimizing because $v/p_m=\gamma(x^*)$, and machines, labor, and land clear. The cost equations imply
 \[
-pY=vY(1-x^*)+c(1-a)S/b
-=v\bigl[Y(1-x^*)+\lambda S/b\bigr]+S
-=vn_S+S.
+P_sY=(p+h)Y=v\bigl[Y(1-x^*)+\lambda X\bigr]+bX+hY=vn_S+T.
 \]
-Aggregate household goods demand is $(NA+vn_S)/p=(S+vn_S)/p=Y$. Housing demand is $Nh$, with its rent paid from ownership income. All household budgets and markets therefore clear. A continuous $F$ gives zero mass at the participation tie.
+Workers consume $N+vn_S/P_s$ baskets, including support. The provider consumes $T/P_s-N>0$ baskets from its remaining income. Their sum is $Y$, so final-good and space demand also clear. Continuity of $F$ gives zero mass at the participation tie.
 \end{proof}
 
-For a numerical instance, take $N=4$, $T=10$, $h=1$, $a=0.3$, $b=0.4$, $\lambda=0.05$, $\gamma(x)=0.2+0.8x$, and $\chi$ uniform on $[0,1]$. The solution has $x^*\simeq0.96791$, $v\simeq0.59841$, $Y\simeq18.47540$, and $N_a\simeq1.34285$: about $0.59285$ hours at final tasks and $0.75$ in machine production. The accompanying \texttt{check\_interior.py} compares this output with an independently specified discretized production optimization, including both sources of labor demand.
+At fixed technology and support, a distribution $\widehat{F}\le F$ lowers labor supply at every $x$. If the interior conditions continue to hold, decreasing labor demand and nondecreasing supply imply $\widehat{x}^*\ge x^*$, hence a weakly higher $w/r$ and $w/P_s$. The inequalities are strict if supply falls at the original crossing.
 
-For an illustrative automation path, set $\lambda=0$ and $\gamma_\eta(x)=\eta(1+x)$, with $F$ uniform on $[0,1]$. For every $\eta>0$, condition~\eqref{eq:example-condition} holds, so an interior equilibrium exists. Its wage satisfies $0<v\leq2b\eta/(1-a)\to0$. Relative capability is twice as high at the last task as at the first throughout the sequence. Participation tends to zero through $n_S(v)$, while the price and income bounds apply at each equilibrium. Households in this example are net owners after housing, so their participation falls as wage income becomes less valuable relative to ownership income.
+For a numerical instance, take $N=4$, $T=10$, $h=1$, $a=0.3$, $b=0.4$, $\lambda=0.05$, $\gamma(x)=0.2+0.8x$, and $\chi$ uniform on $[0,1]$. The solution has $x^*\simeq0.86315$, $v\simeq0.54344$, $Y\simeq7.88061$, and $N_a\simeq1.34338$: about $1.07846$ hours at final tasks and $0.26492$ in machine production. Support costs $NP_s\simeq5.44630$ out of the provider's rental income of $10$. The accompanying \texttt{check\_interior.py} compares output with an independently specified discretized production optimization, including both uses of labor and land.
 
+For an illustrative automation path, retain these parameters and set $\lambda=0$ and $\gamma_\eta(x)=\eta(1+x)$, with $0<\eta\le1$. The conditions in \eqref{eq:25} hold throughout. The equilibrium wage satisfies $0<v\le2b\eta/(1-a)\to0$. Relative capability remains twice as high at the last task as at the first. Since $P_s\ge h>0$, participation tends to zero through \eqref{eq:24}, while support stays funded. The purchasing-power and income results apply at every interior equilibrium along the sequence.
 
+\section{Factor income and expenditure shares}\label{app:C}
 
-\section{Factor-income accounting and expenditure shares}\label{app:accounting}
+Let $\mathbf{y}$ be gross output and $\mathbf{f}=(I-\mathbf{A}^{\mathsf{T}})\mathbf{y}$ final consumption. Direct household rentals are included as pass-through services. With the row convention of \eqref{eq:2}, aggregate final expenditure is
+% SLIP: Appendix C display (p. 30): I denotes both aggregate final expenditure and the identity matrix in the same line, I=\mathbf{p}^T(I-\mathbf{A}^T)\mathbf{y}.
+\begin{align*}
+I=\mathbf{p}^{\mathsf{T}}\mathbf{f}&=\mathbf{p}^{\mathsf{T}}(I-\mathbf{A}^{\mathsf{T}})\mathbf{y}\\
+&=(\mathbf{p}-\mathbf{A}\mathbf{p})^{\mathsf{T}}\mathbf{y}\\
+&=w\boldsymbol{\lambda}^{\mathsf{T}}\mathbf{y}+r\mathbf{b}^{\mathsf{T}}\mathbf{y}=wN_a+rT.
+\end{align*}
+Intermediate payments cancel, while human hours and non-produced services are counted at every stage. This proves Proposition~\ref{prop:5}. With several non-produced inputs, the same identity is $I=wN_a+\mathbf{r}^{\mathsf{T}}\mathbf{T}$. At zero rent, an unused part of a fixed endowment contributes no income. The accounting is independent of which cost-minimizing task assignment supplies the coefficients.
 
-Let $Y_j$ be category output, $D$ final-task human hours, $M$ final-task machine-service demand, and $X$ gross machine-service production. Write $h$ for direct household use of the non-produced input's services. Clearing the markets for machines and the non-produced input gives
-\[
-M=(1-a)X,\qquad
-T=h+\sum_jb_jY_j+bX,\qquad
-N_a=D+\lambda X.
-\]
-Summing final-task costs gives
-\[
-\sum_jp_jY_j=wD+cM+r\sum_jb_jY_j.
-\]
-The recursion implies $cM=(1-a)cX=w\lambda X+rbX$. Adding households' direct rent payments $rh$ therefore gives
-\[
-I=\sum_jp_jY_j+rh=wN_a+rT.
-\]
-This proves Proposition~\ref{prop:income} for an arbitrary cost-minimizing assignment. At $\lambda=0$, employed hours consist of final-task labor, $N_a=D$. With several non-produced inputs or qualities, total rent income is the sum or integral of rental payments for their service endowments. A wage--rent ratio then refers to a specified input or rental benchmark.
-
-\textbf{A conditional expenditure comparison.} With homothetic CES preferences over a produced good and direct services of the non-produced input, weight $\alpha$ and elasticity $\sigma$, the expenditure share on those services at relative price $q=r/p$ is
-\begin{equation}\label{eq:ces-share}
-\alpha(q)=\frac{\alpha^\sigma q^{1-\sigma}}
-{(1-\alpha)^\sigma+\alpha^\sigma q^{1-\sigma}}.
+\textbf{A conditional expenditure comparison.} Consider CES preferences over a consumption good priced at $p$ and a directly rented non-produced service priced at $r$. With weight $\alpha$ on that service, elasticity $\sigma$, and relative price $q=r/p$, its expenditure share is
+\begin{equation}\label{eq:26}
+\alpha(q)=\frac{\alpha^\sigma q^{1-\sigma}}{(1-\alpha)^\sigma+\alpha^\sigma q^{1-\sigma}}.
 \end{equation}
-If $q\to\infty$, this share tends to one for $\sigma<1$, to $\alpha$ for $\sigma=1$, and to zero for $\sigma>1$. These demand-side responses are conditional on the price path. For a benchmark good with $b_0=0$ and bounded $\bar L_0$, Proposition~\ref{prop:fork} gives $r/p\ge1/[(w/r)\bar L_0]$, so a vanishing wage--rent ratio is one sufficient route. Demand determines the expenditure composition at these prices, while direct requirements for the non-produced input continue to bound the quantity of each category that wages can buy.
+If $q\to\infty$, the share tends to one for $\sigma<1$, to $\alpha$ for $\sigma=1$, and to zero for $\sigma>1$. These demand responses are conditional on the price path. If the consumption good has a feasible human method with $\bar{b}_0=0$ and bounded $\bar{L}_0$, Proposition~\ref{prop:4} gives $r/p\ge1/[(w/r)\bar{L}_0]$, so a vanishing wage--rent ratio is sufficient for that path. The input requirements embodied in each good continue to bound what wages can buy.
 
-\section{Fiscal transition in the sloped regime}\label{app:fiscal}
+\section{Fiscal transition while labor remains employed}\label{app:D}
 
-The main text states the rent-tax and transfer comparison while labor remains employed. This appendix collects conditionality, payroll-tax incidence, rent-base coverage, and a reduced-form index of the residual distortionary financing need.
+The main text states the rent-tax and transfer comparison while labor remains employed and the fiscal capacity result as wage income vanishes. This appendix proves the fiscal corollary and develops conditionality, payroll-tax incidence, rent-base coverage, and a reduced-form index of the residual distortionary financing need.
 
-\subsection{Conditionality}\label{app:conditionality}
-
-Let a transfer program pay $(m_w,m_e)$ in work and exit. The worker compares $w+m_w$ with $s+m_e$, so the compensated participation margin depends only on
+\begin{proof}[Proof of the fiscal corollary in Section~\ref{sec:7}]
+Wage-tax revenue is bounded by $wN_a$. Proposition~\ref{prop:5} gives $wN_a/I\to0$ and hence $R/I\to1$. Since $P_s\ge rB_s$ and $N_a\le N$,
 \[
-\Delta=m_w-m_e,
-\qquad
-w\ge s-\Delta.
+0\le\frac{wN_a}{NP_s}\le\frac{w/r}{B_s}\to0
 \]
-An in-work benefit $(\Delta>0)$ lowers the reservation wage and expands participation. In the sloped regime, part of the benefit is therefore offset by a lower equilibrium wage through the task margin. An out-of-work benefit $(\Delta<0)$ raises the reservation wage and taxes the first hour of work; as the wage distribution compresses toward the participation floor, more workers enter any fixed withdrawal band. Within this two-payment class, $\Delta=0$ --- the same transfer in and out of work --- is the unique case with zero compensated participation effect. Income effects remain separate and are not set to zero by the identity.
+when $B_s$ stays bounded away from zero. In the fully automated economy, the cost system gives $P_s=rB_s$ and $R=rT$, proving \eqref{eq:17}. Producing $N$ baskets requires gross outputs $\mathbf{y}=(I-\mathbf{A}^{\mathsf{T}})^{-1}N\mathbf{z}\ge\mathbf{0}$, which use $\mathbf{b}^{\mathsf{T}}\mathbf{y}=NB_s$ units of the sole primary input and no labor. Thus $NB_s\le T$ is also necessary and sufficient for physical feasibility under these recipes.
+\end{proof}
 
-\subsection{Payroll-tax incidence and schedule slope}\label{app:funding}
+\subsection{Conditionality}\label{app:D.1}
+
+Let a program pay nonnegative amounts $(m_w,m_e)$ in work and exit in addition to the supported basket. Write $\Delta=m_w-m_e$. Under \eqref{eq:8}, the utility comparison is
+\[
+\log\left(\frac{P_s+w+m_w}{P_s+m_e}\right)\ge\chi,
+\]
+or equivalently
+\begin{equation}\label{eq:27}
+w\ge(e^\chi-1)(P_s+m_e)-\Delta.
+\end{equation}
+Holding exit support fixed, a larger work payment lowers the reservation wage one-for-one. An out-of-work payment withdrawn on employment introduces a negative $\Delta$. An unconditional payment $m_w=m_e=d$ gives $\Delta=0$ and the reservation wage $(e^\chi-1)(P_s+d)$.
+
+Within this two-payment class, equal payments uniquely give a zero work--exit differential. In a labor market with downward-sloping demand, an outward participation shift can lower the gross wage; output, machine prices, and support can also respond. The compensated comparison holds exit support fixed to isolate the effect of conditionality.
+
+\subsection{Payroll-tax incidence and schedule slope}\label{app:D.2}
 
 For a small tax in a partial-equilibrium labor market, payroll-tax incidence depends on the relative elasticities of labor demand and participation: let $\varepsilon_D$ and $\varepsilon_S$ denote labor-demand and participation elasticities in absolute value. Workers bear
 \[
 \frac{\varepsilon_D}{\varepsilon_D+\varepsilon_S}
 \]
-of a payroll tax, so the same fraction of a wage-funded transfer is circular: it is taken from the net wage and returned as the transfer. Schedule slope contributes to labor demand, but the machine rental, output, and machine-sector labor costs can respond as well. Incidence estimates therefore do not identify that slope alone. By contrast, a tax on pure rents of a fixed factor cannot shrink that factor's physical supply; redistribution can still change demand and the equilibrium allocation.
+of a payroll tax, so the same fraction of a wage-funded transfer is circular: it is taken from the net wage and returned as the transfer. Schedule slope contributes to labor demand, but the machine rental, output, and machine-sector labor costs can respond as well. Identifying the slope requires accounting for these responses. Under a tax on pure rents, the factor's fixed physical supply is preserved while redistribution can change demand and the equilibrium allocation.
 
-\subsection{Feasibility: the coverage ratio}\label{app:coverage}
+\subsection{Feasibility: the coverage ratio}\label{app:D.3}
 
-For one non-produced input, let a person's subsistence bundle contain $g_s$ units of goods and $h_s$ units of the input's services, so
+Use the same basic living basket as in Section~\ref{sec:4}, with cost $P_s=\mathbf{z}^{\mathsf{T}}\mathbf{p}$. Full capture of pure rents $R$ pays $R/N$ per person. The coverage ratio is
+\begin{equation}\label{eq:28}
+\kappa=\frac{R}{NP_s}.
+\end{equation}
+With one non-produced input, the basket requirements defined in Section~\ref{sec:5} give
 \[
-P_s=pg_s+rh_s.
+P_s=wL_s+rB_s,\qquad
+\kappa=\frac{T}{N[L_s(w/r)+B_s]}.
 \]
-Full capture of its rents pays $rT/N$ per person. With $q=r/p$, the coverage ratio is
+At the stated prices and recipes, full coverage requires $T\ge N[L_s(w/r)+B_s]$. The physical requirement $NB_s\le T$ is necessary; when $L_s>0$ and wages are positive, full coverage requires strict slack. Technological change can alter both total requirements. A lower wage--rent ratio raises coverage holding them fixed.
+
+For a two-item illustration, let the basket contain $g_s>0$ units of a consumption good and $h_s>0$ units of directly rented space. With $q=r/p$,
 \[
-\kappa=\frac{rT}{NP_s}
-      =\frac{qT}{N(g_s+qh_s)}.
+P_s=pg_s+rh_s,\qquad
+\kappa=\frac{qT}{N(g_s+qh_s)}.
 \]
-It is strictly increasing in $q$ and converges to the physical ceiling $T/(Nh_s)$. Full coverage, $\kappa\ge1$, is possible at a finite relative price iff $T>Nh_s$, in which case
+At fixed quantities this expression increases with $q$ and is bounded above by $T/(Nh_s)$. Full coverage at a finite positive $q$ requires $T>Nh_s$ and
 \[
 q\ge q^*=\frac{Ng_s}{T-Nh_s}.
 \]
-The fiscal calculation reflects the underlying resource constraint: the direct and embodied requirements of $N$ subsistence bundles must fit within the input's available service endowment. The U.S. estimates apply this coverage ratio to site rents.
+Whether equilibrium reaches such a relative price depends on the production of the consumption good, including its own embodied input requirements. The U.S. estimates divide the measured site-rent base by the cost of the specified basket; other pure rents lie outside that measured numerator.
 
-For illustration, set $T=100$ and $g_s=h_s=1$. At $q=10/9$, fifty people are covered with room to spare $(\kappa=20/19)$; with eighty people, full coverage requires $q\ge4$; with 120 people, the physical ceiling is below one and full coverage is impossible at any $q$.
+For illustration, set $T=100$ and $g_s=h_s=1$. At $q=10/9$, fifty people are covered with room to spare $(\kappa=20/19)$; with eighty people, full coverage requires $q\ge4$; with 120 people, even the direct space requirement exceeds the endowment.
 
-\subsection{Timing of exit loss and fiscal coverage}\label{app:race}
+\subsection{Dependence and fiscal coverage}\label{app:D.4}
 
-Independent exit ends when rising rents exhaust the gross exit value,
-\[
-q_{\mathrm{enc}}=\frac{s_0-\underline{s}}{h_e}.
-\]
-Full coverage of the rent-funded subsistence transfer arrives at $q^*$. Independent exit therefore lasts until the fiscal replacement is available iff $q_{\mathrm{enc}}\ge q^*$, equivalently
-\[
-N\le \frac{q_{\mathrm{enc}}T}{g_s+q_{\mathrm{enc}}h_s}.
-\]
-Otherwise a transition gap opens: the commons has disappeared before rents can fund the full subsistence transfer. In the worked example above, $q_{\mathrm{enc}}=1.5$ implies a threshold of 60 people. The cancellation result for a uniform transfer survives on either side of this threshold; what changes is whether the rent base is large enough to finance the target floor.
+The cost $P_s$ enters both the participation comparison and the budget of whoever provides support. A household may finance a dependent's basket from another member's earnings; public provision may draw on several tax bases. Rising living costs can strain those arrangements before pure rents can fund a full basket for everyone. When $\kappa<1$, a rent-funded program needs complementary resources to reach that standard.
 
-\subsection{Financing the transition}\label{app:mix}
+The timing depends on the rents available for taxation, the basket promised, and the resources of existing providers. Shared housing and public services can change the basket's requirements. Personal assets, pensions, and savings can also sustain independent living. These arrangements shape how dependence changes during the transition, and the coverage ratio measures the contribution available from the specified rent base.
+
+\subsection{Financing the transition}\label{app:D.5}
 
 For the measured U.S. site-rent base, $\kappa<1$ means that full capture finances only part of the subsistence transfer. A tax on site rents reaches this income whether saved or consumed; other bottleneck profits and royalties lie outside that tax base. A broad consumption tax reaches those other financing sources as they fund consumption, but its labor-origin slice is distortionary in the same direction as a wage tax.
 
@@ -871,7 +830,7 @@ For a descriptive transition index, let $\varphi_C$ be the labor-origin financin
 \[
 D=\varphi_C(1-\kappa)^2.
 \]
-Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa=0.33$ gives $D=0.29$; at $(\varphi_C,\kappa)=(0.50,0.60)$ it would be 0.08. This is an index, not a structural welfare estimate. As $\kappa$ rises and labor-origin financing falls, the residual distortionary financing need shrinks; Proposition~\ref{prop:income} accounts for both wage and rent income throughout. The financing mix depends on the available bases and the desired transfer.
+Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa=0.33$ gives $D=0.29$; at $(\varphi_C,\kappa)=(0.50,0.60)$ it would be 0.08. The index summarizes the assumed financing pattern; estimating welfare requires a structural model of behavioral responses. As $\kappa$ rises and labor-origin financing falls, the residual distortionary financing need shrinks; Proposition~\ref{prop:5} accounts for both wage and rent income throughout. The financing mix depends on the available bases and the desired transfer.
 
 \begin{center}
 {\small
@@ -879,19 +838,19 @@ Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa
 \toprule
 Object & Value (year) & Note \\
 \midrule
-Labor-origin financing share of PCE, $\varphi_C$ & 0.64 [0.54--0.81] (2025, model-based extension) & 0.66 [0.53--0.80] in the 2023 source-profile window; $\approx 0.74$ in 1965 model-based extension \\
-Share of tax revenue raised from labor-income bases, $\varphi_G$ & 0.68 (2025) & 0.64 in 1965; $\approx 0.70$ by the mid-1980s, flat since \\
-Work- or means-conditioned share of benefits & $\ge 0.84$; $\approx 0.99$ by withdrawal rule (2024) & the only sizable unconditional cash transfer is Alaska's dividend \\
-Coverage ratio $\kappa$ (Appendix~\ref{app:coverage}) & 0.33 [0.18--0.59] (2025) & $\approx 0.05$ in the 1950s; land measures are lower-bound constructions \\
-Transition financing index $D=\varphi_C(1-\kappa)^2$ & 0.29 (2025, model-based-extension central values) & descriptive index, not a structural welfare estimate \\
+\raggedright Labor-origin financing share of PCE, $\varphi_C$ & \raggedright 0.64 [0.54--0.81] (2025, model-based extension) & \raggedright 0.66 [0.53--0.80] in the 2023 source-profile window; $\approx 0.74$ in 1965 model-based extension \tabularnewline
+\raggedright Share of tax revenue raised from labor-income bases, $\varphi_G$ & \raggedright 0.68 (2025) & \raggedright 0.64 in 1965; $\approx 0.70$ by the mid-1980s, flat since \tabularnewline
+\raggedright Work- or means-conditioned share of benefits & \raggedright $\ge 0.84$; $\approx 0.99$ by withdrawal rule (2024) & \raggedright the only sizable unconditional cash transfer is Alaska's dividend \tabularnewline
+\raggedright Coverage ratio $\kappa$ (Appendix~\ref{app:D.3}) & \raggedright 0.33 [0.18--0.59] (2025) & \raggedright $\approx 0.05$ in the 1950s; land measures are lower-bound constructions \tabularnewline
+\raggedright Transition financing index $D=\varphi_C(1-\kappa)^2$ & \raggedright 0.29 (2025, model-based-extension central values) & \raggedright descriptive measure of the assumed financing pattern \tabularnewline
 \bottomrule
 \end{tabular}
 }
 \end{center}
 
-\begin{figure}[t!]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.88\linewidth]{figures/fig_fourway.png}
+\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_fourway.png}
 \caption{Composition of U.S. consumption financing excluding consumption financed
 directly from household capital income, in which owners consume their own
 returns, 1962--2025. Lines
@@ -900,65 +859,50 @@ deficit-attribution rules. The direct-wage share fell by about twenty
 percentage points over sixty years. Transfers grew while approximately one
 quarter of their financing continued to come from taxes on ownership income.
 Borrowing financed 19\% of transfers in 2025 and was zero only in
-1998--2000. The allocation is pro-rata accounting, not an estimate of tax
-incidence.}
-\label{fig:fourway}
+1998--2000. The allocation follows pro-rata accounting rules; estimating tax
+incidence requires a model of behavioral responses.}
+\label{fig:8}
 \end{figure}
 
-\section{Human-required tasks}\label{app:human}
+\section{Human-required tasks}\label{app:E}
 
-Let Appendix~\ref{app:environment}'s set $H$ have positive measure $|H|$: tasks machines cannot hold --- by capability residue, by verified preference for human hands, or by law --- with $H$-wage $w_H$. Let machines grow unboundedly better at every task outside $H$: $\gamma (x) \to 0$ there, a capability improvement confined to the tasks machines can hold. The interior replacement conditions need not price a worker employed only in $H$. Assume, in a common numeraire, that the rental $c$ remains bounded and the machine work outside $H$ has total unit cost tending to zero. This is a price-path condition: what vanishes is the cost of machine work, $c/\gamma _M(x) = c\cdot \gamma (x)/\gamma _L(x)$. Aghion, Jones, and Jones (2019) raise the strongest stabilizer this paper faces: Baumol concentration --- expenditure concentrating on the sector whose costs refuse to fall (Baumol 1967), here the human-required set --- can preserve labor's share indefinitely. Proposition~\ref{prop:baumol} grants the mechanism its theorem and makes its premise explicit.
+Let Appendix~\ref{app:A}'s set $H$ have positive measure $|H|$: tasks machines cannot hold --- by capability residue, by verified preference for human hands, or by law --- with $H$-wage $w_H$. Let machines grow unboundedly better at every task outside $H$: $\gamma (x) \to 0$ there, a capability improvement confined to the tasks machines can hold. A worker employed only in $H$ earns a wage determined within the human-required sector. Assume, in a common numeraire, that $w_H$ and $r$ converge to positive finite values, the rental $p_m$ remains bounded, and the machine work outside $H$ has total unit cost tending to zero. Human productivity on $H$ is constant at $\gamma_L>0$. This is a price-path condition: what vanishes is the cost of machine work, $p_m/\gamma _M(x) = p_m\cdot \gamma (x)/\gamma _L(x)$. Aghion, Jones, and Jones (2019) raise the strongest stabilizer this paper faces: Baumol concentration --- expenditure concentrating on the sector whose costs remain positive (Baumol 1967), here the human-required set --- can preserve labor's share indefinitely. Proposition~\ref{prop:E.1} grants the mechanism its theorem and makes its premise explicit.
 
-\begin{proposition}[Baumol concentration]\label{prop:baumol}
-(i) A good with no additional direct requirement for non-produced inputs whose task list contains $H$ has unit cost tending to $|H|\cdot w_H/\gamma _L$ as $\gamma \to 0$ outside $H$: labor's share of its cost tends to one. (ii) Under CES substitution $\sigma _H$ between $H$-content and $H$-light substitutes, the expenditure share of $H$-content tends to 1 if $\sigma _H < 1$, to the taste weight if $\sigma _H = 1$, and to 0 if $\sigma _H > 1$. (iii) On the $\sigma _H < 1$ branch with three categories (machine-made goods, non-produced services, $H$-labor), end-state expenditure splits between the two non-collapsing categories --- non-produced services and $H$-labor --- and labor's aggregate share tends to the $H$-share of that split. A persistent human-required sector can sustain a positive wage--rent ratio.
+\begin{proposition}[Baumol concentration]\label{prop:E.1}
+(i) A good with no additional direct requirement for non-produced inputs whose task list contains $H$ has unit cost tending to $|H|\cdot w_H/\gamma _L$ as $\gamma \to 0$ outside $H$: labor's share of its cost tends to one. (ii) Under CES substitution $\sigma _H$ between $H$-content and $H$-light substitutes, the expenditure share of $H$-content tends to 1 if $\sigma _H < 1$, to the taste weight if $\sigma _H = 1$, and to 0 if $\sigma _H > 1$. (iii) On the $\sigma _H < 1$ branch with three uses of expenditure (machine-made goods, non-produced services, and human-required services), end-state expenditure splits between the two whose costs remain positive, and labor's aggregate share tends to the human-required share of that split. A persistent human-required sector can sustain a positive wage--rent ratio.
 \end{proposition}
 
+% SLIP: proof of Proposition E.1, part (iii), p. 35: "A $H$-free good's" (article "A" before H) as printed.
 \begin{proof}
-(i) $H$-tasks cost $|H|\cdot w_H/\gamma _L$ whatever machines do; each task outside $H$ costs $c\cdot \gamma (x)/\gamma _L(x)$, and the assumed vanishing total cost outside $H$ removes the remainder. (ii) is Appendix~\ref{app:accounting}'s share display with $q$ read as the relative price of $H$-content: the costlier category's share rises with its relative price iff $\sigma _H < 1$, and by (i) that relative price diverges. (iii) A $H$-free good's price vanishes by (i) at $|H| = 0$, so for $\sigma _H < 1$ its share vanishes, leaving the displayed split; setting the $H$ taste weight to zero returns the baseline.
+(i) $H$-tasks cost $|H|\cdot w_H/\gamma _L$ whatever machines do; each task outside $H$ costs $p_m\cdot \gamma (x)/\gamma _L(x)$, and the assumed vanishing total cost outside $H$ removes the remainder. (ii) is Appendix~\ref{app:C}'s share display with $q$ read as the relative price of $H$-content: the costlier service's share rises with its relative price iff $\sigma _H < 1$, and by (i) that relative price diverges. (iii) A $H$-free good's price vanishes by (i) at $|H| = 0$, so for $\sigma _H < 1$ its share vanishes, leaving the displayed split; setting the $H$ taste weight to zero returns the baseline.
 \end{proof}
 
-Two qualifications govern the human-required sector: provenance may be difficult to enforce, and broadcastable demand may concentrate on a small number of performers. \emph{Provenance verification:} preference-based membership binds only if provenance can be verified: suppose buyers carry a taste premium for verified human work, verification catches a false claim with probability $v$, and a caught claim pays a penalty $f$.
+The human-required sector depends on credible provenance and the distribution of demand. A premium for verified human work requires verification and enforceable penalties that make false claims unprofitable. In-person provision makes provenance directly observable, while legal task reservations depend on enforcement. Broadcastable services can concentrate demand on a small number of performers (Rosen 1981), allowing aggregate human-service earnings to persist alongside low earnings for most workers.
 
-\begin{lemma}[the fraud bound]\label{lem:fraud}
-A premium on verified human work is sustainable only up to $v\cdot f/(1-v)$: at any higher premium, false claiming is profitable in expectation and entry by fakes competes the premium away. The bound rises in $v$ and in $f$, diverges as $v \to 1$, and collapses to zero as $f \to 0$ for every $v < 1$.
-\end{lemma}
+If $H$ employs a minority, most workers receive no income from its protected tasks. Aggregate labor income can therefore persist while the wages of workers outside $H$ fall relative to rents. Their participation depends on support, living costs, and preferences as in Section~\ref{sec:4}. Human-required services also enter the basic living basket through $\mathbf{z}$. For example, adding $n_s$ hours of care priced at $w_H$ to the two-item basket gives $P_s=pg_s+rh_s+w_Hn_s$ and coverage $\kappa=rT/(NP_s)$. At given rents and other prices, a higher care cost lowers coverage.
 
-\begin{proof}
-A false claimant earns the premium with probability $1 - v$ and pays $f$ with probability $v$; expected profit is nonpositive iff the premium is at most $v\cdot f/(1-v)$. The comparative statics and limits are elementary.
-\end{proof}
+\section{The financing and production accounts}\label{app:F}
 
-With price-only enforcement $(f \to 0)$ the bound collapses for every $v < 1$: certified-human markets unravel through fakes, not robots. The enforceable core of the human-required set consists of tasks reserved by law and services whose in-person provision makes provenance directly observable. \emph{Superstars:} within $H$, the broadcastable fraction $\psi$ of demand concentrates on top performers (Rosen 1981) while only the in-person remainder is rationed by human capacity.
+Section~\ref{sec:9} quotes two shares; this appendix defines and constructs them. The \emph{labor-origin financing share} asks where the purchasing power used for personal consumption originates. The \emph{full-chain human-effort share} asks how much of the purchaser-price value of consumed production resolves into human labor after intermediates are traced recursively.
 
-\begin{lemma}[superstar concentration]\label{lem:superstar}
-Let the broadcastable fraction $\psi$ of $H$-expenditure accrue to a set of performers of measure zero, and let the in-person remainder be shared uniformly across the $H$-workforce. The mean $H$-income is unchanged, and the median $H$-income is $(1-\psi )$ times the mean.
-\end{lemma}
+For 2004--2023 the financing account uses annual BEA source distributions ranked by equivalized disposable income. Spending beyond current disposable income is recorded in an intertemporal bucket; within current-financed spending, tax incidence and allocation across fungible resources are partially identified and reported as bounds. The labor-origin financing share is 69.6\% [59.8--83.1] in 2004 and 65.8\% [52.7--80.1] in 2023; the model-based 2025 extension is 64.2\% [54.1--81.3].
 
-\begin{proof}
-Total $H$-income equals $H$-expenditure whatever its division; the stars carry the fraction $\psi$ on measure zero, every other worker receives the uniform share $(1-\psi )$ times the mean, and a measure-zero top moves no quantile below the top.
-\end{proof}
-
-Wherever $H$ employs a minority the economy-wide median worker holds no $H$-task at all, and on the $\sigma _H < 1$ branch the aggregate labor share can persist, even approach one, while the median wage collapses to the participation floor: aggregate rescue, median collapse. The Baumol case also raises the cost of the subsistence bundle: care and teaching put human hours in the subsistence bundle. Extend \ref{app:coverage}'s bundle with $n_s$ hours of $H$-service and coverage becomes $\kappa = qT/(N\cdot (g_s + n_s\cdot w_H/p + q\cdot h_s))$ --- below the $H$-free ratio at every $q$, and further below as the $H$-hour's price rises.
-
-\section{The financing and production accounts}\label{app:effort}
-
-Section~\ref{sec:measurement} quotes two shares; this appendix defines and constructs them. The \emph{labor-origin financing share} asks where the purchasing power used for personal consumption originates. The \emph{full-chain human-effort share} asks how much of the purchaser-price value of consumed production resolves into human labor after intermediates are traced recursively.
-
-For 2004--2023 the financing account uses annual BEA source distributions ranked by equivalized disposable income. Spending beyond current disposable income is kept in an intertemporal bucket rather than assigned to current labor; within current-financed spending, tax incidence and allocation across fungible resources are partially identified and reported as bounds. The labor-origin financing share is 69.6\% [59.8--83.1] in 2004 and 65.8\% [52.7--80.1] in 2023; the model-based 2025 extension is 64.2\% [54.1--81.3].
-
-The production account instead follows the purchaser-price dollar through the production chain. Its BEA benchmark covers 1997--2023: human effort is 50.1\% of consumed production in 1997 and 47.2\% in 2023. Outside that window, a five-specification product-composition model supplies only a model-based extension, at 66.4\% [61.3--68.6] in 1950 and 46.2\% [45.1--47.4] in 2025. Figure~\ref{fig:labor-linkages} marks the benchmark-data windows explicitly.
+The production account follows the purchaser-price dollar through the production chain. Its BEA benchmark covers 1997--2023: human effort is 50.1\% of consumed production in 1997 and 47.2\% in 2023. Outside that window, a five-specification product-composition model supplies only a model-based extension, at 66.4\% [61.3--68.6] in 1950 and 46.2\% [45.1--47.4] in 2025. Figure~\ref{fig:7} marks the benchmark-data windows explicitly.
 
 The long extension suggests that the separation is newer than the postwar starting point, but that inference inherits the weaker status of the outer series.
 
 \textbf{Mapping back to the model.} The production-content account
-corresponds to the broader recursion
-$\mathbf{c}=\mathbf{A}\mathbf{c}+\boldsymbol{\Lambda}w+\mathbf{B}\mathbf{r}$,
-not to the scalar $\lambda$ in the one-sector recipe. Recursive automation
-predicts a declining human-effort component as machine-producing and
-machine-operating chains shed labor. The financing-origin account supplies
-$\varphi_C$ for Appendix~\ref{app:mix}.
+corresponds to the common cost system
+$\mathbf{p}=\mathbf{A}\mathbf{p}+\bm{\lambda}w+\mathbf{B}\mathbf{r}$.
+The human-effort content of final consumption is
+$w\widetilde{\bm{\lambda}}^{\mathsf{T}}\mathbf{f}$, including labor
+throughout the supply chain. Recursive automation lowers that content at
+given wages and final quantities when total human requirements fall; the
+observed expenditure share also depends on prices and composition. The
+financing-origin account supplies $\varphi_C$ for Appendix~\ref{app:D.5}.
 
 \bigskip\par\noindent\rule{0.35\linewidth}{0.4pt}\par\smallskip
-\noindent{\footnotesize\singlespacing \textbf{AI use.} This paper was written in collaboration with Claude (Anthropic) and ChatGPT (OpenAI). The theory and its central claims are the authors'; parts of the formalization, proofs, computations, figures, and some initial prose were drafted by Claude Fable 5 and ChatGPT 5.6 Sol under the authors' direction and review. All data were pulled live from public sources; the code and data are public at \url{https://github.com/wilsoniumite/labor}. Errors remain the authors'.\par}
+\noindent{\footnotesize\singlespacing \textbf{AI use.} This paper was written in collaboration with Claude (Anthropic) and ChatGPT (OpenAI). The theory and its central claims are the authors'; parts of the formalization, proofs, computations, figures, and some initial prose were drafted by Claude Fable 5 and ChatGPT 5.6 Sol under the authors' direction and review. All data were pulled live from public sources; the code and data are public. Errors remain the authors'.\par}
 
 \section*{References}
 
@@ -1020,8 +964,9 @@ $\varphi_C$ for Appendix~\ref{app:mix}.
 \refentry{Uzawa, H. (1961). ``Neutral Inventions and the Stability of Growth Equilibrium.'' \emph{The Review of Economic Studies} 28(2): 117--124.}
 \refentry{Zeira, J. (1998). ``Workers, Machines, and Economic Growth.'' \emph{The Quarterly Journal of Economics} 113(4).}
 }
+% SLIP: p. 39: the group above closes before the last entry's paragraph ends, so the Zeira entry prints without hanging indent and at one-half line spacing, as in the SSRN PDF; kept on purpose.
 
 \bigskip\par\noindent\rule{0.35\linewidth}{0.4pt}\par\smallskip
-\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio, and HUD FY2025 fair-market rents for the ceiling grid. Financing splits 1962--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The machine-recipe labor coefficient $\lambda$ is unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:fiscal} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and the outside option is denoted $s$; the common search-theory symbol $b$ is reserved here for the terminal-input coefficient.\par \textbf{Numerical checks.} The accompanying \texttt{check\_interior.py} checks the replacement derivatives, exact interior category prices, general price bounds, and factor-income cancellation with heterogeneous task assignments. It solves Appendix~\ref{app:equilibrium}'s equilibrium and compares output against an independently specified linear production program with 2,048 task cells. These numerical checks accompany the analytical proofs in the text.\par}
+\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio, and HUD FY2025 fair-market rents for the ceiling grid. Financing splits 1962--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The direct labor coefficients $\lambda_i$ and total requirements $\widetilde{\lambda}_i$ are unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:D} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
 
 \end{document}
