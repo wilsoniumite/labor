@@ -6,7 +6,8 @@ vendored are not downloaded again, and a download that failed once is not retrie
 `--retry-failed` (`--offline` skips the network entirely). So a rerun is offline and rebuilds every file below
 byte for byte. This was checked by running the script twice and comparing sha256 hashes; the gzip is written
 with `mtime=0`.
-Every cross-check is written to `bea_checks.csv`. The numbers quoted in this README come from that file.
+Every cross-check is written to `bea_checks.csv`, which has 130 rows and the columns `check`, `status`
+(pass / FAIL / info), `value` and `detail`. The numbers quoted in this README come from that file.
 
 ## 1. Vintage
 

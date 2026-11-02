@@ -469,8 +469,9 @@ for t in ["U20402", "U20802", "U20401"]:
           bool((TREG["TableId"] == t).any()))
 WB_U = openpyxl.load_workbook(XLS_U, read_only=True)
 WB_S = openpyxl.load_workbook(XLS_S, read_only=True)
+contrib = [s for s in WB_U.sheetnames if s.startswith(("U20401", "U20402", "U20801", "U20802"))]
 check("underlying workbook sheets", None, " ".join(WB_U.sheetnames[1:]),
-      "no 2.4.1U/2.4.2U (percent change / contributions) sheets are published for the U detail")
+      f"percent-change / contributions sheets for the U detail: {contrib if contrib else 'none published'}")
 
 # ---------------------------------------------------------------------------------------------------------
 # 5. bea_pce_u_long: Tables 2.4.5U, 2.4.6U, 2.4.4U, 2.4.3U, monthly and annual

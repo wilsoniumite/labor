@@ -5,7 +5,7 @@ flat files: latest month,info,2026M09,latest year 2025
 TablesRegister lists U20402 (contributions/percent change for U detail),info,False,
 TablesRegister lists U20802 (contributions/percent change for U detail),info,False,
 TablesRegister lists U20401 (contributions/percent change for U detail),info,False,
-underlying workbook sheets,info,U20304-A U20304-Q U20304-M U20305-A U20305-Q U20305-M U20306-A U20306-Q U20306-M U20403-A U20403-Q U20403-M U20404-A U20404-Q U20404-M U20405-A U20405-Q U20405-M U20406-A U20406-Q U20406-M,no 2.4.1U/2.4.2U (percent change / contributions) sheets are published for the U detail
+underlying workbook sheets,info,U20304-A U20304-Q U20304-M U20305-A U20305-Q U20305-M U20306-A U20306-Q U20306-M U20403-A U20403-Q U20403-M U20404-A U20404-Q U20404-M U20405-A U20405-Q U20405-M U20406-A U20406-Q U20406-M,percent-change / contributions sheets for the U detail: none published
 "flat file = workbook, U20405-A",pass,25186 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
 "flat file = workbook, U20405-M",pass,305832 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
 "flat file = workbook, U20406-A",pass,7600 cells,only in flat file: 0; only in workbook: 0; max abs diff 0
@@ -111,7 +111,7 @@ inequality-metrics workbook 2023 Table 2 metrics = summary file,pass,30/30 match
 inequality-metrics workbook 2024 Table 1 decile shares = summary file,pass,300/300 match,
 inequality-metrics workbook 2024 Table 2 metrics = summary file,pass,30/30 match,
 "NIPA Table 2.10 (flat file, % to 1 decimal) = summary-file decile shares, each concept ranked by its own equivalized income",pass,"Personal income (equivalized_pi): 250 cells, 0 differ by >0.05pp (max 0.00); Disposable personal income (equivalized_dpi): 250 cells, 0 differ by >0.05pp (max 0.00)",
-summary-file personal income totals vs current NIPA Table 2.1 line 1,info,"2019: 18363 vs 18363, 2021: 21499 vs 21507, 2022: 22154 vs 22157, 2023: 23585 vs 23642, 2024: 24906 vs 25043",max |diff| 137 billion $; 2000-2018 max |diff| 0
+summary-file personal income totals vs current NIPA Table 2.1 line 1,info,"2019: 18363 vs 18363, 2021: 21499 vs 21507, 2022: 22154 vs 22157, 2023: 23585 vs 23642, 2024: 24906 vs 25043",max |diff| 137 billion $; 2000-2020 max |diff| 0.4 (totals are rounded to $1bn)
 wrote bea_pce_price_by_income_decile.csv,info,425 rows,"years 2000-2024; columns: Year, Published PCE PI, Indexed Published PCE PI, ISPCEPX: 0-10%, ISPCEPX: 10-20%, ISPCEPX: 20-30%, ISPCEPX: 30-40%, ISPCEPX: 40-50%, ISPCEPX: 50-60%, ISPCEPX: 60-70%, ISPCEPX: 70-80%, ISPCEPX: 80-90%, ISPCEPX: 90-100%, ISPCEPX: 0-20%, ISPCEPX: 20-40%, ISPCEPX: 40-60%, ISPCEPX: 60-80%, ISPCEPX: 80-100%"
 ISPCEPX: every group index = 100 in 2000,pass,,
 ISPCEPX: 'Indexed Published PCE PI' = Published PCE PI rebased to 2000,pass,max abs diff 0.010,
@@ -123,7 +123,7 @@ wrote bea_joint_dpi_pce_joint_shares.csv,info,3456 rows,years 2000-2023
 joint file: decile shares of DPI and PCE sum to 1,pass,"max |sum-1| DPI 0.003, PCE 0.003, saving 0.002",
 joint shares over the 10x10 decile grid sum to 1,pass,max |sum-1| 0.007,Top 1%/Top 5% rows overlap 90-100% and are excluded from the sum
 joint file: decile saving rate = saving share x total / (DPI share x total),info,max abs diff 0.042; median 0.0006,"shares are rounded to 3 decimals, so only approximate"
-"joint file totals vs current NIPA Table 2.1 (DPI line 27, PCE line 29)",info,"2019: DPI +0, PCE -0 bn; 2020: DPI +0, PCE -0 bn; 2021: DPI -5, PCE +5 bn; 2022: DPI -5, PCE +20 bn; 2023: DPI -59, PCE +61 bn","2000-2018 max |diff| DPI 0, PCE 0 bn"
+"joint file totals vs current NIPA Table 2.1 (DPI line 27, PCE line 29)",info,"2019: DPI +0, PCE -0 bn; 2020: DPI +0, PCE -0 bn; 2021: DPI -5, PCE +5 bn; 2022: DPI -5, PCE +20 bn; 2023: DPI -59, PCE +61 bn","2000-2020 max |diff| DPI 0.0, PCE 0.0 bn"
 "latest: real PCE (2.4.6U/2.8.6 line 1, DPCERX)",info,2026M09: 16.9776 trillion,6-month change (2026M03->2026M09) 1.82% (3.67% annualized); 12-month change (2025M09->2026M09) 2.54%
 "latest: real PI excluding current transfer receipts (2.6 line 36, W875RX)",info,2026M09: 17.0152 trillion,6-month change (2026M03->2026M09) 0.05% (0.10% annualized); 12-month change (2025M09->2026M09) 0.54%
 "latest: real DPI (2.6 line 37, A067RX)",info,2026M09: 18.3661 trillion,6-month change (2026M03->2026M09) 0.35% (0.71% annualized); 12-month change (2025M09->2026M09) 0.95%
