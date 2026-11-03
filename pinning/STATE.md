@@ -11,7 +11,8 @@ rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was 
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Calibration (c)
 was ported, reviewed and not adopted (Log, 2026-11-03). The Economic Modelling package is built
-(`paper/submission/em/`; `main` fast-forwarded to it and tagged `em-package-2026-11-03`); she
+(`paper/submission/em/`; `main` fast-forwarded to it at 6117344; the tag `em-package-2026-11-03`
+could not be pushed from the session, HTTP 403 on tags, so it exists only if she pushes it); she
 submits after Johan's sign-off (Open 11d) and revises the SSRN posting herself. Next: the polish pass for the next submission, the
 Economic Modelling special issue "Artificial Intelligence, Data Investment and the Digital
 Economy" (deadline 2027-02-28). STRECO desk-rejected the 4 September Word build on
@@ -186,8 +187,10 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   build drops the date, so the package is unchanged); the checklist's data statement says the
   repository is public and only its link is left out during review; the README no longer calls
   main.tex the SSRN version's source. `main` fast-forwarded to `ssrn-rebuild` (no commits of its own
-  since 43e32b3) and the package commit tagged `em-package-2026-11-03`. For SSRN she has the full
-  version with the authors (main.tex compiled), not the anonymized one.
+  since 43e32b3), to 6117344. The annotated tag `em-package-2026-11-03` on 6117344 was made but its
+  push was refused (HTTP 403: the session may push branches, not tags); she can push it from her
+  machine. For SSRN she has the full version with the authors (main.tex compiled), not the anonymized
+  one.
 
 - **2026-11-03 — Appendix B's instance set from U.S.-like shares; the AI line in every caption.**
   Her "agreed" (Open 11f), on two conditions she accepted: the parameters come from shares, not from
