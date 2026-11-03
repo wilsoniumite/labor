@@ -14,8 +14,8 @@ paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus f
 paper/figures/      the eight script-built figures, one script each, as PDF (what main.tex
                     includes) and PNG (table below); figures/ssrn/ holds the eight images
                     extracted from the SSRN PDF, which main.tex no longer uses
-paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23; main.tex is its source,
-                    rebuilt from this PDF on 2026-11-02 (STATE.md, Log)
+paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23; main.tex was rebuilt from
+                    this PDF on 2026-11-02 and revised since for Economic Modelling (STATE.md, Log)
 paper/submission/   the journal's Word files: the blind manuscript and the separate title
                     page, built by code/build_submission_docx.py (section below), plus
                     abstract.txt, the plain-text abstract for submission forms

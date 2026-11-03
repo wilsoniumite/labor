@@ -27,7 +27,7 @@ Submit at https://www.editorialmanager.com/ECMODE/default.aspx and choose the ar
 - Keywords (1–7): automation; artificial intelligence; wages; land rent; production networks; labor force participation; rent taxation
 - JEL codes, if asked: J31, O33, E25, J22, R31, H21
 - Funding: This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
-- Data statement (draft): The data are public U.S. statistical series (BEA national accounts and fixed-asset accounts, FRED, Federal Reserve Z.1 Financial Accounts, and the BLS CPI); the article lists the series. The code and processed data that reproduce every figure and reported number will be deposited in a public repository with a DOI on acceptance; during review they are withheld to keep the review anonymous and are available to the editor on request.
+- Data statement (draft): The data are public U.S. statistical series (BEA national accounts and fixed-asset accounts, FRED, Federal Reserve Z.1 Financial Accounts, and the BLS CPI); the article lists the series. The code and processed data that reproduce every figure and reported number are in a public repository; its link is left out of the manuscript during review to keep the review anonymous, is available to the editor on request, and will be cited in the article, with a DOI, on acceptance.
 - Preprint posting on SSRN offered during submission: decline (already posted as SSRN 7226858).
 - Generative AI: declared in the manuscript, in its own section before the references.
 
