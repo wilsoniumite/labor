@@ -162,6 +162,21 @@ both at tag `pre-cleanup-2026-09-04`.
     open for the paper's authors, and the repository's figures keep matching the
     published paper, which a rebuild here would contradict.
 
+11. **The Economic Modelling package (2026-11-03): her calls before submitting.** (a) The guide asks
+   that AI-made images be disclosed in each caption as well as in the declaration: add "Plotted by
+   code written with Claude (Anthropic)." to the eight captions? (b) Competing interests: nothing to
+   declare, or her SEB employment (the views disclaimer is on the title page). (c) Acknowledgments,
+   title page only. (d) Johan's sign-off: authorship is fixed at submission. (e) The drafts' wording:
+   keywords, JEL codes, highlights, the two table captions, the cover letter. (f) Her question of the
+   same day: an illustrative instance in which recursive automation cuts w/P_s more than task
+   automation, guided by calibration (c). Answered: every (c) variant ranks it so, but the SSRN
+   instance cannot (land 0.73 of the basket, labor 0.04 of a machine's cost; raising lambda breaks the
+   equilibrium near 0.25); a rounded durable instance with U.S.-like shares (labor 0.39 of machine cost
+   and 0.51 of consumption, site 0.10, 3 baskets, participation 0.61) gives -11% against -5%, both
+   lowering participation, support funded. Proposed with a one-clause disclosure of how the parameters
+   were chosen, and the figure left to report the two experiments rather than rank the channels.
+   Awaiting her go.
+
 ## Note on the batteries
 
 `check_pinning`, `check_fan` and `checks/corner/` were written against the propositions
@@ -171,6 +186,27 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-03 — the Economic Modelling package.** Her go; the journal's Guide for Authors (her
+  attachment) and the special-issue call. **main.tex** (word diff against the Appendix B commit): the
+  AI-use note becomes Elsevier's section "Declaration of generative AI and AI-assisted technologies in
+  the manuscript preparation process", before the references, in the guide's template, naming Claude
+  (Anthropic) and ChatGPT (OpenAI) without versions (her call), and the title footnote points to it;
+  the data note moves before the references and drops the HUD FY2025 ceiling-grid clause (her call:
+  the paper shows no ceiling grid); keywords and JEL codes under the abstract (drafts); appendix
+  equations, figures and tables numbered by appendix as the guide asks ((A.1)–(D.2); Figure 8 is
+  Figure D.1); the two tables become captioned floats, Tables A.1 and D.1, cited in the text (captions
+  are drafts). **References** audited against Crossref and publishers' records (a subagent; every DOI
+  then re-resolved here): 22 entries completed (pages for 20, Rognlie's subtitle and issue, the NBER
+  volume's "An Agenda", Romer's "Part 2"), 45 DOIs added in Elsevier's form; no wrong author, year or
+  source. Unverifiable (JSTOR blocks automated access), left as printed: Baumol 1967's volume, issue and
+  pages; Leontief 1936's last page; Gruber 1997's issue label (Crossref says S3). 41 pages (40).
+  **New:** `code/build_submission_em.py` (the anonymized LaTeX source with the figures as
+  Figure_1–Figure_7 and Figure_D1, the title page, highlights and cover letter; it stops on any
+  identifying string in the source, the compiled text or its metadata, and on the journal's limits),
+  its sources in `paper/submission/em_src/` with `submission_notes.md` (what to upload and enter;
+  the USD 125 fee), and its outputs in `paper/submission/em/`. Open 11 lists her remaining calls.
+  Every battery green.
 
 - **2026-11-03 — Appendix B: Lemma B.1 for durable machines; the SSRN instance as its flow case;
   Figure 3 and the checks from scripts.** Her call ("2"), the second of three options put to her

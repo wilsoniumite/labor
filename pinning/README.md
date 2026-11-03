@@ -73,7 +73,21 @@ marked the dashed pre-1964 stretch.
 
 ## Submission files
 
-`code/build_submission_docx.py` builds `paper/submission/manuscript_blind.docx`, the full
+**Economic Modelling (2026-11-03).** `code/build_submission_em.py` builds `paper/submission/em/`
+for the special issue "Artificial Intelligence, Data Investment and the Digital Economy"
+(double-anonymized review): `manuscript.tex`, the anonymized LaTeX source (no authors,
+affiliations, emails, title footnotes, date, or preamble comments), with the figures beside
+it as `Figure_1.pdf` … `Figure_7.pdf` and `Figure_D1.pdf`; `title_page.docx`,
+`highlights.docx` and `cover_letter.docx`, from the editable sources in
+`paper/submission/em_src/`; and `manuscript_preview.pdf`, compiled from the anonymized source
+for checking (not an upload). The build stops before writing if an author's name, email,
+affiliation, or the repository or SSRN address survives in the source or the compiled text
+and metadata, if a figure is missing, or if the abstract (250 words), keywords (1–7) or
+highlights (3–5, 85 characters) break the journal's limits. It needs `latexmk` and `pandoc`
+on the path. `paper/submission/em_src/submission_notes.md` lists what to upload and what to
+enter in Editorial Manager.
+
+**STRECO (2026-09-04).** `code/build_submission_docx.py` builds `paper/submission/manuscript_blind.docx`, the full
 paper with an anonymized title page (no authors, affiliations, emails, or disclaimer
 footnote; the repository address withheld for review; no author in the file properties),
 and `paper/submission/title_page.docx`, the separate title page with the author details.
@@ -86,6 +100,7 @@ Styling is Times New Roman 12 pt, one-and-a-half spacing, A4 with 2.5 cm margins
 
 ```
 ../venv/Scripts/python.exe code/build_submission_docx.py
+../venv/Scripts/python.exe code/build_submission_em.py      # the Economic Modelling files
 ```
 
 ## Reproduce

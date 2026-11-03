@@ -40,8 +40,8 @@
 \newcommand{\refentry}[1]{\par\hangindent=1.5em\hangafter=1\noindent #1}
 \title{\bfseries Pinning the Wage to Scarcity and Technology\thanks{Views are the
   authors' own and do not represent those of KTH, SEB, or the Stockholm School of
-  Economics. Written in collaboration with Claude (Anthropic); see the AI-use note
-  at the end.
+  Economics. Prepared with Claude (Anthropic) and ChatGPT (OpenAI); see the
+  declaration on generative AI at the end.
   }\\[7pt]
   \large\mdseries Replacement, exit, and the rents of non-produced inputs in a task economy}
 
@@ -62,6 +62,9 @@
 \begin{abstract}
 \noindent We connect technological change to wages by jointly pricing labor's machine substitute and workers' outside options. Combining task assignment with a production network identifies two automation channels: improved machine capability and reduced labor requirements within machine production. Both can lower wages relative to rents on non-produced inputs. At an interior task margin, we derive bounds on wage purchasing power: embodied rent costs impose a ceiling, while feasible human production supplies a lower bound. Technological progress can expand productive capacity while reducing wage purchasing power over housing and other scarce services. The same prices connect participation to household or public support, living costs, and preferences. U.S. wage measures deflated by durables and shelter prices diverged by a factor of 4.8 over 1964--2024. Uniform transfers financed from pure rents redistribute purchasing power while preserving fixed-factor supply and avoiding benefit withdrawal upon employment.
 \end{abstract}
+
+\noindent\textbf{Keywords:} automation; artificial intelligence; wages; land rent; production networks; labor force participation; rent taxation\\
+\textbf{JEL codes:} J31, O33, E25, J22, R31, H21
 
 \section{Introduction}\label{sec:1}
 
@@ -554,6 +557,9 @@ Finally, structuring a society that no longer orbits around labor is not a trivi
 
 \appendix
 \counterwithin{proposition}{section}
+\counterwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
 \titleformat{\section}{\normalfont\Large\bfseries}{Appendix~\thesection.}{0.6em}{}
 
 \section{The environment and supporting results}\label{app:A}
@@ -582,9 +588,12 @@ One rental ratio can summarize the closure only after specifying a common input 
 
 \textbf{Government.} The instruments are a payroll tax $\tau_w$; a tax $\tau_R$ on pure ownership rents, returned as a uniform transfer $d=\tau_RR/N$; a uniform consumption tax; and a transfer program paying $(m_w,m_e)$ per period in work and exit.
 
-\textbf{Equilibrium.} Prices, gross outputs $\mathbf{y}$, final consumption $\mathbf{f}$, task assignment, and participation form an equilibrium when firms choose cost-minimizing methods, active activities satisfy the cost equations, and households choose their preferred affordable consumption and work arrangements. Commodity clearing requires $\mathbf{f}=(\mathbf{I}-\mathbf{A}^{\mathsf{T}})\mathbf{y}$, labor clearing requires $N_a=\boldsymbol{\lambda}^{\mathsf{T}}\mathbf{y}$, and fully employed non-produced inputs satisfy $\mathbf{T}=\mathbf{B}^{\mathsf{T}}\mathbf{y}$. Unused fixed inputs have zero rent. Pass-through services ensure direct household rentals enter these accounts once. Output, participation, and the assignment margin are jointly determined; the replacement closure alone supplies a price condition.
+\textbf{Equilibrium.} Prices, gross outputs $\mathbf{y}$, final consumption $\mathbf{f}$, task assignment, and participation form an equilibrium when firms choose cost-minimizing methods, active activities satisfy the cost equations, and households choose their preferred affordable consumption and work arrangements. Commodity clearing requires $\mathbf{f}=(\mathbf{I}-\mathbf{A}^{\mathsf{T}})\mathbf{y}$, labor clearing requires $N_a=\boldsymbol{\lambda}^{\mathsf{T}}\mathbf{y}$, and fully employed non-produced inputs satisfy $\mathbf{T}=\mathbf{B}^{\mathsf{T}}\mathbf{y}$. Unused fixed inputs have zero rent. Pass-through services ensure direct household rentals enter these accounts once. Output, participation, and the assignment margin are jointly determined; the replacement closure alone supplies a price condition. Table~\ref{tab:A.1} lists the configuration each part of the paper uses.
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{Configurations of the environment and where the paper uses them.}
+\label{tab:A.1}
 {\small
 \begin{tabular}{l p{8.6cm}}
 \toprule
@@ -605,7 +614,7 @@ Appendix~\ref{app:E}
 \bottomrule
 \end{tabular}
 }
-\end{center}
+\end{table}
 
 \textbf{Heterogeneous workers.} With type-specific schedules, replacement applies at each type's active contestable margin. Cross-type assignment, relative labor supplies, and training determine skill premia jointly. Reservation wages depend on each type's support, living costs, and preferences. The eras figure illustrates distinct worker-specific task mixes with schematic wage ratios.
 
@@ -824,9 +833,12 @@ For a descriptive transition index, let $\varphi_C$ be the labor-origin financin
 \[
 D=\varphi_C(1-\kappa)^2.
 \]
-Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa=0.30$ gives $D=0.31$; at $(\varphi_C,\kappa)=(0.50,0.60)$ it would be 0.08. The index summarizes the assumed financing pattern; estimating welfare requires a structural model of behavioral responses. As $\kappa$ rises and labor-origin financing falls, the residual distortionary financing need shrinks; Proposition~\ref{prop:5} accounts for both wage and rent income throughout. The financing mix depends on the available bases and the desired transfer.
+Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa=0.30$ gives $D=0.31$; at $(\varphi_C,\kappa)=(0.50,0.60)$ it would be 0.08. The index summarizes the assumed financing pattern; estimating welfare requires a structural model of behavioral responses. As $\kappa$ rises and labor-origin financing falls, the residual distortionary financing need shrinks; Proposition~\ref{prop:5} accounts for both wage and rent income throughout. The financing mix depends on the available bases and the desired transfer. Table~\ref{tab:D.1} collects the U.S. measures.
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{U.S. measures of labor-origin financing, conditioned benefits, rent coverage, and the transition index.}
+\label{tab:D.1}
 {\small
 \begin{tabular}{p{5.4cm} p{3.5cm} p{4.8cm}}
 \toprule
@@ -840,7 +852,7 @@ Object & Value (year) & Note \\
 \bottomrule
 \end{tabular}
 }
-\end{center}
+\end{table}
 
 \begin{figure}[t]
 \centering
@@ -895,70 +907,71 @@ observed expenditure share also depends on prices and composition. The
 financing-origin account supplies $\varphi_C$ for Appendix~\ref{app:D.5}.
 
 \bigskip\par\noindent\rule{0.35\linewidth}{0.4pt}\par\smallskip
-\noindent{\footnotesize\singlespacing \textbf{AI use.} This paper was written in collaboration with Claude (Anthropic) and ChatGPT (OpenAI). The theory and its central claims are the authors'; parts of the formalization, proofs, computations, figures, and some initial prose were drafted by Claude Fable 5 and ChatGPT 5.6 Sol under the authors' direction and review. All data were pulled live from public sources; the code and data are public. Errors remain the authors'.\par}
+\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio. Financing splits 1960--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The direct labor coefficients $\lambda_i$ and total requirements $\widetilde{\lambda}_i$ are unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:D} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+
+During the preparation of this work the authors used Claude (Anthropic) and ChatGPT (OpenAI) to draft parts of the formalization, proofs, computations, figures, and initial prose, under the authors' direction. The theory and its central claims are the authors'. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article. All data were pulled live from public sources; the code and data are public.
 
 \section*{References}
 
 {\small\singlespacing
-\refentry{Acemoglu, D., and D. Autor (2011). ``Skills, Tasks and Technologies: Implications for Employment and Earnings.'' In \emph{Handbook of Labor Economics}, vol. 4B. Elsevier.}
-\refentry{Acemoglu, D., and P. Restrepo (2018). ``The Race between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment.'' \emph{American Economic Review} 108(6): 1488--1542.}
-\refentry{Acemoglu, D., and P. Restrepo (2022). ``Tasks, Automation, and the Rise in U.S. Wage Inequality.'' \emph{Econometrica} 90(5).}
-\refentry{Acemoglu, D., and P. Restrepo (2026). ``Automation and Rent Dissipation: Implications for Wages, Inequality, and Productivity.'' \emph{The Quarterly Journal of Economics} 141(2): 1521--1579.}
-\refentry{Aghion, P., B. F. Jones, and C. I. Jones (2019). ``Artificial Intelligence and Economic Growth.'' In A. Agrawal, J. Gans, and A. Goldfarb (eds.), \emph{The Economics of Artificial Intelligence}, University of Chicago Press.}
-\refentry{Allen, R. C. (2001). ``The Great Divergence in European Wages and Prices from the Middle Ages to the First World War.'' \emph{Explorations in Economic History} 38(4): 411--447.}
-\refentry{Arnott, R. J., and J. E. Stiglitz (1979). ``Aggregate Land Rents, Expenditure on Public Goods, and Optimal City Size.'' \emph{The Quarterly Journal of Economics} 93(4): 471--500.}
-\refentry{Arrow, K. J. (1951). ``An Extension of the Basic Theorems of Classical Welfare Economics.'' In \emph{Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability}, University of California Press.}
-\refentry{Autor, D. (2015). ``Why Are There Still So Many Jobs? The History and Future of Workplace Automation.'' \emph{Journal of Economic Perspectives} 29(3).}
-\refentry{Autor, D., and D. Dorn (2013). ``The Growth of Low-Skill Service Jobs and the Polarization of the US Labor Market.'' \emph{American Economic Review} 103(5): 1553--1597.}
-\refentry{Autor, D., F. Levy, and R. J. Murnane (2003). ``The Skill Content of Recent Technological Change: An Empirical Exploration.'' \emph{The Quarterly Journal of Economics} 118(4): 1279--1333.}
+\refentry{Acemoglu, D., and D. Autor (2011). ``Skills, Tasks and Technologies: Implications for Employment and Earnings.'' In \emph{Handbook of Labor Economics}, vol. 4B. Elsevier, pp. 1043--1171. \url{https://doi.org/10.1016/s0169-7218(11)02410-5}.}
+\refentry{Acemoglu, D., and P. Restrepo (2018). ``The Race between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment.'' \emph{American Economic Review} 108(6): 1488--1542. \url{https://doi.org/10.1257/aer.20160696}.}
+\refentry{Acemoglu, D., and P. Restrepo (2022). ``Tasks, Automation, and the Rise in U.S. Wage Inequality.'' \emph{Econometrica} 90(5): 1973--2016. \url{https://doi.org/10.3982/ecta19815}.}
+\refentry{Acemoglu, D., and P. Restrepo (2026). ``Automation and Rent Dissipation: Implications for Wages, Inequality, and Productivity.'' \emph{The Quarterly Journal of Economics} 141(2): 1521--1579. \url{https://doi.org/10.1093/qje/qjag006}.}
+\refentry{Aghion, P., B. F. Jones, and C. I. Jones (2019). ``Artificial Intelligence and Economic Growth.'' In A. Agrawal, J. Gans, and A. Goldfarb (eds.), \emph{The Economics of Artificial Intelligence: An Agenda}, University of Chicago Press, pp. 237--282. \url{https://doi.org/10.7208/chicago/9780226613475.003.0009}.}
+\refentry{Allen, R. C. (2001). ``The Great Divergence in European Wages and Prices from the Middle Ages to the First World War.'' \emph{Explorations in Economic History} 38(4): 411--447. \url{https://doi.org/10.1006/exeh.2001.0775}.}
+\refentry{Arnott, R. J., and J. E. Stiglitz (1979). ``Aggregate Land Rents, Expenditure on Public Goods, and Optimal City Size.'' \emph{The Quarterly Journal of Economics} 93(4): 471--500. \url{https://doi.org/10.2307/1884466}.}
+\refentry{Arrow, K. J. (1951). ``An Extension of the Basic Theorems of Classical Welfare Economics.'' In \emph{Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability}, University of California Press, pp. 507--532. \url{https://doi.org/10.1525/9780520411586-038}.}
+\refentry{Autor, D. (2015). ``Why Are There Still So Many Jobs? The History and Future of Workplace Automation.'' \emph{Journal of Economic Perspectives} 29(3): 3--30. \url{https://doi.org/10.1257/jep.29.3.3}.}
+\refentry{Autor, D., and D. Dorn (2013). ``The Growth of Low-Skill Service Jobs and the Polarization of the US Labor Market.'' \emph{American Economic Review} 103(5): 1553--1597. \url{https://doi.org/10.1257/aer.103.5.1553}.}
+\refentry{Autor, D., F. Levy, and R. J. Murnane (2003). ``The Skill Content of Recent Technological Change: An Empirical Exploration.'' \emph{The Quarterly Journal of Economics} 118(4): 1279--1333. \url{https://doi.org/10.1162/003355303322552801}.}
 \refentry{Baumol, W. J. (1967). ``Macroeconomics of Unbalanced Growth: The Anatomy of Urban Crisis.'' \emph{American Economic Review} 57(3): 415--426.}
-\refentry{Bouscasse, P., E. Nakamura, and J. Steinsson (2025). ``When Did Growth Begin? New Estimates of Productivity Growth in England from 1250 to 1870.'' \emph{The Quarterly Journal of Economics} 140(2): 835--888.}
-\refentry{Card, D., A. R. Cardoso, J. Heining, and P. Kline (2018). ``Firms and Labor Market Inequality: Evidence and Some Theory.'' \emph{Journal of Labor Economics} 36(S1).}
-\refentry{Caselli, F., and A. Manning (2019). ``Robot Arithmetic: New Technology and Wages.'' \emph{American Economic Review: Insights} 1(1).}
-\refentry{Clark, G. (2005). ``The Condition of the Working Class in England, 1209--2004.'' \emph{Journal of Political Economy} 113(6): 1307--1340.}
-\refentry{Crafts, N. (2022). ``Slow Real Wage Growth during the Industrial Revolution: Productivity Paradox or Pro-Rich Growth?'' \emph{Oxford Economic Papers} 74(1): 1--13.}
-\refentry{Diamond, P. A. (1982). ``Aggregate Demand Management in Search Equilibrium.'' \emph{Journal of Political Economy} 90(5).}
-\refentry{Diamond, P., and J. Mirrlees (1971). ``Optimal Taxation and Public Production I: Production Efficiency.'' \emph{American Economic Review} 61(1).}
+\refentry{Bouscasse, P., E. Nakamura, and J. Steinsson (2025). ``When Did Growth Begin? New Estimates of Productivity Growth in England from 1250 to 1870.'' \emph{The Quarterly Journal of Economics} 140(2): 835--888. \url{https://doi.org/10.1093/qje/qjae046}.}
+\refentry{Card, D., A. R. Cardoso, J. Heining, and P. Kline (2018). ``Firms and Labor Market Inequality: Evidence and Some Theory.'' \emph{Journal of Labor Economics} 36(S1): S13--S70. \url{https://doi.org/10.1086/694153}.}
+\refentry{Caselli, F., and A. Manning (2019). ``Robot Arithmetic: New Technology and Wages.'' \emph{American Economic Review: Insights} 1(1): 1--12. \url{https://doi.org/10.1257/aeri.20170036}.}
+\refentry{Clark, G. (2005). ``The Condition of the Working Class in England, 1209--2004.'' \emph{Journal of Political Economy} 113(6): 1307--1340. \url{https://doi.org/10.1086/498123}.}
+\refentry{Crafts, N. (2022). ``Slow Real Wage Growth during the Industrial Revolution: Productivity Paradox or Pro-Rich Growth?'' \emph{Oxford Economic Papers} 74(1): 1--13. \url{https://doi.org/10.1093/oep/gpab008}.}
+\refentry{Diamond, P. A. (1982). ``Aggregate Demand Management in Search Equilibrium.'' \emph{Journal of Political Economy} 90(5): 881--894. \url{https://doi.org/10.1086/261099}.}
+\refentry{Diamond, P., and J. Mirrlees (1971). ``Optimal Taxation and Public Production I: Production Efficiency.'' \emph{American Economic Review} 61(1): 8--27.}
 \refentry{George, H. (1879). \emph{Progress and Poverty.}}
-\refentry{Grossman, G. M., and E. Rossi-Hansberg (2008). ``Trading Tasks: A Simple Theory of Offshoring.'' \emph{American Economic Review} 98(5).}
-\refentry{Gruber, J. (1997). ``The Incidence of Payroll Taxation: Evidence from Chile.'' \emph{Journal of Labor Economics} 15(3, Part 2): S72--S101.}
-\refentry{Hagedorn, M., and I. Manovskii (2008). ``The Cyclical Behavior of Equilibrium Unemployment and Vacancies Revisited.'' \emph{American Economic Review} 98(4): 1692--1706.}
-\refentry{Hall, R. E. (2005). ``Employment Fluctuations with Equilibrium Wage Stickiness.'' \emph{American Economic Review} 95(1).}
-\refentry{Hémous, D., and M. Olsen (2022). ``The Rise of the Machines: Automation, Horizontal Innovation, and Income Inequality.'' \emph{American Economic Journal: Macroeconomics} 14(1).}
-\refentry{Hoynes, H., and J. Rothstein (2019). ``Universal Basic Income in the United States and Advanced Countries.'' \emph{Annual Review of Economics} 11.}
-\refentry{Jones, D., and I. Marinescu (2022). ``The Labor Market Impacts of Universal and Permanent Cash Transfers: Evidence from the Alaska Permanent Fund.'' \emph{American Economic Journal: Economic Policy} 14(2): 315--340.}
-\refentry{Karabarbounis, L., and B. Neiman (2014). ``The Global Decline of the Labor Share.'' \emph{The Quarterly Journal of Economics} 129(1).}
-\refentry{Knoll, K., M. Schularick, and T. Steger (2017). ``No Price Like Home: Global House Prices, 1870--2012.'' \emph{American Economic Review} 107(2).}
-\refentry{Korinek, A., and J. E. Stiglitz (2019). ``Artificial Intelligence and Its Implications for Income Distribution and Unemployment.'' In A. Agrawal, J. Gans, and A. Goldfarb (eds.), \emph{The Economics of Artificial Intelligence}, University of Chicago Press.}
-\refentry{Korinek, A., and D. Suh (2024). ``Scenarios for the Transition to AGI.'' NBER Working Paper 32255.}
-\refentry{Kugler, A., and M. Kugler (2009). ``Labor Market Effects of Payroll Taxes in Developing Countries: Evidence from Colombia.'' \emph{Economic Development and Cultural Change} 57(2): 335--358.}
-\refentry{Leontief, W. W. (1936). ``Quantitative Input and Output Relations in the Economic Systems of the United States.'' \emph{The Review of Economics and Statistics} 18(3): 105--125.}
-\refentry{Lewis, W. A. (1954). ``Economic Development with Unlimited Supplies of Labour.'' \emph{The Manchester School} 22(2): 139--191.}
-\refentry{Ljungqvist, L., and T. J. Sargent (2017). ``The Fundamental Surplus.'' \emph{American Economic Review} 107(9): 2630--2665.}
+\refentry{Grossman, G. M., and E. Rossi-Hansberg (2008). ``Trading Tasks: A Simple Theory of Offshoring.'' \emph{American Economic Review} 98(5): 1978--1997. \url{https://doi.org/10.1257/aer.98.5.1978}.}
+\refentry{Gruber, J. (1997). ``The Incidence of Payroll Taxation: Evidence from Chile.'' \emph{Journal of Labor Economics} 15(3, Part 2): S72--S101. \url{https://doi.org/10.1086/209877}.}
+\refentry{Hagedorn, M., and I. Manovskii (2008). ``The Cyclical Behavior of Equilibrium Unemployment and Vacancies Revisited.'' \emph{American Economic Review} 98(4): 1692--1706. \url{https://doi.org/10.1257/aer.98.4.1692}.}
+\refentry{Hall, R. E. (2005). ``Employment Fluctuations with Equilibrium Wage Stickiness.'' \emph{American Economic Review} 95(1): 50--65. \url{https://doi.org/10.1257/0002828053828482}.}
+\refentry{Hémous, D., and M. Olsen (2022). ``The Rise of the Machines: Automation, Horizontal Innovation, and Income Inequality.'' \emph{American Economic Journal: Macroeconomics} 14(1): 179--223. \url{https://doi.org/10.1257/mac.20160164}.}
+\refentry{Hoynes, H., and J. Rothstein (2019). ``Universal Basic Income in the United States and Advanced Countries.'' \emph{Annual Review of Economics} 11: 929--958. \url{https://doi.org/10.1146/annurev-economics-080218-030237}.}
+\refentry{Jones, D., and I. Marinescu (2022). ``The Labor Market Impacts of Universal and Permanent Cash Transfers: Evidence from the Alaska Permanent Fund.'' \emph{American Economic Journal: Economic Policy} 14(2): 315--340. \url{https://doi.org/10.1257/pol.20190299}.}
+\refentry{Karabarbounis, L., and B. Neiman (2014). ``The Global Decline of the Labor Share.'' \emph{The Quarterly Journal of Economics} 129(1): 61--103. \url{https://doi.org/10.1093/qje/qjt032}.}
+\refentry{Knoll, K., M. Schularick, and T. Steger (2017). ``No Price Like Home: Global House Prices, 1870--2012.'' \emph{American Economic Review} 107(2): 331--353. \url{https://doi.org/10.1257/aer.20150501}.}
+\refentry{Korinek, A., and J. E. Stiglitz (2019). ``Artificial Intelligence and Its Implications for Income Distribution and Unemployment.'' In A. Agrawal, J. Gans, and A. Goldfarb (eds.), \emph{The Economics of Artificial Intelligence: An Agenda}, University of Chicago Press, pp. 349--390. \url{https://doi.org/10.7208/chicago/9780226613475.003.0014}.}
+\refentry{Korinek, A., and D. Suh (2024). ``Scenarios for the Transition to AGI.'' NBER Working Paper 32255. \url{https://doi.org/10.3386/w32255}.}
+\refentry{Kugler, A., and M. Kugler (2009). ``Labor Market Effects of Payroll Taxes in Developing Countries: Evidence from Colombia.'' \emph{Economic Development and Cultural Change} 57(2): 335--358. \url{https://doi.org/10.1086/592839}.}
+\refentry{Leontief, W. W. (1936). ``Quantitative Input and Output Relations in the Economic Systems of the United States.'' \emph{The Review of Economics and Statistics} 18(3): 105--125. \url{https://doi.org/10.2307/1927837}.}
+\refentry{Lewis, W. A. (1954). ``Economic Development with Unlimited Supplies of Labour.'' \emph{The Manchester School} 22(2): 139--191. \url{https://doi.org/10.1111/j.1467-9957.1954.tb00021.x}.}
+\refentry{Ljungqvist, L., and T. J. Sargent (2017). ``The Fundamental Surplus.'' \emph{American Economic Review} 107(9): 2630--2665. \url{https://doi.org/10.1257/aer.20150233}.}
 \refentry{Malthus, T. R. (1798). \emph{An Essay on the Principle of Population.}}
-\refentry{Manning, A. (2003). \emph{Monopsony in Motion: Imperfect Competition in Labor Markets.} Princeton University Press.}
-\refentry{Mas, A., and A. Pallais (2019). ``Labor Supply and the Value of Non-Work Time: Experimental Estimates from the Field.'' \emph{American Economic Review: Insights} 1(1): 111--126.}
-\refentry{Moll, B., L. Rachel, and P. Restrepo (2022). ``Uneven Growth: Automation's Impact on Income and Wealth Inequality.'' \emph{Econometrica} 90(6).}
-\refentry{Mortensen, D. T., and C. A. Pissarides (1994). ``Job Creation and Job Destruction in the Theory of Unemployment.'' \emph{The Review of Economic Studies} 61(3): 397--415.}
-\refentry{Piketty, T., and G. Zucman (2014). ``Capital is Back: Wealth-Income Ratios in Rich Countries 1700--2010.'' \emph{The Quarterly Journal of Economics} 129(3).}
+\refentry{Manning, A. (2003). \emph{Monopsony in Motion: Imperfect Competition in Labor Markets.} Princeton University Press. \url{https://doi.org/10.1515/9781400850679}.}
+\refentry{Mas, A., and A. Pallais (2019). ``Labor Supply and the Value of Non-Work Time: Experimental Estimates from the Field.'' \emph{American Economic Review: Insights} 1(1): 111--126. \url{https://doi.org/10.1257/aeri.20180070}.}
+\refentry{Moll, B., L. Rachel, and P. Restrepo (2022). ``Uneven Growth: Automation's Impact on Income and Wealth Inequality.'' \emph{Econometrica} 90(6): 2645--2683. \url{https://doi.org/10.3982/ecta19417}.}
+\refentry{Mortensen, D. T., and C. A. Pissarides (1994). ``Job Creation and Job Destruction in the Theory of Unemployment.'' \emph{The Review of Economic Studies} 61(3): 397--415. \url{https://doi.org/10.2307/2297896}.}
+\refentry{Piketty, T., and G. Zucman (2014). ``Capital is Back: Wealth-Income Ratios in Rich Countries 1700--2010.'' \emph{The Quarterly Journal of Economics} 129(3): 1255--1310. \url{https://doi.org/10.1093/qje/qju018}.}
 \refentry{Pissarides, C. A. (2000). \emph{Equilibrium Unemployment Theory.} 2nd ed., MIT Press.}
 \refentry{Polanyi, K. (1944). \emph{The Great Transformation.}}
 \refentry{Ricardo, D. (1817). \emph{On the Principles of Political Economy and Taxation.} Third edition, 1821, adds the chapter ``On Machinery.''}
-\refentry{Rognlie, M. (2015). ``Deciphering the Fall and Rise in the Net Capital Share.'' \emph{Brookings Papers on Economic Activity.}}
-\refentry{Romer, P. M. (1990). ``Endogenous Technological Change.'' \emph{Journal of Political Economy} 98(5): S71--S102.}
-\refentry{Rosen, S. (1981). ``The Economics of Superstars.'' \emph{American Economic Review} 71(5).}
-\refentry{Sachs, J. D., and L. J. Kotlikoff (2012). ``Smart Machines and Long-Term Misery.'' NBER Working Paper 18629.}
-\refentry{Saez, E., B. Schoefer, and D. Seim (2019). ``Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden.'' \emph{American Economic Review} 109(5): 1717--1763.}
-\refentry{Samuelson, P. A. (1966). ``A Summing Up.'' \emph{The Quarterly Journal of Economics} 80(4).}
+\refentry{Rognlie, M. (2015). ``Deciphering the Fall and Rise in the Net Capital Share: Accumulation or Scarcity?'' \emph{Brookings Papers on Economic Activity} 2015(1): 1--69. \url{https://doi.org/10.1353/eca.2016.0002}.}
+\refentry{Romer, P. M. (1990). ``Endogenous Technological Change.'' \emph{Journal of Political Economy} 98(5, Part 2): S71--S102. \url{https://doi.org/10.1086/261725}.}
+\refentry{Rosen, S. (1981). ``The Economics of Superstars.'' \emph{American Economic Review} 71(5): 845--858.}
+\refentry{Sachs, J. D., and L. J. Kotlikoff (2012). ``Smart Machines and Long-Term Misery.'' NBER Working Paper 18629. \url{https://doi.org/10.3386/w18629}.}
+\refentry{Saez, E., B. Schoefer, and D. Seim (2019). ``Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden.'' \emph{American Economic Review} 109(5): 1717--1763. \url{https://doi.org/10.1257/aer.20171937}.}
+\refentry{Samuelson, P. A. (1966). ``A Summing Up.'' \emph{The Quarterly Journal of Economics} 80(4): 568--583. \url{https://doi.org/10.2307/1882916}.}
 \refentry{Shapiro, C., and J. E. Stiglitz (1984). ``Equilibrium Unemployment as a Worker Discipline Device.'' \emph{American Economic Review} 74(3): 433--444.}
-\refentry{Shimer, R. (2005). ``The Cyclical Behavior of Equilibrium Unemployment and Vacancies.'' \emph{American Economic Review} 95(1): 25--49.}
+\refentry{Shimer, R. (2005). ``The Cyclical Behavior of Equilibrium Unemployment and Vacancies.'' \emph{American Economic Review} 95(1): 25--49. \url{https://doi.org/10.1257/0002828053828572}.}
 \refentry{Sraffa, P. (1960). \emph{Production of Commodities by Means of Commodities.} Cambridge University Press.}
 \refentry{Susskind, D. (2017). ``A Model of Technological Unemployment.'' Oxford Department of Economics Discussion Paper 819.}
-\refentry{Uzawa, H. (1961). ``Neutral Inventions and the Stability of Growth Equilibrium.'' \emph{The Review of Economic Studies} 28(2): 117--124.}
-\refentry{Zeira, J. (1998). ``Workers, Machines, and Economic Growth.'' \emph{The Quarterly Journal of Economics} 113(4): 1091--1117.}\par
+\refentry{Uzawa, H. (1961). ``Neutral Inventions and the Stability of Growth Equilibrium.'' \emph{The Review of Economic Studies} 28(2): 117--124. \url{https://doi.org/10.2307/2295709}.}
+\refentry{Zeira, J. (1998). ``Workers, Machines, and Economic Growth.'' \emph{The Quarterly Journal of Economics} 113(4): 1091--1117. \url{https://doi.org/10.1162/003355398555847}.}\par
 }
-
-\bigskip\par\noindent\rule{0.35\linewidth}{0.4pt}\par\smallskip
-\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio, and HUD FY2025 fair-market rents for the ceiling grid. Financing splits 1960--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The direct labor coefficients $\lambda_i$ and total requirements $\widetilde{\lambda}_i$ are unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:D} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
 
 \end{document}
