@@ -47,7 +47,7 @@ the script.
 |---|---|---|---|
 | 1 The task-assignment schedule | `fig_schedule.pdf`, `.png` | `code/fig_schedule.py` | none (schematic) |
 | 2 The replacement closure | `fig_replacement_closure.pdf`, `.png` | `code/fig_replacement_closure.py` | none (equation (5) with full-chain b_m = 1 and lambda_m = 0.3 and 0) |
-| 3 Labor-market clearing | `fig_labor_market_clearing.pdf`, `.png` | `code/fig_labor_market_clearing.py` | none (Appendix B's instance, the SSRN version's, in the flow benchmark; solved by `code/appendix_b.py`) |
+| 3 Labor-market clearing | `fig_labor_market_clearing.pdf`, `.png` | `code/fig_labor_market_clearing.py` | none (Appendix B's illustrative instance, solved by `code/appendix_b.py`) |
 | 4 Four configurations of the schedule | `fig_eras_workers.pdf`, `.png` | `code/fig_eras_workers.py` | none (schematic) |
 | 5 The deflator fork | `fig_deflator_fork.pdf`, `.png` | `effort/code/build_fig3_realwage_fan.py` | `effort/data/raw/` (FRED: AHETPI, AHEMAN, CUSR0000SAD, CUUR0000SAD, CUSR0000SAH1, CUUR0000SEHA, CPIUFDNS, CPIENGNS); gated against `effort/data/fig3_realwage_fork_1950.csv` |
 | 6 The coverage ratio | `fig_kappa_measurement.pdf`, `.png` | `code/fig_kappa_measurement.py` | `data/kappa_results.csv` (built by `code/feasibility_kappa.py`) |
@@ -69,7 +69,7 @@ marked the dashed pre-1964 stretch.
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
 | Borrowing financed 19% of transfers in 2025, zero only in 1998–2000 | `data/four_way_split.csv` (`code/four_way.py`) |
 | The HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
-| Appendix B's instance (x* 0.86315, v 0.54344, Y 7.88061, N_a 1.34338 = 1.07846 final + 0.26492 machine hours, support 5.44630 of rent 10) and its automation path; Figure 3's equilibria, w/P_s and N_a/N 0.40/0.34 at baseline, 0.37/0.32 recursive, 0.24/0.21 task automation | `code/appendix_b.py` (the SSRN version's instance, in the flow benchmark); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
+| Appendix B's illustrative instance (durable machines; parameters set from U.S.-like shares: labor 0.456 of a machine's build cost and 0.469 of consumption, machine services 0.196, site 0.065 of the basket, participation 0.602; x* 0.82987 below the ceiling 0.94634, Y 3.01320, support 0.02599 of rent and interest 0.03520) and its automation path (participation 0.56 at eta 1, 0.13 at 0.01); Figure 3's equilibria, w/P_s and N_a/N 2.76/0.60 at baseline, 2.46/0.56 recursive, 2.66/0.59 task automation | `code/appendix_b.py` (`PRINTED`; how it was set is in its comments and STATE.md, Log 2026-11-03); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
 
 ## Submission files
 

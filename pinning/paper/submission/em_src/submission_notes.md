@@ -12,10 +12,10 @@ Submit at https://www.editorialmanager.com/ECMODE/default.aspx and choose the ar
 |---|---|---|
 | Manuscript (LaTeX source) | `manuscript.tex` | anonymized; compiles as is with the figures beside it |
 | Figures | `Figure_1.pdf` … `Figure_7.pdf`, `Figure_D1.pdf` | vector, fonts embedded |
-| Title page | `title_page.docx` | author details, acknowledgments, competing interests, funding |
+| Title page | `title_page.docx` | author details, competing interests (the SEB employment), funding; no acknowledgments |
 | Highlights | `highlights.docx` | 5 bullets, 78–80 characters each (limit 85) |
 | Cover letter | `cover_letter.docx` | to the guest editors |
-| Declaration of interest | from Elsevier's declarations tool | "I have nothing to declare", unless you declare the SEB employment |
+| Declaration of interest | from Elsevier's declarations tool | declare Stella Wilson's employment at SEB, as on the title page |
 
 `manuscript_preview.pdf` is for checking only: the journal does not take a PDF as the source file.
 

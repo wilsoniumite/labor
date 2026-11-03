@@ -1,6 +1,6 @@
 # check_cost_system.py — the cost system of Sections 3, 4 and 6 and Appendices A and C, checked numerically (2026-11-03;
-# the data note names this file). On random productive networks and on Appendix B's economies (the printed flow instance
-# and the two durable-machine economies of code/appendix_b.py's TEST_ECONOMIES):
+# the data note names this file). On random productive networks and on Appendix B's economies (the printed instance, with
+# durable machines, and code/appendix_b.py's TEST_ECONOMIES: the SSRN version's flow instance and a binding ceiling):
 #   N  network prices p = (I - A)^(-1)(lambda w + B r) against production rounds, p = c + Ac + A^2 c + ..., truncated
 #      independently of the inverse (when a round adds less than 1e-16 of the price); total requirements likewise ((4))
 #   F  factor-income cancellation (Appendix C): p'f = w lambda'y + r'B'y for f = (I - A')y; with durable machines the

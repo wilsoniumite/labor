@@ -14,13 +14,9 @@ Email addresses: Johan.Bage@hhs.se (J. Båge), thmwi@kth.se (S. Wilson).
 
 The views expressed are the authors' own and do not represent those of KTH, SEB, or the Stockholm School of Economics.
 
-## Acknowledgments
-
-None.
-
 ## Declaration of competing interest
 
-The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+Stella Wilson is employed by Skandinaviska Enskilda Banken (SEB). SEB had no role in the study design, the analysis, the writing, or the decision to submit the article. The authors have no other competing interests to declare.
 
 ## Funding
 

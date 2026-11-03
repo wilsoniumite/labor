@@ -1,8 +1,9 @@
 # appendix_b.py — the economy of the paper's Appendix B, solved: task assignment on [0, 1], durable machines priced at
 # Appendix A.4's user cost, household participation, and support funded by a provider who owns the land and the machines.
 # Plain functions on a parameter dict; numpy and scipy only. The paper's numerical instance (Appendix B and Figure 3) is
-# the SSRN version's (2026-09-23), in the flow benchmark rho = 0, delta = 1: PRINTED below. The durable-machine economies
-# in TEST_ECONOMIES exercise Lemma B.1's general form in the checks; the paper prints no number from them.
+# PRINTED below: illustrative, with durable machines, its parameters set from U.S.-like shares (2026-11-03; how, below).
+# TEST_ECONOMIES exercise the checks beyond it: the SSRN version's instance, in the flow benchmark, and a binding
+# ceiling; the paper prints no number from them.
 #
 # THE MODEL (rent r = 1, the numeraire; v = w/r). gamma(x) = eta (g0 + g1 x^k), J(x) = the integral of gamma over [0, x].
 # A machine costs V_m = a p_m + lambda v + b to build (machine services, hours, land), supplies one unit of service a
@@ -27,23 +28,34 @@ from scipy.optimize import brentq
 
 KEYS = ("N", "T", "h", "a", "b", "lam", "g0", "g1", "k", "eta", "chi_max", "rho", "delta")
 
-# The paper's instance (Appendix B as printed in the SSRN version, 2026-09-23): the flow benchmark.
-PRINTED = dict(N=4.0, T=10.0, h=1.0, a=0.3, b=0.4, lam=0.05, g0=0.2, g1=0.8, k=1.0, eta=1.0, chi_max=1.0,
-               rho=0.0, delta=1.0)
+# The paper's instance. Set: N 1, b 0.4, delta 0.05, gamma(0) 0.01. The other seven parameters solve seven shares and
+# levels of the order of U.S. data (labor 0.47 of a machine's build cost, machine services 0.20 of it, labor 0.47 of
+# consumption on the full chain, site 0.06 of the basket, the machine chain 0.15 of hours, participation 0.60, and
+# 3 baskets a person), the return an outcome as in calibration (c) of ../paths/ (STATE.md, Log 2026-11-03); of the
+# two roots in k the lower (4.36; the other, 15.5, has task automation raise w/P_s); then two significant figures.
+# The rounded instance has labor 0.456 of build cost, machine services 0.196, labor 0.469 of consumption, site 0.065,
+# chain 0.148 of hours, participation 0.602, 3.01 baskets a person.
+PRINTED = dict(N=1.0, T=0.01, h=0.0017, a=1.4, b=0.4, lam=7.3, g0=0.01, g1=0.99, k=4.4, eta=1.0, chi_max=2.2,
+               rho=0.09, delta=0.05)
+
+# The SSRN version's instance (Appendix B as printed 2026-09-23), in the flow benchmark rho = 0, delta = 1.
+SSRN_INSTANCE = dict(N=4.0, T=10.0, h=1.0, a=0.3, b=0.4, lam=0.05, g0=0.2, g1=0.8, k=1.0, eta=1.0, chi_max=1.0,
+                     rho=0.0, delta=1.0)
 
 # Figure 3's three economies: baseline; recursive automation (no labor in the machine chain); task automation (gamma
 # halved at every task).
 SCENARIOS = (("baseline", {}), ("recursive", {"lam": 0.0}), ("task", {"eta": 0.5}))
 
-# Appendix B's illustrative automation path: retain the instance, set lambda = 0 and gamma_eta(x) = eta (1 + x).
-SEQUENCE = dict(lam=0.0, g0=1.0, g1=1.0, k=1.0)
+# Appendix B's illustrative automation path: retain the instance, set lambda = 0 and scale its schedule by eta,
+# gamma_eta(x) = eta (0.01 + 0.99 x^4.4); at eta = 1 it is Figure 3's recursive-automation economy.
+SEQUENCE = dict(lam=0.0)
 
-# Durable machines (rho > 0, delta < 1), for the checks of Lemma B.1's general form: the instance with a ten-year
-# machine and a 5 percent return (no ceiling binds), and a labor-heavy machine chain with a convex schedule whose ceiling
-# binds (x_c < 1), its margin chosen well below the ceiling, where the program's discretization bounds stay useful.
+# For the checks beyond the printed instance: the SSRN version's flow instance, and a labor-heavy machine chain with a
+# convex schedule whose ceiling binds (x_c < 1), its margin well below the ceiling, where the program's discretization
+# bounds stay useful.
 TEST_ECONOMIES = {
-    "durable": {**PRINTED, "rho": 0.05, "delta": 0.1},
-    "ceiling": {**PRINTED, "rho": 0.04, "delta": 0.2, "lam": 4.0, "g0": 0.05, "g1": 0.95, "k": 2.0, "T": 6.0},
+    "ssrn_flow": SSRN_INSTANCE,
+    "ceiling": {**SSRN_INSTANCE, "rho": 0.04, "delta": 0.2, "lam": 4.0, "g0": 0.05, "g1": 0.95, "k": 2.0, "T": 6.0},
 }
 
 
@@ -165,15 +177,23 @@ def participation_curve(P, upto=1.0, n=800):
 
 
 def sequence(P, eta):
-    """The automation path's economy at eta: lambda = 0, gamma_eta(x) = eta (1 + x)."""
+    """The automation path's economy at eta: lambda = 0, gamma_eta(x) = eta (g0 + g1 x^k)."""
     return {**P, **SEQUENCE, "eta": float(eta)}
 
 
 def sequence_bound(P):
     """The path's wage bound per unit of eta: v = (rho + delta) b gamma_eta(x) / (1 - (rho + delta) a) with lambda = 0,
-    and gamma_eta <= 2 eta, so v <= 2 b eta / (1 - a) in the flow benchmark."""
+    and gamma_eta <= eta (g0 + g1), so v <= eta (rho + delta) b / (1 - (rho + delta) a) when g0 + g1 = 1."""
     cpt = P["rho"] + P["delta"]
-    return cpt * P["b"] * (SEQUENCE["g0"] + SEQUENCE["g1"]) / (1.0 - cpt * P["a"])
+    return cpt * P["b"] * (P["g0"] + P["g1"]) / (1.0 - cpt * P["a"])
+
+
+def shares(P, q):
+    """The shares the instance was set from: labor's and machine services' shares of a machine's build cost, labor's
+    full-chain share of consumption, the site's share of the basket, the chain's share of hours."""
+    cpt = P["rho"] + P["delta"]
+    return dict(theta_V=P["lam"] * q["v"] / q["Vm"], machines=cpt * P["a"], labor=q["v"] * (1.0 - q["x"]) / q["Ps"],
+                site=P["h"] / q["Ps"], chain=q["chain_hours"] / q["n"])
 
 
 def paper_numbers(P=PRINTED):
@@ -182,16 +202,19 @@ def paper_numbers(P=PRINTED):
     q = solve(P)
     f3 = figure3(P)
     return {
-        "x_star": q["x"], "v": q["v"], "Y": q["Y"], "N_a": q["n"], "final_hours": q["final_hours"],
+        "x_star": q["x"], "x_c": q["x_ceiling"], "v": q["v"], "Y": q["Y"], "N_a": q["n"], "final_hours": q["final_hours"],
         "chain_hours": q["chain_hours"], "support": q["support"], "provider_income": q["provider_income"],
+        **shares(P, q), "participation": q["participation"],
         **{f"fig3_{s}_{k}": f3[s][key] for s in ("baseline", "recursive", "task")
            for k, key in (("w", "real_wage"), ("n", "participation"))},
-        "capability_ratio": (SEQUENCE["g0"] + SEQUENCE["g1"]) / SEQUENCE["g0"],   # gamma_eta(1) / gamma_eta(0)
+        "seq_bound": sequence_bound(P), "seq_n_eta1": solve(sequence(P, 1.0))["participation"],
+        "seq_n_eta001": solve(sequence(P, 0.01))["participation"],
+        "capability_ratio": (P["g0"] + P["g1"]) / P["g0"],                       # gamma_eta(1) / gamma_eta(0)
     }
 
 
 if __name__ == "__main__":
-    for name, P in (("the paper's instance (flow benchmark)", PRINTED), *TEST_ECONOMIES.items()):
+    for name, P in (("the paper's instance", PRINTED), *TEST_ECONOMIES.items()):
         print(f"--- {name}")
         q = solve(P)
         print(f"  x* {q['x']:.6f}  x_c {q['x_ceiling']:.6f}  v {q['v']:.6f}  w/P_s {q['real_wage']:.6f}  N_a/N {q['participation']:.6f}"
@@ -201,7 +224,7 @@ if __name__ == "__main__":
     print("--- Figure 3 (the paper's instance)")
     for s, e in figure3().items():
         print(f"  {s:9s}: w/P_s {e['real_wage']:.4f}  N_a/N {e['participation']:.4f}  x* {e['x']:.5f}")
-    print("--- the automation path (lambda 0, gamma = eta (1 + x))")
+    print("--- the automation path (lambda 0, gamma scaled by eta)")
     for eta in (1.0, 0.1, 0.01):
         q = solve(sequence(PRINTED, eta))
         print(f"  eta {eta:<5}: v {q['v']:.6f} <= {sequence_bound(PRINTED) * eta:.6f}  N_a/N {q['participation']:.5f}"

@@ -162,20 +162,12 @@ both at tag `pre-cleanup-2026-09-04`.
     open for the paper's authors, and the repository's figures keep matching the
     published paper, which a rebuild here would contradict.
 
-11. **The Economic Modelling package (2026-11-03): her calls before submitting.** (a) The guide asks
-   that AI-made images be disclosed in each caption as well as in the declaration: add "Plotted by
-   code written with Claude (Anthropic)." to the eight captions? (b) Competing interests: nothing to
-   declare, or her SEB employment (the views disclaimer is on the title page). (c) Acknowledgments,
-   title page only. (d) Johan's sign-off: authorship is fixed at submission. (e) The drafts' wording:
-   keywords, JEL codes, highlights, the two table captions, the cover letter. (f) Her question of the
-   same day: an illustrative instance in which recursive automation cuts w/P_s more than task
-   automation, guided by calibration (c). Answered: every (c) variant ranks it so, but the SSRN
-   instance cannot (land 0.73 of the basket, labor 0.04 of a machine's cost; raising lambda breaks the
-   equilibrium near 0.25); a rounded durable instance with U.S.-like shares (labor 0.39 of machine cost
-   and 0.51 of consumption, site 0.10, 3 baskets, participation 0.61) gives -11% against -5%, both
-   lowering participation, support funded. Proposed with a one-clause disclosure of how the parameters
-   were chosen, and the figure left to report the two experiments rather than rank the channels.
-   Awaiting her go.
+11. **The Economic Modelling package (2026-11-03): her calls before submitting.** → Settled the same
+   day but for (d): (a) yes, every caption ends "Drawn by code written with Claude (Anthropic)."
+   ("Drawn" for "Plotted": Figures 1 and 4 are diagrams); (b) her "up to you": the title page
+   declares her SEB employment (SEB had no role), as the declarations tool should; (c) none, the
+   section is dropped from the title page; (e) "looks good"; (f) her "agreed": the new instance (Log).
+   Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission.
 
 ## Note on the batteries
 
@@ -186,6 +178,31 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-03 — Appendix B's instance set from U.S.-like shares; the AI line in every caption.**
+  Her "agreed" (Open 11f), on two conditions she accepted: the parameters come from shares, not from
+  the figure, and the text says so in a clause. The SSRN instance could not carry the ranking: land
+  0.73 of its basket, labor 0.04 of a machine's cost, and raising lambda breaks the equilibrium near
+  0.25. Set N 1, b 0.4, delta 0.05, gamma(0) 0.01; seven parameters solve labor 0.47 of a machine's
+  build cost, machine services 0.20 of it, labor 0.47 of consumption on the full chain, site 0.06 of
+  the basket (the measured order), the chain 0.15 of hours, participation 0.60 and 3 baskets a person,
+  the return an outcome as in (c) (0.093); of the two roots in k the lower (4.36), as (c)'s main
+  reading (the other, 15.5, has task automation raise w/P_s by 9% on the same shares, told to her);
+  then two significant figures: T 0.01, h 0.0017, a 1.4, lambda 7.3, k 4.4, chi_max 2.2, rho 0.09.
+  Figure 3: w/P_s 2.76 -> 2.46 under recursive automation (-11%) and 2.66 under task automation
+  (-3%); participation 0.60 -> 0.56 and 0.59; Section 5's "both channels lower the real wage and
+  participation" holds. Appendix B prints the instance with the clause ("These values are
+  illustrative. They are chosen so that cost shares are of the order seen in U.S. data: ..."), its
+  solution (x* 0.82987 below the ceiling 0.94634) and support (0.02599 of rent and interest 0.03520).
+  The automation path now scales the instance's own schedule (the SSRN path, gamma = eta(1 + x),
+  leaves support unfunded at high eta here), starts at Figure 3's recursive-automation economy, and
+  keeps a hundred-to-one capability ratio, so Section 6.1 says "hundred-to-one". Figure 3 redrawn
+  (legend in the band above the curves, frame to 7). The SSRN instance stays in the code as the flow
+  test case (`appendix_b.SSRN_INSTANCE`; F1 still reproduces its printed numbers). Every figure
+  caption ends "Drawn by code written with Claude (Anthropic)." (Open 11a). Title page: the SEB
+  employment declared, no acknowledgments section. `check_interior.py` 112 (the shares the paragraph
+  states, the AI line in all eight captions, the path on the new schedule); every battery green;
+  41 pages.
 
 - **2026-11-03 — the Economic Modelling package.** Her go; the journal's Guide for Authors (her
   attachment) and the special-issue call. **main.tex** (word diff against the Appendix B commit): the

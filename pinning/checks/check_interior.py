@@ -1,9 +1,9 @@
-# check_interior.py — the battery for Appendix B and Figure 3 (2026-11-03): Lemma B.1 in its durable-machine form, with
-# the SSRN version's instance as its flow case (rho = 0, delta = 1). The economies are solved by code/appendix_b.py; every
-# check recomputes its object from the paper's equations, written here, and prints PASS or FAIL. Economies: the printed
-# instance; Figure 3's recursive- and task-automation economies; and two durable-machine economies that exercise the
-# general lemma (appendix_b.TEST_ECONOMIES, rho > 0 and delta < 1, one with a binding ceiling; the paper prints no number
-# from them). Groups:
+# check_interior.py — the battery for Appendix B and Figure 3 (2026-11-03): Lemma B.1 in its durable-machine form and its
+# illustrative instance, set from U.S.-like shares. The economies are solved by code/appendix_b.py; every check
+# recomputes its object from the paper's equations, written here, and prints PASS or FAIL. Economies: the printed
+# instance (durable machines, a binding ceiling); Figure 3's recursive- and task-automation economies; and two test
+# economies (appendix_b.TEST_ECONOMIES: the SSRN version's instance, in the flow benchmark, and a labor-heavy chain whose
+# ceiling binds; the paper prints no number from them). Groups:
 #   E  the equilibrium conditions, per economy: the task margin and task costs, the user-cost machine price, labor-market
 #      clearing, the goods, machine and land markets, participation from utility, funding, the standing assumptions,
 #      Lemma B.1's conditions (25) and its proof's monotonicity and derivative claims
@@ -14,12 +14,13 @@
 #      solver): per economy it finds the equilibrium by itself — hours worked from participation at its own dual wage,
 #      and with durable machines the charge per machine from the required return at its own dual machine cost — and its
 #      output, threshold, hours and prices match the solver's within a priori discretization bounds
-#   F  the flow special case: (21)-(24) at rho = 0, delta = 1 are the SSRN version's flow equations; the printed instance
-#      as printed there; income without interest
-#   S  the automation path of Appendix B's last paragraph (lambda = 0, gamma_eta(x) = eta (1 + x))
+#   F  the flow special case: (21)-(24) at rho = 0, delta = 1 are the SSRN version's flow equations; its instance solves
+#      to the numbers printed there; income without interest
+#   S  the automation path of Appendix B's last paragraph (lambda = 0, gamma scaled by eta)
 #   Q  every number quoted in Appendix B, the Figure 3 caption and Section 6.1, recomputed and found in paper/main.tex,
-#      each anchored to the words around it; no decimal there left unchecked; Section 5's and D.3's flow-benchmark
-#      statements; the data note's cell count; no residue of calibration (c); Figure 3's file
+#      each anchored to the words around it; no decimal there left unchecked; the shares the instance's paragraph states;
+#      Section 5's and D.3's flow-benchmark statements; the data note's cell count; the AI line in every figure caption;
+#      no residue of calibration (c)'s wording; Figure 3's file
 # Tolerances are set a priori: 1e-12 relative for identities; the program's from the midpoint rule's error bound and one
 # cell's variation in gamma at the margin, carried through the crossing of demand and supply (group L says how).
 # Run from pinning/:  python3 checks/check_interior.py      Exit 0 only if every check passes.
@@ -344,19 +345,20 @@ for name, P in ECON.items():
           ", ".join(f"{k} {pg[k]:.1e}/{tol[k]:.0e}" for k in pg))
 
 # ---------------------------------------------------------------- F: the flow special case
-qp = SOL["printed"]
+SS = B.SSRN_INSTANCE
+qp = SOL["ssrn_flow"]
 # the SSRN version (paper/ssrn-7226858.pdf, Appendix B and the Figure 3 caption), as printed
 RECORD = dict(x=0.86315, v=0.54344, Y=7.88061, n=1.34338, final_hours=1.07846, chain_hours=0.26492, support=5.44630)
 FIG3_RECORD = {"baseline": (0.40, 0.34), "recursive": (0.37, 0.32), "task": (0.24, 0.21)}
-f3p = B.figure3(PR)
-check("F1 the printed instance (rho 0, delta 1; N 4, T 10, h 1, a 0.3, b 0.4, lambda 0.05, gamma 0.2 + 0.8x, chi uniform on "
-      "[0, 1]) solves to the SSRN version's printed x*, v, Y, N_a and its split, and N P_s to five decimals, and Figure 3's "
+f3p = B.figure3(SS)
+check("F1 the SSRN version's instance (rho 0, delta 1; N 4, T 10, h 1, a 0.3, b 0.4, lambda 0.05, gamma 0.2 + 0.8x, chi "
+      "uniform on [0, 1]) solves to its printed x*, v, Y, N_a and its split, and N P_s to five decimals, and its Figure 3 "
       "equilibria to two: 0.40/0.34, 0.37/0.32, 0.24/0.21",
-      PR["rho"] == 0.0 and PR["delta"] == 1.0 and all(abs(qp[k] - v) <= 0.5e-5 for k, v in RECORD.items())
+      SS["rho"] == 0.0 and SS["delta"] == 1.0 and all(abs(qp[k] - v) <= 0.5e-5 for k, v in RECORD.items())
       and all(round(f3p[s]["real_wage"], 2) == w and round(f3p[s]["participation"], 2) == na for s, (w, na) in FIG3_RECORD.items()),
       ", ".join(f"{k} {qp[k]:.5f}" for k in RECORD))
 f2 = []
-FLOW_SETS = (PR, {**PR, "g0": 0.05, "g1": 0.95, "k": 3.0, "lam": 0.9})    # the second: convex, its ceiling binds (x_c < 1)
+FLOW_SETS = (SS, {**SS, "g0": 0.05, "g1": 0.95, "k": 3.0, "lam": 0.9})    # the second: convex, its ceiling binds (x_c < 1)
 for P in FLOW_SETS:
     for t in np.linspace(0.01, 0.99 * B.ceiling(P), 50):
         a_ = B.at(P, t)
@@ -367,11 +369,11 @@ for P in FLOW_SETS:
                       rel(a_["X"], Yp * JJ / (1 - P["a"])), rel(a_["nD"], Yp * (1 - t + P["lam"] * JJ / (1 - P["a"])))))
 check("F2 at rho = 0 and delta = 1, (21)-(24) are the SSRN version's flow equations v = b gamma/(1 - a - lambda gamma), "
       "p_m = b/(1 - a - lambda gamma), Y = T/(h + bJ/(1 - a)), X = YJ/(1 - a), n_D = Y[1 - x + lambda J/(1 - a)] (1e-10, "
-      "50 thresholds each on the printed instance and on a convex flow set whose ceiling binds)",
+      "50 thresholds each on the SSRN instance and on a convex flow set whose ceiling binds)",
       max(f2) <= 1e-10 and B.ceiling(FLOW_SETS[1]) < 1.0 and len(f2) == 100, f"largest gap {max(f2):.1e} over {len(f2)} points")
 check("F3 in the flow benchmark income is wages plus rent (Proposition 5's I = w N_a + r T), interest is zero, and support "
       "N P_s is paid out of the rent T",
-      rel(qp["wages"] + PR["T"], qp["Ps"] * qp["Y"]) <= 1e-12 and qp["interest"] == 0.0 and qp["provider_income"] == PR["T"]
+      rel(qp["wages"] + SS["T"], qp["Ps"] * qp["Y"]) <= 1e-12 and qp["interest"] == 0.0 and qp["provider_income"] == SS["T"]
       and qp["funded"])
 
 # ---------------------------------------------------------------- S: the automation path (Appendix B's last paragraph)
@@ -382,16 +384,22 @@ for e in etas:
     q = B.solve(Pe)
     rows.append((e, q["participation"], q["v"], q["x_ceiling"], q["nS_ceiling"], q["nD_ceiling"], q["funded"], q["Ps"]))
 rows = np.array(rows, dtype=float)
-check("S1 along lambda = 0, gamma_eta(x) = eta(1 + x), the printed instance otherwise, eta from 1e-4 to 1 (2,001 points): "
-      "(25) holds throughout (x_c = 1, T > Nh, n_S(1) > n_D(1) = 0) and the rent funds the support",
+check("S1 along lambda = 0 with the instance's schedule scaled by eta, eta from 1e-4 to 1 (2,001 points): (25) holds "
+      "throughout (x_c = 1, T > Nh, n_S(1) > n_D(1) = 0), the provider's rent and interest fund the support, and at eta = 1 "
+      "the path is Figure 3's recursive-automation economy",
       np.all(rows[:, 3] == 1.0) and PR["T"] > PR["N"] * PR["h"] and np.all(rows[:, 4] > rows[:, 5]) and np.all(rows[:, 5] == 0.0)
-      and np.all(rows[:, 6] == 1.0) and B.SEQUENCE == dict(lam=0.0, g0=1.0, g1=1.0, k=1.0))
-bound = 2.0 * PR["b"] / (1.0 - PR["a"])
-check("S2 ... 0 < v <= 2 b eta/(1 - a), so v -> 0; participation rises with eta and falls toward zero with it, with "
-      "P_s >= h; relative capability gamma_eta(1)/gamma_eta(0) is 2 at every eta",
-      np.all(rows[:, 2] > 0) and np.all(rows[:, 2] <= rows[:, 0] * bound * (1 + 1e-12)) and np.all(np.diff(rows[:, 1]) > 0)
-      and rows[0, 1] < 0.001 and np.all(rows[:, 7] >= PR["h"]) and rel(B.sequence_bound(PR), bound) <= 1e-15
-      and all(abs(g_(B.sequence(PR, e), 1.0) / g_(B.sequence(PR, e), 0.0) - 2.0) < 1e-12 for e in etas[::100]),
+      and np.all(rows[:, 6] == 1.0) and B.SEQUENCE == dict(lam=0.0)
+      and rel(rows[-1, 1], B.figure3(PR)["recursive"]["participation"]) <= 1e-12)
+cpt_ = PR["rho"] + PR["delta"]
+bound = cpt_ * PR["b"] / (1.0 - cpt_ * PR["a"])
+low_eta = rows[:, 0] <= 0.01
+check("S2 ... 0 < v <= eta (rho + delta) b/[1 - (rho + delta) a], so v -> 0; participation falls toward zero (below its "
+      "eta = 1 value for every eta <= 0.01, and under 0.002 at eta = 1e-4), with P_s >= h; relative capability "
+      "gamma_eta(1)/gamma_eta(0) is 100 at every eta",
+      np.all(rows[:, 2] > 0) and np.all(rows[:, 2] <= rows[:, 0] * bound * (1 + 1e-12))
+      and np.all(rows[low_eta, 1] < rows[-1, 1]) and np.all(np.diff(rows[low_eta, 1]) > 0)
+      and rows[0, 1] < 0.002 and np.all(rows[:, 7] >= PR["h"]) and rel(B.sequence_bound(PR), bound) <= 1e-15
+      and all(abs(g_(B.sequence(PR, e), 1.0) / g_(B.sequence(PR, e), 0.0) - 100.0) < 1e-9 for e in etas[::100]),
       f"bound {bound:.5f} eta; participation {rows[-1, 1]:.4f} at eta 1, {rows[0, 1]:.6f} at eta 1e-4")
 
 # ---------------------------------------------------------------- Q: the numbers quoted in the text
@@ -408,12 +416,11 @@ R_S5 = region(r"\section{Replacement meets participation}", r"\section{Purchasin
 R_CAP = region(r"\caption{Labor-market clearing", r"\label{fig:3}")
 R_61 = region(r"\subsection{What an hour's wage buys}", r"\subsection{Factor income while labor remains employed}")
 R_D3 = region(r"\subsection{Feasibility: the coverage ratio}", r"\subsection{Dependence and fiscal coverage}")
-WORDS = {2: "two"}                     # n-to-one
-TIMES = {2: "twice"}                   # n times as high
+WORDS = {100: "hundred"}               # n-to-one, a n times as high
 
 
 def fill(template, *vals):
-    """Replace <.Nf>, <d>, <word> and <times> placeholders in order."""
+    """Replace <.Nf>, <d>, <pct> (a share as whole percent), <pct1> (to one decimal) and <word> placeholders in order."""
     it = iter(vals)
 
     def sub(m):
@@ -421,48 +428,58 @@ def fill(template, *vals):
         spec = m.group(1)
         if spec == "word":
             return WORDS[int(round(v))]
-        if spec == "times":
-            return TIMES[int(round(v))]
+        if spec == "pct":
+            return f"{round(100 * v):d}"
+        if spec == "pct1":
+            return f"{100 * v:.1f}"
         if spec == "d":
             if abs(v - round(v)) > 1e-12:
                 raise ValueError(f"{v} is not an integer")
             return f"{int(round(v)):d}"
         return format(v, spec)
-    return re.sub(r"<(\.\d+f|d|word|times)>", sub, template)
+    return re.sub(r"<(\.\d+f|d|word|pct1|pct)>", sub, template)
 
 
 NUM = B.paper_numbers()
-assert PR["chi_max"] == 1.0 and dict(B.SCENARIOS)["task"] == {"eta": 0.5} and dict(B.SCENARIOS)["recursive"] == {"lam": 0.0}
+assert dict(B.SCENARIOS)["task"] == {"eta": 0.5} and dict(B.SCENARIOS)["recursive"] == {"lam": 0.0}
 SEQ = B.SEQUENCE
 EXPECT = {  # region -> [(label, template, values)]; every template carries the words around its numbers
     "B": [
         ("flow benchmark", r"With $\rho=<d>$ and $\delta=<d>$ the economy is the main text's flow benchmark.", (0, 1)),
-        ("instance", r"For a numerical instance in the flow benchmark, $\rho=<d>$ and $\delta=<d>$, take $N=<d>$, $T=<d>$, "
-                     r"$h=<d>$, $a=<.1f>$, $b=<.1f>$, $\lambda=<.2f>$, $\gamma(x)=<.1f>+<.1f>x$, and $\chi$ uniform on $[0,<d>]$.",
-         (PR["rho"], PR["delta"], PR["N"], PR["T"], PR["h"], PR["a"], PR["b"], PR["lam"], PR["g0"], PR["g1"], PR["chi_max"])),
-        ("solution", r"The solution has $x^*\simeq<.5f>$, $v\simeq<.5f>$, $Y\simeq<.5f>$, and $N_a\simeq<.5f>$: about $<.5f>$ "
-                     r"hours at final tasks and $<.5f>$ in machine production.",
-         (NUM["x_star"], NUM["v"], NUM["Y"], NUM["N_a"], NUM["final_hours"], NUM["chain_hours"])),
-        ("support", r"Support costs $NP_s\simeq<.5f>$ out of the provider's rental income of $<d>$.",
+        ("instance", r"For a numerical instance, take $N=<d>$, $T=<.2f>$, $h=<.4f>$, $a=<.1f>$, $b=<.1f>$, $\lambda=<.1f>$, "
+                     r"$\delta=<.2f>$, $\rho=<.2f>$, $\gamma(x)=<.2f>+<.2f>x^{<.1f>}$, and $\chi$ uniform on $[0,<.1f>]$.",
+         (PR["N"], PR["T"], PR["h"], PR["a"], PR["b"], PR["lam"], PR["delta"], PR["rho"], PR["g0"], PR["g1"], PR["k"],
+          PR["chi_max"])),
+        ("shares", r"labor is about half of a machine's build cost and of the full-chain cost of consumption, machine services "
+                   r"are about a fifth of a machine's build cost, and site rent is <pct1> percent of the basket; participation "
+                   r"is <pct> percent.", (NUM["site"], NUM["participation"])),
+        ("solution", r"The solution has $x^*\simeq<.5f>$, below the ceiling $x_c\simeq<.5f>$, $v\simeq<.5f>$, $Y\simeq<.5f>$, "
+                     r"and $N_a\simeq<.5f>$: about $<.5f>$ hours at final tasks and $<.5f>$ in machine production.",
+         (NUM["x_star"], NUM["x_c"], NUM["v"], NUM["Y"], NUM["N_a"], NUM["final_hours"], NUM["chain_hours"])),
+        ("support", r"Support costs $NP_s\simeq<.5f>$ out of the provider's rent and interest of $<.5f>$.",
          (NUM["support"], NUM["provider_income"])),
-        ("path", r"retain these parameters and set $\lambda=<d>$ and $\gamma_\eta(x)=\eta(<d>+x)$", (SEQ["lam"], SEQ["g0"])),
-        ("path bound", r"$0<v\le<d>b\eta/(1-a)\to0$", (SEQ["g0"] + SEQ["g1"],)),
-        ("path ratio", r"Relative capability remains <times> as high at the last task as at the first.",
+        ("path", r"retain these parameters and set $\lambda=<d>$ and $\gamma_\eta(x)=\eta(<.2f>+<.2f>x^{<.1f>})$, with "
+                 r"$0<\eta\le1$; at $\eta=1$ this is the recursive-automation economy of Figure~\ref{fig:3}.",
+         (SEQ["lam"], PR["g0"], PR["g1"], PR["k"])),
+        ("path bound", r"$0<v\le\eta(\rho+\delta)b/[1-(\rho+\delta)a]\to0$", ()),
+        ("path ratio", r"Relative capability remains a <word> times as high at the last task as at the first.",
          (NUM["capability_ratio"],)),
+        ("path participation", r"it is $<.2f>$ at $\eta=1$ and $<.2f>$ at $\eta=0.01$.", (NUM["seq_n_eta1"], NUM["seq_n_eta001"])),
     ],
     "CAP": [
-        ("parameters", r"($N=<d>$, $T=<d>$, $h=<d>$, $a=<.1f>$, $b=<.1f>$, $\chi$ uniform on $[0,<d>]$)",
-         (PR["N"], PR["T"], PR["h"], PR["a"], PR["b"], PR["chi_max"])),
-        ("participation curve", r"The participation curve $N_a/N=\log(1+w/P_s)$ holds support and preferences fixed.", ()),
-        ("baseline", r"At baseline ($\lambda=<.2f>$, $\gamma(x)=<.1f>+<.1f>x$), the equilibrium has $w/P_s\simeq<.2f>$ and "
-                     r"$N_a/N\simeq<.2f>$.",
-         (PR["lam"], PR["g0"], PR["g1"], NUM["fig3_baseline_w"], NUM["fig3_baseline_n"])),
+        ("parameters", r"($N=<d>$, $T=<.2f>$, $h=<.4f>$, $a=<.1f>$, $b=<.1f>$, $\delta=<.2f>$, $\rho=<.2f>$, $\chi$ uniform on "
+                       r"$[0,<.1f>]$)", (PR["N"], PR["T"], PR["h"], PR["a"], PR["b"], PR["delta"], PR["rho"], PR["chi_max"])),
+        ("participation curve", r"The participation curve $N_a/N=\log(1+w/P_s)/<.1f>$ holds support and preferences fixed.",
+         (PR["chi_max"],)),
+        ("baseline", r"At baseline ($\lambda=<.1f>$, $\gamma(x)=<.2f>+<.2f>x^{<.1f>}$), the equilibrium has $w/P_s\simeq<.2f>$ "
+                     r"and $N_a/N\simeq<.2f>$.",
+         (PR["lam"], PR["g0"], PR["g1"], PR["k"], NUM["fig3_baseline_w"], NUM["fig3_baseline_n"])),
         ("recursive", r"Recursive automation ($\lambda=<d>$) moves it to about $<.2f>$ and $<.2f>$;",
          (0, NUM["fig3_recursive_w"], NUM["fig3_recursive_n"])),
         ("task", r"task automation, which halves $\gamma$ at every task, moves it to about $<.2f>$ and $<.2f>$.",
          (NUM["fig3_task_w"], NUM["fig3_task_n"])),
     ],
-    "61": [("two-to-one", r"a sequence with a persistent <word>-to-one capability ratio across tasks", (NUM["capability_ratio"],))],
+    "61": [("hundred-to-one", r"a sequence with a persistent <word>-to-one capability ratio across tasks", (NUM["capability_ratio"],))],
 }
 REGIONS = {"B": R_B, "CAP": R_CAP, "61": R_61}
 DEC = re.compile(r"(?<![\d.])\d+\.\d+(?![\d.])(?!\s*(?:cm|pt|mm|em|ex|in\b|\\textwidth|\\linewidth))")
@@ -503,15 +520,24 @@ check("Q4 Appendix D.3 states P_s = wL_s + rB_s in the flow benchmark; the data 
       f"{CELLS:,} task cells",
       r"In the flow benchmark with one non-produced input, the basket requirements defined in Section~\ref{sec:5} give" in R_D3
       and f"an independently specified linear production program with {CELLS:,} task cells" in TEX)
-RESIDUE = ("calibrated to U.S. data", "calibrated economy", "hundred-to-one", "a hundred times", r"\theta_V", r"\sigma_V",
-           "x_c\\simeq", "2.77", "0.0755", "0.0522", "5.66", "13.65", "WP2026-01, read from", "figures/ssrn/fig_labor_market")
+check("Q5 the shares the instance's paragraph states hold: labor 'about half' of a machine's build cost and of the "
+      "full-chain cost of consumption (0.4-0.6), machine services 'about a fifth' of build cost (0.15-0.25); the site share "
+      "and participation are checked as printed in Q1",
+      0.4 <= NUM["theta_V"] <= 0.6 and 0.4 <= NUM["labor"] <= 0.6 and 0.15 <= NUM["machines"] <= 0.25,
+      f"labor {NUM['theta_V']:.3f} of build cost, {NUM['labor']:.3f} of consumption; machine services {NUM['machines']:.3f}")
+CAPTIONS = re.findall(r"\\begin\{figure\}.*?\\end\{figure\}", TEX, flags=re.S)
+TAG = "Drawn by code written with Claude (Anthropic).}"
+check("Q6 every figure caption (8) ends with the AI line the journal asks for in captions: 'Drawn by code written with "
+      "Claude (Anthropic).'", len(CAPTIONS) == 8 and all(TAG in c for c in CAPTIONS), f"{sum(TAG in c for c in CAPTIONS)} of {len(CAPTIONS)}")
+RESIDUE = ("calibrated to U.S. data", "calibrated economy", r"\theta_V", r"\sigma_V", "2.77", "0.0755", "0.0522", "5.66",
+           "13.65", "WP2026-01, read from", "figures/ssrn/fig_labor_market")
 found = [s for s in RESIDUE if s in TEX]
-check("Q5 no residue of calibration (c) or of the SSRN image of Figure 3 in main.tex (its wording, notation and numbers)",
+check("Q7 no residue of calibration (c)'s wording, notation or numbers, or of the SSRN image of Figure 3, in main.tex",
       not found, f"found: {found}" if found else "")
 pdf = ROOT / "paper" / "figures" / "fig_labor_market_clearing.pdf"
 raw = pdf.read_bytes() if pdf.exists() else b""
 mb = re.search(rb"/MediaBox\s*\[\s*0\s+0\s+([\d.]+)\s+([\d.]+)\s*\]", raw)
-check("Q6 Figure 3 is the script-built vector file: main.tex includes figures/fig_labor_market_clearing.pdf at "
+check("Q8 Figure 3 is the script-built vector file: main.tex includes figures/fig_labor_market_clearing.pdf at "
       "0.88\\textwidth, the PDF is 0.88 x 16 cm wide (as Figures 1 and 2), carries no CreationDate, and embeds its fonts "
       "(FontFile2); the PNG beside it exists",
       r"\includegraphics[width=0.88\textwidth]{figures/fig_labor_market_clearing.pdf}" in TEX and mb is not None
