@@ -11,6 +11,7 @@ Submit at https://www.editorialmanager.com/ECMODE/default.aspx and choose the ar
 | Upload as | File | Note |
 |---|---|---|
 | Manuscript (LaTeX source) | `manuscript.tex` | anonymized; compiles as is with the figures beside it |
+| Manuscript (Word), only if the system asks for an editable file instead | `manuscript.docx` | the same anonymized text; Word equations, numbered as in LaTeX |
 | Figures | `Figure_1.pdf` … `Figure_7.pdf`, `Figure_D1.pdf` | vector, fonts embedded |
 | Title page | `title_page.docx` | author details, competing interests (the SEB employment), funding; no acknowledgments |
 | Highlights | `highlights.docx` | 5 bullets, 78–80 characters each (limit 85) |

@@ -80,11 +80,16 @@ affiliations, emails, title footnotes, date, or preamble comments), with the fig
 it as `Figure_1.pdf` … `Figure_7.pdf` and `Figure_D1.pdf`; `title_page.docx`,
 `highlights.docx` and `cover_letter.docx`, from the editable sources in
 `paper/submission/em_src/`; and `manuscript_preview.pdf`, compiled from the anonymized source
-for checking (not an upload). The build stops before writing if an author's name, email,
+for checking (not an upload). `manuscript.docx` is the same anonymized manuscript as a Word
+file, for when the system asks for an editable one (`code/build_submission_em_docx.py`, which
+the build runs last): equations are Word equations, and every number and cross-reference is
+the one LaTeX prints (Lemma B.1, (B.5), Table A.1); that build stops unless each label's
+number matches LaTeX's own `.aux`. Word files are dated from the last commit of `main.tex`,
+so rebuilding unchanged sources writes identical files. The build stops before writing if an author's name, email,
 affiliation, or the repository or SSRN address survives in the source or the compiled text
 and metadata, if a figure is missing, or if the abstract (250 words), keywords (1–7) or
-highlights (3–5, 85 characters) break the journal's limits. It needs `latexmk` and `pandoc`
-on the path. `paper/submission/em_src/submission_notes.md` lists what to upload and what to
+highlights (3–5, 85 characters) break the journal's limits. It needs `latexmk`, `pandoc` and
+`pdftoppm` on the path. `paper/submission/em_src/submission_notes.md` lists what to upload and what to
 enter in Editorial Manager.
 
 **STRECO (2026-09-04).** `code/build_submission_docx.py` builds `paper/submission/manuscript_blind.docx`, the full

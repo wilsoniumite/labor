@@ -182,6 +182,20 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 
 ## Log
 
+- **2026-11-03 — the Word manuscript.** Editorial Manager's upload page asks for editable files
+  (no PDF for the manuscript at revision), so `code/build_submission_em_docx.py` builds
+  `em/manuscript.docx` from the anonymized `manuscript.tex`; `build_submission_em.py` runs it
+  last. Every number and cross-reference is the one LaTeX prints (86 labels checked against
+  LaTeX's `.aux`; appendix objects numbered within their appendix); 551 Word equations, 28 of
+  them numbered; figures as 300-dpi PNGs; A4, 2.5 cm margins, page numbers; no author in the
+  text or properties. Rendered through LibreOffice to check: 7 marks remain where LibreOffice
+  cannot draw standard Word equation objects (the underbrace labels of (11), the intervals
+  (0,1] and [0,∞), the align points of Appendix C's display); Word draws them. `x^*` is written
+  with U+2217, the glyph LaTeX prints, because pandoc's ASCII `*` breaks some renderers. Word
+  files are now dated from main.tex's last commit (SOURCE_DATE_EPOCH), so rebuilds are
+  byte-identical. She reports that the system accepted `manuscript.tex`; the Word file is a
+  fallback.
+
 - **2026-11-03 — the repository brought up to the package.** Her go ("go ahead with the repo"; she
   revises SSRN herself). The paper's date reads November 2026 (was September 23, 2026; the anonymized
   build drops the date, so the package is unchanged); the checklist's data statement says the

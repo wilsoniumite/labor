@@ -13,6 +13,11 @@ Outputs, in paper/submission/em/:
   cover_letter.docx        from em_src/cover_letter.md
   manuscript_preview.pdf   the anonymized manuscript compiled here, to look at; not for upload (the journal takes
                            .tex or .docx as source files)
+  manuscript.docx          the same anonymized manuscript as a Word file, for when the submission system asks for an
+                           editable file (build_submission_em_docx.py, called at the end)
+
+Word files are dated from the last commit of main.tex (SOURCE_DATE_EPOCH), so rebuilding unchanged sources rewrites
+identical files.
 
 The build stops before writing if: an identifying string (an author's name, an email, an affiliation, the repository
 or SSRN address) survives in the anonymized source or in the preview's text and metadata; a figure is missing or
@@ -22,6 +27,7 @@ bullets of at most 85 characters.
 Needs pdflatex (latexmk) and pandoc on the path. Run from pinning/:  python3 code/build_submission_em.py
 """
 
+import os
 import re
 import shutil
 import subprocess
@@ -37,6 +43,15 @@ OUT = PAPER / "submission" / "em"
 
 IDENTIFYING = ["Båge", r"B\r{a}ge", "Bage", "Wilson", "Stella", "Johan", "hhs.se", "kth.se", "thmwi", "KTH", "SEB",
                "Skandinaviska", "Stockholm School", "wilsoniumite", "github", "7226858", "ssrn", "SSRN"]
+
+
+def pandoc_env():
+    """The environment for pandoc and LaTeX: SOURCE_DATE_EPOCH set to the last commit of main.tex."""
+    env = dict(os.environ)
+    r = subprocess.run(["git", "log", "-1", "--format=%ct", "--", str(SRC)], cwd=ROOT, capture_output=True, text=True)
+    if r.returncode == 0 and r.stdout.strip():
+        env["SOURCE_DATE_EPOCH"] = r.stdout.strip()
+    return env
 
 
 def match_brace(s, i):
@@ -143,7 +158,7 @@ def main():
         for name, src in figs.items():
             shutil.copy(src, tmp / name)
         r = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error", "manuscript.tex"],
-                           cwd=tmp, capture_output=True, text=True)
+                           cwd=tmp, capture_output=True, text=True, env=pandoc_env())
         if r.returncode != 0:
             sys.exit("BLOCKED: the anonymized manuscript does not compile\n" + r.stdout[-2000:])
         log = (tmp / "manuscript.log").read_text(errors="replace")
@@ -164,10 +179,14 @@ def main():
             shutil.copy(tmp / name, OUT / name)
 
     for doc in ("title_page", "highlights", "cover_letter"):
-        subprocess.run(["pandoc", str(FRONT / f"{doc}.md"), "-f", "markdown", "-o", str(OUT / f"{doc}.docx")], check=True)
+        subprocess.run(["pandoc", str(FRONT / f"{doc}.md"), "-f", "markdown", "-o", str(OUT / f"{doc}.docx")], check=True,
+                       env=pandoc_env())
     print(f"wrote {OUT}: manuscript.tex ({pages} pages compiled), {len(figs)} figures ({', '.join(figs)}), "
           f"title_page.docx, highlights.docx, cover_letter.docx")
     print(f"  abstract {abstract_words(tex)} words; {len(keywords(tex))} keywords; highlights {[len(h) for h in hl]} characters")
+
+    import build_submission_em_docx
+    build_submission_em_docx.main()
 
 
 if __name__ == "__main__":
