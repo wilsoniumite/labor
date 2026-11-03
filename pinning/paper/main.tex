@@ -2,11 +2,12 @@
 % Pinning the Wage to Scarcity and Technology
 % The SSRN version of 2026-09-23 (SSRN 7226858, paper/ssrn-7226858.pdf), rebuilt from that PDF on
 % 2026-11-02 because its Overleaf source was unavailable. Transcribed verbatim, checked word for word
-% and page by page against the PDF (STATE.md log). Nothing re-voiced: lines marked '% SLIP:' record
-% slips seen while transcribing, left as printed for the authors' decision.
+% and page by page against the PDF (STATE.md log). Nothing re-voiced; the slips seen while transcribing
+% were fixed on 2026-11-02 (polish 1).
 % Labels follow the printed numbering (sec:N, app:X, eq:N, prop:N, lem:B.1, fig:N).
-% Figures: each \includegraphics points at its script-built vector file in figures/ (README, Figures),
-% except Figure 3, which points at figures/ssrn/, the image extracted from the SSRN PDF, until its script exists.
+% Figures: each \includegraphics points at its script-built vector file in figures/ (README, Figures).
+% Appendix B (2026-11-03): Lemma B.1 with durable machines and interest (Appendix A.4); its instance is the
+% SSRN version's, in the flow benchmark (code/appendix_b.py, checks/check_interior.py).
 
 % ============================================================
 % Style: orthodox macro working paper (12pt, onehalf spacing, plain theorem
@@ -300,11 +301,11 @@ Replacement pricing and participation jointly determine the wage and task assign
 \begin{equation}\label{eq:10}
 N_a=NF\left(\log\left[1+\frac{w}{P_s}\right]\right).
 \end{equation}
-The production network prices the basket through its total human hours $L_s=\mathbf{z}^{\mathsf{T}}\widetilde{\bm\lambda}$ and non-produced services $B_s=\mathbf{z}^{\mathsf{T}}\widetilde{\mathbf{b}}$, so $P_s=wL_s+rB_s$.
+In the flow benchmark, the production network prices the basket through its total human hours $L_s=\mathbf{z}^{\mathsf{T}}\widetilde{\bm\lambda}$ and non-produced services $B_s=\mathbf{z}^{\mathsf{T}}\widetilde{\mathbf{b}}$, so $P_s=wL_s+rB_s$. With durable machines, $P_s$ also pays interest on the machines that supply the basket (Appendix~\ref{app:B}).
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\textwidth]{figures/ssrn/fig_labor_market_clearing.png}
+\includegraphics[width=0.88\textwidth]{figures/fig_labor_market_clearing.pdf}
 \caption{Labor-market clearing in the numerical economy of Appendix~\ref{app:B} ($N=4$, $T=10$, $h=1$, $a=0.3$, $b=0.4$, $\chi$ uniform on $[0,1]$). The participation curve $N_a/N=\log(1+w/P_s)$ holds support and preferences fixed. Each demand curve traces labor demand $n_D/N$ against $w/P_s$ as the task margin moves. At baseline ($\lambda=0.05$, $\gamma(x)=0.2+0.8x$), the equilibrium has $w/P_s\simeq0.40$ and $N_a/N\simeq0.34$. Recursive automation ($\lambda=0$) moves it to about $0.37$ and $0.32$; task automation, which halves $\gamma$ at every task, moves it to about $0.24$ and $0.21$.}
 \label{fig:3}
 \end{figure}
@@ -665,71 +666,71 @@ Each expression requires a positive denominator. These are distinct timing conve
 
 \section{Equilibrium with heterogeneous tasks}\label{app:B}
 
-This example funds dependence through a supporting household that owns the non-produced endowment. Task assignment, output, and participation are solved jointly. The input is land, used both for living space and in machine production.
+This example funds dependence through a supporting household that owns the non-produced endowment and the machines. Task assignment, output, and participation are solved jointly, with machines priced at the user cost of Appendix~\ref{app:A.4}. The input is land, used both for living space and in machine production.
 
-There are $N$ potential workers and one nonworking supporting household. Each consumption basket contains one unit of a final good and $h>0$ units of space. The household owns $T$ units of land, commits to providing one basket to each worker in both work and exit, and consumes its remaining income in the same proportions. Workers spend their wages on additional baskets and have the preferences in \eqref{eq:8}, with $\chi$ continuously distributed on $[0,\infty)$ according to $F$. Normalize $r=1$ and write $v=w/r$. At final-good price $p$, a basket costs $P_s=p+h$.
+There are $N$ potential workers and one nonworking supporting household. Each consumption basket contains one unit of a final good and $h>0$ units of space. The household owns $T$ units of land and the machine stock, commits to providing one basket to each worker in both work and exit, and consumes its remaining income in the same proportions. Workers spend their wages on additional baskets and have the preferences in \eqref{eq:8}, with $\chi$ continuously distributed on $[0,\infty)$ according to $F$. Normalize $r=1$ and write $v=w/r$. At final-good price $p$, a basket costs $P_s=p+h$.
 
-The final good requires one unit of each task on $[0,1]$ per unit of output. Set $\gamma_L(x)=1$ and $\gamma_M(x)=1/\gamma(x)$, where $\gamma$ is positive, continuously differentiable, and $\gamma'(x)>0$. One unit of machine service requires $a$ units of machine service, $\lambda$ human hours, and $b>0$ units of land service. Assume $0\le a<1$, $\lambda\ge0$, and $1-a-\lambda\gamma(1)>0$.
+The final good requires one unit of each task on $[0,1]$ per unit of output. Set $\gamma_L(x)=1$ and $\gamma_M(x)=1/\gamma(x)$, where $\gamma$ is positive, continuously differentiable, and $\gamma'(x)>0$ for $x>0$. Building a machine requires $a$ units of machine service, $\lambda$ human hours, and $b>0$ units of land service, so it costs $V_m=ap_m+\lambda w+br$. A machine supplies one unit of service per period and depreciates at rate $\delta\in(0,1]$. Its owner requires the return $\rho\ge0$, so a unit of service rents at the user cost $p_m=(\rho+\delta)V_m$. Assume $a,\lambda\ge0$ and $(\rho+\delta)(a+\lambda\gamma(0))<1$. With $\rho=0$ and $\delta=1$ the economy is the main text's flow benchmark.
 
-At an interior threshold $x$, machines perform tasks below $x$ and people those above it. The task condition and machine cost equation give
+Tasks at which $(\rho+\delta)(a+\lambda\gamma(x))\ge1$ are closed to machines at every wage: the machine services that would replace an hour there cost more than the hour, because building them takes labor and machine services of their own. Let $x_c$ be the first such task, or $x_c=1$ if there is none. At an interior threshold $x<x_c$, machines perform tasks below $x$ and people those above it. The task condition and the user cost give
 \begin{equation}\label{eq:21}
 J(x)=\int_0^x\gamma(t)\,dt,\qquad
-v(x)=\frac{b\gamma(x)}{1-a-\lambda\gamma(x)},\qquad
-p_m(x)=\frac{b}{1-a-\lambda\gamma(x)}.
+p_m(x)=\frac{(\rho+\delta)b}{1-(\rho+\delta)(a+\lambda\gamma(x))},\qquad
+v(x)=\gamma(x)\,p_m(x).
 \end{equation}
 The final-good and basket prices are
 \begin{equation}\label{eq:22}
 p(x)=v(x)(1-x)+p_m(x)J(x),\qquad
 P_s(x)=p(x)+h.
 \end{equation}
-If final-good output is $Y$, total consumption contains $Y$ baskets and uses $hY$ units of space. Machine and land clearing give
+If final-good output is $Y$, total consumption contains $Y$ baskets and uses $hY$ units of space. In a stationary state a machine stock $X$ supplies $X$ units of service: $YJ(x)$ to final tasks and $a\delta X$ to rebuilding the $\delta X$ machines that wear out each period. Machine and land clearing give
 \begin{equation}\label{eq:23}
-Y(x)=\frac{T}{h+bJ(x)/(1-a)},\qquad
-X(x)=\frac{Y(x)J(x)}{1-a}.
+Y(x)=\frac{T}{h+b\delta J(x)/(1-a\delta)},\qquad
+X(x)=\frac{Y(x)J(x)}{1-a\delta}.
 \end{equation}
 Labor demand and supply are
 \begin{equation}\label{eq:24}
-n_D(x)=Y(x)\left[1-x+\frac{\lambda J(x)}{1-a}\right],\qquad
+n_D(x)=Y(x)\left[1-x+\frac{\lambda\delta J(x)}{1-a\delta}\right],\qquad
 n_S(x)=NF\left(\log\left[1+\frac{v(x)}{P_s(x)}\right]\right).
 \end{equation}
-The two components of demand are final-task and machine-sector hours.
+The two components of demand are final-task and machine-sector hours. As $x$ rises to $x_c<1$, $v$ and $P_s$ grow without bound while $v/P_s$ tends to $\gamma(x_c)/[\gamma(x_c)(1-x_c)+J(x_c)]$; $n_S(x_c)$ denotes the corresponding limit.
 
-These equations are a three-row instance of the common cost system. Ordering the final good, machine services, and directly rented space gives
+These equations are a three-row instance of the common cost system. Ordering the final good, machine services, and directly rented space, the prices satisfy \eqref{eq:3} with the user cost scaling the machine row,
 \[
 \mathbf{p}=\begin{pmatrix}p\\p_m\\r\end{pmatrix},\qquad
-\mathbf{A}=\begin{pmatrix}0&J(x)&0\\0&a&0\\0&0&0\end{pmatrix},\qquad
-\boldsymbol{\lambda}=\begin{pmatrix}1-x\\\lambda\\0\end{pmatrix},\qquad
-\mathbf{b}=\begin{pmatrix}0\\b\\1\end{pmatrix}.
+\mathbf{A}=\begin{pmatrix}0&J(x)&0\\0&(\rho+\delta)a&0\\0&0&0\end{pmatrix},\qquad
+\boldsymbol{\lambda}=\begin{pmatrix}1-x\\(\rho+\delta)\lambda\\0\end{pmatrix},\qquad
+\mathbf{b}=\begin{pmatrix}0\\(\rho+\delta)b\\1\end{pmatrix},
 \]
-Gross output is $(Y,X,hY)^{\mathsf{T}}$, and final consumption is $(Y,0,hY)^{\mathsf{T}}$. With $\mathbf{z}=(1,0,h)^{\mathsf{T}}$, the basket requirements are $L_s=1-x+\lambda J(x)/(1-a)$ and $B_s=h+bJ(x)/(1-a)$. Thus $Y=T/B_s$ and $n_D=TL_s/B_s$, giving \eqref{eq:11}. Structures and maintenance could enter the space-service row through their own input requirements.
+while stationary quantities use the replacement rate $\delta$ in place of $\rho+\delta$. Gross output is $(Y,X,hY)^{\mathsf{T}}$, and final consumption is $(Y,0,hY)^{\mathsf{T}}$. Applied to the replacement coefficients with $\mathbf{z}=(1,0,h)^{\mathsf{T}}$, \eqref{eq:4} gives the basket's total requirements of hours and land, $L_s=1-x+\lambda\delta J(x)/(1-a\delta)$ and $B_s=h+b\delta J(x)/(1-a\delta)$. Thus $Y=T/B_s$ and $n_D=TL_s/B_s$, giving \eqref{eq:11}. The price coefficients add the return $\rho$ to replacement, so $P_s=wL_s+rB_s+\rho V_mX/Y$: the basket also pays interest on the machines that supply it. In the flow benchmark the two sets of coefficients coincide, and $P_s=wL_s+rB_s$ as in Section~\ref{sec:5}. Structures and maintenance could enter the space-service row through their own input requirements.
 
 \begin{lemma}[Interior equilibrium with funded support]\label{lem:B.1}
 Suppose
 \begin{equation}\label{eq:25}
-n_S(1)>n_D(1),\qquad
-T>NP_s(1).
+T>Nh,\qquad
+n_S(x_c)>n_D(x_c).
 \end{equation}
-Then there is a unique interior threshold $x^*\in(0,1)$ satisfying $n_D(x^*)=n_S(x^*)$. The prices and quantities in \eqref{eq:21}--\eqref{eq:24} give a competitive equilibrium with the promised support fully funded.
+Then there is a unique interior threshold $x^*\in(0,x_c)$ satisfying $n_D(x^*)=n_S(x^*)$. If the provider's rent and interest cover the support there, $T+\rho V_mX\ge NP_s$, the prices and quantities in \eqref{eq:21}--\eqref{eq:24} give a competitive equilibrium with the promised support fully funded.
 \end{lemma}
 
 \begin{proof}
-The function $Y(x)$ is decreasing. The bracket in labor demand is positive and has derivative $-1+\lambda\gamma(x)/(1-a)<0$, so $n_D(x)$ is strictly decreasing. Meanwhile $v'(x)>0$ and
-\[
-p'(x)=v'(x)\left[1-x+\frac{\lambda J(x)}{1-a}\right]>0,\qquad
-\frac{d}{dx}\left(\frac{v(x)}{P_s(x)}\right)=\frac{v'(x)\,[h+bJ(x)/(1-a)]}{P_s(x)^2}>0
-\]
-for $x<1$. Thus $n_S(x)$ is continuous and nondecreasing. The funding condition implies $T/h>N$, so demand exceeds supply at $x=0$; at $x=1$, it lies below supply by assumption. There is exactly one crossing. Since $P_s(x)$ is increasing, $T>NP_s(1)$ ensures that the provider can fund support throughout.
+The function $Y(x)$ is decreasing. Below $x_c$, $\delta(a+\lambda\gamma(x))\le(\rho+\delta)(a+\lambda\gamma(x))<1$, so the bracket in labor demand is positive and has derivative $-1+\lambda\delta\gamma(x)/(1-a\delta)<0$; $n_D(x)$ is strictly decreasing. Meanwhile $v'(x)>0$ and
+\begin{gather*}
+p'(x)=v'(x)\left[1-x+\frac{(\rho+\delta)\lambda J(x)}{1-(\rho+\delta)a}\right]>0,\\
+\frac{d}{dx}\left(\frac{v(x)}{P_s(x)}\right)=\frac{v'(x)\,[h+(\rho+\delta)bJ(x)/(1-(\rho+\delta)a)]}{P_s(x)^2}>0
+\end{gather*}
+for $0<x<x_c$. Thus $n_S(x)$ is continuous and nondecreasing up to its limit at $x_c$. Since $J(0)=0$, demand at $x=0$ is $T/h>N$, above supply; at $x_c$ it lies below supply by assumption. There is exactly one crossing.
 
-At the crossing, assignment is cost-minimizing because $v/p_m=\gamma(x^*)$, and machines, labor, and land clear. The cost equations imply
+At the crossing, assignment is cost-minimizing because $v/p_m=\gamma(x^*)$ and machines cannot undercut labor above $x_c$; machines, labor, and land clear. The provider rebuilds the $\delta X$ worn machines out of their rentals and keeps the interest $\rho V_mX$. The cost equations imply
 \[
-P_sY=(p+h)Y=v\bigl[Y(1-x^*)+\lambda X\bigr]+bX+hY=vn_S+T.
+P_sY=(p+h)Y=v\bigl[Y(1-x^*)+\lambda\delta X\bigr]+b\delta X+hY+\rho V_mX=vn_S+T+\rho V_mX,
 \]
-Workers consume $N+vn_S/P_s$ baskets, including support. The provider consumes $T/P_s-N>0$ baskets from its remaining income. Their sum is $Y$, so final-good and space demand also clear. Continuity of $F$ gives zero mass at the participation tie.
+so income is wages, rent, and interest. Workers consume $N+vn_S/P_s$ baskets, including support. The provider consumes $(T+\rho V_mX)/P_s-N\ge0$ baskets from its remaining income. Their sum is $Y$, so final-good and space demand also clear. Continuity of $F$ gives zero mass at the participation tie.
 \end{proof}
 
 At fixed technology and support, a distribution $\widehat{F}\le F$ lowers labor supply at every $x$. If the interior conditions continue to hold, decreasing labor demand and nondecreasing supply imply $\widehat{x}^*\ge x^*$, hence a weakly higher $w/r$ and $w/P_s$. The inequalities are strict if supply falls at the original crossing.
 
-For a numerical instance, take $N=4$, $T=10$, $h=1$, $a=0.3$, $b=0.4$, $\lambda=0.05$, $\gamma(x)=0.2+0.8x$, and $\chi$ uniform on $[0,1]$. The solution has $x^*\simeq0.86315$, $v\simeq0.54344$, $Y\simeq7.88061$, and $N_a\simeq1.34338$: about $1.07846$ hours at final tasks and $0.26492$ in machine production. Support costs $NP_s\simeq5.44630$ out of the provider's rental income of $10$. The accompanying \texttt{check\_interior.py} compares output with an independently specified discretized production optimization, including both uses of labor and land.
+For a numerical instance in the flow benchmark, $\rho=0$ and $\delta=1$, take $N=4$, $T=10$, $h=1$, $a=0.3$, $b=0.4$, $\lambda=0.05$, $\gamma(x)=0.2+0.8x$, and $\chi$ uniform on $[0,1]$. The solution has $x^*\simeq0.86315$, $v\simeq0.54344$, $Y\simeq7.88061$, and $N_a\simeq1.34338$: about $1.07846$ hours at final tasks and $0.26492$ in machine production. Support costs $NP_s\simeq5.44630$ out of the provider's rental income of $10$. The accompanying \texttt{check\_interior.py} compares output with an independently specified discretized production optimization, including both uses of labor and land.
 
 For an illustrative automation path, retain these parameters and set $\lambda=0$ and $\gamma_\eta(x)=\eta(1+x)$, with $0<\eta\le1$. The conditions in \eqref{eq:25} hold throughout. The equilibrium wage satisfies $0<v\le2b\eta/(1-a)\to0$. Relative capability remains twice as high at the last task as at the first. Since $P_s\ge h>0$, participation tends to zero through \eqref{eq:24}, while support stays funded. The purchasing-power and income results apply at every interior equilibrium along the sequence.
 
@@ -789,7 +790,7 @@ Use the same basic living basket as in Section~\ref{sec:4}, with cost $P_s=\math
 \begin{equation}\label{eq:28}
 \kappa=\frac{R}{NP_s}.
 \end{equation}
-With one non-produced input, the basket requirements defined in Section~\ref{sec:5} give
+In the flow benchmark with one non-produced input, the basket requirements defined in Section~\ref{sec:5} give
 \[
 P_s=wL_s+rB_s,\qquad
 \kappa=\frac{T}{N[L_s(w/r)+B_s]}.
@@ -835,7 +836,7 @@ Object & Value (year) & Note \\
 \raggedright Share of tax revenue raised from labor-income bases, $\varphi_G$ & \raggedright 0.68 (2025) & \raggedright 0.64 in 1965; $\approx 0.70$ by the mid-1980s, flat since \tabularnewline
 \raggedright Work- or means-conditioned share of benefits & \raggedright $\ge 0.84$; $\approx 0.99$ by withdrawal rule (2024) & \raggedright the only sizable unconditional cash transfer is Alaska's dividend \tabularnewline
 \raggedright Coverage ratio $\kappa$ (Appendix~\ref{app:D.3}) & \raggedright 0.30 [0.15--0.59] (2025) & \raggedright $\approx 0.05$ in the 1950s; land measures are lower-bound constructions \tabularnewline
-\raggedright Transition financing index $D=\varphi_C(1-\kappa)^2$ & \raggedright 0.29 (2025, model-based-extension central values) & \raggedright descriptive measure of the assumed financing pattern \tabularnewline
+\raggedright Transition financing index $D=\varphi_C(1-\kappa)^2$ & \raggedright 0.31 (2025, model-based-extension central values) & \raggedright descriptive measure of the assumed financing pattern \tabularnewline
 \bottomrule
 \end{tabular}
 }

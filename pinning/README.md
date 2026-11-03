@@ -11,9 +11,9 @@ and the Lean 4 formalization.
 
 ```
 paper/main.tex      the paper (pdfLaTeX; an Overleaf project is this file plus figures/)
-paper/figures/      the seven script-built figures, one script each, as PDF (what main.tex
+paper/figures/      the eight script-built figures, one script each, as PDF (what main.tex
                     includes) and PNG (table below); figures/ssrn/ holds the eight images
-                    extracted from the SSRN PDF, of which main.tex still uses Figure 3's
+                    extracted from the SSRN PDF, which main.tex no longer uses
 paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23; main.tex is its source,
                     rebuilt from this PDF on 2026-11-02 (STATE.md, Log)
 paper/submission/   the journal's Word files: the blind manuscript and the separate title
@@ -47,7 +47,7 @@ the script.
 |---|---|---|---|
 | 1 The task-assignment schedule | `fig_schedule.pdf`, `.png` | `code/fig_schedule.py` | none (schematic) |
 | 2 The replacement closure | `fig_replacement_closure.pdf`, `.png` | `code/fig_replacement_closure.py` | none (equation (5) with full-chain b_m = 1 and lambda_m = 0.3 and 0) |
-| 3 Labor-market clearing | `ssrn/fig_labor_market_clearing.png`, the image extracted from the SSRN PDF | none yet | the Appendix B economy |
+| 3 Labor-market clearing | `fig_labor_market_clearing.pdf`, `.png` | `code/fig_labor_market_clearing.py` | none (Appendix B's instance, the SSRN version's, in the flow benchmark; solved by `code/appendix_b.py`) |
 | 4 Four configurations of the schedule | `fig_eras_workers.pdf`, `.png` | `code/fig_eras_workers.py` | none (schematic) |
 | 5 The deflator fork | `fig_deflator_fork.pdf`, `.png` | `effort/code/build_fig3_realwage_fan.py` | `effort/data/raw/` (FRED: AHETPI, AHEMAN, CUSR0000SAD, CUUR0000SAD, CUSR0000SAH1, CUUR0000SEHA, CPIUFDNS, CPIENGNS); gated against `effort/data/fig3_realwage_fork_1950.csv` |
 | 6 The coverage ratio | `fig_kappa_measurement.pdf`, `.png` | `code/fig_kappa_measurement.py` | `data/kappa_results.csv` (built by `code/feasibility_kappa.py`) |
@@ -69,6 +69,7 @@ marked the dashed pre-1964 stretch.
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
 | Borrowing financed 19% of transfers in 2025, zero only in 1998–2000 | `data/four_way_split.csv` (`code/four_way.py`) |
 | The HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
+| Appendix B's instance (x* 0.86315, v 0.54344, Y 7.88061, N_a 1.34338 = 1.07846 final + 0.26492 machine hours, support 5.44630 of rent 10) and its automation path; Figure 3's equilibria, w/P_s and N_a/N 0.40/0.34 at baseline, 0.37/0.32 recursive, 0.24/0.21 task automation | `code/appendix_b.py` (the SSRN version's instance, in the flow benchmark); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
 
 ## Submission files
 
@@ -94,6 +95,8 @@ From this folder, with the repository's virtual environment:
 ```
 ../venv/Scripts/python.exe code/fig_schedule.py             # Figure 1
 ../venv/Scripts/python.exe code/fig_replacement_closure.py  # Figure 2
+../venv/Scripts/python.exe code/appendix_b.py               # prints Appendix B's and Figure 3's numbers
+../venv/Scripts/python.exe code/fig_labor_market_clearing.py  # Figure 3
 ../venv/Scripts/python.exe code/fig_eras_workers.py         # Figure 4
 ../venv/Scripts/python.exe code/lambda_compute2.py        # FRED (cache/); writes data/lambda_results.csv
 ../venv/Scripts/python.exe code/four_way.py               # writes data/four_way_split.csv
@@ -107,8 +110,7 @@ From this folder, with the repository's virtual environment:
 ../venv/Scripts/python.exe effort/code/build_fullband_df_figures.py      # Figure 7: paper/figures/fig_consumption_financing_and_human_effort.pdf and .png
 ```
 
-Each figure script writes both the `.pdf` and the `.png` of its figure; Figure 3 has no
-script yet.
+Each figure script writes both the `.pdf` and the `.png` of its figure.
 
 The measurement scripts read `cache/` and pull from FRED only for series not cached;
 `--refresh` on the Figure 5 scripts re-pulls their raw series. Every FRED series is
@@ -116,7 +118,8 @@ validated by identity checks and magnitude anchors before use; every contestable
 classification runs as a labeled grid, and the reported object is the median with its
 min–max band. The scripts stop rather than substitute when a source cannot be validated.
 
-The venv needs NumPy, Matplotlib, SymPy and SciPy (`checks/check_interior.py`), plus
+The venv needs NumPy, Matplotlib, SymPy and SciPy (`code/appendix_b.py`, `checks/check_cost_system.py`,
+`checks/check_interior.py`), plus
 `python-calamine` for the ceiling grid and `pypandoc_binary` for the Word build.
 
 ## Checks
@@ -124,7 +127,8 @@ The venv needs NumPy, Matplotlib, SymPy and SciPy (`checks/check_interior.py`), 
 ```
 ../venv/Scripts/python.exe checks/check_pinning.py               # 51 checks: the recursion, the replacement closure, statics, the fork, the welfare pair, the priced exit
 ../venv/Scripts/python.exe checks/check_fan.py                   # the composite pricing display, the flat-case parity, the fork's data anchors
-../venv/Scripts/python.exe checks/check_interior.py              # the interior revision: the exact category-price formula, the general bounds, the income identity, the worked equilibrium
+../venv/Scripts/python.exe checks/check_cost_system.py           # network prices against truncated production rounds, factor-income cancellation, Section 6's feasible-method bounds, participation from utility; random networks and Appendix B's economies
+../venv/Scripts/python.exe checks/check_interior.py              # Appendix B (about 90 s): Lemma B.1 with durable machines on the printed instance, Figure 3's economies and two durable test economies — the equilibrium conditions, income with interest, a 2,048-cell linear production program that finds the equilibrium itself, the flow special case, the automation path, every quoted number against main.tex
 ../venv/Scripts/python.exe checks/lint_tex_structure.py paper/main.tex
 for f in checks/corner/*.py; do ../venv/Scripts/python.exe "$f"; done
 ../venv/Scripts/python.exe effort/checks/check_effort_reproduction.py   # rebuilds archive_v28 in a temp dir and compares to the frozen outputs
@@ -153,4 +157,5 @@ the paper:
 comparative statics, the user-cost closures, the fraud and superstar lemmas, and the CES
 share limits; its README lists the exact scope, the assumption manifest, and what is
 deliberately left out. The interior category-price results that Section 6 and Appendix B
-now carry are outside that scope; `checks/check_interior.py` is what backs them.
+now carry are outside that scope; `checks/check_cost_system.py` and `checks/check_interior.py`
+are what back them.

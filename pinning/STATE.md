@@ -6,9 +6,11 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-11-02 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+**State as of:** 2026-11-03 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
-(Log, 2026-11-02; branch `ssrn-rebuild`). Next: the polish pass for the next submission, the
+(Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
+Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Calibration (c)
+was ported, reviewed and not adopted (Log, 2026-11-03). Next: the polish pass for the next submission, the
 Economic Modelling special issue "Artificial Intelligence, Data Investment and the Digital
 Economy" (deadline 2027-02-28). STRECO desk-rejected the 4 September Word build on
 2026-11-02, without comments. Before that, 2026-09-24: the SSRN PDF staged; 2026-09-21: the
@@ -20,8 +22,10 @@ both at tag `pre-cleanup-2026-09-04`.
 ## Where things stand
 
 - **2026-11-02:** `paper/main.tex` is the SSRN version, rebuilt from its PDF (Log). The
-  bullets below describe the interior revision of 2026-09-21 that it replaced; the batteries
-  and the Word build still describe that revision until the polish pass updates them.
+  bullets below describe the interior revision of 2026-09-21 that it replaced; the Word build
+  still describes that revision until the polish pass rebuilds it. Since 2026-11-03 the
+  batteries describe the SSRN version: `checks/check_interior.py` (110) backs Appendix B and
+  Figure 3, `checks/check_cost_system.py` (22) the cost system the data note names.
 - `paper/main.tex` was the interior revision of 2026-09-21, ported verbatim from her
   `Downloads/wages-and-scarcity-interior-source.zip` (`v5_interior.tex`, 104,177 bytes)
   plus the repository's one standing edit: the AI-use note names the repository ("the
@@ -61,10 +65,10 @@ both at tag `pre-cleanup-2026-09-04`.
 
 0. → Source resolved 2026-11-02: rebuilt from the PDF (Log), since the Overleaf copy was not
    at the SSRN state and the original TeX was on a machine she could not reach. If the
-   original turns up, diff it against the rebuild. Still open from this item: scripts for the
-   two new figures (replacement closure; labour-market clearing), `check_cost_system.py` and
-   the revised `check_interior.py` that the data note names, and the old
-   `checks/check_interior.py`, which still checks the superseded Appendix B instance.
+   original turns up, diff it against the rebuild. → 2026-11-03: the rest of this item is done —
+   both new figures have scripts (Figure 2 in polish 3, Figure 3 now), and `check_cost_system.py`
+   and the rebuilt `check_interior.py` are the scripts the data note names (Log). Only the diff
+   against the original TeX, if it turns up, remains.
    **The SSRN version's source** (her go to bring it in, 2026-09-24). The posted PDF
    (SSRN 7226858, compiled 2026-09-23 on Overleaf's TeX Live) is a revision beyond
    anything on disk: `main.tex` is `v5_interior.tex`; her Overleaf edit of the same evening
@@ -163,10 +167,47 @@ both at tag `pre-cleanup-2026-09-04`.
 `check_pinning`, `check_fan` and `checks/corner/` were written against the propositions
 as they stood before the interior revision. They still pass, and the algebra they check
 is still the paper's, but their mapping to section and appendix numbers moved: the
-README's corner table now carries the new pointers. `check_interior.py` is what backs
-Section 6 and Appendix B.
+README's corner table now carries the new pointers. `check_cost_system.py` and
+`check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-03 — Appendix B: Lemma B.1 for durable machines; the SSRN instance as its flow case;
+  Figure 3 and the checks from scripts.** Her call ("2"), the second of three options put to her
+  after an independent review of the calibration port. **Calibration (c) not adopted.** It was
+  ported into Appendix B and Figure 3 and reviewed; the maths and every quoted number held, two
+  targets did not: the site at 13% of the basket applies a subsistence basket's shelter share
+  (a third) to all consumption, where housing is 15.7% of 2023 PCE (DHSGRC1A027NBEA/PCECA), so
+  model site rent is 0.11 of GDP against 0.03–0.05; and 3 baskets a person is assumed, where the
+  paper's own single-person bundle (`code/feasibility_kappa.py`) puts 2023 PCE at 4.59 per person
+  16+ (9.04 with the family-of-four bundle), with no root at g0 0.01 (it needs g0 ≤ 0.0085). With
+  the site, output and employment (EMRATIO 60.3) at measured values (g0 0.008): recursive
+  automation still lowers w/P_s and N_a/N on both roots; task automation lowers w/P_s slightly
+  on the low root (4.21 → 4.12) and raises it on the high (→ 4.51); rho 0.095, above the NIPA
+  band; and rho's place in the band had chosen (c)'s basis (`../paths/` decision 31). The port's
+  files are not committed (its `check_interior.py` let swapped table rows pass, and its program
+  took the solver's N_a, X and charge as inputs). **Kept from the port**, its maths verified by
+  the reviewer: Lemma B.1 and its proof with machines at Appendix A.4's user cost (rho, delta,
+  the ceiling x_c, (25) as T > Nh and n_S(x_c) > n_D(x_c), funding at x*: T + rho V_m X ≥ N P_s),
+  (21)–(24) and the three-row system in general form; (21) now reads p_m, then v = gamma p_m, so
+  its tag fits the line. **New text:** (4) on the replacement coefficients gives L_s and B_s, the
+  basket's hours and land, and P_s = wL_s + rB_s + rho V_m X/Y, the two sets of coefficients
+  coinciding in the flow benchmark (the reviewer's L_s/B_s clash); Section 5 and D.3 state
+  P_s = wL_s + rB_s "in the flow benchmark". The instance, its numbers, the automation path,
+  Figure 3's caption and Section 6.1's "two-to-one" are the SSRN version's, the instance now
+  "in the flow benchmark, rho = 0 and delta = 1". Figure 3 from `code/fig_labor_market_clearing.py`
+  (the SSRN curves on `code/appendix_b.py`; legend lower right, where at 8 pt it clears the
+  participation curve; canvas aspect 1.70 for 1.894). **Checks:** `checks/check_interior.py`
+  rebuilt (110; the 2026-09-21 battery is in git history): equilibrium conditions and income on
+  the printed instance, Figure 3's two automation economies and two durable test economies (one
+  with a binding ceiling); a 2,048-cell linear program that finds each equilibrium itself
+  (participation from its dual wage; with durable machines the charge from the required return
+  at its dual machine cost), within a priori discretization bounds; the flow special case; the
+  path; every quoted number anchored to its words, no decimal unchecked, no calibration residue.
+  Eight mutations (swapped or altered numbers in Appendix B, the caption and Section 6.1, D.3's
+  qualifier, a wrong user cost in the solver) each fail it. `checks/check_cost_system.py` (22) is
+  new. Also: the D.5 table's D, 0.29 → 0.31 (polish 2 changed the text and missed this cell).
+  40 pages (39). Every battery green; word diff against polish 3: exactly these changes.
 
 - **2026-11-02 — polish 3: the figures from their scripts.** Figures 1, 2 and 4-8 now come from
   their scripts as vector PDFs (PNG kept); only Figure 3 still points at `figures/ssrn/`
