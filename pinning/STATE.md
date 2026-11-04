@@ -12,7 +12,8 @@ rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was 
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
 Figure 4 is one panel, the entrant and the trained worker sharing each era's wall, and a
 whole-paper review's reference and stale-passage fixes are in (its other findings are Open 12);
-the package is rebuilt with both (Log; branch `claude/keen-cannon-3m2lty`, not yet on `main`). Calibration (c)
+the package is rebuilt with both (Log; on `main` since 2026-11-04, fast-forwarded from branch
+`claude/keen-cannon-3m2lty`). Calibration (c)
 was ported, reviewed and not adopted (Log, 2026-11-03). The Economic Modelling package is built
 (`paper/submission/em/`; `main` fast-forwarded to it at 6117344; the tag `em-package-2026-11-03`
 could not be pushed from the session, HTTP 403 on tags, so it exists only if she pushes it); she
@@ -224,6 +225,13 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 
 ## Log
 
+- **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
+  merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately
+  one quarter", was already in the entry below. `main` fast-forwarded from 91f10c7 to branch
+  `claude/keen-cannon-3m2lty`: the one-panel Figure 4, the references and stale passages, and this
+  record. The compiled paper (main.tex, 41 pages) was handed over in session and is not committed;
+  the anonymized preview in `paper/submission/em/` is current.
+
 - **2026-11-04 — references and stale passages, from a whole-paper review.** Asked for in session
   ("Can you fix all the references and stale stuff?") after the review recorded as Open 12.
   **References.** The four entries uncited since at least the SSRN version are cited again: Diamond
@@ -283,7 +291,8 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   (`check_interior.py` 112, once the caption kept "Drawn by code written with Claude (Anthropic).}"
   on one line, as Q6 reads it); Lean not rebuilt (nothing it states changed). Run here, the effort
   batteries rewrite 12 tracked CSVs in `effort/data/` (CRLF to LF, last-digit float noise); those
-  were restored, not committed. On branch `claude/keen-cannon-3m2lty`, not on `main`.
+  were restored, not committed. Made on branch `claude/keen-cannon-3m2lty`; on `main` since the
+  same day (Log, `main` fast-forwarded).
 
 - **2026-11-03 — the repository brought up to the package.** Her go ("go ahead with the repo"; she
   revises SSRN herself). The paper's date reads November 2026 (was September 23, 2026; the anonymized
