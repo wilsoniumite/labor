@@ -4,10 +4,11 @@
 % 2026-11-02 because its Overleaf source was unavailable. Transcribed verbatim, checked word for word
 % and page by page against the PDF (STATE.md log). Nothing re-voiced; the slips seen while transcribing
 % were fixed on 2026-11-02 (polish 1).
-% Labels follow the printed numbering (sec:N, app:X, eq:N, prop:N, lem:B.1, fig:N).
+% Labels follow the SSRN version's numbering (sec:N, app:X, eq:N, prop:N, lem:B.1, fig:N); since 2026-11-03
+% appendix equations and figures print by appendix, so eq:18 prints as (A.1) and fig:8 as Figure D.1.
 % Figures: each \includegraphics points at its script-built vector file in figures/ (README, Figures).
-% Appendix B (2026-11-03): Lemma B.1 with durable machines and interest (Appendix A.4); its instance is the
-% SSRN version's, in the flow benchmark (code/appendix_b.py, checks/check_interior.py).
+% Appendix B (2026-11-03): Lemma B.1 with durable machines and interest (Appendix A.4); its instance is set from
+% U.S.-like shares, the SSRN version's flow instance kept as a test case (code/appendix_b.py, checks/check_interior.py).
 
 % ============================================================
 % Style: orthodox macro working paper (12pt, onehalf spacing, plain theorem
@@ -120,7 +121,7 @@ Efficiency wages (Shapiro and Stiglitz 1984), monopsony (Manning 2003), and firm
 
 \subsection{The classical accounts}\label{sec:2.5}
 
-The wage was pinned to land and to the cost of subsistence before it was pinned to anything else. Ricardo (1817) priced land at the margin and the wage at its natural price, Malthus (1798) supplying the mechanism; the machinery chapter added in 1821 concedes that machinery can injure the laboring class. Marx priced labor power at its cost of reproduction and read enclosure --- the legal extinction of common access to land --- as the manufacture of a labor supply. Lewis (1954) pinned the modern-sector wage to what the traditional sector affords --- a close antecedent to our participation mechanism. His traditional sector supplies an outside option until its surplus labor is absorbed. Polanyi (1944) recorded the institutional half of the same event. George (1879) drew the fiscal consequence derived below inside our model. These accounts describe configurations in which subsistence and access to scarce inputs strongly constrain wage bargains. Uneven machine capability across tasks adds the replacement margin developed below.
+The wage was pinned to land and to the cost of subsistence before it was pinned to anything else. Ricardo (1817) priced land at the margin and the wage at its natural price, Malthus (1798) supplying the mechanism; the machinery chapter added in 1821 concedes that machinery can injure the laboring class. Marx (1867) priced labor power at its cost of reproduction and read enclosure --- the legal extinction of common access to land --- as the manufacture of a labor supply. Lewis (1954) pinned the modern-sector wage to what the traditional sector affords --- a close antecedent to our participation mechanism. His traditional sector supplies an outside option until its surplus labor is absorbed. Polanyi (1944) recorded the institutional half of the same event. George (1879) drew the fiscal consequence derived below inside our model. These accounts describe configurations in which subsistence and access to scarce inputs strongly constrain wage bargains. Uneven machine capability across tasks adds the replacement margin developed below.
 
 \subsection{Automation and the wage}\label{sec:2.6}
 
@@ -163,7 +164,7 @@ the right edge of the schedule. Where labor holds at least one
 machine-contestable task, $x^*$ denotes the marginal such task and the usual
 indifference condition applies. If labor holds only tasks in $H$, there is no
 machine-contestable marginal task and the machine comparison does not pin the
-wage; Section~\ref{sec:5} treats that boundary case. On the
+wage (Section~\ref{sec:5}). On the
 machine-contestable set, competitive assignment gives a threshold: machines
 take the tasks below $x^*$ and labor the tasks above it, while labor performs
 the required tasks in $H$. We call the threshold the \emph{task-assignment margin}, or task margin. An active contestable margin can coexist with human-required tasks in $H$. Appendix~\ref{app:E} treats the case in which human-required services determine the wage.
@@ -296,7 +297,7 @@ Maintaining that support requires resources from the provider. Rising housing or
 
 Personal assets, pensions, and savings can also support life outside employment. These sources, together with preferences and the nonpecuniary value of work, influence participation and the prospect of an independent life. The benchmark isolates the choice faced by someone whose living standard is sustained through dependence.
 
-Access to common land is a historical example of support through shared resources. Enclosure could remove that access and increase the need for wage income, the mechanism emphasized by Marx, Lewis (1954), and Polanyi (1944). In a modern economy, housing arrangements, household support, and public provision shape the corresponding outside option.
+Access to common land is a historical example of support through shared resources. Enclosure could remove that access and increase the need for wage income, the mechanism emphasized by Marx (1867), Lewis (1954), and Polanyi (1944). In a modern economy, housing arrangements, household support, and public provision shape the corresponding outside option.
 
 \section{Replacement meets participation}\label{sec:5}
 
@@ -410,7 +411,7 @@ The tax redistributes the rent component toward an equal per-person allocation.
 \end{proposition}
 
 \begin{proof}
-(i) The taxed stock is fixed by assumption, and its user pays the gross rental regardless of the owner's after-tax receipt. (ii) The common payment enters both budgets equally, leaving their monetary difference unchanged. (iii) Add after-tax rents and total transfers, using $Nd=\tau_RR$.
+(i) The taxed stock is fixed by assumption, and its user pays the gross rental regardless of the owner's after-tax receipt: the fixed-factor analogue of production-efficiency logic (Diamond and Mirrlees 1971). (ii) The common payment enters both budgets equally, leaving their monetary difference unchanged. (iii) Add after-tax rents and total transfers, using $Nd=\tau_RR$; the transfer is lump-sum in the sense of the second welfare theorem (Arrow 1951).
 \end{proof}
 
 Rent revenue can finance the basket underlying the participation choice. Define coverage by $\kappa=R/(NP_s)$, with $R>0$. Funding exactly one basket per person requires $d=P_s$, hence
@@ -439,7 +440,7 @@ Appendix~\ref{app:D} proves the corollary and develops payroll-tax incidence and
 
 \section{History as four configurations of the model}\label{sec:8}
 
-The model can be applied to the long record as four configurations of the relative-productivity schedule (Figure~\ref{fig:4}). Because schedules may differ across worker types, the figure shows each configuration for both an untrained entrant and a worker with accumulated training or experience. Both face the same wall, since which tasks are closed to machines does not depend on the worker; training changes a worker's schedule and wage. A joint determination of their wages and training decisions requires the extension described in Section~\ref{sec:5}.
+The model can be applied to the long record as four configurations of the relative-productivity schedule (Figure~\ref{fig:4}). Because schedules may differ across worker types, the figure shows each configuration for both an untrained entrant and a worker with accumulated training or experience. Both face the same wall, since which tasks are in $H$ does not depend on the worker; training changes a worker's schedule and wage. A joint determination of their wages and training decisions requires the extension described in Section~\ref{sec:5}.
 
 \begin{figure}[t!]
 \centering
@@ -469,7 +470,7 @@ Drawn by code written with Claude (Anthropic).}
 
 \textbf{Industrial: comparative advantage widens.} The Industrial Revolution created a large and uneven productivity gap across tasks: engines were far better than muscle at physical tasks but ineffective at cognitive ones. The schedule became enormously dispersed and steep. It did so for the entrant first: the young mill hand or hand-loom weaver held the tasks engines were reaching one by one, and the margin sat on the steep stretch, where what the engine cost at the next task priced the hour. The trained worker, the millwright, the engineer, the clerk, held tasks closed to engines; that margin stayed at the wall, with the wage a scarcity price on trained hands and heads, kept scarce by the years the training took. That dispersion opened high-productivity tasks to labor and could support a higher wage; by Proposition~\ref{prop:1}(ii), steepness also makes employment less responsive to a given wage change and the wage more responsive to shifts in labor supply. Meanwhile machine production itself remained labor-intensive: both relative human productivity at the margin and the labor embodied in machine services supported the wage. The escape was neither immediate nor smooth --- real wages grew slowly in the early decades as capital deepening and urbanization preceded substantial wage growth (Crafts 2022).
 
-\textbf{Post-industrial: machine competition broadens.} Computerization reached the simple-cognitive region of the schedule --- the routine-task evidence of Autor, Levy, and Murnane (2003) and the polarization it produced (Autor and Dorn 2013) are the cross-sectional trace. The entrant is the young clerk, cashier, or assembler whose routine tasks software and machines reached at similar cost: an interior machine-contestable margin could price the wage on a schedule of uneven relative capability. The trained worker, the developer, the physician, the engineer, held tasks computers could not: the margin stayed at the wall, and the premium for training was what the period's expansion of higher education chased. AI is a candidate extension of machine competition to further tasks, including those previously closed to machines. It may also reduce $\widetilde{\lambda}_m$, the labor embodied in machine services. As trained tasks become contestable, skill premia depend on the replacement costs and labor supplies of the different worker types. Where the trained worker ($T$) and the entrant ($E$) both hold contestable margins against the same machine, Proposition~\ref{prop:1}(i) applies to each and the rental cancels: $w_T/w_E=\gamma_T(x_T^*)/\gamma_E(x_E^*)$. The interior result connects these replacement costs to wage purchasing power.
+\textbf{Post-industrial: machine competition broadens.} Computerization reached the simple-cognitive region of the schedule --- the routine-task evidence of Autor, Levy, and Murnane (2003) and the polarization it produced (Autor and Dorn 2013) are the cross-sectional trace. The entrant is the young clerk, cashier, or assembler whose routine tasks software and machines reached at similar cost: an interior machine-contestable margin could price the wage on a schedule of uneven relative capability. The trained worker, the developer, the physician, the engineer, held tasks computers could not: the margin stayed at the wall, and the premium for training was what the period's expansion of higher education chased. AI is a candidate extension of machine competition to further tasks, including those previously closed to machines. It may also reduce $\widetilde{\lambda}_m$, the labor embodied in machine services. As trained tasks become contestable, skill premia depend on the replacement costs and labor supplies of the different worker types. Where the trained worker and the entrant both hold contestable margins against the same machine, Proposition~\ref{prop:1}(i) applies to each and the rental cancels: $w_{\mathrm{tr}}/w_{\mathrm{en}}=\gamma_{\mathrm{tr}}(x^*_{\mathrm{tr}})/\gamma_{\mathrm{en}}(x^*_{\mathrm{en}})$. The interior result connects these replacement costs to wage purchasing power.
 
 \section{Measurement}\label{sec:9}
 
@@ -517,7 +518,7 @@ denominator. Drawn by code written with Claude (Anthropic).}
 \caption{Two labor linkages in U.S. consumption, 1950--2025. The upper
 series is the share of consumption financed from labor-origin resources; the
 lower is the share of consumed production that resolves into human effort
-through the full production chain. Markers identify the benchmark-data
+through the full production chain. Solid lines identify the benchmark-data
 windows: annual BEA income-source profiles for financing in 2004--2023 and
 the BEA full-chain production benchmark in 1997--2023. Values outside those
 windows are model-based extensions. In the common benchmark-data window,
@@ -546,7 +547,7 @@ terminal-input rents, and whose resources are keeping pace with the resulting co
 
 We close with a conjecture that the model suggests but does not establish. Wages finance most consumption, and most benefits are conditioned on work or means. When consumption depends on earning a wage, a lower wage need not reduce the labor offered, so the economy has little way to signal that it wants less labor, as it can for oil in a glut or for capital when returns approach zero. Labor may then have been behaving for decades as a large market distortion: jobs are created at cost, behind institutional wedges or at wages barely above living costs. If the conjecture holds, it would connect developments usually studied separately, including polarized job growth, youth unemployment, delayed household formation, persistent fiscal strain, and slow growth despite rapid advances in computing. Each needs its own test. The first is whether machine production is shifting its costs from wages to rents.
 
-The mechanism also joins older lines of thought. The classical economists tied wages to subsistence and scarcity, George drew the fiscal consequences of rent, and Keynes put employment and demand at the center of the economy. Automation that reaches the machines' own supply chains gives them a common setting, and perhaps a common wage equation.
+The mechanism also joins older lines of thought. The classical economists tied wages to subsistence and scarcity, George drew the fiscal consequences of rent, and Keynes (1936) put employment and demand at the center of the economy. Automation that reaches the machines' own supply chains gives them a common setting, and perhaps a common wage equation.
 
 \section{Future Work}\label{sec:12}
 There is much still to be done. The static model describes prices and limiting configurations. A dynamic extension could ask whether automation arrives smoothly or in waves, how quickly rents adjust, and what happens when wages fall faster than institutions can respond. It may also have implications for monetary policy. When machine-made goods become cheaper while housing, energy, and other scarce necessities become more expensive, a single inflation rate can hide significant nuances. Can one interest rate stabilize both sides of a divide? Do low interest rates support employment and demand, or do they mainly raise scarce-asset rents and accelerate the replacement of labor? The relative-price structure developed here provides a starting point for these questions.
@@ -743,7 +744,7 @@ At fixed technology and support, a distribution $\widehat{F}\le F$ lowers labor 
 
 For a numerical instance, take $N=1$, $T=0.01$, $h=0.0017$, $a=1.4$, $b=0.4$, $\lambda=7.3$, $\delta=0.05$, $\rho=0.09$, $\gamma(x)=0.01+0.99x^{4.4}$, and $\chi$ uniform on $[0,2.2]$. These values are illustrative. They are chosen so that cost shares are of the order seen in U.S. data: labor is about half of a machine's build cost and of the full-chain cost of consumption, machine services are about a fifth of a machine's build cost, and site rent is 6.5 percent of the basket; participation is 60 percent. The solution has $x^*\simeq0.82987$, below the ceiling $x_c\simeq0.94634$, $v\simeq0.07165$, $Y\simeq3.01320$, and $N_a\simeq0.60165$: about $0.51264$ hours at final tasks and $0.08902$ in machine production. Support costs $NP_s\simeq0.02599$ out of the provider's rent and interest of $0.03520$. The accompanying \texttt{check\_interior.py} compares output with an independently specified discretized production optimization, including both uses of labor and land.
 
-For an illustrative automation path, retain these parameters and set $\lambda=0$ and $\gamma_\eta(x)=\eta(0.01+0.99x^{4.4})$, with $0<\eta\le1$; at $\eta=1$ this is the recursive-automation economy of Figure~\ref{fig:3}. The conditions in \eqref{eq:25} hold throughout. The equilibrium wage satisfies $0<v\le\eta(\rho+\delta)b/[1-(\rho+\delta)a]\to0$. Relative capability remains a hundred times as high at the last task as at the first. Since $P_s\ge h>0$, participation tends to zero through \eqref{eq:24}: it is $0.56$ at $\eta=1$ and $0.13$ at $\eta=0.01$. The provider's rent and interest fund the support throughout. The purchasing-power and income results apply at every interior equilibrium along the sequence.
+For an illustrative automation path, retain these parameters and set $\lambda=0$ and $\gamma_\eta(x)=\eta(0.01+0.99x^{4.4})$, with $0<\eta\le1$; at $\eta=1$ this is the recursive-automation economy of Figure~\ref{fig:3}. The conditions in \eqref{eq:25} hold throughout. The equilibrium wage satisfies $0<v\le\eta(\rho+\delta)b/[1-(\rho+\delta)a]\to0$. Relative capability remains a hundred times as high at the last task as at the first. Since $P_s\ge h>0$, participation tends to zero through \eqref{eq:24}: it is $0.56$ at $\eta=1$ and $0.13$ at $\eta=0.01$. The provider's rent and interest fund the support throughout. The purchasing-power bounds apply at every interior equilibrium along the sequence; income also includes interest, as in the proof of Lemma~\ref{lem:B.1}, and labor's share still tends to zero.
 
 \section{Factor income and expenditure shares}\label{app:C}
 
@@ -835,7 +836,7 @@ For a descriptive transition index, let $\varphi_C$ be the labor-origin financin
 \[
 D=\varphi_C(1-\kappa)^2.
 \]
-Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa=0.30$ gives $D=0.31$; at $(\varphi_C,\kappa)=(0.50,0.60)$ it would be 0.08. The index summarizes the assumed financing pattern; estimating welfare requires a structural model of behavioral responses. As $\kappa$ rises and labor-origin financing falls, the residual distortionary financing need shrinks; Proposition~\ref{prop:5} accounts for both wage and rent income throughout. The financing mix depends on the available bases and the desired transfer. Table~\ref{tab:D.1} collects the U.S. measures.
+Using the 2025 model-based-extension central values $\varphi_C=0.64$ and $\kappa=0.30$ gives $D=0.31$; at $(\varphi_C,\kappa)=(0.50,0.60)$ it would be 0.08. The index summarizes the assumed financing pattern; estimating welfare requires a structural model of behavioral responses. As $\kappa$ rises and labor-origin financing falls, the residual distortionary financing need shrinks; Proposition~\ref{prop:5} accounts for both wage and rent income throughout. The financing mix depends on the available bases and the desired transfer. Table~\ref{tab:D.1} collects the U.S. measures, and Figure~\ref{fig:8} decomposes the financing of consumption by source.
 
 \begin{table}[htbp]
 \centering
@@ -848,7 +849,7 @@ Object & Value (year) & Note \\
 \midrule
 \raggedright Labor-origin financing share of PCE, $\varphi_C$ & \raggedright 0.64 [0.54--0.81] (2025, model-based extension) & \raggedright 0.66 [0.53--0.80] in the 2023 source-profile window; $\approx 0.74$ in 1965 model-based extension \tabularnewline
 \raggedright Share of tax revenue raised from labor-income bases, $\varphi_G$ & \raggedright 0.68 (2025) & \raggedright 0.64 in 1965; $\approx 0.70$ by the mid-1980s, flat since \tabularnewline
-\raggedright Work- or means-conditioned share of benefits & \raggedright $\ge 0.84$; $\approx 0.99$ by withdrawal rule (2024) & \raggedright the only sizable unconditional cash transfer is Alaska's dividend \tabularnewline
+\raggedright Work- or means-conditioned share of benefits & \raggedright $\ge 0.84$; $\approx 0.99$ by withdrawal rule (2024) & \raggedright the only sizable unconditional cash transfer is Alaska's dividend (Hoynes and Rothstein 2019; Jones and Marinescu 2022) \tabularnewline
 \raggedright Coverage ratio $\kappa$ (Appendix~\ref{app:D.3}) & \raggedright 0.30 [0.15--0.59] (2025) & \raggedright $\approx 0.05$ in the 1950s; land measures are lower-bound constructions \tabularnewline
 \raggedright Transition financing index $D=\varphi_C(1-\kappa)^2$ & \raggedright 0.31 (2025, model-based-extension central values) & \raggedright descriptive measure of the assumed financing pattern \tabularnewline
 \bottomrule
@@ -864,10 +865,10 @@ directly from household capital income, in which owners consume their own
 returns, 1960--2025. Lines
 are medians across the classification-rule grid; the shaded band spans the
 deficit-attribution rules. The direct-wage share fell by about twenty
-percentage points over sixty years. Transfers grew while approximately one
-quarter of their financing continued to come from taxes on ownership income.
+percentage points over sixty years. Transfers grew while about a fifth of
+their financing continued to come from taxes on ownership income.
 Borrowing financed 19\% of transfers in 2025 and was zero only in
-1998--2000. The allocation follows pro-rata accounting rules; estimating tax
+1960, 1963, 1999, and 2000. The allocation follows pro-rata accounting rules; estimating tax
 incidence requires a model of behavioral responses. Drawn by code written with Claude (Anthropic).}
 \label{fig:8}
 \end{figure}
@@ -881,7 +882,7 @@ Let Appendix~\ref{app:A}'s set $H$ have positive measure $|H|$: tasks machines c
 \end{proposition}
 
 \begin{proof}
-(i) $H$-tasks cost $|H|\cdot w_H/\gamma _L$ whatever machines do; each task outside $H$ costs $p_m\cdot \gamma (x)/\gamma _L(x)$, and the assumed vanishing total cost outside $H$ removes the remainder. (ii) is Appendix~\ref{app:C}'s share display with $q$ read as the relative price of $H$-content: the costlier service's share rises with its relative price iff $\sigma _H < 1$, and by (i) that relative price diverges. (iii) An $H$-free good's price vanishes by (i) at $|H| = 0$, so for $\sigma _H < 1$ its share vanishes, leaving the displayed split; setting the $H$ taste weight to zero returns the baseline.
+(i) $H$-tasks cost $|H|\cdot w_H/\gamma _L$ whatever machines do; each task outside $H$ costs $p_m\cdot \gamma (x)/\gamma _L(x)$, and the assumed vanishing total cost outside $H$ removes the remainder. (ii) is Appendix~\ref{app:C}'s share display with $q$ read as the relative price of $H$-content: the costlier service's share rises with its relative price iff $\sigma _H < 1$, and by (i) that relative price diverges. (iii) An $H$-free good's price vanishes by (i) at $|H| = 0$, so for $\sigma _H < 1$ its share vanishes, leaving the split stated in (iii); setting the $H$ taste weight to zero returns the baseline.
 \end{proof}
 
 The human-required sector depends on credible provenance and the distribution of demand. A premium for verified human work requires verification and enforceable penalties that make false claims unprofitable. In-person provision makes provenance directly observable, while legal task reservations depend on enforcement. Broadcastable services can concentrate demand on a small number of performers (Rosen 1981), allowing aggregate human-service earnings to persist alongside low earnings for most workers.
@@ -894,7 +895,7 @@ Section~\ref{sec:9} quotes two shares; this appendix defines and constructs them
 
 For 2004--2023 the financing account uses annual BEA source distributions ranked by equivalized disposable income. Spending beyond current disposable income is recorded in an intertemporal bucket; within current-financed spending, tax incidence and allocation across fungible resources are partially identified and reported as bounds. The labor-origin financing share is 69.6\% [59.8--83.1] in 2004 and 65.8\% [52.7--80.1] in 2023; the model-based 2025 extension is 64.2\% [54.1--81.3].
 
-The production account follows the purchaser-price dollar through the production chain. Its BEA benchmark covers 1997--2023: human effort is 50.1\% of consumed production in 1997 and 47.2\% in 2023. Outside that window, a five-specification product-composition model supplies only a model-based extension, at 66.4\% [61.3--68.6] in 1950 and 46.2\% [45.1--47.4] in 2025. Figure~\ref{fig:7} marks the benchmark-data windows explicitly.
+The production account follows the purchaser-price dollar through the production chain. Its BEA benchmark (Samuels and Senel 2026) covers 1997--2023: human effort is 50.1\% of consumed production in 1997 and 47.2\% in 2023. Outside that window, a five-specification product-composition model supplies only a model-based extension, at 66.4\% [61.3--68.6] in 1950 and 46.2\% [45.1--47.4] in 2025. Figure~\ref{fig:7} marks the benchmark-data windows explicitly.
 
 The long extension suggests that the separation is newer than the postwar starting point, but that inference inherits the weaker status of the outer series.
 
@@ -909,7 +910,7 @@ observed expenditure share also depends on prices and composition. The
 financing-origin account supplies $\varphi_C$ for Appendix~\ref{app:D.5}.
 
 \bigskip\par\noindent\rule{0.35\linewidth}{0.4pt}\par\smallskip
-\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio. Financing splits 1960--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA WP2026-01 full-chain benchmark in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} The direct labor coefficients $\lambda_i$ and total requirements $\widetilde{\lambda}_i$ are unrelated to the wage-linkage shares $\varphi _C, \varphi _G$ of Appendix~\ref{app:D} and to Acemoglu--Restrepo's task-substitution elasticity $\lambda$; the human-required set $H$ is unrelated to the housing subscript of $T_H$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
+\noindent{\footnotesize\singlespacing \textbf{Data and computation.} All U.S. figures are gross annual flows computed from BEA national accounts (annual NIPA series retrieved via FRED, 2026 vintage), with Federal Reserve Z.1 balance-sheet lines, BEA fixed-assets stocks, and the CPI for the coverage ratio. Financing splits 1960--2025, coverage ratio 1953--2025, deflator fork 1964--2024 on complete calendar years, with the food comparison from the CPI food index (FRED CPIUFDNS) over the same window. Reported values are medians with min--max bands across a rule grid. Flows are gross. The financing series uses annual BEA source profiles ranked by equivalized disposable income in 2004--2023 with partial-identification bounds and weaker outer extensions. The production series uses the BEA full-chain benchmark of Samuels and Senel (2026) in 1997--2023 and a five-specification NIPA product-composition extension outside that window. \textbf{Notation.} In Appendices~\ref{app:A.4} and~\ref{app:B} and Figure~\ref{fig:3}, the scalars $a$, $\lambda$, and $b$ are the machine-service, labor, and non-produced input requirements for building a machine, distinct from the cost-system coefficients $a_{ij}$, $\lambda_i$, and $b_i$; and $s$ denotes the reservation wage. Direct requirements of the non-produced input are $b_i$, total requirements are $\widetilde{b}_i$, and $P_s$ is the cost of the basic living basket.\par \textbf{Numerical checks.} The accompanying \texttt{check\_cost\_system.py} compares network prices with independently truncated production rounds, checks factor-income cancellation and feasible-method bounds, and verifies participation choices directly from utility. The companion \texttt{check\_interior.py} checks task costs and income accounting, solves Appendix~\ref{app:B}'s equilibrium, and compares its output against an independently specified linear production program with 2,048 task cells. These checks accompany the analytical proofs.\par}
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
 
@@ -946,6 +947,7 @@ During the preparation of this work the authors used Claude (Anthropic) and Chat
 \refentry{Hoynes, H., and J. Rothstein (2019). ``Universal Basic Income in the United States and Advanced Countries.'' \emph{Annual Review of Economics} 11: 929--958. \url{https://doi.org/10.1146/annurev-economics-080218-030237}.}
 \refentry{Jones, D., and I. Marinescu (2022). ``The Labor Market Impacts of Universal and Permanent Cash Transfers: Evidence from the Alaska Permanent Fund.'' \emph{American Economic Journal: Economic Policy} 14(2): 315--340. \url{https://doi.org/10.1257/pol.20190299}.}
 \refentry{Karabarbounis, L., and B. Neiman (2014). ``The Global Decline of the Labor Share.'' \emph{The Quarterly Journal of Economics} 129(1): 61--103. \url{https://doi.org/10.1093/qje/qjt032}.}
+\refentry{Keynes, J. M. (1936). \emph{The General Theory of Employment, Interest and Money.}}
 \refentry{Knoll, K., M. Schularick, and T. Steger (2017). ``No Price Like Home: Global House Prices, 1870--2012.'' \emph{American Economic Review} 107(2): 331--353. \url{https://doi.org/10.1257/aer.20150501}.}
 \refentry{Korinek, A., and J. E. Stiglitz (2019). ``Artificial Intelligence and Its Implications for Income Distribution and Unemployment.'' In A. Agrawal, J. Gans, and A. Goldfarb (eds.), \emph{The Economics of Artificial Intelligence: An Agenda}, University of Chicago Press, pp. 349--390. \url{https://doi.org/10.7208/chicago/9780226613475.003.0014}.}
 \refentry{Korinek, A., and D. Suh (2024). ``Scenarios for the Transition to AGI.'' NBER Working Paper 32255. \url{https://doi.org/10.3386/w32255}.}
@@ -955,6 +957,7 @@ During the preparation of this work the authors used Claude (Anthropic) and Chat
 \refentry{Ljungqvist, L., and T. J. Sargent (2017). ``The Fundamental Surplus.'' \emph{American Economic Review} 107(9): 2630--2665. \url{https://doi.org/10.1257/aer.20150233}.}
 \refentry{Malthus, T. R. (1798). \emph{An Essay on the Principle of Population.}}
 \refentry{Manning, A. (2003). \emph{Monopsony in Motion: Imperfect Competition in Labor Markets.} Princeton University Press. \url{https://doi.org/10.1515/9781400850679}.}
+\refentry{Marx, K. (1867). \emph{Capital: A Critique of Political Economy.} Vol.~1.}
 \refentry{Mas, A., and A. Pallais (2019). ``Labor Supply and the Value of Non-Work Time: Experimental Estimates from the Field.'' \emph{American Economic Review: Insights} 1(1): 111--126. \url{https://doi.org/10.1257/aeri.20180070}.}
 \refentry{Moll, B., L. Rachel, and P. Restrepo (2022). ``Uneven Growth: Automation's Impact on Income and Wealth Inequality.'' \emph{Econometrica} 90(6): 2645--2683. \url{https://doi.org/10.3982/ecta19417}.}
 \refentry{Mortensen, D. T., and C. A. Pissarides (1994). ``Job Creation and Job Destruction in the Theory of Unemployment.'' \emph{The Review of Economic Studies} 61(3): 397--415. \url{https://doi.org/10.2307/2297896}.}
@@ -967,6 +970,7 @@ During the preparation of this work the authors used Claude (Anthropic) and Chat
 \refentry{Rosen, S. (1981). ``The Economics of Superstars.'' \emph{American Economic Review} 71(5): 845--858.}
 \refentry{Sachs, J. D., and L. J. Kotlikoff (2012). ``Smart Machines and Long-Term Misery.'' NBER Working Paper 18629. \url{https://doi.org/10.3386/w18629}.}
 \refentry{Saez, E., B. Schoefer, and D. Seim (2019). ``Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden.'' \emph{American Economic Review} 109(5): 1717--1763. \url{https://doi.org/10.1257/aer.20171937}.}
+\refentry{Samuels, J. D., and G. Senel (2026). ``A Value Chain Approach to Measuring the U.S. Production Structure.'' BEA Working Paper WP2026-01, U.S. Bureau of Economic Analysis. \url{https://doi.org/10.66137/IVQT8545}.}
 \refentry{Samuelson, P. A. (1966). ``A Summing Up.'' \emph{The Quarterly Journal of Economics} 80(4): 568--583. \url{https://doi.org/10.2307/1882916}.}
 \refentry{Shapiro, C., and J. E. Stiglitz (1984). ``Equilibrium Unemployment as a Worker Discipline Device.'' \emph{American Economic Review} 74(3): 433--444.}
 \refentry{Shimer, R. (2005). ``The Cyclical Behavior of Equilibrium Unemployment and Vacancies.'' \emph{American Economic Review} 95(1): 25--49. \url{https://doi.org/10.1257/0002828053828572}.}

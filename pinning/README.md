@@ -3,7 +3,7 @@
 Johan Båge (Stockholm School of Economics) and Stella Wilson (KTH Royal Institute of
 Technology and SEB). Working paper, 2026.
 
-This folder is the paper's public record: the source, the six figures, the code and
+This folder is the paper's public record: the source, the eight figures, the code and
 data behind every reported number, the check files the paper's data note refers to,
 and the Lean 4 formalization.
 
@@ -67,7 +67,7 @@ marked the dashed pre-1964 stretch.
 | Labor-origin financing 69.6% (2004), 65.8% (2023), 64.2% (2025 extension); production content 50.1/47.2 (1997/2023), 66.4/46.2 (1950/2025 extension) | `effort/archive_v28/expected/DF19_…`, `DF21_…`, `LR_Q1_…`; verified by `effort/checks/check_effort_reproduction.py` |
 | Share of tax revenue from labor-income bases 0.68 (2025), 0.64 (1965) | `data/lambda_results.csv`, column `lamR_med` (`code/lambda_compute2.py`) |
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
-| Borrowing financed 19% of transfers in 2025, zero only in 1998–2000 | `data/four_way_split.csv` (`code/four_way.py`) |
+| Borrowing financed 19% of transfers in 2025, zero only in 1960, 1963, 1999 and 2000 | `data/four_way_split.csv` (`code/four_way.py`) |
 | The HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
 | Appendix B's illustrative instance (durable machines; parameters set from U.S.-like shares: labor 0.456 of a machine's build cost and 0.469 of consumption, machine services 0.196, site 0.065 of the basket, participation 0.602; x* 0.82987 below the ceiling 0.94634, Y 3.01320, support 0.02599 of rent and interest 0.03520) and its automation path (participation 0.56 at eta 1, 0.13 at 0.01); Figure 3's equilibria, w/P_s and N_a/N 2.76/0.60 at baseline, 2.46/0.56 recursive, 2.66/0.59 task automation | `code/appendix_b.py` (`PRINTED`; how it was set is in its comments and STATE.md, Log 2026-11-03); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
 

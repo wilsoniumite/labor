@@ -7,7 +7,7 @@ Claude (Anthropic) and ChatGPT (OpenAI).
 ## The paper
 
 [`pinning/`](pinning/README.md) holds the paper and nothing else: the LaTeX source and
-its six figures, the scripts and vendored data behind every figure and every number in
+its eight figures, the scripts and vendored data behind every figure and every number in
 the text, the computer-algebra and numerical check files, the Lean 4 formalization, and
 the reproduction archive behind the financing and production accounts of Appendix E.
 

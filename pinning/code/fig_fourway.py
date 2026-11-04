@@ -1,5 +1,6 @@
-# fig_fourway.py — the composition of U.S. consumption financing, 1962–2025
-# (Figure 8 of the paper). Reads data/four_way_split.csv, built by four_way.py.
+# fig_fourway.py — the composition of U.S. consumption financing, 1960–2025
+# (Figure 8 of the paper, printed as Figure D.1). Reads data/four_way_split.csv,
+# built by four_way.py.
 # Carved verbatim from the long draft's make_figs.py (its Figure 5 block) on
 # 2026-09-04; same fonts and grid settings, so the PNG was byte-identical until
 # the typography pass of 2026-11-02 (below).
@@ -35,8 +36,11 @@ colors = ["#1a1a3d", "#4c72b0", "#8c2d2d", "#b0803c"]
 for c, lab, col in zip(m.columns, labels, colors):
     ax.plot(m.index, m[c], lw=1.53, label=lab, color=col)
 ax.fill_between(r.index, r["borrowed_min"] * 100, r["borrowed_max"] * 100, alpha=0.13, color="#b0803c")
-ax.axvspan(1998, 2000, color="#4c9c6b", alpha=0.13)
-ax.annotate("1998–2000: the only\nfully tax-financed years", (2000.6, 46), fontsize=8, color="#2c6b47")
+# borrowing is zero in 1960, 1963, 1999 and 2000 (the government current account is
+# in surplus); the note marks the recent pair, the caption lists all four (was
+# "1998–2000: the only fully tax-financed years" until 2026-11-04; 1998 ran a deficit)
+ax.axvspan(1999, 2000, color="#4c9c6b", alpha=0.13)
+ax.annotate("1999–2000: fully\ntax-financed years", (2000.6, 46), fontsize=8, color="#2c6b47")
 for yr in (2009, 2021):
     ax.annotate("", (yr, m.loc[yr, "borrowed_med"] + 1.2), xytext=(yr, m.loc[yr, "borrowed_med"] + 4.5),
                 arrowprops=dict(arrowstyle="->", color="#b0803c", lw=0.88, mutation_scale=8.4))

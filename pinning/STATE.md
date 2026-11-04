@@ -10,8 +10,9 @@ decisions. Checks gate absolutely (`README.md` lists them).
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
-Figure 4 is one panel, the entrant and the trained worker sharing each era's wall, and the
-package is rebuilt with it (Log; branch `claude/keen-cannon-3m2lty`, not yet on `main`). Calibration (c)
+Figure 4 is one panel, the entrant and the trained worker sharing each era's wall, and a
+whole-paper review's reference and stale-passage fixes are in (its other findings are Open 12);
+the package is rebuilt with both (Log; branch `claude/keen-cannon-3m2lty`, not yet on `main`). Calibration (c)
 was ported, reviewed and not adopted (Log, 2026-11-03). The Economic Modelling package is built
 (`paper/submission/em/`; `main` fast-forwarded to it at 6117344; the tag `em-package-2026-11-03`
 could not be pushed from the session, HTTP 403 on tags, so it exists only if she pushes it); she
@@ -173,7 +174,45 @@ both at tag `pre-cleanup-2026-09-04`.
    declares her SEB employment (SEB had no role), as the declarations tool should; (c) none, the
    section is dropped from the title page; (e) "looks good"; (f) her "agreed": the new instance (Log).
    Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission. It now
-   also covers the one-panel Figure 4 and Section 8's new premium sentence (Log, 2026-11-04).
+   also covers the one-panel Figure 4, Section 8's new premium sentence and the review fixes
+   (Log, 2026-11-04).
+
+12. **The whole-paper review (2026-11-04): her calls.** One full read here and three independent
+   reviewers (main-text maths, Appendices B and D, a referee read), every finding re-checked
+   against the source or the data. The equations and proofs of Sections 3–7 and Appendices A–D
+   re-derive, every cross-reference resolves, and the quoted numbers match their files but for
+   those below. References and stale passages are fixed (Log). Open:
+   (a) Table D.1's "≈0.99 by withdrawal rule (2024)" against `lamB_rule` = 1.0 in every year
+       2020–2025 of `data/lambdaB_results.csv` (its script predates the repository): which is right?
+   (b) Figure 6 and the κ headline: the band has 12 specifications through 2020 and 8 from 2021
+       (the economy-wide members end with the NFC structures series), so 0.30 [0.15–0.59] rests on
+       8 and the 1950s comparison on 12; in 2019 the economy-wide members ran about twice the
+       household ones. The caption does not say so: disclose, or compare like with like?
+   (c) Figure 5's legend, "(machine-made goods)" and "(land-priced)", against line 478's caution
+       and Figure 6's land share of housing (0.30–0.50): neutral labels?
+   (d) Section 9 (line 512) states as observed that the human-effort share falls as machine chains
+       shed labor; Appendix F says the measure cannot isolate it, Section 11 calls it open.
+   (e) Proposition E.1(ii)–(iii) needs the substitute H-free with no non-produced input, which is
+       unstated (if it keeps half of H, with sigma_H = 1/2 the limiting share is 0.586, not 1).
+   (f) The transition index: D = phi_C·max(0, 1−κ)² (as printed it rises with κ above one); the
+       comparison assumes a fixed transfer-to-consumption ratio; "model-based-extension central
+       values" fits phi_C only, κ being measured.
+   (g) D.2: the circular share equals the incidence share only if the transfer returns to the
+       taxed workers; with the uniform transfer the employed get N_a/N of it.
+   (h) Section 5's "proves existence and uniqueness": Lemma B.1 proves a unique interior
+       threshold; one sentence (that (25) also excludes the corner and zero-rent equilibria)
+       closes it.
+   (i) Definitions: H is defined by gamma_M = 0 but later includes closure by preference or law
+       (finite gamma); Proposition 1 never assumes differentiability; line 163's "usual
+       indifference condition" fails at the corner where labor holds every contestable task, and
+       "active contestable margin" is undefined.
+   (j) Notation still overloaded: I (identity and income), m (machine and m_w, m_e), alpha in
+       (26), j for goods and for non-produced inputs.
+   (k) Smaller: the data note's "All U.S. figures are gross annual flows computed from BEA
+       national accounts" (Figure 5 is BLS earnings and CPIs); Figure 6's "the Orshansky 1963
+       subsistence bundle" (there are two) and its missing reference (the SSA's copy of the 1965
+       Social Security Bulletin article returned HTTP 403, so no entry was added); "Future Work"
+       after the conclusion.
 
 ## Note on the batteries
 
@@ -184,6 +223,37 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-04 — references and stale passages, from a whole-paper review.** Asked for in session
+  ("Can you fix all the references and stale stuff?") after the review recorded as Open 12.
+  **References.** The four entries uncited since at least the SSRN version are cited again: Diamond
+  and Mirrlees (1971) and Arrow (1951) in Proposition 6's proof, in the long draft's own words (its
+  welfare pair, `../dynamics/latex/main.tex`: "the fixed-factor analogue of production-efficiency
+  logic"; the lump-sum transfer of the second welfare theorem), and Hoynes and Rothstein (2019) and
+  Jones and Marinescu (2022) on Table D.1's Alaska note. New entries: Marx (1867) and Keynes (1936),
+  now cited with years, and Samuels and Senel (2026), BEA WP2026-01, cited in Appendix F and the data
+  note (title and authors from the paper's title page and its suggested citation; the DOI resolves to
+  it; the PDF's metadata names other authors, a template residue). The Orshansky thresholds still have
+  no entry (Open 12k). Figure D.1 is now cited in D.5; line 166's "Section 5 treats that boundary
+  case" is a parenthetical pointer, Appendix E being the treatment. **Stale.** Appendix B's "the
+  purchasing-power and income results apply" was true for the flow instance replaced on 2026-11-03;
+  with interest, labor's share at the baseline is 0.55 where (15) gives 0.81, so it now says the
+  bounds apply, income includes interest, and labor's share still tends to zero. Figure 7's
+  "Markers" are "Solid lines" (the figure has no markers). E.1's proof no longer points at a
+  "displayed split". The data note's notation drops two symbols that appear nowhere (Acemoglu–
+  Restrepo's lambda, T_H) and the phi/lambda remark left from when the shares were lambdas, and names
+  Appendix B's build scalars a, lambda, b instead. Figure D.1's caption and in-figure note gave the
+  zero-borrowing years as 1998–2000; the plotted data have 1960, 1963, 1999 and 2000 (the government
+  current account is in surplus exactly then; 1998 ran a deficit): the caption lists all four and the
+  shaded note marks 1999–2000. Its "approximately one quarter" of transfer financing from ownership
+  taxes is "about a fifth" (mean 19%, range 15–24%). Also the README's numbers table and its figure
+  counts ("six", now "eight"), the main.tex header (appendix numbering; the Appendix B instance) and
+  `code/fig_fourway.py`'s header (1960, not 1962). **Mine, from the Figure 4 change:** line 442 says
+  "which tasks are in H" (Appendix B also calls its worker-dependent ceiling set "closed to
+  machines"), and the premium sentence's subscripts are tr/en, T being the endowment. Word diff
+  against eab8f44: these changes only. 41 pages, no warnings; every Python battery green
+  (`check_interior.py` 112); the package rebuilt (manuscript.tex, Figure_D1.pdf, the preview; the
+  Word files differed only in their creation time and were kept).
 
 - **2026-11-04 — Figure 4 as one panel; one wall per era for both workers.** Asked for in
   session: first whether the entrant's and the trained worker's walls could differ. They cannot:
