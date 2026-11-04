@@ -6,10 +6,12 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-11-03 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+**State as of:** 2026-11-04 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
-Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Calibration (c)
+Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
+Figure 4 is one panel, the entrant and the trained worker sharing each era's wall, and the
+package is rebuilt with it (Log; branch `claude/keen-cannon-3m2lty`, not yet on `main`). Calibration (c)
 was ported, reviewed and not adopted (Log, 2026-11-03). The Economic Modelling package is built
 (`paper/submission/em/`; `main` fast-forwarded to it at 6117344; the tag `em-package-2026-11-03`
 could not be pushed from the session, HTTP 403 on tags, so it exists only if she pushes it); she
@@ -170,7 +172,8 @@ both at tag `pre-cleanup-2026-09-04`.
    ("Drawn" for "Plotted": Figures 1 and 4 are diagrams); (b) her "up to you": the title page
    declares her SEB employment (SEB had no role), as the declarations tool should; (c) none, the
    section is dropped from the title page; (e) "looks good"; (f) her "agreed": the new instance (Log).
-   Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission.
+   Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission. It now
+   also covers the one-panel Figure 4 and Section 8's new premium sentence (Log, 2026-11-04).
 
 ## Note on the batteries
 
@@ -181,6 +184,36 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-04 — Figure 4 as one panel; one wall per era for both workers.** Asked for in
+  session: first whether the entrant's and the trained worker's walls could differ. They cannot:
+  H is closed to machines whoever would do the task, and each worker's ranking by gamma rearranges
+  the same [0, 1] with H last, so an era's wall is at 1 − |H| for both; the two panels had them at
+  0.45/0.25, 0.75/0.50 and 0.94/0.92, which the caption put down to "worker-specific task mixes".
+  Then a one-panel sketch, approved ("I like it, can you make the change"). `code/fig_eras_workers.py`
+  draws one panel: per era the entrant's schedule and wall (the old top panel's), a filled dot for
+  the entrant and an open dot for the trained worker; the trained worker's own schedule, dashed,
+  only for candidate AI, where it holds an interior margin (one schedule cannot carry two interior
+  dots at different wages: the cheaper worker takes every open task). Elsewhere the open dots stand
+  on the walls, above the entrant's schedule. The entrant's industrial dot moves 1.0 → 1.5 (the
+  trained one, 2.85, must clear the schedule's top, 2.52), so the implied premia w_T/w_E run 1.27,
+  1.90, 2.15, 1.38: rising into computing, narrowing under AI. The script asserts the common wall,
+  the premia, the trained schedule weakly above the entrant's and the legend within the printed
+  width; 3.6 in tall (was 5.35). **main.tex** (word diff against 91f10c7: exactly these, 12
+  regions): Section 8 opens "Both face the same wall, since which tasks are closed to machines does
+  not depend on the worker; training changes a worker's schedule and wage." in place of the task
+  mixes; the Figure 4 caption reads the dots, the dashed schedule, the common wall and the premium
+  as the dots' ratio; Section 8's AI passage adds "Where the trained worker ($T$) and the entrant
+  ($E$) both hold contestable margins against the same machine, Proposition 1(i) applies to each and
+  the rental cancels: $w_T/w_E=\gamma_T(x_T^*)/\gamma_E(x_E^*)$."; Appendix A.1's heterogeneous
+  workers paragraph says the figure shows "two types facing a common wall". 41 pages, Figure 4
+  still on page 18 (TeX Live 2023 in the session, where the unchanged source also gives 41). The
+  Economic Modelling package rebuilt: manuscript.tex, Figure_4.pdf and the preview change; the
+  three Word files differed only in their creation time and were kept. Every Python battery green
+  (`check_interior.py` 112, once the caption kept "Drawn by code written with Claude (Anthropic).}"
+  on one line, as Q6 reads it); Lean not rebuilt (nothing it states changed). Run here, the effort
+  batteries rewrite 12 tracked CSVs in `effort/data/` (CRLF to LF, last-digit float noise); those
+  were restored, not committed. On branch `claude/keen-cannon-3m2lty`, not on `main`.
 
 - **2026-11-03 — the repository brought up to the package.** Her go ("go ahead with the repo"; she
   revises SSRN herself). The paper's date reads November 2026 (was September 23, 2026; the anonymized
