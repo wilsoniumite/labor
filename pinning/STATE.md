@@ -446,6 +446,21 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
       rent taxation.
     - New text is 445 words. The only references new to the paper are Keynes (1930), Leontief
       (1983) and Korinek and Juelfs (2022).
+  - **Left there for now.** Stella: "It's OK, I'll make some revisions down the line but lets keep
+    going". The source checks on v2 wait for those revisions.
+
+  **The model section opens with a description, not the primitives (same day).** Stella: "Opening
+  with the primitives is a bit dense, Lucas actually starts with a description of the economy and
+  my memory is that that is what magnus wanted too. 'who are the agents, etc etc'". Lucas (1978)
+  does exactly this.
+  - His Section 2, "Description of the economy", is informal.
+  - His Section 3, "Definition of equilibrium", opens: "The economy described in the preceding
+    section is specified by the functions U and F and the number beta."
+  - The model section follows him. §2 is a description of the economy: the agents, what each does,
+    then what is easy and what is hard. §3 is the definition of equilibrium: the primitives
+    sentence in Lucas's form, then the assumptions and definitions. The results start at §4, so
+    later sections renumber by one.
+  - Draft: `design/section2_description.md` (scratchpad).
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
