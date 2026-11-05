@@ -181,6 +181,20 @@ def build():
     pce = fred_repo("pinning/cache/PCECA.csv", "PCECA", "housing_share_pce")
     p["housing_share_pce"] = hs / pce
 
+    # ---- the split (her calls, 2026-11-05): the production and nonsupervisory group (AHETPI's) as a share of private
+    # employment, which sets the two types' sizes; and the pay gap, all private employees' average hourly wage over
+    # that group's, a check only. Everyone is taken to work that group's weekly hours, so only the gap's change is read.
+    pns = fred_fetch("CES0500000006", "pns_share")
+    priv = fred_fetch("USPRIV", "pns_share, pay_gap")
+    hours = fred_fetch("AWHNONAG", "pay_gap")
+    wages = fred_fetch("A132RC1A027NBEA", "pay_gap")             # private wages and salaries, billions, annual
+    ahe = fred_repo("pinning/effort/data/raw/AHETPI.csv", "AHETPI", "pay_gap")
+    p["pns_share"] = pns / priv
+    gap = (wages * 1e9 / (priv * 1e3 * hours * 52.0)) / ahe
+    p["pay_gap"] = gap / gap.loc[1964]
+    p["ahe_all"] = fred_fetch("CES0500000003", "ahe_all")        # all private employees' hourly earnings, from 2006: the
+                                                                  # pay gap's anchor (checks/check_panel.py I8)
+
     p = p.loc[YEARS]
     p.to_csv(os.path.join(DATA, "panel.csv"))                    # full precision: anchors are checked exactly
     man = pd.DataFrame(MANIFEST).drop_duplicates("file")

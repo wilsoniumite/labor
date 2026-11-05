@@ -14,6 +14,8 @@
 # year; the band is the weak estimate's and applies only to WEAK years), S2 (the 1981–85 floor first 5%: the five-year
 # adaptive expectation lags the disinflation; found 4.9%), I4 (first exact; chains.json and calibration_c.json store
 # the same number one unit apart in the last bit, ...405 and ...404).
+# Added with the split (2026-11-05), after its series were first built and printed: C5, I7, I8, S7, S8. I8's tolerance
+# was set before its anchor series was fetched.
 # Run from us-record/:  python3 checks/check_panel.py      Exit 0 only if every check passes.
 
 import hashlib
@@ -68,6 +70,11 @@ tv = P["theta_V"].dropna()
 check("C4 θ_V is measured from 1967 only: the six benchmark years 1967–1992 and every year 1997–2023, nothing imputed",
       list(tv.index) == [1967, 1972, 1977, 1982, 1987, 1992] + list(range(1997, 2024)), f"{len(tv)} years")
 
+SPLIT = ["pns_share", "pay_gap"]
+gaps = {c: [y for y in range(1964, 2025) if pd.isna(P.loc[y, c])] for c in SPLIT}
+check("C5 the split's two series are complete over 1964–2024 and absent before (BLS's production and nonsupervisory "
+      "series start in 1964)", not any(gaps.values()) and P.loc[:1963, SPLIT].isna().all().all(), f"gaps: {gaps}")
+
 # ---- I: identities and anchors
 ratio = P["employed"] / P["adults"]
 gap = (P["emp_rate"] - ratio).abs().loc[1950:2024].max()
@@ -101,6 +108,34 @@ check("I6 the real rate is the Aaa yield less the mean log CPI inflation of the 
       "files (to 1e-9), and present in exactly the same years", (P["real_rate"][both] - rr_re[both]).abs().max() < 1e-9
       and (P["real_rate"].notna() == rr_re.notna()).all(), f"{int(both.sum())} years")
 
+def fred_cache(path, sid):
+    df = pd.read_csv(path, parse_dates=["observation_date"])
+    return pd.Series(pd.to_numeric(df[sid], errors="coerce").values, index=df["observation_date"]).dropna()
+
+
+def monthly_complete(s):
+    g = s.groupby(s.index.year)
+    return g.mean()[g.count() == 12]
+
+
+ahe_tpi = raw_annual("pinning/effort/data/raw/AHETPI.csv", "AHETPI")
+priv = monthly_complete(fred_cache(os.path.join(ROOT, "cache", "USPRIV.csv"), "USPRIV"))
+hrs = monthly_complete(fred_cache(os.path.join(ROOT, "cache", "AWHNONAG.csv"), "AWHNONAG"))
+wsal = fred_cache(os.path.join(ROOT, "cache", "A132RC1A027NBEA.csv"), "A132RC1A027NBEA")
+wsal.index = wsal.index.year
+g = (wsal * 1e9 / (priv * 1e3 * hrs * 52.0) / ahe_tpi).dropna()
+g = (g / g.loc[1964]).reindex(P.index)
+both = P["pay_gap"].notna() & g.notna()
+check("I7 the pay gap is private wages and salaries (NIPA) over private jobs times the production group's weekly hours "
+      "times 52, over that group's hourly earnings, 1964 = 1, recomputed from the raw files (to 1e-9), in the same years",
+      (P["pay_gap"][both] - g[both]).abs().max() < 1e-9 and (P["pay_gap"].notna() == g.notna()).all(),
+      f"{int(both.sum())} years")
+ces = np.log(P.loc[2024, "ahe_all"] / ahe_tpi.loc[2024]) - np.log(P.loc[2007, "ahe_all"] / ahe_tpi.loc[2007])
+ours = np.log(P.loc[2024, "pay_gap"] / P.loc[2007, "pay_gap"])
+check("I8 the pay gap's change 2007–2024 is within 0.05 (log) of BLS's own: all private employees' average hourly "
+      "earnings (CES0500000003, from 2006) over the production group's", abs(ours - ces) < 0.05,
+      f"ours {ours:+.4f}, BLS's {ces:+.4f}")
+
 # ---- B: bands
 inside = lambda v, lo, hi: ((v >= lo - 1e-12) & (v <= hi + 1e-12)).loc[v.dropna().index].all()  # noqa: E731
 weak = P["labour_share_c_tier"] == "WEAK"
@@ -131,6 +166,12 @@ check("S5 housing's share of consumer spending within [0.10, 0.20] every year",
       f"range {P['housing_share_pce'].min():.3f}..{P['housing_share_pce'].max():.3f}")
 check("S6 the employment rate within [0.55, 0.66] every year", P["emp_rate"].dropna().between(0.55, 0.66).all(),
       f"range {P['emp_rate'].min():.3f}..{P['emp_rate'].max():.3f}")
+
+check("S7 the production and nonsupervisory group's share of private jobs within [0.75, 0.88] every year (about four "
+      "in five)", P["pns_share"].dropna().between(0.75, 0.88).all(),
+      f"range {P['pns_share'].min():.4f}..{P['pns_share'].max():.4f}")
+check("S8 the pay gap within [0.9, 1.6] every year", P["pay_gap"].dropna().between(0.9, 1.6).all(),
+      f"range {P['pay_gap'].min():.4f}..{P['pay_gap'].max():.4f}")
 
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")

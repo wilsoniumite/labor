@@ -19,3 +19,9 @@ paths/cache/PRS85006173.csv,f3b9ce09c3d14893e94e7eeaffd4074f6598df7dcd893ba52335
 paths/cache/LNS12300060.csv,8d0caa9f5a6949ca57f1ecb8da585160fb73b615187e451eeb96b98423b730c7,repository file (FRED LNS12300060),prime_emp_rate,2026-11-05
 pinning/cache/DHSGRC1A027NBEA.csv,5aa8463f6674632731a6631f8a4c3126490511d0bbee9e59e3e83f5e9d9eb1a2,repository file (FRED DHSGRC1A027NBEA),housing_share_pce,2026-11-05
 pinning/cache/PCECA.csv,2b8d07359715c57067f3fdd4efcea79c3a3ad9e5370a5d46db73ce1e11f0eaf5,repository file (FRED PCECA),housing_share_pce,2026-11-05
+us-record/cache/CES0500000006.csv,397b79eb0ad8f96fb0a314592b62596fed390e78307b87c28aa2667cfb42ce92,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES0500000006,pns_share,2026-11-05
+us-record/cache/USPRIV.csv,16c50d5a3928b8cd53fc1ede556dbd8a84c44c78da60e4ca5278c7476c0cba09,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=USPRIV,"pns_share, pay_gap",2026-11-05
+us-record/cache/AWHNONAG.csv,737d9ed64fbddc7cddd2a086c98b2ccafc7e2ddbce6fdaaf95f2352da9d81054,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=AWHNONAG,pay_gap,2026-11-05
+us-record/cache/A132RC1A027NBEA.csv,2df75da0730d9edeeb16aef5568968ebfc96ed3a74099bb56a03b417329a1e2e,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=A132RC1A027NBEA,pay_gap,2026-11-05
+pinning/effort/data/raw/AHETPI.csv,b430b72ba8db9d8ff4babf922be36c4f7d0741d0dc403a67ced52ac5315e2a29,repository file (FRED AHETPI),pay_gap,2026-11-05
+us-record/cache/CES0500000003.csv,15ac5d3097f5cb2e7e66b8dd8ef04b91316cd49213aaa3d407fec928857ea35d,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES0500000003,ahe_all,2026-11-05

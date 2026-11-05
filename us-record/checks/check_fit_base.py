@@ -5,7 +5,8 @@
 #   S  the search: every start ended in a convergence status, and the reported best is the least misfit of them all
 #   A  the accounting diagnostic: where it found a capability path, it reproduces the fork in that year
 # A variant (decision 13, the blind protocol): python3 checks/check_fit_base.py --results fit_A --blind prints PASS or FAIL
-# only, no fit numbers; the variant's measurement settings are read from its results file.
+# only, no fit numbers; the variant's settings (A's shelter, the split and its free numbers) are read from its results
+# file. For the split, E1 asks both groups' markets to clear.
 # Run from us-record/:  python3 checks/check_fit_base.py      Exit 0 only if every check passes.
 
 import json
@@ -27,6 +28,10 @@ NAME = ARGS[ARGS.index("--results") + 1] if "--results" in ARGS else "fit_base"
 BLIND = "--blind" in ARGS
 R = json.load(open(os.path.join(ROOT, "results", f"{NAME}.json")))
 F.SHELTER_LAND_SHARE = R["meta"].get("shelter_land_share")
+F.SPLIT_FROM = R["meta"].get("split_from")
+if F.SPLIT_FROM is not None:
+    F.S_N = R["meta"]["s_n"]
+F.NAMES[:] = R["meta"]["names"]
 RESULTS = []
 
 
@@ -62,9 +67,15 @@ check("R3 the misfit is the mean of the five series' misfits", abs(np.mean(list(
 
 # ---- E: equilibria
 worst = 0.0
-for e in F.economies(par):
-    q = F.pm.solve(e)
-    worst = max(worst, abs(q["nD"] - q["nS"]) / q["nD"])
+if F.SPLIT_FROM is None:
+    for e in F.economies(par):
+        q = F.pm.solve(e)
+        worst = max(worst, abs(q["nD"] - q["nS"]) / q["nD"])
+else:
+    for i, e in enumerate(F.economies(par)):                 # the stored margins, put back into the split's equations
+        comp = float(np.exp(-par["g_c"] * max(0.0, F.YEARS[i] - F.SPLIT_FROM)))
+        q = F.sm.parts(e, F.S_N, comp, stored["x"].iloc[i], stored["xn"].iloc[i])
+        worst = max(worst, abs(q["ndr"] - q["nsr"]) / q["ndr"], abs(q["ndn"] - q["nsn"]) / q["ndn"])
 check("E1 every year is an interior equilibrium: labour demand equals supply (relative 1e-9)", worst < 1e-9, f"{worst:.1e}")
 
 # ---- S: the search

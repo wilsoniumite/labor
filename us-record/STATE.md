@@ -12,7 +12,8 @@ functions, notebook-cell style; `tqdm` on any outer loop that takes more than a 
 gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.md`) and drawn
 (`code/fig_panel.py` -> `figures/fig_panel.png`). Breakpoint A passed (her call: prime-age employment targeted).
 Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.json`, gated by `checks/check_fit_base.py`
-9/9, drawn in `figures/fig_fit_base.png`). **Waiting at breakpoint B (hers, the stop point).**
+9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way, blind (decision 13): A kept; the split
+(decision 14) running blind.
 
 ## The three models
 
@@ -64,11 +65,20 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
     unopened; she says better or worse. That verdict replaces the mechanical 20% rule of decision 4. The base fit
     (Log 4) was seen before this, and serves as the reference.
 
+14. **People are split as BLS's wage data split them** (her calls, 2026-11-05: "wage data split, routine work all, gap
+    as a check"): the production and nonsupervisory group (about four in five private jobs; its hourly earnings, AHETPI,
+    are the wage every wage target reads) and managers and supervisors, each working its own block of tasks against
+    machines (`code/split_model.py`). Computing makes machines need exp(-g_c (t - 1970)) of their service at every task
+    of the first group's block from 1970 (her "from around 1970"; the year is set, not fitted). The groups' sizes are set
+    at the first group's mean share of private jobs, 1964–2024 (0.8185), not fitted; computing's pace g_c is the one new
+    free number. The pay gap (all employees' average hourly wage over the first group's) and the group's share of jobs
+    are checks, never targeted. With g_c = 0 the split is the one-group model exactly. It extends A (decision kept at
+    Log 6), and is judged against A.
+
 ## Next
 
-1. **Splitting people** (her question, 2026-11-05): computing from about 1970 hit routine cognitive work, which
-   affects some people more than others. The model has one kind of worker; a split is to be designed with her before
-   anything is built.
+1. **The split's blind run** (fifteen starts in parallel, about an hour), then its blind checks and its figure
+   against A (`code/fig_compare.py fit_split "A + split" --ref fit_A --ref-label A`), sent to her unopened.
 
 ## Log
 
@@ -118,3 +128,14 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
 6. **2026-11-05 — A kept** (her verdict on `figures/fig_fit_A.png`). Her reading of it: the model's wage in durables does
    not kink up, nor its wage in shelter kink down and then flatten, as the data do; nothing obvious fixes that. Her
    question next, on its own merit: are people split yet, since computing (from about 1970) hit routine cognitive work?
+7. **2026-11-05 — the split, run blind** (decision 14). Data: five new public fetches from FRED (CES0500000006, USPRIV,
+   AWHNONAG and A132RC1A027NBEA; CES0500000003 as an anchor), giving the production group's share of private jobs
+   (0.83 in 1964, between 0.81 and 0.83 since 1980) and the pay gap (1.00 in 1964, 1.22 in 1990, 1.35 in 2024). The pay gap takes
+   everyone to work the production group's weekly hours, and NIPA wages include bonuses and exercised options, so only
+   its change is read; over 2007–2024 that change is within 0.025 (log) of BLS's own all-employee earnings (I8). The
+   panel battery gained five checks, 26/26. The model: `checks/check_split_model.py` 7/7 at its first run (without
+   computing, the split equals the pinning model to 1e-13 on 87 economies at three group sizes; with computing both
+   markets clear, income equals consumption, and the first group's wage falls below the second's). The fit: A's settings
+   and targets unchanged, ten free numbers, fifteen starts (A's best with three paces of computing; the twelve 1950
+   starts), run in parallel with the output unread (`code/fit_base.py --split 1970 --ref fit_A --quiet`). The first
+   attempt, 39 starts one at a time, was stopped for time before it finished, unread.

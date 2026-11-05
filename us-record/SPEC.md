@@ -79,7 +79,9 @@ The model must get these roughly right without being fitted to them:
   gamma(x*) (`../companion/data/wc_grid.csv`);
 - the nonfarm business labour share (PRS85006173), on its own basis;
 - land values and housing's share of spending (Z.1 and BEA series in `../pinning/cache/`);
-- the 16+ employment rate (EMRATIO): the targeted rate plus demography (ageing, school), which the model leaves out.
+- the 16+ employment rate (EMRATIO): the targeted rate plus demography (ageing, school), which the model leaves out;
+- with the split (J below): the pay gap, all private employees' average hourly wage over the production and
+  nonsupervisory group's, 1964–2024, and that group's share of private jobs.
 
 ## 6. Additions and rivals, under one rule
 
@@ -108,6 +110,14 @@ Rivals, under the same rule so the record can favour them:
 - **H. Time to build**: investment that runs ahead of the margin. Only if the record's investment swings force it.
 - **I. The required return following the market** (decision 11, 2026-11-05): rho_t passing through the measured real
   long rate, against the base model's constant rho.
+
+Her additions in Phase 3, tried on their own merit (decision 12):
+
+- **J. People split in two, and computing** (her question and calls, 2026-11-05; decision 14): BLS's production and
+  nonsupervisory employees (the group whose wage every wage target reads) and everyone else in private jobs, managers
+  and supervisors, each working its own block of tasks; computing, from 1970, makes machines better at every task of the
+  first group's block. One new free number (computing's pace); the groups' sizes set from the data. Nests the one-group
+  model exactly when computing is off (`checks/check_split_model.py`).
 
 ## 7. What would count against the mechanism
 

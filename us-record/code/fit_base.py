@@ -27,6 +27,14 @@
 # (SPEC.md section 8), year-by-year accounting: the capability eta_t that would reproduce the fork exactly in each year,
 # everything else at the fit, against the fitted clock.
 #
+# THE SPLIT (her calls, 2026-11-05; --split 1970): people in two groups as the wage data split them, the production and
+# nonsupervisory group (whose wage, AHETPI, is the wage the targets read) and managers and supervisors, each working its
+# own block of tasks (code/split_model.py). Computing makes machines need comp_t = exp(-g_c max(0, t - 1970)) of their
+# service at every task of the first group's block ("routine work all"); g_c is the one new free number. The groups'
+# sizes are set, not fitted: managers and supervisors are S_N of the population, their mean share of private employment
+# 1964-2024. The targets and the misfit are unchanged, read for the first group's wage; labour's share, employment and θ_V
+# take both groups. The pay gap (all employees' average wage over the first group's, 1964 = 1) is a check only.
+#
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
 import json
@@ -34,6 +42,7 @@ import os
 import sys
 import time
 from dataclasses import replace
+from multiprocessing import Pool
 
 import numpy as np
 import pandas as pd
@@ -45,6 +54,9 @@ REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "pinning", "code"))
 import pinning_model as pm  # noqa: E402
 
+sys.path.insert(0, os.path.join(ROOT, "code"))
+import split_model as sm  # noqa: E402
+
 PANEL = pd.read_csv(os.path.join(ROOT, "data", "panel.csv")).set_index("year")
 YEARS = list(range(1950, 2025))                       # every targeted series is complete here (checks/check_panel.py C1)
 SERIES = ["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"]
@@ -52,10 +64,12 @@ TOL_LOG = {"wage_goods": 0.05, "wage_shelter": 0.05}
 TOL_LEVEL = {"labour_share_c": 0.01, "prime_emp_rate": 0.015, "theta_V": 0.02}
 SET = dict(b=0.4, g0=0.01, g1=0.99)
 SHELTER_LAND_SHARE = None                             # None: shelter as pure site (the base); a share: addition A
+SPLIT_FROM = None                                     # None: one kind of worker; a year: the split, computing from it
+S_N = float(1.0 - PANEL.loc[1964:2024, "pns_share"].mean())   # the split's managers and supervisors (set)
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
-              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.1))
+              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.1), g_c=(0.0, 0.25))
 
 D = PANEL.loc[YEARS]
 N_T = (D["adults"] / D.loc[1950, "adults"]).values
@@ -83,16 +97,31 @@ def economies(par, eta=None):
 
 def model_path(par, eta=None):
     """Each year's equilibrium, read as the five targeted objects. None if any year has no interior equilibrium."""
-    rows = []
-    for e in economies(par, eta):
+    rows, guess = [], None
+    for i, e in enumerate(economies(par, eta)):
         try:
-            q = pm.solve(e)
+            if SPLIT_FROM is None:
+                q = pm.solve(e)
+            else:                                         # each year solved from the year before's margins
+                comp = float(np.exp(-par["g_c"] * max(0.0, YEARS[i] - SPLIT_FROM)))
+                q = sm.solve(e, S_N, comp, guess)
+                guess = (q["xr"], q["xn"])
         except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
             return None
-        rows.append(dict(x=q["x"], v=q["v"], p=q["p"], Ps=q["Ps"], wage_goods_raw=q["v"] / q["p"], wage_shelter_raw=q["v"],
-                         labour_share_c=q["labour_share_bea"], prime_emp_rate=q["participation"], theta_V=q["theta_V"],
-                         gamma=q["gamma"], x_ceiling=q["x_ceiling"]))
+        if SPLIT_FROM is None:
+            rows.append(dict(x=q["x"], v=q["v"], p=q["p"], Ps=q["Ps"], wage_goods_raw=q["v"] / q["p"],
+                             wage_shelter_raw=q["v"], labour_share_c=q["labour_share_bea"],
+                             prime_emp_rate=q["participation"], theta_V=q["theta_V"], gamma=q["gamma"],
+                             x_ceiling=q["x_ceiling"]))
+        else:                                             # the targets read the first group's wage (AHETPI's)
+            rows.append(dict(x=q["xr"], xn=q["xn"], v=q["vr"], vn=q["vn"], p=q["p"], Ps=q["Ps"],
+                             wage_goods_raw=q["vr"] / q["p"], wage_shelter_raw=q["vr"],
+                             labour_share_c=q["labour_share_bea"], prime_emp_rate=q["participation"],
+                             theta_V=q["theta_V"], gamma=q["gr"], comp=comp, pay_gap_raw=q["pay_gap"],
+                             routine_share=q["routine_share"]))
     m = pd.DataFrame(rows, index=YEARS)
+    if SPLIT_FROM is not None:                            # the checks, read as the data read them
+        m["pay_gap"] = m["pay_gap_raw"] / m.loc[1964, "pay_gap_raw"]
     if SHELTER_LAND_SHARE is not None:
         # Addition A: shelter is a built good (priced at p) and site (r = 1) in fixed proportions, the site's value share
         # SHELTER_LAND_SHARE in the last year; earlier years' share then follows the model's own prices.
@@ -166,6 +195,25 @@ def starts():
     return out
 
 
+def split_starts(ref):
+    """The split's starts: the best fit of the model it extends (results/<ref>.json, read by the code, not shown; the
+    split with g_c = 0 is that model exactly) and the 1950 starts above (1950 is before computing, so the one-type
+    calibration is the split's too): the first with computing's pace 0.01, 0.03 or 0.06 a year, the others with 0.03
+    (the fit moves it)."""
+    best = json.load(open(os.path.join(ROOT, "results", f"{ref}.json")))["best"]["par"]
+    return [dict({n: best[n] for n in NAMES if n != "g_c"}, g_c=g) for g in (0.01, 0.03, 0.06)] + \
+        [dict(s, g_c=0.03) for s in starts()]
+
+
+def run_start(s):
+    """One start, fitted; continued once from where it stopped if it hit the iteration cap."""
+    par, mis, nfev, status = fit_from(s)
+    if status == 0:
+        par, mis, more, status = fit_from(par)
+        nfev += more
+    return dict(start=s, par=par, misfit=mis, nfev=nfev, status=status)
+
+
 def accounting(par):
     """Diagnostic only: in each year, the capability eta_t that reproduces the fork (wage_goods / wage_shelter, i.e.
     p_1950 / p_t) exactly, everything else at the fit and 1950 at the fitted clock's value (1)."""
@@ -198,25 +246,28 @@ def accounting(par):
 if __name__ == "__main__":
     # python3 code/fit_base.py                                   the base model -> results/fit_base.json
     # python3 code/fit_base.py --shelter-land-share 0.4 --out fit_A   addition A -> results/fit_A.json
+    # python3 code/fit_base.py --shelter-land-share 0.4 --split 1970 --ref fit_A --out fit_split --quiet
+    #                                                             the split on top of A -> results/fit_split.json
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
+    REF = args[args.index("--ref") + 1] if "--ref" in args else None
     if "--shelter-land-share" in args:
         SHELTER_LAND_SHARE = float(args[args.index("--shelter-land-share") + 1])
+    if "--split" in args:
+        SPLIT_FROM = int(args[args.index("--split") + 1])
+        NAMES.append("g_c")
     t0 = time.time()
-    results = []
-    for s in tqdm(starts(), desc="starts"):
-        par, mis, nfev, status = fit_from(s)
-        if status == 0:                                   # stopped at the iteration cap: continued once from there
-            par, mis, more, status = fit_from(par)
-            nfev += more
-        results.append(dict(start=s, par=par, misfit=mis, nfev=nfev, status=status))
+    todo = starts() if SPLIT_FROM is None else split_starts(REF)
+    with Pool(min(4, os.cpu_count() or 1)) as pool:        # the starts in parallel; each is deterministic
+        results = list(tqdm(pool.imap(run_start, todo), total=len(todo), desc="starts"))
     results.sort(key=lambda r: r["misfit"])
     best = results[0]
     m = model_path(best["par"])
-    acc = accounting(best["par"]) if SHELTER_LAND_SHARE is None else None   # the diagnostic reads the base mapping
+    acc = accounting(best["par"]) if SHELTER_LAND_SHARE is None and SPLIT_FROM is None else None   # the base mapping's
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
-                  shelter_land_share=SHELTER_LAND_SHARE,
+                  shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM,
+                  s_n=None if SPLIT_FROM is None else S_N, ref=REF,
                   names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),
         starts=[dict(start=r["start"], par=r["par"], misfit=r["misfit"], nfev=r["nfev"], status=r["status"])

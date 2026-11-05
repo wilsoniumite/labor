@@ -38,6 +38,23 @@ Together, `wage_goods` over `wage_shelter` is the deflator fork: x4.8 over 1964�
 | `emp_rate` | civilian employment over the civilian noninstitutional population 16+ (EMRATIO; targeted until breakpoint A) | the targeted rate plus demography (ageing, school), which the model leaves out |
 | `housing_share_pce` | housing and utilities services over all consumer spending (BEA) | shelter's share of the basket, structures and site |
 
+## The split (her calls, 2026-11-05)
+
+People in two groups as BLS's wage data split them: the production and nonsupervisory group (about four in five private
+jobs; the group whose hourly earnings, AHETPI, every wage target reads) and everyone else in private jobs, managers and
+supervisors. Each works its own block of tasks (`code/split_model.py`).
+
+| Column | Data | Model | Years |
+|---|---|---|---|
+| `pns_share` | the production and nonsupervisory group's share of private jobs (CES0500000006 over USPRIV) | its mean over 1964–2024, 0.8185, sets the groups' sizes: managers and supervisors are s_N = 0.1815 of the population and of the final good's tasks, and supply that share of the machine chain's hours. A set input, not a target; the model's own share of employment, n_R / (n_R + n_N), is a check | 1964–2025 |
+| `pay_gap` | all private employees' average hourly wage over the production group's: NIPA private wages and salaries (A132RC1A027NBEA) over private jobs (USPRIV) times that group's weekly hours (AWHNONAG) times 52, over its hourly earnings (AHETPI); 1964 = 1 | (n_R v_R + n_N v_N) / ((n_R + n_N) v_R), 1964 = 1. A check, never targeted | 1964–2025 |
+| `ahe_all` | all private employees' average hourly earnings (CES0500000003), from March 2006 | none: the pay gap's anchor (`checks/check_panel.py` I8) | 2007–2025 |
+
+Caveats on the pay gap, which is why only its change is read: everyone is taken to work the production group's weekly hours
+(managers work longer, so the level overstates their hourly pay); NIPA wages include bonuses and exercised stock options,
+which CES hourly earnings leave out. Over 2007–2024 its change is within 0.025 (log) of BLS's own all-employee measure
+(I8).
+
 ## Choices made in Phase 1, with their reasons
 
 1. **Complete calendar years only** (the repository's rule): a monthly series' year needs all twelve months. October 2025 was
