@@ -471,6 +471,10 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     - the land tax: George (1879);
     - the price system: Leontief (1936) and Sraffa (1960).
     - All seven are already in the paper's references, so none is new.
+  - **Trimmed (v3).** Stella: "no lewis, no ricardo, no george. I guess I just wanted task model and
+    cost recursion to get their citations". The description cites only Zeira (1998) with Acemoglu
+    and Restrepo (2018), and Leontief (1936) with Sraffa (1960). Ricardo (1817) was cited only in
+    the cut Section 2, so it leaves the references unless a later section uses it.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
