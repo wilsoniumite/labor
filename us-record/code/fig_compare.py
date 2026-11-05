@@ -147,9 +147,10 @@ if BASKET:
     ax.plot(D.index, rw / rw.iloc[0], color=S1, lw=1.8, label="real hourly wage (CPI)")
     ax.plot(MV.index, MV["utility"], color=S2, lw=1.8, label="the basket's utility (set)")
     ax.legend(frameon=False, loc="lower right", fontsize=8)
+    knots = ug.get("knots", [1950, ug.get("until")])
     frame(ax, "The basket's utility, 1950 = 1",
-          f"Set: rising {ug['growth']:.1%} a year to {ug['until']}, as the production\nworker's real wage did; "
-          "held after.")
+          f"Set: through the production worker's real wage at {', '.join(str(k) for k in knots)},\n"
+          "straight between, held after.")
 
 fig.suptitle(f"{LABEL} against {REF_LABEL} and the US record, 1950–2024: misfit {REF_LABEL} {B['best']['misfit']:.1f}, "
              f"{LABEL} {V['best']['misfit']:.1f}", x=0.01, ha="left", fontsize=10.5, fontweight="bold", color=INK)

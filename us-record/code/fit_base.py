@@ -44,9 +44,10 @@
 # utility; as goods cheapen, a basket holds more goods and less site (pinning_model.BasketEconomy: CES at constant
 # utility, one unit of goods and h of site at the model's own 1950 price). The elasticity is set, not fitted: one minus
 # the slope of the log odds of housing's share of consumer spending on the log of shelter's price over durables', all
-# complete years 1950–2024 (SIGMA_SET). The basket's utility rises until 1970 and is held after (her note: "by most
-# counts it was rising until then"), at the pace the production worker's real hourly wage over the all-items CPI rose
-# over 1950–1970 (U_GROWTH, 2.1% a year; 0.1% a year over 1970–2019).
+# complete years 1950–2024 (SIGMA_SET). The basket's utility moves in straight lines (in logs) between knots, through the
+# production worker's real hourly wage over the all-items CPI at each knot, and is held after the last: knots 1950 and
+# 1970 (her note: "by most counts it was rising until then": 2.1% a year, then held), or with --utility-knots
+# 1950,1970,1990,2024 (her call: "turning around in 1990": falling 1970–1990, rising after).
 #
 # THE PINNED START (her suggestion, 2026-11-05; --pin-start): the model's 1950 prime-age employment is the data's. The
 # work cost's scale chi_max is then set by 1950 each time the path is solved (pinned_chi), not fitted: one free number
@@ -90,9 +91,15 @@ SIGMA = None                                          # None: the fixed basket; 
 _HS = PANEL.loc[1950:2024, "housing_share_pce"]
 _REL = np.log(PANEL.loc[1950:2024, "wage_goods"] / PANEL.loc[1950:2024, "wage_shelter"])   # shelter's price / durables'
 SIGMA_SET = float(1.0 - np.polyfit(_REL.values, np.log(_HS / (1.0 - _HS)).values, 1)[0])   # the share regression
-UTILITY_UNTIL = 1970                                  # the basket's utility rises until then, and is held after
+UTILITY_KNOTS = [1950, 1970]                          # the basket's utility: straight (in logs) between these, held after
 PIN_START = False                                     # True: chi_max set so that 1950's prime-age employment is the data's
-U_GROWTH = float(np.log(PANEL.loc[UTILITY_UNTIL, "real_wage_cpi"] / PANEL.loc[1950, "real_wage_cpi"]) / (UTILITY_UNTIL - 1950))
+
+
+def utility_path(knots):
+    """The basket's utility each year: through the real wage over the all-items CPI at each knot (1950 = 1), straight in
+    logs between knots, held after the last."""
+    vals = np.log(PANEL.loc[knots, "real_wage_cpi"].values / PANEL.loc[1950, "real_wage_cpi"])
+    return np.exp(np.interp(np.array(YEARS, dtype=float), np.array(knots, dtype=float), vals))
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
@@ -122,7 +129,7 @@ def economies(par, eta=None, p_ref=None):
     kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
     if SIGMA is not None and p_ref is not None:
         kind, extra = pm.BasketEconomy, dict(cap=1.0 if CAP is None else CAP, sigma=SIGMA, p_ref=p_ref)
-        util = np.exp(U_GROWTH * (np.minimum(np.array(YEARS), UTILITY_UNTIL) - 1950.0))
+        util = utility_path(UTILITY_KNOTS)
         return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
                      chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra, utility=float(util[i]))
                 for i in range(len(YEARS))]
@@ -336,6 +343,8 @@ if __name__ == "__main__":
         CAP = CAP_SET
     if "--basket" in args:
         SIGMA = SIGMA_SET
+    if "--utility-knots" in args:
+        UTILITY_KNOTS = [int(y) for y in args[args.index("--utility-knots") + 1].split(",")]
     if "--pin-start" in args:
         PIN_START = True
         NAMES.remove("chi_max")
@@ -357,7 +366,7 @@ if __name__ == "__main__":
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
                   shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP, sigma=SIGMA,
-                  utility=None if SIGMA is None else dict(growth=U_GROWTH, until=UTILITY_UNTIL), pin_start=PIN_START,
+                  utility=None if SIGMA is None else dict(knots=UTILITY_KNOTS), pin_start=PIN_START,
                   s_n=None if SPLIT_FROM is None else S_N, ref=REF,
                   names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),

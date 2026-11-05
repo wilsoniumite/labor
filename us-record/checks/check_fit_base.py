@@ -33,6 +33,8 @@ F.SPLIT_FROM = R["meta"].get("split_from")
 F.CAP = R["meta"].get("cap")
 F.SIGMA = R["meta"].get("sigma")
 F.PIN_START = bool(R["meta"].get("pin_start"))
+U = R["meta"].get("utility") or {}
+F.UTILITY_KNOTS = U.get("knots", [1950, U["until"]] if "until" in U else F.UTILITY_KNOTS)   # older runs stored the kink year
 if F.SPLIT_FROM is not None:
     F.S_N = R["meta"]["s_n"]
 F.NAMES[:] = R["meta"]["names"]

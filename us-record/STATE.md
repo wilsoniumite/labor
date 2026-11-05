@@ -12,8 +12,8 @@ functions, notebook-cell style; `tqdm` on any outer loop that takes more than a 
 gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.md`) and drawn
 (`code/fig_panel.py` -> `figures/fig_panel.png`). Breakpoint A passed (her call: prime-age employment targeted).
 Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.json`, gated by `checks/check_fit_base.py`
-9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way: the cap, the basket and the pinned start kept
-or proposed; the split shelved; dropping A recommended (Log 11), for her call.
+9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way: the kept model is the base with the cap, the
+basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utility turn shelved).
 
 ## The three models
 
@@ -108,16 +108,23 @@ or proposed; the split shelved; dropping A recommended (Log 11), for her call.
     work cost's scale chi_max is set each time so that the model's 1950 prime-age employment is the data's
     (`fit_base.py --pin-start`), one free number fewer. Without A it costs nothing (misfit 6.74 -> 6.77).
 
+21. **A is dropped** (her call, 2026-11-05: "drop a"). Shelter is read as site again (the base mapping). The kept model is
+    the base with the cap, the basket and the pinned start (`results/fit_capbasket_pin.json`, misfit 6.8, eight free
+    numbers).
+22. **The basket's utility turning around in 1990 is shelved** (her idea, 2026-11-05, tried at once): knots at 1950,
+    1970, 1990 and 2024 through the real wage over the all-items CPI (1.00, 1.52, 1.35, 1.66: falling 1970–1990, rising
+    after; `fit_base.py --utility-knots 1950,1970,1990,2024`). Misfit 6.93 against 6.77 (Log 12): no better, so the
+    utility rises to 1970 and is held after.
+
 ## Next
 
-1. **For her: drop A?** Without it, the cap, the basket and the pinned start fit 6.8 against the base's 19.3 and A + cap +
-   basket's 26.9 (Log 11). Recommended: drop A, on its own merit below; the kept model would be the base with the cap,
-   the basket and the pinned start, eight free numbers.
+1. **Her model explorer** (her wish, 2026-11-05: "a little website tool thing where I can drag around points, fix and
+   unfix things"): plan proposed, waiting for her go.
 2. **What is left** (Log 11): labour's share of consumption before about 1985, which the model holds up while
    participation rises; and the fit's strain (the required return at zero, the clock at 11% a year where the base's was
    6.4%, trading against the machine chain's labour growing 6.6% a year), so the clock's pace is not yet a number to
    hand to the forward model.
-3. **A's shelter price caps the model's fork** (found at the basket's design). A prices shelter at w + (1 - w) p_t / p_2024 (rent 1, w 0.4):
+3. **A's shelter price capped the model's fork** (found at the basket's design; A dropped, decision 21). A prices shelter at w + (1 - w) p_t / p_2024 (rent 1, w 0.4):
    the built part moves with the final good, which the goods target reads as durables. The fork the model can then make
    between the two wage legs over any span is (S_t / p_t) / (S_0 / p_0) = 1 / (w p_t / p_0 + 1 - w) when t is the last
    year, at most 1 / (1 - w) = 1.67 whatever the fit, against the data's 5.9 (1950–2024) and the paper's 4.8
@@ -241,3 +248,7 @@ or proposed; the split shelved; dropping A recommended (Log 11), for her call.
     framed it ("once that cap was hit, other things had to start moving"). The fit is strained: the required return is
     at its floor (0), the clock runs at 11.3% a year (the base's 6.4%), the machine chain's labour grows 6.6% a year,
     machine services in building a machine a = 9.4.
+12. **2026-11-05 — A dropped; the utility turning in 1990 tried** (decisions 21, 22). With the knots 1950, 1970, 1990
+    and 2024, the fit (thirteen starts, one optimum, checks 8/8) reaches 6.93 against 6.77: employment reaches the cap
+    in 1980 rather than about 1987 (2.1 against 1.4), the rest within a few tenths. The wage in shelter still falls
+    after 2005 (to 83 against the data's 105), so that gap is not the utility path's (`figures/fig_fit_kink90.png`).

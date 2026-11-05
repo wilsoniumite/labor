@@ -6,4 +6,4 @@ model in `../paths/`.
 
 **Start with `STATE.md`; the plan is `SPEC.md`.**
 
-Status: Phase 3 under way: changes judged by her; the cap on participation and the basket at constant utility in, the split shelved, dropping A recommended (STATE Log 11).
+Status: Phase 3 under way: changes judged by her; the kept model is the paper's with a cap on participation, a basket at constant utility and the 1950 start pinned (misfit 6.8 against the base's 19.3); A dropped, the split shelved.

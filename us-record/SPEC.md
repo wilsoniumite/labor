@@ -96,7 +96,8 @@ The base model is section 3. Each candidate below enters only if it earns its pl
 Candidates the paper's account would add:
 
 - **A. Shelter as structures and site.** A measurement equation, not new economics: the CPI's shelter is a built good
-  plus land. Likely needed for fact 2.
+  plus land. Likely needed for fact 2. Dropped (decision 21): priced with the final good, the built part caps the
+  model's fork at 1 / (1 - w) = 1.67x, against the data's 5.9x.
 - **B. A shift in who is willing to work.** One smooth curve in the work-cost distribution (women's entry, 1950–2000).
   Likely needed for fact 4.
 - **C. Support that rises with income.** The outside option partly indexed to wages (balanced growth).
