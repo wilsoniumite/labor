@@ -12,6 +12,10 @@ below are a veto window for her one-word calls.
 Riksbank, the ECB). The bank-side application lives in an internal repository; nothing from it
 is reproduced here, including the Swedish OIS measurements that motivated the curve layer —
 their public counterparts are built here instead (US Treasuries; Swedish bills and bonds 1990–95 and 2021–26).
+**2026-11-05 — the economy is the paper's file.** `Economy`, `solve`, `x_ceiling`, `NoEquilibrium`, `ChainTargets`,
+`calibrate_c`, `target_residuals` and `rate_headroom` moved verbatim from `code/macro.py` to
+`../pinning/code/pinning_model.py`, the one implementation the paper's instance also solves with; `macro` re-exports them,
+so every `macro.X` here and in the website's export is what it was. Every battery's output is byte-identical across the move.
 **State as of:** 2026-10-01. Built 2026-09-24: the curve layer (22/22), the US test, the openness principle, Sweden
 1990–95, regime mixtures (12/12), the sovereign spread and its monitor (6/6), the macro block with calibrations (a)
 and (b) (21/21), recognition as a mixture, reverse stress testing part 1, speed with the digestion history, the

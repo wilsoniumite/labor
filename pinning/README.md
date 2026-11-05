@@ -19,7 +19,10 @@ paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23; main.tex was r
 paper/submission/   the journal's Word files: the blind manuscript and the separate title
                     page, built by code/build_submission_docx.py (section below), plus
                     abstract.txt, the plain-text abstract for submission forms
-code/               figure scripts and the FRED-based measurement scripts
+code/               the pinning model (pinning_model.py: the economy, its solve and its
+                    calibration from shares; ../paths/ runs the same file), the paper's
+                    instance and numbers (appendix_b.py), figure scripts and the
+                    FRED-based measurement scripts
 data/               built results and vendored inputs
 cache/              the FRED pulls the measurement scripts read (August 2026 vintage;
                     A2013C1A027NBEA, ASLCTAX and W054RC1A027NBEA first cached 2026-09-04
@@ -69,7 +72,7 @@ marked the dashed pre-1964 stretch.
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
 | Borrowing financed 19% of transfers in 2025, zero only in 1960, 1963, 1999 and 2000 | `data/four_way_split.csv` (`code/four_way.py`) |
 | The HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
-| Appendix B's illustrative instance (durable machines; parameters set from U.S.-like shares: labor 0.456 of a machine's build cost and 0.469 of consumption, machine services 0.196, site 0.065 of the basket, participation 0.602; x* 0.82987 below the ceiling 0.94634, Y 3.01320, support 0.02599 of rent and interest 0.03520) and its automation path (participation 0.56 at eta 1, 0.13 at 0.01); Figure 3's equilibria, w/P_s and N_a/N 2.76/0.60 at baseline, 2.46/0.56 recursive, 2.66/0.59 task automation | `code/appendix_b.py` (`PRINTED`; how it was set is in its comments and STATE.md, Log 2026-11-03); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
+| Appendix B's illustrative instance (durable machines; parameters set from U.S.-like shares: labor 0.456 of a machine's build cost and 0.469 of consumption, machine services 0.196, site 0.065 of the basket, participation 0.602; x* 0.82987 below the ceiling 0.94634, Y 3.01320, support 0.02599 of rent and interest 0.03520) and its automation path (participation 0.56 at eta 1, 0.13 at 0.01); Figure 3's equilibria, w/P_s and N_a/N 2.76/0.60 at baseline, 2.46/0.56 recursive, 2.66/0.59 task automation | `code/appendix_b.py` (`PRINTED`: `code/pinning_model.py`'s `calibrate_c` at the shares `SHARES`, low root, rounded to the digits printed; gated by `checks/check_pinning_model.py`); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
 
 ## Submission files
 
@@ -133,8 +136,8 @@ validated by identity checks and magnitude anchors before use; every contestable
 classification runs as a labeled grid, and the reported object is the median with its
 min–max band. The scripts stop rather than substitute when a source cannot be validated.
 
-The venv needs NumPy, Matplotlib, SymPy and SciPy (`code/appendix_b.py`, `checks/check_cost_system.py`,
-`checks/check_interior.py`), plus
+The venv needs NumPy, Matplotlib, SymPy and SciPy (`code/pinning_model.py`, `code/appendix_b.py`,
+`checks/check_cost_system.py`, `checks/check_interior.py`), plus
 `python-calamine` for the ceiling grid and `pypandoc_binary` for the Word build.
 
 ## Checks
@@ -144,6 +147,7 @@ The venv needs NumPy, Matplotlib, SymPy and SciPy (`code/appendix_b.py`, `checks
 ../venv/Scripts/python.exe checks/check_fan.py                   # the composite pricing display, the flat-case parity, the fork's data anchors
 ../venv/Scripts/python.exe checks/check_cost_system.py           # network prices against truncated production rounds, factor-income cancellation, Section 6's feasible-method bounds, participation from utility; random networks and Appendix B's economies
 ../venv/Scripts/python.exe checks/check_interior.py              # Appendix B (about 90 s): Lemma B.1 with durable machines on the printed instance, Figure 3's economies and two durable test economies — the equilibrium conditions, income with interest, a 2,048-cell linear production program that finds the equilibrium itself, the flow special case, the automation path, every quoted number against main.tex
+../venv/Scripts/python.exe checks/check_pinning_model.py        # the pinning model as the paper uses it: the printed instance is the calibration of its shares, rounded; both roots fit all seven shares; appendix_b solves with the model, bit for bit; what task automation does on each root
 ../venv/Scripts/python.exe checks/lint_tex_structure.py paper/main.tex
 for f in checks/corner/*.py; do ../venv/Scripts/python.exe "$f"; done
 ../venv/Scripts/python.exe effort/checks/check_effort_reproduction.py   # rebuilds archive_v28 in a temp dir and compares to the frozen outputs

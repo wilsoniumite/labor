@@ -1,9 +1,11 @@
 # appendix_b.py — the economy of the paper's Appendix B, solved: task assignment on [0, 1], durable machines priced at
 # Appendix A.4's user cost, household participation, and support funded by a provider who owns the land and the machines.
-# Plain functions on a parameter dict; numpy and scipy only. The paper's numerical instance (Appendix B and Figure 3) is
-# PRINTED below: illustrative, with durable machines, its parameters set from U.S.-like shares (2026-11-03; how, below).
-# TEST_ECONOMIES exercise the checks beyond it: the SSRN version's instance, in the flow benchmark, and a binding
-# ceiling; the paper prints no number from them.
+# The model itself — the economy, its solve and its calibration from shares — is code/pinning_model.py, the one
+# implementation the paper and ../paths/ share; this file holds what the paper prints. The paper's numerical instance
+# (Appendix B and Figure 3) is PRINTED below: illustrative, with durable machines, its parameters set from U.S.-like
+# shares (SHARES, solved by pinning_model.calibrate_c). TEST_ECONOMIES exercise the checks beyond it: the SSRN version's
+# instance, in the flow benchmark, and a binding ceiling; the paper prints no number from them. Economies are parameter
+# dicts with the keys of pinning_model.Economy.
 #
 # THE MODEL (rent r = 1, the numeraire; v = w/r). gamma(x) = eta (g0 + g1 x^k), J(x) = the integral of gamma over [0, x].
 # A machine costs V_m = a p_m + lambda v + b to build (machine services, hours, land), supplies one unit of service a
@@ -18,23 +20,27 @@
 # P_s = v L_s + B_s + rho V_m X / Y; income = v n + T + rho V_m X (wages, rent, interest) = P_s Y. Tasks where D(x) <= 0
 # are closed to machines at every wage (the machine services that would replace an hour cost more than the hour): the
 # ceiling x_c is the first such task (1 if none), and the equilibrium n_D(x*) = n_S(x*) is sought on (0, x_c). At x_c,
-# v and P_s are unbounded but v / P_s is not; it is computed in the form
-# (rho+delta) b gamma / [(rho+delta) b (gamma (1 - x) + J) + h D], finite at D = 0.
+# v and P_s are unbounded but v / P_s is not; Figure 3's curves, drawn up to x_c, compute it in the form
+# (rho+delta) b gamma / [(rho+delta) b (gamma (1 - x) + J) + h D], finite at D = 0 (real_wage, demand below).
 #
 # Run from pinning/:  python3 code/appendix_b.py      (prints the paper's Appendix B and Figure 3 numbers)
 
 import numpy as np
-from scipy.optimize import brentq
+
+import pinning_model
 
 KEYS = ("N", "T", "h", "a", "b", "lam", "g0", "g1", "k", "eta", "chi_max", "rho", "delta")
 
 # The paper's instance. Set: N 1, b 0.4, delta 0.05, gamma(0) 0.01. The other seven parameters solve seven shares and
-# levels of the order of U.S. data (labor 0.47 of a machine's build cost, machine services 0.20 of it, labor 0.47 of
-# consumption on the full chain, site 0.06 of the basket, the machine chain 0.15 of hours, participation 0.60, and
-# 3 baskets a person), the return an outcome as in calibration (c) of ../paths/ (STATE.md, Log 2026-11-03); of the
-# two roots in k the lower (4.36; the other, 15.5, has task automation raise w/P_s); then two significant figures.
+# levels of the order of U.S. data (SHARES: labor 0.47 of a machine's build cost, machine services 0.20 of it, so fixed
+# rents 0.33; labor 0.47 of consumption on the full chain, site 0.06 of the basket, the machine chain 0.15 of hours,
+# participation 0.60, and 3 baskets a person), the return an outcome as in calibration (c) of ../paths/. Of the two roots
+# in k (calibrated(): 4.36, and 15.5, on which task automation raises w/P_s) the lower, each parameter then rounded to
+# the digits printed (checks/check_pinning_model.py gates that PRINTED is that root, rounded).
 # The rounded instance has labor 0.456 of build cost, machine services 0.196, labor 0.469 of consumption, site 0.065,
 # chain 0.148 of hours, participation 0.602, 3.01 baskets a person.
+SHARES = pinning_model.ChainTargets(theta_V=0.47, chain_share=0.15, sigma_V=0.33, delta=0.05, labour=0.47,
+                                    participation=0.60, baskets_per_person=3.0, site=0.06, b=0.4, g0=0.01, N=1.0)
 PRINTED = dict(N=1.0, T=0.01, h=0.0017, a=1.4, b=0.4, lam=7.3, g0=0.01, g1=0.99, k=4.4, eta=1.0, chi_max=2.2,
                rho=0.09, delta=0.05)
 
@@ -59,87 +65,66 @@ TEST_ECONOMIES = {
 }
 
 
-def gamma(P, x):
-    return P["eta"] * (P["g0"] + P["g1"] * x ** P["k"])
+def economy(P):
+    """The parameter dict P as a pinning_model.Economy."""
+    return pinning_model.Economy(**{key: float(P[key]) for key in KEYS})
 
 
-def J(P, x):
-    return P["eta"] * (P["g0"] * x + P["g1"] * x ** (P["k"] + 1.0) / (P["k"] + 1.0))
-
-
-def denominator(P, x):
-    """D(x) = 1 - (rho + delta)(a + lambda gamma(x)): positive exactly where machines can take task x."""
-    return 1.0 - (P["rho"] + P["delta"]) * (P["a"] + P["lam"] * gamma(P, x))
+def calibrated(shares=SHARES):
+    """The instance before rounding: [(Economy, info)] for every root in k of the seven shares, low root first."""
+    return pinning_model.calibrate_c(shares)
 
 
 def ceiling(P):
     """x_c: the first task closed to machines at every wage (D = 0), or 1 if D(1) > 0."""
     if (P["rho"] + P["delta"]) * P["a"] >= 1.0 or P["a"] * P["delta"] >= 1.0:
         raise ValueError("(rho + delta) a < 1 fails: machine services cannot be produced at a finite price")
-    if denominator(P, 0.0) <= 0.0:
-        raise ValueError("D(0) <= 0: no task is open to machines")
-    if denominator(P, 1.0) > 0.0:
-        return 1.0
-    return brentq(lambda x: denominator(P, x), 0.0, 1.0, xtol=1e-16, rtol=4 * np.finfo(float).eps)
+    return pinning_model.x_ceiling(economy(P))
 
 
 def real_wage(P, x):
     """v / P_s at threshold x, in a form that stays finite at the ceiling (D = 0)."""
-    cpt, g, j = P["rho"] + P["delta"], gamma(P, x), J(P, x)
-    return cpt * P["b"] * g / (cpt * P["b"] * (g * (1.0 - x) + j) + P["h"] * denominator(P, x))
-
-
-def F(P, z):
-    """The work-cost distribution: chi uniform on [0, chi_max]."""
-    return min(max(z / P["chi_max"], 0.0), 1.0)
+    e = economy(P)
+    cpt, g, j = P["rho"] + P["delta"], e.gamma(x), e.J(x)
+    D = 1.0 - cpt * (P["a"] + P["lam"] * g)
+    return cpt * P["b"] * g / (cpt * P["b"] * (g * (1.0 - x) + j) + P["h"] * D)
 
 
 def demand(P, x):
-    """(Y, X, final-task hours, machine-sector hours, n_D) at threshold x."""
+    """(Y, X, final-task hours, machine-sector hours, n_D) at threshold x: quantities only, so finite up to x_c."""
     ad = P["a"] * P["delta"]
-    j = J(P, x)
+    j = economy(P).J(x)
     Y = P["T"] / (P["h"] + P["b"] * P["delta"] * j / (1.0 - ad))
     X = Y * j / (1.0 - ad)
     final, chain = Y * (1.0 - x), P["lam"] * P["delta"] * X
     return Y, X, final, chain, final + chain
 
 
-def supply(P, x):
-    return P["N"] * F(P, np.log1p(real_wage(P, x)))
-
-
-def excess_demand(P, x):
-    return demand(P, x)[4] - supply(P, x)
-
-
 def at(P, x):
-    """Prices and quantities at threshold x < x_c."""
-    cpt, D = P["rho"] + P["delta"], denominator(P, x)
+    """Prices and quantities at threshold x < x_c (pinning_model's, under the paper's names)."""
+    e = economy(P)
+    D = 1.0 - (P["rho"] + P["delta"]) * (P["a"] + P["lam"] * e.gamma(x))
     if D <= 0.0:
         raise ValueError(f"x = {x} is at or above the machine chain's ceiling")
-    g, j = gamma(P, x), J(P, x)
-    pm = cpt * P["b"] / D
-    Vm, v = pm / cpt, g * pm
-    p = v * (1.0 - x) + pm * j
-    Ps = p + P["h"]
-    Y, X, final, chain, nD = demand(P, x)
-    return dict(x=x, gamma=g, J=j, D=D, pm=pm, Vm=Vm, v=v, p=p, Ps=Ps, Y=Y, X=X, final_hours=final,
-                chain_hours=chain, nD=nD, nS=supply(P, x), real_wage=real_wage(P, x))
+    q = pinning_model._parts(e, x)
+    return dict(x=x, gamma=q["gamma"], J=q["J"], D=D, pm=q["pm"], Vm=q["Vm"], v=q["v"], p=q["p"], Ps=q["Ps"], Y=q["Y"],
+                X=q["K"], final_hours=q["final_hours"], chain_hours=q["machine_hours"], nD=q["nD"], nS=q["nS"],
+                real_wage=q["v"] / q["Ps"])
 
 
 def solve(P):
-    """The interior equilibrium of Lemma B.1: n_D(x*) = n_S(x*) on (0, x_c), and what the paper reads off it."""
-    xc = ceiling(P)
-    f0, fc = excess_demand(P, 0.0), excess_demand(P, xc)
-    if not (f0 > 0.0 > fc):
-        raise ValueError(f"Lemma B.1's crossing fails: n_D - n_S = {f0:.4g} at 0 and {fc:.4g} at x_c = {xc:.6f}")
-    x = brentq(lambda t: excess_demand(P, t), 0.0, xc, xtol=1e-16, rtol=4 * np.finfo(float).eps, maxiter=500)
+    """The interior equilibrium of Lemma B.1: n_D(x*) = n_S(x*) on (0, x_c) (pinning_model.solve), and what the paper
+    reads off it."""
+    ceiling(P)                                            # the paper's conditions on (rho + delta) a and a delta
+    s = pinning_model.solve(economy(P))
+    x = s["x"]
     q = at(P, x)
-    n = q["nD"]
+    n = s["n"]
     interest = P["rho"] * q["Vm"] * q["X"]
     income = q["v"] * n + P["T"] + interest
     theta, sigma = P["lam"] * q["v"] / q["Vm"], P["b"] / q["Vm"]
     j, ad = q["J"], P["a"] * P["delta"]
+    xc = s["x_ceiling"]
     q.update(x_ceiling=xc, n=n, participation=n / P["N"], income=income, wages=q["v"] * n, rent=P["T"],
              interest=interest, interest_share=interest / income, replacement=P["delta"] * q["Vm"] * q["X"],
              theta_V=theta, sigma_V=sigma,
@@ -149,7 +134,8 @@ def solve(P):
              provider_income=P["T"] + interest, support=P["N"] * q["Ps"],
              provider_baskets=(P["T"] + interest) / q["Ps"] - P["N"],
              funded=P["T"] + interest >= P["N"] * q["Ps"],
-             nS_ceiling=supply(P, xc), nD_ceiling=demand(P, xc)[4])
+             nS_ceiling=P["N"] * min(max(np.log1p(real_wage(P, xc)) / P["chi_max"], 0.0), 1.0),
+             nD_ceiling=demand(P, xc)[4])
     return q
 
 
