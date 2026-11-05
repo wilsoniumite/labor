@@ -334,11 +334,12 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
       himself, in the same NAE chapter, p. 6 (read from the page image): "Had horses had an
       opportunity to vote and join the Republican or Democratic party, that solution would have
       been very different from what it actually was."
-    - Proposed wording, which credits him: Leontief (1983, p. 6) noted where his comparison of
-      workers with horses breaks down: "Had horses had an opportunity to vote and join the
-      Republican or Democratic party, that solution would have been very different from what it
-      actually was." People can vote for a rent dividend.
-    - Proposed place: Section 11, after "A tax on pure fixed-factor rents can fund a payment paid
+    - A longer wording quoting that line was proposed and declined: "the tighter version of the
+      leontief joke was better, use that." The aside is C14 as judged, with only "the model makes
+      precise" taken out, since the model has no voting: "Leontief (1983) compared the future of
+      human labor to that of horses after the tractor. The comparison fails in one respect: people,
+      unlike horses, can vote for a rent dividend."
+    - Place: Section 11, after "A tax on pure fixed-factor rents can fund a payment paid
       equally in and out of work; the coverage ratio determines whether it can finance the full
       basket."
   - **The introduction's opening (drafts A, B, C).**
@@ -346,8 +347,18 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     - Both judges ranked C first: the editor C 48.5, A 44.5, B 42; the judge on Stella's criteria
       C 66, B 62, A 60.
     - Their fixes for C borrow mostly from A.
-    - Two merges are being built (scratchpad only): the judges', on C, and one on A with the
-      judges' flags on A fixed.
+    - One merge is being built (scratchpad only), on A, with the judges' flags on A fixed and the
+      attribution and claim checks run on it. The judges' merge on C was stopped.
+  - **On the judging rounds themselves** (Stella: "perfect is the enemy of good, sometimes i wonder
+    if the constant judging rounds make things worse..."). The record of this session:
+    - The checks earned their keep. They found real errors: Keynes's "grandchildren", C14's vote,
+      draft A's missing condition, two dropped hypotheses in design A, and the Korinek and Juelfs
+      precedent.
+    - Ranking on taste did not. The joke panel buried C14 and C9, so the shortlist shown to Stella
+      left out the joke Stella wanted, and the panels added versions to read.
+    - From here: checks of facts, quotations and claims against the propositions continue. Panels
+      that rank wording, jokes or drafts by taste stop; Stella gets one version, or two unranked,
+      and picks.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
