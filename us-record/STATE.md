@@ -107,7 +107,6 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
    participation margin is not what drags the rest. Read against SPEC.md section 7: the base model gets the fork's
    direction and size with a smooth clock and does not get labour's falling share with it; the section allows A and B
    before that counts against the mechanism.
-
 5. **2026-11-05 — A, run blind.** Shelter as a built good and site: the shelter price is (1 - w) p / p_2024 + w with
    rent the numeraire, w = 0.4, the site's value share of housing in 2024 (the paper's 30–50% midpoint); earlier years'
    share follows the model's own prices. No new free parameter; the same nine fitted, the same targets and tolerances.
