@@ -434,6 +434,18 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     - Three alternative snippets: the measured fork, the classical "pinned to land" sentence, and
       the ownership-income sentence.
     - The formal attribution and claims checks wait until the order is settled.
+  - **Trimmed, same day (v2).** Stella: "we don't need to revive everything from the cut section
+    two, only when their time comes later in the paper"; "too many references in the intro"; and,
+    of the recent automation papers, "pick three that each matter most to painting a good picture".
+    - The labor-share and land sentence goes (Karabarbounis and Neiman; Rognlie; Knoll, Schularick
+      and Steger; Piketty and Zucman), and so does Autor (2015).
+    - The three AI papers, one for each beat of the story: Korinek and Suh (2024) for wages;
+      Korinek and Stiglitz (2019) for land; Korinek and Juelfs (2022) for leaving work.
+    - Restrepo (2025), Trammell and Korinek (2026) and Korinek and Lockwood (2026) are cited in the
+      body where their results come up: the task margin and closure, recursive automation, and
+      rent taxation.
+    - New text is 445 words. The only references new to the paper are Keynes (1930), Leontief
+      (1983) and Korinek and Juelfs (2022).
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
