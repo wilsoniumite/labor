@@ -13,7 +13,7 @@ gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.m
 (`code/fig_panel.py` -> `figures/fig_panel.png`). Breakpoint A passed (her call: prime-age employment targeted).
 Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.json`, gated by `checks/check_fit_base.py`
 9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way, blind (decision 13): A kept; the split
-(decision 14) running blind.
+(decision 14) and the cap (decision 15) run and sent for her verdict.
 
 ## The three models
 
@@ -89,9 +89,15 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
 
 ## Next
 
-1. **The split's blind run** (fifteen starts in parallel), then its blind checks and its figure against A
-   (`code/fig_compare.py fit_split "A + split" --ref fit_A --ref-label A`), sent to her unopened.
-2. **Her verdict on the cap** (`figures/fig_fit_cap.png`, sent unopened).
+1. **Her verdicts on the split and the cap** (`figures/fig_fit_split.png`, `figures/fig_fit_cap.png`, both sent
+   unopened; each against A). If she keeps both, they are run together.
+2. **Her framing, 2026-11-05**: the economy finds ways to give people less land for the same utility: both parents
+   working (the cap), then cheaper durables bought instead of space, then land-free goods (the internet). The model's
+   basket is fixed (one good and h of site a person), so it has no room for the second step. Proposed, not built:
+   **L, a basket held at constant utility**, goods and space substituting with one elasticity set from the panel
+   (housing's share of spending 0.11 -> 0.16 over 1950–2024 while shelter got about 6x dearer than durables: about 0.8;
+   a fixed basket would have taken the share from 0.15 in 1964 to about 0.45), checked on housing's share of spending.
+   Waiting for her go and her call on setting the elasticity rather than fitting it.
 
 ## Log
 
@@ -151,7 +157,11 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
    markets clear, income equals consumption, and the first group's wage falls below the second's). The fit: A's settings
    and targets unchanged, ten free numbers, fifteen starts (A's best with three paces of computing; the twelve 1950
    starts), run in parallel with the output unread (`code/fit_base.py --split 1970 --ref fit_A --quiet`). The first
-   attempt, 39 starts one at a time, was stopped for time before it finished, unread.
+   attempt, 39 starts one at a time, was stopped for time before it finished, unread. One start (the second 1950 start)
+   stopped at the iteration cap twice; continued from where it stopped, it converged after 12,032 evaluations and did
+   not beat the reported best (a yes/no, no numbers shown), and the search now continues such starts up to five times
+   itself. Blind checks 9/9, with a new one: the split is no worse than A, which it nests (S3). `figures/fig_fit_split.png`
+   sent to her unopened. Claude has not seen the split's fit.
 8. **2026-11-05 — the cap, run blind** (decision 15). The cap set at 0.788; A's settings and targets unchanged, nine free
    numbers, thirteen starts (A's best and the twelve 1950 starts), in parallel, output unread
    (`code/fit_base.py --shelter-land-share 0.4 --cap --ref fit_A --out fit_cap --quiet`). The first launch was stopped
