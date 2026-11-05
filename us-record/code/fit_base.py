@@ -48,6 +48,10 @@
 # counts it was rising until then"), at the pace the production worker's real hourly wage over the all-items CPI rose
 # over 1950–1970 (U_GROWTH, 2.1% a year; 0.1% a year over 1970–2019).
 #
+# THE PINNED START (her suggestion, 2026-11-05; --pin-start): the model's 1950 prime-age employment is the data's. The
+# work cost's scale chi_max is then set by 1950 each time the path is solved (pinned_chi), not fitted: one free number
+# fewer.
+#
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
 import json
@@ -87,6 +91,7 @@ _HS = PANEL.loc[1950:2024, "housing_share_pce"]
 _REL = np.log(PANEL.loc[1950:2024, "wage_goods"] / PANEL.loc[1950:2024, "wage_shelter"])   # shelter's price / durables'
 SIGMA_SET = float(1.0 - np.polyfit(_REL.values, np.log(_HS / (1.0 - _HS)).values, 1)[0])   # the share regression
 UTILITY_UNTIL = 1970                                  # the basket's utility rises until then, and is held after
+PIN_START = False                                     # True: chi_max set so that 1950's prime-age employment is the data's
 U_GROWTH = float(np.log(PANEL.loc[UTILITY_UNTIL, "real_wage_cpi"] / PANEL.loc[1950, "real_wage_cpi"]) / (UTILITY_UNTIL - 1950))
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
@@ -125,8 +130,33 @@ def economies(par, eta=None, p_ref=None):
                  chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra) for i in range(len(YEARS))]
 
 
+def pinned_chi(par):
+    """The work cost's scale chi_max at which the model's 1950 prime-age employment is the data's (1950's economy is the
+    same with or without the basket). None if no chi_max within its bounds does it."""
+    e0 = economies(dict(par, chi_max=1.0))[0]
+    target = float(D.loc[1950, "prime_emp_rate"])
+
+    def gap(lc):
+        try:
+            return pm.solve(replace(e0, chi_max=float(np.exp(lc))))["participation"] - target
+        except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
+            return np.nan
+
+    grid = np.linspace(np.log(BOUNDS["chi_max"][0]), np.log(BOUNDS["chi_max"][1]), 25)
+    vals = [gap(g) for g in grid]
+    for j in range(len(grid) - 1):
+        if np.isfinite(vals[j]) and np.isfinite(vals[j + 1]) and vals[j] * vals[j + 1] < 0:
+            return float(np.exp(brentq(gap, grid[j], grid[j + 1], xtol=1e-14)))
+    return None
+
+
 def model_path(par, eta=None):
     """Each year's equilibrium, read as the five targeted objects. None if any year has no interior equilibrium."""
+    if PIN_START:
+        chi = pinned_chi(par)
+        if chi is None:
+            return None
+        par = dict(par, chi_max=chi)
     rows, guess, p_ref = [], None, None
     if SIGMA is not None:                                 # the basket is (1, h) at the model's own 1950 price
         try:
@@ -293,6 +323,7 @@ if __name__ == "__main__":
     #                                                             the cap on top of A -> results/fit_cap.json
     # python3 code/fit_base.py --shelter-land-share 0.4 --cap --basket --ref fit_cap --out fit_basket --quiet
     #                                                             the basket on top of A and the cap
+    # add --pin-start for 1950's prime-age employment pinned to the data; leave out --shelter-land-share for no A
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -305,6 +336,9 @@ if __name__ == "__main__":
         CAP = CAP_SET
     if "--basket" in args:
         SIGMA = SIGMA_SET
+    if "--pin-start" in args:
+        PIN_START = True
+        NAMES.remove("chi_max")
     t0 = time.time()
     todo = starts() if SPLIT_FROM is None else split_starts(REF)
     if SPLIT_FROM is None and REF is not None:            # the model it extends: its best fit is one more start
@@ -315,11 +349,15 @@ if __name__ == "__main__":
     results.sort(key=lambda r: r["misfit"])
     best = results[0]
     m = model_path(best["par"])
-    acc = accounting(best["par"]) if SHELTER_LAND_SHARE is None and SPLIT_FROM is None else None   # the base mapping's
+    plain = SHELTER_LAND_SHARE is None and SPLIT_FROM is None and CAP is None and SIGMA is None and not PIN_START
+    acc = accounting(best["par"]) if plain else None      # the diagnostic reads the base model only
+    if PIN_START:                                         # the set chi_max stored beside the fitted numbers
+        for r in results:
+            r["par"]["chi_max"] = pinned_chi(r["par"])
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
                   shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP, sigma=SIGMA,
-                  utility=None if SIGMA is None else dict(growth=U_GROWTH, until=UTILITY_UNTIL),
+                  utility=None if SIGMA is None else dict(growth=U_GROWTH, until=UTILITY_UNTIL), pin_start=PIN_START,
                   s_n=None if SPLIT_FROM is None else S_N, ref=REF,
                   names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),

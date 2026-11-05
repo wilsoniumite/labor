@@ -12,8 +12,8 @@ functions, notebook-cell style; `tqdm` on any outer loop that takes more than a 
 gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.md`) and drawn
 (`code/fig_panel.py` -> `figures/fig_panel.png`). Breakpoint A passed (her call: prime-age employment targeted).
 Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.json`, gated by `checks/check_fit_base.py`
-9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way, blind (decision 13): A and the cap kept, the
-split shelved; the basket (decision 18) run and sent for her verdict.
+9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way: the cap, the basket and the pinned start kept
+or proposed; the split shelved; dropping A recommended (Log 11), for her call.
 
 ## The three models
 
@@ -102,10 +102,22 @@ split shelved; the basket (decision 18) run and sent for her verdict.
     a year over 1970–2019), held after. The elasticity is between goods and shelter in the data and between goods and
     site in the model: shelter's price is taken to move with the site's.
 
+19. **Claude looks at the fits again** (her call, 2026-11-05: "I take back my don't look at the graphs rule, just keep in
+    mind the don't try to fit too hard rule"). Decision 13 is lifted; decision 12 stands.
+20. **The start is pinned** (her suggestion, 2026-11-05: "fix prime age employments start point to the data"): the
+    work cost's scale chi_max is set each time so that the model's 1950 prime-age employment is the data's
+    (`fit_base.py --pin-start`), one free number fewer. Without A it costs nothing (misfit 6.74 -> 6.77).
+
 ## Next
 
-1. **Her verdict on the basket** (`figures/fig_fit_basket.png`, sent unopened; against A + cap).
-2. **For her: A's shelter price caps the model's fork.** A prices shelter at w + (1 - w) p_t / p_2024 (rent 1, w 0.4):
+1. **For her: drop A?** Without it, the cap, the basket and the pinned start fit 6.8 against the base's 19.3 and A + cap +
+   basket's 26.9 (Log 11). Recommended: drop A, on its own merit below; the kept model would be the base with the cap,
+   the basket and the pinned start, eight free numbers.
+2. **What is left** (Log 11): labour's share of consumption before about 1985, which the model holds up while
+   participation rises; and the fit's strain (the required return at zero, the clock at 11% a year where the base's was
+   6.4%, trading against the machine chain's labour growing 6.6% a year), so the clock's pace is not yet a number to
+   hand to the forward model.
+3. **A's shelter price caps the model's fork** (found at the basket's design). A prices shelter at w + (1 - w) p_t / p_2024 (rent 1, w 0.4):
    the built part moves with the final good, which the goods target reads as durables. The fork the model can then make
    between the two wage legs over any span is (S_t / p_t) / (S_0 / p_0) = 1 / (w p_t / p_0 + 1 - w) when t is the last
    year, at most 1 / (1 - w) = 1.67 whatever the fit, against the data's 5.9 (1950–2024) and the paper's 4.8
@@ -113,7 +125,7 @@ split shelved; the basket (decision 18) run and sent for her verdict.
    made like durables (construction's productivity has barely grown), so pricing the built part at the cost of building
    (the wage, in this model) rather than at the durables price is a candidate revision of A, for her call. Until then
    every variant on top of A carries the cap on the fork (the cap, the basket).
-3. **Her framing, 2026-11-05**, the rest: land-free goods (the internet) after the basket, if the basket earns its
+4. **Her framing, 2026-11-05**, the rest: land-free goods (the internet) after the basket, if the basket earns its
    place; kids staying home (household size) left out for now (it shrank from about 3.4 to 2.5 people over the record,
    from memory, unchecked).
 
@@ -204,3 +216,28 @@ split shelved; the basket (decision 18) run and sent for her verdict.
     --quiet`); every start converged in 11-68 evaluations. Blind checks 8/8. `figures/fig_fit_basket.png`, against
     A + cap with the basket's make-up, the shares of spending and the utility path, sent to her unopened. Claude has not
     seen the basket's fit.
+11. **2026-11-05 — the fits read together** (decision 19), and the pinned start with and without A (decision 20).
+
+    | fit | misfit | wage, durables | wage, shelter | labour's share | prime-age emp. | θ_V |
+    |---|---|---|---|---|---|---|
+    | base | 19.3 | 26.1 | 14.2 | 13.4 | 32.9 | 10.1 |
+    | A | 31.2 | 86.2 | 51.9 | 8.7 | 6.9 | 2.1 |
+    | A + split | 31.2 | the same: computing went to zero (g_c 1e-38) | | | | |
+    | A + cap | 28.3 | 72.9 | 55.3 | 9.6 | 1.6 | 2.0 |
+    | A + cap + basket | 26.9 | 62.9 | 56.7 | 3.7 | 3.1 | 8.0 |
+    | A + cap + basket, pinned | 27.9 | 54.1 | 67.8 | 2.8 | 4.0 | 11.1 |
+    | cap + basket (no A) | 6.7 | 6.2 | 5.1 | 16.9 | 1.4 | 4.2 |
+    | cap + basket, pinned | 6.8 | 6.4 | 4.7 | 17.1 | 1.4 | 4.2 |
+
+    A raised the misfit by 60%: it fitted the levels (employment, θ_V) by giving up the fork, which its shelter price
+    caps at 1.67x; every model built on it (the split, the cap, the basket) carried the same wrong wage legs (durables
+    x2.6-2.9 against x6.2; shelter rising to 150-180 against a peak of 142 in 1973 and about 100 since 1990). Without A,
+    the cap and the basket fit both wage legs (the wage in shelter rises to 1970 and falls after, as in the data, though
+    it keeps falling after 2005 where the data flatten), employment and θ_V; all thirteen starts reach one optimum.
+    What is left is labour's share: decomposed, it is the wage in goods times the share of tasks people do (1 - x)
+    times goods' share of the basket's cost (0.86-0.89 throughout). From 1960 to 1990 the model's wage in goods rises
+    x1.8 while 1 - x falls only from 0.40 to 0.25, so the share rises (0.48 to 0.54) where the data fall (0.61 to 0.50);
+    once the cap binds (about 1985), tasks move to machines faster (x 0.75 -> 0.91 by 2024) and the share falls, as she
+    framed it ("once that cap was hit, other things had to start moving"). The fit is strained: the required return is
+    at its floor (0), the clock runs at 11.3% a year (the base's 6.4%), the machine chain's labour grows 6.6% a year,
+    machine services in building a machine a = 9.4.

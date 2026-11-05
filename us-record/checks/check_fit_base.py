@@ -32,6 +32,7 @@ F.SHELTER_LAND_SHARE = R["meta"].get("shelter_land_share")
 F.SPLIT_FROM = R["meta"].get("split_from")
 F.CAP = R["meta"].get("cap")
 F.SIGMA = R["meta"].get("sigma")
+F.PIN_START = bool(R["meta"].get("pin_start"))
 if F.SPLIT_FROM is not None:
     F.S_N = R["meta"]["s_n"]
 F.NAMES[:] = R["meta"]["names"]
