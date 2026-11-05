@@ -461,6 +461,16 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     sentence in Lucas's form, then the assumptions and definitions. The results start at §4, so
     later sections renumber by one.
   - Draft: `design/section2_description.md` (scratchpad).
+  - **Where the ideas come from (v2).** Stella: "there would be some references we could put in
+    there to show where these ideas come from. Eg the task model, that's acemoglu." The description
+    now cites:
+    - the task model: Zeira (1998) and Acemoglu and Restrepo (2018). Their WP says "Zeira's model
+      is a special case of our framework";
+    - the participation choice: Lewis (1954), Stella's Section 2.5 sentence, adapted;
+    - land and rent: Ricardo (1817), which otherwise left with Section 2;
+    - the land tax: George (1879);
+    - the price system: Leontief (1936) and Sraffa (1960).
+    - All seven are already in the paper's references, so none is new.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
