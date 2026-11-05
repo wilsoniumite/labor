@@ -119,6 +119,7 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 ## Next
 
 1. **Her model explorer** is built (Log 13): https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs (private to her).
+   **The night's playground** (Log 14, `docs/playground.md`) for her morning: leads, not results.
 2. **What is left** (Log 11): labour's share of consumption before about 1985, which the model holds up while
    participation rises; and the fit's strain (the required return at zero, the clock at 11% a year where the base's was
    6.4%, trading against the machine chain's labour growing 6.6% a year), so the clock's pace is not yet a number to
@@ -260,3 +261,15 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     against the stored 6.77 in about three seconds). Controls: the cap, the basket, the pinned start, A, a steady or
     bendable clock; each number with a lock; draggable utility points, cap line and clock points; settings as text to
     copy back to Claude.
+14. **2026-11-05, night — the playground** (her request: "play around with the model, try lots and lots of stuff
+    cheaply"). About sixty one-start refits from the kept fit with the explorer's fitter (`playground/*.js`, raw numbers
+    beside them), read in `docs/playground.md`. In short: the clock's pace, the return, a and the machine-making labour
+    lie on a ridge (clock 8-14% within 0.5 of the best; a 5% return costs 0.7, clock 8.6%); the measured real rate in the
+    return makes things worse; the cap and the basket both work, and the basket is what lets the cap work (without it
+    117.8); the utility's rise-then-hold matters, its turning year hardly does; A′ (the building priced at the wage)
+    is a mild, principled improvement (6.28); her internet idea, tastes tilting from land after 1995, fixes the wage in
+    shelter after 1995 (5.22; shelter 0.6) at the cost of land's share of spending falling where housing's rose; labour's
+    share before 1985 moves only under bendable clocks whose shapes depend on the knots (fits to the curve). The
+    explorer gained switches for A′ and the tilt and three playground presets (`explorer/model.js` gained optional paths
+    for land, the cost of working, the machine-making labour, the tilt, a pinned 1950 labour share and the measured rate,
+    all off by default; `checks/check_explorer.py` 6/6 still).

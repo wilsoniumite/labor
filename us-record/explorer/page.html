@@ -137,8 +137,12 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         <div class="switch"><input type="checkbox" id="sw-basket"><label for="sw-basket">Basket at constant utility, elasticity</label>
           <input type="text" id="v-sigma" aria-label="Elasticity"></div>
         <div class="switch"><input type="checkbox" id="sw-pin"><label for="sw-pin">1950 employment pinned to the record</label><span></span></div>
-        <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter as building and site (A), site share</label>
+        <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter as building and site, site share</label>
           <input type="text" id="v-A" aria-label="Site share of shelter"></div>
+        <div class="switch" id="row-build" style="grid-template-columns:minmax(0,1fr) auto"><span>Building priced like</span>
+          <span class="seg" role="group" aria-label="Building priced like"><button id="bld-dur" aria-pressed="true">durables (A)</button><button id="bld-wage" aria-pressed="false">building work (A′)</button></span></div>
+        <div class="switch"><input type="checkbox" id="sw-tilt"><label for="sw-tilt">Tastes tilt from land after the year, to this by 2024</label>
+          <span style="display:flex;gap:6px"><input type="text" id="v-tiltyear" aria-label="Tilt starts" style="width:56px"><input type="text" id="v-tilt" aria-label="Site weight by 2024" style="width:56px"></span></div>
         <div class="switch" style="grid-template-columns:minmax(0,1fr) auto"><span>Capability clock</span>
           <span class="seg" role="group" aria-label="Clock"><button id="clk-steady" aria-pressed="true">Steady</button><button id="clk-bend" aria-pressed="false">Bendable</button></span></div>
         <div class="switch" id="clk-free-row" hidden><input type="checkbox" id="sw-clkfree" checked><label for="sw-clkfree">Fit may move the clock's points</label><span></span></div>
@@ -183,7 +187,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function loadPreset(p) {
     S = clone(p.settings); P = clone(p.params);
-    free = new Set(M.NAMES.filter((n) => !(S.pin && n === "chi_max")));
+    free = new Set(M.NAMES.filter((n) => !(S.pin && n === "chi_max") && !(p.locked || []).includes(n)));
     S.clockFree = true;
     ref = { label: p.label, misfit: p.misfit, path: M.path(P, S, D) };
     syncControls(); update();
@@ -240,6 +244,11 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     $("sw-pin").checked = !!S.pin;
     $("sw-A").checked = S.shelterW !== null && S.shelterW !== undefined;
     $("v-A").value = fmt(S.shelterW !== null && S.shelterW !== undefined ? S.shelterW : DOC.set_values.shelterW);
+    const hasA = S.shelterW !== null && S.shelterW !== undefined;
+    $("row-build").hidden = !hasA;
+    $("bld-dur").setAttribute("aria-pressed", String(S.shelterBuild !== "wage")); $("bld-wage").setAttribute("aria-pressed", String(S.shelterBuild === "wage"));
+    $("sw-tilt").checked = !!S.tilt;
+    $("v-tiltyear").value = S.tilt ? S.tilt[1][0] : 1995; $("v-tilt").value = S.tilt ? fmt(Math.exp(S.tilt[2][1])) : "0.6";
     $("clk-steady").setAttribute("aria-pressed", String(!S.clock)); $("clk-bend").setAttribute("aria-pressed", String(!!S.clock));
     $("clk-free-row").hidden = !S.clock; $("sw-clkfree").checked = S.clockFree !== false;
     $("settings").value = currentSettingsText();
@@ -252,6 +261,14 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     $("sw-pin").addEventListener("change", (e) => { S.pin = e.target.checked; if (S.pin) free.delete("chi_max"); else free.add("chi_max"); syncControls(); schedule(); });
     $("sw-A").addEventListener("change", (e) => { S.shelterW = e.target.checked ? parseFloat($("v-A").value) || DOC.set_values.shelterW : null; syncControls(); schedule(); });
     $("v-A").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v < 1) { if (S.shelterW !== null && S.shelterW !== undefined) S.shelterW = v; else DOC.set_values.shelterW = v; } syncControls(); schedule(); });
+    $("bld-dur").addEventListener("click", () => { S.shelterBuild = undefined; syncControls(); schedule(); });
+    $("bld-wage").addEventListener("click", () => { S.shelterBuild = "wage"; syncControls(); schedule(); });
+    const setTilt = () => {
+      const yr = Math.round(parseFloat($("v-tiltyear").value)), f = parseFloat($("v-tilt").value);
+      S.tilt = $("sw-tilt").checked && yr > 1950 && yr < 2024 && f > 0 ? [[1950, 0], [yr, 0], [2024, Math.log(f)]] : null;
+      syncControls(); schedule();
+    };
+    $("sw-tilt").addEventListener("change", setTilt); $("v-tiltyear").addEventListener("change", setTilt); $("v-tilt").addEventListener("change", setTilt);
     $("clk-steady").addEventListener("click", () => {
       if (S.clock) { const last = S.clock[S.clock.length - 1]; P.g_eta = -last[1] / (last[0] - 1950); }
       S.clock = null; syncControls(); schedule();
@@ -265,7 +282,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     $("apply").addEventListener("click", () => {
       try {
         const o = JSON.parse($("settings").value);
-        S = Object.assign({ cap: null, sigma: null, pin: false, shelterW: null, clock: null, utility: clone(DOC.set_values.utility) }, o.settings);
+        S = Object.assign({ cap: null, sigma: null, pin: false, shelterW: null, clock: null, tilt: null, utility: clone(DOC.set_values.utility) }, o.settings);
         P = Object.assign({}, P, o.params); free = new Set(o.free || M.NAMES);
         status("Applied the settings text."); syncControls(); update();
       } catch (err) { status("That text is not valid settings: " + err.message); }
@@ -297,6 +314,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     if (worker) return;
     const names = [...free].filter((n) => !(n === "chi_max" && S.pin) && !(n === "g_eta" && S.clock));
     if (S.clock && S.clockFree !== false) S.clock.forEach((k, i) => { if (i > 0) names.push("clock:" + i); });
+    if (S.tilt) names.push("tilt:2");
     if (!names.length) { status("Every number is fixed: unlock at least one."); return; }
     const src = document.getElementById("model-src").textContent + `
       self.onmessage = (ev) => {
@@ -308,7 +326,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
     worker.onmessage = (ev) => {
       const m = ev.data.step || ev.data.done;
-      P = Object.assign({}, P, m.par); if (S.clock && m.S.clock) S.clock = m.S.clock;
+      P = Object.assign({}, P, m.par); if (S.clock && m.S.clock) S.clock = m.S.clock; if (S.tilt && m.S.tilt) S.tilt = m.S.tilt;
       syncControls(); update();
       status((ev.data.done ? "Fit done: " : "Fitting: ") + `misfit ${(m.misfit * 1).toFixed(3)}` + (ev.data.done ? ` after ${m.iters} steps.` : ` at step ${m.iter}.`));
       if (ev.data.done) stopFit(true);

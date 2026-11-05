@@ -33,7 +33,8 @@ def data():
     out = dict(years=YEARS, N=[float(x) for x in D["adults"] / D.loc[1950, "adults"]], delta=[float(x) for x in D["delta"]],
                ls_tol=[float(x) for x in ls_tol], weak=[bool(x) for x in weak],
                ls_lo=[num(x) for x in D["labour_share_c_lo"]], ls_hi=[num(x) for x in D["labour_share_c_hi"]],
-               real_wage_cpi=[float(x) for x in rw], housing_share_pce=[num(x) for x in D["housing_share_pce"]])
+               real_wage_cpi=[float(x) for x in rw], housing_share_pce=[num(x) for x in D["housing_share_pce"]],
+               real_rate=[float(x) for x in D["real_rate"]])
     for s in ("wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"):
         out[s] = [num(x) for x in D[s]]
     return out, rw
@@ -58,10 +59,29 @@ def presets(rw):
     return out
 
 
+PLAY = [("tilt", "Play: tastes tilt from land after 1995", "playground/round3.json", "internet: tastes tilt from land after 1995"),
+        ("Aprime", "Play: building priced like building work (A′)", "playground/results.json",
+         "A' (shelter's building priced at the wage, site 0.4)"),
+        ("rho5", "Play: required return fixed at 5%", "playground/round4.json", "return 5% (kept model otherwise)")]
+
+
+def play_presets():
+    """Playground fits the page can express (explorer/model.js only; checks/check_explorer.py has no Python twin)."""
+    out = []
+    for pid, label, path, key in PLAY:
+        full = os.path.join(ROOT, path)
+        if not os.path.exists(full):
+            continue
+        r = json.load(open(full))[key]
+        out.append(dict(id=pid, label=label, source=f"{path}#{key}", settings=r["S"], params=r["par"], misfit=r["misfit"],
+                        by_series=r["by"], locked=["chi_max"] + (["rho"] if pid == "rho5" else [])))
+    return out
+
+
 def build():
     D, rw = data()
     meta = json.load(open(os.path.join(ROOT, "results", "fit_capbasket_pin.json")))["meta"]
-    doc = dict(data=D, presets=presets(rw), set_values=dict(cap=meta["cap"], sigma=meta["sigma"], shelterW=0.4,
+    doc = dict(data=D, presets=presets(rw) + play_presets(), set_values=dict(cap=meta["cap"], sigma=meta["sigma"], shelterW=0.4,
                                                             utility=[[1950, 1.0], [1970, float(rw.loc[1970])]]))
     with open(os.path.join(HERE, "data.json"), "w") as f:
         json.dump(doc, f, separators=(",", ":"))

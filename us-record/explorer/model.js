@@ -69,7 +69,8 @@
 
   function basket(e, p) {
     if (e.sigma === null || e.sigma === undefined) return [1, e.h];
-    const th = e.p_ref / (e.p_ref + e.h), ts = e.h / (e.p_ref + e.h);
+    let th = e.p_ref / (e.p_ref + e.h), ts = e.h / (e.p_ref + e.h);
+    if (e.tilt !== undefined && e.tilt !== 1) { ts = ts * e.tilt; th = 1 - ts; }
     const r = p / e.p_ref;
     let Ps, thp, tsp;
     if (e.sigma === 1) {
@@ -133,6 +134,7 @@
     q.income = q.v * q.n + e.T + e.rho * q.Vm * q.K;
     q.theta_V = e.lam * q.v / q.Vm;
     q.labour_share_bea = q.v * q.final / q.income;
+    q.labour_share_traced = q.v * q.n / q.income;            // all labour, the machine chain's included
     return q;
   }
 
@@ -162,16 +164,27 @@
     return D.years.map((y) => Math.exp(interp(y, xs, ys)));
   }
 
+  function knotMul(knots, D) {                  // optional paths in logs through [year, log multiplier] knots, 1 if none
+    if (!knots || !knots.length) return null;
+    const xs = knots.map((k) => k[0]), ys = knots.map((k) => k[1]);
+    return D.years.map((y) => Math.exp(interp(y, xs, ys)));
+  }
+
   function economies(par, S, D, pRef) {
     const eta = etaPath(par, S, D);
     const util = S.sigma !== null && S.sigma !== undefined && pRef !== undefined && pRef !== null ? utilityPath(S, D) : null;
+    // Optional paths, off unless set (the page does not set them; the playground does): land, the cost of working and the
+    // machine chain's labour through knots, and the required return following the measured real rate.
+    const land = knotMul(S.land, D), chi = knotMul(S.chi, D), lamk = knotMul(S.lamk, D), tilt = knotMul(S.tilt, D);
     const out = [];
     for (let i = 0; i < D.years.length; i++) {
       const t = D.years[i] - 1950;
-      const e = { N: D.N[i], T: par.T, h: par.h, a: par.a, b: SET.b, lam: par.lam0 * Math.exp(par.g_lam * t),
-                  g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max, rho: par.rho,
+      const lam = lamk ? par.lam0 * lamk[i] : par.lam0 * Math.exp(par.g_lam * t);
+      const rho = S.rhoData ? par.rho + S.rhoData * D.real_rate[i] : par.rho;
+      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b, lam,
+                  g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max * (chi ? chi[i] : 1), rho,
                   delta: D.delta[i], cap: S.cap === null || S.cap === undefined ? 1 : S.cap, sigma: null };
-      if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; }
+      if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; if (tilt) e.tilt = tilt[i]; }
       out.push(e);
     }
     return out;
@@ -202,8 +215,31 @@
   }
 
   // Each year's equilibrium read as the targets; null if any year has no equilibrium (with the year).
+  function pinnedK(par, S, D) {                  // k at which 1950's labour share is the record's (the start pinned)
+    const target = D.labour_share_c[0];
+    const gap = (lk) => {
+      try {
+        let p = Object.assign({}, par, { k: Math.exp(lk) });
+        if (S.pin) { const chi = pinnedChi(p, S, D); if (chi === null) return NaN; p.chi_max = chi; }
+        const e0 = economies(p, S, D)[0];
+        const q = solve(e0);
+        return (S.lsBasis === "traced" ? q.v * q.n / q.income : q.labour_share_bea) - target;
+      } catch (err) { return NaN; }
+    };
+    const grid = linspace(Math.log(BOUNDS.k[0]), Math.log(BOUNDS.k[1]), 25), vals = grid.map(gap);
+    for (let j = 0; j < grid.length - 1; j++) {
+      if (isFinite(vals[j]) && isFinite(vals[j + 1]) && vals[j] * vals[j + 1] < 0) return Math.exp(brentq(gap, grid[j], grid[j + 1], 1e-12));
+    }
+    return null;
+  }
+
   function path(par0, S, D) {
     let par = par0;
+    if (S.pinLS) {
+      const k = pinnedK(par, S, D);
+      if (k === null) return { ok: false, why: "no steepness gives 1950's labour share" };
+      par = Object.assign({}, par, { k });
+    }
     if (S.pin) {
       const chi = pinnedChi(par, S, D);
       if (chi === null) return { ok: false, why: "no work-cost scale gives 1950's employment" };
@@ -223,18 +259,22 @@
       if (!isFinite(q.v) || !isFinite(q.p)) return { ok: false, why: "no equilibrium in " + D.years[i], year: D.years[i] };
       cols.x.push(q.x); cols.v.push(q.v); cols.p.push(q.p); cols.Ps.push(q.Ps);
       cols.wg.push(q.v / q.p); cols.ws.push(q.v);
-      cols.labour_share_c.push(q.labour_share_bea); cols.prime_emp_rate.push(q.participation);
+      cols.labour_share_c.push(S.lsBasis === "traced" ? q.labour_share_traced : q.labour_share_bea);
+      cols.prime_emp_rate.push(q.participation);
       cols.theta_V.push(q.theta_V); cols.goods_basket.push(q.gb); cols.site_basket.push(q.sb);
       cols.eta.push(es[i].eta); cols.utility.push(es[i].utility === undefined ? 1 : es[i].utility);
     }
     if (S.shelterW !== null && S.shelterW !== undefined) {      // addition A: shelter is building and site
-      const w = S.shelterW, pl = cols.p[cols.p.length - 1];
-      cols.ws = cols.v.map((v, i) => v / (w + (1 - w) * cols.p[i] / pl));
+      const w = S.shelterW, pl = cols.p[cols.p.length - 1], vl = cols.v[cols.v.length - 1];
+      cols.ws = S.shelterBuild === "wage"                         // the building priced like construction: at the wage
+        ? cols.v.map((v) => v / (w + (1 - w) * v / vl))
+        : cols.v.map((v, i) => v / (w + (1 - w) * cols.p[i] / pl));
     }
     cols.wage_goods = cols.wg.map((x) => 100 * x / cols.wg[0]);
     cols.wage_shelter = cols.ws.map((x) => 100 * x / cols.ws[0]);
     cols.ok = true;
     cols.chi_max = par.chi_max;
+    cols.k = par.k;
     return cols;
   }
 
@@ -294,20 +334,25 @@
     const onStep = opts.onStep || (() => {});
     const toU = (name, val) => (LOGP[name] ? Math.log(val) : val);
     const fromU = (name, u) => (LOGP[name] ? Math.exp(u) : u);
-    const lo = free.map((n) => (n.startsWith("clock:") ? -25 : toU(n, BOUNDS[n][0])));
-    const hi = free.map((n) => (n.startsWith("clock:") ? 5 : toU(n, BOUNDS[n][1])));
+    const knot = (n) => n.indexOf(":") > 0;      // "clock:2", "land:1", ...: a knot's log value in a path of S
+    const lo = free.map((n) => (knot(n) ? (n.startsWith("clock:") ? -25 : -6) : toU(n, BOUNDS[n][0])));
+    const hi = free.map((n) => (knot(n) ? (n.startsWith("clock:") ? 5 : 6) : toU(n, BOUNDS[n][1])));
     const clamp = (u) => u.map((x, j) => Math.min(Math.max(x, lo[j]), hi[j]));
+    const copyS = (S) => {
+      const out = Object.assign({}, S);
+      for (const key of ["clock", "land", "chi", "lamk", "tilt"]) if (S[key]) out[key] = S[key].map((k) => k.slice());
+      return out;
+    };
     const unpack = (u) => {
-      const par = Object.assign({}, par0);
-      const S = Object.assign({}, S0, { clock: S0.clock ? S0.clock.map((k) => k.slice()) : null });
+      const par = Object.assign({}, par0), S = copyS(S0);
       free.forEach((n, j) => {
-        if (n.startsWith("clock:")) S.clock[+n.slice(6)][1] = u[j];
+        if (knot(n)) { const [key, i] = n.split(":"); S[key][+i][1] = u[j]; }
         else par[n] = fromU(n, u[j]);
       });
       return { par, S };
     };
     const cost = (r) => r.reduce((a, x) => a + x * x, 0);
-    let u = clamp(free.map((n) => (n.startsWith("clock:") ? S0.clock[+n.slice(6)][1] : toU(n, par0[n]))));
+    let u = clamp(free.map((n) => (knot(n) ? S0[n.split(":")[0]][+n.split(":")[1]][1] : toU(n, par0[n]))));
     let cur = unpack(u), r = residuals(cur.par, cur.S, D, N_OBS), c = cost(r);
     let mu = 1e-3, quiet = 0, it = 0;
     for (it = 0; it < maxIter; it++) {
