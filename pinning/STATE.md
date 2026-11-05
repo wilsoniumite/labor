@@ -231,7 +231,9 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 
 - **2026-11-05 — a rewrite asked for; discussed only, the paper unchanged.** Johan asks for the
   paper to be rewritten in the style of journal papers. Magnus's notes: cut Section 2, and
-  introduce the model more systematically in Section 3, like the appendix but more so. Magnus
+  introduce the model more systematically in Section 3. ("Like the appendix, but more so" was
+  her own gloss, not Magnus's. She meant A.1, does not hold to it, and takes Lucas as the better
+  guide; see the correction below.) Magnus
   recommends Lucas (1978), "Asset Prices in an Exchange Economy" (Econometrica 46(6), checked on
   Crossref), as the model of exposition. Her idea is to use Economic Modelling papers as
   examples too. A Crossref search found three model-led candidates in the journal, not yet read:
@@ -242,6 +244,14 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   is the longest section of the main text (about 1,030 of 7,500 words). By an approximate count,
   33 of the 59 references are cited only there. The plan and her open questions are in the
   session. If the rewrite goes ahead, the package of Open 11 is not submitted as built.
+  **Later the same day, her answers.**
+  - **"The appendix".** This entry first gave "like the appendix" as Magnus's. It was her own
+    addition; she meant A.1, and does not hold to it.
+  - **The supporting household.** Making the household that owns land and machines and provides
+    support a primitive of the stated economy is "a step in the right direction".
+  - **How far to follow Lucas.** Not his exact style.
+  - **The source.** She supplied Lucas (1978) as a PDF and it was read in session. It is not
+    committed (copyright).
 
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately
