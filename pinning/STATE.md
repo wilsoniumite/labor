@@ -6,6 +6,10 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
+**Standing permission (2026-11-05):** her account email may be used to register for free
+scholarly API keys, such as OpenAlex's. Each session has the address in its context; it is not
+written here because the repository is public. That day the session's permission check
+refused the OpenAlex registration, so no key exists. Crossref needs no key.
 **State as of:** 2026-11-04 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
@@ -224,6 +228,20 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-05 — a rewrite asked for; discussed only, the paper unchanged.** Johan asks for the
+  paper to be rewritten in the style of journal papers. Magnus's notes: cut Section 2, and
+  introduce the model more systematically in Section 3, like the appendix but more so. Magnus
+  recommends Lucas (1978), "Asset Prices in an Exchange Economy" (Econometrica 46(6), checked on
+  Crossref), as the model of exposition. Her idea is to use Economic Modelling papers as
+  examples too. A Crossref search found three model-led candidates in the journal, not yet read:
+  Lankisch, Prettner and Prskawetz (2019), "How can robots affect wage inequality?"
+  (10.1016/j.econmod.2018.12.015); Gersbach, Komarov and von Maydell (2025), "Artificial
+  intelligence as self-learning capital" (10.1016/j.econmod.2025.107221); and Klarl (2022),
+  "Fragile robots, economic growth and convergence" (10.1016/j.econmod.2022.105850). Section 2
+  is the longest section of the main text (about 1,030 of 7,500 words). By an approximate count,
+  33 of the 59 references are cited only there. The plan and her open questions are in the
+  session. If the rewrite goes ahead, the package of Open 11 is not submitted as built.
 
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately
