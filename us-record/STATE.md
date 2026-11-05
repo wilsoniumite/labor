@@ -66,8 +66,9 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
 
 ## Next
 
-1. **Her verdict on A** (`figures/fig_fit_A.png`, sent unseen). Then the next change, proposed on its own merit
-   (decision 12) and judged by her (decision 13).
+1. **Splitting people** (her question, 2026-11-05): computing from about 1970 hit routine cognitive work, which
+   affects some people more than others. The model has one kind of worker; a split is to be designed with her before
+   anything is built.
 
 ## Log
 
@@ -114,3 +115,6 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
    reported best (compared as a yes/no, no numbers shown), and the search now continues such starts itself (A re-run with
    it). Blind checks 8/8 (the accounting diagnostic reads the base mapping, so it is not run). `figures/fig_fit_A.png`
    sent to her unopened. Claude has not seen A's fit.
+6. **2026-11-05 — A kept** (her verdict on `figures/fig_fit_A.png`). Her reading of it: the model's wage in durables does
+   not kink up, nor its wage in shelter kink down and then flatten, as the data do; nothing obvious fixes that. Her
+   question next, on its own merit: are people split yet, since computing (from about 1970) hit routine cognitive work?
