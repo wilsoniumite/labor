@@ -54,13 +54,14 @@ check("M2 every column traces to a manifest row (derived columns through their p
       f"orphans: {orphans}")
 
 # ---- C: coverage
-TARGETED = ["wage_goods", "wage_shelter", "labour_share_c", "emp_rate"]
+TARGETED = ["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate"]   # prime-age since breakpoint A
 gaps = {c: [y for y in range(1950, 2025) if pd.isna(P.loc[y, c])] for c in TARGETED}
 check("C1 the four targeted series are complete over 1950–2024", not any(gaps.values()), f"gaps: {gaps}")
 INPUTS = ["adults", "real_rate", "delta"]
 gaps = {c: [y for y in range(1950, 2025) if pd.isna(P.loc[y, c])] for c in INPUTS}
 check("C2 adults, the real rate and depreciation are complete over 1950–2024", not any(gaps.values()), f"gaps: {gaps}")
-oct25 = all(pd.isna(P.loc[2025, c]) for c in ("wage_goods", "wage_shelter", "emp_rate", "adults", "infl"))
+oct25 = all(pd.isna(P.loc[2025, c]) for c in ("wage_goods", "wage_shelter", "emp_rate", "prime_emp_rate", "adults",
+                                              "infl"))
 check("C3 2025 is missing exactly where a monthly source lacks October 2025 (the complete-year rule), and present for "
       "the annual sources", oct25 and P.loc[2025, ["labour_share_c", "delta", "aaa"]].notna().all())
 tv = P["theta_V"].dropna()

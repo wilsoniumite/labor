@@ -63,7 +63,10 @@ against it.
    Model: v (1 - x) / P_s, the consumption chain's labour with capital services left in surplus, as calibration (c)
    reads the same series (`ChainTargets`, basis "bea").
    `../pinning/effort/archive_v28/expected/LR_Q1_fullchain_factor_content_strong_weak_1950_2025.csv`.
-4. **The employment rate, 16+** (EMRATIO), 1950–2025. Model: N_a / N. Aggregate rates only (decision 3).
+4. **The prime-age employment rate, 25–54** (LNS12300060, aggregate), 1950–2024. Model: N_a / N, the participation
+   margin where retirement and school matter least; adults 16+ set the population's growth (her call at breakpoint
+   A, 2026-11-05: the 16+ rate's fall after 2008 is mostly ageing, which the model does not have). Aggregate rates
+   only (decision 3).
 
 ## 5. Facts not targeted (what the fit is judged on)
 
@@ -76,7 +79,7 @@ The model must get these roughly right without being fitted to them:
   gamma(x*) (`../companion/data/wc_grid.csv`);
 - the nonfarm business labour share (PRS85006173), on its own basis;
 - land values and housing's share of spending (Z.1 and BEA series in `../pinning/cache/`);
-- prime-age employment (aggregate).
+- the 16+ employment rate (EMRATIO): the targeted rate plus demography (ageing, school), which the model leaves out.
 
 ## 6. Additions and rivals, under one rule
 

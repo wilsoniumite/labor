@@ -42,6 +42,9 @@ the panel.**
    in 2024; nothing is filled or extended.
 9. **θ_V linked across bases at 1997** (Phase 1): the λ thread's 1967–1992 benchmark points (narrow machinery,
    import-comparable) carried onto calibration (c)'s basis by the 1997 ratio; nothing measured before 1967.
+10. **The targeted employment rate is prime-age, 25–54** (her call at breakpoint A, 2026-11-05): the 16+ rate's fall after
+    2008 is mostly ageing, which the model does not have; the 16+ rate becomes a check. Adults 16+ still set the
+    population's growth.
 
 ## Next
 

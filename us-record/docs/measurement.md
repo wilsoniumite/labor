@@ -12,7 +12,7 @@ Written 2026-11-05 at the end of Phase 1, before any fitting; breakpoint A is he
 | `wage_shelter` | the same earnings over shelter (CUUR0000SEHA rent of primary residence to 1952, then CUSR0000SAH1 shelter), 1950 = 100 | the wage over the shelter price; shelter is a built good plus site, so the price is a composite of p and r (addition A, `SPEC.md` section 6). Without A, shelter is pure site and the leg reads v | 1950–2024 |
 | `labour_share_c` | the full-chain human-effort share of consumption (`LR_Q1`, headline) | v (1 - x) / P_s, the consumption chain's labour with capital services in surplus, as calibration (c) reads the same series (`ChainTargets`, basis "bea") | 1950–2025 |
 | `labour_share_c_lo`, `_hi` | the regression (weak) estimate's band, in the 49 WEAK years only | the misfit's scale there; the 27 STRONG years (1997–2023, from annual input-output tables) carry no band and take a stated tolerance in Phase 2 | WEAK years |
-| `emp_rate` | civilian employment over the civilian noninstitutional population 16+ (EMRATIO) | N_a / N | 1950–2024 |
+| `prime_emp_rate` | employment over population, 25–54 (LNS12300060, aggregate; targeted since breakpoint A, her call) | N_a / N; adults 16+ set the population's growth | 1950–2024 |
 
 Together, `wage_goods` over `wage_shelter` is the deflator fork: x4.8 over 1964–2024 (gated, I2).
 
@@ -35,7 +35,7 @@ Together, `wage_goods` over `wage_shelter` is the deflator fork: x4.8 over 1964�
 | `fin_wage_direct`, `fin_wagetax`, `fin_ownertax`, `fin_borrowed` | the four-way financing split, medians over its grid (they need not add to one) | the model's income split, once a state is added (or not) |
 | `wc_median` | the wage against machine cost at the margin, 1999 = 1 (`../companion/data/wc_grid.csv`) | gamma(x*), indexed: an independent read of the capability clock |
 | `nfb_labour_share` | the nonfarm business labour share, 2017 = 100 (PRS85006173) | labour's share of income, on BLS's basis |
-| `prime_emp_rate` | employment over population, 25–54 (LNS12300060, aggregate) | participation where retirement and school matter least |
+| `emp_rate` | civilian employment over the civilian noninstitutional population 16+ (EMRATIO; targeted until breakpoint A) | the targeted rate plus demography (ageing, school), which the model leaves out |
 | `housing_share_pce` | housing and utilities services over all consumer spending (BEA) | shelter's share of the basket, structures and site |
 
 ## Choices made in Phase 1, with their reasons
