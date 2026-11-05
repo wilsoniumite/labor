@@ -7,6 +7,10 @@ data, with something to test against).
 **Collaboration:** same contract as the sibling threads — drafting and sequencing delegated to Claude, checks
 gate absolutely, direct critique over validation; the design decisions below are a veto window for her calls.
 **The wall:** this repository is public. Public data only (Eurostat; OECD and ILO as named in the inventory).
+**Before building on the derivations (2026-11-05):** they and the tests rest on the exit comparison
+`w + m_w >= s(q) + m_e` with the floor kink `s(q) = max(s0 - q h_e, s_under)`, from the pre-SSRN `main.tex`. The paper
+now prices participation against funded support, log(1 + w/P_s) - chi (Section 4, Appendix B), and the floor kink left
+`main.tex` on 2026-11-02. The model to extend is `../pinning/code/pinning_model.py`, which the paper and `../paths/` share.
 **State as of:** 2026-10-08 (paused mid long-run drafting; see 'The long run') — protocol written, reviewed and amended; pipeline built, adversarially reviewed and
 validated on synthetic data, all checks green; committed but NOT yet frozen (the `participation-P-freeze` tag
 waits for her go-ahead); no outcome value downloaded (the fetch log holds one line: the 2010 population).
