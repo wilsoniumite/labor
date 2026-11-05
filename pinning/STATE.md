@@ -416,6 +416,24 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     - Trammell and Korinek, Korinek and Lockwood, and Korinek and Juelfs's planner results go in the
       body;
     - line 128's below-subsistence clause moves to Section 4.
+
+  **The introduction as a history, asked for the same day** (Stella: "The order in that intro feels
+  wierd").
+  - **The order asked for.**
+    - Keynes's question first.
+    - Then what went wrong: Leontief's forecast, which did not come true.
+    - Then the recent papers asking the question urgently, and why they were written.
+    - Then what they leave out, and how this paper fits.
+    - "This paper argues" is one sentence, near the end. The citations come from the papers the
+      paper cites later.
+  - **The draft.** `intro/narrative_draft.md` (scratchpad).
+    - It reuses Stella's Section 2.3 and 2.7 sentences for the history (Autor; Acemoglu and
+      Restrepo; Karabarbounis and Neiman; Rognlie).
+    - It quotes each AI paper's own statement of motive, read from its text.
+    - The authors' paragraphs from line 72 to line 86 stay verbatim.
+    - Three alternative snippets: the measured fork, the classical "pinned to land" sentence, and
+      the ownership-income sentence.
+    - The formal attribution and claims checks wait until the order is settled.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
