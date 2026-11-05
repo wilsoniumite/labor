@@ -386,6 +386,36 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     rT + ρV_mX > NP_s strictly.
   - **Superseded.** The design's draft introduction, which carries Appendix B numbers, is replaced
     by the introduction work above.
+
+  **The introduction's opening, merged on A and checked, the same day** (scratchpad:
+  `intro/final_A.md`).
+  - **Two new paragraphs.**
+    - An opening before line 72: the question, Keynes, the obvious condition, the claim prefaced
+      "This paper argues that", two elaborations, and the bridge with "is decided by".
+    - A literature paragraph before the roadmap: Leontief (1983); Korinek and Suh; Restrepo;
+      Korinek and Stiglitz; Korinek and Juelfs; the price system of Leontief (1936) and Sraffa
+      (1960); then "Our contribution is".
+    - The new text is 397 words. Section 1 grows from 623 to 816.
+  - **Checks.**
+    - Every quotation is exact.
+    - Six small fixes were applied: support "continues whether or not they work"; "a fixed minimum
+      of land"; "the land under a home"; "Given support and preferences"; Leontief's "diminishing";
+      and Korinek and Suh's label regains "under transformative AI".
+    - Zeira (1998), cited in the authors' line 72, could not be read because the publisher's site
+      blocked the fetch. The sentence is unverified and unchanged.
+  - **The merge left sixteen small choices.** The conservative option is taken on each unless Stella
+    says otherwise:
+    - the purchasing-power paragraph (line 88) and line 90's first sentence move verbatim to open
+      the purchasing-power section;
+    - line 90's sentences 2–3 go, since they are now said elsewhere;
+    - the George sentence stays;
+    - the roadmap loses its Section 2 sentence and is rewritten for the new section order, without
+      "turns";
+    - Ricardo stays out, and Keynes appears twice;
+    - the two lines after eq. (17) are added;
+    - Trammell and Korinek, Korinek and Lockwood, and Korinek and Juelfs's planner results go in the
+      body;
+    - line 128's below-subsistence clause moves to Section 4.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
