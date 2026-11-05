@@ -42,7 +42,7 @@ site, participation from log(1 + w/P_s) against funded support, land T.
 | Kind | What | Source |
 |---|---|---|
 | Measured input | adults N_t (population 16+) | FRED CNP16OV, 1948– (to fetch; total population is cached, `../pinning/cache/B230RC0A052NBEA.csv`) |
-| Measured input | the required return rho_t (a real long rate) and depreciation delta_t | `../pinning/cache/GS10.csv` less expected inflation; BEA Fixed Assets |
+| Measured input | the required return rho_t (a real long rate) and depreciation delta_t | Moody's Aaa less expected inflation (Phase 1: `docs/measurement.md`, choice 2); BEA Fixed Assets |
 | Measured input | the machine chain's labour content: theta_V,t, from which lambda_t follows | `../progress_and_prosperity/lambda/data/` (1997–2023; benchmark years from 1947) |
 | Free driver | machine capability eta_t: the capability clock, one smooth curve | fitted |
 | Fixed parameters | a, b, g0, g1, k, h, T, chi_max | fitted once over the whole record |

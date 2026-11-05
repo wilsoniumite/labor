@@ -7,8 +7,11 @@ measured, an attribution, and a 2025 starting point for the forward model in `..
 absolutely, direct critique over validation; the decisions below are a veto window for her calls. Code in plain
 functions, notebook-cell style; `tqdm` on any outer loop that takes more than a few seconds.
 **The wall:** this repository is public. Public data only (FRED, BEA, the Fed's Z.1).
-**State as of:** 2026-11-05. Phase 0 done: `SPEC.md` written and committed before any fitting. Nothing fitted, no new
-data fetched.
+**State as of:** 2026-11-05. Phases 0 and 1 done: `SPEC.md` committed before any data; the data panel built
+(`code/panel.py` -> `data/panel.csv`, 76 years x 32 columns, `data/manifest.csv` with each source's SHA-256),
+gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.md`) and drawn
+(`code/fig_panel.py` -> `figures/fig_panel.png`). Nothing fitted. **Waiting at breakpoint A (hers): the mapping and
+the panel.**
 
 ## The three models
 
@@ -31,14 +34,35 @@ data fetched.
    or takes a targeted series out of its band; set before fitting, revisable once at breakpoint B.
 5. **The folder** is `us-record/`, a new thread; `../archive/long-record/` (seven centuries of English wages) is the
    method's precedent, not its base.
+6. **The long rate is Moody's Aaa** (Phase 1): the ten-year Treasury starts in April 1953; Aaa covers the window and is
+   closer to a firm's cost of funds. The Treasury version is kept beside it.
+7. **Expected inflation is the mean log CPI inflation of the five years to t** (Phase 1): simple and complete; it lags
+   turning points (`docs/measurement.md`, choice 3).
+8. **Complete calendar years only** (the repository's rule): with October 2025 never published, the monthly series end
+   in 2024; nothing is filled or extended.
+9. **θ_V linked across bases at 1997** (Phase 1): the λ thread's 1967–1992 benchmark points (narrow machinery,
+   import-comparable) carried onto calibration (c)'s basis by the 1997 ratio; nothing measured before 1967.
 
 ## Next
 
-1. Phase 1, the data panel (`SPEC.md` section 8): the four targeted series and the measured inputs, annual
-   1950–2025, each stored with source and manifest; the measurement equations written out; then breakpoint A.
+1. **Breakpoint A (hers):** the mapping (`docs/measurement.md`) and the panel (`figures/fig_panel.png`). Then Phase 2:
+   the base model fitted — the pinning model each year on the measured inputs, one smooth capability clock, the fixed
+   parameters once over the record — with year-by-year accounting as a diagnostic, up to breakpoint B, the stop point.
 
 ## Log
 
 1. **2026-11-05 — founded.** From her question in the session that unified the pinning model ("what do we even want
    from this model?"): the three-model layout (pinning; backward over 70 years; forward with a crash), US first, and
    simplicity as the discipline. `SPEC.md` written before any data or fit.
+2. **2026-11-05 — Phase 1, the data panel.** Built from files already in the repository (the fork's legs, the effort
+   accounts, κ, the financing splits, the λ series, chains.json, the waterline, FRED and BEA caches) and three new public
+   fetches (FRED CNP16OV and CE16OV, BEA Fixed Assets section 1), each in `cache/` with its SHA-256 in the manifest.
+   Gated 21/21 after the first run, which failed four checks, each fixed at its cause and marked in the battery: I4
+   (the panel was written at ten digits; it is now full precision, and the check tolerates the last bit, because
+   chains.json and calibration_c.json store the same number one unit apart); I5 (the four financing columns are separate
+   medians and need not add to one); B1 (the labour-share band is the WEAK years' only); S2 (the 1981–85 real-rate floor
+   was a guess; the adaptive expectation lags the disinflation). What the panel shows, before any model: the wage in
+   durables rose about six-fold since 1950, while the wage in shelter peaked in 1973 and has stood near its 1950 level
+   since 1990; labour's share of consumption fell from 0.66 to 0.47; the 16+ employment rate rose from 0.56 to 0.64 by
+   2000 and stands at 0.60; the real long rate was highest in the 1980s and near 1% in 2023–24; depreciation rose from
+   0.040 to 0.053; the machine chain's labour share fell from about 0.52 around 2000 to 0.45-0.47 since 2010.

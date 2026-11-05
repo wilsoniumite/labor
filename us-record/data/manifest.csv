@@ -1,0 +1,21 @@
+file,sha256,origin,used_for,built_utc
+pinning/effort/data/fig3_realwage_fork_1950.csv,c17c715e4adff8f91e19ee8d4f2a8cf5c304e73ebf7e9389087a961ad11daec4,repository file,"wage_goods, wage_shelter",2026-11-05
+pinning/effort/archive_v28/expected/LR_Q1_fullchain_factor_content_strong_weak_1950_2025.csv,b007f851c1e1b59000906ea0e13acfa07ee40ab54992b278134ed4b6d920c0f8,repository file,labour_share_c,2026-11-05
+paths/cache/EMRATIO.csv,4065f3358af3728e981a73022c3c6e2e2ec3145eec5da1bbc8bde91ca7fff492,repository file (FRED EMRATIO),emp_rate,2026-11-05
+us-record/cache/CNP16OV.csv,b54137a637e849ffc80e536d7acd477223ede2501ac5746cc2a99bb84edb4b96,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=CNP16OV,adults,2026-11-05
+us-record/cache/CE16OV.csv,8ccd03e5ddc323b1ec691b328f59b5ee95833c1318095f41e5658e7353ced774,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=CE16OV,employed (the emp_rate identity check),2026-11-05
+paths/cache/AAA.csv,15248259177710745867656c413bb2bae549c6485ca3acb7eed348a812f497ac,repository file (FRED AAA),"aaa, real_rate",2026-11-05
+pinning/cache/GS10.csv,a875d88b7ed6a413f697ddb6332f13e61ac58ac7ae0ef52d66a62174995ec6f7,repository file (FRED GS10),"gs10, real_rate_gs10",2026-11-05
+paths/cache/CPIAUCNS.csv,f79e3a78837142293449cee4a1a9b1da7be677fb3e989ffb2ef48e8e7cf4cdd7,repository file (FRED CPIAUCNS),"infl, exp_infl",2026-11-05
+us-record/cache/Section1All_xls.xlsx,8b901fb892362a4e6d4e3c749f4fbbbc6b9af35d5fa8d26c7634a9402a2d9bbc,fetched https://apps.bea.gov/national/FixedAssets/Release/XLS/Section1All_xls.xlsx,delta,2026-11-05
+paths/results/chains.json,e933943a27463ee8fbab6dfd49c4c2b7c20b093b2e2ab9cc7aed68c741609262,repository file (paths/code/chains.py),theta_V,2026-11-05
+progress_and_prosperity/lambda/data/lambda_us_century.csv,e365c5a558db39034d4abc3ae17ce24fe53356163de95b9517a1daed54e7800b,repository file (the λ thread's century arc),theta_V,2026-11-05
+progress_and_prosperity/lambda/data/lambda_us_family_a.csv,53ff5d914cab639669ae1c0a0eab72ff797e8611dd702035e9ab09da8219865d,repository file (the λ thread's family A),theta_V,2026-11-05
+pinning/data/kappa_results.csv,0a64a63be2409a11cfdccd952f9f6e6489a3e330007447fcd7d4be709b183c88,repository file,kappa,2026-11-05
+pinning/effort/archive_v28/expected/DF21_FINAL_longrun_labor_origin_financing_1950_2025.csv,ba5ff9782f4ef0462d491e1534d5a7f0d511712bb58e9a6672ad884988f0b4e5,repository file,labor_origin_fin,2026-11-05
+pinning/data/four_way_split.csv,6e54e0f1625c5dd3fa9b72d893919740512628760b3d480fc8d72501e1d6ef6c,repository file,fin_*,2026-11-05
+companion/data/wc_grid.csv,c7495df74eb6073f5f8d8b85e08ca3bae14e1c1d0c83afd537d4699ad1b21115,repository file,wc_median,2026-11-05
+paths/cache/PRS85006173.csv,f3b9ce09c3d14893e94e7eeaffd4074f6598df7dcd893ba52335198bf65fd3ce,repository file (FRED PRS85006173),nfb_labour_share,2026-11-05
+paths/cache/LNS12300060.csv,8d0caa9f5a6949ca57f1ecb8da585160fb73b615187e451eeb96b98423b730c7,repository file (FRED LNS12300060),prime_emp_rate,2026-11-05
+pinning/cache/DHSGRC1A027NBEA.csv,5aa8463f6674632731a6631f8a4c3126490511d0bbee9e59e3e83f5e9d9eb1a2,repository file (FRED DHSGRC1A027NBEA),housing_share_pce,2026-11-05
+pinning/cache/PCECA.csv,2b8d07359715c57067f3fdd4efcea79c3a3ad9e5370a5d46db73ce1e11f0eaf5,repository file (FRED PCECA),housing_share_pce,2026-11-05
