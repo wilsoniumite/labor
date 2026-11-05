@@ -315,6 +315,43 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     candidates (the geometric series in Section 3.3, the indivisible hour in Section 4, Ricardo's
     recantation in Section 6.2) are not used.
 
+  **Stella's picks against the judges, the same day.** Stella picked in each of the session's three
+  judged rounds before seeing the judges' scores.
+  - **Model-section structure (designs A, B, C).**
+    - Stella: "can't decide between a or b".
+    - The judges ranked B first in all three lenses (referee, theorist, mathematician) and A second
+      in two of them.
+    - Stella's earlier choice of the smaller stated economy falls on B's side of the difference.
+    - The merged design is B, with A's budget-based Definition 1, its rho = 0 scoping and its
+      funding proof grafted in.
+  - **Jokes (18 candidates).**
+    - Stella kept C15, the lilies, which the judges also ranked first.
+    - Stella wants C14 in ("C14 is cool, i want it in"); the judges ranked it 15th because the model
+      has no voting. Stella found C9 "ain't bad"; the judges ranked it 17th.
+    - The paper now carries two asides: the lilies after eq. (17), and Leontief's horses in
+      Section 11.
+    - C14 as judged is false ("the model makes precise" a vote). Leontief made the voting point
+      himself, in the same NAE chapter, p. 6 (read from the page image): "Had horses had an
+      opportunity to vote and join the Republican or Democratic party, that solution would have
+      been very different from what it actually was."
+    - Proposed wording, which credits him: Leontief (1983, p. 6) noted where his comparison of
+      workers with horses breaks down: "Had horses had an opportunity to vote and join the
+      Republican or Democratic party, that solution would have been very different from what it
+      actually was." People can vote for a rent dividend.
+    - Proposed place: Section 11, after "A tax on pure fixed-factor rents can fund a payment paid
+      equally in and out of work; the coverage ratio determines whether it can finance the full
+      basket."
+  - **The introduction's opening (drafts A, B, C).**
+    - Stella: "A probably? not sure".
+    - Both judges ranked C first: the editor C 48.5, A 44.5, B 42; the judge on Stella's criteria
+      C 66, B 62, A 60.
+    - Their fixes for C borrow mostly from A.
+    - Two merges are being built (scratchpad only): the judges', on C, and one on A with the
+      judges' flags on A fixed.
+  - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
+    working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
+    multiplier passage), so voluntary exit itself is not new here.
+
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately
   one quarter", was already in the entry below. `main` fast-forwarded from 91f10c7 to branch
