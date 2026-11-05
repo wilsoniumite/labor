@@ -73,6 +73,17 @@ matters (flat or always rising is far worse); where it turns (1970, 1973, or the
   running backwards), so those are fits to the curve, not findings. An earlier remark that the bent clock rediscovers
   the 1973-95 productivity slowdown did not survive the break-year test.
 
+## The waterline, as an independent read of the clock
+
+The panel's untargeted waterline (`wc_median`: production wages over quality-adjusted machine prices, 1999 = 1, the
+median of six members from `../companion/data/wc_grid.csv`) rose x7.6 from 1999 to 2023 (log +2.03; members x2.4 to
+x16 by 2025). Its model counterpart, with machine prices quality-adjusted, is the margin's place on the schedule in
+capability units, gamma(x*) / eta = g0 + g1 x*^k (`docs/measurement.md` maps it to gamma(x*) itself, which falls in every
+run; with hedonic prices the ratio to eta looks like the right object: for her to confirm). On that reading the kept
+model gives x3.6 (log +1.29), and so does every clock on the ridge, from 8% to 14% (+1.24 to +1.31):
+the waterline cannot pin the clock's pace, and the model's margin climbs the schedule at about two thirds of the record's
+pace in logs, inside the members' range but below their median (`playground/waterline.py`).
+
 ## In the explorer
 
 Three of these are presets in the explorer (https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs): the tastes tilt, A′,
