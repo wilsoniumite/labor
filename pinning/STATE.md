@@ -252,6 +252,48 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   - **How far to follow Lucas.** Not his exact style.
   - **The source.** She supplied Lucas (1978) as a PDF and it was read in session. It is not
     committed (copyright).
+  **Her decisions on the rewrite's form, also the same day.**
+  - **Lucas's moves are adopted.**
+    1. One sentence names the primitives, and every primitive is used by some result. She prefers
+       this smaller stated economy to the general one (several fixed inputs, a choice among
+       methods); the generality goes to remarks or an appendix.
+    2. One paragraph, used once, says what is easy and what is hard: the cost recursion prices
+       everything once w and r are known.
+    3. A formal Definition, with a note that the equilibrium concept is standard.
+    4. After each result, a remark on what it does not depend on.
+    5. Precedence in the introduction in place of a survey.
+    6. General results first, then examples, then AI.
+  - **Proofs and assumptions.** Proofs of Propositions 1–3 stay in the text; the rest go to the
+    appendix. Assumptions are numbered.
+  - **The owner.** The owner optimizes: rho = 1/beta − 1, and the user cost becomes the owner's
+    first-order condition. Support stays a commitment in the owner's budget.
+  - **Magnus's third note.** Make the research question clearer. Her question, from the meeting,
+    is "can you have an economy where people don't do any work?" It is to open the introduction.
+
+  **Checks made in session** (scratchpad only, not committed).
+  - **Appendix B's automation path, extended** (lambda = 0, gamma scaled by eta). The share of
+    people working is:
+    - 0.60 at the baseline;
+    - 0.56 once machine-making needs no labor;
+    - 0.13 at a hundredfold gain in machine capability;
+    - 0.018 at a thousandfold gain.
+
+    Along the path an hour's wage buys 1.8 times as much of the machine-made good and 1/426 as
+    much space. Automating machine-making alone leaves w/r = gamma(x*) btilde_m > 0, so people
+    leave work only as machines improve at the tasks people still do.
+  - **Eq. (17) is narrower than the question it would answer.** It is stated for one fixed input
+    in the flow benchmark. The research question's "land and other non-produced inputs", and
+    durable machines, need a line each.
+  - **Relevant work not cited** (checked on Crossref):
+    - Restrepo (2025), NBER w34423;
+    - Korinek and Juelfs (2022), NBER w30172;
+    - Korinek and Lockwood (2026), NBER w34873;
+    - Trammell and Korinek (2023), NBER w31815; Annual Review of Economics 2026,
+      doi 10.1146/annurev-economics-051624-061002.
+  - **Precedents for the opening.** Keynes (1930) is quoted in candidates but is not in the
+    references. Ricardo's Notes on Malthus (1820; the horses passage) and Leontief (1983; NAE
+    volume, doi 10.17226/19470) are candidates. Section 2.6's precedence sentences on Korinek and
+    Stiglitz (2019) and Korinek and Suh (2024) must survive the cut.
 
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately
