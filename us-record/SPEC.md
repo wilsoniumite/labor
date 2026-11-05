@@ -1,0 +1,142 @@
+# us-record — the paper's model against the US record, 1950–2025
+
+The backward model: the pinning model run through 75 years of US data. Written 2026-11-05, before any fitting.
+A working spec: it changes at the breakpoints below, and every change is recorded in `STATE.md` with its reason.
+
+## 1. What it is for
+
+1. **A test the mechanism could fail.** Does the paper's account (wages pinned at the task margin by the cost of
+   machines, which traces back through machine-making to land) reproduce what happened to American wages, prices and
+   work since 1950, without building in the answer?
+2. **The clocks, measured.** How fast machine capability, the labour in machine-making and land scarcity actually
+   moved. The forward model's speeds are guesses today.
+3. **An attribution.** How much of each fact (the wage's lost ground against shelter, labour's falling share) each
+   force carried.
+4. **A starting point.** The economy in 2025 in the model's own terms, and the clocks' measured speeds, handed to the
+   forward model (`../paths/`) in place of calibration (c)'s static targets.
+
+It is not a forecaster (the forward model is), not a business-cycle model (recessions belong to the crash model), and
+not a general-equilibrium model of everything. It may find that the mechanism explains part of the record and not
+the rest. That is a result.
+
+## 2. The discipline: accuracy through simplicity
+
+Her thesis is that a small set of forces drives the economy; the model should show it or fail to.
+
+- **The paper's model, with as few additions as the record forces.** The core is `../pinning/code/pinning_model.py`,
+  unchanged, solved each year (annual and quasi-static, as in the paper).
+- **Everything earns its place.** A component stays only if it does real work in the fit; the paper's own pieces face
+  the same test as the additions (ablation, section 6). If something does not do much, it is cut.
+- **Few free numbers, smooth in time.** Time variation enters only through measured inputs or a small number of smooth
+  drivers, each a curve with at most three parameters. No year-by-year free parameters in the final model.
+- **Credibility from economy, not from many holdout sets.** The case for believing the fit is the ratio of facts
+  matched to numbers chosen, and the series the model was never fitted on (section 5). One time split (fit to 1995,
+  read 1995–2025) is reported as a reading, not used as a gate.
+
+## 3. The model
+
+The pinning model each year. Its objects (rent r = 1, v = w/r): the capability schedule gamma(x) = eta (g0 + g1 x^k),
+machines at user cost (rho + delta), the machine chain's labour lambda, the basket of one final good and h units of
+site, participation from log(1 + w/P_s) against funded support, land T.
+
+| Kind | What | Source |
+|---|---|---|
+| Measured input | adults N_t (population 16+) | FRED CNP16OV, 1948– (to fetch; total population is cached, `../pinning/cache/B230RC0A052NBEA.csv`) |
+| Measured input | the required return rho_t (a real long rate) and depreciation delta_t | `../pinning/cache/GS10.csv` less expected inflation; BEA Fixed Assets |
+| Measured input | the machine chain's labour content: theta_V,t, from which lambda_t follows | `../progress_and_prosperity/lambda/data/` (1997–2023; benchmark years from 1947) |
+| Free driver | machine capability eta_t: the capability clock, one smooth curve | fitted |
+| Fixed parameters | a, b, g0, g1, k, h, T, chi_max | fitted once over the whole record |
+
+About ten free numbers in the base model, against four targeted series over 75 years.
+
+## 4. Facts to match (targeted)
+
+Each is mapped to a model object by a stated measurement equation; where the data carry a band, the misfit is measured
+against it.
+
+1. **The real wage in goods**: hourly earnings over the durables price (AHEMAN, AHETPI; CUUR0000SAD), 1950–2025.
+   Model: v / p. Already built: `../pinning/effort/data/fig3_realwage_fork_1950.csv`.
+2. **The real wage in shelter**: the same earnings over rent of primary residence (CUUR0000SEHA). Model: the wage over
+   the shelter price. Shelter is structures and site, so the measurement equation is a composite (addition A below).
+   Together, 1 and 2 are the deflator fork.
+3. **Labour's share of consumption, full chain**: the human-effort share, 0.66 in 1950 to 0.46 in 2025, with its band.
+   Model: v (1 - x) / P_s, the consumption chain's labour with capital services left in surplus, as calibration (c)
+   reads the same series (`ChainTargets`, basis "bea").
+   `../pinning/effort/archive_v28/expected/LR_Q1_fullchain_factor_content_strong_weak_1950_2025.csv`.
+4. **The employment rate, 16+** (EMRATIO), 1950–2025. Model: N_a / N. Aggregate rates only (decision 3).
+
+## 5. Facts not targeted (what the fit is judged on)
+
+The model must get these roughly right without being fitted to them:
+
+- the coverage ratio κ, 1953–2025: site rent against the subsistence bundle (`../pinning/data/kappa_results.csv`);
+- labour-origin financing, 1950–2025, and the four-way financing split, 1960–2025
+  (`DF21_FINAL_longrun_labor_origin_financing_1950_2025.csv`; `../pinning/data/four_way_split.csv`);
+- the wage against machine cost at the margin, 1999–2025, an independent read of the capability clock: the model's
+  gamma(x*) (`../companion/data/wc_grid.csv`);
+- the nonfarm business labour share (PRS85006173), on its own basis;
+- land values and housing's share of spending (Z.1 and BEA series in `../pinning/cache/`);
+- prime-age employment (aggregate).
+
+## 6. Additions and rivals, under one rule
+
+The base model is section 3. Each candidate below enters only if it earns its place:
+
+- **The rule, set before fitting.** A component stays if removing it raises the misfit by at least 20%, or if without
+  it some targeted series leaves its measured band. Otherwise it is cut. The base model's own pieces are tested the same
+  way at the end (ablation). The threshold may be revisited once, at breakpoint B, with the reason recorded.
+- **The misfit.** The mean squared log deviation over the targeted series, each scaled by its band where it has one and
+  by a stated tolerance where it has none.
+
+Candidates the paper's account would add:
+
+- **A. Shelter as structures and site.** A measurement equation, not new economics: the CPI's shelter is a built good
+  plus land. Likely needed for fact 2.
+- **B. A shift in who is willing to work.** One smooth curve in the work-cost distribution (women's entry, 1950–2000).
+  Likely needed for fact 4.
+- **C. Support that rises with income.** The outside option partly indexed to wages (balanced growth).
+
+Rivals, under the same rule so the record can favour them:
+
+- **D. New human tasks**: the top of the schedule extending (reinstatement).
+- **E. Land supply restricted**: effective land T_t falling (zoning), rather than land fixed while demand grows.
+- **F. Markups**: a wedge between price and cost.
+- **G. Trade**: a foreign wage as a second machine rental on tradable tasks.
+- **H. Time to build**: investment that runs ahead of the margin. Only if the record's investment swings force it.
+
+## 7. What would count against the mechanism
+
+Written now, so they cannot be redrawn after the fit:
+
+- no smooth capability clock lets the base model (with A and B at most) reproduce the fork's direction and roughly
+  its size (4.8 over 1964–2024) and labour's falling share together;
+- the capability path the fit needs contradicts its independent reads: it falls for long stretches, or it moves against
+  the wage-to-machine-cost record of 1999–2025, or the fit needs lambda to move against its measured fall;
+- the rivals (E, F, G) carry most of the fork or of labour's fall, and ablation cuts the paper's channels.
+
+Any of these is reported as found, and the forward model does not take its start from a model that failed them.
+
+## 8. The order of work
+
+| Phase | What | Ends at |
+|---|---|---|
+| 0 | This spec | committed before any fitting |
+| 1 | The data panel, annual 1950–2025: each series stored in the repo with its source and a manifest, measurement equations stated | **Breakpoint A** (hers): the mapping and the panel |
+| 2 | The base model fitted (section 3); year-by-year accounting as a diagnostic only, to see what the capability path would have to be | **Breakpoint B** (hers; the stop point): does the paper's model get the core facts' direction and size with a smooth clock? |
+| 3 | Additions and rivals under the rule; ablation; the attribution | the model as small as the record allows |
+| 4 | The untargeted facts; the time split as a reading; the hand-off | **Breakpoint C** (hers): the forward model takes the 2025 state and the clock speeds |
+
+## 9. The hand-off
+
+The 2025 state (every parameter and driver) and the capability clock's speed go to `../paths/`. The forward model takes
+them as a new central calibration, with calibration (c) kept beside it as a sensitivity, after its checks pass.
+The forward model's clock is then the measured one, extended.
+
+## 10. Data
+
+Public sources only (FRED, BEA, the Fed's Z.1, BLS through FRED). Much is already in the repository: the fork and its
+raw series (`../pinning/effort/data/`), the effort accounts, κ, the financing splits and the tax-base shares
+(`../pinning/data/`), the λ series (`../progress_and_prosperity/lambda/data/`), the waterline
+(`../companion/data/wc_grid.csv`), and FRED and Z.1 caches (`../pinning/cache/`, `../paths/cache/`). New series are
+fetched once, stored with a manifest and checked against identities. A source that fails or cannot be validated stops
+the step, and it is reported, not substituted (her standing rule).
