@@ -154,7 +154,7 @@ def build():
     p["employed"] = fred_fetch("CE16OV", "employed (the emp_rate identity check)")
     p["aaa"] = fred_repo("paths/cache/AAA.csv", "AAA", "aaa, real_rate") / 100.0
     p["gs10"] = fred_repo("pinning/cache/GS10.csv", "GS10", "gs10, real_rate_gs10") / 100.0
-    cpi = fred_repo("paths/cache/CPIAUCNS.csv", "CPIAUCNS", "infl, exp_infl")
+    cpi = fred_repo("paths/cache/CPIAUCNS.csv", "CPIAUCNS", "infl, exp_infl, real_wage_cpi")
     infl = np.log(cpi).diff()
     p["infl"] = infl
     p["exp_infl"] = infl.rolling(5).mean()                        # the five years to t (adaptive)
@@ -188,12 +188,19 @@ def build():
     priv = fred_fetch("USPRIV", "pns_share, pay_gap")
     hours = fred_fetch("AWHNONAG", "pay_gap")
     wages = fred_fetch("A132RC1A027NBEA", "pay_gap")             # private wages and salaries, billions, annual
-    ahe = fred_repo("pinning/effort/data/raw/AHETPI.csv", "AHETPI", "pay_gap")
+    ahe = fred_repo("pinning/effort/data/raw/AHETPI.csv", "AHETPI", "pay_gap, real_wage_cpi")
     p["pns_share"] = pns / priv
     gap = (wages * 1e9 / (priv * 1e3 * hours * 52.0)) / ahe
     p["pay_gap"] = gap / gap.loc[1964]
     p["ahe_all"] = fred_fetch("CES0500000003", "ahe_all")        # all private employees' hourly earnings, from 2006: the
                                                                   # pay gap's anchor (checks/check_panel.py I8)
+
+    # ---- the basket's utility (her note, 2026-11-05: by most counts it rose until about 1970): the production worker's
+    # real hourly earnings over the all-items CPI, AHEMAN (manufacturing) to 1964 and AHETPI after, linked at 1964
+    man = fred_repo("pinning/effort/data/raw/AHEMAN.csv", "AHEMAN", "real_wage_cpi")
+    spliced = pd.concat([man.loc[:1964], ahe.loc[1965:] * (man.loc[1964] / ahe.loc[1964])])
+    real = spliced / cpi
+    p["real_wage_cpi"] = 100.0 * real / real.loc[1950]
 
     p = p.loc[YEARS]
     p.to_csv(os.path.join(DATA, "panel.csv"))                    # full precision: anchors are checked exactly

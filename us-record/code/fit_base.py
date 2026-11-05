@@ -40,6 +40,14 @@
 # of people never works at any wage (pinning_model.CappedEconomy); below the cap, participation follows the wage as before.
 # The cap is set, not fitted: the mean prime-age employment rate since it first reached her 0.78 (1987–2024).
 #
+# THE BASKET (her framing and call, 2026-11-05; --basket): the economy finds ways to give people less land for the same
+# utility; as goods cheapen, a basket holds more goods and less site (pinning_model.BasketEconomy: CES at constant
+# utility, one unit of goods and h of site at the model's own 1950 price). The elasticity is set, not fitted: one minus
+# the slope of the log odds of housing's share of consumer spending on the log of shelter's price over durables', all
+# complete years 1950–2024 (SIGMA_SET). The basket's utility rises until 1970 and is held after (her note: "by most
+# counts it was rising until then"), at the pace the production worker's real hourly wage over the all-items CPI rose
+# over 1950–1970 (U_GROWTH, 2.1% a year; 0.1% a year over 1970–2019).
+#
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
 import json
@@ -74,6 +82,12 @@ S_N = float(1.0 - PANEL.loc[1964:2024, "pns_share"].mean())   # the split's mana
 CAP = None                                            # None: everyone can work (the paper); a share: the cap
 _PE = PANEL.loc[1950:2024, "prime_emp_rate"]
 CAP_SET = float(_PE.loc[int(_PE[_PE >= 0.78].index[0]):].mean())   # the cap's set value: the mean since her 0.78
+SIGMA = None                                          # None: the fixed basket; a number: the basket at constant utility
+_HS = PANEL.loc[1950:2024, "housing_share_pce"]
+_REL = np.log(PANEL.loc[1950:2024, "wage_goods"] / PANEL.loc[1950:2024, "wage_shelter"])   # shelter's price / durables'
+SIGMA_SET = float(1.0 - np.polyfit(_REL.values, np.log(_HS / (1.0 - _HS)).values, 1)[0])   # the share regression
+UTILITY_UNTIL = 1970                                  # the basket's utility rises until then, and is held after
+U_GROWTH = float(np.log(PANEL.loc[UTILITY_UNTIL, "real_wage_cpi"] / PANEL.loc[1950, "real_wage_cpi"]) / (UTILITY_UNTIL - 1950))
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
@@ -95,19 +109,31 @@ def pack(par):
     return np.array([np.log(par[n]) if n in LOG else par[n] for n in NAMES])
 
 
-def economies(par, eta=None):
-    """The economy of every year: the measured inputs and the two drivers at par (or a given eta path)."""
+def economies(par, eta=None, p_ref=None):
+    """The economy of every year: the measured inputs and the two drivers at par (or a given eta path). With the basket
+    (SIGMA) and p_ref (the model's own 1950 price, which model_path solves for first), the basket economy."""
     eta = np.exp(-par["g_eta"] * T_REL) if eta is None else eta
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
     kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
+    if SIGMA is not None and p_ref is not None:
+        kind, extra = pm.BasketEconomy, dict(cap=1.0 if CAP is None else CAP, sigma=SIGMA, p_ref=p_ref)
+        util = np.exp(U_GROWTH * (np.minimum(np.array(YEARS), UTILITY_UNTIL) - 1950.0))
+        return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
+                     chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra, utility=float(util[i]))
+                for i in range(len(YEARS))]
     return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
                  chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra) for i in range(len(YEARS))]
 
 
 def model_path(par, eta=None):
     """Each year's equilibrium, read as the five targeted objects. None if any year has no interior equilibrium."""
-    rows, guess = [], None
-    for i, e in enumerate(economies(par, eta)):
+    rows, guess, p_ref = [], None, None
+    if SIGMA is not None:                                 # the basket is (1, h) at the model's own 1950 price
+        try:
+            p_ref = pm.solve(economies(par, eta)[0])["p"]
+        except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
+            return None
+    for i, e in enumerate(economies(par, eta, p_ref)):
         try:
             if SPLIT_FROM is None:
                 q = pm.solve(e)
@@ -122,6 +148,9 @@ def model_path(par, eta=None):
                              wage_shelter_raw=q["v"], labour_share_c=q["labour_share_bea"],
                              prime_emp_rate=q["participation"], theta_V=q["theta_V"], gamma=q["gamma"],
                              x_ceiling=q["x_ceiling"]))
+            if SIGMA is not None:                         # the basket's make-up, for the figure's checks
+                rows[-1].update(goods_basket=q["goods_basket"], site_basket=q["site_basket"],
+                                site_share=q["site_basket"] / q["Ps"], utility=e.utility)
         else:                                             # the targets read the first group's wage (AHETPI's)
             rows.append(dict(x=q["xr"], xn=q["xn"], v=q["vr"], vn=q["vn"], p=q["p"], Ps=q["Ps"],
                              wage_goods_raw=q["vr"] / q["p"], wage_shelter_raw=q["vr"],
@@ -262,6 +291,8 @@ if __name__ == "__main__":
     #                                                             the split on top of A -> results/fit_split.json
     # python3 code/fit_base.py --shelter-land-share 0.4 --cap --ref fit_A --out fit_cap --quiet
     #                                                             the cap on top of A -> results/fit_cap.json
+    # python3 code/fit_base.py --shelter-land-share 0.4 --cap --basket --ref fit_cap --out fit_basket --quiet
+    #                                                             the basket on top of A and the cap
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -272,6 +303,8 @@ if __name__ == "__main__":
         NAMES.append("g_c")
     if "--cap" in args:
         CAP = CAP_SET
+    if "--basket" in args:
+        SIGMA = SIGMA_SET
     t0 = time.time()
     todo = starts() if SPLIT_FROM is None else split_starts(REF)
     if SPLIT_FROM is None and REF is not None:            # the model it extends: its best fit is one more start
@@ -285,7 +318,8 @@ if __name__ == "__main__":
     acc = accounting(best["par"]) if SHELTER_LAND_SHARE is None and SPLIT_FROM is None else None   # the base mapping's
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
-                  shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP,
+                  shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP, sigma=SIGMA,
+                  utility=None if SIGMA is None else dict(growth=U_GROWTH, until=UTILITY_UNTIL),
                   s_n=None if SPLIT_FROM is None else S_N, ref=REF,
                   names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),

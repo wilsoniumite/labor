@@ -6,4 +6,4 @@ model in `../paths/`.
 
 **Start with `STATE.md`; the plan is `SPEC.md`.**
 
-Status: Phase 3 under way: changes run blind, judged by her (STATE decision 13); A kept; the split (two groups of workers, computing from 1970) and the cap on participation sent for her verdict.
+Status: Phase 3 under way: changes run blind, judged by her (STATE decision 13); A and the cap on participation kept, the split shelved; the basket at constant utility sent for her verdict.

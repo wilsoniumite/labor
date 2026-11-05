@@ -13,6 +13,8 @@
 #     Vm = b / (1 - (rho + delta)(a + lambda gamma)),  p(x) = v (1 - x) + p_m J,  P_s = p + h,
 #     Y = T / (h + b delta J / (1 - a delta)),  K = Y J / (1 - a delta),  n_D = Y (1 - x) + lambda delta K,
 #     n_S = N F(log(1 + v / P_s)),  F uniform on [0, chi_max] (CappedEconomy: at most a share cap).
+# BasketEconomy lets the basket's goods g and site s substitute at constant utility: P_s = p g + s, and land gives
+# B = T / (s + g b delta J / (1 - a delta)) baskets and Y = g B of the final good; (g, s) = (1, h) is the above.
 # Equilibrium: n_D(x*) = n_S(x*). Income = v n + T + rho Vm K (wages, land rent, interest).
 #
 # THE CEILING. Tasks where (rho + delta)(a + lambda gamma(x)) >= 1 are closed to machines at every wage: the machine
@@ -60,6 +62,10 @@ class Economy:
     def J(self, x):
         return self.eta * (self.g0 * x + self.g1 * x ** (self.k + 1.0) / (self.k + 1.0))
 
+    def basket(self, p):
+        """(goods, site) in one basket when the final good costs p (rent 1): one unit and h, whatever the prices."""
+        return 1.0, self.h
+
 
 @dataclass(frozen=True)
 class CappedEconomy(Economy):
@@ -67,6 +73,29 @@ class CappedEconomy(Economy):
     participation follows the wage as in Economy (the backward model's cap, her idea of 2026-11-05:
     ../../us-record/STATE.md). A subclass, so Economy's fields, and every stored parameter set, stay the paper's."""
     cap: float = 1.0
+
+
+@dataclass(frozen=True)
+class BasketEconomy(CappedEconomy):
+    """The basket held at constant utility (the backward model's basket, her framing of 2026-11-05: the economy finds ways
+    to give people less land for the same utility): goods and site substitute with elasticity sigma (CES in calibrated
+    share form), the basket being one unit of goods and h of site when the good costs p_ref. sigma 0 is Economy's fixed
+    basket; as goods cheapen (p below p_ref), a basket holds more goods and less site. utility scales the whole basket
+    (the preferences are homothetic): 1 is the reference bundle's utility."""
+    sigma: float = 0.0
+    p_ref: float = 1.0
+    utility: float = 1.0
+
+    def basket(self, p):
+        th, ts = self.p_ref / (self.p_ref + self.h), self.h / (self.p_ref + self.h)   # goods' and site's cost shares
+        r = p / self.p_ref                                                             # at p_ref (each direct: h can be tiny)
+        if self.sigma == 1.0:
+            Ps, thp, tsp = (self.p_ref + self.h) * r ** th, th, ts
+        else:
+            m = th * r ** (1.0 - self.sigma) + ts
+            Ps = (self.p_ref + self.h) * m ** (1.0 / (1.0 - self.sigma))
+            thp, tsp = th * r ** (1.0 - self.sigma) / m, ts / m                       # the shares at p
+        return self.utility * thp * Ps / p, self.utility * tsp * Ps
 
 
 def _parts(e: Economy, x):
@@ -84,8 +113,10 @@ def _parts(e: Economy, x):
     pm = cpt * Vm
     v = g * pm
     p = v * (1.0 - x) + pm * J
-    Ps = p + e.h
-    Y = e.T / (e.h + e.b * e.delta * J / (1.0 - e.a * e.delta))
+    gb, sb = e.basket(p)                                       # (1, h) but in BasketEconomy
+    Ps = p * gb + sb
+    B = e.T / (sb + gb * e.b * e.delta * J / (1.0 - e.a * e.delta))   # baskets: land is the limit
+    Y = gb * B                                                 # the final good
     K = Y * J / (1.0 - e.a * e.delta)
     final_hours = Y * (1.0 - x)
     machine_hours = e.lam * e.delta * K
@@ -93,7 +124,7 @@ def _parts(e: Economy, x):
     z = np.log1p(v / Ps)
     nS = e.N * min(max(z / e.chi_max, 0.0), getattr(e, "cap", 1.0))      # 1: everyone can work (CappedEconomy: less)
     return dict(x=x, gamma=g, J=J, v=v, pm=pm, Vm=Vm, p=p, Ps=Ps, Y=Y, X=K, K=K, final_hours=final_hours,
-                machine_hours=machine_hours, nD=nD, nS=nS)
+                machine_hours=machine_hours, nD=nD, nS=nS, baskets=B, goods_basket=gb, site_basket=sb)
 
 
 class NoEquilibrium(ValueError):

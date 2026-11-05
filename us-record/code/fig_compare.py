@@ -27,6 +27,7 @@ LABEL = POS[1] if len(POS) > 1 else NAME
 B = json.load(open(os.path.join(ROOT, "results", f"{REF}.json")))
 V = json.load(open(os.path.join(ROOT, "results", f"{NAME}.json")))
 SPLIT = V["meta"].get("split_from") is not None
+BASKET = V["meta"].get("sigma") is not None
 YEARS = list(range(B["meta"]["years"][0], B["meta"]["years"][1] + 1))
 MB, MV = pd.DataFrame(B["path"], index=YEARS), pd.DataFrame(V["path"], index=YEARS)
 D = pd.read_csv(os.path.join(ROOT, "data", "panel.csv")).set_index("year").loc[YEARS]
@@ -61,7 +62,7 @@ def note(s, extra=""):
     return f"{extra}Misfit: {REF_LABEL} {BB[s]:.1f}, {LABEL} {BV[s]:.1f} (1 = one tolerance)."
 
 
-rows = 3 if SPLIT else 2
+rows = 3 if SPLIT or BASKET else 2
 fig, axes = plt.subplots(rows, 3, figsize=(12.5, 3.5 * rows))
 ax = axes[0, 0]
 three(ax, "wage_goods", legend=True, loc="upper left")
@@ -120,6 +121,35 @@ if SPLIT:
     ax.plot(MV.index, MV["routine_share"].values, color=S2, lw=1.8)
     frame(ax, "Check: the production group's share of jobs",
           f"Not targeted. The groups' sizes are set at the data's 1964–2024\nmean, {1.0 - V['meta']['s_n']:.3f}.")
+
+if BASKET:
+    sg, ug = V["meta"]["sigma"], V["meta"]["utility"]
+    ax = axes[2, 0]
+    ax.plot(YEARS, MV["goods_basket"] / MV["goods_basket"].iloc[0], color=S2, lw=1.8, label="goods")
+    ax.plot(YEARS, MV["site_basket"] / MV["site_basket"].iloc[0], color=S2, lw=1.8, ls=(0, (1, 1.5)), label="land")
+    ax.set_yscale("log")
+    ax.yaxis.set_major_locator(matplotlib.ticker.LogLocator(subs=(1.0, 2.0, 5.0)))
+    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda y, _: f"{y:g}"))
+    ax.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
+    ax.legend(frameon=False, loc="upper left", fontsize=8)
+    frame(ax, f"{LABEL}: one person's basket, 1950 = 1 (log)",
+          f"Goods and land substitute with elasticity {sg:.3f}, set from the data\n(next panel); "
+          f"{REF_LABEL}'s basket is fixed at one unit and the same plot.")
+    ax = axes[2, 1]
+    hs = D["housing_share_pce"]
+    ax.plot(D.index, hs / hs.iloc[0], color=S1, lw=1.8, label="housing's share of spending")
+    ax.plot(MV.index, MV["site_share"] / MV["site_share"].iloc[0], color=S2, lw=1.8, label="land's share of the basket")
+    ax.legend(frameon=False, loc="upper left", fontsize=8)
+    frame(ax, "Shares of spending, 1950 = 1",
+          "Not targeted, but not independent: housing's share against shelter's\nprice set the elasticity.")
+    ax = axes[2, 2]
+    rw = D["real_wage_cpi"]
+    ax.plot(D.index, rw / rw.iloc[0], color=S1, lw=1.8, label="real hourly wage (CPI)")
+    ax.plot(MV.index, MV["utility"], color=S2, lw=1.8, label="the basket's utility (set)")
+    ax.legend(frameon=False, loc="lower right", fontsize=8)
+    frame(ax, "The basket's utility, 1950 = 1",
+          f"Set: rising {ug['growth']:.1%} a year to {ug['until']}, as the production\nworker's real wage did; "
+          "held after.")
 
 fig.suptitle(f"{LABEL} against {REF_LABEL} and the US record, 1950–2024: misfit {REF_LABEL} {B['best']['misfit']:.1f}, "
              f"{LABEL} {V['best']['misfit']:.1f}", x=0.01, ha="left", fontsize=10.5, fontweight="bold", color=INK)

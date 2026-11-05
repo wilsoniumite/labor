@@ -49,9 +49,10 @@ def parts(e, s_n, comp, xr, xn):
     pm_ = cpt * Vm
     vr, vn = gr * pm_, gn * pm_
     p = s_r * (vr * (1.0 - xr) + pm_ * jr) + s_n * (vn * (1.0 - xn) + pm_ * jn)
-    Ps = p + e.h
+    gb, sb = e.basket(p)                          # the pinning model's basket: (1, h) but in BasketEconomy
+    Ps = p * gb + sb
     J = s_r * jr + s_n * jn
-    Y = e.T / (e.h + e.b * e.delta * J / (1.0 - e.a * e.delta))
+    Y = gb * e.T / (sb + gb * e.b * e.delta * J / (1.0 - e.a * e.delta))
     K = Y * J / (1.0 - e.a * e.delta)
     mh = e.lam * e.delta * K
     ndr, ndn = Y * s_r * (1.0 - xr) + s_r * mh, Y * s_n * (1.0 - xn) + s_n * mh

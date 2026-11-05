@@ -31,6 +31,7 @@ R = json.load(open(os.path.join(ROOT, "results", f"{NAME}.json")))
 F.SHELTER_LAND_SHARE = R["meta"].get("shelter_land_share")
 F.SPLIT_FROM = R["meta"].get("split_from")
 F.CAP = R["meta"].get("cap")
+F.SIGMA = R["meta"].get("sigma")
 if F.SPLIT_FROM is not None:
     F.S_N = R["meta"]["s_n"]
 F.NAMES[:] = R["meta"]["names"]
@@ -70,7 +71,8 @@ check("R3 the misfit is the mean of the five series' misfits", abs(np.mean(list(
 # ---- E: equilibria
 worst = 0.0
 if F.SPLIT_FROM is None:
-    for e in F.economies(par):
+    p_ref = None if F.SIGMA is None else F.pm.solve(F.economies(par)[0])["p"]   # as model_path finds it
+    for e in F.economies(par, p_ref=p_ref):
         q = F.pm.solve(e)
         worst = max(worst, abs(q["nD"] - q["nS"]) / q["nD"])
 else:

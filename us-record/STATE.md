@@ -12,8 +12,8 @@ functions, notebook-cell style; `tqdm` on any outer loop that takes more than a 
 gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.md`) and drawn
 (`code/fig_panel.py` -> `figures/fig_panel.png`). Breakpoint A passed (her call: prime-age employment targeted).
 Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.json`, gated by `checks/check_fit_base.py`
-9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way, blind (decision 13): A kept; the split
-(decision 14) and the cap (decision 15) run and sent for her verdict.
+9/9, drawn in `figures/fig_fit_base.png`). Breakpoint B passed. Phase 3 under way, blind (decision 13): A and the cap kept, the
+split shelved; the basket (decision 18) run and sent for her verdict.
 
 ## The three models
 
@@ -87,17 +87,35 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
     equilibrium (at the base fit's parameters, 2021–23: every task machines can take is taken, and the capped workforce
     still cannot staff the rest); the search has to keep away from such parameters.
 
+16. **The cap is kept** (her verdict, 2026-11-05, on `figures/fig_fit_cap.png`). A + cap is the model the next change
+    is judged against.
+17. **The split is shelved** (her verdict, 2026-11-05: "its degenerate, so lets shelve it for now"). Its code stays
+    (`code/split_model.py`, `checks/check_split_model.py`, `fit_base.py --split`), off by default.
+18. **The basket at constant utility** (her framing and call, 2026-11-05: "build the basket next, set it from data";
+    and "you may need to fix the utility around 1970, because I think by most counts it was rising until then"): goods
+    and site substitute in a CES basket (`pinning_model.BasketEconomy`, calibrated share form), one unit of goods and h
+    of site at the model's own 1950 price, so 1950 is unchanged. Two values set from the data, none fitted. The
+    elasticity, 0.875: one minus the slope of the log odds of housing's share of consumer spending on the log of
+    shelter's price over durables', all 75 years 1950–2024 (the rule fixed before computing; the two endpoints alone
+    give 0.76 for 1950–2024 and 0.94 for 1964–2024). The basket's utility: rising until 1970 at the pace of the
+    production worker's real hourly wage over the all-items CPI over 1950–1970 (2.1% a year; the same series grew 0.1%
+    a year over 1970–2019), held after. The elasticity is between goods and shelter in the data and between goods and
+    site in the model: shelter's price is taken to move with the site's.
+
 ## Next
 
-1. **Her verdicts on the split and the cap** (`figures/fig_fit_split.png`, `figures/fig_fit_cap.png`, both sent
-   unopened; each against A). If she keeps both, they are run together.
-2. **Her framing, 2026-11-05**: the economy finds ways to give people less land for the same utility: both parents
-   working (the cap), then cheaper durables bought instead of space, then land-free goods (the internet). The model's
-   basket is fixed (one good and h of site a person), so it has no room for the second step. Proposed, not built:
-   **L, a basket held at constant utility**, goods and space substituting with one elasticity set from the panel
-   (housing's share of spending 0.11 -> 0.16 over 1950–2024 while shelter got about 6x dearer than durables: about 0.8;
-   a fixed basket would have taken the share from 0.15 in 1964 to about 0.45), checked on housing's share of spending.
-   Waiting for her go and her call on setting the elasticity rather than fitting it.
+1. **Her verdict on the basket** (`figures/fig_fit_basket.png`, sent unopened; against A + cap).
+2. **For her: A's shelter price caps the model's fork.** A prices shelter at w + (1 - w) p_t / p_2024 (rent 1, w 0.4):
+   the built part moves with the final good, which the goods target reads as durables. The fork the model can then make
+   between the two wage legs over any span is (S_t / p_t) / (S_0 / p_0) = 1 / (w p_t / p_0 + 1 - w) when t is the last
+   year, at most 1 / (1 - w) = 1.67 whatever the fit, against the data's 5.9 (1950–2024) and the paper's 4.8
+   (1964–2024). Arithmetic, found while designing the basket; no fit was looked at. On its own merit: building is not
+   made like durables (construction's productivity has barely grown), so pricing the built part at the cost of building
+   (the wage, in this model) rather than at the durables price is a candidate revision of A, for her call. Until then
+   every variant on top of A carries the cap on the fork (the cap, the basket).
+3. **Her framing, 2026-11-05**, the rest: land-free goods (the internet) after the basket, if the basket earns its
+   place; kids staying home (household size) left out for now (it shrank from about 3.4 to 2.5 people over the record,
+   from memory, unchecked).
 
 ## Log
 
@@ -168,3 +186,21 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
    at once, unread, to look at the property recorded in decision 15 on the seen base fit; the run that counts started
    after. Blind checks 8/8 (the re-solve reproduces the stored path with the cap as a subclass, R1). `figures/fig_fit_cap.png`,
    the prime-age panel with the cap drawn, sent to her unopened. Claude has not seen the cap's fit.
+9. **2026-11-05 — her verdicts and her framing.** The cap kept (decision 16), the split shelved (decision 17). Her
+   framing of land: "the economy wants to get the most money from you using the least amount of land": both parents
+   working, then kids at home, then cheaper durables bought instead of shelter, then the internet; nobody worse off,
+   since people substitute like for like, but each time the economy finds a way to give them less land. Read against the
+   model: the participation margin and the machines' land were in it; the basket was fixed, so the substitution step had
+   nowhere to act. The panel already showed it: housing's share of spending rose only from 0.11 to 0.16 over 1950–2024
+   while shelter got about 6x dearer than durables; a fixed basket would have taken it from 0.15 in 1964 to about 0.45.
+10. **2026-11-05 — the basket, run blind** (decision 18). Built as a subclass with a basket hook in the pinning model
+    (`Economy.basket` returns one unit and h; `_parts` is bit-for-bit unchanged for Economy: the pinning battery 35/35,
+    calibration (c)'s 47/47 with the macro battery inside it). `checks/check_basket.py` 11/11; its first run failed N2
+    (the site's share as one minus the goods' share lost digits where h is tiny; each share is now computed directly).
+    The panel gained the production worker's real wage over the all-items CPI (`real_wage_cpi`, two checks, 28/28). On
+    the seen base fit, the basket removes the years without an equilibrium that the cap alone left (2021–23). The fit:
+    A + cap's settings and targets unchanged, nine free numbers, thirteen starts (A + cap's best and the twelve 1950
+    starts), output unread (`code/fit_base.py --shelter-land-share 0.4 --cap --basket --ref fit_cap --out fit_basket
+    --quiet`); every start converged in 11-68 evaluations. Blind checks 8/8. `figures/fig_fit_basket.png`, against
+    A + cap with the basket's make-up, the shares of spending and the utility path, sent to her unopened. Claude has not
+    seen the basket's fit.

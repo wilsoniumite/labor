@@ -15,7 +15,7 @@
 # adaptive expectation lags the disinflation; found 4.9%), I4 (first exact; chains.json and calibration_c.json store
 # the same number one unit apart in the last bit, ...405 and ...404).
 # Added with the split (2026-11-05), after its series were first built and printed: C5, I7, I8, S7, S8. I8's tolerance
-# was set before its anchor series was fetched.
+# was set before its anchor series was fetched. Added with the basket (2026-11-05), after its series was built: C6, I9.
 # Run from us-record/:  python3 checks/check_panel.py      Exit 0 only if every check passes.
 
 import hashlib
@@ -74,6 +74,9 @@ SPLIT = ["pns_share", "pay_gap"]
 gaps = {c: [y for y in range(1964, 2025) if pd.isna(P.loc[y, c])] for c in SPLIT}
 check("C5 the split's two series are complete over 1964–2024 and absent before (BLS's production and nonsupervisory "
       "series start in 1964)", not any(gaps.values()) and P.loc[:1963, SPLIT].isna().all().all(), f"gaps: {gaps}")
+
+check("C6 the production worker's real wage over the all-items CPI is complete over 1950–2024",
+      P.loc[1950:2024, "real_wage_cpi"].notna().all())
 
 # ---- I: identities and anchors
 ratio = P["employed"] / P["adults"]
@@ -135,6 +138,16 @@ ours = np.log(P.loc[2024, "pay_gap"] / P.loc[2007, "pay_gap"])
 check("I8 the pay gap's change 2007–2024 is within 0.05 (log) of BLS's own: all private employees' average hourly "
       "earnings (CES0500000003, from 2006) over the production group's", abs(ours - ces) < 0.05,
       f"ours {ours:+.4f}, BLS's {ces:+.4f}")
+
+man_ = raw_annual("pinning/effort/data/raw/AHEMAN.csv", "AHEMAN")
+link = pd.concat([man_.loc[:1964], ahe_tpi.loc[1965:] * man_.loc[1964] / ahe_tpi.loc[1964]])
+rw = (link / cpi).reindex(P.index)
+rw = 100.0 * rw / rw.loc[1950]
+both = P["real_wage_cpi"].notna() & rw.notna()
+check("I9 the real wage over the all-items CPI is AHEMAN to 1964 and AHETPI after, linked at 1964, over CPIAUCNS, 1950 = "
+      "100, recomputed from the raw files (to 1e-9), in the same years",
+      (P["real_wage_cpi"][both] - rw[both]).abs().max() < 1e-9 and (P["real_wage_cpi"].notna() == rw.notna()).all(),
+      f"{int(both.sum())} years; 1970 {P.loc[1970, 'real_wage_cpi']:.1f}")
 
 # ---- B: bands
 inside = lambda v, lo, hi: ((v >= lo - 1e-12) & (v <= hi + 1e-12)).loc[v.dropna().index].all()  # noqa: E731

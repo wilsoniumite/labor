@@ -55,6 +55,13 @@ Caveats on the pay gap, which is why only its change is read: everyone is taken 
 which CES hourly earnings leave out. Over 2007–2024 its change is within 0.025 (log) of BLS's own all-employee measure
 (I8).
 
+## The basket (decision 18)
+
+| Column | Data | Model | Years |
+|---|---|---|---|
+| `housing_share_pce` | as above | with the basket, it sets the elasticity of substitution between goods and site: one minus the slope of its log odds on the log of shelter's price over durables' (the wage legs' ratio), 1950–2024: 0.875. No longer an independent check for that variant | 1950–2025 |
+| `real_wage_cpi` | the production worker's real hourly earnings: AHEMAN (manufacturing) to 1964 and AHETPI after, linked at 1964, over the all-items CPI (CPIAUCNS), 1950 = 100 | sets the basket's utility path: rising at its 1950–1970 pace (2.1% a year) until 1970, held after | 1950–2024 |
+
 ## Choices made in Phase 1, with their reasons
 
 1. **Complete calendar years only** (the repository's rule): a monthly series' year needs all twelve months. October 2025 was
