@@ -85,7 +85,7 @@ Two that run the other way and **strengthen** the paper:
 "redistribution without deadweight".
 
 `Pinning.lean` (pinning-paper numbering; paper symbols below are the v2
-notation of 2026-08-27, `dynamics/docs/notation_map.md` — Lean
+notation of 2026-08-27, `../../archive/dynamics/docs/notation_map.md` — Lean
 identifiers keep their internal v1-era names, and the module head carries
 the translation table): Proposition 2 — the λ>0 replacement closure,
 uniqueness, and both comparative statics, with a bridge theorem meeting

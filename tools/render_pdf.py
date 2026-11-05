@@ -5,8 +5,8 @@ Usage:
 
 e.g.
     venv\Scripts\python.exe tools\render_pdf.py ^
-        "file:///C:/Users/s6068C/GitHub/laborformal/dynamics/paper/pinning.html" ^
-        "dynamics\paper\pinning.pdf"
+        "file:///C:/Users/s6068C/GitHub/laborformal/archive/dynamics/paper/pinning.html" ^
+        "archive\dynamics\paper\pinning.pdf"
 
 Goes through Chromium's Skia printToPDF path, which embeds fonts and a
 ToUnicode text map: the output is selectable and searchable. Do NOT print
