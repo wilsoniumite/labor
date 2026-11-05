@@ -118,8 +118,7 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 
 ## Next
 
-1. **Her model explorer** (her wish, 2026-11-05: "a little website tool thing where I can drag around points, fix and
-   unfix things"): plan proposed, waiting for her go.
+1. **Her model explorer** is built (Log 13): https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs (private to her).
 2. **What is left** (Log 11): labour's share of consumption before about 1985, which the model holds up while
    participation rises; and the fit's strain (the required return at zero, the clock at 11% a year where the base's was
    6.4%, trading against the machine chain's labour growing 6.6% a year), so the clock's pace is not yet a number to
@@ -252,3 +251,12 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     and 2024, the fit (thirteen starts, one optimum, checks 8/8) reaches 6.93 against 6.77: employment reaches the cap
     in 1980 rather than about 1987 (2.1 against 1.4), the rest within a few tenths. The wage in shelter still falls
     after 2005 (to 83 against the data's 105), so that gap is not the utility path's (`figures/fig_fit_kink90.png`).
+13. **2026-11-05 — the explorer** (her wish and go). `explorer/model.js` is the model in JavaScript (the pinning
+    model with the cap and the basket, the record's path, the misfit, a small Levenberg-Marquardt fitter);
+    `checks/check_explorer.py` holds it to the Python model on every preset: 6/6 at the first run, every series and misfit
+    to about 1e-13. `explorer/build.py` writes `explorer/data.json` (the panel's series and six stored fits as presets)
+    and inlines both into `explorer/page.html` -> `explorer/index.html`, published as a private page. One path solves in
+    about 1.4 ms, so the page re-solves as she drags; the fit runs in a Web Worker (from a perturbed start back to 6.78
+    against the stored 6.77 in about three seconds). Controls: the cap, the basket, the pinned start, A, a steady or
+    bendable clock; each number with a lock; draggable utility points, cap line and clock points; settings as text to
+    copy back to Claude.

@@ -1,0 +1,488 @@
+<title>US Record Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an instrument bench — the model's controls on a rail at left, the record's eight panels at right; one column on a phone. */
+:root {
+  --bg: #f3f5f2; --panel: #ffffff; --ink: #17201b; --ink2: #56625b; --rule: #dde3de; --soft: #eef2ef;
+  --data: #2a78d6; --model: #e2622b; --ref: #7b8580; --band: rgba(42, 120, 214, 0.10);
+  --good: #2e8553; --fair: #a8741a; --poor: #bf3f2b;
+  --sans: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111613; --panel: #19201c; --ink: #e5ebe7; --ink2: #9aa69f; --rule: #2b342f; --soft: #212a25;
+    --data: #5e9ee8; --model: #f07c4a; --ref: #8c9791; --band: rgba(94, 158, 232, 0.14);
+    --good: #57b07c; --fair: #d6a24a; --poor: #e0705c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111613; --panel: #19201c; --ink: #e5ebe7; --ink2: #9aa69f; --rule: #2b342f; --soft: #212a25;
+  --data: #5e9ee8; --model: #f07c4a; --ref: #8c9791; --band: rgba(94, 158, 232, 0.14);
+  --good: #57b07c; --fair: #d6a24a; --poor: #e0705c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+        padding-block: 16px 32px; max-width: 1480px; margin: 0 auto; display: grid; gap: 16px; }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; }
+h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.lede { color: var(--ink2); margin: 2px 0 0; max-width: 62ch; }
+.readout { display: flex; gap: 18px; align-items: flex-end; flex-wrap: wrap; }
+.big { font-family: var(--mono); font-size: 30px; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1; }
+.cap-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink2); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; font-size: 12px;
+        border: 1px solid var(--rule); background: var(--soft); white-space: nowrap; }
+.chip.good { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, transparent); }
+.chip.fair { color: var(--fair); border-color: color-mix(in srgb, var(--fair) 40%, transparent); }
+.chip.poor { color: var(--poor); border-color: color-mix(in srgb, var(--poor) 40%, transparent); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, select, input[type="text"] { font: inherit; color: var(--ink); }
+button { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+button:hover { border-color: var(--ink2); }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--model); outline-offset: 1px; }
+button.primary { background: var(--model); border-color: var(--model); color: #fff; font-weight: 600; }
+button.primary:hover { filter: brightness(1.05); }
+select { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 8px; max-width: 100%; }
+.bench { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+.rail { display: grid; gap: 12px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 8px); }
+@media (max-width: 900px) { .rail { position: static; order: 2; } .charts { order: 1; } }
+.group { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: grid; gap: 10px; }
+.group h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink2); margin: 0; font-weight: 600; }
+.switch { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.switch label { cursor: pointer; }
+.switch input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--model); margin: 0; }
+.switch input[type="text"] { width: 70px; text-align: right; font-family: var(--mono); font-size: 13px; background: var(--soft);
+                             border: 1px solid var(--rule); border-radius: 4px; padding: 2px 6px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; padding: 4px 10px; background: var(--panel); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+.num { display: grid; grid-template-columns: minmax(0, 1fr) 88px 58px; gap: 4px 8px; align-items: center; }
+.num .name { font-size: 13px; min-width: 0; }
+.num .sym { font-family: var(--mono); color: var(--ink2); font-size: 12px; }
+.num input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--model); margin: 0; }
+.num input[type="text"] { width: 88px; text-align: right; font-family: var(--mono); font-size: 13px; background: var(--soft);
+                          border: 1px solid var(--rule); border-radius: 4px; padding: 2px 6px; }
+.num .lock { font-size: 12px; padding: 2px 0; width: 58px; }
+.num .lock[aria-pressed="true"] { background: var(--soft); color: var(--ink2); }
+.num .lock[aria-pressed="false"] { color: var(--model); border-color: color-mix(in srgb, var(--model) 45%, transparent); }
+.num.off { opacity: 0.45; }
+.hint { color: var(--ink2); font-size: 12px; margin: 0; }
+.charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 12px; min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 10px 6px; min-width: 0; }
+.card .head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.card h3 { font-size: 13px; font-weight: 600; margin: 0; }
+.card svg { width: 100%; height: auto; display: block; touch-action: none; }
+.card .note { color: var(--ink2); font-size: 11.5px; margin: 2px 2px 4px; }
+.axis text { fill: var(--ink2); font-family: var(--mono); font-size: 10px; }
+.axis path, .axis line { stroke: var(--rule); }
+.grid line { stroke: var(--rule); stroke-width: 0.6; }
+.l-data { fill: none; stroke: var(--data); stroke-width: 2; }
+.l-model { fill: none; stroke: var(--model); stroke-width: 2; }
+.l-ref { fill: none; stroke: var(--ref); stroke-width: 1.3; stroke-dasharray: 4 3; }
+.d-data { fill: var(--data); stroke: var(--panel); stroke-width: 1.5; }
+.band { fill: var(--band); stroke: none; }
+.knot { fill: var(--model); stroke: var(--panel); stroke-width: 2; cursor: grab; }
+.knot.fixed { fill: var(--panel); stroke: var(--model); cursor: default; }
+.capline { stroke: var(--model); stroke-width: 1.4; stroke-dasharray: 2 2; }
+.caphit { stroke: transparent; stroke-width: 14; cursor: ns-resize; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink2); font-size: 12px; }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+details summary { cursor: pointer; color: var(--ink2); font-size: 12px; }
+textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 11.5px; background: var(--soft); color: var(--ink);
+           border: 1px solid var(--rule); border-radius: 6px; padding: 8px; margin-top: 8px; }
+.status { font-size: 12px; color: var(--ink2); min-height: 1.4em; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>US Record Explorer</h1>
+      <p class="lede">The paper's model run through 1950–2024, the same model as the repository's fits. Move a number or drag
+        a point and every year is solved again; lock what should stay put and press Fit to move the rest.</p>
+    </div>
+    <div class="readout">
+      <div><div class="cap-label">Misfit</div><div class="big" id="misfit">–</div></div>
+      <div><div class="cap-label">Reference</div><div class="big" style="font-size:20px;color:var(--ink2)" id="refmisfit">–</div></div>
+      <span class="chip" id="solved">–</span>
+    </div>
+  </header>
+
+  <div class="actions">
+    <label for="preset" class="cap-label">Start from</label>
+    <select id="preset"></select>
+    <button class="primary" id="fit">Fit free numbers</button>
+    <button id="stop" hidden>Stop</button>
+    <button id="setref">Make this the reference</button>
+    <button id="copy">Copy settings</button>
+    <span class="status" id="status"></span>
+  </div>
+  <div class="legend"><span><i style="border-color:var(--data)"></i>US record</span>
+    <span><i style="border-color:var(--model)"></i>model as set now</span>
+    <span><i style="border-color:var(--ref);border-top-style:dashed"></i>reference</span>
+    <span>Misfit 1 = one tolerance from the record on average</span></div>
+
+  <div class="bench">
+    <aside class="rail">
+      <section class="group" aria-labelledby="g-model">
+        <h2 id="g-model">The model</h2>
+        <div class="switch"><input type="checkbox" id="sw-cap"><label for="sw-cap">Cap on prime-age employment</label>
+          <input type="text" id="v-cap" aria-label="Cap"></div>
+        <div class="switch"><input type="checkbox" id="sw-basket"><label for="sw-basket">Basket at constant utility, elasticity</label>
+          <input type="text" id="v-sigma" aria-label="Elasticity"></div>
+        <div class="switch"><input type="checkbox" id="sw-pin"><label for="sw-pin">1950 employment pinned to the record</label><span></span></div>
+        <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter as building and site (A), site share</label>
+          <input type="text" id="v-A" aria-label="Site share of shelter"></div>
+        <div class="switch" style="grid-template-columns:minmax(0,1fr) auto"><span>Capability clock</span>
+          <span class="seg" role="group" aria-label="Clock"><button id="clk-steady" aria-pressed="true">Steady</button><button id="clk-bend" aria-pressed="false">Bendable</button></span></div>
+        <div class="switch" id="clk-free-row" hidden><input type="checkbox" id="sw-clkfree" checked><label for="sw-clkfree">Fit may move the clock's points</label><span></span></div>
+        <p class="hint">Drag the orange points on the utility chart, the cap line on the employment chart and, when bendable,
+          the clock's points. Double-click a chart to add a point there; double-click a point to remove it.</p>
+        <div class="actions"><button id="utilreset">Utility back to the record's points</button></div>
+      </section>
+      <section class="group" aria-labelledby="g-nums">
+        <h2 id="g-nums">Numbers <span style="text-transform:none;letter-spacing:0;font-weight:400">· Free ones move when you fit</span></h2>
+        <div id="nums" style="display:grid;gap:12px"></div>
+      </section>
+      <section class="group">
+        <details><summary>Settings as text</summary>
+          <textarea id="settings" spellcheck="false" aria-label="Settings as text"></textarea>
+          <div class="actions" style="margin-top:8px"><button id="apply">Apply text</button></div>
+        </details>
+      </section>
+    </aside>
+    <main class="charts" id="charts"></main>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script id="model-src">
+/*MODEL_JS*/
+</script>
+<script id="doc" type="application/json">/*DATA_JSON*/</script>
+<script>
+(function () {
+  "use strict";
+  const M = window.USRecordModel;
+  const DOC = JSON.parse(document.getElementById("doc").textContent);
+  const D = DOC.data, YEARS = D.years, N_OBS = M.nObs(D);
+  const NUMS = [
+    ["T", "Land", "T"], ["h", "Land in a basket, 1950", "h"], ["a", "Machine services in building a machine", "a"],
+    ["k", "Steepness of the task schedule", "k"], ["chi_max", "Spread of the cost of working", "χ"],
+    ["rho", "Required return", "ρ"], ["g_eta", "Clock: fall in machine service needed, a year", "g"],
+    ["lam0", "Labour in machine-making, 1950", "λ"], ["g_lam", "Its growth, a year", "gλ"]];
+  let S, P, free, ref, cur, worker = null, dragging = false;
+
+  // ---------- state
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function loadPreset(p) {
+    S = clone(p.settings); P = clone(p.params);
+    free = new Set(M.NAMES.filter((n) => !(S.pin && n === "chi_max")));
+    S.clockFree = true;
+    ref = { label: p.label, misfit: p.misfit, path: M.path(P, S, D) };
+    syncControls(); update();
+  }
+  function currentSettingsText() {
+    return JSON.stringify({ settings: S, params: P, free: [...free] }, null, 1);
+  }
+
+  // ---------- controls
+  const $ = (id) => document.getElementById(id);
+  const fmt = (x) => (x === null || x === undefined || !isFinite(x) ? "–" : Math.abs(x) < 1e-12 ? "0"
+    : Math.abs(x) >= 1000 || Math.abs(x) < 0.001 ? x.toExponential(2) : (+x.toPrecision(4)).toString());
+  function sliderPos(n, v) {
+    const [lo, hi] = M.BOUNDS[n];
+    return M.LOGP[n] ? 1000 * (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) : 1000 * (v - lo) / (hi - lo);
+  }
+  function sliderVal(n, pos) {
+    const [lo, hi] = M.BOUNDS[n], f = pos / 1000;
+    return M.LOGP[n] ? Math.exp(Math.log(lo) + f * (Math.log(hi) - Math.log(lo))) : lo + f * (hi - lo);
+  }
+  function buildNums() {
+    const box = $("nums");
+    for (const [n, name, sym] of NUMS) {
+      const row = document.createElement("div");
+      row.className = "num"; row.id = "row-" + n;
+      row.innerHTML = `<span class="name">${name} <span class="sym">${sym}</span></span>
+        <input type="text" id="val-${n}" aria-label="${name}">
+        <button class="lock" id="lock-${n}" aria-pressed="false" title="Fixed numbers stay put when you fit">Free</button>
+        <input type="range" id="rng-${n}" min="0" max="1000" step="1" aria-label="${name}">`;
+      box.appendChild(row);
+      $("rng-" + n).addEventListener("input", (ev) => { P[n] = sliderVal(n, +ev.target.value); $("val-" + n).value = fmt(P[n]); schedule(); });
+      $("val-" + n).addEventListener("change", (ev) => {
+        const v = parseFloat(ev.target.value);
+        const [lo, hi] = M.BOUNDS[n];
+        if (isFinite(v)) P[n] = Math.min(Math.max(v, lo), hi);
+        syncControls(); schedule();
+      });
+      $("lock-" + n).addEventListener("click", () => { if (free.has(n)) free.delete(n); else free.add(n); syncControls(); });
+    }
+  }
+  function syncControls() {
+    for (const [n] of NUMS) {
+      $("rng-" + n).value = sliderPos(n, P[n]);
+      $("val-" + n).value = fmt(P[n]);
+      const isFree = free.has(n);
+      $("lock-" + n).textContent = isFree ? "Free" : "Fixed";
+      $("lock-" + n).setAttribute("aria-pressed", String(!isFree));
+      const off = (n === "chi_max" && S.pin) || (n === "g_eta" && S.clock);
+      $("row-" + n).classList.toggle("off", !!off);
+      $("rng-" + n).disabled = !!off; $("val-" + n).disabled = !!off; $("lock-" + n).disabled = !!off;
+    }
+    $("sw-cap").checked = S.cap !== null; $("v-cap").value = fmt(S.cap !== null ? S.cap : DOC.set_values.cap);
+    $("sw-basket").checked = S.sigma !== null; $("v-sigma").value = fmt(S.sigma !== null ? S.sigma : DOC.set_values.sigma);
+    $("sw-pin").checked = !!S.pin;
+    $("sw-A").checked = S.shelterW !== null && S.shelterW !== undefined;
+    $("v-A").value = fmt(S.shelterW !== null && S.shelterW !== undefined ? S.shelterW : DOC.set_values.shelterW);
+    $("clk-steady").setAttribute("aria-pressed", String(!S.clock)); $("clk-bend").setAttribute("aria-pressed", String(!!S.clock));
+    $("clk-free-row").hidden = !S.clock; $("sw-clkfree").checked = S.clockFree !== false;
+    $("settings").value = currentSettingsText();
+  }
+  function wireModel() {
+    $("sw-cap").addEventListener("change", (e) => { S.cap = e.target.checked ? parseFloat($("v-cap").value) || DOC.set_values.cap : null; syncControls(); schedule(); });
+    $("v-cap").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v <= 1) { S.cap = v; } syncControls(); schedule(); });
+    $("sw-basket").addEventListener("change", (e) => { S.sigma = e.target.checked ? parseFloat($("v-sigma").value) || DOC.set_values.sigma : null; syncControls(); schedule(); });
+    $("v-sigma").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v >= 0) { if (S.sigma !== null) S.sigma = v; else DOC.set_values.sigma = v; } syncControls(); schedule(); });
+    $("sw-pin").addEventListener("change", (e) => { S.pin = e.target.checked; if (S.pin) free.delete("chi_max"); else free.add("chi_max"); syncControls(); schedule(); });
+    $("sw-A").addEventListener("change", (e) => { S.shelterW = e.target.checked ? parseFloat($("v-A").value) || DOC.set_values.shelterW : null; syncControls(); schedule(); });
+    $("v-A").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v < 1) { if (S.shelterW !== null && S.shelterW !== undefined) S.shelterW = v; else DOC.set_values.shelterW = v; } syncControls(); schedule(); });
+    $("clk-steady").addEventListener("click", () => {
+      if (S.clock) { const last = S.clock[S.clock.length - 1]; P.g_eta = -last[1] / (last[0] - 1950); }
+      S.clock = null; syncControls(); schedule();
+    });
+    $("clk-bend").addEventListener("click", () => {
+      if (!S.clock) S.clock = [1950, 1970, 1990, 2010, 2024].map((y) => [y, -P.g_eta * (y - 1950)]);
+      syncControls(); schedule();
+    });
+    $("sw-clkfree").addEventListener("change", (e) => { S.clockFree = e.target.checked; });
+    $("utilreset").addEventListener("click", () => { S.utility = clone(DOC.set_values.utility); syncControls(); schedule(); });
+    $("apply").addEventListener("click", () => {
+      try {
+        const o = JSON.parse($("settings").value);
+        S = Object.assign({ cap: null, sigma: null, pin: false, shelterW: null, clock: null, utility: clone(DOC.set_values.utility) }, o.settings);
+        P = Object.assign({}, P, o.params); free = new Set(o.free || M.NAMES);
+        status("Applied the settings text."); syncControls(); update();
+      } catch (err) { status("That text is not valid settings: " + err.message); }
+    });
+    $("copy").addEventListener("click", () => {
+      const text = currentSettingsText();
+      const done = () => status("Settings copied. Paste them to Claude to run them in the repository.");
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy());
+      else fallbackCopy();
+    });
+    $("setref").addEventListener("click", () => {
+      if (!cur || !cur.ok) { status("The model has no equilibrium as set; nothing to keep as the reference."); return; }
+      ref = { label: "your reference", misfit: M.misfit(cur, D).total, path: cur }; update(); status("This is now the reference.");
+    });
+    $("fit").addEventListener("click", startFit);
+    $("stop").addEventListener("click", stopFit);
+    const sel = $("preset");
+    DOC.presets.forEach((p, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${p.label} (${p.misfit.toFixed(1)})`; sel.appendChild(o); });
+    sel.addEventListener("change", () => { stopFit(); loadPreset(DOC.presets[+sel.value]); status("Loaded " + DOC.presets[+sel.value].label.toLowerCase() + "."); });
+  }
+  function fallbackCopy() {
+    const ta = $("settings"); ta.closest("details").open = true; ta.value = currentSettingsText(); ta.focus(); ta.select();
+    status("Copying is blocked here: the settings are selected below, copy them by hand.");
+  }
+  function status(t) { $("status").textContent = t; }
+
+  // ---------- fitting in a worker
+  function startFit() {
+    if (worker) return;
+    const names = [...free].filter((n) => !(n === "chi_max" && S.pin) && !(n === "g_eta" && S.clock));
+    if (S.clock && S.clockFree !== false) S.clock.forEach((k, i) => { if (i > 0) names.push("clock:" + i); });
+    if (!names.length) { status("Every number is fixed: unlock at least one."); return; }
+    const src = document.getElementById("model-src").textContent + `
+      self.onmessage = (ev) => {
+        const { par, S, D, free } = ev.data; let last = 0;
+        const r = self.USRecordModel.fit(par, S, D, free, { maxIter: 400, onStep: (s) => {
+          const now = Date.now(); if (now - last > 120) { last = now; self.postMessage({ step: s }); } } });
+        self.postMessage({ done: r });
+      };`;
+    worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
+    worker.onmessage = (ev) => {
+      const m = ev.data.step || ev.data.done;
+      P = Object.assign({}, P, m.par); if (S.clock && m.S.clock) S.clock = m.S.clock;
+      syncControls(); update();
+      status((ev.data.done ? "Fit done: " : "Fitting: ") + `misfit ${(m.misfit * 1).toFixed(3)}` + (ev.data.done ? ` after ${m.iters} steps.` : ` at step ${m.iter}.`));
+      if (ev.data.done) stopFit(true);
+    };
+    worker.onerror = (e) => { status("The fit stopped with an error: " + e.message); stopFit(true); };
+    worker.postMessage({ par: P, S: S, D: D, free: names });
+    $("fit").hidden = true; $("stop").hidden = false; status("Fitting " + names.length + " numbers…");
+  }
+  function stopFit(quiet) {
+    if (worker) { worker.terminate(); worker = null; }
+    $("fit").hidden = false; $("stop").hidden = true;
+    if (quiet !== true && quiet !== undefined) status("Fit stopped where it was.");
+  }
+
+  // ---------- charts
+  const W = 400, H = 230, MG = { l: 46, r: 12, t: 8, b: 22 };
+  const x = d3.scaleLinear().domain([1948, 2026]).range([MG.l, W - MG.r]);
+  const PANELS = [
+    { id: "wage_goods", title: "Real wage in durables, 1950 = 100", log: true, series: "wage_goods" },
+    { id: "wage_shelter", title: "Real wage in shelter, 1950 = 100", series: "wage_shelter" },
+    { id: "labour_share_c", title: "Labour's share of consumption", series: "labour_share_c", band: true },
+    { id: "prime_emp_rate", title: "Prime-age employment rate", series: "prime_emp_rate", cap: true },
+    { id: "theta_V", title: "Labour's share of a machine's build cost", series: "theta_V", dots: true },
+    { id: "clock", title: "Machine service needed per task, 1950 = 1", log: true, clock: true },
+    { id: "utility", title: "The basket's utility, 1950 = 1", utility: true },
+    { id: "basket", title: "One person's basket, 1950 = 1", log: true, basket: true }];
+  const NOTES = {
+    clock: "The capability clock. Bendable: drag its points.",
+    utility: "Blue: the production worker's real wage over the CPI, which sets the points. Drag them.",
+    basket: "Goods (solid) and land (dotted) in a basket, when the basket substitutes." };
+  const cards = {};
+  function buildCharts() {
+    const box = $("charts");
+    for (const p of PANELS) {
+      const card = document.createElement("section");
+      card.className = "card";
+      card.innerHTML = `<div class="head"><h3>${p.title}</h3><span class="chip" id="chip-${p.id}"></span></div>
+        <svg viewBox="0 0 ${W} ${H}" id="svg-${p.id}" role="img" aria-label="${p.title}"></svg>` +
+        (NOTES[p.id] ? `<p class="note">${NOTES[p.id]}</p>` : "");
+      box.appendChild(card);
+      const svg = d3.select(card.querySelector("svg"));
+      svg.append("defs").append("clipPath").attr("id", "clip-" + p.id).append("rect")
+        .attr("x", MG.l).attr("y", MG.t).attr("width", W - MG.l - MG.r).attr("height", H - MG.t - MG.b);
+      const g = { svg, grid: svg.append("g").attr("class", "grid"), ax: svg.append("g").attr("class", "axis"),
+                  ay: svg.append("g").attr("class", "axis"), plot: svg.append("g").attr("clip-path", `url(#clip-${p.id})`),
+                  over: svg.append("g"), y: null, frozen: false };
+      g.ax.attr("transform", `translate(0,${H - MG.b})`).call(d3.axisBottom(x).tickValues([1960, 1980, 2000, 2020]).tickFormat(d3.format("d")).tickSizeOuter(0));
+      cards[p.id] = g;
+      if (p.utility || p.clock) {
+        svg.on("dblclick", (ev) => {
+          const [mx, my] = d3.pointer(ev);
+          const yr = Math.round(x.invert(mx));
+          if (yr <= 1950 || yr > 2024) return;
+          if (p.utility) { S.utility.push([yr, g.y.invert(my)]); S.utility.sort((a, b) => a[0] - b[0]); }
+          else if (S.clock) { S.clock.push([yr, Math.log(g.y.invert(my))]); S.clock.sort((a, b) => a[0] - b[0]); }
+          syncControls(); update();
+        });
+      }
+    }
+  }
+  function extent(arrs, log) {
+    let lo = Infinity, hi = -Infinity;
+    for (const a of arrs) if (a) for (const v of a) if (v !== null && isFinite(v) && (!log || v > 0)) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
+    if (!isFinite(lo)) return log ? [0.1, 10] : [0, 1];
+    if (log) return [lo / 1.25, hi * 1.25];
+    const pad = (hi - lo) * 0.08 || 0.05;
+    return [lo - pad, hi + pad];
+  }
+  const line = (ys) => d3.line().defined((d, i) => ys[i] !== null && isFinite(ys[i])).x((d, i) => x(YEARS[i])).y((d, i) => cards.__y(ys[i]))(ys);
+  function drawLine(g, ys, cls) {
+    if (!ys) return;
+    cards.__y = g.y;
+    g.plot.append("path").attr("class", cls).attr("d", line(ys));
+  }
+  function chipFor(id, v) {
+    const el = $("chip-" + id);
+    if (v === null || v === undefined) { el.textContent = ""; el.className = "chip"; el.hidden = true; return; }
+    el.hidden = false; el.textContent = "misfit " + v.toFixed(1);
+    el.className = "chip " + (v < 2 ? "good" : v < 8 ? "fair" : "poor");
+  }
+  function draw(m, by) {
+    const ok = m && m.ok;
+    const rp = ref && ref.path && ref.path.ok ? ref.path : null;
+    for (const p of PANELS) {
+      const g = cards[p.id];
+      g.plot.selectAll("*").remove(); g.over.selectAll("*").remove();
+      let dataY = null, modelY = null, refY = null, extra = [];
+      if (p.series) {
+        dataY = D[p.series]; modelY = ok ? m[p.series] : null; refY = rp ? rp[p.series] : null;
+      } else if (p.clock) {
+        modelY = ok ? m.eta : null; refY = rp ? rp.eta : null;
+      } else if (p.utility) {
+        dataY = D.real_wage_cpi; modelY = ok ? m.utility : M.utilityPath(S, D); refY = rp ? rp.utility : null;
+        extra = [S.utility.map((k) => k[1])];
+      } else if (p.basket) {
+        modelY = ok && S.sigma !== null ? m.goods_basket.map((v) => v / m.goods_basket[0]) : null;
+        extra = [ok && S.sigma !== null ? m.site_basket.map((v) => v / m.site_basket[0]) : null];
+      }
+      if (!(dragging && g.frozen && g.y)) {
+        const dom = extent([dataY, refY, modelY, ...extra, p.cap && S.cap !== null ? [S.cap] : null, p.band ? D.ls_lo : null, p.band ? D.ls_hi : null], p.log);
+        if (p.series === "prime_emp_rate") { dom[0] = Math.min(dom[0], 0.55); dom[1] = Math.max(dom[1], 0.85); }
+        g.y = (p.log ? d3.scaleLog() : d3.scaleLinear()).domain(dom).range([H - MG.b, MG.t]);
+        if (!p.log) g.y.nice();
+      }
+      g.frozen = true;
+      const ticks = p.log ? g.y.ticks(4).filter((t, i, a) => a.length < 7 || [1, 2, 5].includes(+t.toExponential(0).charAt(0))) : g.y.ticks(5);
+      g.ay.attr("transform", `translate(${MG.l},0)`).call(d3.axisLeft(g.y).tickValues(ticks).tickFormat(p.log ? d3.format("~g") : d3.format("~g")).tickSizeOuter(0));
+      g.grid.selectAll("line").data(ticks).join("line").attr("x1", MG.l).attr("x2", W - MG.r).attr("y1", (t) => g.y(t)).attr("y2", (t) => g.y(t));
+      cards.__y = g.y;
+      if (p.band) {
+        const area = d3.area().defined((d, i) => D.ls_lo[i] !== null && D.ls_hi[i] !== null).x((d, i) => x(YEARS[i]))
+          .y0((d, i) => g.y(D.ls_lo[i])).y1((d, i) => g.y(D.ls_hi[i]));
+        g.plot.append("path").attr("class", "band").attr("d", area(YEARS));
+      }
+      if (p.dots) {
+        const pts = YEARS.map((y, i) => [y, D.theta_V[i]]).filter((d) => d[1] !== null && d[0] <= 1992);
+        g.plot.selectAll("circle.d").data(pts).join("circle").attr("class", "d-data").attr("r", 3.2).attr("cx", (d) => x(d[0])).attr("cy", (d) => g.y(d[1]));
+        drawLine(g, D.theta_V.map((v, i) => (YEARS[i] >= 1997 ? v : null)), "l-data");
+      } else if (dataY) drawLine(g, dataY, "l-data");
+      drawLine(g, refY, "l-ref");
+      drawLine(g, modelY, "l-model");
+      if (p.basket) {
+        drawLine(g, extra[0], "l-model");
+        g.plot.selectAll("path.l-model").filter((d, i) => i === 1).attr("stroke-dasharray", "1.5 3");
+      }
+      if (p.cap && S.cap !== null) drawCap(g);
+      if (p.utility) drawKnots(g, S.utility, (k) => k[1], (k, v) => { k[1] = v; }, false);
+      if (p.clock && S.clock) drawKnots(g, S.clock, (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); }, true);
+      chipFor(p.id, by && p.series ? by[p.series] : null);
+    }
+  }
+  function drawCap(g) {
+    const y = g.y(S.cap);
+    g.over.append("line").attr("class", "capline").attr("x1", MG.l).attr("x2", W - MG.r).attr("y1", y).attr("y2", y);
+    g.over.append("text").attr("x", MG.l + 4).attr("y", y - 4).attr("fill", "var(--model)").attr("font-size", 10).attr("font-family", "var(--mono)").text("cap " + S.cap.toFixed(3));
+    const hit = g.over.append("line").attr("class", "caphit").attr("x1", MG.l).attr("x2", W - MG.r).attr("y1", y).attr("y2", y);
+    hit.call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev) => {
+      const v = Math.min(Math.max(g.y.invert(ev.y), 0.3), 1); S.cap = +v.toFixed(4); schedule();
+    }).on("end", () => { dragging = false; syncControls(); update(); }));
+  }
+  function drawKnots(g, knots, getV, setV, isClock) {
+    const sel = g.over.selectAll("circle.knot").data(knots).join("circle")
+      .attr("class", (k, i) => "knot" + (i === 0 ? " fixed" : "")).attr("r", 6)
+      .attr("cx", (k) => x(k[0])).attr("cy", (k) => g.y(getV(k)));
+    sel.filter((k, i) => i > 0).call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev, k) => {
+      const i = knots.indexOf(k);
+      const prev = knots[i - 1][0] + 1, next = i < knots.length - 1 ? knots[i + 1][0] - 1 : 2024;
+      k[0] = Math.min(Math.max(Math.round(x.invert(ev.x)), prev), next);
+      const [d0, d1] = g.y.domain();
+      setV(k, Math.min(Math.max(g.y.invert(ev.y), Math.min(d0, d1)), Math.max(d0, d1)));
+      schedule();
+    }).on("end", () => { dragging = false; syncControls(); update(); }));
+    sel.filter((k, i) => i > 0).on("dblclick", (ev, k) => {
+      ev.stopPropagation();
+      if (knots.length <= 2) return;
+      knots.splice(knots.indexOf(k), 1); syncControls(); update();
+    });
+  }
+
+  // ---------- solving
+  let pending = false;
+  function schedule() { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; update(); }); } }
+  function update() {
+    cur = M.path(P, S, D);
+    const mf = cur.ok ? M.misfit(cur, D) : null;
+    $("misfit").textContent = mf ? mf.total.toFixed(2) : "–";
+    $("refmisfit").textContent = ref ? ref.misfit.toFixed(2) : "–";
+    const chip = $("solved");
+    chip.textContent = cur.ok ? "every year solved" : cur.why; chip.className = "chip " + (cur.ok ? "good" : "poor");
+    draw(cur, mf ? mf.by : null);
+    if (!dragging) $("settings").value = currentSettingsText();
+  }
+
+  buildNums(); buildCharts(); wireModel();
+  loadPreset(DOC.presets[0]);
+})();
+</script>
