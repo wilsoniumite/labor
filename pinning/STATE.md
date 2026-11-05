@@ -384,6 +384,13 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   - **The fix for (v), unless Stella prefers otherwise.** Definition 1 requires c_o > 0, so the user
     cost is the owner's first-order condition, as decided. Existence then needs
     rT + ρV_mX > NP_s strictly.
+    - **Superseded at the build (same day).** Requiring c_o > 0 rules out the full-rent-capture
+      equilibria of the flow benchmark. With ρ = 0 and τ_R = 1, the owner's income is zero, and eq.
+      (17) rests on exactly that case.
+    - So Definition 1 keeps the user-cost clause, and Lemma A.1(c) shows it is the owner's
+      first-order condition whenever c_o > 0.
+    - The text now says plainly that the clause selects the user cost when support absorbs all the
+      owner's income. The design's claim that the clause "costs nothing" is deleted.
   - **Superseded.** The design's draft introduction, which carries Appendix B numbers, is replaced
     by the introduction work above.
 
@@ -475,6 +482,21 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     cost recursion to get their citations". The description cites only Zeira (1998) with Acemoglu
     and Restrepo (2018), and Leontief (1936) with Sraffa (1960). Ricardo (1817) was cited only in
     the cut Section 2, so it leaves the references unless a later section uses it.
+
+  **The full rewrite: build started (same day).** Stella: "yeah go ahead, start the build".
+  - **Inputs.** A build brief (scratchpad `build/BRIEF.md`) collects every decision above, the
+    design's drafts, the six math fixes and the citation placements.
+  - **Order.** §1 Introduction (v2); §2 Description of the economy; §3 Definition of equilibrium;
+    §4 Equilibrium; §5 Purchasing power and income; §6 Rent taxation; §7 A numerical economy and
+    an automation path; §8 Measurement; §9 History and stabilizers; §10 AI and conclusion;
+    Appendices A–F.
+  - **How.** Agents port each part into a tested LaTeX fragment with provenance comments (verbatim,
+    edited or new), and an assembler compiles the whole. The source and math checks follow; there
+    are no ranking rounds.
+  - **Output.** `main_rewrite.tex` beside `main.tex`. `main.tex` is untouched until Stella has read
+    the diff.
+  - **Tools.** TeX Live 2023 (pdflatex, latexmk) was installed in this session's container. The
+    current `main.tex` compiles here to 41 pages, with no undefined references.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
