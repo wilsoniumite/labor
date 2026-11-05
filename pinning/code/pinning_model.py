@@ -12,7 +12,7 @@
 # with the task condition v = gamma(x) p_m:
 #     Vm = b / (1 - (rho + delta)(a + lambda gamma)),  p(x) = v (1 - x) + p_m J,  P_s = p + h,
 #     Y = T / (h + b delta J / (1 - a delta)),  K = Y J / (1 - a delta),  n_D = Y (1 - x) + lambda delta K,
-#     n_S = N F(log(1 + v / P_s)),  F uniform on [0, chi_max].
+#     n_S = N F(log(1 + v / P_s)),  F uniform on [0, chi_max] (CappedEconomy: at most a share cap).
 # Equilibrium: n_D(x*) = n_S(x*). Income = v n + T + rho Vm K (wages, land rent, interest).
 #
 # THE CEILING. Tasks where (rho + delta)(a + lambda gamma(x)) >= 1 are closed to machines at every wage: the machine
@@ -61,6 +61,14 @@ class Economy:
         return self.eta * (self.g0 * x + self.g1 * x ** (self.k + 1.0) / (self.k + 1.0))
 
 
+@dataclass(frozen=True)
+class CappedEconomy(Economy):
+    """The economy with participation capped: a share 1 - cap of people never works at any wage, and below the cap
+    participation follows the wage as in Economy (the backward model's cap, her idea of 2026-11-05:
+    ../../us-record/STATE.md). A subclass, so Economy's fields, and every stored parameter set, stay the paper's."""
+    cap: float = 1.0
+
+
 def _parts(e: Economy, x):
     """Prices and quantities at threshold x. Machines are a stock K, one service unit a year each; a new
     machine costs Vm = a p_m + lambda v + b (machine services, hours, land), so the user cost is
@@ -83,7 +91,7 @@ def _parts(e: Economy, x):
     machine_hours = e.lam * e.delta * K
     nD = final_hours + machine_hours
     z = np.log1p(v / Ps)
-    nS = e.N * min(max(z / e.chi_max, 0.0), 1.0)
+    nS = e.N * min(max(z / e.chi_max, 0.0), getattr(e, "cap", 1.0))      # 1: everyone can work (CappedEconomy: less)
     return dict(x=x, gamma=g, J=J, v=v, pm=pm, Vm=Vm, p=p, Ps=Ps, Y=Y, X=K, K=K, final_hours=final_hours,
                 machine_hours=machine_hours, nD=nD, nS=nS)
 

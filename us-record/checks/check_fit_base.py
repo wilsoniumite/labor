@@ -2,7 +2,8 @@
 #   T  the tolerances and targets are the ones committed before the first fit ran (commit 72adc83), unchanged
 #   R  the stored fit reproduces: re-solving every year at the stored parameters gives the stored path, and its misfit
 #   E  every year of the fit is an interior equilibrium of the pinning model (labour demand equals supply)
-#   S  the search: every start ended in a convergence status, and the reported best is the least misfit of them all
+#   S  the search: every start ended in a convergence status, and the reported best is the least misfit of them all; a
+#      variant that nests the model it extends (the split at g_c = 0) is no worse than it, or its search failed
 #   A  the accounting diagnostic: where it found a capability path, it reproduces the fork in that year
 # A variant (decision 13, the blind protocol): python3 checks/check_fit_base.py --results fit_A --blind prints PASS or FAIL
 # only, no fit numbers; the variant's settings (A's shelter, the split and its free numbers) are read from its results
@@ -29,6 +30,7 @@ BLIND = "--blind" in ARGS
 R = json.load(open(os.path.join(ROOT, "results", f"{NAME}.json")))
 F.SHELTER_LAND_SHARE = R["meta"].get("shelter_land_share")
 F.SPLIT_FROM = R["meta"].get("split_from")
+F.CAP = R["meta"].get("cap")
 if F.SPLIT_FROM is not None:
     F.S_N = R["meta"]["s_n"]
 F.NAMES[:] = R["meta"]["names"]
@@ -83,6 +85,11 @@ check("S1 every start ended in a convergence status (scipy least_squares status 
       all(s["status"] in (1, 2, 3, 4) for s in R["starts"]), str(sorted({s["status"] for s in R["starts"]})))
 check("S2 the reported best is the least misfit of all starts", R["best"]["misfit"] == min(s["misfit"] for s in R["starts"]),
       f"{len(R['starts'])} starts")
+
+if R["meta"].get("ref") and F.SPLIT_FROM is not None:     # the split nests the model it extends (at g_c = 0)
+    REF = json.load(open(os.path.join(ROOT, "results", f"{R['meta']['ref']}.json")))
+    check(f"S3 the best is no worse than {R['meta']['ref']}, the model it extends and nests (relative 1e-6)",
+          R["best"]["misfit"] <= REF["best"]["misfit"] * (1.0 + 1e-6))
 
 # ---- A: the accounting diagnostic
 if R["accounting_eta"] is None:

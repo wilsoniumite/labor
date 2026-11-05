@@ -75,10 +75,23 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
     are checks, never targeted. With g_c = 0 the split is the one-group model exactly. It extends A (decision kept at
     Log 6), and is judged against A.
 
+15. **A cap on participation** (her idea, 2026-11-05: "when prime age participation hit say, 0.78, it was just capped
+    ... women entered the workforce until both parents in most households were working. Once that cap was hit, other
+    things had to start moving"): a share 1 - cap of people never works at any wage; below the cap, participation follows
+    the wage as before (`pinning_model.CappedEconomy`, a subclass, so the paper's economy and the forward model's stored
+    parameters are untouched: the pinning battery 35/35, calibration (c)'s 47/47 and the macro battery 21/21 after it).
+    The cap is set, not fitted: the mean prime-age employment rate since it first reached her 0.78, 1987–2024, 0.788.
+    Tried on top of A (the last model she kept), judged against A, so it is read on its own whatever the split's verdict;
+    combined with the split afterwards if she keeps both. A property found on the seen base fit before the run: with the
+    cap, labour can run short of what the tasks machines cannot take need, and then the model has no land-scarce
+    equilibrium (at the base fit's parameters, 2021–23: every task machines can take is taken, and the capped workforce
+    still cannot staff the rest); the search has to keep away from such parameters.
+
 ## Next
 
-1. **The split's blind run** (fifteen starts in parallel, about an hour), then its blind checks and its figure
-   against A (`code/fig_compare.py fit_split "A + split" --ref fit_A --ref-label A`), sent to her unopened.
+1. **The split's blind run** (fifteen starts in parallel), then its blind checks and its figure against A
+   (`code/fig_compare.py fit_split "A + split" --ref fit_A --ref-label A`), sent to her unopened.
+2. **Her verdict on the cap** (`figures/fig_fit_cap.png`, sent unopened).
 
 ## Log
 
@@ -139,3 +152,9 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
    and targets unchanged, ten free numbers, fifteen starts (A's best with three paces of computing; the twelve 1950
    starts), run in parallel with the output unread (`code/fit_base.py --split 1970 --ref fit_A --quiet`). The first
    attempt, 39 starts one at a time, was stopped for time before it finished, unread.
+8. **2026-11-05 — the cap, run blind** (decision 15). The cap set at 0.788; A's settings and targets unchanged, nine free
+   numbers, thirteen starts (A's best and the twelve 1950 starts), in parallel, output unread
+   (`code/fit_base.py --shelter-land-share 0.4 --cap --ref fit_A --out fit_cap --quiet`). The first launch was stopped
+   at once, unread, to look at the property recorded in decision 15 on the seen base fit; the run that counts started
+   after. Blind checks 8/8 (the re-solve reproduces the stored path with the cap as a subclass, R1). `figures/fig_fit_cap.png`,
+   the prime-age panel with the cap drawn, sent to her unopened. Claude has not seen the cap's fit.

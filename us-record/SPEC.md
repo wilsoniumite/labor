@@ -118,6 +118,10 @@ Her additions in Phase 3, tried on their own merit (decision 12):
   and supervisors, each working its own block of tasks; computing, from 1970, makes machines better at every task of the
   first group's block. One new free number (computing's pace); the groups' sizes set from the data. Nests the one-group
   model exactly when computing is off (`checks/check_split_model.py`).
+- **K. A cap on participation** (her idea, 2026-11-05; decision 15): women entered work until both parents in most
+  households worked, and then prime-age participation stopped rising, so other things had to move. A share of people
+  never works at any wage (`pinning_model.CappedEconomy`); the cap is set at the mean prime-age employment rate since it
+  first reached her 0.78 (1987–2024: 0.788). No new free number.
 
 ## 7. What would count against the mechanism
 

@@ -55,7 +55,7 @@ def parts(e, s_n, comp, xr, xn):
     K = Y * J / (1.0 - e.a * e.delta)
     mh = e.lam * e.delta * K
     ndr, ndn = Y * s_r * (1.0 - xr) + s_r * mh, Y * s_n * (1.0 - xn) + s_n * mh
-    F = lambda z: min(max(z / e.chi_max, 0.0), 1.0)  # noqa: E731
+    F = lambda z: min(max(z / e.chi_max, 0.0), getattr(e, "cap", 1.0))  # noqa: E731   the pinning model's supply
     nsr, nsn = e.N * s_r * F(np.log1p(vr / Ps)), e.N * s_n * F(np.log1p(vn / Ps))
     return dict(xr=xr, xn=xn, gr=gr, gn=gn, D=D, Vm=Vm, pm=pm_, vr=vr, vn=vn, p=p, Ps=Ps, J=J, Y=Y, K=K,
                 machine_hours=mh, ndr=ndr, ndn=ndn, nsr=nsr, nsn=nsn)

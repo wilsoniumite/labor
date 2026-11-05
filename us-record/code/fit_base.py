@@ -35,6 +35,11 @@
 # 1964-2024. The targets and the misfit are unchanged, read for the first group's wage; labour's share, employment and θ_V
 # take both groups. The pay gap (all employees' average wage over the first group's, 1964 = 1) is a check only.
 #
+# THE CAP (her idea, 2026-11-05; --cap): prime-age participation has a ceiling: women entered work until both parents
+# in most households worked, and then the rate stopped rising, so other things had to move. In the model a share 1 - cap
+# of people never works at any wage (pinning_model.CappedEconomy); below the cap, participation follows the wage as before.
+# The cap is set, not fitted: the mean prime-age employment rate since it first reached her 0.78 (1987–2024).
+#
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
 import json
@@ -66,6 +71,9 @@ SET = dict(b=0.4, g0=0.01, g1=0.99)
 SHELTER_LAND_SHARE = None                             # None: shelter as pure site (the base); a share: addition A
 SPLIT_FROM = None                                     # None: one kind of worker; a year: the split, computing from it
 S_N = float(1.0 - PANEL.loc[1964:2024, "pns_share"].mean())   # the split's managers and supervisors (set)
+CAP = None                                            # None: everyone can work (the paper); a share: the cap
+_PE = PANEL.loc[1950:2024, "prime_emp_rate"]
+CAP_SET = float(_PE.loc[int(_PE[_PE >= 0.78].index[0]):].mean())   # the cap's set value: the mean since her 0.78
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
@@ -91,8 +99,9 @@ def economies(par, eta=None):
     """The economy of every year: the measured inputs and the two drivers at par (or a given eta path)."""
     eta = np.exp(-par["g_eta"] * T_REL) if eta is None else eta
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
-    return [pm.Economy(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
-                       chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET) for i in range(len(YEARS))]
+    kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
+    return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
+                 chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra) for i in range(len(YEARS))]
 
 
 def model_path(par, eta=None):
@@ -206,9 +215,12 @@ def split_starts(ref):
 
 
 def run_start(s):
-    """One start, fitted; continued once from where it stopped if it hit the iteration cap."""
+    """One start, fitted; continued from where it stopped while it stops at the iteration cap, at most five times (once,
+    until the split's start 4 needed more: Log 7)."""
     par, mis, nfev, status = fit_from(s)
-    if status == 0:
+    for _ in range(5):
+        if status != 0:
+            break
         par, mis, more, status = fit_from(par)
         nfev += more
     return dict(start=s, par=par, misfit=mis, nfev=nfev, status=status)
@@ -248,6 +260,8 @@ if __name__ == "__main__":
     # python3 code/fit_base.py --shelter-land-share 0.4 --out fit_A   addition A -> results/fit_A.json
     # python3 code/fit_base.py --shelter-land-share 0.4 --split 1970 --ref fit_A --out fit_split --quiet
     #                                                             the split on top of A -> results/fit_split.json
+    # python3 code/fit_base.py --shelter-land-share 0.4 --cap --ref fit_A --out fit_cap --quiet
+    #                                                             the cap on top of A -> results/fit_cap.json
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -256,8 +270,13 @@ if __name__ == "__main__":
     if "--split" in args:
         SPLIT_FROM = int(args[args.index("--split") + 1])
         NAMES.append("g_c")
+    if "--cap" in args:
+        CAP = CAP_SET
     t0 = time.time()
     todo = starts() if SPLIT_FROM is None else split_starts(REF)
+    if SPLIT_FROM is None and REF is not None:            # the model it extends: its best fit is one more start
+        ref_best = json.load(open(os.path.join(ROOT, "results", f"{REF}.json")))["best"]["par"]
+        todo = [{n: ref_best[n] for n in NAMES}] + todo
     with Pool(min(4, os.cpu_count() or 1)) as pool:        # the starts in parallel; each is deterministic
         results = list(tqdm(pool.imap(run_start, todo), total=len(todo), desc="starts"))
     results.sort(key=lambda r: r["misfit"])
@@ -266,7 +285,7 @@ if __name__ == "__main__":
     acc = accounting(best["par"]) if SHELTER_LAND_SHARE is None and SPLIT_FROM is None else None   # the base mapping's
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
-                  shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM,
+                  shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP,
                   s_n=None if SPLIT_FROM is None else S_N, ref=REF,
                   names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),

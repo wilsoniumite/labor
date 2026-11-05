@@ -76,6 +76,10 @@ three(ax, "labour_share_c")
 frame(ax, "Labour's share of consumption", note("labour_share_c"))
 ax = axes[1, 0]
 three(ax, "prime_emp_rate")
+CAP = V["meta"].get("cap")
+if CAP is not None:                               # the cap, set from the data (not fitted)
+    ax.axhline(CAP, color=INK2, lw=0.9, ls=":")
+    ax.text(1949, CAP + 0.006, f"cap {CAP:.3f}", fontsize=7.5, color=INK2, va="bottom")
 frame(ax, "Prime-age employment rate", note("prime_emp_rate"))
 ax = axes[1, 1]
 tv = D["theta_V"].dropna()
