@@ -51,6 +51,7 @@ SERIES = ["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "the
 TOL_LOG = {"wage_goods": 0.05, "wage_shelter": 0.05}
 TOL_LEVEL = {"labour_share_c": 0.01, "prime_emp_rate": 0.015, "theta_V": 0.02}
 SET = dict(b=0.4, g0=0.01, g1=0.99)
+SHELTER_LAND_SHARE = None                             # None: shelter as pure site (the base); a share: addition A
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
@@ -92,6 +93,11 @@ def model_path(par, eta=None):
                          labour_share_c=q["labour_share_bea"], prime_emp_rate=q["participation"], theta_V=q["theta_V"],
                          gamma=q["gamma"], x_ceiling=q["x_ceiling"]))
     m = pd.DataFrame(rows, index=YEARS)
+    if SHELTER_LAND_SHARE is not None:
+        # Addition A: shelter is a built good (priced at p) and site (r = 1) in fixed proportions, the site's value share
+        # SHELTER_LAND_SHARE in the last year; earlier years' share then follows the model's own prices.
+        w = SHELTER_LAND_SHARE
+        m["wage_shelter_raw"] = m["v"] / (w + (1.0 - w) * m["p"] / m["p"].iloc[-1])
     m["wage_goods"] = 100.0 * m["wage_goods_raw"] / m.loc[1950, "wage_goods_raw"]
     m["wage_shelter"] = 100.0 * m["wage_shelter_raw"] / m.loc[1950, "wage_shelter_raw"]
     return m
@@ -190,27 +196,40 @@ def accounting(par):
 
 
 if __name__ == "__main__":
+    # python3 code/fit_base.py                                   the base model -> results/fit_base.json
+    # python3 code/fit_base.py --shelter-land-share 0.4 --out fit_A   addition A -> results/fit_A.json
+    args = sys.argv[1:]
+    OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
+    if "--shelter-land-share" in args:
+        SHELTER_LAND_SHARE = float(args[args.index("--shelter-land-share") + 1])
     t0 = time.time()
     results = []
     for s in tqdm(starts(), desc="starts"):
         par, mis, nfev, status = fit_from(s)
+        if status == 0:                                   # stopped at the iteration cap: continued once from there
+            par, mis, more, status = fit_from(par)
+            nfev += more
         results.append(dict(start=s, par=par, misfit=mis, nfev=nfev, status=status))
     results.sort(key=lambda r: r["misfit"])
     best = results[0]
     m = model_path(best["par"])
-    acc = accounting(best["par"])
+    acc = accounting(best["par"]) if SHELTER_LAND_SHARE is None else None   # the diagnostic reads the base mapping
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
+                  shelter_land_share=SHELTER_LAND_SHARE,
                   names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),
         starts=[dict(start=r["start"], par=r["par"], misfit=r["misfit"], nfev=r["nfev"], status=r["status"])
                 for r in results],
         path={c: [None if not np.isfinite(v) else float(v) for v in m[c].values] for c in m.columns},
-        accounting_eta=[None if not np.isfinite(v) else float(v) for v in acc.values],
+        accounting_eta=None if acc is None else [None if not np.isfinite(v) else float(v) for v in acc.values],
         fitted_eta=[float(v) for v in np.exp(-best["par"]["g_eta"] * T_REL)])
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
-    with open(os.path.join(ROOT, "results", "fit_base.json"), "w") as f:
+    with open(os.path.join(ROOT, "results", f"{OUT}.json"), "w") as f:
         json.dump(out, f, indent=1)
+    if "--quiet" in args:                                # the blind protocol (decision 13): no fit numbers on screen
+        print(f"results/{OUT}.json written")
+        sys.exit(0)
     print(f"best misfit {best['misfit']:.3f}; by series", {k: round(v, 2) for k, v in out["best"]["by_series"].items()})
     print("parameters", {k: round(v, 5) for k, v in best["par"].items()})
     for r in results:

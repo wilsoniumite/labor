@@ -6,4 +6,4 @@ model in `../paths/`.
 
 **Start with `STATE.md`; the plan is `SPEC.md`.**
 
-Status: Phase 2 done (the base fit, `results/fit_base.json`, `figures/fig_fit_base.png`); waiting at breakpoint B.
+Status: Phase 3 under way: changes run blind, judged by her (STATE decision 13); A sent for her verdict.

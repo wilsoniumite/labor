@@ -4,6 +4,8 @@
 #   E  every year of the fit is an interior equilibrium of the pinning model (labour demand equals supply)
 #   S  the search: every start ended in a convergence status, and the reported best is the least misfit of them all
 #   A  the accounting diagnostic: where it found a capability path, it reproduces the fork in that year
+# A variant (decision 13, the blind protocol): python3 checks/check_fit_base.py --results fit_A --blind prints PASS or FAIL
+# only, no fit numbers; the variant's measurement settings are read from its results file.
 # Run from us-record/:  python3 checks/check_fit_base.py      Exit 0 only if every check passes.
 
 import json
@@ -20,13 +22,17 @@ REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(ROOT, "code"))
 import fit_base as F  # noqa: E402
 
-R = json.load(open(os.path.join(ROOT, "results", "fit_base.json")))
+ARGS = sys.argv[1:]
+NAME = ARGS[ARGS.index("--results") + 1] if "--results" in ARGS else "fit_base"
+BLIND = "--blind" in ARGS
+R = json.load(open(os.path.join(ROOT, "results", f"{NAME}.json")))
+F.SHELTER_LAND_SHARE = R["meta"].get("shelter_land_share")
 RESULTS = []
 
 
 def check(name, ok, detail=""):
     RESULTS.append((name, bool(ok)))
-    print(f"{'PASS' if ok else 'FAIL'} {name}" + (f" — {detail}" if detail else ""))
+    print(f"{'PASS' if ok else 'FAIL'} {name}" + (f" — {detail}" if detail and not BLIND else ""))
 
 
 # ---- T: the tolerances as committed before the fit
@@ -68,16 +74,19 @@ check("S2 the reported best is the least misfit of all starts", R["best"]["misfi
       f"{len(R['starts'])} starts")
 
 # ---- A: the accounting diagnostic
-acc = pd.Series(R["accounting_eta"], index=F.YEARS, dtype=float)
-fork = (F.D["wage_goods"] / F.D["wage_shelter"])
-p1950 = m.loc[1950, "p"]
-err = []
-for y in acc.dropna().index:
-    e = F.economies(par)[F.YEARS.index(y)]
-    q = F.pm.solve(F.replace(e, eta=float(acc[y])))
-    err.append(abs(np.log(p1950 / q["p"]) - np.log(fork[y])))
-check("A1 where the accounting found a capability path, it reproduces that year's fork (log 1e-9)",
-      max(err) < 1e-9, f"{acc.notna().sum()} of {len(acc)} years; worst {max(err):.1e}")
+if R["accounting_eta"] is None:
+    print("---- A1 not run: the accounting diagnostic reads the base model's mapping of shelter, not this variant's")
+else:
+    acc = pd.Series(R["accounting_eta"], index=F.YEARS, dtype=float)
+    fork = (F.D["wage_goods"] / F.D["wage_shelter"])
+    p1950 = m.loc[1950, "p"]
+    err = []
+    for y in acc.dropna().index:
+        e = F.economies(par)[F.YEARS.index(y)]
+        q = F.pm.solve(F.replace(e, eta=float(acc[y])))
+        err.append(abs(np.log(p1950 / q["p"]) - np.log(fork[y])))
+    check("A1 where the accounting found a capability path, it reproduces that year's fork (log 1e-9)",
+          max(err) < 1e-9, f"{acc.notna().sum()} of {len(acc)} years; worst {max(err):.1e}")
 
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")

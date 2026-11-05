@@ -51,14 +51,23 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
     headroom, and a required return following the measured real long rate (-3% in 1950, +6% in the 1980s) left no
     land-scarce equilibrium in 18 years of a 1950-calibrated start; the measured return on business capital is far
     steadier than bond yields. The measured rate's pass-through becomes candidate addition I (SPEC.md section 6).
+    Not vetoed at breakpoint B.
+12. **Changes are tried because they make sense on their own, not to fix a misfit** (her call at breakpoint B,
+    2026-11-05): "not 'how do we adjust this curve to fit better' but 'what if we tried this change which feels
+    intuitive anyways'". Each is tried once, at values set from evidence rather than fitted where possible; it stays if
+    it improves the fit (the earn-its-place rule, decision 4), and is shelved if not. Candidates proposed because of a
+    specific misfit (C as an answer to the employment overshoot; the clock's frontier form as an answer to labour's share)
+    are off the list unless they come back on their own merit.
+13. **Claude does not look at a change's fit; she judges it** (her call, 2026-11-05, during A): each change is run with
+    its output unread (`code/fit_base.py --quiet`), checked blind (`checks/check_fit_base.py --results NAME --blind`:
+    pass or fail, no numbers), drawn against the base model and the data (`code/fig_compare.py NAME`) and sent to her
+    unopened; she says better or worse. That verdict replaces the mechanical 20% rule of decision 4. The base fit
+    (Log 4) was seen before this, and serves as the reference.
 
 ## Next
 
-1. **Breakpoint B (hers, the stop point):** the base fit (`figures/fig_fit_base.png`, Log 4). Proposed next, Phase 3 in
-   this order, each under the earn-its-place rule: A (shelter as structures and site), C (support rising with income),
-   B (a shift in who is willing to work); a second form of the one capability clock (the frontier advancing into new
-   tasks, the schedule's shape k_t, in place of uniform scaling eta_t; same parameter count); then the rivals. The
-   verdict of SPEC.md section 7 waits for A and B, as the spec allows.
+1. **Her verdict on A** (`figures/fig_fit_A.png`, sent unseen). Then the next change, proposed on its own merit
+   (decision 12) and judged by her (decision 13).
 
 ## Log
 
@@ -98,3 +107,11 @@ Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.jso
    participation margin is not what drags the rest. Read against SPEC.md section 7: the base model gets the fork's
    direction and size with a smooth clock and does not get labour's falling share with it; the section allows A and B
    before that counts against the mechanism.
+
+5. **2026-11-05 — A, run blind.** Shelter as a built good and site: the shelter price is (1 - w) p / p_2024 + w with
+   rent the numeraire, w = 0.4, the site's value share of housing in 2024 (the paper's 30–50% midpoint); earlier years'
+   share follows the model's own prices. No new free parameter; the same nine fitted, the same targets and tolerances.
+   The search: one of twelve starts stopped at the iteration cap; continued from there it converged and did not beat the
+   reported best (compared as a yes/no, no numbers shown), and the search now continues such starts itself (A re-run with
+   it). Blind checks 8/8 (the accounting diagnostic reads the base mapping, so it is not run). `figures/fig_fit_A.png`
+   sent to her unopened. Claude has not seen A's fit.
