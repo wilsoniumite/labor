@@ -48,11 +48,14 @@ edited with an inline diff, or new) and lists every sentence of `main.tex` that 
 - `notes/` — each build part's record: every edit to the authors' text with its reason, every dropped sentence.
 - `ASSEMBLY.md` — the assembly: part order, references kept, dropped and added, labels, the compile, and the 110
   decisions D1-D110 the parts raised, with their suggested answers.
-- `CHECKS.md` — two rounds of checks (math, sources, numbers, read-through; then verification of the fixes and a
-  second read), every finding and its disposition.
+- `CHECKS.md` — three rounds of checks, every finding and its disposition: math, sources, numbers and a
+  read-through; then an adversarial verification of the fixes and a second read; then a third read of the model
+  sections and proofs. 50 findings (45 distinct after duplicates), none against a stated theorem, proposition or
+  lemma; all fixed except one, judged true as written.
 - `drafts/` — the introduction (v2) and Section 2 (v3) as Stella approved them in session.
-- `tools/` — the review scripts (below). `apply_defaults.py` and `apply_findings.py` are the exact edits of the
-  review round, kept as a record.
+- `tools/` — the review scripts (below). `apply_defaults.py`, `apply_findings.py`, `apply_round2.py` and
+  `apply_round3.py` are the exact edits of the review, in order, kept as a record; `strip_comments.py` drops the
+  provenance comments for a word diff of the printed text (the repository's `tools/word_diff_report.py`).
 
 Paths in these records that begin `SP/` refer to the build session's scratch directory, which was not kept; the
 files that matter are copied here.
@@ -72,9 +75,9 @@ python3 docs/rewrite/tools/provenance_view.py paper/main.tex paper/main_rewrite.
 - `lint_tex_structure.py` (the repository's) — labels, references, environments and figures resolve.
 - `port_fidelity.py` — every paragraph whose comment says "verbatim" is in `main.tex` word for word.
 - `check_interior_rewrite.py` — `check_interior.py` re-pointed at the rewrite: the same checks, expected values and
-  tolerances, with its text anchors moved to where the material now stands.
+  tolerances, with its text anchors moved to where the material now stands. ALL GREEN (112); see `CHECKS.md`.
 - `check_rewrite_numbers.py` — recomputes every number printed in Sections 5-7, Table 2, Figure 3's caption and
-  Appendix D from `code/appendix_b.py` and compares it with the printed value.
+  Appendix D from `code/appendix_b.py` and compares it with the printed value: 114 numbers, no mismatch.
 
 ## Decisions
 

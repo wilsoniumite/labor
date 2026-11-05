@@ -32,9 +32,25 @@
 # Section 5 is Section 4.2, Corollary 1, Section 7's statics and 9.1's heterogeneity paragraph; old 6.1 is 5.1); the
 # templates whose sentence survives with new words ("flow benchmark", "instance" now Table 2's parameter rows,
 # "shares", "support"); Q4's anchor (the rewrite's D.3 sentence); Q8's figure path (the file the rewrite includes).
-# Expected values, tolerances, computations and the set of checks are the repository's. Q3's two flow-benchmark
-# sentences were replaced in the rewrite and are left as they were (unmatched), as instructed. Diagnostic lines that
-# start with "   ." are not checks.
+# Expected values, tolerances, computations and the set of checks are the repository's (the second pass, below, adds
+# templates and re-anchors Q3). Diagnostic lines that start with "   ." are not checks.
+#
+# SECOND PASS (2026-11-05), so that the copy passes for the right reasons, with nothing loosened. Changed, and only these:
+#  - Q1[B] gains five templates, for the Section 7 numbers that no template covered (Q2[B] listed them). Their values
+#    are computed in the block before EXPECT, from code/appendix_b.py; no expected number is typed:
+#    "targets" (Table 2's lower panel: each row's target beside its value at the rounded parameters, from shares() and
+#    solve() through paper_numbers(); the code holds the seven targets in no constant, so they are read from its header
+#    comment above PRINTED, anchored to its words); "other curvature" (the upper of the two curvatures k that let the
+#    basket's shares hit the targets, with the code's gamma and J; the lower must be Table 2's k at two significant
+#    figures); "path rent" ((T - Nh)/(N pi), pi = (rho + delta) b/[1 - (rho + delta) a], the text's pi); "path
+#    participation, low eta" (solve() on the path at ETA_LOW, the point the text quotes beyond paper_numbers()'s eta = 1
+#    and 0.01); "path fork" (from eta = 1 to ETA_LOW, the factors by which w/p rises and w/r falls).
+#  - Q3's two flow-benchmark conjuncts are re-anchored to Lemma 1, which replaced main.tex L308's two sentences: (i)'s
+#    basket price on the price coefficients with (iii)'s equality when rho = 0 (P_s = wL_s + rB_s in the flow benchmark),
+#    and (iii)'s P_s = wL_s + rB_s + rho V_m X/Y (with durable machines, P_s also carries the interest per basket). Q3's
+#    name and other conjuncts are unchanged; its two diagnostic lines name the new anchors, and the diagnostic line that
+#    looked for the old wording anywhere in the text is dropped.
+#  No expected value, tolerance, computation or check was changed or removed; the number of checks is unchanged.
 
 import math
 import os
@@ -479,6 +495,40 @@ def fill(template, *vals):
 NUM = B.paper_numbers()
 assert dict(B.SCENARIOS)["task"] == {"eta": 0.5} and dict(B.SCENARIOS)["recursive"] == {"lam": 0.0}
 SEQ = B.SEQUENCE
+# ---- the values of the templates the second pass adds (Section 7's numbers that no template covered; see the header)
+# Table 2's targets. code/appendix_b.py holds them in no constant: the header comment above PRINTED states the seven it
+# was set from, so they are read from there, anchored to its words. (It calls the third labor's share "of consumption
+# on the full chain"; the share shares()["labor"] computes, and Table 2's row prints, is final-task labor's.)
+_HEAD = " ".join(l.lstrip("#").strip() for l in Path(B.__file__).read_text(encoding="utf-8").splitlines() if l.startswith("#"))
+_TGT = re.search(r"labor (\d+\.\d+) of a machine's build cost, machine services (\d+\.\d+) of it, labor (\d+\.\d+) of "
+                 r"consumption on the full chain, site (\d+\.\d+) of the basket, the machine chain (\d+\.\d+) of hours, "
+                 r"participation (\d+\.\d+), and (\d+) baskets a person", _HEAD)
+assert _TGT, "code/appendix_b.py's header no longer states the seven targets in the words read here"
+TGT = dict(zip(("theta_V", "machines", "labor", "site", "chain", "participation", "Y_per_N"), map(float, _TGT.groups())))
+
+
+def curvature_gap(k):
+    """Zero exactly when the curvature k lets the basket's shares hit their targets. The targets put the margin at
+    x = 1 - (N_a/Y)(1 - chain share), N_a/Y = participation/(Y/N); the basket's cost P_s = w(1 - x) + p_m J + h r with
+    p_m = w/gamma(x) at the margin then needs J(x) = gamma(x)(1 - x)(1 - site - labor)/labor, labor being final-task
+    labor's share. gamma and J are the code's, at its set gamma(0) and gamma(1)."""
+    P = {**PR, "k": k}
+    x = 1.0 - TGT["participation"] / TGT["Y_per_N"] * (1.0 - TGT["chain"])
+    return B.J(P, x) - B.gamma(P, x) * (1.0 - x) * (1.0 - TGT["site"] - TGT["labor"]) / TGT["labor"]
+
+
+_ks = np.exp(np.linspace(np.log(1e-3), np.log(1e4), 200001))      # the scan of checks/check_rewrite_numbers.py
+_roots = [brentq(curvature_gap, _ks[i], _ks[i + 1], xtol=1e-14)
+          for i in np.flatnonzero(np.diff(np.sign(curvature_gap(_ks))) != 0)]
+# "Of the two curvatures that match the targets, we take the lower; at the other, ...": two roots, the lower being
+# Table 2's k at two significant figures (its caption's rounding); otherwise there is no value and the template fails
+K_OTHER = _roots[1] if len(_roots) == 2 and float(f"{_roots[0]:.2g}") == PR["k"] else math.nan
+print(f"   . Table 2's targets, read from code/appendix_b.py's header: {TGT}; the curvatures that match them: "
+      f"{[round(r_, 6) for r_ in _roots]}")
+_cpt = PR["rho"] + PR["delta"]
+PI = _cpt * PR["b"] / (1.0 - _cpt * PR["a"])                      # the text's pi = (rho + delta) b/[1 - (rho + delta) a]
+ETA_LOW = 1e-3      # the path point the text quotes beyond paper_numbers()'s eta = 1 and 0.01: an evaluation point
+PATH_TOP, PATH_LOW = B.solve(B.sequence(PR, 1.0)), B.solve(B.sequence(PR, ETA_LOW))
 EXPECT = {  # region -> [(label, template, values)]; every template carries the words around its numbers
     "B": [
         # re-pointed: the sentence is now Section 3.1's (after Assumption 2), in new words; same values
@@ -495,6 +545,20 @@ EXPECT = {  # region -> [(label, template, values)]; every template carries the 
             r"cost of work & $\chi$ & uniform on $[0,<.1f>]$ \\"]),
          (PR["N"], PR["T"], PR["h"], PR["a"], PR["lam"], PR["b"], PR["delta"], PR["rho"], PR["g0"], PR["g1"], PR["k"],
           PR["chi_max"])),
+        # added (second pass): Table 2's targets panel under its column heads, each target (TGT, read from the code's
+        # header) beside its row label and its value at the rounded parameters (shares() and solve(), via paper_numbers())
+        ("targets", "\n".join([
+            r"& target & at the rounded parameters \\",
+            r"labor's share of a machine's cost & $<.2f>$ & $<.3f>$ \\",
+            r"machine services' share of a machine's cost & $<.2f>$ & $<.3f>$ \\",
+            r"final-task labor's share of a basket's cost & $<.2f>$ & $<.3f>$ \\",
+            r"site's share of a basket's cost & $<.2f>$ & $<.3f>$ \\",
+            r"machine production's share of hours & $<.2f>$ & $<.3f>$ \\",
+            r"participation, $N_a/N$ & $<.2f>$ & $<.3f>$ \\",
+            r"baskets per worker, $Y/N$ & $<d>$ & $<.2f>$ \\"]),
+         (TGT["theta_V"], NUM["theta_V"], TGT["machines"], NUM["machines"], TGT["labor"], NUM["labor"], TGT["site"],
+          NUM["site"], TGT["chain"], NUM["chain"], TGT["participation"], NUM["participation"], TGT["Y_per_N"],
+          NUM["Y"] / PR["N"])),
         # re-pointed: "the full-chain cost of consumption" is now "the cost of a basket at final tasks" (the share the code
         # computes, shares()["labor"] = v(1 - x)/P_s); same values
         ("shares", r"labor is about half of a machine's build cost and of the cost of a basket at final tasks, machine services "
@@ -506,13 +570,25 @@ EXPECT = {  # region -> [(label, template, values)]; every template carries the 
         # re-pointed: "provider's" is now "owner's"; same values
         ("support", r"Support costs $NP_s\simeq<.5f>$ out of the owner's rent and interest of $<.5f>$.",
          (NUM["support"], NUM["provider_income"])),
+        # added (second pass): the other curvature that matches the targets (K_OTHER, above)
+        ("other curvature", r"Of the two curvatures that match the targets, we take the lower; at the other, about $<.1f>$, "
+                            r"task automation raises $w/P_s$.", (K_OTHER,)),
         ("path", r"retain these parameters and set $\lambda=<d>$ and $\gamma_\eta(x)=\eta(<.2f>+<.2f>x^{<.1f>})$, with "
                  r"$0<\eta\le1$; at $\eta=1$ this is the recursive-automation economy of Figure~\ref{fig:3}.",
          (SEQ["lam"], PR["g0"], PR["g1"], PR["k"])),
         ("path bound", r"$0<v\le\eta(\rho+\delta)b/[1-(\rho+\delta)a]\to0$", ()),
+        # added (second pass): the eta at or below which rent alone funds the support, (T - Nh)/(N pi)
+        ("path rent", r"so rent alone funds the support whenever $\eta\le(T-Nh)/(N\pi)$, about $<.2f>$ here;",
+         ((PR["T"] - PR["N"] * PR["h"]) / (PR["N"] * PI),)),
         ("path ratio", r"Relative capability remains a <word> times as high at the last task as at the first.",
          (NUM["capability_ratio"],)),
         ("path participation", r"it is $<.2f>$ at $\eta=1$ and $<.2f>$ at $\eta=0.01$.", (NUM["seq_n_eta1"], NUM["seq_n_eta001"])),
+        # added (second pass): participation on the path at ETA_LOW
+        ("path participation, low eta", r"At $\eta=<.3f>$ it is $<.3f>$.", (ETA_LOW, PATH_LOW["participation"])),
+        # added (second pass): from eta = 1 to ETA_LOW, the factor by which w/p = v/p rises and the one by which w/r = v falls
+        ("path fork", r"From $\eta=1$ to $\eta=<.3f>$ an hour's wage comes to buy $<.1f>$ times as much of the final good "
+                      r"and $1/<.0f>$ as much space",
+         (ETA_LOW, (PATH_LOW["v"] / PATH_LOW["p"]) / (PATH_TOP["v"] / PATH_TOP["p"]), PATH_TOP["v"] / PATH_LOW["v"])),
     ],
     "CAP": [
         ("parameters", r"($N=<d>$, $T=<.2f>$, $h=<.4f>$, $a=<.1f>$, $b=<.1f>$, $\delta=<.2f>$, $\rho=<.2f>$, $\chi$ uniform on "
@@ -556,6 +632,14 @@ for key, items in EXPECT.items():
         print(f"   . Q[{key}] all unmatched templates: {missing}")
         print(f"   . Q[{key}] all unchecked decimals ({len(loose)}): {loose}")
 s5_body = R_S5.replace(R_CAP, "")
+# Re-anchored (second pass): main.tex L308's two flow-benchmark sentences are, in the rewrite, Lemma 1 (prices and
+# quantities). Its (i) prices the basket on its price coefficients, which its (iii) makes equal to the basket's total
+# hours L_s and land B_s when rho = 0, so P_s = wL_s + rB_s in the flow benchmark; and its (iii) gives
+# P_s = wL_s + rB_s + rho V_m X/Y, so with durable machines P_s also carries the interest per basket.
+R_LEM1 = region(r"\begin{lemma}[prices and quantities]\label{lem:prices}", r"\end{lemma}")
+LEM1_FLOW = (r"the basket costs $P_s=w\widetilde\lambda_s+r\widetilde b_s$",
+             r"(iii) $\widetilde\lambda_s\ge L_s$ and $\widetilde b_s\ge B_s$, with equality when $\rho=0$,")
+LEM1_INTEREST = r"and $P_s=wL_s+rB_s+\rho V_mX/Y$."
 f3 = B.figure3(PR)
 both_lower = all(f3[s]["real_wage"] < f3["baseline"]["real_wage"] and f3[s]["participation"] < f3["baseline"]["participation"]
                  for s in ("recursive", "task"))
@@ -563,20 +647,17 @@ check("Q3 Section 5 outside the caption quotes no number; it states P_s = wL_s +
       "Appendix B for the interest; and its claim that both automation channels lower the real wage and participation in "
       "the example holds",
       not DEC.search(blank(s5_body)) and both_lower
-      and (r"In the flow benchmark, the production network prices the basket through its total human hours" in s5_body)
-      and (r"so $P_s=wL_s+rB_s$. With durable machines, $P_s$ also pays interest on the machines that supply the basket "
-           r"(Appendix~\ref{app:B})." in s5_body)
+      and all(a in R_LEM1 for a in LEM1_FLOW)          # re-anchored: P_s = wL_s + rB_s when rho = 0 (the flow benchmark)
+      and (LEM1_INTEREST in R_LEM1)                    # re-anchored: with durable machines P_s also carries rho V_m X/Y
       and "In that example, both automation channels lower the real wage and participation together." in s5_body)
 for _lbl, _ok in (("no decimal in old Section 5's text", not DEC.search(blank(s5_body))),
                   ("both channels lower w/P_s and N_a/N in the example (computed)", both_lower),
-                  ("anchor 'In the flow benchmark, the production network prices the basket ...' present",
-                   r"In the flow benchmark, the production network prices the basket through its total human hours" in s5_body),
-                  (r"anchor 'so $P_s=wL_s+rB_s$. With durable machines, ... (Appendix~\ref{app:B}).' present",
-                   r"so $P_s=wL_s+rB_s$. With durable machines, $P_s$ also pays interest on the machines that supply the basket "
-                   r"(Appendix~\ref{app:B})." in s5_body),
+                  ("Lemma 1 (i) and (iii) present: the basket priced on its price coefficients, which equal L_s and B_s when "
+                   "rho = 0 (P_s = wL_s + rB_s in the flow benchmark)", all(a in R_LEM1 for a in LEM1_FLOW)),
+                  (r"Lemma 1 (iii) present: 'and $P_s=wL_s+rB_s+\rho V_mX/Y$.' (with durable machines, the interest per basket)",
+                   LEM1_INTEREST in R_LEM1),
                   ("anchor 'In that example, both automation channels lower ... together.' present",
-                   "In that example, both automation channels lower the real wage and participation together." in s5_body),
-                  ("(anywhere in the text) 'production network prices the basket'", "production network prices the basket" in TEX)):
+                   "In that example, both automation channels lower the real wage and participation together." in s5_body)):
     print(f"   . Q3 part: {_lbl}: {_ok}")
 check("Q4 Appendix D.3 states P_s = wL_s + rB_s in the flow benchmark; the data note's linear program has the battery's "
       f"{CELLS:,} task cells",

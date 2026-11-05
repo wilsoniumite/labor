@@ -10,7 +10,9 @@ decisions. Checks gate absolutely (`README.md` lists them).
 scholarly API keys, such as OpenAlex's. Each session has the address in its context; it is not
 written here because the repository is public. That day the session's permission check
 refused the OpenAlex registration, so no key exists. Crossref needs no key.
-**State as of:** 2026-11-04 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+**State as of:** 2026-11-05 — `paper/main_rewrite.tex`, the Lucas-style rewrite Johan asked for,
+awaits her read (Log, 2026-11-05; records in `docs/rewrite/`); `paper/main.tex` is unchanged.
+As of 2026-11-04, `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
@@ -500,6 +502,49 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
+
+  **The full rewrite: built, checked, and committed for her read (same day).**
+  - **Output.** `paper/main_rewrite.tex`, 50 pages against `main.tex`'s 41, beside an unchanged
+    `main.tex`. It compiles with no LaTeX warning; the structure lint is green. Records are in
+    `docs/rewrite/` (its README): the brief, the design, the math verdicts, each part's notes, the
+    assembly report with the build's decisions D1–D110, the checks with every finding's
+    disposition, the two drafts she approved, and the review tools. Every paragraph carries a
+    provenance comment (verbatim, edited, new, or review edit).
+  - **Length.** The main text is 31 pages, against 23. The survey's three pages went, but
+    Sections 2–4 (description, definition, equilibrium) take 14 pages where old Sections 3–5
+    took 7; the numerical economy moved in from Appendix B (2 pages); Section 5 gained 2. By
+    paragraphs: 66 hers unchanged (about 3,300 words), 73 hers edited (3,500), 133 new (7,700),
+    mostly the formal statements and proofs.
+  - **Checks, no ranking.** Round 1: math (two agents), sources, numbers, read-through — 39
+    findings, none against a stated result. The sources check found one false sentence in the new
+    introduction: Korinek and Juelfs (2022) take the machine stock as given, so "In these models
+    machines are accumulated from output" now holds for the first two papers only. All quotes are
+    exact, and the six new reference entries match Crossref. Round 2 verified the review's edits
+    adversarially and read the paper again: 7 findings, one a pointer the review itself had broken
+    (D6). Round 3 read the model sections and proofs a third time: 4 imprecisions, no error. All
+    fixed except X3 ("site rent is 6.5 percent of the basket" is true as written). Each fix is in
+    the source as `% Review edit (<id>)`.
+  - **Batteries.** `checks/check_interior_rewrite.py` (`check_interior.py` re-pointed: anchors
+    only, values from the code; 24 mutations each fail it) is ALL GREEN (112); `check_interior.py`
+    on `main.tex` is still ALL GREEN (112). `checks/check_rewrite_numbers.py` recomputes 114 printed
+    numbers: no mismatch. `docs/rewrite/tools/port_fidelity.py`: every paragraph marked verbatim is
+    word for word in `main.tex`.
+  - **Decisions taken by default** (her words staged in the rewrite, each with its note): D6, D7
+    (repeats), D25, D30, D73 ("stationary"), D74, D76, D91 ("interior margin" throughout), D101,
+    D102 (the CES elasticity epsilon), D103 (z_g, z_h, z_H), D106; not applied: D64, D90, D100,
+    D108; the rest at their suggested answers.
+  - **Hers to decide.** D13 (Theorem 1's remark: show the second configuration that exists without
+    the user-cost clause?); the length (possible cuts: Propositions 1–3's proofs back to Appendix A,
+    about 1.5 pages; Theorem 1's displays (21)–(24) to Appendix A, about 1.5; Section 7 back to an
+    appendix, about 2; Table 1 to an appendix, about 1); the abstract (the old one, with "a
+    ceiling" now "an upper bound", since the ceiling is x_c); Future Work (cut to 372 of 456 words).
+  - **Open, not blocking.** Figure 3's legend still says "baseline (Appendix B)" (no matplotlib
+    here; regenerate with `code/fig_labor_market_clearing.py` at adoption, D55); main.tex's header
+    comments at adoption (D12); Orshansky (1963) has no reference entry (Open 12(k)); Zeira (1998)
+    is unverified (the publisher blocks the fetch); Table D.1's "≈0.99 by withdrawal rule (2024)"
+    against `data/lambdaB_results.csv`'s 1.0 (the script that made it is not in the repository);
+    `code/appendix_b.py`'s header calls the labor target "full chain" where the code computes
+    final-task labor's share.
 
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately

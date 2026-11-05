@@ -222,7 +222,8 @@ land as well. Land is the economy's one non-produced input: nothing the economy 
 and it stands for sites, mineral deposits, and other inputs in fixed supply.
 
 % NEW (section2_description v3), with "Section 6" made a reference to sec:rent (build brief §2)
-The government can tax land rents and wages and pay transfers. In the baseline it does nothing;
+% Review edit (R3-2): Section 2 names all the government's instruments (Section 3.5), including public provision of the basket (sigma = 0), and the tax is on the rental value of land, owed whether or not the land is used
+The government can tax the rental value of land and wages, pay transfers, and provide the basket of support in the owner's place. In the baseline it does nothing;
 Section~\ref{sec:rent} uses its instruments.
 
 % NEW (section2_description v3): the "easy and hard" paragraph, moved here from the head of the results
@@ -518,7 +519,8 @@ for labor, machine-hours, land, and the final good, whose $Y$ units are consumed
 % NEW (design synthesis §2.1): the note that the concept is standard (STATE 2026-11-05, Lucas's third move),
 % restating main.tex L594 in matrix form. Its fourth sentence is fix F5's (build brief §4), in place of the
 % design's claim, in its notes (synthesis §2.3 and §4, decision 1), that the clause "costs nothing"
-The equilibrium concept is standard: a stationary competitive equilibrium, in which every agent optimizes at constant prices and every market clears. In matrix form, condition~(i) is~\eqref{eq:3} and condition~(v) is $(\mathbf I-\mathbf A_0^{\top})\mathbf y=C\mathbf z$, $\bm\lambda^{\top}\mathbf y=N_a$, and $\mathbf b^{\top}\mathbf y=\ell$, with gross outputs $\mathbf y=(Y,X,\delta X,hY)^{\top}$ and the basket $\mathbf z=(1,0,0,h)^{\top}$; Appendix~\ref{app:networks} uses this form for any production network. Under condition~(iii) the owner rents out all its land at any positive rent, since the land tax does not depend on use, so land is idle only at zero rent. When support absorbs all the owner's income, the owner's first-order condition does not bind, and the user-cost clause of condition~(i) selects the user cost at~$\rho$. By Walras's law one clearing condition follows from the others and the budgets: whatever the policy, the baskets bought cost $wN_a+r\ell+\rho V_mX$, the value of those produced (Proposition~\ref{prop:5}). When $r>0$ we measure prices in land services, $r=1$, and write $v=w/r$ for the wage--rent ratio.
+% Review edit (R3-3): (3) holds condition (i)'s price equations; its assignment half (each task to the cheaper input) is not a matrix equation
+The equilibrium concept is standard: a stationary competitive equilibrium, in which every agent optimizes at constant prices and every market clears. In matrix form, the price equations of condition~(i) are~\eqref{eq:3} and condition~(v) is $(\mathbf I-\mathbf A_0^{\top})\mathbf y=C\mathbf z$, $\bm\lambda^{\top}\mathbf y=N_a$, and $\mathbf b^{\top}\mathbf y=\ell$, with gross outputs $\mathbf y=(Y,X,\delta X,hY)^{\top}$ and the basket $\mathbf z=(1,0,0,h)^{\top}$; Appendix~\ref{app:networks} uses this form for any production network. Under condition~(iii) the owner rents out all its land at any positive rent, since the land tax does not depend on use, so land is idle only at zero rent. When support absorbs all the owner's income, the owner's first-order condition does not bind, and the user-cost clause of condition~(i) selects the user cost at~$\rho$. By Walras's law one clearing condition follows from the others and the budgets: whatever the policy, the baskets bought cost $wN_a+r\ell+\rho V_mX$, the value of those produced (Proposition~\ref{prop:5}). When $r>0$ we measure prices in land services, $r=1$, and write $v=w/r$ for the wage--rent ratio.
 
 % NEW (design synthesis §2.1): the wedge remark, restating main.tex L149 (sentence 3) with the citations of
 % main.tex L120 and the finding of main.tex L536 (build brief §5: these three citations go here)
@@ -598,8 +600,9 @@ In every equilibrium with margin $x^*$:
 
 % NEW (design synthesis §3.1), edited for fix F5: "at the user cost" added, since the price coefficients
 % rest on the user-cost clause of Definition 1(i)
+% Review edit (R3-4): the identity in (iii) divides by Y, and Y = C >= N > 0 comes from the support basket in the workers' budget
 \begin{remark}
-Lemma~\ref{lem:prices} uses only cost minimization at the user cost and market clearing. It does not depend on preferences, on the owner, or on policy.
+Lemma~\ref{lem:prices} uses only cost minimization at the user cost, market clearing, and, for the identity in~(iii), $Y>0$, which the support basket ensures. It does not depend on preferences, on the owner, or on policy.
 \end{remark}
 
 % from main.tex L155-157 (the paragraph's first two sentences), verbatim. The design maps L155-170 to
@@ -815,7 +818,8 @@ Lemma~\ref{lem:ceiling} compares unit costs at the user cost. It does not depend
 
 % NEW (design synthesis §3.1), restating main.tex L687, sentences 1-2, without calling the ceiling
 % "closed" (closure is now H's, by capability or by rule)
-Machines cannot perform the tasks in $H$. At a task in $[x_c,x_H]$ they can, but the machine-hours that would replace an hour there embody at least that hour of labor, counting the labor needed to build them at the required return, so they cost at least the hour at any wage. Unlike $H$, the ceiling depends on the labor in the machine chain and on the return, as well as on capability.
+% Review edit (R3-1): H includes tasks reserved by rule, which machines could perform (Assumption 1)
+Machines do not perform the tasks in $H$, which are closed to them by capability or by rule. At a task in $[x_c,x_H]$ they can, but the machine-hours that would replace an hour there embody at least that hour of labor, counting the labor needed to build them at the required return, so they cost at least the hour at any wage. Unlike $H$, the ceiling depends on the labor in the machine chain and on the return, as well as on capability.
 
 % from main.tex L687, sentences 3-4, and L688-697 ((21), its lead-in and (22)), verbatim
 At an interior threshold $x<x_c$, machines perform tasks below $x$ and people those above it. The task condition and the user cost give

@@ -482,3 +482,73 @@ Not checked:
 - Reference list entries
 - Proposition E.1 beyond its statement (excluded as STATE Open 12(e))
 
+## Round 3
+
+### Third read: the model sections and proofs
+
+- **R3-1** (imprecision; REWRITE L818 (Section 4.3, paragraph after Lemma 2's remark, first sentence; NEW, design synthesis §3.1)). The sentence says machines cannot perform the tasks in H. The paper defines H as tasks closed by capability or by rule. On a task reserved by rule, machines can perform the task (gamma_M > 0) but may not. So the sentence is false for reserved tasks. It also contradicts the same paragraph's contrast 'Unlike H, the ceiling depends ... as well as on capability', which treats H as more than capability.
+  - Fix: `Machines cannot perform the tasks in $H$.` -> `Machines do not perform the tasks in $H$, which are closed to them by capability or by rule.`
+  - Disposition: applied.
+- **R3-2** (imprecision; REWRITE L225 (Section 2, paragraph on the government; NEW, section2_description v3)). Section 2's description of the government does not match the formal one in two ways. (1) It leaves out one of the six instruments: public provision of the support basket (sigma = 0). Section 6 uses that instrument in (16), and the sentence's own next clause says Section 6 'uses its instruments'. Section 2 also says without qualification that the owner provides each worker's basket of support. (2) It calls the tax a tax on 'land rents'. The formal instrument is a tax on the rental value of land, owed whether or not the land is used. The paper distinguishes the two: the remark after Proposition 6 says that a tax on rent received would change part (i).
+  - Fix: `The government can tax land rents and wages and pay transfers.` -> `The government can tax the rental value of land and wages, pay transfers, and provide the basket of support in the owner's place.`
+  - Disposition: applied (Section 2's government sentence, which Stella approved in v3, now names public provision and the tax on rental value).
+- **R3-3** (imprecision; REWRITE L521 (paragraph after Definition 1, second sentence; NEW, design synthesis §2.1)). The sentence says condition (i) 'is' (3). Condition (i) has two parts: the price equations, and cost minimization over the task assignment (p_m gamma <= w on M, >= w off M). Display (3) holds only the price equations, and only for an assignment that is the initial segment below x. Appendix B.1's matrix reading of the same condition states both parts. So the claimed equivalence drops the assignment half of condition (i).
+  - Fix: `In matrix form, condition~(i) is~\eqref{eq:3}` -> `In matrix form, the price equations of condition~(i) are~\eqref{eq:3}`
+  - Disposition: applied.
+- **R3-4** (imprecision; REWRITE L602 (remark after Lemma 1; NEW, design synthesis §3.1)). The remark says Lemma 1 uses only cost minimization at the user cost and market clearing. The proof of the identity in (iii) also divides by Y. It justifies Y > 0 by Y = C >= N > 0, and C >= N comes from the workers' budget (8): every worker receives one support basket, and d, g, and tau_w lie in the ranges Section 3.5 gives them. That is neither cost minimization nor market clearing. Without it the identity P_s = wL_s + rB_s + rho V_m X/Y is undefined.
+  - Fix: `uses only cost minimization at the user cost and market clearing.` -> `uses only cost minimization at the user cost, market clearing, and, for the identity in~(iii), $Y>0$, which the support basket ensures.`
+  - Disposition: applied.
+
+Passed (20):
+
+- V1 (L1140): 'The parents (Section~\ref{sec:description})' now lands on Section 2, whose L211 is the only remaining parents example. Section 3.4 has none (D6). Correct.
+- V2 (L1127): under (8), with g_e <= g_w and tau_w < 1, the gain from work is log[(P_s+d+g_w+(1-tau_w)w)/(P_s+d+g_e)] >= log[1+(1-tau_w)w/(P_s+d+g_e)] > 0 for every w > 0. So when F(z) > 0 for z > 0 some workers work, and the restricted claim is true. 'no payment favors exit' is the counterpart of Corollary 2's 'no public payment favors work, g_w <= g_e'. Correct.
+- X2 (L301): Table 1's gloss of x_c ('or $x_H$ if there is none') matches Lemma 2's definition. At the first task with D(x_c)=0, p_m gamma - w = (rho+delta) b r gamma / [1-(rho+delta)a] >= 0, so machines cannot undercut labor there. Correct.
+- X4 (L1771): Assumption B.1 now lets a task-produced good's finite set list only its non-task inputs, each joined with any assignment as in (B.2). This agrees with (B.2), with Definition B.1 ('including any assignment of a task-produced good's tasks'), and with the human chain (an assignment with every task to labor is feasible). Correct.
+- Cost system: (unitcost) solved gives (tildem). (3)'s rows match (unitcost). The spectral radius of A_rho is sqrt((rho+delta)a). The gross outputs y=(Y,X,deltaX,hY) with (I-A_0^T)y=Cz, lambda^T y=N_a and b^T y=ell reproduce Definition 1(v).
+- Walras sentence after Definition 1: summing the worker budgets (8), the owner's stationary budget (11) and the government budget (12) gives total basket spending wN_a + r ell + rho V_m X for any policy and either sigma.
+- Lemma 1(i)-(iii) and their proof: lambda~_s, b~_s, L_s and B_s. The inequality (rho+delta)/[1-(rho+delta)a] >= delta/(1-delta a) holds. The identity P_sY = wN_a + r ell + (p_m - delta V_m)X was rederived.
+- Proposition 1: (i) at interior, boundary and corner (continuity of gamma at x*, x_H, 0); (ii) dw/dN_F = -p_m gamma' gamma_L/Y. Loom numbers: 80/4 = 20 and 80/5 = 16.
+- Proposition 2: the closure and both conditional derivatives; positivity of the feedback term from p_m > 0 and r b~_m > 0.
+- Proposition 3: s = (e^chi - 1)P_s and N_a = NF(log(1+w/P_s)).
+- Lemma 2 and its proof: p_m gamma - w = [(rho+delta) b r gamma - wD]/[1-(rho+delta)a]. D is nonincreasing, D(0) > 0 and x_c > 0. The tie cases were checked.
+- (21)-(24): p_m(x) = (rho+delta)b/D(x) = b~_m/(1 - gamma lambda~_m). (23) follows from machine and land clearing. The limit of v/P_s at a binding ceiling is gamma/(gamma(1-x_c) + J).
+- Theorem 1's proof: N_D is strictly decreasing. p'(x) = v'[1-x+lambda~_m J] and d(v/P_s)/dx = v'[h + b~_m J]/P_s^2 were rederived. Each exclusion step was checked: zero wage; zero rent, including the lambda=0, H-empty case and the case gamma lambda~ < 1 at x_c = x_H; corner; ceiling; boundary at the wall. The income decomposition at the crossing and the necessity of funding were checked.
+- Corollary 1(i): v' = (p_m/r) gamma'/(1 - gamma lambda~_m) and 1/(1 - gamma lambda~_m) = 1 + lambda v/b. (ii) is monotone comparative statics.
+- Lemma A.1: (a) both cases; (b) the discounted sum bound equals c*/(1-beta) exactly, and the Jensen and beta = 1 average bounds hold; (c) the perturbation gains (1 + p_m/V_m - delta)epsilon against (1+rho)epsilon, and the beta = 1 variants.
+- Remark after Lemma A.1 (mathA-2 fix): at c_o = 0 no feasible plan has other consumption or stock.
+- Proposition B.1(a)-(f) and its proof: A_0 <= A_rho entrywise; the human-chain fixed-point bound; (d) from r b~_m >= xi p_m; (e)'s gap term.
+- B.1's assignment rule: machine cheaper iff gamma_i < w/p_m. gamma_i(x_i*) = w/p_m at an interior margin, including flat ties.
+- Pointers in scope (Assumption 5 from Assumption 2, Lemma A.1(c), Lemma 1(iii) and Proposition B.1(a), Sections 3.4, 3.5, 4.2, 6 and 9.2, Appendices A, B.1, B.5, D.1, D.3 and E, Theorem 1, Definition 3, Figures 1-2) resolve to the intended objects. The printed text was checked with pdftotext.
+- Table 1 against the text: each in-scope row matches its definition (A_rho and A_0, J, x_c, v, P_s, N_a, sigma, the g_w and g_e payments, tau_R as a tax on rental value, R = rT, kappa).
+
+Not checked:
+
+- Sections 5-10 and Appendices B.2-F beyond the pointers into them from the scope. V2 was checked in its paragraph only.
+- A numerical rerun of the Section 7 instance. Earlier rounds recomputed it, and every formula in scope was rederived by hand instead.
+- Low-value items noted but not reported: (a) L818 'At a task in [x_c,x_H] ... embody at least that hour' fails at the single task x_c = x_H when no task has D <= 0 (measure zero). (b) In the AI paragraph, 'electricity is an input' has no counterpart among the stated economy's four goods, only in B.1's networks. (c) u denotes the owner's period utility (Table 1), while u_n in (8) is the worker's utility. (d) Table 1's 'space per basket, which also holds one unit of the final good' reads ambiguously. (e) The remark after Theorem 1 says demand 'still exceeds' supply at x_H, but (25) also fails at equality.
+- B.1's (2) for the machine-hour's row (a_mK read as rho+delta) was not re-reported, since round 1 (mathB-6) already raised it.
+- Citations and attributions (Zeira 1998; Trammell and Korinek 2026; Restrepo 2025) were not checked.
+
+## The numbers battery for the rewrite
+
+`checks/check_interior_rewrite.py` is `checks/check_interior.py` re-pointed at the rewrite. On the final text it is
+ALL GREEN (112 checks), and `checks/check_interior.py` on `main.tex` is still ALL GREEN (112). The re-pointing moved
+text anchors only: Appendix B's material is now Section 3.1's flow-benchmark paragraph and Section 7; Q1[B] gained
+templates for Table 2's targets and solved values and for Section 7's path numbers (about 15.5, about 0.12, 0.018,
+1.8, 1/426), each value computed from `code/appendix_b.py`; Q3's two flow-benchmark conjuncts now read Lemma 1, which
+replaced main.tex L308. No expected value, tolerance or computation changed (every E, I, L, F and S line of the run is
+byte-identical before and after), and 24 deliberate mutations of the text or the code's targets each made the battery
+fail. Two things to know:
+
+- `code/appendix_b.py` keeps the seven calibration targets only in its header comment (lines 32-34), so the battery
+  reads them from that comment, with an assertion that stops the run if the comment is reworded. A `TARGETS`
+  constant in the code would be sturdier.
+- That header comment calls the third target "labor 0.47 of consumption on the full chain", but `shares()["labor"]`
+  computes final-task labor's share v(1 - x*)/P_s, which is what Table 2 prints; the full-chain share is 0.5505.
+  The rewrite's text says this correctly; the code comment is stale.
+
+`checks/check_rewrite_numbers.py` recomputes 114 printed numbers in Sections 5-7, Table 2, Figure 3's caption and
+Appendix D from the code: no mismatch. It also notes that Table D.1's "approx 0.99 by withdrawal rule (2024)" (the
+authors' number) does not match `data/lambdaB_results.csv`, whose lamB_rule is 1.0 in every year; the script that
+made that file is not in the repository.
