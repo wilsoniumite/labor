@@ -359,6 +359,33 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     - From here: checks of facts, quotations and claims against the propositions continue. Panels
       that rank wording, jokes or drafts by taste stop; Stella gets one version, or two unranked,
       and picks.
+
+  **The model-section design, finished the same day** (scratchpad only:
+  `design/synthesis.md` in the session's scratchpad; nothing in the paper changed).
+  - **The design.** Design B, concrete first, reworked to Stella's decisions.
+    - §2 states Appendix B's four-good economy, with a wall of closed tasks and durable machines:
+      Assumptions 1–5, a Definition 1 built on the budgets, Definitions 2–3 and Table 1.
+    - §3 gives Propositions 1–3 with their proofs, then existence and uniqueness (Theorem 1).
+    - The rest: §4 purchasing power and income; §5 rent taxation; §6 the numerical economy and the
+      automation path; §7 Measurement; §8 History and stabilizers; §9 AI and conclusion.
+    - Appendix B.1 states any production network.
+    - The main text comes to about 8,600 words, against 7,988 now.
+  - **The math checks.** Ten verdicts, analytic and numerical, uphold the main results. Five
+    wordings claim slightly more than holds, and a clause fixes each:
+    - (i) the network appendix needs each task good's open tasks to form an interval, or the
+      closure can fail at a margin;
+    - (ii) one remark's participation bound under in-work payments is wrong when there are exit
+      payments or a dividend;
+    - (iii) the labor's-share bound "with equality iff ρV_mX = 0" fails when nobody works;
+    - (iv) Lemma A.1(a), on the owner renting out all the land, is false at β = 1 as worded;
+    - (v) the uniqueness of the equilibrium depends on a clause. Unless Definition 1 states the
+      user cost or requires c_o > 0, the printed instance has a second equilibrium, in which the
+      owner consumes nothing and land is partly idle at zero rent.
+  - **The fix for (v), unless Stella prefers otherwise.** Definition 1 requires c_o > 0, so the user
+    cost is the owner's first-order condition, as decided. Existence then needs
+    rT + ρV_mX > NP_s strictly.
+  - **Superseded.** The design's draft introduction, which carries Appendix B numbers, is replaced
+    by the introduction work above.
   - **A correction to the session's own brief.** Korinek and Juelfs (2022) also have workers stop
     working in a competitive equilibrium once non-labor income is high enough (NBER w30172, the
     multiplier passage), so voluntary exit itself is not new here.
