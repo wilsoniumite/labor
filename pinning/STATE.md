@@ -295,6 +295,26 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
     volume, doi 10.17226/19470) are candidates. Section 2.6's precedence sentences on Korinek and
     Stiglitz (2019) and Korinek and Suh (2024) must survive the cut.
 
+  **The introduction's opening, decided later the same day** (Stella, on a draft opening paragraph
+  shown in session: "I like that introduction but ...").
+  - **History and others apart from our claims.** Quoted history and other authors' results are
+    attributed and kept separate from what this paper adds. "Production can do without work only
+    if machines alone can make what people need, machines included" is obvious and stands without
+    a disclaimer. The next sentence (people leave work of their own accord as machines get better
+    at the tasks people still do) is where readers may disagree, so it is prefaced as this paper's
+    claim.
+  - **Wording.** No "turns"; "is decided by" is preferred.
+  - **Restraint.** Few conclusions and no numbers in the introduction: set the scene, state the
+    research question, give a little other literature. The Appendix B path numbers stay out of it.
+  - **Citations.** The works under "Relevant work not cited" are added as they fit.
+  - **One joke.** The paper carries one aside, after eq. (17): Keynes (1930) "looked forward to
+    honoring 'the lilies of the field who toil not, neither do they spin.' Equation (17) adds two
+    conditions: the field must be large enough, and its rent must reach the lilies." ("Honoring"
+    is the paper's spelling; Keynes's own sentence is "We shall honour those who ...", checked
+    against the essay's text.) The other
+    candidates (the geometric series in Section 3.3, the indivisible hour in Section 4, Ricardo's
+    recantation in Section 6.2) are not used.
+
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately
   one quarter", was already in the entry below. `main` fast-forwarded from 91f10c7 to branch
