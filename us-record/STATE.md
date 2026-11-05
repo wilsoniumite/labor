@@ -10,8 +10,9 @@ functions, notebook-cell style; `tqdm` on any outer loop that takes more than a 
 **State as of:** 2026-11-05. Phases 0 and 1 done: `SPEC.md` committed before any data; the data panel built
 (`code/panel.py` -> `data/panel.csv`, 76 years x 32 columns, `data/manifest.csv` with each source's SHA-256),
 gated (`checks/check_panel.py`, 21/21), its mapping written (`docs/measurement.md`) and drawn
-(`code/fig_panel.py` -> `figures/fig_panel.png`). Nothing fitted. **Waiting at breakpoint A (hers): the mapping and
-the panel.**
+(`code/fig_panel.py` -> `figures/fig_panel.png`). Breakpoint A passed (her call: prime-age employment targeted).
+Phase 2 done: the base model fitted (`code/fit_base.py` -> `results/fit_base.json`, gated by `checks/check_fit_base.py`
+9/9, drawn in `figures/fig_fit_base.png`). **Waiting at breakpoint B (hers, the stop point).**
 
 ## The three models
 
@@ -45,12 +46,19 @@ the panel.**
 10. **The targeted employment rate is prime-age, 25–54** (her call at breakpoint A, 2026-11-05): the 16+ rate's fall after
     2008 is mostly ageing, which the model does not have; the 16+ rate becomes a check. Adults 16+ still set the
     population's growth.
+11. **The base model's required return is constant** (after the first search, 2026-11-05; **for her veto at
+    breakpoint B**): with machines carrying about half their cost in labour, the model has a few points of rate
+    headroom, and a required return following the measured real long rate (-3% in 1950, +6% in the 1980s) left no
+    land-scarce equilibrium in 18 years of a 1950-calibrated start; the measured return on business capital is far
+    steadier than bond yields. The measured rate's pass-through becomes candidate addition I (SPEC.md section 6).
 
 ## Next
 
-1. **Breakpoint A (hers):** the mapping (`docs/measurement.md`) and the panel (`figures/fig_panel.png`). Then Phase 2:
-   the base model fitted — the pinning model each year on the measured inputs, one smooth capability clock, the fixed
-   parameters once over the record — with year-by-year accounting as a diagnostic, up to breakpoint B, the stop point.
+1. **Breakpoint B (hers, the stop point):** the base fit (`figures/fig_fit_base.png`, Log 4). Proposed next, Phase 3 in
+   this order, each under the earn-its-place rule: A (shelter as structures and site), C (support rising with income),
+   B (a shift in who is willing to work); a second form of the one capability clock (the frontier advancing into new
+   tasks, the schedule's shape k_t, in place of uniform scaling eta_t; same parameter count); then the rivals. The
+   verdict of SPEC.md section 7 waits for A and B, as the spec allows.
 
 ## Log
 
@@ -69,3 +77,24 @@ the panel.**
    since 1990; labour's share of consumption fell from 0.66 to 0.47; the 16+ employment rate rose from 0.56 to 0.64 by
    2000 and stands at 0.60; the real long rate was highest in the 1980s and near 1% in 2023–24; depreciation rose from
    0.040 to 0.053; the machine chain's labour share fell from about 0.52 around 2000 to 0.45-0.47 since 2010.
+3. **2026-11-05 — the first search, and decision 11.** From the paper's 2020s-like instance placed in 1950, with
+   least_squares' Jacobian scaling, every start stopped after two iterations at the bounds (misfit 25.3): a broken search,
+   not a result. Calibrating 1950 at its measured shares (pinning_model.calibrate_c) showed why the start mattered (at
+   three baskets a person 1950 has no root: its labour share needs far fewer tasks on machines) and then that a required
+   return following the measured real rate leaves no equilibrium in 1953-70: decision 11. The tolerances did not move
+   (T1 gates them against 72adc83, the commit before the first fit).
+4. **2026-11-05 — Phase 2, the base fit.** Twelve starts (1950 calibrated in closed form across what 1950 does not
+   measure, both roots in k, two clock paces) all converge, in 79-96 iterations, to one optimum: **misfit
+   19.3** (wage in durables 26.1, in shelter 14.2, labour's share
+   13.4, prime-age employment 32.9, θ_V 10.1; 1 is one tolerance).
+   Parameters: k 15.02, the clock 6.35% a year, rho 0.30 (at its bound), h at its floor
+   (no land in the basket), lambda rising 3.64% a year. What fits: **the fork** — the capability path that
+   reproduces the relative price of durables to shelter exactly each year (the accounting) lies on the constant-pace clock,
+   about 6.4% a year, machines needing about a hundredth of their 1950 service per task by 2024. What does not: labour's
+   share (the model's runs 0.45 -> 0.53 -> 0.40, hump-shaped, against 0.66 -> 0.47 falling; it cannot start at 0.66);
+   prime-age employment (with support fixed at one basket it rises with the real wage to 0.94 by 2024, against 0.81 and
+   flat since 2000); the wage in durables (x3.6 against x6.2); the wage in shelter (falls after 2008, against flat).
+   A diagnostic fit without the employment target (not stored) still misfits 11.9, labour's share worst (17.2): the
+   participation margin is not what drags the rest. Read against SPEC.md section 7: the base model gets the fork's
+   direction and size with a smooth clock and does not get labour's falling share with it; the section allows A and B
+   before that counts against the mechanism.

@@ -42,7 +42,7 @@ site, participation from log(1 + w/P_s) against funded support, land T.
 | Kind | What | Source |
 |---|---|---|
 | Measured input | adults N_t (population 16+) | FRED CNP16OV, 1948– (to fetch; total population is cached, `../pinning/cache/B230RC0A052NBEA.csv`) |
-| Measured input | the required return rho_t (a real long rate) and depreciation delta_t | Moody's Aaa less expected inflation (Phase 1: `docs/measurement.md`, choice 2); BEA Fixed Assets |
+| Measured input | depreciation delta_t; the required return rho is a constant in the base model (decision 11; the measured real long rate, Moody's Aaa less expected inflation, is candidate I) | BEA Fixed Assets; `docs/measurement.md`, choice 2 |
 | Measured input | the machine chain's labour content: theta_V,t, from which lambda_t follows | `../progress_and_prosperity/lambda/data/` (1997–2023; benchmark years from 1947) |
 | Free driver | machine capability eta_t: the capability clock, one smooth curve | fitted |
 | Fixed parameters | a, b, g0, g1, k, h, T, chi_max | fitted once over the whole record |
@@ -106,6 +106,8 @@ Rivals, under the same rule so the record can favour them:
 - **F. Markups**: a wedge between price and cost.
 - **G. Trade**: a foreign wage as a second machine rental on tradable tasks.
 - **H. Time to build**: investment that runs ahead of the margin. Only if the record's investment swings force it.
+- **I. The required return following the market** (decision 11, 2026-11-05): rho_t passing through the measured real
+  long rate, against the base model's constant rho.
 
 ## 7. What would count against the mechanism
 

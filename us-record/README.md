@@ -6,4 +6,4 @@ model in `../paths/`.
 
 **Start with `STATE.md`; the plan is `SPEC.md`.**
 
-Status: Phase 1 done (the data panel, `data/panel.csv`, gated by `checks/check_panel.py`); waiting at breakpoint A. Nothing fitted yet.
+Status: Phase 2 done (the base fit, `results/fit_base.json`, `figures/fig_fit_base.png`); waiting at breakpoint B.

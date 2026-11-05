@@ -1,11 +1,16 @@
 # fit_base.py — Phase 2 (SPEC.md section 8): the base model fitted to the US record, 1950–2024.
 #
 # THE MODEL. The pinning model (../pinning/code/pinning_model.py), unchanged, solved each year. Measured inputs, not
-# fitted: adults N_t (indexed to 1950), the required return rho_t = the real long rate + a constant premium, and
-# depreciation delta_t. Two smooth drivers: the capability clock eta_t = exp(-g_eta (t - 1950)) (machines need eta_t of
-# their 1950 service units at every task) and the machine chain's labour lambda_t = lam0 exp(g_lam (t - 1950)), fitted to
-# the measured θ_V where it exists. Fixed once over the whole record: T, h, a, k, chi_max, the premium. Set, as in the
-# paper's instance and calibration (c): b 0.4 (the land unit), g0 0.01, g1 0.99. Nine free numbers.
+# fitted: adults N_t (indexed to 1950) and depreciation delta_t. Two smooth drivers: the capability clock
+# eta_t = exp(-g_eta (t - 1950)) (machines need eta_t of their 1950 service units at every task) and the machine chain's
+# labour lambda_t = lam0 exp(g_lam (t - 1950)), fitted to the measured θ_V where it exists. Fixed once over the whole
+# record: T, h, a, k, chi_max and the required return rho. Set, as in the paper's instance and calibration (c): b 0.4
+# (the land unit), g0 0.01, g1 0.99. Nine free numbers.
+# The required return is CONSTANT (decision 11, after the first search, for her veto at breakpoint B): with machines
+# carrying about half their cost in labour, the model has a few points of rate headroom, and a required return that
+# follows the measured real long rate (-3% in 1950, +6% in the 1980s) leaves no land-scarce equilibrium in many years;
+# the measured return on business capital is far steadier than bond yields. The measured rate's pass-through is a
+# candidate addition (Phase 3), under the same rule as every other.
 #
 # THE TARGETS AND THE MISFIT (SPEC.md sections 4 and 6), set before the first fit (committed before it ran):
 #   wage_goods      v/p, indexed to 1950          log deviation over 0.05
@@ -46,14 +51,13 @@ SERIES = ["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "the
 TOL_LOG = {"wage_goods": 0.05, "wage_shelter": 0.05}
 TOL_LEVEL = {"labour_share_c": 0.01, "prime_emp_rate": 0.015, "theta_V": 0.02}
 SET = dict(b=0.4, g0=0.01, g1=0.99)
-NAMES = ["T", "h", "a", "k", "chi_max", "premium", "g_eta", "lam0", "g_lam"]
+NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
-BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 5.0), k=(0.3, 60.0), chi_max=(0.3, 20.0), premium=(0.0, 0.15),
+BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
               g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.1))
 
 D = PANEL.loc[YEARS]
 N_T = (D["adults"] / D.loc[1950, "adults"]).values
-RHO_REAL = D["real_rate"].values
 DELTA = D["delta"].values
 T_REL = np.array(YEARS) - 1950.0
 WEAK = (D["labour_share_c_tier"] == "WEAK").values
@@ -72,9 +76,8 @@ def economies(par, eta=None):
     """The economy of every year: the measured inputs and the two drivers at par (or a given eta path)."""
     eta = np.exp(-par["g_eta"] * T_REL) if eta is None else eta
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
-    rho = np.maximum(RHO_REAL + par["premium"], 0.0)      # a required return is not negative
     return [pm.Economy(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
-                       chi_max=par["chi_max"], rho=rho[i], delta=DELTA[i], **SET) for i in range(len(YEARS))]
+                       chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET) for i in range(len(YEARS))]
 
 
 def model_path(par, eta=None):
@@ -129,14 +132,32 @@ def fit_from(start):
     lo = [np.log(BOUNDS[n][0]) if n in LOG else BOUNDS[n][0] for n in NAMES]
     hi = [np.log(BOUNDS[n][1]) if n in LOG else BOUNDS[n][1] for n in NAMES]
     u0 = np.clip(pack(start), np.array(lo) + 1e-9, np.array(hi) - 1e-9)
-    r = least_squares(residuals, u0, bounds=(lo, hi), x_scale="jac", max_nfev=400)
+    r = least_squares(residuals, u0, bounds=(lo, hi), x_scale=1.0, max_nfev=3000, ftol=1e-10, xtol=1e-10)
     return unpack(r.x), float(np.sum(r.fun ** 2)), int(r.nfev), r.status
 
 
 def starts():
-    """A grid over the schedule's convexity and the clock's pace; the rest from the paper's instance."""
-    base = dict(T=0.01, h=0.0017, a=1.4, chi_max=2.2, premium=0.06, lam0=7.3, g_lam=0.0)
-    return [dict(base, k=k, g_eta=g) for k in (2.0, 4.4, 9.0, 16.0) for g in (0.02, 0.05)]
+    """1950 calibrated in closed form (pinning_model.calibrate_c) at its measured labour share and prime-age employment,
+    across what 1950 does not measure (baskets a person 1.0 or 1.5; the site 0.03 or 0.06 of the basket; θ_V 0.5, about
+    1967's; machine services 0.2 of a machine's cost), both roots in k; then the clock's pace 0.02 or 0.04 a year. Starts
+    only: the fit moves every number. (The first search, from the paper's 2020s-like instance placed in 1950 with
+    x_scale 'jac', stopped after two iterations at the bounds: Log 3.)"""
+    d0 = D.loc[1950]
+    out = []
+    for baskets in (1.0, 1.5):
+        for site in (0.03, 0.06):
+            tg = pm.ChainTargets(theta_V=0.50, chain_share=0.15, sigma_V=0.30, delta=float(d0["delta"]),
+                                 labour=float(d0["labour_share_c"]), participation=float(d0["prime_emp_rate"]),
+                                 baskets_per_person=baskets, site=site, b=SET["b"], g0=SET["g0"], N=1.0)
+            try:
+                roots = pm.calibrate_c(tg)
+            except ValueError:
+                continue
+            for e, _ in roots:
+                for g in (0.02, 0.04):
+                    out.append(dict(T=e.T, h=e.h, a=e.a, k=e.k, chi_max=e.chi_max, rho=e.rho, lam0=e.lam, g_lam=0.0,
+                                    g_eta=g))
+    return out
 
 
 def accounting(par):
@@ -193,5 +214,5 @@ if __name__ == "__main__":
     print(f"best misfit {best['misfit']:.3f}; by series", {k: round(v, 2) for k, v in out["best"]["by_series"].items()})
     print("parameters", {k: round(v, 5) for k, v in best["par"].items()})
     for r in results:
-        print(f"  start k {r['start']['k']:<5} g_eta {r['start']['g_eta']:<5} -> misfit {r['misfit']:9.3f}  "
+        print(f"  start k {r['start']['k']:<7.3f} g_eta {r['start']['g_eta']:<5} -> misfit {r['misfit']:9.3f}  "
               f"k {r['par']['k']:.3f}  g_eta {r['par']['g_eta']:.4f}  nfev {r['nfev']}")
