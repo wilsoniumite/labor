@@ -7,7 +7,8 @@
 #   A  the accounting diagnostic: where it found a capability path, it reproduces the fork in that year
 # A variant (decision 13, the blind protocol): python3 checks/check_fit_base.py --results fit_A --blind prints PASS or FAIL
 # only, no fit numbers; the variant's settings (A's shelter, the split and its free numbers) are read from its results
-# file. For the split, E1 asks both groups' markets to clear.
+# file. For the split, E1 asks both groups' markets to clear. Model B's switches (the goods deflator, women's entry, the
+# set return, waves) are read from the results file too (fit_base.configure).
 # Run from us-record/:  python3 checks/check_fit_base.py      Exit 0 only if every check passes.
 
 import json
@@ -28,16 +29,7 @@ ARGS = sys.argv[1:]
 NAME = ARGS[ARGS.index("--results") + 1] if "--results" in ARGS else "fit_base"
 BLIND = "--blind" in ARGS
 R = json.load(open(os.path.join(ROOT, "results", f"{NAME}.json")))
-F.SHELTER_LAND_SHARE = R["meta"].get("shelter_land_share")
-F.SPLIT_FROM = R["meta"].get("split_from")
-F.CAP = R["meta"].get("cap")
-F.SIGMA = R["meta"].get("sigma")
-F.PIN_START = bool(R["meta"].get("pin_start"))
-U = R["meta"].get("utility") or {}
-F.UTILITY_KNOTS = U.get("knots", [1950, U["until"]] if "until" in U else F.UTILITY_KNOTS)   # older runs stored the kink year
-if F.SPLIT_FROM is not None:
-    F.S_N = R["meta"]["s_n"]
-F.NAMES[:] = R["meta"]["names"]
+F.configure(R["meta"])                                      # every setting from the stored run (fit_base.configure)
 RESULTS = []
 
 

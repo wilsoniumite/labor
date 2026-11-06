@@ -21,8 +21,10 @@ const M = require(process.argv[1]);
 const doc = JSON.parse(require("fs").readFileSync(process.argv[2], "utf8"));
 const out = {};
 for (const p of doc.presets) {
-  const m = M.path(p.params, p.settings, doc.data);
-  const mf = M.misfit(m, doc.data);
+  // the goods wage's deflator as the page sets it (everything but shelter, or durables)
+  const D = p.settings.goods === "exshelter" ? Object.assign({}, doc.data, { wage_goods: doc.data.wage_exshelter }) : doc.data;
+  const m = M.path(p.params, p.settings, D);
+  const mf = M.misfit(m, D);
   out[p.id] = { ok: m.ok, chi_max: m.chi_max, misfit: mf.total, by: mf.by,
                 series: Object.fromEntries(M.SERIES.map((s) => [s, m[s]])) };
 }
@@ -42,11 +44,7 @@ for p in DOC["presets"]:
     if not p["source"].startswith("results/"):                  # playground presets: JavaScript only, no Python twin
         continue
     R = json.load(open(os.path.join(ROOT, p["source"])))
-    meta = R["meta"]
-    F.SHELTER_LAND_SHARE, F.CAP, F.SIGMA = meta.get("shelter_land_share"), meta.get("cap"), meta.get("sigma")
-    F.PIN_START, F.SPLIT_FROM = bool(meta.get("pin_start")), None
-    u = meta.get("utility") or {}
-    F.UTILITY_KNOTS = u.get("knots", [1950, u["until"]] if "until" in u else [1950, 1970])
+    F.configure(R["meta"])                                   # every setting from the stored run
     m = F.model_path(R["best"]["par"])
     j = js[p["id"]]
     gap = max(float(np.max(np.abs(np.array(j["series"][s]) - m[s].values) / np.abs(m[s].values))) for s in F.SERIES)

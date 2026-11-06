@@ -53,6 +53,18 @@
 # work cost's scale chi_max is then set by 1950 each time the path is solved (pinned_chi), not fitted: one free number
 # fewer.
 #
+# MODEL B (her setup, 2026-11-06, from the explorer; STATE.md decision 23). Four changes, each its own switch:
+#   --goods exshelter  the goods wage is read over the price of everything but shelter (CPI-U less shelter), not durables
+#                      alone: the model has one good, and the consumer's goods are mostly not durables (playground Log 16).
+#   --women 1990       women's entry: the work cost's scale falls, straight in logs, from 1950 to the year given and is
+#                      held after; its level then (chi_w, a log) is one free number. 1950 is untouched, so the pin holds.
+#   --rho 0.02         the required return set, not fitted (her call: about the real long rate's mean).
+#   --waves 1948       dated technology waves (her idea, 2026-11-06): on top of the steady clock, each lowers the clock by
+#                      size (1 - exp(-(t - year) / tau)) after its year, so fastest at the discovery; size and tau free.
+# Two more switches are for the stress tests (code/stress_B.py): --hours-per-task g ties the machine chain's labour to the
+# clock (g_lam = g_eta + g: hours per unit of task capacity change at g a year), and FIT_YEARS / DROP limit which years
+# and series count in the misfit. configure(meta) sets every switch from a results file, so a stored fit re-solves alone.
+#
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
 import json
@@ -93,6 +105,13 @@ _REL = np.log(PANEL.loc[1950:2024, "wage_goods"] / PANEL.loc[1950:2024, "wage_sh
 SIGMA_SET = float(1.0 - np.polyfit(_REL.values, np.log(_HS / (1.0 - _HS)).values, 1)[0])   # the share regression
 UTILITY_KNOTS = [1950, 1970]                          # the basket's utility: straight (in logs) between these, held after
 PIN_START = False                                     # True: chi_max set so that 1950's prime-age employment is the data's
+GOODS = "durables"                                    # the goods wage's deflator: durables, or "exshelter" (model B)
+WOMEN = None                                          # None: the work cost's scale steady; a year: women's entry until then
+RHO_FIXED = None                                      # None: the required return fitted; a number: set
+WAVES = []                                            # dated technology waves: their years (each adds a size and a pace)
+HOURS_PER_TASK = None                                 # None: g_lam free; a number g: g_lam = g_eta + g (stress tests)
+FIT_YEARS = None                                      # None: every year counts; [from, until]: only those (stress tests)
+DROP = None                                           # None: every series counts; a list: those left out (stress tests)
 
 
 def utility_path(knots):
@@ -103,7 +122,8 @@ def utility_path(knots):
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
-              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.1), g_c=(0.0, 0.25))
+              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.25), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0))
+WAVE_BOUNDS = dict(size=(1e-4, 10.0), tau=(0.5, 80.0))   # each wave's size (in logs of the clock) and pace (years)
 
 D = PANEL.loc[YEARS]
 N_T = (D["adults"] / D.loc[1950, "adults"]).values
@@ -113,28 +133,72 @@ WEAK = (D["labour_share_c_tier"] == "WEAK").values
 LS_TOL = np.where(WEAK, (D["labour_share_c_hi"] - D["labour_share_c_lo"]).values / 2.0, TOL_LEVEL["labour_share_c"])
 
 
+def is_log(n):
+    return n in LOG or n.startswith("w") and n.endswith(("_size", "_tau"))
+
+
+def fill(par):
+    """The set numbers beside the fitted ones: the return when set, the machine chain's pace when tied to the clock."""
+    par = dict(par)
+    if RHO_FIXED is not None:
+        par["rho"] = RHO_FIXED
+    if HOURS_PER_TASK is not None:
+        par["g_lam"] = par["g_eta"] + HOURS_PER_TASK
+    return par
+
+
 def unpack(u):
-    return {n: (float(np.exp(x)) if n in LOG else float(x)) for n, x in zip(NAMES, u)}
+    return fill({n: (float(np.exp(x)) if is_log(n) else float(x)) for n, x in zip(NAMES, u)})
 
 
 def pack(par):
-    return np.array([np.log(par[n]) if n in LOG else par[n] for n in NAMES])
+    return np.array([np.log(par[n]) if is_log(n) else par[n] for n in NAMES])
+
+
+def bounds(n):
+    if n.startswith("w") and n.endswith(("_size", "_tau")):
+        return WAVE_BOUNDS[n.split("_")[1]]
+    return BOUNDS[n]
+
+
+def wave_log(par):
+    """The waves' part of the clock, in logs: each wave lowers it by size (1 - exp(-(t - year) / tau)) after its year."""
+    out = np.zeros(len(YEARS))
+    for i, y0 in enumerate(WAVES):
+        t = np.array(YEARS, dtype=float) - y0
+        out -= np.where(t > 0, par[f"w{i}_size"] * (1.0 - np.exp(-np.maximum(t, 0.0) / par[f"w{i}_tau"])), 0.0)
+    return out
+
+
+def eta_path(par):
+    """The capability clock each year: the steady pace and any dated waves."""
+    return np.exp(-par["g_eta"] * T_REL + wave_log(par))
+
+
+def women_path(par):
+    """The work cost's scale relative to 1950: with women's entry (WOMEN), straight in logs from 1 in 1950 to exp(chi_w)
+    at WOMEN, held after; else 1."""
+    if WOMEN is None:
+        return np.ones(len(YEARS))
+    return np.exp(np.interp(np.array(YEARS, dtype=float), [1950.0, float(WOMEN)], [0.0, par["chi_w"]]))
 
 
 def economies(par, eta=None, p_ref=None):
-    """The economy of every year: the measured inputs and the two drivers at par (or a given eta path). With the basket
+    """The economy of every year: the measured inputs and the drivers at par (or a given eta path). With the basket
     (SIGMA) and p_ref (the model's own 1950 price, which model_path solves for first), the basket economy."""
-    eta = np.exp(-par["g_eta"] * T_REL) if eta is None else eta
+    par = fill(par)
+    eta = eta_path(par) if eta is None else eta
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
+    chi = par["chi_max"] * women_path(par)
     kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
     if SIGMA is not None and p_ref is not None:
         kind, extra = pm.BasketEconomy, dict(cap=1.0 if CAP is None else CAP, sigma=SIGMA, p_ref=p_ref)
         util = utility_path(UTILITY_KNOTS)
         return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
-                     chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra, utility=float(util[i]))
+                     chi_max=float(chi[i]), rho=par["rho"], delta=DELTA[i], **SET, **extra, utility=float(util[i]))
                 for i in range(len(YEARS))]
     return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
-                 chi_max=par["chi_max"], rho=par["rho"], delta=DELTA[i], **SET, **extra) for i in range(len(YEARS))]
+                 chi_max=float(chi[i]), rho=par["rho"], delta=DELTA[i], **SET, **extra) for i in range(len(YEARS))]
 
 
 def pinned_chi(par):
@@ -207,11 +271,17 @@ def model_path(par, eta=None):
     return m
 
 
+def target(s):
+    """The data a series is read against: the goods wage over durables' price, or (GOODS "exshelter") over the price of
+    everything but shelter; the other series as named."""
+    return D["wage_exshelter"] if s == "wage_goods" and GOODS == "exshelter" else D[s]
+
+
 def deviations(m):
     """Each series' scaled deviations (NaN where the data are missing)."""
     out = {}
     for s in SERIES:
-        y, f = D[s].values.astype(float), m[s].values
+        y, f = target(s).values.astype(float), m[s].values
         if s in TOL_LOG:
             out[s] = (np.log(f) - np.log(y)) / TOL_LOG[s]
         elif s == "labour_share_c":
@@ -221,16 +291,26 @@ def deviations(m):
     return out
 
 
-N_OBS = {s: int(D[s].notna().sum()) for s in SERIES}
-N_RES = sum(N_OBS.values())
+def counted(s):
+    """The years a series counts in the misfit: where it is measured, within FIT_YEARS, unless DROP leaves it out."""
+    ok = target(s).notna().values.copy()
+    if FIT_YEARS is not None:
+        ok &= (np.array(YEARS) >= FIT_YEARS[0]) & (np.array(YEARS) <= FIT_YEARS[1])
+    if DROP is not None and s in DROP:
+        ok[:] = False
+    return ok
 
 
 def residuals(u):
+    """Each counted year's scaled deviation, weighted so that the squares sum to the misfit: the mean over the counted
+    series of each one's mean squared scaled deviation."""
+    keep = {s: counted(s) for s in SERIES}
+    live = [s for s in SERIES if keep[s].any()]
     m = model_path(unpack(u))
     if m is None:
-        return np.full(N_RES, 10.0)
+        return np.full(sum(int(keep[s].sum()) for s in live), 10.0)
     dev = deviations(m)
-    return np.concatenate([dev[s][~np.isnan(dev[s])] / np.sqrt(N_OBS[s] * len(SERIES)) for s in SERIES])
+    return np.concatenate([dev[s][keep[s]] / np.sqrt(keep[s].sum() * len(live)) for s in live])
 
 
 def misfit_by_series(m):
@@ -239,8 +319,8 @@ def misfit_by_series(m):
 
 
 def fit_from(start):
-    lo = [np.log(BOUNDS[n][0]) if n in LOG else BOUNDS[n][0] for n in NAMES]
-    hi = [np.log(BOUNDS[n][1]) if n in LOG else BOUNDS[n][1] for n in NAMES]
+    lo = [np.log(bounds(n)[0]) if is_log(n) else bounds(n)[0] for n in NAMES]
+    hi = [np.log(bounds(n)[1]) if is_log(n) else bounds(n)[1] for n in NAMES]
     u0 = np.clip(pack(start), np.array(lo) + 1e-9, np.array(hi) - 1e-9)
     r = least_squares(residuals, u0, bounds=(lo, hi), x_scale=1.0, max_nfev=3000, ftol=1e-10, xtol=1e-10)
     return unpack(r.x), float(np.sum(r.fun ** 2)), int(r.nfev), r.status
@@ -278,6 +358,54 @@ def split_starts(ref):
     best = json.load(open(os.path.join(ROOT, "results", f"{ref}.json")))["best"]["par"]
     return [dict({n: best[n] for n in NAMES if n != "g_c"}, g_c=g) for g in (0.01, 0.03, 0.06)] + \
         [dict(s, g_c=0.03) for s in starts()]
+
+
+def complete(s):
+    """A start for every free number the settings add: the work cost not yet falling, any wave small and of fifteen
+    years' pace."""
+    s = dict(s)
+    s.setdefault("chi_w", 0.0)
+    for i in range(len(WAVES)):
+        s.setdefault(f"w{i}_size", 0.05)
+        s.setdefault(f"w{i}_tau", 15.0)
+    return s
+
+
+def playground_start(path, key):
+    """A start from an explorer or playground fit (its par and settings S, as model.js stores them)."""
+    r = json.load(open(os.path.join(ROOT, path)))[key]
+    s = dict(r["par"])
+    if r["S"].get("chi"):
+        s["chi_w"] = float(r["S"]["chi"][-1][1])
+    for i, w in enumerate(r["S"].get("waves") or []):
+        s[f"w{i}_size"], s[f"w{i}_tau"] = float(w["size"]), float(w["tau"])
+    return s
+
+
+def configure(meta):
+    """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
+    and report read fits this way)."""
+    global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
+    global HOURS_PER_TASK, FIT_YEARS, DROP
+    SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
+    if SPLIT_FROM is not None:
+        S_N = meta["s_n"]
+    CAP, SIGMA, PIN_START = meta.get("cap"), meta.get("sigma"), bool(meta.get("pin_start"))
+    u = meta.get("utility") or {}
+    UTILITY_KNOTS = list(u.get("knots", [1950, u["until"]] if "until" in u else [1950, 1970]))  # older: the kink year
+    GOODS, WOMEN, RHO_FIXED = meta.get("goods", "durables"), meta.get("women"), meta.get("rho_fixed")
+    WAVES, HOURS_PER_TASK = list(meta.get("waves") or []), meta.get("hours_per_task")
+    FIT_YEARS, DROP = meta.get("fit_years"), meta.get("drop")
+    SET.update(meta.get("set") or {})
+    NAMES[:] = meta["names"]
+
+
+def settings_meta():
+    """The settings as configure reads them back."""
+    return dict(set=dict(SET), shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP, sigma=SIGMA,
+                utility=None if SIGMA is None else dict(knots=list(UTILITY_KNOTS)), pin_start=PIN_START,
+                s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
+                waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, names=list(NAMES))
 
 
 def run_start(s):
@@ -331,6 +459,9 @@ if __name__ == "__main__":
     # python3 code/fit_base.py --shelter-land-share 0.4 --cap --basket --ref fit_cap --out fit_basket --quiet
     #                                                             the basket on top of A and the cap
     # add --pin-start for 1950's prime-age employment pinned to the data; leave out --shelter-land-share for no A
+    # python3 code/fit_base.py --basket --utility-knots 1950,1970,1990,2024 --pin-start --goods exshelter --women 1990 \
+    #     --rho 0.02 --start-from playground/newmodel.json --start-key "her setup: ..." --out fit_B      model B
+    # ... --waves 1948 --out fit_Bw                                                         model B and the post-war wave
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -348,33 +479,49 @@ if __name__ == "__main__":
     if "--pin-start" in args:
         PIN_START = True
         NAMES.remove("chi_max")
+    if "--goods" in args:
+        GOODS = args[args.index("--goods") + 1]
+    if "--women" in args:
+        WOMEN = int(args[args.index("--women") + 1])
+        NAMES.append("chi_w")
+    if "--rho" in args:
+        RHO_FIXED = float(args[args.index("--rho") + 1])
+        NAMES.remove("rho")
+    if "--waves" in args:
+        WAVES = [int(y) for y in args[args.index("--waves") + 1].split(",")]
+        NAMES.extend(n for i in range(len(WAVES)) for n in (f"w{i}_size", f"w{i}_tau"))
+    if "--hours-per-task" in args:
+        HOURS_PER_TASK = float(args[args.index("--hours-per-task") + 1])
+        NAMES.remove("g_lam")
     t0 = time.time()
     todo = starts() if SPLIT_FROM is None else split_starts(REF)
     if SPLIT_FROM is None and REF is not None:            # the model it extends: its best fit is one more start
         ref_best = json.load(open(os.path.join(ROOT, "results", f"{REF}.json")))["best"]["par"]
-        todo = [{n: ref_best[n] for n in NAMES}] + todo
+        todo = [{n: ref_best[n] for n in NAMES if n in ref_best}] + todo
+    if "--start-from" in args:                            # a fit found in the explorer or playground: one more start
+        todo = [playground_start(args[args.index("--start-from") + 1], args[args.index("--start-key") + 1])] + todo
+    todo = [complete(s) for s in todo]
     with Pool(min(4, os.cpu_count() or 1)) as pool:        # the starts in parallel; each is deterministic
         results = list(tqdm(pool.imap(run_start, todo), total=len(todo), desc="starts"))
     results.sort(key=lambda r: r["misfit"])
     best = results[0]
     m = model_path(best["par"])
-    plain = SHELTER_LAND_SHARE is None and SPLIT_FROM is None and CAP is None and SIGMA is None and not PIN_START
+    plain = SHELTER_LAND_SHARE is None and SPLIT_FROM is None and CAP is None and SIGMA is None and not PIN_START \
+        and GOODS == "durables" and WOMEN is None and RHO_FIXED is None and not WAVES and HOURS_PER_TASK is None
     acc = accounting(best["par"]) if plain else None      # the diagnostic reads the base model only
     if PIN_START:                                         # the set chi_max stored beside the fitted numbers
         for r in results:
             r["par"]["chi_max"] = pinned_chi(r["par"])
     out = dict(
-        meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, set=SET,
-                  shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP, sigma=SIGMA,
-                  utility=None if SIGMA is None else dict(knots=UTILITY_KNOTS), pin_start=PIN_START,
-                  s_n=None if SPLIT_FROM is None else S_N, ref=REF,
-                  names=NAMES, bounds=BOUNDS, n_obs=N_OBS, seconds=round(time.time() - t0, 1)),
+        meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, **settings_meta(),
+                  ref=REF, bounds=BOUNDS, n_obs={s: int(counted(s).sum()) for s in SERIES},
+                  seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),
         starts=[dict(start=r["start"], par=r["par"], misfit=r["misfit"], nfev=r["nfev"], status=r["status"])
                 for r in results],
         path={c: [None if not np.isfinite(v) else float(v) for v in m[c].values] for c in m.columns},
         accounting_eta=None if acc is None else [None if not np.isfinite(v) else float(v) for v in acc.values],
-        fitted_eta=[float(v) for v in np.exp(-best["par"]["g_eta"] * T_REL)])
+        fitted_eta=[float(v) for v in eta_path(best["par"])])
     os.makedirs(os.path.join(ROOT, "results"), exist_ok=True)
     with open(os.path.join(ROOT, "results", f"{OUT}.json"), "w") as f:
         json.dump(out, f, indent=1)

@@ -12,7 +12,9 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.join(ROOT, "explorer")
 YEARS = list(range(1950, 2025))
-PRESETS = [("kept", "Kept model: cap, basket, pinned start", "fit_capbasket_pin"),
+PRESETS = [("B", "Model B: everything but shelter, women's entry, 2% return, utility dip", "fit_B"),
+           ("Bw", "Model B and a post-war technology wave (1948)", "fit_Bw"),
+           ("kept", "Before B: cap, basket, pinned start (durables)", "fit_capbasket_pin"),
            ("capbasket", "Cap and basket, start not pinned", "fit_capbasket"),
            ("turn1990", "Utility turning in 1990", "fit_kink90"),
            ("base", "The paper's model alone", "fit_base"),
@@ -40,31 +42,42 @@ def data():
     return out, rw
 
 
-def settings(meta, rw):
+def settings(meta, rw, par):
+    """The page's settings for a stored fit: its switches, and model B's paths (women's entry, waves) from its numbers."""
     u = meta.get("utility") or {}
     knots = u.get("knots", [1950, u["until"]] if "until" in u else [1950, 1970])
-    return dict(cap=meta.get("cap"), sigma=meta.get("sigma"), pin=bool(meta.get("pin_start")),
-                shelterW=meta.get("shelter_land_share"), clock=None,
-                utility=[[int(k), float(rw.loc[k])] for k in knots])
+    S = dict(cap=meta.get("cap"), sigma=meta.get("sigma"), pin=bool(meta.get("pin_start")),
+             shelterW=meta.get("shelter_land_share"), clock=None, utility=[[int(k), float(rw.loc[k])] for k in knots])
+    if meta.get("goods") == "exshelter":
+        S["goods"] = "exshelter"
+    if meta.get("women"):
+        S["chi"] = [[1950, 0.0], [int(meta["women"]), float(par["chi_w"])]]
+    if meta.get("waves"):
+        S["waves"] = [dict(year=int(y), size=float(par[f"w{i}_size"]), tau=float(par[f"w{i}_tau"]))
+                      for i, y in enumerate(meta["waves"])]
+    return S
+
+
+BASE_NAMES = ("T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam")
 
 
 def presets(rw):
     out = []
     for pid, label, name in PRESETS:
         R = json.load(open(os.path.join(ROOT, "results", f"{name}.json")))
-        out.append(dict(id=pid, label=label, source=f"results/{name}.json", settings=settings(R["meta"], rw),
-                        params={k: float(v) for k, v in R["best"]["par"].items() if k != "g_c"},
+        par = R["best"]["par"]
+        out.append(dict(id=pid, label=label, source=f"results/{name}.json", settings=settings(R["meta"], rw, par),
+                        params={k: float(v) for k, v in par.items() if k in BASE_NAMES},
                         misfit=float(R["best"]["misfit"]), by_series={k: float(v) for k, v in R["best"]["by_series"].items()},
-                        locked=[] if not R["meta"].get("pin_start") else ["chi_max"]))
+                        locked=(["chi_max"] if R["meta"].get("pin_start") else [])
+                        + (["rho"] if R["meta"].get("rho_fixed") is not None else [])))
     return out
 
 
 PLAY = [("tilt", "Play: tastes tilt from land after 1995", "playground/round3.json", "internet: tastes tilt from land after 1995"),
         ("Aprime", "Play: building priced like building work (A′)", "playground/results.json",
          "A' (shelter's building priced at the wage, site 0.4)"),
-        ("rho5", "Play: required return fixed at 5%", "playground/round4.json", "return 5% (kept model otherwise)"),
-        ("exshelter", "Play: goods = everything but shelter, women's entry", "playground/exshelter_best.json",
-         "all but shelter, women's entry to 1990")]
+        ("rho5", "Play: required return fixed at 5%", "playground/round4.json", "return 5% (kept model otherwise)")]
 
 
 def play_presets():

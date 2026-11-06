@@ -218,6 +218,8 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
           <span class="seg" role="group" aria-label="Goods deflator"><button id="gd-dur" aria-pressed="true">durables</button><button id="gd-ex" aria-pressed="false">all but shelter</button></span></div>
         <div class="switch"><input type="checkbox" id="sw-chi"><label for="sw-chi">Women's entry: the cost of working falls until the year, to this factor</label>
           <span style="display:flex;gap:6px"><input type="text" class="small-in" id="v-chiyear" aria-label="Until" style="width:56px"><input type="text" class="small-in" id="v-chi" aria-label="Factor by then" style="width:56px"></span></div>
+        <div class="switch"><input type="checkbox" id="sw-wave"><label for="sw-wave">A technology wave from the year: the clock drops to this factor, at this pace (years)</label>
+          <span style="display:flex;gap:6px"><input type="text" class="small-in" id="v-waveyear" aria-label="Wave year" style="width:48px"><input type="text" class="small-in" id="v-wave" aria-label="Clock factor" style="width:48px"><input type="text" class="small-in" id="v-wavetau" aria-label="Pace in years" style="width:40px"></span></div>
         <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter read as building and site, site share</label>
           <input type="text" class="small-in" id="v-A" aria-label="Site share of shelter"></div>
         <div class="switch" id="row-build" style="grid-template-columns:minmax(0,1fr) auto"><span>Building priced like</span>
@@ -406,6 +408,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     const names = activeCoords().filter((n) => free.has(n));
     if (S.chi) names.push("chi:1");
     if (S.tilt) names.push("tilt:2");
+    if (S.waves) S.waves.forEach((w, i) => names.push(`wave:${i}:size`, `wave:${i}:tau`));
     for (const key of activeKnotKeys()) S[key].forEach((k, i) => {
       if (i === 0) return;
       const L = S.knotLocks[key][i];
@@ -649,6 +652,9 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     $("gd-dur").setAttribute("aria-pressed", String(S.goods !== "exshelter")); $("gd-ex").setAttribute("aria-pressed", String(S.goods === "exshelter"));
     $("sw-chi").checked = !!S.chi;
     $("v-chiyear").value = S.chi ? (+S.chi[1][0].toFixed(0)) : 1990; $("v-chi").value = S.chi ? fmt(Math.exp(S.chi[1][1])) : "0.8";
+    const wv = S.waves && S.waves.length ? S.waves[0] : null;
+    $("sw-wave").checked = !!wv;
+    $("v-waveyear").value = wv ? wv.year : 1948; $("v-wave").value = wv ? fmt(Math.exp(-wv.size)) : "0.5"; $("v-wavetau").value = wv ? fmt(wv.tau) : "15";
     applyGoods();
     $("settings").value = settingsText();
   }
@@ -674,6 +680,13 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       syncSwitches(); update();
     };
     $("sw-chi").addEventListener("change", setChi); $("v-chiyear").addEventListener("change", setChi); $("v-chi").addEventListener("change", setChi);
+    const setWave = () => {
+      const yr = Math.round(parseFloat($("v-waveyear").value)), f = parseFloat($("v-wave").value), tau = parseFloat($("v-wavetau").value);
+      S.waves = $("sw-wave").checked && yr >= 1900 && yr <= 2024 && f > 0 && f < 1 && tau > 0 ? [{ year: yr, size: -Math.log(f), tau }] : null;
+      syncSwitches(); update();
+    };
+    $("sw-wave").addEventListener("change", setWave); $("v-waveyear").addEventListener("change", setWave);
+    $("v-wave").addEventListener("change", setWave); $("v-wavetau").addEventListener("change", setWave);
     $("apply").addEventListener("click", () => {
       try {
         const o = JSON.parse($("settings").value);
@@ -1110,6 +1123,12 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     }
     if (S.chi) items.push({ label: `Women's entry: cost of working by ${(+S.chi[1][0].toFixed(0))}`, sym: "", step: "×÷ 1.05", apply: (sgn) => {
       const S2 = clone(S); S2.chi[1][1] = S.chi[1][1] + Math.log(1.05) * sgn; return { par: P, S: S2 }; } });
+    if (S.waves && S.waves.length) {
+      items.push({ label: `Wave from ${S.waves[0].year}: its size`, sym: "", step: "×÷ 1.05", apply: (sgn) => {
+        const S2 = clone(S); S2.waves[0].size = S.waves[0].size * Math.pow(1.05, sgn); return { par: P, S: S2 }; } });
+      items.push({ label: `Wave from ${S.waves[0].year}: its pace`, sym: "τ", step: "×÷ 1.05", apply: (sgn) => {
+        const S2 = clone(S); S2.waves[0].tau = S.waves[0].tau * Math.pow(1.05, sgn); return { par: P, S: S2 }; } });
+    }
     if (S.cap !== null) items.push({ label: "Cap on employment", sym: "cap", step: "± 0.005", apply: (sgn) => ({ par: P, S: Object.assign({}, S, { cap: S.cap + 0.005 * sgn }) }) });
     if (S.sigma !== null) items.push({ label: "Basket elasticity", sym: "σ", step: "± 0.05", apply: (sgn) => (S.sigma + 0.05 * sgn < 0 ? null : { par: P, S: Object.assign({}, S, { sigma: S.sigma + 0.05 * sgn }) }) });
     if (S.shelterW !== null && S.shelterW !== undefined) items.push({ label: "Site share of shelter", sym: "w", step: "± 0.02", apply: (sgn) => ({ par: P, S: Object.assign({}, S, { shelterW: S.shelterW + 0.02 * sgn }) }) });
