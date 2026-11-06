@@ -1,0 +1,90 @@
+# check_two_goods.py — the two-good economy (code/two_goods.py, durables apart) against the one-good pinning model:
+#   N  nesting: with durables on the other goods' clock the two goods are one. Every year of the main case
+#      (results/fit_Bw.json) re-solved as two goods, at any composite elasticity and durables share, gives the one-good
+#      solution (relative 1e-9): the wage, the price, the task line, participation, labour's share, theta_V, the chain.
+#      fit_base's two-good path at g_dur = g_eta gives the main case's five series and misfit (1e-9).
+#   I  identities, with durables on a faster clock: labour demand equals supply; income equals the baskets' cost
+#      (consumption is income); land adds up (sites in baskets and the machines' land are T); the composite's unit cost
+#      is its goods' cost; at the reference point the composite's demands are the reference shares.
+#   M  monotone: a faster durables clock makes durables cheaper against the other goods.
+# Run from us-record/:  python3 checks/check_two_goods.py      Exit 0 only if every check passes.
+
+import json
+import os
+import sys
+
+import numpy as np
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "code"))
+import fit_base as F  # noqa: E402
+import two_goods as tg  # noqa: E402
+
+pm = F.pm
+RESULTS = []
+
+
+def check(name, ok, detail=""):
+    RESULTS.append((name, bool(ok)))
+    print(f"{'PASS' if ok else 'FAIL'} {name}" + (f" — {detail}" if detail else ""))
+
+
+R = json.load(open(os.path.join(ROOT, "results", "fit_Bw.json")))
+F.configure(R["meta"])
+par = F.fill(R["best"]["par"])
+par = dict(par, chi_max=F.pinned_chi(par))
+p_ref = pm.solve(F.economies(par)[0])["p"]
+es = F.economies(par, p_ref=p_ref)
+
+# ---- N: nesting
+worst, keys = 0.0, ("v", "x", "participation", "labour_share_bea", "theta_V", "chain_share")
+for sig, w in ((0.72, 0.19), (1.0, 0.5), (1.6, 0.05)):
+    cmp = dict(omega_d=w, sigma_dg=sig, pref_d=p_ref, pref_g=p_ref)
+    for e in es:
+        q1, q2 = pm.solve(e), tg.solve(e, e.eta, cmp)
+        q2 = dict(q2, x=q2["xg"])
+        worst = max(worst, max(abs(q2[k] - q1[k]) / abs(q1[k]) for k in keys), abs(q2["pg"] - q1["p"]) / q1["p"],
+                    abs(q2["pd"] - q1["p"]) / q1["p"], abs(q2["c"] - q1["p"]) / q1["p"])
+check("N1 durables on the other goods' clock: every year of the main case, as two goods, is the one-good solution "
+      "(three composites; relative 1e-9)", worst < 1e-9, f"{worst:.1e}")
+q1 = pm.solve(F.economies(par)[0])
+q2 = tg.solve(F.economies(par)[0], F.economies(par)[0].eta, dict(mode="ref", omega_d=0.19))
+gap = max(abs(q2["v"] - q1["v"]) / q1["v"], abs(q2["participation"] - q1["participation"]))
+check("N2 the reference point (1950) with one clock is the one-good solution (1e-9)", gap < 1e-9, f"{gap:.1e}")
+m1 = F.model_path(R["best"]["par"])
+F.configure(dict(R["meta"], durables=dict(sigma_dg=F.SIGMA_DG_SET, omega_d=F.OMEGA_D_SET), extra=["wage_durables"],
+                 names=R["meta"]["names"] + ["g_dur"]))
+par2 = dict(R["best"]["par"], g_dur=R["best"]["par"]["g_eta"])
+m2 = F.model_path(par2)
+gap = max(float(np.max(np.abs(m2[s].values - m1[s].values) / np.abs(m1[s].values))) for s in F.SERIES)
+gap_w = float(np.max(np.abs(m2["wage_durables"].values - m1["wage_goods"].values) / m1["wage_goods"].values))
+check("N3 fit_base's two-good path at g_dur = g_eta gives the main case's five series, and the durables wage is the "
+      "goods wage (1e-9)", gap < 1e-9 and gap_w < 1e-9, f"{gap:.1e}, {gap_w:.1e}")
+
+# ---- I: identities, durables on a faster clock
+par3 = dict(R["best"]["par"], g_dur=R["best"]["par"]["g_eta"] + 0.04)
+got = F.durables_years(par3)
+check("I0 with durables 4 points a year faster the two-good economy has an equilibrium every year", got is not None)
+if got is not None:
+    qs, es3 = got
+    w_lab = max(abs(q["nD"] - q["nS"]) / q["nD"] for q in qs)
+    w_inc = max(abs(q["income"] - q["Ps"] * q["B"]) / q["income"] for q in qs)
+    w_land = max(abs(q["B"] * q["sb"] + e.b * e.delta * q["K"] - e.T) / e.T for q, e in zip(qs, es3))
+    w_cost = max(abs(q["dd"] * q["pd"] + q["dg"] * q["pg"] - q["c"]) / q["c"] for q in qs)
+    check("I1 labour demand equals supply every year (1e-9)", w_lab < 1e-9, f"{w_lab:.1e}")
+    check("I2 income is the baskets' cost every year: wages, land rent and interest buy every basket (1e-9)",
+          w_inc < 1e-9, f"{w_inc:.1e}")
+    check("I3 land adds up every year: sites in baskets and the machines' land are T (1e-9)", w_land < 1e-9, f"{w_land:.1e}")
+    check("I4 the composite's unit cost is its goods' cost every year (1e-12)", w_cost < 1e-12, f"{w_cost:.1e}")
+    q0 = qs[0]
+    check("I5 at the reference point (1950) durables' share of the composite's cost is the set share (1e-12)",
+          abs(q0["dur_share"] - F.OMEGA_D_SET) < 1e-12, f"{q0['dur_share']:.6f} vs {F.OMEGA_D_SET:.6f}")
+    rel = [q["pd"] / q["pg"] for q in qs]
+    m_fast = F.model_path(dict(par3, g_dur=par3["g_eta"] + 0.06))
+    ok_m = m_fast is not None and float(m_fast["pd"].iloc[-1] / m_fast["p"].iloc[-1]) < rel[-1]
+    check("M1 a faster durables clock makes durables cheaper against the other goods by 2024",
+          ok_m and rel[-1] < rel[0], f"durables over other goods, 1950 {rel[0]:.3f}, 2024 {rel[-1]:.3f}")
+
+n_fail = sum(not ok for _, ok in RESULTS)
+print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")
+sys.exit(1 if n_fail else 0)

@@ -60,12 +60,15 @@ mis = float(np.sum(F.residuals(F.pack(par)) ** 2))
 check("R2 the stored misfit recomputes (1e-9)", abs(mis - R["best"]["misfit"]) < 1e-9 * max(1.0, mis),
       f"{mis:.6f} vs {R['best']['misfit']:.6f}")
 by = F.misfit_by_series(m)
-check("R3 the misfit is the mean of the five series' misfits", abs(np.mean(list(by.values())) - mis) < 1e-9 * max(1, mis),
+check("R3 the misfit is the mean of the series' misfits (the five, and any targeted beyond them)", abs(np.mean(list(by.values())) - mis) < 1e-9 * max(1, mis),
       ", ".join(f"{k} {v:.2f}" for k, v in by.items()))
 
 # ---- E: equilibria
 worst = 0.0
-if F.SPLIT_FROM is None:
+if F.DURABLES is not None:                                   # durables apart: each year of the two-good economy
+    qs, _ = F.durables_years(par)
+    worst = max(abs(q["nD"] - q["nS"]) / q["nD"] for q in qs)
+elif F.SPLIT_FROM is None:
     p_ref = None if F.SIGMA is None else F.pm.solve(F.economies(par)[0])["p"]   # as model_path finds it
     for e in F.economies(par, p_ref=p_ref):
         q = F.pm.solve(e)

@@ -208,6 +208,20 @@ def build():
     real_ex = spliced / exsh
     p["wage_exshelter"] = 100.0 * real_ex / real_ex.loc[1950]
 
+    # ---- durables apart (her go, 2026-11-06): durables' share of consumer spending on everything but housing (BEA, PCE
+    # durable goods over PCE less housing services), and durables' price relative to the other goods in that spending.
+    # The other goods' price is chained from the CPI less shelter and the CPI's durables (the durables leg of the fork,
+    # CUUR0000SAD), each year's change weighted by the two years' mean durables share: a Tornqvist split of the CPI less
+    # shelter into durables and the rest, on spending weights (PCE's, not the CPI's own relative importance).
+    dur = fred_fetch("PCDGA", "dur_share")
+    p["dur_share"] = dur / (pce - hs)
+    r_d = np.log(p["wage_exshelter"] / p["wage_goods"])            # log of durables' price over the CPI less shelter's
+    w = p["dur_share"]
+    w_bar = (w + w.shift(1)) / 2.0
+    r_g = (-(w_bar / (1.0 - w_bar)) * r_d.diff()).fillna(0.0).cumsum()   # log of the other goods' price over it
+    p["dur_rel_price"] = np.exp(r_d - r_g)                         # durables' price over the other goods', 1950 = 1
+    p.loc[p["wage_goods"].isna() | p["wage_exshelter"].isna(), "dur_rel_price"] = np.nan
+
     p = p.loc[YEARS]
     p.to_csv(os.path.join(DATA, "panel.csv"))                    # full precision: anchors are checked exactly
     man = pd.DataFrame(MANIFEST).drop_duplicates("file")

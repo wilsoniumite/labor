@@ -49,7 +49,7 @@ parent = {"labour_share_c_lo": "labour_share_c", "labour_share_c_hi": "labour_sh
           "labour_share_c_tier": "labour_share_c", "theta_V_basis": "theta_V", "kappa_med": "kappa",
           "kappa_min": "kappa", "kappa_max": "kappa", "labor_origin_fin_lo": "labor_origin_fin",
           "labor_origin_fin_hi": "labor_origin_fin", "infl": "infl", "exp_infl": "exp_infl", "real_rate": "real_rate",
-          "real_rate_gs10": "real_rate_gs10"}
+          "real_rate_gs10": "real_rate_gs10", "dur_rel_price": "dur_share"}
 orphans = [c for c in P.columns
            if parent.get(c, c) not in tokens and not (c.startswith("fin_") and "fin_*" in tokens)]
 check("M2 every column traces to a manifest row (derived columns through their parents)", not orphans,
@@ -194,6 +194,16 @@ check("S7 the production and nonsupervisory group's share of private jobs within
       f"range {P['pns_share'].min():.4f}..{P['pns_share'].max():.4f}")
 check("S8 the pay gap within [0.9, 1.6] every year", P["pay_gap"].dropna().between(0.9, 1.6).all(),
       f"range {P['pay_gap'].min():.4f}..{P['pay_gap'].max():.4f}")
+check("S9 [added 2026-11-06] durables' share of spending on everything but housing within [0.08, 0.25], 1950-2024",
+      P.loc[1950:2024, "dur_share"].between(0.08, 0.25).all(),
+      f"range {P.loc[1950:2024, 'dur_share'].min():.4f}..{P.loc[1950:2024, 'dur_share'].max():.4f}")
+_rd = np.log(P["wage_exshelter"] / P["wage_goods"])                 # durables over the CPI less shelter, in logs
+_wb = (P["dur_share"] + P["dur_share"].shift(1)) / 2.0
+_rg = np.log(P["dur_rel_price"]) - _rd                              # the other goods over the CPI less shelter, minus
+_tq = (_wb * _rd.diff() + (1.0 - _wb) * (-_rg).diff()).loc[1951:2024]   # the Tornqvist identity: the CPI less shelter's
+check("I11 [added 2026-11-06] durables' relative price splits the CPI less shelter exactly (Tornqvist on spending "
+      "weights): each year's change in it is the weighted change in durables' and the other goods' prices (1e-12)",
+      float(np.nanmax(np.abs(_tq))) < 1e-12, f"{float(np.nanmax(np.abs(_tq))):.1e}")
 
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")

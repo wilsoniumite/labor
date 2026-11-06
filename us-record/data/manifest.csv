@@ -27,3 +27,4 @@ pinning/effort/data/raw/AHETPI.csv,b430b72ba8db9d8ff4babf922be36c4f7d0741d0dc403
 us-record/cache/CES0500000003.csv,15ac5d3097f5cb2e7e66b8dd8ef04b91316cd49213aaa3d407fec928857ea35d,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES0500000003,ahe_all,2026-11-06
 pinning/effort/data/raw/AHEMAN.csv,6284f5147d50ab59c9d66f23b2cbb54848cc32824732eb0293e66e840a0adb1f,repository file (FRED AHEMAN),real_wage_cpi,2026-11-06
 us-record/cache/CUUR0000SA0L2.csv,68dd96b929cc065850b625c79b4ce773536b6d0cac1e7a285bc1be92b3357623,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=CUUR0000SA0L2,wage_exshelter,2026-11-06
+us-record/cache/PCDGA.csv,aee9b059246cc0296264c50f19099ca00ceb32991dd84ea7a47ed120eddee959,fetched https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCDGA,dur_share,2026-11-06

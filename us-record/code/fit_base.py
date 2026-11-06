@@ -86,6 +86,7 @@ import pinning_model as pm  # noqa: E402
 
 sys.path.insert(0, os.path.join(ROOT, "code"))
 import split_model as sm  # noqa: E402
+import two_goods as tg  # noqa: E402
 
 PANEL = pd.read_csv(os.path.join(ROOT, "data", "panel.csv")).set_index("year")
 YEARS = list(range(1950, 2025))                       # every targeted series is complete here (checks/check_panel.py C1)
@@ -113,6 +114,12 @@ HOURS_PER_TASK = None                                 # None: g_lam free; a numb
 FIT_YEARS = None                                      # None: every year counts; [from, until]: only those (stress tests)
 DROP = None                                           # None: every series counts; a list: those left out (stress tests)
 FIXED = {}                                            # free numbers held at given values (stress tests: the clock's profile)
+DURABLES = None                                       # None: one good; a dict of set values: durables apart (two_goods.py)
+EXTRA = []                                            # targets beyond the five (durables apart: the wage over durables)
+EXTRA_TOL_LOG = {"wage_durables": 0.05}               # as the other wages
+_DS, _DR = PANEL.loc[1950:2024, "dur_share"], PANEL.loc[1950:2024, "dur_rel_price"]
+SIGMA_DG_SET = float(1.0 - np.polyfit(np.log(_DR.values), np.log(_DS / (1.0 - _DS)).values, 1)[0])  # the share regression
+OMEGA_D_SET = float(PANEL.loc[1950, "dur_share"])     # durables' share of the composite's cost at 1950's prices
 
 
 def utility_path(knots):
@@ -123,7 +130,8 @@ def utility_path(knots):
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
-              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.25), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0))
+              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.25), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0),
+              g_dur=(-0.05, 0.4))
 WAVE_BOUNDS = dict(size=(1e-4, 10.0), tau=(0.5, 80.0))   # each wave's size (in logs of the clock) and pace (years)
 
 D = PANEL.loc[YEARS]
@@ -206,11 +214,14 @@ def pinned_chi(par):
     """The work cost's scale chi_max at which the model's 1950 prime-age employment is the data's (1950's economy is the
     same with or without the basket). None if no chi_max within its bounds does it."""
     e0 = economies(dict(par, chi_max=1.0))[0]
+    if DURABLES is not None:                              # 1950 is the two goods' reference point
+        ed0, ref = eta_d_path(fill(par))[0], dict(mode="ref", omega_d=DURABLES["omega_d"])
     target = float(D.loc[1950, "prime_emp_rate"])
 
     def gap(lc):
         try:
-            return pm.solve(replace(e0, chi_max=float(np.exp(lc))))["participation"] - target
+            e1 = replace(e0, chi_max=float(np.exp(lc)))
+            return (pm.solve(e1) if DURABLES is None else tg.solve(e1, ed0, ref))["participation"] - target
         except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
             return np.nan
 
@@ -222,8 +233,52 @@ def pinned_chi(par):
     return None
 
 
+def eta_d_path(par):
+    """Durables' capability clock (durables apart): the other goods' clock, waves and all, at its own steady pace g_dur;
+    the two are equal in 1950."""
+    return eta_path(par) * np.exp(-(par["g_dur"] - par["g_eta"]) * T_REL)
+
+
+def durables_years(par):
+    """Durables apart: each year's equilibrium of the two-good economy (two_goods.solve), 1950 fixing the reference
+    prices of the composite and of the outer basket. None if any year has no interior equilibrium."""
+    par = fill(par)
+    if PIN_START:
+        chi = pinned_chi(par)
+        if chi is None:
+            return None
+        par = dict(par, chi_max=chi)
+    eta_g, eta_d = eta_path(par), eta_d_path(par)
+    try:
+        q0 = tg.solve(economies(par, eta_g)[0], eta_d[0], dict(mode="ref", omega_d=DURABLES["omega_d"]))
+        cmp = dict(omega_d=DURABLES["omega_d"], sigma_dg=DURABLES["sigma_dg"], pref_d=q0["pd"], pref_g=q0["pg"])
+        es = economies(par, eta_g, q0["c"] if SIGMA is not None else None)
+        return [tg.solve(e, eta_d[i], cmp) for i, e in enumerate(es)], es
+    except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
+        return None
+
+
+def model_path_durables(par):
+    got = durables_years(par)
+    if got is None:
+        return None
+    qs, es = got
+    m = pd.DataFrame([dict(x=q["xg"], xd=q["xd"], v=q["v"], p=q["pg"], pd=q["pd"], c=q["c"], Ps=q["Ps"],
+                           wage_goods_raw=q["v"] / q["c"], wage_durables_raw=q["v"] / q["pd"], wage_shelter_raw=q["v"],
+                           labour_share_c=q["labour_share_bea"], prime_emp_rate=q["participation"], theta_V=q["theta_V"],
+                           gamma=q["m"], x_ceiling=q["xg_ceiling"], xd_ceiling=q["xd_ceiling"], chain_share=q["chain_share"],
+                           sigma_V=q["sigma_V"], dur_share=q["dur_share"], goods_basket=q["gb"], site_basket=q["sb"],
+                           site_share=q["sb"] / q["Ps"], utility=getattr(e, "utility", 1.0))
+                      for q, e in zip(qs, es)], index=YEARS)
+    for c in ("wage_goods", "wage_durables", "wage_shelter"):
+        m[c] = 100.0 * m[c + "_raw"] / m.loc[1950, c + "_raw"]
+    return m
+
+
 def model_path(par, eta=None):
     """Each year's equilibrium, read as the five targeted objects. None if any year has no interior equilibrium."""
+    if DURABLES is not None:
+        return model_path_durables(par)
     if PIN_START:
         chi = pinned_chi(par)
         if chi is None:
@@ -275,21 +330,28 @@ def model_path(par, eta=None):
 def target(s):
     """The data a series is read against: the goods wage over durables' price, or (GOODS "exshelter") over the price of
     everything but shelter; the other series as named."""
+    if s == "wage_durables":                              # durables apart: the fork's durables leg, targeted again
+        return D["wage_goods"]
     return D["wage_exshelter"] if s == "wage_goods" and GOODS == "exshelter" else D[s]
 
 
 def deviations(m):
     """Each series' scaled deviations (NaN where the data are missing)."""
     out = {}
-    for s in SERIES:
+    for s in all_series():
         y, f = target(s).values.astype(float), m[s].values
-        if s in TOL_LOG:
-            out[s] = (np.log(f) - np.log(y)) / TOL_LOG[s]
+        if s in TOL_LOG or s in EXTRA_TOL_LOG:
+            out[s] = (np.log(f) - np.log(y)) / TOL_LOG.get(s, EXTRA_TOL_LOG.get(s))
         elif s == "labour_share_c":
             out[s] = (f - y) / LS_TOL
         else:
             out[s] = (f - y) / TOL_LEVEL[s]
     return out
+
+
+def all_series():
+    """The five targets, and any beyond them (EXTRA)."""
+    return SERIES + list(EXTRA)
 
 
 def counted(s):
@@ -305,8 +367,8 @@ def counted(s):
 def residuals(u):
     """Each counted year's scaled deviation, weighted so that the squares sum to the misfit: the mean over the counted
     series of each one's mean squared scaled deviation."""
-    keep = {s: counted(s) for s in SERIES}
-    live = [s for s in SERIES if keep[s].any()]
+    keep = {s: counted(s) for s in all_series()}
+    live = [s for s in all_series() if keep[s].any()]
     m = model_path(unpack(u))
     if m is None:
         return np.full(sum(int(keep[s].sum()) for s in live), 10.0)
@@ -316,7 +378,7 @@ def residuals(u):
 
 def misfit_by_series(m):
     dev = deviations(m)
-    return {s: float(np.nanmean(dev[s] ** 2)) for s in SERIES}
+    return {s: float(np.nanmean(dev[s] ** 2)) for s in all_series()}
 
 
 def fit_from(start):
@@ -366,6 +428,8 @@ def complete(s):
     years' pace."""
     s = dict(s)
     s.setdefault("chi_w", 0.0)
+    if DURABLES is not None:
+        s.setdefault("g_dur", s.get("g_eta", 0.05) + 0.03)
     for i in range(len(WAVES)):
         s.setdefault(f"w{i}_size", 0.05)
         s.setdefault(f"w{i}_tau", 15.0)
@@ -387,7 +451,7 @@ def configure(meta):
     """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
     and report read fits this way)."""
     global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
-    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED
+    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA
     SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
     if SPLIT_FROM is not None:
         S_N = meta["s_n"]
@@ -397,6 +461,7 @@ def configure(meta):
     GOODS, WOMEN, RHO_FIXED = meta.get("goods", "durables"), meta.get("women"), meta.get("rho_fixed")
     WAVES, HOURS_PER_TASK = list(meta.get("waves") or []), meta.get("hours_per_task")
     FIT_YEARS, DROP, FIXED = meta.get("fit_years"), meta.get("drop"), dict(meta.get("fixed") or {})
+    DURABLES, EXTRA = meta.get("durables"), list(meta.get("extra") or [])
     SET.update(meta.get("set") or {})
     NAMES[:] = meta["names"]
 
@@ -407,6 +472,7 @@ def settings_meta():
                 utility=None if SIGMA is None else dict(knots=list(UTILITY_KNOTS)), pin_start=PIN_START,
                 s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
                 waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, fixed=dict(FIXED),
+                durables=DURABLES, extra=list(EXTRA),
                 names=list(NAMES))
 
 
@@ -492,6 +558,10 @@ if __name__ == "__main__":
     if "--waves" in args:
         WAVES = [int(y) for y in args[args.index("--waves") + 1].split(",")]
         NAMES.extend(n for i in range(len(WAVES)) for n in (f"w{i}_size", f"w{i}_tau"))
+    if "--durables" in args:                              # durables apart: two goods, one machine, the durables wage
+        DURABLES = dict(sigma_dg=SIGMA_DG_SET, omega_d=OMEGA_D_SET)
+        NAMES.append("g_dur")
+        EXTRA = ["wage_durables"]
     if "--hours-per-task" in args:
         HOURS_PER_TASK = float(args[args.index("--hours-per-task") + 1])
         NAMES.remove("g_lam")
@@ -509,14 +579,15 @@ if __name__ == "__main__":
     best = results[0]
     m = model_path(best["par"])
     plain = SHELTER_LAND_SHARE is None and SPLIT_FROM is None and CAP is None and SIGMA is None and not PIN_START \
-        and GOODS == "durables" and WOMEN is None and RHO_FIXED is None and not WAVES and HOURS_PER_TASK is None
+        and GOODS == "durables" and WOMEN is None and RHO_FIXED is None and not WAVES and HOURS_PER_TASK is None \
+        and DURABLES is None
     acc = accounting(best["par"]) if plain else None      # the diagnostic reads the base model only
     if PIN_START:                                         # the set chi_max stored beside the fitted numbers
         for r in results:
             r["par"]["chi_max"] = pinned_chi(r["par"])
     out = dict(
         meta=dict(years=[YEARS[0], YEARS[-1]], series=SERIES, tol_log=TOL_LOG, tol_level=TOL_LEVEL, **settings_meta(),
-                  ref=REF, bounds=BOUNDS, n_obs={s: int(counted(s).sum()) for s in SERIES},
+                  ref=REF, bounds=BOUNDS, n_obs={s: int(counted(s).sum()) for s in all_series()},
                   seconds=round(time.time() - t0, 1)),
         best=dict(par=best["par"], misfit=best["misfit"], by_series=misfit_by_series(m)),
         starts=[dict(start=r["start"], par=r["par"], misfit=r["misfit"], nfev=r["nfev"], status=r["status"])
