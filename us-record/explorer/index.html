@@ -4,11 +4,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: an instrument bench — the model's controls on a rail at left, the record's eight panels at right; one column on a phone. */
+/* Layout: an instrument bench — the model's dials on a rail at left (grouped where numbers are linked), three views at
+   right (against the record, inside the model, sensitivities); one column on a phone, the views first. */
 :root {
   --bg: #f3f5f2; --panel: #ffffff; --ink: #17201b; --ink2: #56625b; --rule: #dde3de; --soft: #eef2ef;
   --data: #2a78d6; --model: #e2622b; --ref: #7b8580; --band: rgba(42, 120, 214, 0.10);
   --good: #2e8553; --fair: #a8741a; --poor: #bf3f2b;
+  --st-labour: #f1a57f; --st-land: #93bd7e; --st-mach: #a3abcb; --worse: #e8806b; --better: #6fb38a;
   --sans: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
@@ -16,22 +18,24 @@
   :root:not([data-theme="light"]) {
     --bg: #111613; --panel: #19201c; --ink: #e5ebe7; --ink2: #9aa69f; --rule: #2b342f; --soft: #212a25;
     --data: #5e9ee8; --model: #f07c4a; --ref: #8c9791; --band: rgba(94, 158, 232, 0.14);
-    --good: #57b07c; --fair: #d6a24a; --poor: #e0705c; color-scheme: dark;
+    --good: #57b07c; --fair: #d6a24a; --poor: #e0705c;
+    --st-labour: #a9583a; --st-land: #557d48; --st-mach: #5d6688; --worse: #b4523f; --better: #3f8a5e; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #111613; --panel: #19201c; --ink: #e5ebe7; --ink2: #9aa69f; --rule: #2b342f; --soft: #212a25;
   --data: #5e9ee8; --model: #f07c4a; --ref: #8c9791; --band: rgba(94, 158, 232, 0.14);
-  --good: #57b07c; --fair: #d6a24a; --poor: #e0705c; color-scheme: dark;
+  --good: #57b07c; --fair: #d6a24a; --poor: #e0705c;
+  --st-labour: #a9583a; --st-land: #557d48; --st-mach: #5d6688; --worse: #b4523f; --better: #3f8a5e; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.45; }
 .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
-        padding-block: 16px 32px; max-width: 1480px; margin: 0 auto; display: grid; gap: 16px; }
+        padding-block: 16px 32px; max-width: 1560px; margin: 0 auto; display: grid; gap: 14px; }
 header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; justify-content: space-between; }
 h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
-.lede { color: var(--ink2); margin: 2px 0 0; max-width: 62ch; }
+.lede { color: var(--ink2); margin: 2px 0 0; max-width: 64ch; }
 .readout { display: flex; gap: 18px; align-items: flex-end; flex-wrap: wrap; }
 .big { font-family: var(--mono); font-size: 30px; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1; }
 .cap-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink2); }
@@ -43,39 +47,58 @@ h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin: 0; text
 .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 button, select, input[type="text"] { font: inherit; color: var(--ink); }
 button { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
-button:hover { border-color: var(--ink2); }
+button:hover:not(:disabled) { border-color: var(--ink2); }
+button:disabled { opacity: 0.45; cursor: default; }
 button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--model); outline-offset: 1px; }
 button.primary { background: var(--model); border-color: var(--model); color: #fff; font-weight: 600; }
-button.primary:hover { filter: brightness(1.05); }
 select { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 8px; max-width: 100%; }
-.bench { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 16px; align-items: start; }
-@media (max-width: 900px) { .bench { grid-template-columns: minmax(0, 1fr); } }
-.rail { display: grid; gap: 12px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 8px); }
-@media (max-width: 900px) { .rail { position: static; order: 2; } .charts { order: 1; } }
-.group { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: grid; gap: 10px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink2); font-size: 12px; }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+.bench { display: grid; grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 920px) { .bench { grid-template-columns: minmax(0, 1fr); } .rail { order: 2; } .main { order: 1; } }
+.rail { display: grid; gap: 12px; }
+.group { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: grid; gap: 10px; min-width: 0; }
 .group h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink2); margin: 0; font-weight: 600; }
+.group h3 { font-size: 13px; margin: 0; font-weight: 600; }
+.sub { display: grid; gap: 8px; padding-top: 10px; border-top: 1px solid var(--rule); }
+.sub:first-of-type { border-top: 0; padding-top: 0; }
 .switch { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; }
 .switch label { cursor: pointer; }
 .switch input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--model); margin: 0; }
-.switch input[type="text"] { width: 70px; text-align: right; font-family: var(--mono); font-size: 13px; background: var(--soft);
-                             border: 1px solid var(--rule); border-radius: 4px; padding: 2px 6px; }
-.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
-.seg button { border: 0; border-radius: 0; padding: 4px 10px; background: var(--panel); }
+.small-in { width: 64px; text-align: right; font-family: var(--mono); font-size: 13px; background: var(--soft);
+            border: 1px solid var(--rule); border-radius: 4px; padding: 2px 6px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; max-width: 100%; flex-wrap: wrap; }
+.seg button { border: 0; border-radius: 0; padding: 4px 9px; background: var(--panel); font-size: 12.5px; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
 .num { display: grid; grid-template-columns: minmax(0, 1fr) 88px 58px; gap: 4px 8px; align-items: center; }
 .num .name { font-size: 13px; min-width: 0; }
-.num .sym { font-family: var(--mono); color: var(--ink2); font-size: 12px; }
+.sym { font-family: var(--mono); color: var(--ink2); font-size: 12px; }
 .num input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--model); margin: 0; }
 .num input[type="text"] { width: 88px; text-align: right; font-family: var(--mono); font-size: 13px; background: var(--soft);
                           border: 1px solid var(--rule); border-radius: 4px; padding: 2px 6px; }
-.num .lock { font-size: 12px; padding: 2px 0; width: 58px; }
-.num .lock[aria-pressed="true"] { background: var(--soft); color: var(--ink2); }
-.num .lock[aria-pressed="false"] { color: var(--model); border-color: color-mix(in srgb, var(--model) 45%, transparent); }
+.lock { font-size: 12px; padding: 2px 0; width: 58px; }
+.lock[aria-pressed="true"] { background: var(--soft); color: var(--ink2); }
+.lock[aria-pressed="false"] { color: var(--model); border-color: color-mix(in srgb, var(--model) 45%, transparent); }
 .num.off { opacity: 0.45; }
+.implied { font-size: 12px; color: var(--ink2); background: var(--soft); border-radius: 6px; padding: 7px 9px; display: grid; gap: 3px; }
+.implied b { color: var(--ink); font-weight: 600; font-family: var(--mono); font-size: 11.5px; }
+.knots { display: grid; gap: 4px; }
+.knot-row { display: grid; grid-template-columns: 58px 70px 1fr 1fr 26px; gap: 4px; align-items: center; }
+.knot-row input { width: 100%; text-align: right; font-family: var(--mono); font-size: 12px; background: var(--soft);
+                  border: 1px solid var(--rule); border-radius: 4px; padding: 2px 4px; }
+.knot-row button { font-size: 11px; padding: 2px 4px; }
+.knot-row .kl[aria-pressed="false"] { color: var(--model); border-color: color-mix(in srgb, var(--model) 45%, transparent); }
+.knot-head { display: grid; grid-template-columns: 58px 70px 1fr 1fr 26px; gap: 4px; font-size: 10.5px; color: var(--ink2);
+             text-transform: uppercase; letter-spacing: 0.05em; }
 .hint { color: var(--ink2); font-size: 12px; margin: 0; }
-.charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 12px; min-width: 0; }
+.main { display: grid; gap: 12px; min-width: 0; }
+.tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--rule); }
+.tabs button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; padding: 8px 12px; font-weight: 600; color: var(--ink2); }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--model); }
+.charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 12px; min-width: 0; }
 .card { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 10px 6px; min-width: 0; }
-.card .head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.card.wide { grid-column: 1 / -1; }
+.card .head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap; }
 .card h3 { font-size: 13px; font-weight: 600; margin: 0; }
 .card svg { width: 100%; height: auto; display: block; touch-action: none; }
 .card .note { color: var(--ink2); font-size: 11.5px; margin: 2px 2px 4px; }
@@ -84,15 +107,37 @@ select { background: var(--panel); border: 1px solid var(--rule); border-radius:
 .grid line { stroke: var(--rule); stroke-width: 0.6; }
 .l-data { fill: none; stroke: var(--data); stroke-width: 2; }
 .l-model { fill: none; stroke: var(--model); stroke-width: 2; }
+.l-model2 { fill: none; stroke: var(--model); stroke-width: 1.6; stroke-dasharray: 5 3; }
+.l-land { fill: none; stroke: var(--good); stroke-width: 1.8; }
 .l-ref { fill: none; stroke: var(--ref); stroke-width: 1.3; stroke-dasharray: 4 3; }
 .d-data { fill: var(--data); stroke: var(--panel); stroke-width: 1.5; }
 .band { fill: var(--band); stroke: none; }
 .knot { fill: var(--model); stroke: var(--panel); stroke-width: 2; cursor: grab; }
+.knot.land { fill: var(--good); }
 .knot.fixed { fill: var(--panel); stroke: var(--model); cursor: default; }
+.knot.half { cursor: ns-resize; }
+.knot.halfx { cursor: ew-resize; }
 .capline { stroke: var(--model); stroke-width: 1.4; stroke-dasharray: 2 2; }
 .caphit { stroke: transparent; stroke-width: 14; cursor: ns-resize; }
-.legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink2); font-size: 12px; }
-.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+.stack-labour { fill: var(--st-labour); } .stack-land { fill: var(--st-land); } .stack-mach { fill: var(--st-mach); }
+.stack-label { font-family: var(--sans); font-size: 10.5px; fill: var(--ink); }
+.marker { stroke: var(--ink); stroke-width: 1.4; }
+.marker-label { font-family: var(--sans); font-size: 10px; fill: var(--ink2); }
+.taskshade { fill: var(--soft); }
+.yearbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.yearbar input[type="range"] { flex: 1 1 200px; accent-color: var(--model); }
+.yearbar .yr { font-family: var(--mono); font-size: 20px; font-weight: 500; min-width: 4ch; }
+.sens { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.sens th { text-align: left; font-weight: 600; color: var(--ink2); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+           padding: 6px 6px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.sens td { padding: 5px 6px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.sens td.tnum { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.setas { display: grid; gap: 4px; }
+.setas .seg { width: 100%; }
+.setas .seg button { flex: 1 1 auto; }
+.cells { display: inline-flex; gap: 2px; }
+.cells span { width: 14px; height: 14px; border-radius: 3px; background: var(--soft); border: 1px solid var(--rule); }
+.table-wrap { overflow-x: auto; }
 details summary { cursor: pointer; color: var(--ink2); font-size: 12px; }
 textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 11.5px; background: var(--soft); color: var(--ink);
            border: 1px solid var(--rule); border-radius: 6px; padding: 8px; margin-top: 8px; }
@@ -133,27 +178,27 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       <section class="group" aria-labelledby="g-model">
         <h2 id="g-model">The model</h2>
         <div class="switch"><input type="checkbox" id="sw-cap"><label for="sw-cap">Cap on prime-age employment</label>
-          <input type="text" id="v-cap" aria-label="Cap"></div>
-        <div class="switch"><input type="checkbox" id="sw-basket"><label for="sw-basket">Basket at constant utility, elasticity</label>
-          <input type="text" id="v-sigma" aria-label="Elasticity"></div>
+          <input type="text" class="small-in" id="v-cap" aria-label="Cap"></div>
         <div class="switch"><input type="checkbox" id="sw-pin"><label for="sw-pin">1950 employment pinned to the record</label><span></span></div>
-        <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter as building and site, site share</label>
-          <input type="text" id="v-A" aria-label="Site share of shelter"></div>
+        <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter read as building and site, site share</label>
+          <input type="text" class="small-in" id="v-A" aria-label="Site share of shelter"></div>
         <div class="switch" id="row-build" style="grid-template-columns:minmax(0,1fr) auto"><span>Building priced like</span>
           <span class="seg" role="group" aria-label="Building priced like"><button id="bld-dur" aria-pressed="true">durables (A)</button><button id="bld-wage" aria-pressed="false">building work (A′)</button></span></div>
-        <div class="switch"><input type="checkbox" id="sw-tilt"><label for="sw-tilt">Tastes tilt from land after the year, to this by 2024</label>
-          <span style="display:flex;gap:6px"><input type="text" id="v-tiltyear" aria-label="Tilt starts" style="width:56px"><input type="text" id="v-tilt" aria-label="Site weight by 2024" style="width:56px"></span></div>
-        <div class="switch" style="grid-template-columns:minmax(0,1fr) auto"><span>Capability clock</span>
-          <span class="seg" role="group" aria-label="Clock"><button id="clk-steady" aria-pressed="true">Steady</button><button id="clk-bend" aria-pressed="false">Bendable</button></span></div>
-        <div class="switch" id="clk-free-row" hidden><input type="checkbox" id="sw-clkfree" checked><label for="sw-clkfree">Fit may move the clock's points</label><span></span></div>
-        <p class="hint">Drag the orange points on the utility chart, the cap line on the employment chart and, when bendable,
-          the clock's points. Double-click a chart to add a point there; double-click a point to remove it.</p>
-        <div class="actions"><button id="utilreset">Utility back to the record's points</button></div>
+        <div class="switch"><input type="checkbox" id="sw-tilt"><label for="sw-tilt">Tastes tilt from land after the year, to this weight by 2024</label>
+          <span style="display:flex;gap:6px"><input type="text" class="small-in" id="v-tiltyear" aria-label="Tilt starts" style="width:56px"><input type="text" class="small-in" id="v-tilt" aria-label="Site weight by 2024" style="width:56px"></span></div>
       </section>
+
       <section class="group" aria-labelledby="g-nums">
-        <h2 id="g-nums">Numbers <span style="text-transform:none;letter-spacing:0;font-weight:400">· Free ones move when you fit</span></h2>
-        <div id="nums" style="display:grid;gap:12px"></div>
+        <h2 id="g-nums">Numbers <span style="text-transform:none;letter-spacing:0;font-weight:400">· Free ones move when you fit; linked ones can be set either way</span></h2>
+        <div class="sub" id="grp-land"></div>
+        <div class="sub" id="grp-machine"></div>
+        <div class="sub" id="grp-labour"></div>
+        <div class="sub" id="grp-bk"></div>
+        <div class="sub" id="grp-clock"></div>
+        <div class="sub" id="grp-tasks"></div>
+        <div class="sub" id="grp-basket"></div>
       </section>
+
       <section class="group">
         <details><summary>Settings as text</summary>
           <textarea id="settings" spellcheck="false" aria-label="Settings as text"></textarea>
@@ -161,7 +206,27 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         </details>
       </section>
     </aside>
-    <main class="charts" id="charts"></main>
+
+    <main class="main">
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-record" aria-selected="true" aria-controls="view-record">Against the record</button>
+        <button role="tab" id="tab-inside" aria-selected="false" aria-controls="view-inside">Inside the model</button>
+        <button role="tab" id="tab-sens" aria-selected="false" aria-controls="view-sens">Sensitivities</button>
+      </div>
+      <section id="view-record" class="charts" role="tabpanel" aria-labelledby="tab-record"></section>
+      <section id="view-inside" class="charts" role="tabpanel" aria-labelledby="tab-inside" hidden></section>
+      <section id="view-sens" role="tabpanel" aria-labelledby="tab-sens" hidden>
+        <div class="card">
+          <div class="head"><h3>How much each number matters, here</h3><span class="chip" id="sens-base"></span></div>
+          <p class="note">Each number is nudged down and up from where it is now, with everything else held, and the five
+            misfits are compared. Numbers searched in logs move 5%, rates half a point, a point's year one year. The
+            squares are the five series (wage in durables, wage in shelter, labour's share, prime-age employment, labour's
+            share of a machine's cost): red worse, green better, blank under 5%. At a best fit the total barely moves
+            either way, so the squares tell more: they show what each number trades against what.</p>
+          <div class="table-wrap"><table class="sens" id="sens-table"></table></div>
+        </div>
+      </section>
+    </main>
   </div>
 </div>
 
@@ -356,12 +421,13 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     // Optional paths, off unless set (the page does not set them; the playground does): land, the cost of working and the
     // machine chain's labour through knots, and the required return following the measured real rate.
     const land = knotMul(S.land, D), chi = knotMul(S.chi, D), lamk = knotMul(S.lamk, D), tilt = knotMul(S.tilt, D);
+    const bk = knotMul(S.bk, D);                // land in a machine through knots (1950 = the unit b)
     const out = [];
     for (let i = 0; i < D.years.length; i++) {
       const t = D.years[i] - 1950;
       const lam = lamk ? par.lam0 * lamk[i] : par.lam0 * Math.exp(par.g_lam * t);
       const rho = S.rhoData ? par.rho + S.rhoData * D.real_rate[i] : par.rho;
-      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b, lam,
+      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b * (bk ? bk[i] : 1), lam,
                   g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max * (chi ? chi[i] : 1), rho,
                   delta: D.delta[i], cap: S.cap === null || S.cap === undefined ? 1 : S.cap, sigma: null };
       if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; if (tilt) e.tilt = tilt[i]; }
@@ -434,6 +500,8 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     const es = economies(par, S, D, pRef);
     const cols = { x: [], v: [], p: [], Ps: [], wg: [], ws: [], labour_share_c: [], prime_emp_rate: [], theta_V: [],
                    goods_basket: [], site_basket: [], eta: [], utility: [] };
+    const an = { pm: [], kappaV: [], sigmaV: [], landHomes: [], landMachines: [], hoursFinal: [], hoursMachine: [],
+                 goodsShare: [], siteShare: [], wageGoodsLevel: [], peopleTasks: [], lam: [], b: [], xCeil: [] };
     for (let i = 0; i < es.length; i++) {
       let q;
       try { q = solve(es[i]); } catch (err) { return { ok: false, why: "no equilibrium in " + D.years[i], year: D.years[i] }; }
@@ -444,7 +512,17 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       cols.prime_emp_rate.push(q.participation);
       cols.theta_V.push(q.theta_V); cols.goods_basket.push(q.gb); cols.site_basket.push(q.sb);
       cols.eta.push(es[i].eta); cols.utility.push(es[i].utility === undefined ? 1 : es[i].utility);
+      const e = es[i];
+      an.pm.push(q.pm); an.kappaV.push(e.a * q.pm / q.Vm); an.sigmaV.push(e.b / q.Vm);
+      an.lam.push(e.thetaV !== undefined ? e.thetaV / (q.gamma * (e.rho + e.delta)) : e.lam); an.b.push(e.b);
+      an.landHomes.push(q.sb * q.B / e.T); an.landMachines.push(e.b * e.delta * q.K / e.T);
+      an.hoursFinal.push(q.final / q.n); an.hoursMachine.push(q.mh / q.n);
+      an.goodsShare.push(q.p * q.gb / q.Ps); an.siteShare.push(q.sb / q.Ps);
+      an.wageGoodsLevel.push(q.v / q.p); an.peopleTasks.push(1 - q.x);
+      let xc = null; try { xc = xCeiling(e); } catch (err) { xc = null; }
+      an.xCeil.push(xc);
     }
+    cols.an = an;
     if (S.shelterW !== null && S.shelterW !== undefined) {      // addition A: shelter is building and site
       const w = S.shelterW, pl = cols.p[cols.p.length - 1], vl = cols.v[cols.v.length - 1];
       cols.ws = S.shelterBuild === "wage"                         // the building priced like construction: at the wage
@@ -506,34 +584,70 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     return out;
   }
 
+  // ---------------------------------------------------------------- coordinates (her ask, 2026-11-06)
+  // Some numbers come in linked groups, and each group can be set in more than one way: land as (T, h) or as T and a
+  // basket's land over land per adult (hT = h / T); machine services as a or as their share of a machine's cost in 1950
+  // (kappa50 = (rho + delta_1950) a, so a follows the return); the hours to build a machine growing per machine (g_lam) or per
+  // fixed task (g_lamTask = g_lam - g_eta). The dials and the fitter work in the chosen ones; the others follow.
+  // COORD: [low, high, searched in logs]
+  const COORD = { T: [1e-5, 10, true], h: [1e-6, 1, true], hT: [1e-4, 100, true], a: [0.01, 10, true],
+                  kappa50: [0.001, 0.99, false], rho: [0, 0.3, false], k: [0.05, 60, true], chi_max: [0.3, 20, true],
+                  g_eta: [-0.05, 0.25, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.1, false],
+                  g_lamTask: [-0.35, 0.2, false] };
+  const DEFAULT_SYS = { land: "Th", machine: "a", labour: "lam" };
+  function toCoords(par, D) {
+    return { T: par.T, h: par.h, hT: par.h / par.T, a: par.a, kappa50: (par.rho + D.delta[0]) * par.a, rho: par.rho,
+             k: par.k, chi_max: par.chi_max, g_eta: par.g_eta, lam0: par.lam0, g_lam: par.g_lam,
+             g_lamTask: par.g_lam - par.g_eta };
+  }
+  function fromCoords(c, sys, D) {
+    sys = Object.assign({}, DEFAULT_SYS, sys || {});
+    return { T: c.T, h: sys.land === "TS" ? c.hT * c.T : c.h,
+             a: sys.machine === "kappa" ? c.kappa50 / (c.rho + D.delta[0]) : c.a, rho: c.rho, k: c.k, chi_max: c.chi_max,
+             g_eta: c.g_eta, lam0: c.lam0, g_lam: sys.labour === "task" ? c.g_lamTask + c.g_eta : c.g_lam };
+  }
+  const KNOT_KEYS = ["clock", "land", "chi", "lamk", "tilt", "bk", "utility"];
+
   // ---------------------------------------------------------------- a small fitter (Levenberg-Marquardt, in bounds)
   // free: names from NAMES (not chi_max when pinned), plus "clock:<i>" for the knots of a bent clock (log eta at knot i).
+  // free: coordinate names (COORD), and knots of a path in S: "key:i" its level, "key:i:y" its year (utility levels are
+  // levels, searched in logs; every other path's levels are logs already).
   function fit(par0, S0, D, free, opts) {
     opts = opts || {};
     const N_OBS = nObs(D);
     const maxIter = opts.maxIter || 300;
     const onStep = opts.onStep || (() => {});
-    const toU = (name, val) => (LOGP[name] ? Math.log(val) : val);
-    const fromU = (name, u) => (LOGP[name] ? Math.exp(u) : u);
-    const knot = (n) => n.indexOf(":") > 0;      // "clock:2", "land:1", ...: a knot's log value in a path of S
-    const lo = free.map((n) => (knot(n) ? (n.startsWith("clock:") ? -25 : -6) : toU(n, BOUNDS[n][0])));
-    const hi = free.map((n) => (knot(n) ? (n.startsWith("clock:") ? 5 : 6) : toU(n, BOUNDS[n][1])));
+    const sys = Object.assign({}, DEFAULT_SYS, S0.coords || {});
+    const c0 = toCoords(par0, D);
+    const isKnot = (n) => n.indexOf(":") > 0;
+    const parse = (n) => { const q = n.split(":"); return { key: q[0], i: +q[1], year: q[2] === "y" }; };
+    const getK = (S, n) => { const k = parse(n), kn = S[k.key][k.i]; return k.year ? kn[0] : (k.key === "utility" ? Math.log(kn[1]) : kn[1]); };
+    const putK = (S, n, v) => { const k = parse(n), kn = S[k.key][k.i]; if (k.year) kn[0] = v; else kn[1] = k.key === "utility" ? Math.exp(v) : v; };
+    const bounds = free.map((n) => {
+      if (!isKnot(n)) { const b = COORD[n]; return b[2] ? [Math.log(b[0]), Math.log(b[1])] : [b[0], b[1]]; }
+      const k = parse(n);
+      if (!k.year) return k.key === "clock" ? [-25, 5] : (k.key === "utility" ? [Math.log(0.2), Math.log(5)] : [-6, 6]);
+      const arr = S0[k.key], here = arr[k.i][0], prev = arr[k.i - 1][0], last = k.i === arr.length - 1;
+      const lo = free.includes(`${k.key}:${k.i - 1}:y`) ? (prev + here) / 2 : prev + 0.5;
+      const hi = last ? 2024 : (free.includes(`${k.key}:${k.i + 1}:y`) ? (arr[k.i + 1][0] + here) / 2 : arr[k.i + 1][0] - 0.5);
+      return [lo, hi];
+    });
+    const lo = bounds.map((b) => b[0]), hi = bounds.map((b) => b[1]);
+    const toU = (n, v) => (!isKnot(n) && COORD[n][2] ? Math.log(v) : v);
+    const fromU = (n, u) => (!isKnot(n) && COORD[n][2] ? Math.exp(u) : u);
     const clamp = (u) => u.map((x, j) => Math.min(Math.max(x, lo[j]), hi[j]));
     const copyS = (S) => {
       const out = Object.assign({}, S);
-      for (const key of ["clock", "land", "chi", "lamk", "tilt"]) if (S[key]) out[key] = S[key].map((k) => k.slice());
+      for (const key of KNOT_KEYS) if (S[key]) out[key] = S[key].map((k) => k.slice());
       return out;
     };
     const unpack = (u) => {
-      const par = Object.assign({}, par0), S = copyS(S0);
-      free.forEach((n, j) => {
-        if (knot(n)) { const [key, i] = n.split(":"); S[key][+i][1] = u[j]; }
-        else par[n] = fromU(n, u[j]);
-      });
-      return { par, S };
+      const c = Object.assign({}, c0), S = copyS(S0);
+      free.forEach((n, j) => { if (isKnot(n)) putK(S, n, u[j]); else c[n] = fromU(n, u[j]); });
+      return { par: Object.assign({}, par0, fromCoords(c, sys, D)), S };
     };
     const cost = (r) => r.reduce((a, x) => a + x * x, 0);
-    let u = clamp(free.map((n) => (knot(n) ? S0[n.split(":")[0]][+n.split(":")[1]][1] : toU(n, par0[n]))));
+    let u = clamp(free.map((n) => (isKnot(n) ? getK(S0, n) : toU(n, c0[n]))));
     let cur = unpack(u), r = residuals(cur.par, cur.S, D, N_OBS), c = cost(r);
     let mu = 1e-3, quiet = 0, it = 0;
     for (it = 0; it < maxIter; it++) {
@@ -553,9 +667,9 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         for (let i = 0; i < nR; i++) ga += Jm[a][i] * r[i];
         g.push(ga);
         for (let b = 0; b < nF; b++) {
-          let s = 0;
-          for (let i = 0; i < nR; i++) s += Jm[a][i] * Jm[b][i];
-          A[a].push(s);
+          let sum = 0;
+          for (let i = 0; i < nR; i++) sum += Jm[a][i] * Jm[b][i];
+          A[a].push(sum);
         }
       }
       let accepted = false;
@@ -601,8 +715,9 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     return x.every(isFinite) ? x : null;
   }
 
-  const api = { SET, SERIES, TOL, BOUNDS, LOGP, NAMES, brentq, gamma, parts, basket, solve, xCeiling, economies,
-                pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath, etaPath };
+  const api = { SET, SERIES, TOL, BOUNDS, LOGP, NAMES, COORD, DEFAULT_SYS, KNOT_KEYS, brentq, gamma, parts, basket, solve,
+                xCeiling, economies, pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath, etaPath,
+                toCoords, fromCoords, knotMul };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.USRecordModel = api;
 })(typeof self !== "undefined" ? self : this);
@@ -614,147 +729,352 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   "use strict";
   const M = window.USRecordModel;
   const DOC = JSON.parse(document.getElementById("doc").textContent);
-  const D = DOC.data, YEARS = D.years, N_OBS = M.nObs(D);
-  const NUMS = [
-    ["T", "Land", "T"], ["h", "Land in a basket, 1950", "h"], ["a", "Machine services in building a machine", "a"],
-    ["k", "Steepness of the task schedule", "k"], ["chi_max", "Spread of the cost of working", "χ"],
-    ["rho", "Required return", "ρ"], ["g_eta", "Clock: fall in machine service needed, a year", "g"],
-    ["lam0", "Labour in machine-making, 1950", "λ"], ["g_lam", "Its growth, a year", "gλ"]];
-  let S, P, free, ref, cur, worker = null, dragging = false;
-
-  // ---------- state
-  function clone(o) { return JSON.parse(JSON.stringify(o)); }
-  function loadPreset(p) {
-    S = clone(p.settings); P = clone(p.params);
-    free = new Set(M.NAMES.filter((n) => !(S.pin && n === "chi_max") && !(p.locked || []).includes(n)));
-    S.clockFree = true;
-    ref = { label: p.label, misfit: p.misfit, path: M.path(P, S, D) };
-    syncControls(); update();
-  }
-  function currentSettingsText() {
-    return JSON.stringify({ settings: S, params: P, free: [...free] }, null, 1);
-  }
-
-  // ---------- controls
+  const D = DOC.data, YEARS = D.years, NY = YEARS.length, SERIES = M.SERIES;
   const $ = (id) => document.getElementById(id);
+  const clone = (o) => JSON.parse(JSON.stringify(o));
   const fmt = (x) => (x === null || x === undefined || !isFinite(x) ? "–" : Math.abs(x) < 1e-12 ? "0"
     : Math.abs(x) >= 1000 || Math.abs(x) < 0.001 ? x.toExponential(2) : (+x.toPrecision(4)).toString());
+  const pct = (x) => (isFinite(x) ? (100 * x).toFixed(Math.abs(x) < 0.1 ? 1 : 0) + "%" : "–");
+  const rate = (x) => (isFinite(x) ? (x >= 0 ? "+" : "") + (100 * x).toFixed(1) + "% a year" : "–");
+
+  // ---------------------------------------------------------------- labels and linked groups
+  const LABEL = {
+    T: ["Land per adult, 1950", "T"], h: ["Land in a basket, 1950", "h"], hT: ["A basket's land over land per adult", "h/T"],
+    rho: ["Required return", "ρ"], a: ["Machine services used in building a machine", "a"],
+    kappa50: ["Machine services' share of a machine's cost, 1950", "κ"],
+    lam0: ["Hours to build a machine, 1950", "λ"], g_lam: ["Their growth, per machine, a year", "gλ"],
+    g_lamTask: ["Growth of the hours behind a fixed task, a year", "gλ−g"],
+    k: ["Steepness of the task schedule", "k"], chi_max: ["Spread of the cost of working", "χ"],
+    g_eta: ["Clock: fall in the machine service a task needs, a year", "g"] };
+  const GROUPS = {
+    land: { title: "Land", key: "land", opts: [["Th", "land, and a basket's land"], ["TS", "land, and the basket's share"]],
+            coords: { Th: ["T", "h"], TS: ["T", "hT"] } },
+    machine: { title: "A machine's cost", key: "machine", opts: [["a", "services per machine"], ["kappa", "their share of the cost"]],
+               coords: { a: ["rho", "a"], kappa: ["rho", "kappa50"] } },
+    labour: { title: "Hours to build a machine", key: "labour", opts: [["lam", "growth per machine"], ["task", "per fixed task"]],
+              coords: { lam: ["lam0", "g_lam"], task: ["lam0", "g_lamTask"] } } };
+  const PAIR = { h: "hT", hT: "h", a: "kappa50", kappa50: "a", g_lam: "g_lamTask", g_lamTask: "g_lam" };
+  const KNOT = {
+    clock: { show: (v) => Math.exp(v), read: (x) => Math.log(x), what: "service a task needs, 1950 = 1" },
+    utility: { show: (v) => v, read: (x) => x, what: "utility, 1950 = 1" },
+    lamk: { show: (v) => Math.exp(v), read: (x) => Math.log(x), what: "hours per machine, 1950 = 1" },
+    bk: { show: (v) => Math.exp(v), read: (x) => Math.log(x), what: "land in a machine, 1950 = 1" } };
+  const LOCK_DEFAULT = { clock: { year: true, level: false }, utility: { year: true, level: true },
+                         lamk: { year: true, level: false }, bk: { year: true, level: false } };
+
+  let S, P, free, ref, cur, curMis, worker = null, dragging = false, view = "record";
+
+  // ---------------------------------------------------------------- state
+  function ensureLocks(key) {
+    S.knotLocks = S.knotLocks || {};
+    const arr = S.knotLocks[key] || [];
+    while (arr.length < S[key].length) arr.push(Object.assign({}, LOCK_DEFAULT[key]));
+    arr.length = S[key].length;
+    arr[0] = { year: true, level: true };
+    S.knotLocks[key] = arr;
+  }
+  function ensureS() {
+    S.coords = Object.assign({}, M.DEFAULT_SYS, S.coords || {});
+    for (const k of ["tilt", "clock", "lamk", "bk"]) if (S[k] === undefined) S[k] = null;
+    S.knotLocks = S.knotLocks || {};
+    for (const key of ["clock", "utility", "lamk", "bk"]) if (S[key]) ensureLocks(key);
+    if (S.clock && S.coords.labour === "task") S.coords.labour = "lam";
+  }
+  function sortKnots(key) {
+    const pairs = S[key].map((k, i) => [k, S.knotLocks[key][i]]).sort((a, b) => a[0][0] - b[0][0]);
+    S[key] = pairs.map((p) => p[0]); S.knotLocks[key] = pairs.map((p) => p[1]);
+  }
+  function loadPreset(p) {
+    S = clone(p.settings); P = clone(p.params); ensureS();
+    free = new Set(Object.keys(M.COORD).filter((n) => !(p.locked || []).includes(n) && !(S.pin && n === "chi_max")));
+    ref = { label: p.label, misfit: p.misfit, path: M.path(P, S, D) };
+    buildRail(); update();
+  }
+  function activeCoords() {
+    const sys = S.coords, out = ["T", sys.land === "TS" ? "hT" : "h", "rho", sys.machine === "kappa" ? "kappa50" : "a", "lam0"];
+    if (!S.lamk) out.push(sys.labour === "task" ? "g_lamTask" : "g_lam");
+    out.push("k");
+    if (!S.pin) out.push("chi_max");
+    if (!S.clock) out.push("g_eta");
+    return out;
+  }
+  function activeKnotKeys() {
+    return ["clock", "lamk", "bk", "utility"].filter((k) => S[k] && (k !== "utility" || S.sigma !== null));
+  }
+  function fitNames() {
+    const names = activeCoords().filter((n) => free.has(n));
+    for (const key of activeKnotKeys()) S[key].forEach((k, i) => {
+      if (i === 0) return;
+      const L = S.knotLocks[key][i];
+      if (!L.level) names.push(`${key}:${i}`);
+      if (!L.year) names.push(`${key}:${i}:y`);
+    });
+    return names;
+  }
+  function setCoord(name, val) {
+    const c = M.toCoords(P, D);
+    c[name] = val;
+    P = Object.assign({}, P, M.fromCoords(c, S.coords, D));
+  }
+  function settingsText() { return JSON.stringify({ settings: S, params: P, free: [...free] }, null, 1); }
+
+  // ---------------------------------------------------------------- rail
   function sliderPos(n, v) {
-    const [lo, hi] = M.BOUNDS[n];
-    return M.LOGP[n] ? 1000 * (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) : 1000 * (v - lo) / (hi - lo);
+    const [lo, hi, lg] = M.COORD[n];
+    return lg ? 1000 * (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) : 1000 * (v - lo) / (hi - lo);
   }
   function sliderVal(n, pos) {
-    const [lo, hi] = M.BOUNDS[n], f = pos / 1000;
-    return M.LOGP[n] ? Math.exp(Math.log(lo) + f * (Math.log(hi) - Math.log(lo))) : lo + f * (hi - lo);
+    const [lo, hi, lg] = M.COORD[n], f = pos / 1000;
+    return lg ? Math.exp(Math.log(lo) + f * (Math.log(hi) - Math.log(lo))) : lo + f * (hi - lo);
   }
-  function buildNums() {
-    const box = $("nums");
-    for (const [n, name, sym] of NUMS) {
-      const row = document.createElement("div");
-      row.className = "num"; row.id = "row-" + n;
-      row.innerHTML = `<span class="name">${name} <span class="sym">${sym}</span></span>
-        <input type="text" id="val-${n}" aria-label="${name}">
-        <button class="lock" id="lock-${n}" aria-pressed="false" title="Fixed numbers stay put when you fit">Free</button>
-        <input type="range" id="rng-${n}" min="0" max="1000" step="1" aria-label="${name}">`;
-      box.appendChild(row);
-      $("rng-" + n).addEventListener("input", (ev) => { P[n] = sliderVal(n, +ev.target.value); $("val-" + n).value = fmt(P[n]); schedule(); });
-      $("val-" + n).addEventListener("change", (ev) => {
-        const v = parseFloat(ev.target.value);
-        const [lo, hi] = M.BOUNDS[n];
-        if (isFinite(v)) P[n] = Math.min(Math.max(v, lo), hi);
-        syncControls(); schedule();
+  function dial(n, off, offWhy) {
+    const row = document.createElement("div");
+    row.className = "num" + (off ? " off" : "");
+    const c = M.toCoords(P, D);
+    const isFree = free.has(n);
+    row.innerHTML = `<span class="name">${LABEL[n][0]} <span class="sym">${LABEL[n][1]}</span>${off ? `<br><span class="hint">${offWhy}</span>` : ""}</span>
+      <input type="text" aria-label="${LABEL[n][0]}" value="${fmt(c[n])}" ${off ? "disabled" : ""}>
+      <button class="lock" aria-pressed="${!isFree}" ${off ? "disabled" : ""} title="Fixed numbers stay put when you fit">${isFree ? "Free" : "Fixed"}</button>
+      <input type="range" min="0" max="1000" step="1" aria-label="${LABEL[n][0]}" value="${sliderPos(n, c[n])}" ${off ? "disabled" : ""}>`;
+    const [txt, lock, rng] = [row.querySelector("input[type=text]"), row.querySelector(".lock"), row.querySelector("input[type=range]")];
+    rng.addEventListener("input", () => { setCoord(n, sliderVal(n, +rng.value)); txt.value = fmt(M.toCoords(P, D)[n]); schedule(); });
+    txt.addEventListener("change", () => {
+      const v = parseFloat(txt.value), [lo, hi] = M.COORD[n];
+      if (isFinite(v)) setCoord(n, Math.min(Math.max(v, lo), hi));
+      buildRail(); schedule();
+    });
+    lock.addEventListener("click", () => { if (free.has(n)) free.delete(n); else free.add(n); buildRail(); });
+    return row;
+  }
+  function segmented(opts, current, onPick, disabledOpt) {
+    const seg = document.createElement("span");
+    seg.className = "seg"; seg.setAttribute("role", "group");
+    for (const [id, label] of opts) {
+      const b = document.createElement("button");
+      b.textContent = label; b.setAttribute("aria-pressed", String(id === current));
+      if (disabledOpt && disabledOpt(id)) b.disabled = true;
+      b.addEventListener("click", () => onPick(id));
+      seg.appendChild(b);
+    }
+    return seg;
+  }
+  function groupBox(id, title) {
+    const box = $(id); box.innerHTML = "";
+    const h = document.createElement("h3"); h.textContent = title; box.appendChild(h);
+    return box;
+  }
+  function implied(box, id) { const d = document.createElement("div"); d.className = "implied"; d.id = id; box.appendChild(d); return d; }
+
+  function buildLinked(gid) {
+    const G = GROUPS[gid], box = groupBox("grp-" + gid, G.title);
+    const row = document.createElement("div");
+    row.className = "setas";
+    const lab = document.createElement("span"); lab.className = "hint"; lab.textContent = "Set it as";
+    row.appendChild(lab);
+    row.appendChild(segmented(G.opts, S.coords[G.key], (choice) => {
+      const old = G.coords[S.coords[G.key]], neu = G.coords[choice];
+      old.forEach((n, i) => { if (n !== neu[i]) { if (free.has(n)) free.add(neu[i]); else free.delete(neu[i]); } });
+      S.coords[G.key] = choice; buildRail(); update();
+    }, (id) => gid === "labour" && id === "task" && !!S.clock));
+    box.appendChild(row);
+    for (const n of G.coords[S.coords[G.key]]) {
+      const off = (n === "g_lam" || n === "g_lamTask") && !!S.lamk;
+      box.appendChild(dial(n, off, "set by the bendable path below"));
+    }
+    if (gid === "labour") box.appendChild(pathToggle("lamk", "Bendable over time (the hours per machine through points)", () =>
+      [1950, 1970, 1990, 2010, 2024].map((y) => [y, P.g_lam * (y - 1950)]), () => {
+        const last = S.lamk[S.lamk.length - 1]; P.g_lam = last[1] / Math.max(1, last[0] - 1950);
+      }));
+    implied(box, "imp-" + gid);
+  }
+  function pathToggle(key, label, make, onOff) {
+    const wrap = document.createElement("div");
+    wrap.style.display = "grid"; wrap.style.gap = "6px";
+    const row = document.createElement("div"); row.className = "switch";
+    const id = "sw-path-" + key;
+    row.innerHTML = `<input type="checkbox" id="${id}" ${S[key] ? "checked" : ""}><label for="${id}">${label}</label><span></span>`;
+    row.querySelector("input").addEventListener("change", (e) => {
+      if (e.target.checked) { S[key] = make(); ensureLocks(key); } else { if (onOff) onOff(); S[key] = null; }
+      buildRail(); update();
+    });
+    wrap.appendChild(row);
+    if (S[key]) wrap.appendChild(knotTable(key));
+    return wrap;
+  }
+  function knotTable(key) {
+    ensureLocks(key);
+    const box = document.createElement("div"); box.className = "knots";
+    const head = document.createElement("div"); head.className = "knot-head";
+    head.innerHTML = `<span>year</span><span>${key === "clock" ? "service" : key === "utility" ? "utility" : "× 1950"}</span><span>year is</span><span>level is</span><span></span>`;
+    box.appendChild(head);
+    S[key].forEach((k, i) => {
+      const L = S.knotLocks[key][i], first = i === 0;
+      const row = document.createElement("div"); row.className = "knot-row";
+      row.innerHTML = `<input type="text" aria-label="year" value="${(+k[0].toFixed(1))}" ${first ? "disabled" : ""}>
+        <input type="text" aria-label="${KNOT[key].what}" value="${fmt(KNOT[key].show(k[1]))}" ${first ? "disabled" : ""}>
+        <button class="kl" aria-pressed="${L.year}" ${first ? "disabled" : ""}>${L.year ? "fixed" : "free"}</button>
+        <button class="kl" aria-pressed="${L.level}" ${first ? "disabled" : ""}>${L.level ? "fixed" : "free"}</button>
+        <button aria-label="Remove this point" ${first || S[key].length <= 2 ? "disabled" : ""}>×</button>`;
+      const [yIn, vIn] = row.querySelectorAll("input"), [yB, lB, xB] = row.querySelectorAll("button");
+      yIn.addEventListener("change", () => {
+        let y = parseFloat(yIn.value);
+        if (isFinite(y)) { y = Math.min(Math.max(y, 1950.5), 2024); k[0] = y; sortKnots(key); }
+        buildRail(); schedule();
       });
-      $("lock-" + n).addEventListener("click", () => { if (free.has(n)) free.delete(n); else free.add(n); syncControls(); });
-    }
+      vIn.addEventListener("change", () => { const x = parseFloat(vIn.value); if (isFinite(x) && x > 0) k[1] = KNOT[key].read(x); buildRail(); schedule(); });
+      yB.addEventListener("click", () => { L.year = !L.year; buildRail(); });
+      lB.addEventListener("click", () => { L.level = !L.level; buildRail(); });
+      xB.addEventListener("click", () => { S[key].splice(i, 1); S.knotLocks[key].splice(i, 1); buildRail(); schedule(); });
+      box.appendChild(row);
+    });
+    const add = document.createElement("button");
+    add.textContent = "Add a point"; add.style.justifySelf = "start"; add.style.fontSize = "12px";
+    add.addEventListener("click", () => {
+      const ks = S[key];
+      let best = -1, gap = 0;
+      for (let i = 0; i < ks.length; i++) {
+        const next = i + 1 < ks.length ? ks[i + 1][0] : 2024;
+        if (next - ks[i][0] > gap) { gap = next - ks[i][0]; best = i; }
+      }
+      if (gap < 2) return;
+      const y = Math.round(ks[best][0] + gap / 2), xs = ks.map((q) => q[0]), ys = ks.map((q) => q[1]);
+      ks.push([y, M.interp(y, xs, ys)]); S.knotLocks[key].push(Object.assign({}, LOCK_DEFAULT[key]));
+      sortKnots(key); buildRail(); schedule();
+    });
+    box.appendChild(add);
+    return box;
   }
-  function syncControls() {
-    for (const [n] of NUMS) {
-      $("rng-" + n).value = sliderPos(n, P[n]);
-      $("val-" + n).value = fmt(P[n]);
-      const isFree = free.has(n);
-      $("lock-" + n).textContent = isFree ? "Free" : "Fixed";
-      $("lock-" + n).setAttribute("aria-pressed", String(!isFree));
-      const off = (n === "chi_max" && S.pin) || (n === "g_eta" && S.clock);
-      $("row-" + n).classList.toggle("off", !!off);
-      $("rng-" + n).disabled = !!off; $("val-" + n).disabled = !!off; $("lock-" + n).disabled = !!off;
+  function buildRail() {
+    for (const gid of Object.keys(GROUPS)) buildLinked(gid);
+    // land in a machine
+    let box = groupBox("grp-bk", "Land in a machine");
+    box.appendChild(pathToggle("bk", "Changes over time (what is being built: less land per machine, say)", () =>
+      [[1950, 0], [1990, 0], [2024, 0]]));
+    implied(box, "imp-bk");
+    // the clock
+    box = groupBox("grp-clock", "The capability clock");
+    const row = document.createElement("div"); row.className = "switch"; row.style.gridTemplateColumns = "minmax(0,1fr) auto";
+    const lab = document.createElement("span"); lab.className = "hint"; lab.textContent = "Its pace is";
+    row.appendChild(lab);
+    row.appendChild(segmented([["steady", "steady"], ["bend", "bendable"]], S.clock ? "bend" : "steady", (choice) => {
+      if (choice === "bend" && !S.clock) { S.clock = [1950, 1970, 1990, 2010, 2024].map((y) => [y, -P.g_eta * (y - 1950)]); ensureLocks("clock"); if (S.coords.labour === "task") S.coords.labour = "lam"; }
+      if (choice === "steady" && S.clock) { const last = S.clock[S.clock.length - 1]; P.g_eta = -last[1] / Math.max(1, last[0] - 1950); S.clock = null; }
+      buildRail(); update();
+    }));
+    box.appendChild(row);
+    if (S.clock) box.appendChild(knotTable("clock")); else box.appendChild(dial("g_eta"));
+    implied(box, "imp-clock");
+    // tasks and work
+    box = groupBox("grp-tasks", "Tasks and the cost of working");
+    box.appendChild(dial("k"));
+    box.appendChild(dial("chi_max", !!S.pin, "set by 1950's employment"));
+    implied(box, "imp-tasks");
+    // the basket
+    box = groupBox("grp-basket", "The basket");
+    const sw = document.createElement("div"); sw.className = "switch";
+    sw.innerHTML = `<input type="checkbox" id="sw-basket" ${S.sigma !== null ? "checked" : ""}><label for="sw-basket">Goods and land substitute, elasticity</label>
+      <input type="text" class="small-in" id="v-sigma" value="${fmt(S.sigma !== null ? S.sigma : DOC.set_values.sigma)}" aria-label="Elasticity">`;
+    sw.querySelector("#sw-basket").addEventListener("change", (e) => { S.sigma = e.target.checked ? parseFloat($("v-sigma").value) || DOC.set_values.sigma : null; buildRail(); update(); });
+    sw.querySelector("#v-sigma").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v >= 0) { if (S.sigma !== null) S.sigma = v; else DOC.set_values.sigma = v; } buildRail(); update(); });
+    box.appendChild(sw);
+    if (S.sigma !== null) {
+      const h = document.createElement("p"); h.className = "hint";
+      h.textContent = "The basket's utility, through points (set from the real wage over the CPI; free a level to let the fit move it):";
+      box.appendChild(h);
+      box.appendChild(knotTable("utility"));
+      const b = document.createElement("button"); b.textContent = "Back to the record's points"; b.style.justifySelf = "start"; b.style.fontSize = "12px";
+      b.addEventListener("click", () => { S.utility = clone(DOC.set_values.utility); S.knotLocks.utility = null; ensureLocks("utility"); buildRail(); update(); });
+      box.appendChild(b);
     }
+    syncSwitches();
+  }
+  function syncSwitches() {
     $("sw-cap").checked = S.cap !== null; $("v-cap").value = fmt(S.cap !== null ? S.cap : DOC.set_values.cap);
-    $("sw-basket").checked = S.sigma !== null; $("v-sigma").value = fmt(S.sigma !== null ? S.sigma : DOC.set_values.sigma);
     $("sw-pin").checked = !!S.pin;
-    $("sw-A").checked = S.shelterW !== null && S.shelterW !== undefined;
-    $("v-A").value = fmt(S.shelterW !== null && S.shelterW !== undefined ? S.shelterW : DOC.set_values.shelterW);
     const hasA = S.shelterW !== null && S.shelterW !== undefined;
+    $("sw-A").checked = hasA; $("v-A").value = fmt(hasA ? S.shelterW : DOC.set_values.shelterW);
     $("row-build").hidden = !hasA;
     $("bld-dur").setAttribute("aria-pressed", String(S.shelterBuild !== "wage")); $("bld-wage").setAttribute("aria-pressed", String(S.shelterBuild === "wage"));
     $("sw-tilt").checked = !!S.tilt;
-    $("v-tiltyear").value = S.tilt ? S.tilt[1][0] : 1995; $("v-tilt").value = S.tilt ? fmt(Math.exp(S.tilt[2][1])) : "0.6";
-    $("clk-steady").setAttribute("aria-pressed", String(!S.clock)); $("clk-bend").setAttribute("aria-pressed", String(!!S.clock));
-    $("clk-free-row").hidden = !S.clock; $("sw-clkfree").checked = S.clockFree !== false;
-    $("settings").value = currentSettingsText();
+    $("v-tiltyear").value = S.tilt ? (+S.tilt[1][0].toFixed(0)) : 1995; $("v-tilt").value = S.tilt ? fmt(Math.exp(S.tilt[2][1])) : "0.6";
+    $("settings").value = settingsText();
   }
-  function wireModel() {
-    $("sw-cap").addEventListener("change", (e) => { S.cap = e.target.checked ? parseFloat($("v-cap").value) || DOC.set_values.cap : null; syncControls(); schedule(); });
-    $("v-cap").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v <= 1) { S.cap = v; } syncControls(); schedule(); });
-    $("sw-basket").addEventListener("change", (e) => { S.sigma = e.target.checked ? parseFloat($("v-sigma").value) || DOC.set_values.sigma : null; syncControls(); schedule(); });
-    $("v-sigma").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v >= 0) { if (S.sigma !== null) S.sigma = v; else DOC.set_values.sigma = v; } syncControls(); schedule(); });
-    $("sw-pin").addEventListener("change", (e) => { S.pin = e.target.checked; if (S.pin) free.delete("chi_max"); else free.add("chi_max"); syncControls(); schedule(); });
-    $("sw-A").addEventListener("change", (e) => { S.shelterW = e.target.checked ? parseFloat($("v-A").value) || DOC.set_values.shelterW : null; syncControls(); schedule(); });
-    $("v-A").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v < 1) { if (S.shelterW !== null && S.shelterW !== undefined) S.shelterW = v; else DOC.set_values.shelterW = v; } syncControls(); schedule(); });
-    $("bld-dur").addEventListener("click", () => { S.shelterBuild = undefined; syncControls(); schedule(); });
-    $("bld-wage").addEventListener("click", () => { S.shelterBuild = "wage"; syncControls(); schedule(); });
+  function wireStatic() {
+    $("sw-cap").addEventListener("change", (e) => { S.cap = e.target.checked ? parseFloat($("v-cap").value) || DOC.set_values.cap : null; syncSwitches(); update(); });
+    $("v-cap").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v <= 1) S.cap = v; syncSwitches(); update(); });
+    $("sw-pin").addEventListener("change", (e) => { S.pin = e.target.checked; if (S.pin) free.delete("chi_max"); else free.add("chi_max"); buildRail(); update(); });
+    $("sw-A").addEventListener("change", (e) => { S.shelterW = e.target.checked ? parseFloat($("v-A").value) || DOC.set_values.shelterW : null; syncSwitches(); update(); });
+    $("v-A").addEventListener("change", (e) => { const v = parseFloat(e.target.value); if (isFinite(v) && v > 0 && v < 1) { if (S.shelterW !== null && S.shelterW !== undefined) S.shelterW = v; else DOC.set_values.shelterW = v; } syncSwitches(); update(); });
+    $("bld-dur").addEventListener("click", () => { S.shelterBuild = undefined; syncSwitches(); update(); });
+    $("bld-wage").addEventListener("click", () => { S.shelterBuild = "wage"; syncSwitches(); update(); });
     const setTilt = () => {
       const yr = Math.round(parseFloat($("v-tiltyear").value)), f = parseFloat($("v-tilt").value);
       S.tilt = $("sw-tilt").checked && yr > 1950 && yr < 2024 && f > 0 ? [[1950, 0], [yr, 0], [2024, Math.log(f)]] : null;
-      syncControls(); schedule();
+      syncSwitches(); update();
     };
     $("sw-tilt").addEventListener("change", setTilt); $("v-tiltyear").addEventListener("change", setTilt); $("v-tilt").addEventListener("change", setTilt);
-    $("clk-steady").addEventListener("click", () => {
-      if (S.clock) { const last = S.clock[S.clock.length - 1]; P.g_eta = -last[1] / (last[0] - 1950); }
-      S.clock = null; syncControls(); schedule();
-    });
-    $("clk-bend").addEventListener("click", () => {
-      if (!S.clock) S.clock = [1950, 1970, 1990, 2010, 2024].map((y) => [y, -P.g_eta * (y - 1950)]);
-      syncControls(); schedule();
-    });
-    $("sw-clkfree").addEventListener("change", (e) => { S.clockFree = e.target.checked; });
-    $("utilreset").addEventListener("click", () => { S.utility = clone(DOC.set_values.utility); syncControls(); schedule(); });
     $("apply").addEventListener("click", () => {
       try {
         const o = JSON.parse($("settings").value);
         S = Object.assign({ cap: null, sigma: null, pin: false, shelterW: null, clock: null, tilt: null, utility: clone(DOC.set_values.utility) }, o.settings);
-        P = Object.assign({}, P, o.params); free = new Set(o.free || M.NAMES);
-        status("Applied the settings text."); syncControls(); update();
+        P = Object.assign({}, P, o.params); free = new Set(o.free || Object.keys(M.COORD)); ensureS();
+        status("Applied the settings text."); buildRail(); update();
       } catch (err) { status("That text is not valid settings: " + err.message); }
     });
     $("copy").addEventListener("click", () => {
-      const text = currentSettingsText();
+      const text = settingsText();
       const done = () => status("Settings copied. Paste them to Claude to run them in the repository.");
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, () => fallbackCopy());
-      else fallbackCopy();
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallbackCopy); else fallbackCopy();
     });
     $("setref").addEventListener("click", () => {
       if (!cur || !cur.ok) { status("The model has no equilibrium as set; nothing to keep as the reference."); return; }
-      ref = { label: "your reference", misfit: M.misfit(cur, D).total, path: cur }; update(); status("This is now the reference.");
+      ref = { label: "your reference", misfit: curMis.total, path: cur }; update(); status("This is now the reference.");
     });
     $("fit").addEventListener("click", startFit);
-    $("stop").addEventListener("click", stopFit);
+    $("stop").addEventListener("click", () => stopFit(false));
     const sel = $("preset");
     DOC.presets.forEach((p, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${p.label} (${p.misfit.toFixed(1)})`; sel.appendChild(o); });
-    sel.addEventListener("change", () => { stopFit(); loadPreset(DOC.presets[+sel.value]); status("Loaded " + DOC.presets[+sel.value].label.toLowerCase() + "."); });
+    sel.addEventListener("change", () => { stopFit(true); loadPreset(DOC.presets[+sel.value]); status("Loaded " + DOC.presets[+sel.value].label.toLowerCase() + "."); });
+    for (const [id, v] of [["tab-record", "record"], ["tab-inside", "inside"], ["tab-sens", "sens"]]) {
+      $(id).addEventListener("click", () => {
+        view = v;
+        for (const [tid, tv] of [["tab-record", "record"], ["tab-inside", "inside"], ["tab-sens", "sens"]]) {
+          $(tid).setAttribute("aria-selected", String(tv === v)); $("view-" + tv).hidden = tv !== v;
+        }
+        update();
+      });
+    }
   }
   function fallbackCopy() {
-    const ta = $("settings"); ta.closest("details").open = true; ta.value = currentSettingsText(); ta.focus(); ta.select();
+    const ta = $("settings"); ta.closest("details").open = true; ta.value = settingsText(); ta.focus(); ta.select();
     status("Copying is blocked here: the settings are selected below, copy them by hand.");
   }
   function status(t) { $("status").textContent = t; }
 
-  // ---------- fitting in a worker
+  // ---------------------------------------------------------------- implied numbers, under each group
+  function impliedText() {
+    if (!cur || !cur.ok) { for (const id of ["land", "machine", "labour", "bk", "clock", "tasks"]) { const el = $("imp-" + id); if (el) el.textContent = "No equilibrium as set."; } return; }
+    const a = cur.an, L = NY - 1, c = M.toCoords(P, D), at = (y) => YEARS.indexOf(y);
+    const set = (id, lines) => { const el = $("imp-" + id); if (el) el.innerHTML = lines.map((l) => `<div>${l}</div>`).join(""); };
+    set("land", [S.coords.land === "TS" ? `So land in a basket <b>h = ${fmt(P.h)}</b>.` : `So a basket's land is <b>${fmt(c.hT)}</b> of the land per adult.`,
+                 `Homes hold <b>${pct(a.landHomes[0])}</b> of the land in 1950 and <b>${pct(a.landHomes[L])}</b> in 2024; machines the rest.`]);
+    set("machine", [S.coords.machine === "kappa" ? `So machine services per machine <b>a = ${fmt(P.a)}</b>.` : `So machine services are <b>${pct(c.kappa50)}</b> of a machine's cost in 1950.`,
+                    `A machine's cost, 1950 → 2024: services <b>${pct(a.kappaV[0])} → ${pct(a.kappaV[L])}</b>, labour <b>${pct(cur.theta_V[0])} → ${pct(cur.theta_V[L])}</b>, land <b>${pct(a.sigmaV[0])} → ${pct(a.sigmaV[L])}</b>.`,
+                    `The forward model's calibration measured 20%, 47% and 33% in 2023.`]);
+    const lamG = Math.log(a.lam[L] / a.lam[0]) / 74, etaG = Math.log(cur.eta[L] / cur.eta[0]) / 74;
+    set("labour", [`Hours per machine <b>${rate(lamG)}</b>; the hours behind a fixed task <b>${rate(lamG + etaG)}</b>.`,
+                   `Machine-making takes <b>${pct(a.hoursMachine[0])}</b> of all hours in 1950 and <b>${pct(a.hoursMachine[L])}</b> in 2024 (the forward model's calibration: 15% in 2023).`]);
+    set("bk", S.bk ? [`Land in a machine, 2024 against 1950: <b>× ${fmt(a.b[L] / a.b[0])}</b>.`] : [`The land in a machine is the unit of land (b = 0.4); land per adult and in a basket are counted in it.`]);
+    set("clock", [`By 2024 a task needs <b>${fmt(cur.eta[L])}</b> of the machine service it needed in 1950 (average ${rate(etaG)}).`]);
+    set("tasks", [`Machines do <b>${pct(1 - a.peopleTasks[0])}</b> of tasks in 1950, <b>${pct(1 - a.peopleTasks[at(1990)])}</b> in 1990 and <b>${pct(1 - a.peopleTasks[L])}</b> in 2024.`,
+                  S.pin ? `Spread of the cost of working, set by 1950's employment: <b>χ = ${fmt(cur.chi_max)}</b>.` : ""]);
+  }
+
+  // ---------------------------------------------------------------- fitting in a worker
   function startFit() {
     if (worker) return;
-    const names = [...free].filter((n) => !(n === "chi_max" && S.pin) && !(n === "g_eta" && S.clock));
-    if (S.clock && S.clockFree !== false) S.clock.forEach((k, i) => { if (i > 0) names.push("clock:" + i); });
-    if (S.tilt) names.push("tilt:2");
-    if (!names.length) { status("Every number is fixed: unlock at least one."); return; }
+    const names = fitNames();
+    if (!names.length) { status("Everything is fixed: free at least one number or point."); return; }
     const src = document.getElementById("model-src").textContent + `
       self.onmessage = (ev) => {
         const { par, S, D, free } = ev.data; let last = 0;
@@ -765,181 +1085,365 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
     worker.onmessage = (ev) => {
       const m = ev.data.step || ev.data.done;
-      P = Object.assign({}, P, m.par); if (S.clock && m.S.clock) S.clock = m.S.clock; if (S.tilt && m.S.tilt) S.tilt = m.S.tilt;
-      syncControls(); update();
-      status((ev.data.done ? "Fit done: " : "Fitting: ") + `misfit ${(m.misfit * 1).toFixed(3)}` + (ev.data.done ? ` after ${m.iters} steps.` : ` at step ${m.iter}.`));
-      if (ev.data.done) stopFit(true);
+      P = Object.assign({}, P, m.par);
+      for (const key of M.KNOT_KEYS) if (S[key] && m.S[key]) S[key] = m.S[key];
+      update();
+      status((ev.data.done ? "Fit done: " : "Fitting: ") + `misfit ${m.misfit.toFixed(3)}` + (ev.data.done ? ` after ${m.iters} steps.` : ` at step ${m.iter}.`));
+      if (ev.data.done) { stopFit(true); buildRail(); }
     };
     worker.onerror = (e) => { status("The fit stopped with an error: " + e.message); stopFit(true); };
     worker.postMessage({ par: P, S: S, D: D, free: names });
-    $("fit").hidden = true; $("stop").hidden = false; status("Fitting " + names.length + " numbers…");
+    $("fit").hidden = true; $("stop").hidden = false; status("Fitting " + names.length + " numbers and points…");
   }
   function stopFit(quiet) {
-    if (worker) { worker.terminate(); worker = null; }
+    if (worker) { worker.terminate(); worker = null; if (!quiet) { status("Fit stopped where it was."); buildRail(); } }
     $("fit").hidden = false; $("stop").hidden = true;
-    if (quiet !== true && quiet !== undefined) status("Fit stopped where it was.");
   }
 
-  // ---------- charts
+  // ---------------------------------------------------------------- charts: shared pieces
   const W = 400, H = 230, MG = { l: 46, r: 12, t: 8, b: 22 };
   const x = d3.scaleLinear().domain([1948, 2026]).range([MG.l, W - MG.r]);
-  const PANELS = [
-    { id: "wage_goods", title: "Real wage in durables, 1950 = 100", log: true, series: "wage_goods" },
-    { id: "wage_shelter", title: "Real wage in shelter, 1950 = 100", series: "wage_shelter" },
-    { id: "labour_share_c", title: "Labour's share of consumption", series: "labour_share_c", band: true },
-    { id: "prime_emp_rate", title: "Prime-age employment rate", series: "prime_emp_rate", cap: true },
-    { id: "theta_V", title: "Labour's share of a machine's build cost", series: "theta_V", dots: true },
-    { id: "clock", title: "Machine service needed per task, 1950 = 1", log: true, clock: true },
-    { id: "utility", title: "The basket's utility, 1950 = 1", utility: true },
-    { id: "basket", title: "One person's basket, 1950 = 1", log: true, basket: true }];
-  const NOTES = {
-    clock: "The capability clock. Bendable: drag its points.",
-    utility: "Blue: the production worker's real wage over the CPI, which sets the points. Drag them.",
-    basket: "Goods (solid) and land (dotted) in a basket, when the basket substitutes." };
   const cards = {};
-  function buildCharts() {
-    const box = $("charts");
-    for (const p of PANELS) {
-      const card = document.createElement("section");
-      card.className = "card";
-      card.innerHTML = `<div class="head"><h3>${p.title}</h3><span class="chip" id="chip-${p.id}"></span></div>
-        <svg viewBox="0 0 ${W} ${H}" id="svg-${p.id}" role="img" aria-label="${p.title}"></svg>` +
-        (NOTES[p.id] ? `<p class="note">${NOTES[p.id]}</p>` : "");
-      box.appendChild(card);
-      const svg = d3.select(card.querySelector("svg"));
-      svg.append("defs").append("clipPath").attr("id", "clip-" + p.id).append("rect")
-        .attr("x", MG.l).attr("y", MG.t).attr("width", W - MG.l - MG.r).attr("height", H - MG.t - MG.b);
-      const g = { svg, grid: svg.append("g").attr("class", "grid"), ax: svg.append("g").attr("class", "axis"),
-                  ay: svg.append("g").attr("class", "axis"), plot: svg.append("g").attr("clip-path", `url(#clip-${p.id})`),
-                  over: svg.append("g"), y: null, frozen: false };
-      g.ax.attr("transform", `translate(0,${H - MG.b})`).call(d3.axisBottom(x).tickValues([1960, 1980, 2000, 2020]).tickFormat(d3.format("d")).tickSizeOuter(0));
-      cards[p.id] = g;
-      if (p.utility || p.clock) {
-        svg.on("dblclick", (ev) => {
-          const [mx, my] = d3.pointer(ev);
-          const yr = Math.round(x.invert(mx));
-          if (yr <= 1950 || yr > 2024) return;
-          if (p.utility) { S.utility.push([yr, g.y.invert(my)]); S.utility.sort((a, b) => a[0] - b[0]); }
-          else if (S.clock) { S.clock.push([yr, Math.log(g.y.invert(my))]); S.clock.sort((a, b) => a[0] - b[0]); }
-          syncControls(); update();
-        });
-      }
-    }
+  function makeCard(parent, id, title, note, wide, height) {
+    const h = height || H;
+    const card = document.createElement("section");
+    card.className = "card" + (wide ? " wide" : "");
+    card.innerHTML = `<div class="head"><h3>${title}</h3><span class="chip" id="chip-${id}" hidden></span></div>
+      <svg viewBox="0 0 ${wide ? 820 : W} ${h}" id="svg-${id}" role="img" aria-label="${title}"></svg>` + (note ? `<p class="note">${note}</p>` : "");
+    parent.appendChild(card);
+    const svg = d3.select(card.querySelector("svg"));
+    const w = wide ? 820 : W;
+    svg.append("defs").append("clipPath").attr("id", "clip-" + id).append("rect")
+      .attr("x", MG.l).attr("y", MG.t).attr("width", w - MG.l - MG.r).attr("height", h - MG.t - MG.b);
+    const g = { svg, w, h, grid: svg.append("g").attr("class", "grid"), ax: svg.append("g").attr("class", "axis"),
+                ay: svg.append("g").attr("class", "axis"), plot: svg.append("g").attr("clip-path", `url(#clip-${id})`),
+                over: svg.append("g"), y: null, card };
+    cards[id] = g;
+    return g;
+  }
+  function yearAxis(g) {
+    g.ax.attr("transform", `translate(0,${g.h - MG.b})`).call(d3.axisBottom(x).tickValues([1960, 1980, 2000, 2020]).tickFormat(d3.format("d")).tickSizeOuter(0));
   }
   function extent(arrs, log) {
     let lo = Infinity, hi = -Infinity;
-    for (const a of arrs) if (a) for (const v of a) if (v !== null && isFinite(v) && (!log || v > 0)) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
+    for (const a of arrs) if (a) for (const v of a) if (v !== null && v !== undefined && isFinite(v) && (!log || v > 0)) { lo = Math.min(lo, v); hi = Math.max(hi, v); }
     if (!isFinite(lo)) return log ? [0.1, 10] : [0, 1];
     if (log) return [lo / 1.25, hi * 1.25];
     const pad = (hi - lo) * 0.08 || 0.05;
     return [lo - pad, hi + pad];
   }
-  const line = (ys) => d3.line().defined((d, i) => ys[i] !== null && isFinite(ys[i])).x((d, i) => x(YEARS[i])).y((d, i) => cards.__y(ys[i]))(ys);
-  function drawLine(g, ys, cls) {
+  function setY(g, dom, log) {
+    g.y = (log ? d3.scaleLog() : d3.scaleLinear()).domain(dom).range([g.h - MG.b, MG.t]);
+    if (!log) g.y.nice();
+    const ticks = log ? g.y.ticks(4).filter((t, i, a) => a.length < 7 || [1, 2, 5].includes(+t.toExponential(0).charAt(0))) : g.y.ticks(5);
+    g.ay.attr("transform", `translate(${MG.l},0)`).call(d3.axisLeft(g.y).tickValues(ticks).tickFormat(d3.format("~g")).tickSizeOuter(0));
+    g.grid.selectAll("line").data(ticks).join("line").attr("x1", MG.l).attr("x2", g.w - MG.r).attr("y1", (t) => g.y(t)).attr("y2", (t) => g.y(t));
+  }
+  function line(g, ys, cls, xs) {
     if (!ys) return;
-    cards.__y = g.y;
-    g.plot.append("path").attr("class", cls).attr("d", line(ys));
+    const X = xs || ((i) => x(YEARS[i]));
+    g.plot.append("path").attr("class", cls)
+      .attr("d", d3.line().defined((d, i) => ys[i] !== null && ys[i] !== undefined && isFinite(ys[i]) && (!g.logY || ys[i] > 0)).x((d, i) => X(i)).y((d, i) => g.y(ys[i]))(ys));
   }
   function chipFor(id, v) {
     const el = $("chip-" + id);
-    if (v === null || v === undefined) { el.textContent = ""; el.className = "chip"; el.hidden = true; return; }
+    if (v === null || v === undefined) { el.hidden = true; return; }
     el.hidden = false; el.textContent = "misfit " + v.toFixed(1);
     el.className = "chip " + (v < 2 ? "good" : v < 8 ? "fair" : "poor");
   }
-  function draw(m, by) {
-    const ok = m && m.ok;
-    const rp = ref && ref.path && ref.path.ok ? ref.path : null;
-    for (const p of PANELS) {
-      const g = cards[p.id];
-      g.plot.selectAll("*").remove(); g.over.selectAll("*").remove();
-      let dataY = null, modelY = null, refY = null, extra = [];
-      if (p.series) {
-        dataY = D[p.series]; modelY = ok ? m[p.series] : null; refY = rp ? rp[p.series] : null;
-      } else if (p.clock) {
-        modelY = ok ? m.eta : null; refY = rp ? rp.eta : null;
-      } else if (p.utility) {
-        dataY = D.real_wage_cpi; modelY = ok ? m.utility : M.utilityPath(S, D); refY = rp ? rp.utility : null;
-        extra = [S.utility.map((k) => k[1])];
-      } else if (p.basket) {
-        modelY = ok && S.sigma !== null ? m.goods_basket.map((v) => v / m.goods_basket[0]) : null;
-        extra = [ok && S.sigma !== null ? m.site_basket.map((v) => v / m.site_basket[0]) : null];
+  function clear(g) { g.plot.selectAll("*").remove(); g.over.selectAll("*").remove(); }
+
+  // ---------------------------------------------------------------- view 1: against the record
+  const REC = [
+    { id: "wage_goods", title: "Real wage in durables, 1950 = 100", log: true, series: "wage_goods" },
+    { id: "wage_shelter", title: "Real wage in shelter, 1950 = 100", series: "wage_shelter" },
+    { id: "labour_share_c", title: "Labour's share of consumption", series: "labour_share_c", band: true },
+    { id: "prime_emp_rate", title: "Prime-age employment rate", series: "prime_emp_rate", cap: true },
+    { id: "theta_V", title: "Labour's share of a machine's cost", series: "theta_V", dots: true },
+    { id: "clock", title: "Machine service a task needs, 1950 = 1", log: true, note: "The capability clock. Bendable: drag its points." },
+    { id: "machine", title: "What building a machine takes, 1950 = 1", log: true,
+      note: "Hours per machine (solid), hours behind a fixed task (dashed), land in a machine (green). Bendable paths: drag their points." },
+    { id: "utility", title: "The basket's utility, 1950 = 1", note: "Blue: the production worker's real wage over the CPI, which sets the points." },
+    { id: "basket", title: "One person's basket, 1950 = 1", log: true, note: "Goods (solid) and land (dashed), when the basket substitutes." }];
+  function buildRecord() {
+    const box = $("view-record");
+    for (const p of REC) {
+      const g = makeCard(box, p.id, p.title, p.note);
+      g.logY = !!p.log; yearAxis(g); g.p = p;
+      if (["clock", "utility", "machine"].includes(p.id)) {
+        g.svg.on("dblclick", (ev) => {
+          const [mx, my] = d3.pointer(ev), yr = Math.round(x.invert(mx));
+          if (yr <= 1950 || yr > 2024) return;
+          const key = p.id === "utility" ? "utility" : p.id === "clock" ? "clock" : (S.lamk ? "lamk" : S.bk ? "bk" : null);
+          if (!key || !S[key] || (key === "utility" && S.sigma === null)) return;
+          const v = g.y.invert(my);
+          S[key].push([yr, key === "utility" ? v : Math.log(v)]); S.knotLocks[key].push(Object.assign({}, LOCK_DEFAULT[key]));
+          sortKnots(key); buildRail(); update();
+        });
       }
-      if (!(dragging && g.frozen && g.y)) {
+    }
+  }
+  function drawRecord(m, by) {
+    const ok = m && m.ok, rp = ref && ref.path && ref.path.ok ? ref.path : null;
+    for (const p of REC) {
+      const g = cards[p.id]; clear(g);
+      let dataY = null, modelY = null, refY = null, extra = [];
+      if (p.series) { dataY = D[p.series]; modelY = ok ? m[p.series] : null; refY = rp ? rp[p.series] : null; }
+      else if (p.id === "clock") { modelY = ok ? m.eta : null; refY = rp ? rp.eta : null; }
+      else if (p.id === "utility") { dataY = D.real_wage_cpi; modelY = ok ? m.utility : M.utilityPath(S, D); refY = rp ? rp.utility : null; extra = [S.utility.map((k) => k[1])]; }
+      else if (p.id === "basket") { modelY = ok && S.sigma !== null ? m.goods_basket.map((v) => v / m.goods_basket[0]) : null; extra = [ok && S.sigma !== null ? m.site_basket.map((v) => v / m.site_basket[0]) : null]; }
+      else if (p.id === "machine" && ok) {
+        modelY = m.an.lam.map((v) => v / m.an.lam[0]);
+        extra = [m.an.lam.map((v, i) => v * m.eta[i] / m.an.lam[0]), m.an.b.map((v) => v / m.an.b[0])];
+      }
+      if (!(dragging && g.y)) {
         const dom = extent([dataY, refY, modelY, ...extra, p.cap && S.cap !== null ? [S.cap] : null, p.band ? D.ls_lo : null, p.band ? D.ls_hi : null], p.log);
         if (p.series === "prime_emp_rate") { dom[0] = Math.min(dom[0], 0.55); dom[1] = Math.max(dom[1], 0.85); }
-        g.y = (p.log ? d3.scaleLog() : d3.scaleLinear()).domain(dom).range([H - MG.b, MG.t]);
-        if (!p.log) g.y.nice();
+        if (p.id === "machine") { dom[0] = Math.min(dom[0], 0.2); dom[1] = Math.max(dom[1], 5); }
+        setY(g, dom, p.log);
       }
-      g.frozen = true;
-      const ticks = p.log ? g.y.ticks(4).filter((t, i, a) => a.length < 7 || [1, 2, 5].includes(+t.toExponential(0).charAt(0))) : g.y.ticks(5);
-      g.ay.attr("transform", `translate(${MG.l},0)`).call(d3.axisLeft(g.y).tickValues(ticks).tickFormat(p.log ? d3.format("~g") : d3.format("~g")).tickSizeOuter(0));
-      g.grid.selectAll("line").data(ticks).join("line").attr("x1", MG.l).attr("x2", W - MG.r).attr("y1", (t) => g.y(t)).attr("y2", (t) => g.y(t));
-      cards.__y = g.y;
-      if (p.band) {
-        const area = d3.area().defined((d, i) => D.ls_lo[i] !== null && D.ls_hi[i] !== null).x((d, i) => x(YEARS[i]))
-          .y0((d, i) => g.y(D.ls_lo[i])).y1((d, i) => g.y(D.ls_hi[i]));
-        g.plot.append("path").attr("class", "band").attr("d", area(YEARS));
-      }
+      if (p.band) g.plot.append("path").attr("class", "band").attr("d", d3.area().defined((d, i) => D.ls_lo[i] !== null && D.ls_hi[i] !== null)
+        .x((d, i) => x(YEARS[i])).y0((d, i) => g.y(D.ls_lo[i])).y1((d, i) => g.y(D.ls_hi[i]))(YEARS));
       if (p.dots) {
         const pts = YEARS.map((y, i) => [y, D.theta_V[i]]).filter((d) => d[1] !== null && d[0] <= 1992);
         g.plot.selectAll("circle.d").data(pts).join("circle").attr("class", "d-data").attr("r", 3.2).attr("cx", (d) => x(d[0])).attr("cy", (d) => g.y(d[1]));
-        drawLine(g, D.theta_V.map((v, i) => (YEARS[i] >= 1997 ? v : null)), "l-data");
-      } else if (dataY) drawLine(g, dataY, "l-data");
-      drawLine(g, refY, "l-ref");
-      drawLine(g, modelY, "l-model");
-      if (p.basket) {
-        drawLine(g, extra[0], "l-model");
-        g.plot.selectAll("path.l-model").filter((d, i) => i === 1).attr("stroke-dasharray", "1.5 3");
-      }
+        line(g, D.theta_V.map((v, i) => (YEARS[i] >= 1997 ? v : null)), "l-data");
+      } else if (dataY) line(g, dataY, "l-data");
+      line(g, refY, "l-ref");
+      line(g, modelY, "l-model");
+      if (p.id === "basket") line(g, extra[0], "l-model2");
+      if (p.id === "machine" && ok) { line(g, extra[0], "l-model2"); line(g, extra[1], "l-land"); }
       if (p.cap && S.cap !== null) drawCap(g);
-      if (p.utility) drawKnots(g, S.utility, (k) => k[1], (k, v) => { k[1] = v; }, false);
-      if (p.clock && S.clock) drawKnots(g, S.clock, (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); }, true);
+      if (p.id === "utility" && S.sigma !== null) drawKnots(g, "utility", (k) => k[1], (k, v) => { k[1] = v; });
+      if (p.id === "clock" && S.clock) drawKnots(g, "clock", (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); });
+      if (p.id === "machine" && ok) {
+        if (S.lamk) drawKnots(g, "lamk", (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); });
+        if (S.bk) drawKnots(g, "bk", (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); }, "land");
+      }
       chipFor(p.id, by && p.series ? by[p.series] : null);
     }
   }
   function drawCap(g) {
     const y = g.y(S.cap);
-    g.over.append("line").attr("class", "capline").attr("x1", MG.l).attr("x2", W - MG.r).attr("y1", y).attr("y2", y);
+    g.over.append("line").attr("class", "capline").attr("x1", MG.l).attr("x2", g.w - MG.r).attr("y1", y).attr("y2", y);
     g.over.append("text").attr("x", MG.l + 4).attr("y", y - 4).attr("fill", "var(--model)").attr("font-size", 10).attr("font-family", "var(--mono)").text("cap " + S.cap.toFixed(3));
-    const hit = g.over.append("line").attr("class", "caphit").attr("x1", MG.l).attr("x2", W - MG.r).attr("y1", y).attr("y2", y);
-    hit.call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev) => {
-      const v = Math.min(Math.max(g.y.invert(ev.y), 0.3), 1); S.cap = +v.toFixed(4); schedule();
-    }).on("end", () => { dragging = false; syncControls(); update(); }));
+    g.over.append("line").attr("class", "caphit").attr("x1", MG.l).attr("x2", g.w - MG.r).attr("y1", y).attr("y2", y)
+      .call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev) => { S.cap = +Math.min(Math.max(g.y.invert(ev.y), 0.3), 1).toFixed(4); schedule(); })
+        .on("end", () => { dragging = false; syncSwitches(); update(); }));
   }
-  function drawKnots(g, knots, getV, setV, isClock) {
-    const sel = g.over.selectAll("circle.knot").data(knots).join("circle")
-      .attr("class", (k, i) => "knot" + (i === 0 ? " fixed" : "")).attr("r", 6)
-      .attr("cx", (k) => x(k[0])).attr("cy", (k) => g.y(getV(k)));
+  function drawKnots(g, key, getV, setV, cls) {
+    ensureLocks(key);
+    const knots = S[key], locks = S.knotLocks[key];
+    const sel = g.over.selectAll(`circle.knot-${key}`).data(knots).join("circle")
+      .attr("class", (k, i) => `knot knot-${key}` + (cls ? " " + cls : "") + (i === 0 || (locks[i].year && locks[i].level) ? " fixed" : locks[i].year ? " half" : locks[i].level ? " halfx" : ""))
+      .attr("r", 6).attr("cx", (k) => x(k[0])).attr("cy", (k) => g.y(getV(k)));
     sel.filter((k, i) => i > 0).call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev, k) => {
-      const i = knots.indexOf(k);
-      const prev = knots[i - 1][0] + 1, next = i < knots.length - 1 ? knots[i + 1][0] - 1 : 2024;
-      k[0] = Math.min(Math.max(Math.round(x.invert(ev.x)), prev), next);
-      const [d0, d1] = g.y.domain();
-      setV(k, Math.min(Math.max(g.y.invert(ev.y), Math.min(d0, d1)), Math.max(d0, d1)));
+      const i = knots.indexOf(k), L = locks[i];
+      if (!L.year) {
+        const prev = knots[i - 1][0] + 0.5, next = i < knots.length - 1 ? knots[i + 1][0] - 0.5 : 2024;
+        k[0] = Math.min(Math.max(Math.round(x.invert(ev.x)), prev), next);
+      }
+      if (!L.level) { const [d0, d1] = g.y.domain(); setV(k, Math.min(Math.max(g.y.invert(ev.y), Math.min(d0, d1)), Math.max(d0, d1))); }
       schedule();
-    }).on("end", () => { dragging = false; syncControls(); update(); }));
+    }).on("end", () => { dragging = false; buildRail(); update(); }));
     sel.filter((k, i) => i > 0).on("dblclick", (ev, k) => {
       ev.stopPropagation();
       if (knots.length <= 2) return;
-      knots.splice(knots.indexOf(k), 1); syncControls(); update();
+      const i = knots.indexOf(k); knots.splice(i, 1); locks.splice(i, 1); buildRail(); update();
     });
   }
 
-  // ---------- solving
-  let pending = false;
+  // ---------------------------------------------------------------- view 2: inside the model
+  let taskYear = 1990, playing = null;
+  function buildInside() {
+    const box = $("view-inside");
+    const tl = makeCard(box, "task", "The task line", "Every task, from easiest for a machine (left) to hardest (right). Orange: what doing the task by machine costs; " +
+      "blue: the wage. Machines take every task left of where they cross. Grey: 1950. In land-rent units, log scale.", true, 300);
+    const bar = document.createElement("div"); bar.className = "yearbar";
+    bar.innerHTML = `<span class="yr" id="task-year"></span><input type="range" id="task-slider" min="1950" max="2024" step="1" aria-label="Year">
+      <button id="task-play">Play</button><span class="hint" id="task-read"></span>`;
+    tl.card.insertBefore(bar, tl.card.querySelector("svg"));
+    $("task-slider").value = taskYear;
+    $("task-slider").addEventListener("input", (e) => { taskYear = +e.target.value; drawInside(cur); });
+    $("task-play").addEventListener("click", () => {
+      if (playing) { cancelAnimationFrame(playing); playing = null; $("task-play").textContent = "Play"; return; }
+      if (taskYear >= 2024) taskYear = 1950;
+      $("task-play").textContent = "Pause";
+      let lastT = 0;
+      const step = (t) => {
+        if (t - lastT > 70) { lastT = t; taskYear += 1; $("task-slider").value = taskYear; drawInside(cur); }
+        if (taskYear >= 2024) { playing = null; $("task-play").textContent = "Play"; return; }
+        playing = requestAnimationFrame(step);
+      };
+      playing = requestAnimationFrame(step);
+    });
+    for (const [id, title, note] of [
+      ["st-machine", "A machine's cost, in shares", "Labour, land and machine services. Blue: the record's labour share of machine cost. Black ticks: the forward model's 2023 measure."],
+      ["st-land", "Where the land is", "Homes (green) and machines (slate), as shares of all land."],
+      ["st-hours", "Where the hours go", "Final tasks (orange) and machine-making (slate). Black tick: the forward model's 2023 measure of machine-making."],
+      ["st-basket", "A basket's cost, in shares", "Land (green) and goods (slate). Blue: housing's share of consumer spending (buildings included)."],
+      ["ls-parts", "Labour's share, taken apart (1950 = 1, log)", "Wage in goods (solid) × share of tasks people do (dashed) × goods' share of the basket (dotted) = the model's labour share (orange, thick). Blue: the record's."],
+      ["ls-level", "Labour's share of consumption", "The model's against the record's."]]) {
+      const g = makeCard(box, id, title, note);
+      yearAxis(g);
+    }
+  }
+  function drawStack(g, layers, overlay) {
+    clear(g); setY(g, [0, 1], false);
+    let base = new Array(NY).fill(0);
+    for (const L of layers) {
+      const top = base.map((b, i) => b + L.vals[i]);
+      const b0 = base.slice();
+      g.plot.append("path").attr("class", L.cls).attr("d", d3.area().x((d, i) => x(YEARS[i])).y0((d, i) => g.y(b0[i])).y1((d, i) => g.y(top[i]))(YEARS));
+      const mid = (b0[NY - 1] + top[NY - 1]) / 2;
+      if (top[NY - 1] - b0[NY - 1] > 0.06) g.over.append("text").attr("class", "stack-label").attr("x", x(2024) - 4).attr("y", g.y(mid) + 3.5)
+        .attr("text-anchor", "end").text(`${L.label} ${pct(L.vals[NY - 1])}`);
+      const mid0 = (b0[0] + top[0]) / 2;
+      if (top[0] - b0[0] > 0.06) g.over.append("text").attr("class", "stack-label").attr("x", x(1950) + 4).attr("y", g.y(mid0) + 3.5).text(pct(L.vals[0]));
+      base = top;
+    }
+    if (overlay) overlay(g);
+  }
+  function marker(g, year, value, label) {
+    const X = x(year), Y = g.y(value);
+    g.over.append("line").attr("class", "marker").attr("x1", X - 7).attr("x2", X + 7).attr("y1", Y).attr("y2", Y);
+    if (label) g.over.append("text").attr("class", "marker-label").attr("x", X - 9).attr("y", Y - 4).attr("text-anchor", "end").text(label);
+  }
+  function drawInside(m) {
+    if (!m || !m.ok) { for (const id of ["task", "st-machine", "st-land", "st-hours", "st-basket", "ls-parts", "ls-level"]) clear(cards[id]); $("task-read").textContent = "No equilibrium as set."; return; }
+    const a = m.an, i = YEARS.indexOf(taskYear);
+    // the task line
+    const g = cards.task; clear(g);
+    const xs = d3.scaleLinear().domain([0, 1]).range([MG.l, g.w - MG.r]);
+    g.ax.attr("transform", `translate(0,${g.h - MG.b})`).call(d3.axisBottom(xs).ticks(5).tickFormat(d3.format(".0%")).tickSizeOuter(0));
+    const grid = d3.range(0, 201).map((j) => j / 200);
+    const cost = (yi, xx) => m.eta[yi] * (M.SET.g0 + M.SET.g1 * Math.pow(xx, m.k)) * a.pm[yi];
+    let lo = Infinity, hi = -Infinity;
+    for (let yi = 0; yi < NY; yi++) { lo = Math.min(lo, cost(yi, 0), m.v[yi]); hi = Math.max(hi, cost(yi, 1), m.v[yi]); }
+    g.y = d3.scaleLog().domain([lo / 1.5, hi * 1.5]).range([g.h - MG.b, MG.t]);
+    g.ay.attr("transform", `translate(${MG.l},0)`).call(d3.axisLeft(g.y).ticks(5, "~g").tickSizeOuter(0));
+    g.grid.selectAll("line").remove();
+    const xStar = m.x[i];
+    g.plot.append("rect").attr("class", "taskshade").attr("x", xs(0)).attr("y", MG.t).attr("width", xs(xStar) - xs(0)).attr("height", g.h - MG.t - MG.b);
+    const curve = (yi, cls) => g.plot.append("path").attr("class", cls).attr("d", d3.line().x((xx) => xs(xx)).y((xx) => g.y(cost(yi, xx)))(grid));
+    curve(0, "l-ref");
+    g.plot.append("line").attr("class", "l-ref").attr("x1", xs(0)).attr("x2", xs(1)).attr("y1", g.y(m.v[0])).attr("y2", g.y(m.v[0]));
+    curve(i, "l-model");
+    g.plot.append("line").attr("class", "l-data").attr("x1", xs(0)).attr("x2", xs(1)).attr("y1", g.y(m.v[i])).attr("y2", g.y(m.v[i]));
+    g.over.append("circle").attr("r", 5).attr("cx", xs(xStar)).attr("cy", g.y(m.v[i])).attr("fill", "var(--ink)");
+    g.over.append("text").attr("class", "marker-label").attr("x", xs(xStar / 2)).attr("y", MG.t + 14).attr("text-anchor", "middle").text("machines do these");
+    g.over.append("text").attr("class", "marker-label").attr("x", xs((1 + xStar) / 2)).attr("y", MG.t + 14).attr("text-anchor", "middle").text("people do these");
+    if (a.xCeil[i] !== null && a.xCeil[i] < 1) g.over.append("line").attr("class", "marker").attr("x1", xs(a.xCeil[i])).attr("x2", xs(a.xCeil[i])).attr("y1", MG.t).attr("y2", g.h - MG.b);
+    $("task-year").textContent = taskYear;
+    $("task-read").textContent = `Machines do ${pct(xStar)} of tasks; the wage is ${fmt(m.v[i])} land-rents an hour, ${fmt(m.v[i] / m.v[0])} times 1950's.`;
+    // stacks
+    drawStack(cards["st-machine"], [{ vals: m.theta_V, cls: "stack-labour", label: "labour" }, { vals: a.sigmaV, cls: "stack-land", label: "land" },
+                                    { vals: a.kappaV, cls: "stack-mach", label: "services" }], (gg) => {
+      gg.plot.selectAll("circle.d").data(YEARS.map((y, j) => [y, D.theta_V[j]]).filter((d) => d[1] !== null)).join("circle")
+        .attr("class", "d-data").attr("r", 2.6).attr("cx", (d) => x(d[0])).attr("cy", (d) => gg.y(d[1]));
+      marker(gg, 2023, 0.47, ""); marker(gg, 2023, 0.80, "2023");
+    });
+    drawStack(cards["st-land"], [{ vals: a.landHomes, cls: "stack-land", label: "homes" }, { vals: a.landMachines, cls: "stack-mach", label: "machines" }]);
+    drawStack(cards["st-hours"], [{ vals: a.hoursFinal, cls: "stack-labour", label: "final tasks" }, { vals: a.hoursMachine, cls: "stack-mach", label: "machine-making" }],
+      (gg) => marker(gg, 2023, 1 - 0.151, "2023"));
+    drawStack(cards["st-basket"], [{ vals: a.siteShare, cls: "stack-land", label: "land" }, { vals: a.goodsShare, cls: "stack-mach", label: "goods" }],
+      (gg) => line(gg, D.housing_share_pce, "l-data"));
+    // labour's share apart
+    const gp = cards["ls-parts"]; clear(gp);
+    const idx = (arr) => arr.map((v) => v / arr[0]);
+    const f1 = idx(a.wageGoodsLevel), f2 = idx(a.peopleTasks), f3 = idx(a.goodsShare), prod = idx(m.labour_share_c);
+    const rec = D.labour_share_c.map((v) => v / D.labour_share_c[0]);
+    gp.logY = true; setY(gp, extent([f1, f2, f3, prod, rec], true), true);
+    line(gp, rec, "l-data"); line(gp, f1, "l-model"); line(gp, f2, "l-model2");
+    gp.plot.append("path").attr("fill", "none").attr("stroke", "var(--model)").attr("stroke-width", 1.4).attr("stroke-dasharray", "1.5 2.5")
+      .attr("d", d3.line().x((d, j) => x(YEARS[j])).y((d, j) => gp.y(f3[j]))(f3));
+    gp.plot.append("path").attr("fill", "none").attr("stroke", "var(--model)").attr("stroke-width", 3.2).attr("opacity", 0.55)
+      .attr("d", d3.line().x((d, j) => x(YEARS[j])).y((d, j) => gp.y(prod[j]))(prod));
+    const gl = cards["ls-level"]; clear(gl);
+    setY(gl, extent([D.labour_share_c, m.labour_share_c, D.ls_lo, D.ls_hi], false), false);
+    gl.plot.append("path").attr("class", "band").attr("d", d3.area().defined((d, j) => D.ls_lo[j] !== null).x((d, j) => x(YEARS[j])).y0((d, j) => gl.y(D.ls_lo[j])).y1((d, j) => gl.y(D.ls_hi[j]))(YEARS));
+    line(gl, D.labour_share_c, "l-data"); line(gl, m.labour_share_c, "l-model");
+  }
+
+  // ---------------------------------------------------------------- view 3: sensitivities
+  function sensItems() {
+    const items = [];
+    for (const n of activeCoords()) {
+      const [lo, hi, lg] = M.COORD[n];
+      items.push({ label: LABEL[n][0], sym: LABEL[n][1], step: lg || n === "kappa50" ? "×÷ 1.05" : "± 0.005",
+        apply: (sgn) => {
+          const c = M.toCoords(P, D);
+          const v = lg || n === "kappa50" ? c[n] * Math.pow(1.05, sgn) : c[n] + 0.005 * sgn;
+          if (v < lo || v > hi) return null;
+          c[n] = v; return { par: Object.assign({}, P, M.fromCoords(c, S.coords, D)), S };
+        } });
+    }
+    if (S.cap !== null) items.push({ label: "Cap on employment", sym: "cap", step: "± 0.005", apply: (sgn) => ({ par: P, S: Object.assign({}, S, { cap: S.cap + 0.005 * sgn }) }) });
+    if (S.sigma !== null) items.push({ label: "Basket elasticity", sym: "σ", step: "± 0.05", apply: (sgn) => (S.sigma + 0.05 * sgn < 0 ? null : { par: P, S: Object.assign({}, S, { sigma: S.sigma + 0.05 * sgn }) }) });
+    if (S.shelterW !== null && S.shelterW !== undefined) items.push({ label: "Site share of shelter", sym: "w", step: "± 0.02", apply: (sgn) => ({ par: P, S: Object.assign({}, S, { shelterW: S.shelterW + 0.02 * sgn }) }) });
+    for (const key of activeKnotKeys()) S[key].forEach((k, i) => {
+      if (i === 0) return;
+      const nm = { clock: "Clock point", utility: "Utility point", lamk: "Hours-per-machine point", bk: "Land-in-a-machine point" }[key];
+      items.push({ label: `${nm} ${(+k[0].toFixed(0))}, level`, sym: "", step: key === "utility" ? "×÷ 1.05" : "± 0.05 (log)", apply: (sgn) => {
+        const S2 = clone(S); S2[key][i][1] = key === "utility" ? k[1] * Math.pow(1.05, sgn) : k[1] + 0.05 * sgn; return { par: P, S: S2 }; } });
+      items.push({ label: `${nm} ${(+k[0].toFixed(0))}, year`, sym: "", step: "± 1 year", apply: (sgn) => {
+        const y = k[0] + sgn, prev = S[key][i - 1][0], next = i + 1 < S[key].length ? S[key][i + 1][0] : 2024.5;
+        if (y <= prev || y >= next) return null;
+        const S2 = clone(S); S2[key][i][0] = y; return { par: P, S: S2 }; } });
+    });
+    return items;
+  }
+  function drawSens() {
+    const tbl = $("sens-table");
+    if (!cur || !cur.ok) { tbl.innerHTML = "<tr><td>No equilibrium as set.</td></tr>"; $("sens-base").hidden = true; return; }
+    const base = curMis.by;
+    $("sens-base").hidden = false; $("sens-base").textContent = "misfit now " + curMis.total.toFixed(2);
+    const rows = [];
+    for (const it of sensItems()) {
+      const side = (sgn) => {
+        const t = it.apply(sgn);
+        if (!t) return { bound: true };
+        const m = M.path(t.par, t.S, D);
+        if (!m.ok) return { broke: true };
+        const mf = M.misfit(m, D);
+        const ch = SERIES.map((s) => (mf.by[s] - base[s]) / base[s]);
+        return { ch, n: ch.filter((c) => Math.abs(c) > 0.05).length, sum: SERIES.reduce((acc, s) => acc + mf.by[s] - base[s], 0) };
+      };
+      rows.push({ it, lo: side(-1), hi: side(1) });
+    }
+    const cells = (r) => r.bound ? `<span class="hint">at its limit</span>` : r.broke ? `<span class="chip poor">no equilibrium</span>`
+      : `<span class="cells">${r.ch.map((c, j) => `<span title="${SERIES[j]}: ${(100 * c).toFixed(1)}%" style="${Math.abs(c) > 0.05 ? `background:var(${c > 0 ? "--worse" : "--better"});opacity:${Math.min(1, 0.35 + Math.abs(c))}` : ""}"></span>`).join("")}</span>`;
+    const num = (r) => r.bound || r.broke ? "" : `${r.n} · ${(r.sum >= 0 ? "+" : "") + r.sum.toFixed(2)}`;
+    const flag = (row) => {
+      if (row.lo.broke || row.hi.broke) return `<span class="chip poor">near an edge</span>`;
+      const all = [].concat(row.lo.ch || [], row.hi.ch || []).map(Math.abs);
+      if (all.length && Math.max(...all) < 0.01) return `<span class="chip">barely matters</span>`;
+      return "";
+    };
+    tbl.innerHTML = `<thead><tr><th>Number</th><th>Step</th><th>Down: moved · Σ</th><th>Down, by series</th><th>Up: moved · Σ</th><th>Up, by series</th><th></th></tr></thead><tbody>` +
+      rows.map((row) => `<tr><td>${row.it.label} <span class="sym">${row.it.sym}</span></td><td class="tnum">${row.it.step}</td>
+        <td class="tnum">${num(row.lo)}</td><td>${cells(row.lo)}</td><td class="tnum">${num(row.hi)}</td><td>${cells(row.hi)}</td><td>${flag(row)}</td></tr>`).join("") +
+      `</tbody>`;
+  }
+
+  // ---------------------------------------------------------------- solving and drawing
+  let pending = false, sensTimer = null;
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; update(); }); } }
   function update() {
     cur = M.path(P, S, D);
-    const mf = cur.ok ? M.misfit(cur, D) : null;
-    $("misfit").textContent = mf ? mf.total.toFixed(2) : "–";
+    curMis = cur.ok ? M.misfit(cur, D) : null;
+    $("misfit").textContent = curMis ? curMis.total.toFixed(2) : "–";
     $("refmisfit").textContent = ref ? ref.misfit.toFixed(2) : "–";
     const chip = $("solved");
     chip.textContent = cur.ok ? "every year solved" : cur.why; chip.className = "chip " + (cur.ok ? "good" : "poor");
-    draw(cur, mf ? mf.by : null);
-    if (!dragging) $("settings").value = currentSettingsText();
+    impliedText();
+    if (view === "record") drawRecord(cur, curMis ? curMis.by : null);
+    if (view === "inside") drawInside(cur);
+    if (view === "sens") { clearTimeout(sensTimer); sensTimer = setTimeout(drawSens, dragging ? 400 : 60); }
+    if (!dragging) $("settings").value = settingsText();
   }
 
-  buildNums(); buildCharts(); wireModel();
+  wireStatic(); buildRecord(); buildInside();
   loadPreset(DOC.presets[0]);
 })();
 </script>

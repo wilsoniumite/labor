@@ -187,12 +187,13 @@
     // Optional paths, off unless set (the page does not set them; the playground does): land, the cost of working and the
     // machine chain's labour through knots, and the required return following the measured real rate.
     const land = knotMul(S.land, D), chi = knotMul(S.chi, D), lamk = knotMul(S.lamk, D), tilt = knotMul(S.tilt, D);
+    const bk = knotMul(S.bk, D);                // land in a machine through knots (1950 = the unit b)
     const out = [];
     for (let i = 0; i < D.years.length; i++) {
       const t = D.years[i] - 1950;
       const lam = lamk ? par.lam0 * lamk[i] : par.lam0 * Math.exp(par.g_lam * t);
       const rho = S.rhoData ? par.rho + S.rhoData * D.real_rate[i] : par.rho;
-      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b, lam,
+      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b * (bk ? bk[i] : 1), lam,
                   g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max * (chi ? chi[i] : 1), rho,
                   delta: D.delta[i], cap: S.cap === null || S.cap === undefined ? 1 : S.cap, sigma: null };
       if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; if (tilt) e.tilt = tilt[i]; }
@@ -265,6 +266,8 @@
     const es = economies(par, S, D, pRef);
     const cols = { x: [], v: [], p: [], Ps: [], wg: [], ws: [], labour_share_c: [], prime_emp_rate: [], theta_V: [],
                    goods_basket: [], site_basket: [], eta: [], utility: [] };
+    const an = { pm: [], kappaV: [], sigmaV: [], landHomes: [], landMachines: [], hoursFinal: [], hoursMachine: [],
+                 goodsShare: [], siteShare: [], wageGoodsLevel: [], peopleTasks: [], lam: [], b: [], xCeil: [] };
     for (let i = 0; i < es.length; i++) {
       let q;
       try { q = solve(es[i]); } catch (err) { return { ok: false, why: "no equilibrium in " + D.years[i], year: D.years[i] }; }
@@ -275,7 +278,17 @@
       cols.prime_emp_rate.push(q.participation);
       cols.theta_V.push(q.theta_V); cols.goods_basket.push(q.gb); cols.site_basket.push(q.sb);
       cols.eta.push(es[i].eta); cols.utility.push(es[i].utility === undefined ? 1 : es[i].utility);
+      const e = es[i];
+      an.pm.push(q.pm); an.kappaV.push(e.a * q.pm / q.Vm); an.sigmaV.push(e.b / q.Vm);
+      an.lam.push(e.thetaV !== undefined ? e.thetaV / (q.gamma * (e.rho + e.delta)) : e.lam); an.b.push(e.b);
+      an.landHomes.push(q.sb * q.B / e.T); an.landMachines.push(e.b * e.delta * q.K / e.T);
+      an.hoursFinal.push(q.final / q.n); an.hoursMachine.push(q.mh / q.n);
+      an.goodsShare.push(q.p * q.gb / q.Ps); an.siteShare.push(q.sb / q.Ps);
+      an.wageGoodsLevel.push(q.v / q.p); an.peopleTasks.push(1 - q.x);
+      let xc = null; try { xc = xCeiling(e); } catch (err) { xc = null; }
+      an.xCeil.push(xc);
     }
+    cols.an = an;
     if (S.shelterW !== null && S.shelterW !== undefined) {      // addition A: shelter is building and site
       const w = S.shelterW, pl = cols.p[cols.p.length - 1], vl = cols.v[cols.v.length - 1];
       cols.ws = S.shelterBuild === "wage"                         // the building priced like construction: at the wage
@@ -337,34 +350,70 @@
     return out;
   }
 
+  // ---------------------------------------------------------------- coordinates (her ask, 2026-11-06)
+  // Some numbers come in linked groups, and each group can be set in more than one way: land as (T, h) or as T and a
+  // basket's land over land per adult (hT = h / T); machine services as a or as their share of a machine's cost in 1950
+  // (kappa50 = (rho + delta_1950) a, so a follows the return); the hours to build a machine growing per machine (g_lam) or per
+  // fixed task (g_lamTask = g_lam - g_eta). The dials and the fitter work in the chosen ones; the others follow.
+  // COORD: [low, high, searched in logs]
+  const COORD = { T: [1e-5, 10, true], h: [1e-6, 1, true], hT: [1e-4, 100, true], a: [0.01, 10, true],
+                  kappa50: [0.001, 0.99, false], rho: [0, 0.3, false], k: [0.05, 60, true], chi_max: [0.3, 20, true],
+                  g_eta: [-0.05, 0.25, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.1, false],
+                  g_lamTask: [-0.35, 0.2, false] };
+  const DEFAULT_SYS = { land: "Th", machine: "a", labour: "lam" };
+  function toCoords(par, D) {
+    return { T: par.T, h: par.h, hT: par.h / par.T, a: par.a, kappa50: (par.rho + D.delta[0]) * par.a, rho: par.rho,
+             k: par.k, chi_max: par.chi_max, g_eta: par.g_eta, lam0: par.lam0, g_lam: par.g_lam,
+             g_lamTask: par.g_lam - par.g_eta };
+  }
+  function fromCoords(c, sys, D) {
+    sys = Object.assign({}, DEFAULT_SYS, sys || {});
+    return { T: c.T, h: sys.land === "TS" ? c.hT * c.T : c.h,
+             a: sys.machine === "kappa" ? c.kappa50 / (c.rho + D.delta[0]) : c.a, rho: c.rho, k: c.k, chi_max: c.chi_max,
+             g_eta: c.g_eta, lam0: c.lam0, g_lam: sys.labour === "task" ? c.g_lamTask + c.g_eta : c.g_lam };
+  }
+  const KNOT_KEYS = ["clock", "land", "chi", "lamk", "tilt", "bk", "utility"];
+
   // ---------------------------------------------------------------- a small fitter (Levenberg-Marquardt, in bounds)
   // free: names from NAMES (not chi_max when pinned), plus "clock:<i>" for the knots of a bent clock (log eta at knot i).
+  // free: coordinate names (COORD), and knots of a path in S: "key:i" its level, "key:i:y" its year (utility levels are
+  // levels, searched in logs; every other path's levels are logs already).
   function fit(par0, S0, D, free, opts) {
     opts = opts || {};
     const N_OBS = nObs(D);
     const maxIter = opts.maxIter || 300;
     const onStep = opts.onStep || (() => {});
-    const toU = (name, val) => (LOGP[name] ? Math.log(val) : val);
-    const fromU = (name, u) => (LOGP[name] ? Math.exp(u) : u);
-    const knot = (n) => n.indexOf(":") > 0;      // "clock:2", "land:1", ...: a knot's log value in a path of S
-    const lo = free.map((n) => (knot(n) ? (n.startsWith("clock:") ? -25 : -6) : toU(n, BOUNDS[n][0])));
-    const hi = free.map((n) => (knot(n) ? (n.startsWith("clock:") ? 5 : 6) : toU(n, BOUNDS[n][1])));
+    const sys = Object.assign({}, DEFAULT_SYS, S0.coords || {});
+    const c0 = toCoords(par0, D);
+    const isKnot = (n) => n.indexOf(":") > 0;
+    const parse = (n) => { const q = n.split(":"); return { key: q[0], i: +q[1], year: q[2] === "y" }; };
+    const getK = (S, n) => { const k = parse(n), kn = S[k.key][k.i]; return k.year ? kn[0] : (k.key === "utility" ? Math.log(kn[1]) : kn[1]); };
+    const putK = (S, n, v) => { const k = parse(n), kn = S[k.key][k.i]; if (k.year) kn[0] = v; else kn[1] = k.key === "utility" ? Math.exp(v) : v; };
+    const bounds = free.map((n) => {
+      if (!isKnot(n)) { const b = COORD[n]; return b[2] ? [Math.log(b[0]), Math.log(b[1])] : [b[0], b[1]]; }
+      const k = parse(n);
+      if (!k.year) return k.key === "clock" ? [-25, 5] : (k.key === "utility" ? [Math.log(0.2), Math.log(5)] : [-6, 6]);
+      const arr = S0[k.key], here = arr[k.i][0], prev = arr[k.i - 1][0], last = k.i === arr.length - 1;
+      const lo = free.includes(`${k.key}:${k.i - 1}:y`) ? (prev + here) / 2 : prev + 0.5;
+      const hi = last ? 2024 : (free.includes(`${k.key}:${k.i + 1}:y`) ? (arr[k.i + 1][0] + here) / 2 : arr[k.i + 1][0] - 0.5);
+      return [lo, hi];
+    });
+    const lo = bounds.map((b) => b[0]), hi = bounds.map((b) => b[1]);
+    const toU = (n, v) => (!isKnot(n) && COORD[n][2] ? Math.log(v) : v);
+    const fromU = (n, u) => (!isKnot(n) && COORD[n][2] ? Math.exp(u) : u);
     const clamp = (u) => u.map((x, j) => Math.min(Math.max(x, lo[j]), hi[j]));
     const copyS = (S) => {
       const out = Object.assign({}, S);
-      for (const key of ["clock", "land", "chi", "lamk", "tilt"]) if (S[key]) out[key] = S[key].map((k) => k.slice());
+      for (const key of KNOT_KEYS) if (S[key]) out[key] = S[key].map((k) => k.slice());
       return out;
     };
     const unpack = (u) => {
-      const par = Object.assign({}, par0), S = copyS(S0);
-      free.forEach((n, j) => {
-        if (knot(n)) { const [key, i] = n.split(":"); S[key][+i][1] = u[j]; }
-        else par[n] = fromU(n, u[j]);
-      });
-      return { par, S };
+      const c = Object.assign({}, c0), S = copyS(S0);
+      free.forEach((n, j) => { if (isKnot(n)) putK(S, n, u[j]); else c[n] = fromU(n, u[j]); });
+      return { par: Object.assign({}, par0, fromCoords(c, sys, D)), S };
     };
     const cost = (r) => r.reduce((a, x) => a + x * x, 0);
-    let u = clamp(free.map((n) => (knot(n) ? S0[n.split(":")[0]][+n.split(":")[1]][1] : toU(n, par0[n]))));
+    let u = clamp(free.map((n) => (isKnot(n) ? getK(S0, n) : toU(n, c0[n]))));
     let cur = unpack(u), r = residuals(cur.par, cur.S, D, N_OBS), c = cost(r);
     let mu = 1e-3, quiet = 0, it = 0;
     for (it = 0; it < maxIter; it++) {
@@ -384,9 +433,9 @@
         for (let i = 0; i < nR; i++) ga += Jm[a][i] * r[i];
         g.push(ga);
         for (let b = 0; b < nF; b++) {
-          let s = 0;
-          for (let i = 0; i < nR; i++) s += Jm[a][i] * Jm[b][i];
-          A[a].push(s);
+          let sum = 0;
+          for (let i = 0; i < nR; i++) sum += Jm[a][i] * Jm[b][i];
+          A[a].push(sum);
         }
       }
       let accepted = false;
@@ -432,8 +481,9 @@
     return x.every(isFinite) ? x : null;
   }
 
-  const api = { SET, SERIES, TOL, BOUNDS, LOGP, NAMES, brentq, gamma, parts, basket, solve, xCeiling, economies,
-                pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath, etaPath };
+  const api = { SET, SERIES, TOL, BOUNDS, LOGP, NAMES, COORD, DEFAULT_SYS, KNOT_KEYS, brentq, gamma, parts, basket, solve,
+                xCeiling, economies, pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath, etaPath,
+                toCoords, fromCoords, knotMul };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.USRecordModel = api;
 })(typeof self !== "undefined" ? self : this);

@@ -273,3 +273,16 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     explorer gained switches for A′ and the tilt and three playground presets (`explorer/model.js` gained optional paths
     for land, the cost of working, the machine-making labour, the tilt, a pinned 1950 labour share and the measured rate,
     all off by default; `checks/check_explorer.py` 6/6 still).
+15. **2026-11-06 — the explorer, second version** (her asks: linked numbers shown with what they imply; the fitter
+    working in whichever of two linked numbers she chooses; bendable paths with points whose year or level can be fixed;
+    sensitivities). `explorer/model.js` gained coordinates (land as T and h or T and h/T; machine services as a or their
+    share of a machine's cost in 1950, so a follows the return; the hours to build a machine growing per machine or per
+    fixed task), a fitter that works in them and moves knots' years as well as levels, a bendable land-in-a-machine path
+    (her question: what is being built), and the model's insides year by year. With every number free, fitting in shares
+    reaches the same optimum (6.7723). The page: the dials grouped where numbers are linked, each group saying what the
+    other number comes to; a second view inside the model (the task line by year, a machine's cost, the land, the hours
+    and a basket's cost in shares, labour's share taken apart); a third with sensitivities (each number nudged both ways:
+    how many of the five misfits move more than 5% and the sum of their changes). At the kept model the clock's pace and
+    the growth of the hours to build a machine are the sharpest numbers (half a point moves the misfits' sum by 10 to 18);
+    the cap and the utility's turning year barely matter. Shown against the forward model's 2023 measures: the kept fit's
+    machine-making takes 55% of all hours by 2024 (measured 15%) and land 0.5% of a machine's cost (measured 33%).
