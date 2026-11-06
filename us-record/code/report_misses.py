@@ -67,6 +67,27 @@ def main():
             meta6 = dict(META, rho_fixed=None, names=META["names"] + ["rho"]) if best.get("rho_free") else dict(META)
             out["models"]["sixth"] = insides_at(meta6, best["par"])
             out["models"]["sixth"]["label"] = best["label"]
+    # off the ceiling (playground/off_ceiling.py, rent_floor.py): the seven-target fit and the five targets' cost of a
+    # floor under fixed rents in a machine's cost
+    oc = os.path.join(ROOT, "playground", "off_ceiling.json")
+    if os.path.exists(oc):
+        runs = [r for r in json.load(open(oc)) if r.get("misfit7") is not None]
+        b7 = min(runs, key=lambda r: r["misfit7"])
+        out["off_ceiling"] = dict(misfit7=b7["misfit7"], misfit5=b7["misfit5"], by=b7["by"], chain_misfit=b7["chain_misfit"],
+                                  sigma_misfit=b7["sigma_misfit"], sigma_V=b7["sigma_V"], rho=b7["par"]["rho"],
+                                  g_eta=b7["par"]["g_eta"], same=sum(abs(r["misfit7"] - b7["misfit7"]) < 1e-3 for r in runs),
+                                  starts=len(runs) + sum(1 for r in json.load(open(oc)) if r.get("misfit7") is None))
+        out["models"]["off"] = insides_at(dict(META, rho_fixed=None, names=META["names"] + ["rho"]), b7["par"])
+    rf = os.path.join(ROOT, "playground", "rent_floor.json")
+    if os.path.exists(rf):
+        rows = [r for r in json.load(open(rf)) if r.get("misfit5") is not None]
+        best = {}
+        for r in rows:
+            if r["floor"] not in best or r["misfit5"] < best[r["floor"]]["misfit5"]:
+                best[r["floor"]] = r
+        out["rent_floor"] = [dict(floor=0.0, misfit5=float(R["best"]["misfit"]), sigma_min=None, rho=0.02, by=R["best"]["by_series"])] + \
+            [dict(floor=f, misfit5=r["misfit5"], sigma_min=r["sigma_min_1997_2023"], rho=r["rho"], by=r["by"], g_eta=r["g_eta"])
+             for f, r in sorted(best.items())]
     F.configure(META)
     # the record
     P = F.PANEL.loc[YEARS]

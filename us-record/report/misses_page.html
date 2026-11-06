@@ -120,8 +120,10 @@ footer { padding-block: 26px 60px; font-size: 14px; color: var(--ink-3); }
     capital income implies about 8%. The chain then falls to 22% of pay (15–18% measured) and replacement to 22% of gross
     output (16%), and the five targets fit as well as before (2.02 against 2.00).</p>
   <p class="lede">What the return cannot fix is the ceiling. The task line still sits on the machine chain's ceiling, so a
-    machine's cost holds no fixed rents, against at least the 18% that is imported content in the record. The site
-    nearly leaves the basket, and the waterline stays short. Those three are calibration (c)'s question.</p>
+    machine's cost holds no fixed rents, against at least the 18% that is imported content in the record. Tested
+    directly (section 3), a one-good model cannot leave the ceiling. Holding fixed rents at the record's floor raises the
+    five targets' misfit from 2.0 to 8.5. The record's wages seem to need the fast clock that makes goods cheap, and in a
+    model with one good that clock drives land out of every machine. Durables apart is the next test.</p>
 </header>
 
 <main class="wrap">
@@ -158,6 +160,31 @@ footer { padding-block: 26px 60px; font-size: 14px; color: var(--ink-3); }
         spending at 7.4%, against 1.4% at 2%.</p>
     </div>
     <div class="grid2" id="chain-charts"></div>
+  </section>
+
+  <section id="off">
+    <h2>Off the ceiling?</h2>
+    <span class="verdict real">Not with one good</span>
+    <div class="prose">
+      <p>The forward model's calibration (c) reads fixed rents of about 0.3 in a machine's cost, so its multiplier,
+        1 + θ<sub>V</sub>/σ<sub>V</sub>, is near 2.6. The main case has 0.001 and a multiplier near 500. There the wage
+        moves almost independently of capability, which is how the fit matches the wage paths while the task line barely
+        moves.</p>
+      <p>To see whether the record allows anything else, the main case was refitted with a floor under fixed rents in
+        1997–2023, the return free. The five targets' misfit rises from 2.00 with no floor to 3.85 at 3%, 6.40 at 10% and
+        8.53 at the record's 18.5%. Both starts agree at every floor, and every series gets worse. Without a target on the
+        chain's size, the return falls to zero and the chain grows to about half of all pay. With the chain's size and the
+        band both as targets, eleven of fourteen starts reach one fit. There the five targets' misfit is 11.1 and the
+        return 9.5%, and fixed rents still sink to 11% by 2023.</p>
+      <p>That fit is telling all the same. Everything about machines lines up with the record: the chain at 18% of pay,
+        replacement at 17% of gross output (NIPA: 16%), and the waterline at 1.9-fold (broad equipment: 2.3-fold).
+        What breaks is the wages, labour's share and employment. In one good, the facts about machines and the facts
+        about pay cannot both hold.</p>
+      <p>So in a model with one good, the record's wages need the knife edge. The likely reason is that the clock that
+        makes goods cheap must make every machine cheap in land. In the record, the fast progress sits in computers and
+        durables: the waterline's computer measures and the durables wage show it.</p>
+    </div>
+    <div class="grid2" id="off-charts"></div>
   </section>
 
   <section id="waterline">
@@ -223,16 +250,15 @@ footer { padding-block: 26px 60px; font-size: 14px; color: var(--ink-3); }
   <section id="next">
     <h2>What to try next</h2>
     <div class="prose">
-      <p>The machine chain is the miss that matters, and both routes you named go at it from different sides.</p>
+      <p>The machine chain is the miss that matters. Calibration (c)'s route has now been tried: the return fitted with
+        the chain as a target works, but holding fixed rents at the record's level does not, in one good (section 3).</p>
       <ol>
-        <li><b>Calibration (c)'s route.</b> The first half works already: with the return fitted and the chain's measured
-          size as a target, the return is 7.4% and the five targets still fit. The second half is to keep a measured share
-          of fixed rents in a machine's cost: calibration (c) reads about 0.3 from imported content and the surplus above
-          a normal return. That takes the task line off the ceiling. The wages then have to come from the labour market,
-          not the ceiling. Whether they can is the open question.</li>
-        <li><b>Durables apart.</b> A second good whose machines improve faster. The durables wage rises 6.2-fold against
-          2.0-fold for everything but shelter, and one good cannot carry both. It may also ease the chain: the fast clock
-          would live in the durables sector rather than in all machines.</li>
+        <li><b>Durables apart, first.</b> A second good whose capability clock runs faster, served by the same machines
+          and the same labour and land markets. The durables wage rises 6.2-fold against 2.0-fold for everything but
+          shelter, and one good cannot carry both. If the fast progress lives in durables, the rest of the economy's
+          machines can keep their fixed rents. The test of section 3 is then rerun on two goods.</li>
+        <li><b>Calibration (c)'s targets, kept.</b> The chain's share of pay and the band for fixed rents stay as checks,
+          and become targets once a model can meet them.</li>
       </ol>
       <p>Questions for you before building either:</p>
       <ul>
@@ -355,5 +381,16 @@ function oosSection() {
         series: [{ label: "Record", color: REC_C, values: rec[s], width: 1.5 }, { label: "Main case, all years", color: "var(--c2)", values: base[s], width: 1.5 }, { label: `Fitted to ${until}`, color: "var(--c3)", values: sp.path[s] }] }));
 }
 
-verdictTable(); chainSection(); waterSection(); coverageSection(); housingSection(); oosSection();
+function offSection() {
+  const host = $("#off-charts"); host.replaceChildren(); if (!DATA.rent_floor) return;
+  const rf = DATA.rent_floor;
+  lineChart(figure(host, { title: "The five targets' misfit with a floor under fixed rents", note: "Each point refits the main case, the return free, with fixed rents' share of a machine's cost held at or above the floor in 1997–2023." }),
+    { x: rf.map((r) => +(r.floor * 100).toFixed(1)), xTicks: [0, 3, 6, 10, 14, 18.5], xFmt: (v) => v + "%", aria: "Rent floor frontier", digits: 2, yMin: 0, tableRows: rf.map((_, i) => i),
+      series: [{ label: "Misfit, five targets", color: "var(--c1)", values: rf.map((r) => r.misfit5) }], refs: [{ y: 2.0, label: "the main case" }] });
+  const series = Object.keys(SNAME).map((s, j) => ({ label: SNAME[s], color: ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c7)"][j], values: rf.map((r) => r.by[s]) }));
+  lineChart(figure(host, { title: "The same, series by series", note: "Every series gets worse as the floor rises; labour's share and θ_V most." }),
+    { x: rf.map((r) => +(r.floor * 100).toFixed(1)), xTicks: [0, 3, 6, 10, 14, 18.5], xFmt: (v) => v + "%", aria: "Rent floor by series", digits: 2, yMin: 0, tableRows: rf.map((_, i) => i), series });
+}
+
+verdictTable(); chainSection(); offSection(); waterSection(); coverageSection(); housingSection(); oosSection();
 </script>

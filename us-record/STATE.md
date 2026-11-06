@@ -365,3 +365,17 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     differ (structures); the trend is the basket elasticity's price basis (0.636 on B's own goods price: site +25%, fit
     +14%). (v) Out of sample (fit to 1995: 21.6 after) is expected of a backward model whose paces are loosely pinned.
     Explorer v4 (her ask: cleaner, around the main case; held points still draggable), same link.
+20. **2026-11-06 — can the record be fitted off the machine chain's ceiling?** (her go, on the plan: the forward model's
+    calibration (c) reads fixed rents of about 0.3 in a machine's cost, a multiplier 1 + theta_V/sigma_V near 2.6; the
+    main case has 0.001, a multiplier near 500, a knife edge.) `playground/off_ceiling.py`: the main case with two more
+    targets, the chain's share of pay (domestic basis, 1997-2023) and a band for fixed rents' share of a machine's cost
+    (imported content to imported content plus the surplus, 18-38%, 1997-2023), the return free, seven series weighed
+    alike. Eleven of fourteen starts (the main case and calibrated 1950 starts off the ceiling) reach the same fit: the
+    five targets' misfit 11.1 against 2.00 (every series worse), the chain at 18% (measured 15%), fixed rents 0.37 in 1950
+    falling to 0.11 by 2023, still under the band, the return 9.5%. `playground/rent_floor.py`: the five targets alone
+    with a floor under fixed rents in 1997-2023 (both starts agree at every floor): 3% costs 3.85, 6% 5.10, 10% 6.40,
+    14% 7.40, the record's 18.5% 8.53 (the return falls to zero and the chain grows to about half of pay without its target).
+    Off the ceiling everything about machines lines up with the record (the chain 18%, replacement 17% of gross output,
+    the waterline 1.9-fold against broad equipment's 2.3) and the wages, labour's share and employment break. In a
+    one-good model the record's wages need the knife edge: the fast clock that makes goods cheap drives land out of every
+    machine. Next (her call pending): durables apart, then this test again on two goods.
