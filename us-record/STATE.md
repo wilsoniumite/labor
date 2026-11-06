@@ -379,3 +379,15 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     the waterline 1.9-fold against broad equipment's 2.3) and the wages, labour's share and employment break. In a
     one-good model the record's wages need the knife edge: the fast clock that makes goods cheap drives land out of every
     machine. Next (her call pending): durables apart, then this test again on two goods.
+21. **2026-11-06 — durables apart** (her go: one machine for both goods, durables' clock differing only in pace, the
+    durables wage targeted again). Panel: `dur_share` (BEA PCDGA over PCE less housing) and `dur_rel_price` (a Tornqvist
+    split of the CPI less shelter into durables and the rest on those weights); checks S9, I11. `code/two_goods.py`: two
+    goods with their own clocks, one machine, one wage, one land market, one equation in the common margin; the basket's
+    goods a CES composite (elasticity 0.722 from the share regression, durables 0.190 in 1950). `checks/check_two_goods.py`
+    10/10 (one clock: the one-good model to 7e-13). `fit_base.py --durables`; `results/fit_Bd.json`: six-series misfit
+    1.85 (the original five 1.85, from 2.00; the durables wage 1.86), durables' clock 8.3% a year against 5.8%, durables'
+    share of spending 0.19 -> 0.137 untargeted (record 0.13). Still on the ceiling at a 2% return. Off the ceiling
+    (`off_ceiling.py --base fit_Bd`, 13 of 15 starts agree): the original five 8.9 (one good 11.1), the durables wage 3.1,
+    fixed rents 0.11 by 2023 (under the band). Rent floors on two goods: TWO_GOOD_FLOORS. The record's machine cost split
+    is steady 1997-2023 (pay 45-50%, imported content 18-21%, surplus 16-19%, depreciation 10-11.5%); in the model fixed
+    rents are a fixed quantity of land a machine, whose share must shrink as machines improve.
