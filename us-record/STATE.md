@@ -132,6 +132,14 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 
 ## Next
 
+**From the flight, for her (Log 22).** A candidate main case set from the record: two goods, imported content as a
+value-share rent in a machine's cost (0.20), the return at NIPA's 8%, land in use growing with adults, the six targets
+(`playground/set_from_record.py` D2). No more free numbers than the main case, 1.53-1.54 against 1.85, and the machine
+chain's size, replacement and a machine's cost split come out near the record untargeted. Her calls: adopt it (it
+would need the official fit, its stress battery and the report), keep the wave in it (it no longer earns its place:
+1.58 without), and how to hand the clock to the forward model (on the ceiling only the clock's difference from hours
+per machine is pinned).
+
 0. **The main case's misses** (Log 19): https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU (`code/report_misses.py`). Her
    next routes, both open: calibration (c)'s (the return fitted with the chain as a target works; fixed rents in a
    machine's cost, to take the task line off the ceiling, is the open part) and durables apart (a second good). The
@@ -394,3 +402,30 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     than one good at low floors, no better at the record's. The record's machine cost split
     is steady 1997-2023 (pay 45-50%, imported content 18-21%, surplus 16-19%, depreciation 10-11.5%); in the model fixed
     rents are a fixed quantity of land a machine, whose share must shrink as machines improve.
+22. **2026-11-06 — while she flew: the knife edge read again** (her go: "keep going or play around, ponder and test some
+    extra ideas"; leads in `playground/`, each written up in `docs/playground.md`, "While she flew"; nothing adopted).
+    (i) The two-good main case under the stress battery (`stress_B.py --base fit_Bd` -> `results/stress_Bd.json`): better
+    pinned than one good (the clock's profile has a floor at 5.8-6.1% a year where one good's was flat; a dropped series is
+    predicted by the others; out of sample from 1995 9.5 against 21.6, from 1985 46 against 16); the same pieces earn
+    their place; its site is 0.3% of spending (one good 1.4%). (ii) Every route off the ceiling costs: land in use growing
+    at a free pace stays on it unless land multiplies 7- to 19-fold (`land_grows.py`); land in use set from USDA ERS
+    (urban area, x5.3 since 1950) leaves it at 2.09-2.11, with the steady clock near zero and land half a machine's cost
+    (`land_ers.py`); progress through hours per machine alone fails (15.6, `hours_only.py`); a 1995 wave on durables gains
+    nothing (`results/fit_Bd95.json`). (iii) On the ceiling the record's machine costs fit once their fixed rents are
+    read as a value share priced with the machine, imported content's 0.20 (`two_goods.py` cmp["phi"], `fit_base
+    --value-rent`). Set from the record, the return at NIPA's 8% and land in use growing with adults (`set_from_record.py`
+    D2: no free number beyond the main case's), the six targets cost 1.54 (the main case 1.85), and the chain (18% of pay;
+    record 15%), replacement (17.5% of gross output; 16%) and a machine's cost (48% pay, 32% machines, 20% imported
+    content; record 47%, 28%, 18-21%) come out near the record without being targeted; the site is 5% of spending. The
+    six targets are indifferent to the return (4-12%: 1.50-1.56) and to the rent (0.10-0.30: 1.53-1.55); the record pins
+    both (the chain's 15% at a return of about 11%, replacement's 16% at about 9.5%; machines' 28% at a rent of about
+    0.25). The wave no longer earns its place there (1.58 without it). The clock and hours per machine both run near 22%
+    a year; on the ceiling only their difference (-0.3% a year) is pinned. Still missed: the coverage ratio (2.4 against
+    4.3) and the waterline (1.13 against 2.33). Starts (`record_case.py`, `record_starts.py`): the calibrated 1950
+    starts reach no equilibrium under these settings as built (calibrated with fixed rents all land and their own
+    return); moved to them, 1950's distance to the ceiling kept, all twelve do: the best 1.53 (one start; the next 1.66,
+    the clock 11.6% and the wave 1.14; most near 2.4), without the wave 1.58 (two of twelve; the rest 4.97). This basin
+    is the best found, not the one most starts reach. `compare_cases.py record` prints the table. (iv) The reading: on the ceiling a machine's price is set by what goes
+    into it and automation's margin by the chain's own costs (the return, depreciation, the imported share, the hours in a
+    machine), not by the labour market; land's absence from a machine's cost is not visible in the record, whose split is
+    steady from 1997 to 2023. For her: D2, with or without the wave, as the main case?

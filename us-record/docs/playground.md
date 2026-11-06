@@ -256,7 +256,11 @@ Leads, not results; every number below is a fit's, from the files named.
   third of pay, so the return is set by the chain, not by the six. Unchanged: the coverage ratio (2.4 against 4.3), the
   waterline (1.13 against 2.33) and the task line on the ceiling. Only two of four starts reach these fits; the clock and
   hours per machine both run at about 22% a year (their difference -0.30%); the wave shrinks (0.36 against 1.34; 0.04
-  with land fitted). `compare_cases.py record` prints the table.
+  with land fitted). The calibrated 1950 starts, moved to these settings (`record_starts.py`), find 1.53 from one
+  start of twelve (the next 1.66, with a slower clock, 11.6%, and a bigger wave; most near 2.4); without the wave 1.58
+  from two (`record_case.py`). The six targets are indifferent to the return (4-12%: 1.50-1.56) and the rent
+  (0.10-0.30: 1.53-1.55); the record pins both: the chain's 15% sits at a return of about 11%, replacement's 16% at
+  about 9.5%, machines' 28% at a rent of about 0.25. `compare_cases.py record` prints the table.
 - **The reading, revised.** On the ceiling a machine's price is set by what goes into it (pay, machines and imported
   content) and moves with the wage, so automation's margin is set by the machine chain's own costs (the return,
   depreciation, the imported share, the hours in a machine), not by the labour market. Land, which the ceiling drives out

@@ -1,0 +1,1806 @@
+{
+ "base": {
+  "phi": 0.2,
+  "rho": 0.08,
+  "land": "adults"
+ },
+ "fits": [
+  {
+   "group": "starts",
+   "label": "D2's best",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.5363656819364984,
+   "par": {
+    "T": 0.0010719444071859735,
+    "h": 0.0003972773845461404,
+    "a": 2.393656816618902,
+    "k": 5.621599361714803,
+    "g_eta": 0.22119047746589418,
+    "lam0": 22.91354717231908,
+    "g_lam": 0.21784551316007106,
+    "chi_w": -0.16518904610417154,
+    "w0_size": 0.36490955801869246,
+    "w0_tau": 11.186189014424372,
+    "g_dur": 0.24640460992854324,
+    "rho": 0.08,
+    "chi_max": 1.6625692904977774
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 1",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.003259063280788859,
+    "h": 0.0009749873975135085,
+    "a": 3.289995434298251,
+    "k": 0.925353935241445,
+    "g_eta": 0.02,
+    "lam0": 16.507770287356323,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 2",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.003259063280788859,
+    "h": 0.0009749873975135085,
+    "a": 3.289995434298251,
+    "k": 0.925353935241445,
+    "g_eta": 0.04,
+    "lam0": 16.507770287356323,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 3",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.00014635487758023923,
+    "h": 4.378379580614536e-05,
+    "a": 3.289995434298251,
+    "k": 5.73639335123554,
+    "g_eta": 0.02,
+    "lam0": 367.59873589948853,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 4",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.00014635487758023923,
+    "h": 4.378379580614536e-05,
+    "a": 3.289995434298251,
+    "k": 5.73639335123554,
+    "g_eta": 0.04,
+    "lam0": 367.59873589948853,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 5",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0032682797226133665,
+    "h": 0.0015051929148730023,
+    "a": 3.595476672204058,
+    "k": 1.1530145242702434,
+    "g_eta": 0.02,
+    "lam0": 21.38578760527627,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 6",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0032682797226133665,
+    "h": 0.0015051929148730023,
+    "a": 3.595476672204058,
+    "k": 1.1530145242702434,
+    "g_eta": 0.04,
+    "lam0": 21.38578760527627,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 7",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0002046676929038722,
+    "h": 9.425887237582555e-05,
+    "a": 3.595476672204058,
+    "k": 5.3740718303694095,
+    "g_eta": 0.02,
+    "lam0": 341.5035123069898,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 8",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0002046676929038722,
+    "h": 9.425887237582555e-05,
+    "a": 3.595476672204058,
+    "k": 5.3740718303694095,
+    "g_eta": 0.04,
+    "lam0": 341.5035123069898,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 9",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0014127960898061484,
+    "h": 0.00028176979378032486,
+    "a": 3.289995434298251,
+    "k": 3.566151421901882,
+    "g_eta": 0.02,
+    "lam0": 38.080419658156266,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 10",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0014127960898061484,
+    "h": 0.00028176979378032486,
+    "a": 3.289995434298251,
+    "k": 3.566151421901882,
+    "g_eta": 0.04,
+    "lam0": 38.080419658156266,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 11",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0004822869381643598,
+    "h": 9.618790148843206e-05,
+    "a": 3.289995434298251,
+    "k": 6.231049369668157,
+    "g_eta": 0.02,
+    "lam0": 111.55157590622078,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "starts",
+   "label": "calibrated 1950 start 12",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0004822869381643598,
+    "h": 9.618790148843206e-05,
+    "a": 3.289995434298251,
+    "k": 6.231049369668157,
+    "g_eta": 0.04,
+    "lam0": 111.55157590622078,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "w0_size": 0.05000000000000001,
+    "w0_tau": 15.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "wave",
+   "label": "D2's best without the wave",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.5816058070165773,
+   "par": {
+    "T": 0.0011239364278258228,
+    "h": 0.0004230240825662047,
+    "a": 2.3937094560096988,
+    "k": 5.61168163907552,
+    "g_eta": 0.229998192479326,
+    "lam0": 17.449354349992593,
+    "g_lam": 0.2256439151730236,
+    "chi_w": -0.16985096329150343,
+    "g_dur": 0.2555950784586813,
+    "rho": 0.08,
+    "chi_max": 1.640786599995399
+   }
+  },
+  {
+   "group": "wave",
+   "label": "calibrated 1950 start 1",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.003259063280788859,
+    "h": 0.0009749873975135085,
+    "a": 3.289995434298251,
+    "k": 0.925353935241445,
+    "g_eta": 0.02,
+    "lam0": 16.507770287356323,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "wave",
+   "label": "calibrated 1950 start 2",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.003259063280788859,
+    "h": 0.0009749873975135085,
+    "a": 3.289995434298251,
+    "k": 0.925353935241445,
+    "g_eta": 0.04,
+    "lam0": 16.507770287356323,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "wave",
+   "label": "calibrated 1950 start 3",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.00014635487758023923,
+    "h": 4.378379580614536e-05,
+    "a": 3.289995434298251,
+    "k": 5.73639335123554,
+    "g_eta": 0.02,
+    "lam0": 367.59873589948853,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "wave",
+   "label": "calibrated 1950 start 4",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.00014635487758023923,
+    "h": 4.378379580614536e-05,
+    "a": 3.289995434298251,
+    "k": 5.73639335123554,
+    "g_eta": 0.04,
+    "lam0": 367.59873589948853,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "g_dur": 0.07,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "wave",
+   "label": "calibrated 1950 start 5",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "g_dur"
+    ]
+   },
+   "misfit": 40800.0,
+   "par": {
+    "T": 0.0032682797226133665,
+    "h": 0.0015051929148730023,
+    "a": 3.595476672204058,
+    "k": 1.1530145242702434,
+    "g_eta": 0.02,
+    "lam0": 21.38578760527627,
+    "g_lam": 0.0,
+    "chi_w": 0.0,
+    "g_dur": 0.05,
+    "rho": 0.08
+   }
+  },
+  {
+   "group": "return",
+   "label": "the return 4%",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.04,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.4957434294257872,
+   "par": {
+    "T": 0.000897832364023048,
+    "h": 0.00041241764165883326,
+    "a": 3.425251058820919,
+    "k": 4.729166743227473,
+    "g_eta": 0.22798437960130508,
+    "lam0": 39.944920485031915,
+    "g_lam": 0.22435049648502908,
+    "chi_w": -0.17034845501881526,
+    "w0_size": 0.5577309889938609,
+    "w0_tau": 11.301895006543376,
+    "g_dur": 0.25339338246567994,
+    "rho": 0.04,
+    "chi_max": 1.514762629541586
+   }
+  },
+  {
+   "group": "return",
+   "label": "the return 6%",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.06,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.5224983401022978,
+   "par": {
+    "T": 0.0010293265301970598,
+    "h": 0.00041415473081567227,
+    "a": 2.8187470714749825,
+    "k": 5.4184553338464365,
+    "g_eta": 0.22256778562952864,
+    "lam0": 28.022140640360973,
+    "g_lam": 0.21917931279737876,
+    "chi_w": -0.1686228234891566,
+    "w0_size": 0.37193158081105676,
+    "w0_tau": 12.975626368382263,
+    "g_dur": 0.24813909253589214,
+    "rho": 0.06,
+    "chi_max": 1.6049033039256257
+   }
+  },
+  {
+   "group": "return",
+   "label": "the return 10%",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.1,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.5502004311565925,
+   "par": {
+    "T": 0.0010886152729913344,
+    "h": 0.0003818313964924264,
+    "a": 2.082289986715766,
+    "k": 5.772373080747463,
+    "g_eta": 0.22022434102330965,
+    "lam0": 19.67162691355401,
+    "g_lam": 0.2172420659930751,
+    "chi_w": -0.16188516176081616,
+    "w0_size": 0.3912582652189914,
+    "w0_tau": 11.351009873071163,
+    "g_dur": 0.24518132114421953,
+    "rho": 0.1,
+    "chi_max": 1.699328547137883
+   }
+  },
+  {
+   "group": "return",
+   "label": "the return 12%",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.12,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.2,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.564325549263012,
+   "par": {
+    "T": 0.0010867043763650949,
+    "h": 0.00036714160628681126,
+    "a": 1.8403863018151134,
+    "k": 5.862405382466173,
+    "g_eta": 0.2199714288347622,
+    "lam0": 17.265440482040805,
+    "g_lam": 0.2171642973894979,
+    "chi_w": -0.15936832904086248,
+    "w0_size": 0.4045809225139037,
+    "w0_tau": 11.143458797578772,
+    "g_dur": 0.24473896665267855,
+    "rho": 0.12,
+    "chi_max": 1.7216310658380443
+   }
+  },
+  {
+   "group": "rent",
+   "label": "the rent 0.10",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.1,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.5283178078242055,
+   "par": {
+    "T": 0.0010973661057281244,
+    "h": 0.00041764227476407534,
+    "a": 3.147424041446079,
+    "k": 5.513163880291882,
+    "g_eta": 0.2238015089371394,
+    "lam0": 22.352163149913302,
+    "g_lam": 0.22092032381201743,
+    "chi_w": -0.1659199628917889,
+    "w0_size": 0.3707014893417283,
+    "w0_tau": 15.252531751069052,
+    "g_dur": 0.24908431524238397,
+    "rho": 0.08,
+    "chi_max": 1.6413952017657383
+   }
+  },
+  {
+   "group": "rent",
+   "label": "the rent 0.30",
+   "meta": {
+    "set": {
+     "b": 0.4,
+     "g0": 0.01,
+     "g1": 0.99
+    },
+    "shelter_land_share": null,
+    "split_from": null,
+    "cap": null,
+    "sigma": 0.8753489242952293,
+    "utility": {
+     "knots": [
+      1950,
+      1970,
+      1990,
+      2024
+     ]
+    },
+    "pin_start": true,
+    "s_n": null,
+    "goods": "exshelter",
+    "women": 1990,
+    "rho_fixed": 0.08,
+    "waves": [
+     1948
+    ],
+    "hours_per_task": null,
+    "fit_years": null,
+    "drop": null,
+    "fixed": {},
+    "durables": {
+     "sigma_dg": 0.7216625093994149,
+     "omega_d": 0.1898289813184177
+    },
+    "extra": [
+     "wage_durables"
+    ],
+    "land": "path",
+    "dur_waves": [],
+    "value_rent": 0.3,
+    "names": [
+     "T",
+     "h",
+     "a",
+     "k",
+     "g_eta",
+     "lam0",
+     "g_lam",
+     "chi_w",
+     "w0_size",
+     "w0_tau",
+     "g_dur"
+    ]
+   },
+   "misfit": 1.5496683876690942,
+   "par": {
+    "T": 0.0010185487708168084,
+    "h": 0.00037313894802817735,
+    "a": 1.644061239654532,
+    "k": 5.5735209761374005,
+    "g_eta": 0.22179163617808823,
+    "lam0": 23.356676692118835,
+    "g_lam": 0.21839278984353397,
+    "chi_w": -0.16268196141564298,
+    "w0_size": 0.40129650444248527,
+    "w0_tau": 9.521604108016902,
+    "g_dur": 0.24675171389643152,
+    "rho": 0.08,
+    "chi_max": 1.6692906429281105
+   }
+  }
+ ]
+}
