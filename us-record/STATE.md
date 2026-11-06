@@ -345,3 +345,19 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     and falls by a fifth in B; the machine chain is about twice its measured size (Next 2). Carried forward with its
     drivers, B's labour share reaches 0.38 by 2050 (0.45 with the clocks stopped). The report:
     https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir.
+19. **2026-11-06 — the wave as the main case, its misses examined, the explorer's fourth version** (decision 24; her
+    questions: "consider the misses and ask how bad they are, like, can you see an easy extension? Is the data itself not
+    quite fit for purpose or wrong? Or does it fundamentally kill this fit"). Stress tests on the main case:
+    `stress_B.py --base fit_Bw` (47 fits). The misses (`playground/misses.py`, `playground/chain_target.py`,
+    `code/report_misses.py` -> `report/misses.html`): (i) the machine chain (40% of pay against 18%; replacement 38% of
+    gross output against NIPA's 16%; machine services 51% of a machine's cost against at most 38%) is one fact: on the
+    chain's ceiling land's share of a machine's cost is the distance to the ceiling, and at a 2% return 73% of machines'
+    rent is depreciation (NIPA: 39%). The return walked up keeping 1950's machine-cost shares: misfit 1.96 at 3%, 1.92 at
+    4%, 1.95 at 5%, the chain 40% -> 29%; no 1950 equilibrium past 5% (NIPA's split implies about 8%). SIXTH_TARGET_LOG
+    (ii) The waterline's median mixes four computer-price measures (7.6-15.2-fold) with two broad-equipment ones
+    (2.3-fold); against broad equipment the model's 1.25-fold is short by 1.9, not 6. (iii) The coverage ratio was read on
+    all land; the record counts housing land, on which the model rises 2.3-fold (1953-2024) against the rent-flow
+    member's 4.3 (the Z.1 members, at bond-yield cap rates, swing sixfold within decades). (iv) Housing's share: levels
+    differ (structures); the trend is the basket elasticity's price basis (0.636 on B's own goods price: site +25%, fit
+    +14%). (v) Out of sample (fit to 1995: 21.6 after) is expected of a backward model whose paces are loosely pinned.
+    Explorer v4 (her ask: cleaner, around the main case; held points still draggable), same link.
