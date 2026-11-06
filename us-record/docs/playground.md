@@ -236,3 +236,30 @@ Leads, not results; every number below is a fit's, from the files named.
   (flat 3.15; held after 1970 2.49), the wave (2.52 without; from 1945 1.85, from 1952 1.96). As good or slightly better
   at no extra cost: the utility through the real wage every year (1.80), the Cobb-Douglas basket (1.81), the cap
   (1.81), a 3% return (1.84). One readout is worse than one good's: the site's share of spending, 0.3% against 1.4%.
+- **Imported content and growing land together** (`rent_and_land.py` -> `playground/rent_and_land.json`; the value-share
+  rent 0.20, the chain's share of pay a target, the return free). With land growing at a fitted pace (C1: 1.3% a year, a
+  little faster than adults) the six targets cost 1.53 (the main case 1.85; the same without the rent 1.51) and every
+  measured part of a machine's cost lines up: pay 48% (record 47%), machines 32% (the panel's median 28%), imported
+  content 20% (set), land nil; the chain 14% of pay (record 15%), replacement 14% of gross output (16%); the site 3.4% of
+  spending (the main case 0.3%). The shelter wage gains most (0.76 against 2.75). Still on the ceiling, with the return at
+  12.3% (NIPA's split implies about 8%) and the clock at 21% a year, hours per machine rising almost as fast (21.0%):
+  hours per unit of task capacity fall 0.35% a year, as in the main case (0.33%), and on the ceiling that difference is
+  what the economy feels, so the clock's own pace is not pinned there. With land in use from ERS instead (C2) the rent
+  takes part of land's share and changes nothing else (2.12; land and the rent 0.53 of a machine's cost together).
+- **Set from the record, the chain read rather than fitted** (`set_from_record.py` -> `playground/set_from_record.json`;
+  the six targets only). The rent at imported content's 0.20, the return at NIPA's 8%, land in use growing with adults
+  (D2: no free number beyond the main case's): the six targets cost 1.54 (the main case 1.85), and what the fit never saw
+  comes out near the record: the chain 18% of pay (15%), replacement 17.5% of gross output (16%), a machine's cost 48%
+  pay (47%), 32% machines (28%), 20% imported content and no land; the site 5.1-5.4% of spending (housing with its
+  structures 11-16%). With land at a fitted pace instead (D1) the fit picks 1.26% a year, adults' own pace (1.27%), and
+  costs 1.50. With the return free too (D3) the six targets lean to a low return (0.8%, 1.43) and the chain goes back to a
+  third of pay, so the return is set by the chain, not by the six. Unchanged: the coverage ratio (2.4 against 4.3), the
+  waterline (1.13 against 2.33) and the task line on the ceiling. Only two of four starts reach these fits; the clock and
+  hours per machine both run at about 22% a year (their difference -0.30%); the wave shrinks (0.36 against 1.34; 0.04
+  with land fitted). `compare_cases.py record` prints the table.
+- **The reading, revised.** On the ceiling a machine's price is set by what goes into it (pay, machines and imported
+  content) and moves with the wage, so automation's margin is set by the machine chain's own costs (the return,
+  depreciation, the imported share, the hours in a machine), not by the labour market. Land, which the ceiling drives out
+  of a machine's cost, is not visible in the record's split (at most part of the surplus, which is mostly the return on
+  machines), and the split is steady from 1997 to 2023, as it would be on the ceiling. Once the rents in a machine's cost
+  are read as value shares, the knife edge looks like the model's reading of the record rather than its failure.
