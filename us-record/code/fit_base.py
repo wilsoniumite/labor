@@ -115,6 +115,9 @@ FIT_YEARS = None                                      # None: every year counts;
 DROP = None                                           # None: every series counts; a list: those left out (stress tests)
 FIXED = {}                                            # free numbers held at given values (stress tests: the clock's profile)
 DURABLES = None                                       # None: one good; a dict of set values: durables apart (two_goods.py)
+LAND = None                                           # None: land fixed; "grow": land in use grows at g_T a year (a lead)
+DUR_WAVES = []                                        # durables apart: waves on durables' clock alone (years; a lead)
+VALUE_RENT = None                                     # durables apart: a value-share rent in a machine's cost (a lead)
 EXTRA = []                                            # targets beyond the five (durables apart: the wage over durables)
 EXTRA_TOL_LOG = {"wage_durables": 0.05}               # as the other wages
 _DS, _DR = PANEL.loc[1950:2024, "dur_share"], PANEL.loc[1950:2024, "dur_rel_price"]
@@ -131,7 +134,7 @@ NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
               g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.25), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0),
-              g_dur=(-0.05, 0.4))
+              g_dur=(-0.05, 0.4), g_T=(-0.05, 0.1))
 WAVE_BOUNDS = dict(size=(1e-4, 10.0), tau=(0.5, 80.0))   # each wave's size (in logs of the clock) and pace (years)
 
 D = PANEL.loc[YEARS]
@@ -143,7 +146,7 @@ LS_TOL = np.where(WEAK, (D["labour_share_c_hi"] - D["labour_share_c_lo"]).values
 
 
 def is_log(n):
-    return n in LOG or n.startswith("w") and n.endswith(("_size", "_tau"))
+    return n in LOG or n.startswith(("w", "dw")) and n.endswith(("_size", "_tau"))
 
 
 def fill(par):
@@ -165,7 +168,7 @@ def pack(par):
 
 
 def bounds(n):
-    if n.startswith("w") and n.endswith(("_size", "_tau")):
+    if n.startswith(("w", "dw")) and n.endswith(("_size", "_tau")):
         return WAVE_BOUNDS[n.split("_")[1]]
     return BOUNDS[n]
 
@@ -199,14 +202,15 @@ def economies(par, eta=None, p_ref=None):
     eta = eta_path(par) if eta is None else eta
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
     chi = par["chi_max"] * women_path(par)
+    land = par["T"] * (np.exp(par["g_T"] * T_REL) if LAND == "grow" else np.ones(len(YEARS)))
     kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
     if SIGMA is not None and p_ref is not None:
         kind, extra = pm.BasketEconomy, dict(cap=1.0 if CAP is None else CAP, sigma=SIGMA, p_ref=p_ref)
         util = utility_path(UTILITY_KNOTS)
-        return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
+        return [kind(N=N_T[i], T=float(land[i]), h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
                      chi_max=float(chi[i]), rho=par["rho"], delta=DELTA[i], **SET, **extra, utility=float(util[i]))
                 for i in range(len(YEARS))]
-    return [kind(N=N_T[i], T=par["T"], h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
+    return [kind(N=N_T[i], T=float(land[i]), h=par["h"], a=par["a"], lam=lam[i], k=par["k"], eta=eta[i],
                  chi_max=float(chi[i]), rho=par["rho"], delta=DELTA[i], **SET, **extra) for i in range(len(YEARS))]
 
 
@@ -215,7 +219,7 @@ def pinned_chi(par):
     same with or without the basket). None if no chi_max within its bounds does it."""
     e0 = economies(dict(par, chi_max=1.0))[0]
     if DURABLES is not None:                              # 1950 is the two goods' reference point
-        ed0, ref = eta_d_path(fill(par))[0], dict(mode="ref", omega_d=DURABLES["omega_d"])
+        ed0, ref = eta_d_path(fill(par))[0], dict(mode="ref", omega_d=DURABLES["omega_d"], phi=VALUE_RENT or 0.0)
     target = float(D.loc[1950, "prime_emp_rate"])
 
     def gap(lc):
@@ -236,7 +240,11 @@ def pinned_chi(par):
 def eta_d_path(par):
     """Durables' capability clock (durables apart): the other goods' clock, waves and all, at its own steady pace g_dur;
     the two are equal in 1950."""
-    return eta_path(par) * np.exp(-(par["g_dur"] - par["g_eta"]) * T_REL)
+    out = eta_path(par) * np.exp(-(par["g_dur"] - par["g_eta"]) * T_REL)
+    for i, y0 in enumerate(DUR_WAVES):                   # durables' own waves (a lead: the IT wave in durables' prices)
+        t = np.array(YEARS, dtype=float) - y0
+        out = out * np.exp(-np.where(t > 0, par[f"dw{i}_size"] * (1.0 - np.exp(-np.maximum(t, 0.0) / par[f"dw{i}_tau"])), 0.0))
+    return out
 
 
 def durables_years(par):
@@ -250,8 +258,9 @@ def durables_years(par):
         par = dict(par, chi_max=chi)
     eta_g, eta_d = eta_path(par), eta_d_path(par)
     try:
-        q0 = tg.solve(economies(par, eta_g)[0], eta_d[0], dict(mode="ref", omega_d=DURABLES["omega_d"]))
-        cmp = dict(omega_d=DURABLES["omega_d"], sigma_dg=DURABLES["sigma_dg"], pref_d=q0["pd"], pref_g=q0["pg"])
+        phi = VALUE_RENT or 0.0
+        q0 = tg.solve(economies(par, eta_g)[0], eta_d[0], dict(mode="ref", omega_d=DURABLES["omega_d"], phi=phi))
+        cmp = dict(omega_d=DURABLES["omega_d"], sigma_dg=DURABLES["sigma_dg"], pref_d=q0["pd"], pref_g=q0["pg"], phi=phi)
         es = economies(par, eta_g, q0["c"] if SIGMA is not None else None)
         return [tg.solve(e, eta_d[i], cmp) for i, e in enumerate(es)], es
     except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
@@ -267,7 +276,8 @@ def model_path_durables(par):
                            wage_goods_raw=q["v"] / q["c"], wage_durables_raw=q["v"] / q["pd"], wage_shelter_raw=q["v"],
                            labour_share_c=q["labour_share_bea"], prime_emp_rate=q["participation"], theta_V=q["theta_V"],
                            gamma=q["m"], x_ceiling=q["xg_ceiling"], xd_ceiling=q["xd_ceiling"], chain_share=q["chain_share"],
-                           sigma_V=q["sigma_V"], dur_share=q["dur_share"], goods_basket=q["gb"], site_basket=q["sb"],
+                           sigma_V=q["sigma_V"], fixed_rents=q["fixed_rents"], dur_share=q["dur_share"],
+                           goods_basket=q["gb"], site_basket=q["sb"],
                            site_share=q["sb"] / q["Ps"], utility=getattr(e, "utility", 1.0))
                       for q, e in zip(qs, es)], index=YEARS)
     for c in ("wage_goods", "wage_durables", "wage_shelter"):
@@ -430,6 +440,11 @@ def complete(s):
     s.setdefault("chi_w", 0.0)
     if DURABLES is not None:
         s.setdefault("g_dur", s.get("g_eta", 0.05) + 0.03)
+    if LAND == "grow":
+        s.setdefault("g_T", 0.01)
+    for i in range(len(DUR_WAVES)):
+        s.setdefault(f"dw{i}_size", 0.3)
+        s.setdefault(f"dw{i}_tau", 10.0)
     for i in range(len(WAVES)):
         s.setdefault(f"w{i}_size", 0.05)
         s.setdefault(f"w{i}_tau", 15.0)
@@ -451,7 +466,7 @@ def configure(meta):
     """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
     and report read fits this way)."""
     global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
-    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA
+    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT
     SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
     if SPLIT_FROM is not None:
         S_N = meta["s_n"]
@@ -461,7 +476,8 @@ def configure(meta):
     GOODS, WOMEN, RHO_FIXED = meta.get("goods", "durables"), meta.get("women"), meta.get("rho_fixed")
     WAVES, HOURS_PER_TASK = list(meta.get("waves") or []), meta.get("hours_per_task")
     FIT_YEARS, DROP, FIXED = meta.get("fit_years"), meta.get("drop"), dict(meta.get("fixed") or {})
-    DURABLES, EXTRA = meta.get("durables"), list(meta.get("extra") or [])
+    DURABLES, EXTRA, LAND = meta.get("durables"), list(meta.get("extra") or []), meta.get("land")
+    DUR_WAVES, VALUE_RENT = list(meta.get("dur_waves") or []), meta.get("value_rent")
     SET.update(meta.get("set") or {})
     NAMES[:] = meta["names"]
 
@@ -472,7 +488,7 @@ def settings_meta():
                 utility=None if SIGMA is None else dict(knots=list(UTILITY_KNOTS)), pin_start=PIN_START,
                 s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
                 waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, fixed=dict(FIXED),
-                durables=DURABLES, extra=list(EXTRA),
+                durables=DURABLES, extra=list(EXTRA), land=LAND, dur_waves=list(DUR_WAVES), value_rent=VALUE_RENT,
                 names=list(NAMES))
 
 
@@ -562,6 +578,14 @@ if __name__ == "__main__":
         DURABLES = dict(sigma_dg=SIGMA_DG_SET, omega_d=OMEGA_D_SET)
         NAMES.append("g_dur")
         EXTRA = ["wage_durables"]
+    if "--value-rent" in args:                            # a lead: a value-share rent in a machine's cost
+        VALUE_RENT = float(args[args.index("--value-rent") + 1])
+    if "--dur-waves" in args:                             # a lead: waves on durables' clock alone
+        DUR_WAVES = [int(y) for y in args[args.index("--dur-waves") + 1].split(",")]
+        NAMES.extend(n for i in range(len(DUR_WAVES)) for n in (f"dw{i}_size", f"dw{i}_tau"))
+    if "--land-grows" in args:                            # a lead: land in use grows at g_T a year from 1950
+        LAND = "grow"
+        NAMES.append("g_T")
     if "--hours-per-task" in args:
         HOURS_PER_TASK = float(args[args.index("--hours-per-task") + 1])
         NAMES.remove("g_lam")
@@ -580,7 +604,7 @@ if __name__ == "__main__":
     m = model_path(best["par"])
     plain = SHELTER_LAND_SHARE is None and SPLIT_FROM is None and CAP is None and SIGMA is None and not PIN_START \
         and GOODS == "durables" and WOMEN is None and RHO_FIXED is None and not WAVES and HOURS_PER_TASK is None \
-        and DURABLES is None
+        and DURABLES is None and LAND is None
     acc = accounting(best["par"]) if plain else None      # the diagnostic reads the base model only
     if PIN_START:                                         # the set chi_max stored beside the fitted numbers
         for r in results:

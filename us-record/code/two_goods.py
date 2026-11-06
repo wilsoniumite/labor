@@ -15,6 +15,10 @@
 # In 1950 the composite is read at its reference point (reference mode: unit cost = the other goods' price, demands
 # omega_d c / p_d and 1 - omega_d), which is what fixes the reference prices; every CES composite agrees there.
 # With eta_d = eta_g the two goods are one, and every number is the one-good model's (checks/check_two_goods.py).
+# A lead (2026-11-06, while she flew): a value-share rent phi in a machine's cost (cmp["phi"], 0 by default), beside its
+# land: imported content and IP rents priced with the machine, as BEA's cost split shows them (imported content 18-21%
+# of the machine bundle, 1997-2023). Vm = (a p_m + lambda v + b) / (1 - phi); the rent on each machine built, phi Vm
+# delta K a year, is the owners' income. Land's share of a machine's cost is still b / Vm.
 
 import numpy as np
 from scipy.optimize import brentq
@@ -55,7 +59,8 @@ def composite(pd, pg, cmp):
 def parts(e, m, eta_d, cmp):
     """Every price and quantity at margin m (e: a pinning_model economy whose eta is the other goods' clock)."""
     cpt = e.rho + e.delta
-    den = 1.0 - cpt * (e.a + e.lam * m)
+    phi = cmp.get("phi", 0.0)
+    den = 1.0 - phi - cpt * (e.a + e.lam * m)
     Vm = e.b / den
     pm_ = cpt * Vm
     v = m * pm_
@@ -76,17 +81,18 @@ def parts(e, m, eta_d, cmp):
                 B=B, K=K, final=final, mh=mh, nD=final + mh, nS=nS)
 
 
-def m_ceiling(e):
-    """The margin at the machine chain's ceiling: (rho + delta)(a + lambda m) = 1 (inf if lambda is zero)."""
+def m_ceiling(e, phi=0.0):
+    """The margin at the machine chain's ceiling: phi + (rho + delta)(a + lambda m) = 1 (inf if lambda is zero)."""
     cpt = e.rho + e.delta
-    if cpt * e.a >= 1.0:
+    if phi + cpt * e.a >= 1.0:
         raise pm.NoEquilibrium("machine-service cost undefined even with no labour in the chain")
-    return np.inf if e.lam <= 0 else (1.0 / cpt - e.a) / e.lam
+    return np.inf if e.lam <= 0 else ((1.0 - phi) / cpt - e.a) / e.lam
 
 
 def solve(e, eta_d, cmp):
     """The interior equilibrium n_D(m) = n_S(m) on (0, the ceiling); NoEquilibrium where there is none."""
-    mbar = m_ceiling(e)
+    phi = cmp.get("phi", 0.0)
+    mbar = m_ceiling(e, phi)
     top = max(e.eta, eta_d) * (e.g0 + e.g1)              # every task of both goods automated above this
     hi = min(mbar * (1.0 - 1e-13), top) if np.isfinite(mbar) else top
     lo = 1e-12 * hi
@@ -98,9 +104,11 @@ def solve(e, eta_d, cmp):
     q = parts(e, m, eta_d, cmp)
     n = q["nD"]
     interest = e.rho * q["Vm"] * q["K"]
-    income = q["v"] * n + e.T + interest
+    rent = phi * q["Vm"] * e.delta * q["K"]               # the value-share rent on each machine built (0 by default)
+    income = q["v"] * n + e.T + interest + rent
     q.update(n=n, participation=n / e.N, income=income, labour_share_bea=q["v"] * q["final"] / income,
-             theta_V=e.lam * q["v"] / q["Vm"], kappa_V=e.a * q["pm"] / q["Vm"], sigma_V=e.b / q["Vm"],
+             theta_V=e.lam * q["v"] / q["Vm"], kappa_V=e.a * q["pm"] / q["Vm"], sigma_V=e.b / q["Vm"], phi=phi,
+             fixed_rents=phi + e.b / q["Vm"], rent_income=rent / income,
              chain_share=q["mh"] / n, inv_income=e.delta * q["Vm"] * q["K"] / income, m_ceiling=mbar,
              xg_ceiling=x_of(mbar, e.eta, e) if np.isfinite(mbar) else 1.0,
              xd_ceiling=x_of(mbar, eta_d, e) if np.isfinite(mbar) else 1.0,
