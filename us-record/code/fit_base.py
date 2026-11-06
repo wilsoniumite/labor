@@ -115,7 +115,9 @@ FIT_YEARS = None                                      # None: every year counts;
 DROP = None                                           # None: every series counts; a list: those left out (stress tests)
 FIXED = {}                                            # free numbers held at given values (stress tests: the clock's profile)
 DURABLES = None                                       # None: one good; a dict of set values: durables apart (two_goods.py)
-LAND = None                                           # None: land fixed; "grow": land in use grows at g_T a year (a lead)
+LAND = None                                           # None: land fixed; "grow": land in use grows at g_T a year (a lead);
+                                                      # "path": land in use follows LAND_PATH (1950 = 1; set by the caller)
+LAND_PATH = None
 DUR_WAVES = []                                        # durables apart: waves on durables' clock alone (years; a lead)
 VALUE_RENT = None                                     # durables apart: a value-share rent in a machine's cost (a lead)
 EXTRA = []                                            # targets beyond the five (durables apart: the wage over durables)
@@ -202,7 +204,8 @@ def economies(par, eta=None, p_ref=None):
     eta = eta_path(par) if eta is None else eta
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
     chi = par["chi_max"] * women_path(par)
-    land = par["T"] * (np.exp(par["g_T"] * T_REL) if LAND == "grow" else np.ones(len(YEARS)))
+    land = par["T"] * (np.exp(par["g_T"] * T_REL) if LAND == "grow" else LAND_PATH if LAND == "path"
+                       else np.ones(len(YEARS)))
     kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
     if SIGMA is not None and p_ref is not None:
         kind, extra = pm.BasketEconomy, dict(cap=1.0 if CAP is None else CAP, sigma=SIGMA, p_ref=p_ref)

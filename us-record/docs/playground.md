@@ -178,3 +178,34 @@ tilt (its start year and its 2024 weight), and the fit moves the tilt's weight w
 Her setup from the explorer is now model B, the kept model (`STATE.md` decision 23, Log 18): fitted officially by
 `code/fit_base.py`, stress-tested by `code/stress_B.py` and reported by `code/report_B.py`
 (https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir). The playground files above stay as the record of how it was found.
+
+## While she flew (2026-11-06, evening)
+
+Her go: "keep going or play around, ponder and test some extra ideas". The thread: the knife edge (the fitted economy sits
+on the machine chain's ceiling, where land's share of a machine's cost goes to zero) and what could take it off.
+Leads, not results; every number below is a fit's, from the files named.
+
+- **Durables apart works for the wages, not the knife edge** (`results/fit_Bd.json`, STATE Log 21). Two goods, one
+  machine: the durables wage is fitted (1.86) by a durables clock of 8.3% a year against 5.8%; the original five improve
+  (2.00 -> 1.85); durables' share of spending falls 0.19 -> 0.137 untargeted (record 0.13). Off the ceiling the original
+  five cost 8.9 (one good 11.1). The rent floors (`compare_floors.py`): two goods are cheaper at low floors (10%: 5.1
+  against 6.4) and no better at the record's 18.5% (9.2 against 8.5).
+- **A 1995 wave on durables' clock alone** (`results/fit_Bd95.json`): no gain (1.856 against 1.848, two more numbers).
+- **Progress through hours only, outside durables** (`hours_only.py`): the other goods' land clock held still, the
+  best fit is 15.6. The record needs land-saving progress, and in this model land-saving progress is exactly what takes
+  land out of machines.
+- **Land in use growing at a free pace** (`land_grows.py`, `fit_base --land-grows`). With the six targets and a 2%
+  return the fit stays on the knife edge (1.45-1.76, land growing 0.4-1.1% a year). With the return free and the chain
+  as a target, the best six-target fit is 1.51 (land growing 1.3% a year, about as fast as adults; the return 13%; the
+  chain 14% and replacement 14% of gross output, both about right), still on the knife edge. Off the ceiling (the chain
+  and the band for fixed rents as targets) it fits at 2.5-2.7 with fixed rents near 0.3 and the chain right, but then
+  machines hold most of the land (homes 1% to 29%) and land multiplies 7- to 19-fold.
+- **The reading.** If a machine's fixed rents are land, as calibration (c) treats them, the record's 30% would put most
+  land in machines; they do not hold most land. The record's fixed rents are mostly imported content and business
+  surplus (BEA: imported content 18-21%, surplus 16-19% of the machine bundle, 1997-2023, steady while machines improved
+  enormously): a share of a machine's value, not a quantity of land. So the knife edge in land may not be the model's
+  failure but its reading: automation limited by the machine chain's own costs, land a negligible part of a machine.
+  Next lead: the record's imported content as a value-share rent beside the machine's land (`value_rent.py`).
+- **Land in use, from the record** (`land_ers.py`; USDA ERS urban area, `cache/ERS_urban_area_1945_2022.xlsx`): 2.7% a
+  year 1949-1997, 1.5% a year 2002-2017 (the Census changed its definitions in 2000 and 2020; the path is built within
+  them), x5.3 1950-2024, about twice adults' growth. The lead: land in use set from it, not fitted.
