@@ -261,6 +261,13 @@ Leads, not results; every number below is a fit's, from the files named.
   from two (`record_case.py`). The six targets are indifferent to the return (4-12%: 1.50-1.56) and the rent
   (0.10-0.30: 1.53-1.55); the record pins both: the chain's 15% sits at a return of about 11%, replacement's 16% at
   about 9.5%, machines' 28% at a rent of about 0.25. `compare_cases.py record` prints the table.
+- **The record-set fit out of sample** (`record_split.py` -> `playground/record_split.json`; scored as the stress
+  battery scores it, the original five series, the inputs as measured, the utility's knots included). Fitted on
+  1950-1995 and read on 1996-2024: 2.2 with the wave, 5.2 without (the two-good main case 9.5, one good 21.6). Fitted on
+  1950-1985: 49 with the wave (the main case 46, one good 16), 6.7 without. Without the wave it is the first fit that
+  holds from 1985; the wave, fitted on the early years alone, carries them badly into the later ones. In this fit
+  machines in 1950 are about a third land (pay's share of a machine 0.18-0.32) and reach the ceiling by about 1970;
+  the record's share starts in 1967. Figure: `record_plot.py` -> `playground/record_case.png`.
 - **The reading, revised.** On the ceiling a machine's price is set by what goes into it (pay, machines and imported
   content) and moves with the wage, so automation's margin is set by the machine chain's own costs (the return,
   depreciation, the imported share, the hours in a machine), not by the labour market. Land, which the ceiling drives out

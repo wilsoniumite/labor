@@ -135,7 +135,8 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 **From the flight, for her (Log 22).** A candidate main case set from the record: two goods, imported content as a
 value-share rent in a machine's cost (0.20), the return at NIPA's 8%, land in use growing with adults, the six targets
 (`playground/set_from_record.py` D2). No more free numbers than the main case, 1.53-1.54 against 1.85, and the machine
-chain's size, replacement and a machine's cost split come out near the record untargeted. Her calls: adopt it (it
+chain's size, replacement and a machine's cost split come out near the record untargeted. Out of sample it holds far
+better (from 1995: 2.2, without the wave 5.2, against 9.5; from 1985, without the wave, 6.7 against 46). Her calls: adopt it (it
 would need the official fit, its stress battery and the report), keep the wave in it (it no longer earns its place:
 1.58 without), and how to hand the clock to the forward model (on the ceiling only the clock's difference from hours
 per machine is pinned).
@@ -425,7 +426,10 @@ per machine is pinned).
     starts reach no equilibrium under these settings as built (calibrated with fixed rents all land and their own
     return); moved to them, 1950's distance to the ceiling kept, all twelve do: the best 1.53 (one start; the next 1.66,
     the clock 11.6% and the wave 1.14; most near 2.4), without the wave 1.58 (two of twelve; the rest 4.97). This basin
-    is the best found, not the one most starts reach. `compare_cases.py record` prints the table. (iv) The reading: on the ceiling a machine's price is set by what goes
+    is the best found, not the one most starts reach. Out of sample (`record_split.py`, as the stress battery): fitted
+    to 1995, 2.2 with the wave and 5.2 without (the main case 9.5, one good 21.6); fitted to 1985, 49 with the wave and
+    6.7 without (the main case 46, one good 16). `compare_cases.py record` prints the table; `record_plot.py` draws
+    `playground/record_case.png`. (iv) The reading: on the ceiling a machine's price is set by what goes
     into it and automation's margin by the chain's own costs (the return, depreciation, the imported share, the hours in a
     machine), not by the labour market; land's absence from a machine's cost is not visible in the record, whose split is
     steady from 1997 to 2023. For her: D2, with or without the wave, as the main case?
