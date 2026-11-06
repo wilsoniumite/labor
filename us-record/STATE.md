@@ -388,6 +388,9 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     1.85 (the original five 1.85, from 2.00; the durables wage 1.86), durables' clock 8.3% a year against 5.8%, durables'
     share of spending 0.19 -> 0.137 untargeted (record 0.13). Still on the ceiling at a 2% return. Off the ceiling
     (`off_ceiling.py --base fit_Bd`, 13 of 15 starts agree): the original five 8.9 (one good 11.1), the durables wage 3.1,
-    fixed rents 0.11 by 2023 (under the band). Rent floors on two goods: TWO_GOOD_FLOORS. The record's machine cost split
+    fixed rents 0.11 by 2023 (under the band). Rent floors on two goods (`rent_floor.py --base fit_Bd`,
+    `compare_floors.py`; both starts agree): the original five cost 3.21 at a 3% floor, 4.15 at 6%, 5.13 at 10%, 8.69 at
+    14%, 9.23 at the record's 18.5% (one good 3.85, 5.10, 6.40, 7.40, 8.53; all six 2.97, 3.75, 4.57, 7.68, 8.05): cheaper
+    than one good at low floors, no better at the record's. The record's machine cost split
     is steady 1997-2023 (pay 45-50%, imported content 18-21%, surplus 16-19%, depreciation 10-11.5%); in the model fixed
     rents are a fixed quantity of land a machine, whose share must shrink as machines improve.

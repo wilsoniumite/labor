@@ -30,6 +30,7 @@ def insides(meta, par):
         cfc_gross=np.array([q["inv_income"] / (1.0 + q["inv_income"]) for q in qs]),
         chain_share=np.array([q["chain_share"] for q in qs]), sigma_V=np.array([q["sigma_V"] for q in qs]),
         kappa_V=np.array([q["kappa_V"] for q in qs]), theta_V=np.array([q["theta_V"] for q in qs]),
+        fixed=np.array([q["fixed_rents"] for q in qs]),                              # land and any value-share rent
         waterline=wl / wl[I99], coverage_homes=cov / cov[I53],
         site_share=np.array([q["sb"] / q["Ps"] for q in qs]), dur_share=np.array([q["dur_share"] for q in qs]),
         land_homes=homes / np.array([e.T for e in es]), x_g=np.array([q["xg"] for q in qs]), x_d=np.array([q["xd"] for q in qs]),

@@ -196,7 +196,7 @@ Leads, not results; every number below is a fit's, from the files named.
   land out of machines.
 - **Land in use growing at a free pace** (`land_grows.py`, `fit_base --land-grows`). With the six targets and a 2%
   return the fit stays on the knife edge (1.45-1.76, land growing 0.4-1.1% a year). With the return free and the chain
-  as a target, the best six-target fit is 1.51 (land growing 1.3% a year, about as fast as adults; the return 13%; the
+  and the band as targets, the best six-target point (a local fit that gives up the band) is 1.51 (land growing 1.3% a year, about as fast as adults; the return 13%; the
   chain 14% and replacement 14% of gross output, both about right), still on the knife edge. Off the ceiling (the chain
   and the band for fixed rents as targets) it fits at 2.5-2.7 with fixed rents near 0.3 and the chain right, but then
   machines hold most of the land (homes 1% to 29%) and land multiplies 7- to 19-fold.
@@ -217,3 +217,22 @@ Leads, not results; every number below is a fit's, from the files named.
   share as a target (domestic basis, 15%) the return rises to 6.8%, the chain falls to 19% and replacement to 20%, and the
   six targets cost 2.80, mostly labour's share (5.1). Shrinking the chain to its measured size costs labour's share,
   whichever way it is done: the higher return that shrinks it raises capital's income.
+- **Land in use from the record, fitted** (`land_ers.py` -> `playground/land_ers.json`). With the return at 2% (E1; 12 of
+  13 starts agree) the six targets cost 2.09 (the main case 1.85) and the fit leaves the ceiling (the task line 0.09
+  under it in 2023). The steady clock falls to 0.2% a year: the 1948 wave (about the main case's size) and land in use
+  carry the growth; durables' clock 3.1% a year. Machines are then made without machines (a at its floor: machines' share
+  of a machine's cost 0.001, the record's 0.28), land is about half a machine's cost (0.53; the record's fixed rents
+  0.18-0.38) and machines hold about half the land; the site's share of spending is 10% (the main case 0.3%; housing,
+  structures included, 11-16% in the record). With the chain as a target too (E2) the return rises to 9%, the chain and
+  replacement fall to 14% (record 15% and 16%), and the six targets cost 2.11. Which land the model's T stands for is
+  open: urban land (x5.3 since 1950) or all land in use (about flat, farmland included).
+- **The two-good main case under the stress battery** (`stress_B.py --base fit_Bd` -> `results/stress_Bd.json`, 47
+  fits). It is better pinned than one good. The clock's profile has a floor at 5.8-6.1% a year (4.4% costs 3.2, 9.5%
+  2.2; one good's was flat, 2.0-2.5 from 2% to 12%), and below 3% a second basin where hours per task carry the progress
+  (the clock 1.7-2.3%, hours per task 4.1-4.3% a year, 2.5). Leaving out the goods wage, the shelter wage or employment
+  leaves the fit where it was, so the others predict them (one good moved to 3.6, 246 and 22); theta_V is still needed
+  (13.3 without it; one good 95). Out of sample, fitted to 1995 and read after: 9.5 (one good 21.6); fitted to 1985: 46
+  (one good 16). The same pieces earn their place: women's entry (4.37 without), the basket (6.20), the utility's rise
+  (flat 3.15; held after 1970 2.49), the wave (2.52 without; from 1945 1.85, from 1952 1.96). As good or slightly better
+  at no extra cost: the utility through the real wage every year (1.80), the Cobb-Douglas basket (1.81), the cap
+  (1.81), a 3% return (1.84). One readout is worse than one good's: the site's share of spending, 0.3% against 1.4%.
