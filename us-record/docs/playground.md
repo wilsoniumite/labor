@@ -209,3 +209,11 @@ Leads, not results; every number below is a fit's, from the files named.
 - **Land in use, from the record** (`land_ers.py`; USDA ERS urban area, `cache/ERS_urban_area_1945_2022.xlsx`): 2.7% a
   year 1949-1997, 1.5% a year 2002-2017 (the Census changed its definitions in 2000 and 2020; the path is built within
   them), x5.3 1950-2024, about twice adults' growth. The lead: land in use set from it, not fitted.
+- **A value-share rent in a machine's cost** (`value_rent.py`; `two_goods.py` cmp["phi"], `fit_base --value-rent`): the
+  record's imported content (0.20 of the machine bundle) as a rent priced with the machine, beside its land; the rent on
+  each machine built is the owners' income (the income identity holds to 4e-16; the rent is 10% of income). With the
+  return at 2% the six targets fit slightly better (1.80 against 1.85) and fixed rents sit at the record's floor by
+  construction, but the chain and replacement stay at a third of pay and of gross output. With the chain's measured
+  share as a target (domestic basis, 15%) the return rises to 6.8%, the chain falls to 19% and replacement to 20%, and the
+  six targets cost 2.80, mostly labour's share (5.1). Shrinking the chain to its measured size costs labour's share,
+  whichever way it is done: the higher return that shrinks it raises capital's income.
