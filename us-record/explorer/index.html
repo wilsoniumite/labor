@@ -255,6 +255,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   function parts(e, x) {
     const g = gamma(e, x), J = Jint(e, x);
     const cpt = e.rho + e.delta;
+    if (e.thetaV !== undefined) e = Object.assign({}, e, { lam: e.thetaV / (g * cpt) });   // lambda from the record's theta_V
     const den = 1 - cpt * (e.a + e.lam * g);
     const Vm = e.b / den, pm = cpt * Vm, v = g * pm;
     const p = v * (1 - x) + pm * J;
@@ -271,6 +272,10 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
 
   function xCeiling(e) {
     const cpt = e.rho + e.delta;
+    if (e.thetaV !== undefined) {                 // with theta_V given, a machine's cost is finite at every task or none
+      if (1 - cpt * e.a - e.thetaV > 0) return 1;
+      throw new Error("no equilibrium: machine services and labour take the whole of a machine's cost");
+    }
     const g = (x) => 1 - cpt * (e.a + e.lam * gamma(e, x));
     const g1 = g(1);
     if (g1 > 0) return 1;
@@ -301,7 +306,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     q.n = q.nD;
     q.participation = q.n / e.N;
     q.income = q.v * q.n + e.T + e.rho * q.Vm * q.K;
-    q.theta_V = e.lam * q.v / q.Vm;
+    q.theta_V = (e.thetaV !== undefined ? e.thetaV / (q.gamma * (e.rho + e.delta)) : e.lam) * q.v / q.Vm;
     q.labour_share_bea = q.v * q.final / q.income;
     q.labour_share_traced = q.v * q.n / q.income;            // all labour, the machine chain's included
     return q;
@@ -333,6 +338,12 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     return D.years.map((y) => Math.exp(interp(y, xs, ys)));
   }
 
+  function thetaVPath(D) {                      // the record's theta_V, straight between measured years, flat beyond
+    const xs = [], ys = [];
+    D.years.forEach((y, i) => { if (D.theta_V[i] !== null && isFinite(D.theta_V[i])) { xs.push(y); ys.push(D.theta_V[i]); } });
+    return D.years.map((y) => interp(y, xs, ys));
+  }
+
   function knotMul(knots, D) {                  // optional paths in logs through [year, log multiplier] knots, 1 if none
     if (!knots || !knots.length) return null;
     const xs = knots.map((k) => k[0]), ys = knots.map((k) => k[1]);
@@ -354,6 +365,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
                   g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max * (chi ? chi[i] : 1), rho,
                   delta: D.delta[i], cap: S.cap === null || S.cap === undefined ? 1 : S.cap, sigma: null };
       if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; if (tilt) e.tilt = tilt[i]; }
+      if (S.thetaVData) e.thetaV = thetaVPath(D)[i];
       out.push(e);
     }
     return out;

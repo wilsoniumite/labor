@@ -89,3 +89,21 @@ pace in logs, inside the members' range but below their median (`playground/wate
 Three of these are presets in the explorer (https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs): the tastes tilt, A′,
 and the kept model with a 5% return. The page now has switches for A′ (building priced like building work) and the
 tilt (its start year and its 2024 weight), and the fit moves the tilt's weight when it is on.
+
+## Her questions of 2026-11-06: equivalences, and two clocks
+
+- **A machine's cost is three shares that add to one**: machine services (rho + delta) a, labour theta_V = lambda gamma(x*)
+  (rho + delta), and land b / Vm. The record pins the shares, not a and the return separately: along the ridge a runs
+  9.4 -> 3.1 while machine services stay 0.38-0.43 of the cost in 1950 and 0.47-0.50 in 2024. The machine's rental in land
+  units is p_m = (rho + delta) b / (land's share): the paper's pinning in one line.
+- **The kept fit's machines become almost land-free**: land's share of a machine's cost falls from 0.32 (1950) to 0.005
+  (2024), where calibration (c) measured fixed costs (land rents and imported content) at 0.33 in 2023. Setting the
+  return at 2% and a so that machine services are 0.20 of the cost in 2023 (calibration (c)'s split: labour 0.47, fixed
+  0.33): misfit 9.14 (four series without theta_V 8.40, against 7.41), clock 5.8% a year, land's share 0.57 -> 0.28.
+- **Land and population**: tripling adults and land together leaves the fit exactly unchanged; T is land per adult in
+  1950, in units of the land in a machine (b, fixed at 0.4). (b, h, T) scale together exactly.
+- **Two clocks**: the second clock is lambda's, and the record's theta_V pins it once the capability clock is set.
+  Taking theta_V from the record year by year instead (lambda then needs no clock) breaks the fit (35.3: the wage in
+  shelter 131): the measured series jumps between benchmark years and is missing before 1967, and its jumps pass straight
+  into machine prices and the wage. A smooth lambda clock does the same job without passing on the noise
+  (`playground/round5*.js`).
