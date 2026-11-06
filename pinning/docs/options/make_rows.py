@@ -33,10 +33,7 @@ def level_option(cell, key, label):
     if cell.get("same_as"):
         return {"key": key, "label": label, "where": cell.get("where", ""), "same_as": cell["same_as"]}
     tex = cell.get("tex") or "\\emph{Nothing at this level.}"
-    where = cell.get("where", "")
-    if cell.get("reuses"):
-        where = (where + "; " if where else "") + "reuses O " + cell["reuses"]
-    return {"key": key, "label": label, "where": where, "tex": tex}
+    return {"key": key, "label": label, "where": cell.get("where", ""), "tex": tex, "reuses": cell.get("reuses", "")}
 
 
 def part2(skel_p, simple_p, medium_p, diffs_p, out_p):
@@ -53,8 +50,6 @@ def part2(skel_p, simple_p, medium_p, diffs_p, out_p):
             c = {"key": "C", "label": "Complex", "where": "rewrite appendices", "tex": COMPLEX_M32}
         opts = [level_option(srows.get(rid), "S", "Simple"), level_option(mrows.get(rid), "M", "Medium"), c]
         row = {"id": rid, "title": r["title"], "diff": D.get(rid, ""), "options": opts}
-        if all(o.get("same_as") == "C" for o in opts[:2]):
-            row["reason"] = LEVEL_REASON
         rows.append(row)
     outline = lambda X: "; ".join(f"{o['number']} {o['title']}" for o in X.get("outline", []))
     spec = {"part": "2", "title": "Part 2 — The model at three levels",

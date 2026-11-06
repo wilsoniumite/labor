@@ -26,12 +26,13 @@ def where(st, bid):
 
 
 n = len(structs)
-colw = 20.6 / n
+NAMEW = 4.6                                               # cm, the block-name column
+colw = (27.5 - NAMEW - 0.43 * (n + 1)) / n                # landscape A4 text width 27.5 cm, minus column padding
 head = " & ".join("\\textbf{" + st["key"] + "}" for st in structs)
 lines = ["\\noindent\\textbf{The map.} Each row is a block of content; each column a layout; each cell the section "
          "that holds the block in that layout. Blocks in italics are new content that only some layouts add.",
          "\\par\\smallskip{\\small",
-         "\\begin{longtable}{@{}p{5.4cm}" + ("p{%.2fcm}" % colw) * n + "@{}}\\toprule",
+         "\\begin{longtable}{@{}p{%.1fcm}" % NAMEW + ("p{%.2fcm}" % colw) * n + "@{}}\\toprule",
          "Content block & " + head + "\\\\\\midrule\\endhead"]
 for b in blocks:
     name = tex_escape(b["name"])

@@ -1,0 +1,971 @@
+{
+ "part": "2",
+ "title": "Part 2 — The model at three levels",
+ "subtitle": "Simple (S), Medium (M) and Complex (C, the rewrite): how much mathematics the main text carries",
+ "preface": "Each row is one piece of the model or its results. S, M and C are three versions of the main text, left to right; in every version the appendix carries the full Complex treatment, so a lower level moves material to the appendix and loses nothing. Cells that two levels share print once. Each column read top to bottom is a complete main text at its level.\\par\\smallskip{\\small\\textbf{Simple, sections:} 2 The economy; 2.1 Tasks; 2.2 Machines, land, and prices; 2.3 Workers; 2.4 The owner and support; 2.5 Equilibrium; 3 Replacement; 3.1 Prices at a given margin; 3.2 The task margin; 3.3 Closing the replacement price; 4 Participation and the labor market; 4.1 The outside option: pricing exit; 4.2 Replacement meets participation; 5 Purchasing power and income; 5.1 What an hour's wage buys; 5.2 Factor income while labor remains employed; 6 Distribution: rent taxation and a uniform transfer; A The general economy and proofs (A.1-A.4) (about 12 pages).\\par\\textbf{Medium, sections:} 2 Description of the economy; 3 Definition of equilibrium; 3.1 Technology; 3.2 The cost system; 3.3 Households; 3.4 Equilibrium; 4 Equilibrium; 4.1 Prices; 4.2 Participation and the labor market; 4.3 Existence and uniqueness; 5 Purchasing power and income; 5.1 What an hour's wage buys; 5.2 Factor income while labor remains employed; 6 Distribution: rent taxation and a uniform transfer; 6.1 The government; 6.2 Sharing rents; A Proofs and the full statement of the model (appendix) (about 16.0 pages).\\par\\textbf{Complex, sections:} 2 Description of the economy; 3 Definition of equilibrium; 4 Equilibrium; 5 Purchasing power and income; 6 Distribution: rent taxation and a uniform transfer (about 20 pages).}",
+ "rows": [
+  {
+   "id": "M.1",
+   "title": "What the main text carries",
+   "diff": "S covers only the flow benchmark ($\\rho=0$, $\\delta=1$) in about 12 pages, in prose with no numbered assumptions or definitions and no proofs, and merges C's Sections 2 and 3 while splitting C's Section~4 into Replacement and Participation; M keeps C's sections, durable machines and statements of the results in about 16 pages, with the cost system in scalar form and every proof in Appendix~A; C takes about 20 pages, with five assumptions, the matrix cost system and the proofs of Propositions 1--3 in the text; S and M introduce the government in Section~6, C in Section~3.5.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "plan",
+     "tex": "The main text works in the flow benchmark: a machine lasts one period and nobody discounts ($\\rho=0$, $\\delta=1$), so a machine-hour costs its current inputs, $p_m=ap_m+\\lambda w+br$. It states the environment and the equilibrium conditions in prose, with the key equations displayed. It has no numbered assumptions and no formal definition, uses the scalar machine recursion in place of the matrix system, and brings in the government only in Section~6, where it taxes rents.\n\nIts results are Propositions 1--6, numbered as in the original paper, and Corollaries 1--2 (the original's two unnumbered corollaries), stated in words, each with its key equation: the task margin, the replacement closure, participation and the reservation wage, the purchasing-power bounds, vanishing participation, the income identity, the rent tax, and coverage. Existence and uniqueness is one sentence that points to Appendix~A, and the main text has no proofs.\n\nIt keeps five sections (2--6), so Sections 7--10 keep their numbers. Much of it is the authors' own text from the original paper, which mostly works in the flow benchmark. About 12 pages at the paper's density (the original's Sections 3--7, mostly in the flow benchmark, ran 11), against about 20 for Complex. Appendix~A carries everything else in Complex Sections 2--6 (row M.32)."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "Sections 2-6",
+     "tex": "\\textbf{Medium: Sections 2--6 in about 16 pages} (Complex: 20), typeset at the paper's density. Everything Complex's Sections 2--6 say stays in the paper; the formal apparatus moves to Appendix A, and the economic discussion stays in the main text.\n\\begin{itemize}\n\\item The same economy: durable machines ($\\delta\\in(0,1]$, $\\rho\\ge0$), a wall $H$ of closed tasks, one non-produced input. Machine-hours rent at the user cost $p_m=(\\rho+\\delta)V_m$, stated as the condition of a competitive rental market; the owner's problem behind it (Lemma A.1) is in Appendix A.\n\\item Three numbered assumptions (technology; workers; the owner and support) and one compact Definition 1 for the economy without policy. The assignment is written as a threshold from the start.\n\\item The cost system in scalar form: the machine recursion as a series, its solution (3), and the price coefficients of each good (4). The matrix system goes to Appendix A.\n\\item No notation table in the main text; Table 1 becomes Table A.1.\n\\item Lemma 1, Propositions 1--6, Theorem 1 and Corollaries 1--3 keep their numbers and Complex's statements, with three changes: Proposition 3 and Theorem 1 are stated for the economy without policy, Corollary 2 without its condition on public payments (Section 6.1 adds it), and Corollary 1(i) without its rate (Appendix A). Each is followed by a one-line idea of its proof, and every proof is in Appendix A. The ceiling $x_c$ is defined in prose; Lemma 2 becomes Lemma A.2. The margin-indexed functions are written with Lemma 1's coefficients, (13)--(14).\n\\item The government enters in Section 6.1, where its instruments are used: its six instruments, the budgets with policy, how Definition 1 extends, and the condition $g_w\\le g_e$ of Corollary 2.\n\\item The remarks on what each result does not depend on move to Appendix A, beside the proofs. The sentences in them that carry economics stay in the text: the closure in any production network, the human-chain bounds (17), recursive automation alone cannot drive $w/r$ to zero, and the case of a wall below the crossing.\n\\item Unchanged from Complex: Section 2, and the paragraphs on wage premia (M.11), automation in practice and AI (M.13), the loom (M.16), support and enclosure (M.19), and the opening of Section 5 (M.25).\n\\end{itemize}"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite \\S\\S2--6",
+     "tex": "The rewrite's Sections 2--6, about 20 pages: Section 2 describes the economy in words; Section 3 states Assumptions 1--5, the cost system, workers, the owner, the government and Definitions 1--3, with a notation table; Section 4 gives Lemma 1, Propositions 1--3 with their proofs, Lemma 2, Theorem 1 (existence and uniqueness) and Corollary 1; Sections 5 and 6 give Propositions 4--6 and Corollaries 2--3. Durable machines, the owner's discounting and the return on machines run throughout."
+    }
+   ]
+  },
+  {
+   "id": "M.2",
+   "title": "The economy in words",
+   "diff": "S describes the agents in one paragraph, in the flow benchmark where machines earn no return and with no government until Section~6, then keeps C's paragraph on what is easy and what is hard, its last sentence split in two; M keeps C's six paragraphs, since its economy is C's and C already leaves the government's instruments to Section~6.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2 ¶1-2",
+     "tex": "\\optsec{2}{The economy}\nConsider an economy with two kinds of households, workers and an owner, and competitive firms; we study its stationary equilibria. Each of the $N$ workers has one hour a period, which it can sell at the wage or keep; selling it has a cost that differs from worker to worker. It receives one basket of goods and living space a period as support, whether or not it works, and spends its wage on further baskets. The owner does not work. It owns the land, provides each worker's support from the rent, and consumes what is left. It stands for whoever sustains a person outside paid work. For example, an adult may live with parents who provide housing and basic consumption while the adult decides whether to take paid work. Firms make a final good by performing a continuum of tasks, as in Zeira (1998) and Acemoglu and Restrepo (2018), using an hour of labor or machine-hours at each task open to machines, whichever is cheaper. Machines are made from machine-hours, labor, and land, the economy's one non-produced input. A machine lasts one period and nobody discounts the future, so machines earn no return; we call this case the flow benchmark. The model has no government; Section~6 adds one to tax the rent on land.\n\nIn this economy, prices are easy to determine once the wage and the rent on land are known. Each good's price equals its cost, and tracing costs through the machines that build machines resolves every price into hours and land, as in the input--output price systems of Leontief (1936) and Sraffa (1960). The main analytical issue is the wage relative to the rent. At the marginal task the wage is set against a machine whose own price contains wages. Workers compare the wage with the cost of a basket that the same costs determine, and the fixed supply of land closes the labor market.",
+     "reuses": "L268 (sentence 3)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§2",
+     "same_as": "C"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Description of the economy}",
+      "until": "\\section{Definition of equilibrium}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.3",
+   "title": "Primitives and notation",
+   "diff": "S lists only the flow benchmark's primitives (no $\\delta$, $\\beta$, $u$ or policy) and names the four prices; M lists C's primitives except the policy, which enters in Section~6, and defines $\\rho$; C lists all of them and prints Table~1 (notation), which S and M move to Appendix~A as Table~A.1.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2 ¶7",
+     "tex": "The economy is specified by the relative-productivity schedule $\\gamma$ and the set $H$ of tasks closed to machines; the recipe $(a,\\lambda,b)$ for building a machine; the land $T$; and the number of workers $N$, the space $h$ in a basket, and the distribution $F$ of the costs of work. Its prices are the wage $w$, the rent $r$ on land services, the price $p$ of the final good, and the rental $p_m$ of a machine-hour. Table~A.1 in Appendix~A.1 collects the notation of the general economy."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3",
+     "tex": "\\optsec{3}{Definition of equilibrium}\nThe economy described in the preceding section is specified by the relative-productivity schedule $\\gamma$ and its wall $x_H$; the recipe $(a,\\lambda,b)$ for building a machine and the machine's depreciation rate $\\delta$; the land $T$; the number of workers $N$, the space $h$ in a basket, and the distribution $F$ of the costs of work; and the owner's discount factor $\\beta$ and utility $u$. We write $\\rho=1/\\beta-1$ for the owner's rate of time preference, which is the return at which machines are held. The government and its policy enter in Section 6. Table A.1 in Appendix A collects the notation."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Definition of equilibrium}",
+      "until": "\\subsection{Tasks, machines, and land}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.4",
+   "title": "Tasks",
+   "diff": "S states the restrictions on the schedule in prose, with the original's sentence that relative human productivity is unbounded at tasks machines cannot perform; M keeps C's prose and states the restrictions as part~(a) of one technology assumption (row M.5); C states them as Assumption~1 (tasks).",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.1",
+     "tex": "\\optsec{2.1}{Tasks}\nProducing one unit of the final good requires a continuum of tasks\n$x \\in [0,1]$, each in equal amount (Leontief aggregation over tasks): the good's\nunit cost is the sum of its tasks' unit costs. One human-hour completes\n$\\gamma_L(x)$ units of task $x$; one machine-hour completes $\\gamma_M(x)$.\nRelative human productivity is\n\\optdisp{\\gamma(x) = \\gamma_L(x) / \\gamma_M(x).}{(1)}\nWe measure each task in the units an hour completes, $\\gamma_L=1$, so that $\\gamma(x)$ is the number of machine-hours that do the work of one hour at task $x$.\n\nSome tasks cannot be performed by machines at any price: $\\gamma_M(x)=0$ there, so relative human productivity is unbounded. Others are reserved for people, by law or because the good is defined by its human performance. Let $H$ denote the set of tasks closed to machines. We relabel the open tasks so that $\\gamma$ increases, assume that $\\gamma$ is positive, continuously differentiable and strictly increasing on them, and place the tasks in $H$ after them. The open tasks are then an interval $[0,x_H]$, with $x_H>0$, and $H=(x_H,1]$, which is empty when $x_H=1$. Figure~1 draws $H$ as a wall at the right edge of the schedule. A reservation is a rule: lifting it opens tasks without any change in machines. The schedule $\\gamma$ and the set $H$ are given; we do not model the creation of new tasks in which people hold a comparative advantage.",
+     "reuses": "L140-147 (without the run-in head 'Tasks.'); L159-160 (sentence 'Some tasks cannot be performed ... unbounded.'); L161 ('Let $H$ denote the set of tasks closed to machines.')"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.1",
+     "tex": "\\optsec{3.1}{Technology}\nThe economy has four produced goods (a final good made by performing tasks; machines; the machine-hours that machines supply; and space) and one non-produced input, land.\n\n\\textbf{Tasks.} Producing one unit of the final good requires a continuum of tasks\n$x \\in [0,1]$, each in equal amount (Leontief aggregation over tasks): the good's\nunit cost is the sum of its tasks' unit costs. One human-hour completes\n$\\gamma_L(x)$ units of task $x$; one machine-hour completes $\\gamma_M(x)$.\nRelative human productivity is\n\\optdisp{\\gamma(x) = \\gamma_L(x) / \\gamma_M(x).}{(1)}\nIt is the number of machine-hours that do the work of one hour at task $x$. Some tasks are closed to machines: machines cannot perform them, $\\gamma_M(x)=0$, or they are reserved for people, by law or because the good is defined by its human performance. We relabel the open tasks so that $\\gamma$ increases, which changes the measure of no set of tasks, and we place the closed tasks after them; Figure 1 draws the closed tasks as a wall at the right edge of the schedule. A reservation is a rule: lifting it opens tasks without any change in machines. The schedule $\\gamma$ and the set of closed tasks are exogenous; new versions of tasks in which people hold a comparative advantage would raise $\\gamma$ at the tasks they replace, the reverse of task automation (Section 3.4), and we do not model their creation.",
+     "reuses": "L140-147 (with (EQ:gamma))"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Tasks, machines, and land}",
+      "until": "\\textbf{Machines.}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.5",
+   "title": "Machines and land",
+   "diff": "S describes in prose a machine that lasts one period, with $a<1$ and $a+\\lambda\\gamma(0)<1$, and introduces land with the original's sentences on the non-produced input; M merges C's Assumptions 1--3 into one Assumption~1 (technology) with three parts and the same conditions; C states Assumptions~2 (machines) and~3 (land), with durable machines and the condition $(\\rho+\\delta)(a+\\lambda\\gamma(0))<1$.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.2 ¶1-2",
+     "tex": "\\optsec{2.2}{Machines, land, and prices}\nA machine is itself produced: from other machines, from labor, and from land, such as a site, a mineral deposit, or the ground under a plant or a datacenter. Building a machine takes $a$ machine-hours, $\\lambda$ hours of labor, and $b>0$ units of land services. In the flow benchmark a machine supplies one machine-hour and then wears out. We assume $a<1$, so that machine-hours can be produced at a finite price, and $a+\\lambda\\gamma(0)<1$, so that at the first task the machine-hours that replace an hour of work cost less than that hour at a high enough wage.\n\nThe baseline has one non-produced input, with rental $r$ and fixed service endowment $T$ per period. Land services provide a concrete example. No activity adds to the land. Land services are used to build machines and, rented directly, as living space: a unit of space is a unit of land services. Land stands for the paper's non-produced inputs, resources whose supply the production process does not generate, such as mineral deposits. The rent $r$ is a payment for land services; it is not an interest rate.",
+     "reuses": "L153 (sentences 4-5)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.1",
+     "tex": "\\textbf{Machines and land.} A machine is itself produced: from other machines, from labor, and from land, such as a site, a mineral deposit, or the ground under a plant or a datacenter. Land services are used to build machines and, rented directly, as living space: a unit of space is a unit of land services.\n\n\\begin{optthm}{Assumption 1}{technology}\n(a) \\emph{Tasks.} One hour completes one unit of every task, $\\gamma_L=1$. The tasks closed to machines form the set $H=(x_H,1]$, with $x_H\\in(0,1]$, so that $H$ is empty when $x_H=1$. On the open tasks $[0,x_H]$, $\\gamma$ is positive and continuously differentiable, with $\\gamma'(x)>0$ for $0<x<x_H$.\n(b) \\emph{Machines.} Building a machine takes $a\\ge0$ machine-hours, $\\lambda\\ge0$ hours of labor, and $b>0$ units of land services. A machine supplies one machine-hour per period, and a fraction $\\delta\\in(0,1]$ of the machine stock wears out each period. Moreover, $(\\rho+\\delta)(a+\\lambda\\gamma(0))<1$.\n(c) \\emph{Land.} There are $T>0$ units of land, each yielding one unit of land services per period. No activity adds to the land.\n\\end{optthm}\n\nPart (a) restricts only the relabeled schedule, which has no jumps or flat stretches below $x_H$. The last condition in (b) has two parts: $(\\rho+\\delta)a<1$, so that machine-hours have a finite price, and, at the first task, the machine-hours that replace an hour of work cost less than that hour at a high enough wage (Section 4.3). With $\\rho=0$ and $\\delta=1$ a machine lasts one period and earns no return, so machine services are priced at their current cost; we call this case the flow benchmark. We write $r$ for the rent on land services; it is not an interest rate."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\textbf{Machines.}",
+      "until": "\\subsection{The cost system}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.6",
+   "title": "The cost system",
+   "diff": "S writes the flow benchmark's recursion $p_m=(\\lambda w+br)/(1-a)$ and notes that there the price coefficients equal the total requirements; M writes the cost system in scalar form at a threshold, with the user cost explained as a rental-market condition and the machine recursion written as a series; C writes the unit cost for any set of machine tasks and the system in four-good matrix form, with separate input matrices for prices and quantities, which S and M leave to Appendix~A.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.2 ¶3-6",
+     "tex": "Let $w$ be the wage, $p$ the price of the final good, and $p_m$ the rental of a machine-hour. Under constant returns and competitive free entry, each good's price equals its unit cost. If machines perform the open tasks below $x$ and labor performs the others, a unit of the final good uses $J(x)=\\int_0^x\\gamma(t)\\,dt$ machine-hours and $1-x$ hours, so\n\\optdisp{p=w(1-x)+p_mJ(x),\\qquad p_m=ap_m+\\lambda w+br,}{(2)}\nand space rents at $r$. A machine-hour costs its current inputs: the machine-hours, hours, and land services used to build the machine that supplies it. These are prices per unit. Quantities supplied or consumed per period turn them into expenditure flows. The economy is a stationary flow benchmark, with $p_m$ pricing the use of machine services. Appendix~A treats timing and durability.\n\nThe price of a machine-hour contains the price of the machine-hours used to build the machine, whose price contains the machine-hours used to build those, and so on. Substituting the machine-hour's equation into itself gives\n\\optdisp{p_m=(\\lambda w+br)(1+a+a^2+\\cdots)=\\frac{\\lambda w+br}{1-a}.}{(3)}\nWe call the tracing of prices through intermediate inputs the \\emph{cost recursion}. It resolves every price into hours and land:\n\\optdisp{\\begin{aligned}\np_i&=w\\widetilde\\lambda_i+r\\widetilde b_i,\\\\\n\\widetilde\\lambda_m&=\\frac{\\lambda}{1-a},\\quad \\widetilde b_m=\\frac{b}{1-a},\\qquad\n\\widetilde\\lambda_g=1-x+\\widetilde\\lambda_mJ(x),\\quad \\widetilde b_g=\\widetilde b_mJ(x),\n\\end{aligned}}{(4)}\nfor a machine-hour ($m$) and the final good ($g$), while space has $\\widetilde\\lambda=0$ and $\\widetilde b=1$. We call $\\widetilde\\lambda_i$ and $\\widetilde b_i$ the \\emph{price coefficients} of good $i$. In the flow benchmark they are also its total requirements: the hours and land services that the production of one unit uses throughout its chain, including all intermediate rounds. The tilde distinguishes the full production chain from the direct requirements.\nAppendix~B.1 gives the general production network, in which (4) holds for every good.",
+     "reuses": "L205 (sentences 1-3; sentence 4 with its pointer made Appendix A); L223 (sentence 1)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.2",
+     "tex": "\\optsec{3.2}{The cost system}\nLet $w$ be the wage, $p$ the price of the final good, $p_m$ the rental of a machine-hour, and $V_m$ the price of a machine. Under constant returns and competitive free entry, each good's price equals its unit cost. Since $\\gamma$ increases on the open tasks, a producer who compares the two inputs task by task gives machines, up to a set of measure zero, the open tasks below some threshold $x$ and labor the tasks above it. With machines on the tasks below $x$, a unit of the final good uses $J(x)=\\int_0^x\\gamma(t)\\,dt$ machine-hours and $1-x$ hours, so\n\\optdisp{p=w(1-x)+p_mJ(x),\\qquad V_m=ap_m+\\lambda w+br,\\qquad p_m=(\\rho+\\delta)V_m,}{(2)}\nand space rents at $r$. The last equation is the condition of a competitive rental market for machine-hours. A machine rented out for a period loses $\\delta V_m$ of its value, and its owner holds it only if it also earns the return $\\rho V_m$, so a machine-hour rents at the user cost $(\\rho+\\delta)V_m$. Appendix A derives it from the owner's problem when the owner consumes and holds machines (Lemma A.1(c)); otherwise Definition 1 imposes it.\n\nThe machine rows are a recursion: a machine-hour's price includes the machine-hours used to build the machine, whose price includes those used to build them, and so on. Substituting the machine's price into its rental again and again gives\n\\optdisp{p_m=(\\rho+\\delta)(\\lambda w+br)\\bigl[1+(\\rho+\\delta)a+\\bigl((\\rho+\\delta)a\\bigr)^2+\\cdots\\bigr].}{}\nTracing these costs through successive rows reaches the human hours and non-produced services in the full chain. Since $(\\rho+\\delta)a<1$, the series converges, and\n\\optdisp{p_m=w\\widetilde\\lambda_m+r\\widetilde b_m,\\qquad\n\\widetilde\\lambda_m=\\frac{(\\rho+\\delta)\\lambda}{1-(\\rho+\\delta)a},\\qquad\n\\widetilde b_m=\\frac{(\\rho+\\delta)b}{1-(\\rho+\\delta)a}.}{(3)}\nWe call the tracing of prices through intermediate inputs the \\emph{cost recursion}. It resolves every price into hours and land. For the final good ($i=g$) and the machine-hour ($i=m$),\n\\optdisp{p_i=w\\widetilde\\lambda_i+r\\widetilde b_i,\\qquad\n\\widetilde\\lambda_g=1-x+\\widetilde\\lambda_mJ(x),\\qquad\n\\widetilde b_g=\\widetilde b_mJ(x);}{(4)}\na machine has the coefficients of a machine-hour divided by $\\rho+\\delta$, and space has $\\widetilde\\lambda=0$ and $\\widetilde b=1$. We call $\\widetilde\\lambda_i$ and $\\widetilde b_i$ the \\emph{price coefficients}: the full-chain hours and land services per unit of each good, valued at the user cost. Equations (2)--(4) are the input--output price equations of Leontief (1936) and Sraffa (1960) for four goods; Appendix A writes them as a matrix system.",
+     "reuses": "L203 (sentence 4); L223 (sentence 1)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{The cost system}",
+      "until": "\\subsection{Workers}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.7",
+   "title": "Workers",
+   "diff": "S writes the worker's utility directly over baskets, in prose, with no public payments; M keeps C's assumption with Leontief utility over the good and space, as Assumption~2, and moves the budget with public payments to Section~6.1; C states the assumption as Assumption~4 and writes that budget here.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.3",
+     "tex": "\\optsec{2.3}{Workers}\nEach of $N$ workers can supply one hour per period. A worker sells its hour ($n=1$) or keeps it ($n=0$), and consumes its income each period, neither saving nor borrowing. It consumes baskets of one unit of the final good and $h$ units of space, each costing\n\\optdisp{P_s=p+hr,}{(5)}\nthe subscript standing for support. Each worker receives one basket per period as support, in work and in exit (Section~2.4), and spends its wage on additional baskets, so that it consumes $c=1+wn/P_s$ baskets. Its utility is $\\log c-\\chi n$, so that the choice $n$ gives\n\\optdisp{u_n=\\log\\left(1+\\frac{wn}{P_s}\\right)-\\chi n,\\qquad \\chi\\ge0.}{(6)}\nConsumption is measured in baskets, with one supplied through support. The parameter $\\chi$ is the utility cost of the market hour, including the value of time it displaces. Non-work time is valuable and heterogeneous (Mas and Pallais 2019). The cost of work differs across workers, with a continuous distribution function $F$ and $F(0)=0$.\n\nA worker's reservation wage $s$ is the payment that makes work as attractive as the best available arrangement without that hour's earnings. Section~4.1 derives it from support, living costs, and preferences.",
+     "reuses": "L153 (sentences 1-2; sentence 3 with its cross-reference renumbered); L282"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.3",
+     "same_as": "C",
+     "note": "the same text, numbered Assumption 2, with the worker's budget at zero policy instruments.",
+     "reuses": "L282; L153 (sentence 2; sentence 3 with its cross-reference renumbered)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Workers}",
+      "until": "\\subsection{The owner and support}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.8",
+   "title": "The owner and support",
+   "diff": "S describes the owner in prose: in the flow benchmark its only income is the rent, so its budget is $P_s(c_o+N)=rT$ and support is funded when $rT\\ge NP_s$; M states the owner's objective as Assumption~3, with the conditions on $u$ in Appendix~A, and writes only the stationary budget without policy, with a sentence on where the return on machines comes from; C states the full Assumption~5 and writes the period-by-period budget with the policy before the stationary one.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.4",
+     "tex": "\\optsec{2.4}{The owner and support}\nOne further household, the owner, does not work and is not among the $N$ workers, so ``per person'' below means per worker. It owns the land and rents it out; at any positive rent it rents out all of it. It also holds the machines, which in the flow benchmark earn no return, so the rent is its only income. From that rent it gives each worker one basket per period, in work and in exit, and consumes $c_o$ baskets itself:\n\\optdisp{P_s\\,(c_o+N)=rT.}{(7)}\nSupport is a commitment in this budget, and it is \\emph{funded} when the budget leaves $c_o\\ge0$, that is, when the rent covers the support, $rT\\ge NP_s$.\n\nOur participation benchmark focuses on dependence: a household or public institution provides the living standard available outside employment. If support continues during employment, earnings buy additional consumption. Here the support is funded from the rent on land. Section~6 lets the government provide it from a tax on rents, and shows why support financed from wages faces an aggregate limit as wages fall relative to rents.",
+     "reuses": "L268 (sentences 2 and 4)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.3",
+     "tex": "\\begin{optthm}{Assumption 3}{the owner and support}\nOne further household, the owner, does not work and lives forever. It owns the land and the machines, and it gives each worker one basket per period, in work and in exit. It ranks paths of its own consumption $c_{o,t}$, in baskets, by $\\sum_{t\\ge0}\\beta^tu(c_{o,t})$, with $\\beta\\in(0,1]$ and $u$ concave and increasing; Appendix A gives the precise conditions and the case $\\beta=1$.\n\\end{optthm}\nEach period the owner rents out $\\ell\\le T$ units of land and its $X$ machines, provides the support, replaces the machines that wear out, and consumes. With a constant stock, the rentals $(\\rho+\\delta)V_mX$ of its machines pay for the $\\delta X$ replacements and leave the return $\\rho V_mX$, so its budget is\n\\optdisp{P_s\\,(c_o+N)=r\\ell+\\rho V_mX.}{(7)}\nSupport is a commitment in this budget, and it is \\emph{funded} when the budget leaves $c_o\\ge0$. The owner is not among the $N$ workers, so ``per person'' below means per worker. Our participation benchmark focuses on dependence: a household or public institution provides the living standard available outside employment. If support continues during employment, earnings buy additional consumption. Here the support is funded from ownership income, the rent on land and the return on machines; Section 6 lets the government provide it from a tax on rents, and shows why support financed from wages faces an aggregate limit as wages fall relative to rents.",
+     "reuses": "L268 (sentences 2 and 4)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{The owner and support}",
+      "until": "\\subsection{Government}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.9",
+   "title": "Government",
+   "diff": "S introduces only the rent tax and the uniform transfer, in Section~6 (row M.29), and puts the other four instruments and the government's budget in Appendix~A.1; M moves C's text on the six instruments and the budget to Section~6.1 (row M.29), where they are used; C introduces the government here, in Section~3.5, with every instrument at zero in the baseline.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "pointer",
+     "tex": "Not in the model. The government appears only in Section~6, which introduces a tax on the rental value of land and a uniform transfer that can fund the basket in the owner's place. The wage tax, payments that depend on work, public provision of the basket, and the government's budget with all six instruments are in Appendix~A.1, and Appendix~D uses them."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§6.1",
+     "tex": "Not in Section 3. The government enters in Section 6.1, where its instruments are used; until then every instrument is zero."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Government}",
+      "until": "\\subsection{Equilibrium}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.10",
+   "title": "Definition of equilibrium",
+   "diff": "S defines equilibrium in prose and displays the four clearing conditions in their flow form; M states Definition~1 for the economy without policy, with the assignment as a threshold from the start, and moves the matrix form and C's notes on the user-cost clause and Walras's law to Appendix~A; C states Definition~1 with the policy and a general set of machine tasks, followed by those notes.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.5 ¶1-2",
+     "tex": "\\optsec{2.5}{Equilibrium}\nA stationary equilibrium consists of prices $w$, $r$, $p$, and $p_m$, all nonnegative, with $P_s>0$, an assignment of tasks, and quantities at which every agent optimizes at constant prices and every market clears. Producers minimize cost and earn zero profit: each task goes to the cheaper input, and prices satisfy (2). Since $\\gamma$ increases on the open tasks, cost minimization gives machines, up to a set of measure zero, the open tasks below a threshold $x^*$ and labor those above it, together with every task in $H$. We call the threshold the \\emph{task-assignment margin}, or task margin. Each worker chooses $n$ to maximize (6), and the owner rents out its land and funds the support, $c_o\\ge0$ in (7).\n\nWith $Y$ units of the final good, $X$ machine-hours, $N_a$ hours sold, and $C$ baskets consumed by the workers and the owner together, the markets for labor, machine-hours, land, and the final good clear:\n\\optdisp{N_a=Y(1-x^*)+\\lambda X,\\qquad X=YJ(x^*)+aX,\\qquad hY+bX\\le T,\\qquad Y=C.}{(8)}\nHours go to final tasks and to building machines. Machine-hours go to final tasks and to building the $X$ machines that replace those that wear out each period. Land goes to living space and to building machines; it is fully used when $r>0$, and some may be idle at a zero rent. The $Y$ units of the final good are consumed in baskets, with $hY$ units of space. When $r>0$ we measure prices in land services, $r=1$, and write $v=w/r$ for the wage--rent ratio.",
+     "reuses": "L170 (sentence 6)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.4",
+     "tex": "\\optsec{3.4}{Equilibrium}\n\\begin{optthm}{Definition 1}{equilibrium}\nA \\emph{stationary equilibrium} consists of prices $w$, $r$, $p$, $p_m$, and $V_m$, all nonnegative, with $P_s>0$; a threshold $x^*\\in[0,x_H]$, machines performing the tasks below it and labor the others; the output $Y$ of the final good and the machine stock $X$; each worker's choice $n(\\chi)\\in\\{0,1\\}$; and the land $\\ell\\in[0,T]$ that the owner rents out and its consumption $c_o\\ge0$, such that:\n(i) \\emph{producers} minimize cost and earn zero profit: $p_m\\gamma(x)\\le w$ at the open tasks below $x^*$ and $p_m\\gamma(x)\\ge w$ at those above it, prices satisfy (2) at $x=x^*$, and machine-hours rent at the user cost;\n(ii) \\emph{each worker} chooses $n(\\chi)$ to maximize (6);\n(iii) \\emph{the owner}'s plan of renting out $\\ell$, holding $X$, and consuming $c_o$, given by (7), in every period is optimal for it at these prices, starting from the stock $X$;\n(iv) \\emph{markets clear} for labor, machine-hours, land, and the final good:\n\\optdisp{N_a=Y(1-x^*)+\\lambda\\delta X,\\quad\nX=YJ(x^*)+a\\delta X,\\quad\n\\ell=hY+b\\delta X,\\quad\nY=N+\\frac{wN_a}{P_s}+c_o,}{}\nwhere $N_a=N\\int n(\\chi)\\,dF(\\chi)$ is the number of workers who work.\n\\end{optthm}\nThe equilibrium concept is standard: a stationary competitive equilibrium, in which every agent optimizes at constant prices and every market clears. Appendix A states the owner's problem in condition (iii) and solves it (Lemma A.1): at the user cost, the constant plan is optimal whenever (7) leaves $c_o\\ge0$, and at a positive rent the owner rents out all its land. When $r>0$ we measure prices in land services, $r=1$, and write $v=w/r$ for the wage--rent ratio."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Equilibrium}",
+      "until": "In this economy every hour earns the same wage"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.11",
+   "title": "One wage and competitive markets",
+   "diff": "All three print C's paragraph, since setting wage premia aside until Section~9.2 does not depend on the level.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.5 ¶3",
+     "same_as": "C"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.4",
+     "same_as": "C"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "In this economy every hour earns the same wage",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.12",
+   "title": "Margins and automation",
+   "diff": "S defines the margins and the two automation channels in prose, keeping the original's paragraph on the channels whole, which brings here the two loom sentences that C has in row M.13 and the software-developer example that C drops; M states Definition~2 directly on the threshold and keeps C's Definition~3; C states Definition~2 on sets of tasks of positive measure and then reads it on the threshold.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.5 ¶4-6",
+     "tex": "The margin is \\emph{interior} when $0<x^*<x_H$, so that machines perform a set of tasks of positive measure and labor performs a set of open tasks of positive measure. The assignment is a \\emph{boundary assignment} when $x^*=x_H$, so that labor holds almost none of the open tasks, and a \\emph{corner} when $x^*=0$. At a boundary assignment there is no open marginal task, and the machine comparison does not pin the wage. An interior margin can coexist with human-required tasks in $H$. Appendix~E treats the case in which human-required services determine the wage.\n\n\\textbf{Task automation} improves machine capability at tasks near the assignment margin, lowering relative human productivity there. A faster loom reduces the machine time needed to replace an hour of weaving. \\textbf{Recursive automation} reduces the human hours embodied in machine services, $\\widetilde{\\lambda}_m$. Automating the manufacture and maintenance of looms can lower the labor required to supply a loom-hour. Software developers illustrate how the two channels can meet: generating code automatically changes the machine alternative to a programming task; when that work builds or maintains systems supplying machine services, fewer developer hours can also reduce the labor embodied in those services.\n\nIn this economy, task automation lowers $\\gamma$ at some tasks and can move tasks out of $H$ that were closed to machines by capability. Recursive automation lowers $\\lambda$, the labor needed to build a machine, and with it $\\widetilde\\lambda_m=\\lambda/(1-a)$.",
+     "reuses": "L170 (sentence 8); L249 (whole paragraph, including the software-developer sentence that Complex drops)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.4",
+     "tex": "We call the threshold the \\emph{task-assignment margin}, or task margin.\n\\begin{optthm}{Definition 2}{margins}\nIn an equilibrium with $w>0$ and $p_m>0$, the margin is \\emph{interior} if $0<x^*<x_H$. The assignment is a \\emph{boundary assignment} if $x^*=x_H$, so that labor performs none of the open tasks, and a \\emph{corner} if $x^*=0$, so that machines perform none.\n\\end{optthm}\nAn interior margin can coexist with human-required tasks in $H$. Appendix E treats the case in which human-required services determine the wage.\n\n\\begin{optthm}{Definition 3}{automation}\nCompare two economies that differ only as stated. \\emph{Task automation} raises machine capability: $\\gamma_M$ is nowhere lower and is higher on a set of tasks of positive measure, with the reserved tasks unchanged, so that $\\gamma$ is nowhere higher and some tasks may leave $H$. \\emph{Recursive automation} lowers $\\lambda$, the labor needed to build a machine.\n\\end{optthm}",
+     "reuses": "L170 (sentences 6 and 8; sentence 7 edited as in Complex)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{definition}[margins]",
+      "until": "A faster loom reduces"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.13",
+   "title": "Automation in practice, and AI",
+   "diff": "M prints C's paragraph, since its examples and its account of AI do not depend on the level; S prints the same paragraph without its two opening loom sentences, which S places in row M.12.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§2.5 ¶7",
+     "same_as": "C",
+     "note": "the same text without its first two sentences (the loom), which Simple places in row M.12.",
+     "reuses": "L540 (sentences 1-2); L251 (sentence 3)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§3.4",
+     "same_as": "C"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "A faster loom reduces",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.14",
+   "title": "Prices and quantities (Lemma 1)",
+   "diff": "S starts its Section~3 (Replacement) with the basket's price and quantities in the flow benchmark in one display, with no lemma (there the price coefficients equal the total requirements, so C's part~(iii) is not needed); M states C's Lemma~1 with a one-line idea of its proof, after the original's sentence that the proofs are collected in Appendix~A; C states Lemma~1 with a remark, after saying that the main price and participation results are proved in the text.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§3, §3.1",
+     "tex": "\\optsec{3}{Replacement}\nThis section and the next characterize the equilibrium. Each result is stated in words with its key equation, and Appendix~A.4 proves them.\n\n\\optsec{3.1}{Prices at a given margin}\nAt a margin $x^*$, the cost recursion (4) prices the basket through the total hours and land services its chain requires:\n\\optdisp{P_s=wL_s+rB_s,\\qquad L_s=1-x^*+\\frac{\\lambda J(x^*)}{1-a},\\qquad B_s=h+\\frac{bJ(x^*)}{1-a}.}{(9)}\nThe clearing conditions (8) give the quantities. The machine-hours are $X=YJ(x^*)/(1-a)$, so the $Y$ baskets employ $N_a=YL_s$ hours and use $YB_s$ units of land. These statements use only cost minimization and market clearing; they hold whatever the preferences of the workers and the owner."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4, §4.1",
+     "tex": "\\optsec{4}{Equilibrium}\nProofs of the main price and participation results are collected in Appendix A.\n\n\\optsec{4.1}{Prices}\nQuantities use the replacement rate in place of the user cost: a stock of $X$ machines supplies $X$ machine-hours and needs $\\delta X$ new machines each period.\n\\begin{optthm}{Lemma 1}{prices and quantities}\nIn every equilibrium with margin $x^*$:\n(i) prices are (3)--(4) at $x=x^*$, and the basket costs $P_s=w\\widetilde\\lambda_s+r\\widetilde b_s$, with $\\widetilde\\lambda_s=1-x^*+\\widetilde\\lambda_mJ(x^*)$ and $\\widetilde b_s=h+\\widetilde b_mJ(x^*)$;\n(ii) $Y$ baskets employ $N_a=YL_s$ hours and use $\\ell=YB_s$ units of land, with $L_s=1-x^*+\\lambda\\delta J(x^*)/(1-a\\delta)$ and $B_s=h+b\\delta J(x^*)/(1-a\\delta)$;\n(iii) $\\widetilde\\lambda_s\\ge L_s$ and $\\widetilde b_s\\ge B_s$, with equality when $\\rho=0$, and $P_s=wL_s+rB_s+\\rho V_mX/Y$.\n\\end{optthm}\nPart (i) applies (4) to the basket, part (ii) solves the clearing conditions of Definition 1, and part (iii) compares $(\\rho+\\delta)/[1-(\\rho+\\delta)a]$ with $\\delta/(1-\\delta a)$ (Appendix A). The coefficients $L_s$ and $B_s$ are the hours and land services that one basket physically requires; with a positive return, the basket's price also pays the return on the machines that supply it.",
+     "reuses": "L136 (sentence 2, its pointer now Appendix A)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Equilibrium}",
+      "until": "Labor, at wage $w$, holds task"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.15",
+   "title": "The task margin (Proposition 1)",
+   "diff": "All three state Proposition~1 alike and use Figure~1, printed in C's cell; S gives no proof and keeps C's remark as plain text; M gives a one-line idea of the proof and moves the proof and the remark to Appendix~A; C proves it in the text, followed by the remark.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§3.2 ¶1-2",
+     "tex": "\\optsec{3.2}{The task margin}\nLabor, at wage $w$, holds task $x$ when it is the cheaper input:\n$w/\\gamma_L(x) \\le p_m/\\gamma_M(x)$, i.e.\n$w \\le p_m\\cdot\\gamma(x)$. The right-hand side is labor's \\emph{replacement value} at task $x$: the wage at which labor and the machine alternative cost the same there. Figure~1 draws the schedule and the margin.\n\n\\begin{optthm}{Proposition 1}{the task margin}\nIn an equilibrium with $w>0$ and $p_m>0$: (i) at an interior margin, the wage equals labor's replacement value at the marginal task,\n\\optdisp{w=p_m\\gamma(x^*);}{(10)}\nat a boundary assignment it is at least $p_m\\gamma(x_H)$, and at a corner at most $p_m\\gamma(0)$.\n(ii) Holding the machine rental fixed, movement of an interior margin changes the wage at rate $dw/dx^*=p_m\\gamma'(x^*)$. Where a fixed-output labor-demand schedule absorbs additional final-task hours by lowering $x^*$, a steeper capability schedule requires a larger wage change for the same movement of the margin.\n\\end{optthm}\n\nProposition~1 compares unit costs at given prices. It does not depend on how the machine rental is set, on preferences, or on the labor market.",
+     "reuses": "L155-157 (sentences 1-2); L191 (part (ii), both sentences; sentence 1 edited: 'the margin' made 'an interior margin', as in Complex)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.1",
+     "tex": "Labor, at wage $w$, holds task $x$ when it is the cheaper input:\n$w/\\gamma_L(x) \\le p_m/\\gamma_M(x)$, i.e.\n$w \\le p_m\\cdot\\gamma(x)$. The right-hand side is labor's \\emph{replacement value} at task $x$: the wage at which labor and the machine alternative cost the same there. Figure 1 draws the schedule.\n\n\\begin{optthm}{Proposition 1}{the task margin}\nIn an equilibrium with $w>0$ and $p_m>0$:\n(i) at an interior margin,\n\\optdisp{w=p_m\\gamma(x^*);}{(8)}\nat a boundary assignment, $w\\ge p_m\\gamma(x_H)$; at a corner, $w\\le p_m\\gamma(0)$.\n(ii) Holding the machine rental fixed, movement of an interior margin changes the wage at rate $dw/dx^*=p_m\\gamma'(x^*)$. Where a fixed-output labor-demand schedule absorbs additional final-task hours by lowering $x^*$, a steeper capability schedule requires a larger wage change for the same movement of the margin.\n\\end{optthm}\nPart (i) follows from condition (i) of Definition 1 and the continuity of $\\gamma$; part (ii) differentiates (8) at a fixed rental (Appendix A).",
+     "reuses": "L155-157 (the paragraph's sentences 1-2); L191 (edited as in Complex)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Labor, at wage $w$, holds task",
+      "until": "Suppose a loom weaves four meters"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.16",
+   "title": "A numerical illustration: the loom",
+   "diff": "All three print C's text, since the loom example holds the rental fixed and does not depend on the level.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§3.2 ¶3",
+     "same_as": "C"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.1",
+     "same_as": "C"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Suppose a loom weaves four meters",
+      "until": "\\begin{proposition}[replacement closure]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.17",
+   "title": "The replacement closure (Proposition 2)",
+   "diff": "S states Proposition~2 with its flow form $w/r=\\gamma(x^*)b/(1-a-\\gamma(x^*)\\lambda)$, without the algebra, and reads the feedback term as labor's share of machine-service cost, which C and M do only when $\\rho=0$; M shows the algebra in one sentence and leaves the derivatives to Appendix~A; C proves it in the text, with the derivatives and a remark; all three use Figure~2, printed in C's cell.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§3.3",
+     "tex": "\\optsec{3.3}{Closing the replacement price}\n\\begin{optthm}{Proposition 2}{replacement closure}\nIn an equilibrium with an interior margin and $r>0$, the feedback term $1-\\gamma(x^*)\\widetilde\\lambda_m$ is positive, and the machine rental and the wage, relative to the rent, are\n\\optdisp{\\frac{p_m}{r}=\\frac{\\widetilde b_m}{1-\\gamma(x^*)\\widetilde\\lambda_m},\\qquad\n\\frac{w}{r}=\\frac{\\gamma(x^*)\\widetilde b_m}{1-\\gamma(x^*)\\widetilde\\lambda_m}=\\frac{\\gamma(x^*)\\,b}{1-a-\\gamma(x^*)\\lambda}.}{(11)}\nHolding the other total requirements fixed, the wage--rent ratio rises with $\\gamma(x^*)$ and with $\\widetilde{\\lambda}_m$.\n\\end{optthm}\n\nThe closure combines the task margin (10) with the machine-hour's price in (4), $p_m=w\\widetilde\\lambda_m+r\\widetilde b_m$. The denominator measures the feedback from the wage into the cost of its substitute. At the margin, $\\gamma(x^*)\\widetilde{\\lambda}_m$ is the labor share of machine-service cost. A positive rent bill requires this share to be below one. The closure is a price condition at the equilibrium assignment; household choices and market clearing also determine $x^*$ (Section~4.2).\n\nHolding the other terms in (11) fixed, either channel lowers the wage supported by a given rent. With labor in the machine supply chain, task automation also cheapens that chain's labor. Figure~2 traces both channels from a common starting point.\n\nWhen the labor requirement of the full machine-service chain vanishes and $\\gamma(x^*)\\widetilde{\\lambda}_m\\to0$, equation (11) gives\n\\optdisp{\\frac{p_m/r}{\\widetilde{b}_m} \\to 1.}{(12)}\nThe service price is then accounted for by its embodied claim on the non-produced input. Interest and institutional rents introduce additional income components outside the two-factor flow benchmark.\n\nProposition~2 uses only Proposition~1 and the machine-hour's price. It does not depend on preferences, on support, or on the labor market, and it holds in any production network of Appendix~B.1 whose machine chain uses a non-produced input.",
+     "reuses": "L242 (verbatim, last sentence of Proposition 2); L245 (sentences 1-3); L251 (sentences 1-2 and 4, cross-references renumbered); L253 (cross-reference renumbered); L257"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.1",
+     "tex": "\\begin{optthm}{Proposition 2}{replacement closure}\nIn every equilibrium with an interior margin and $r>0$, the feedback term $1-\\gamma(x^*)\\widetilde\\lambda_m$ is positive and\n\\optdisp{\\frac{p_m}{r}=\\frac{\\widetilde{b}_m}{1-\\gamma(x^*)\\widetilde{\\lambda}_m},\\qquad\n\\frac{w}{r}=\\frac{\\gamma(x^*)\\widetilde{b}_m}{1-\\gamma(x^*)\\widetilde{\\lambda}_m},}{(9)}\nwith $\\widetilde\\lambda_m$ and $\\widetilde b_m$ given by (3). Holding the other price coefficients fixed, the wage--rent ratio rises with $\\gamma(x^*)$ and with $\\widetilde{\\lambda}_m$.\n\\end{optthm}\nSubstituting $w=p_m\\gamma(x^*)$ from (8) into the machine-hour's price (3) gives $p_m(1-\\gamma(x^*)\\widetilde\\lambda_m)=r\\widetilde b_m$, and solving gives (9); Appendix A gives the derivatives. The closure holds in any production network of Appendix B.1 whose machine chain uses a non-produced input (Proposition B.1).\n\nThe denominator measures the feedback from the wage into the cost of its substitute. At the margin, $\\gamma(x^*)\\widetilde\\lambda_m=w\\widetilde\\lambda_m/p_m$ is the part of the machine-hour's price that resolves into wages, including the return on the wages advanced to build machines; when $\\rho=0$ it is labor's share of machine-service cost. A positive rent bill requires it to be below one. The closure is a price condition at the equilibrium assignment; household choices and market clearing also determine $x^*$ (Theorem 1).\n\nHolding the other terms in (9) fixed, either channel (Definition 3) lowers the wage supported by a given rent. With labor in the machine supply chain, task automation also cheapens that chain's labor. Figure 2 traces both channels from a common starting point.\n\nWhen the labor requirement of the full machine-service chain vanishes and $\\gamma(x^*)\\widetilde{\\lambda}_m\\to0$, equation (9) gives $(p_m/r)/\\widetilde b_m\\to1$. When $\\rho=0$, the service price is then accounted for by its embodied claim on the non-produced input.",
+     "reuses": "L245 (sentence 1); L251 (sentences 2 and 4; sentence 1 with a pointer, as in Complex); L253 (with its display); L257 (sentence 1, edited as in Complex)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{proposition}[replacement closure]",
+      "until": "\\subsection{Participation and the labor market}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.18",
+   "title": "Participation (Proposition 3)",
+   "diff": "S opens its Section~4 with the original's sentence on what a person outside paid work still needs and states Proposition~3 with the work condition in words, without proof; M states it for the economy without policy, with a one-sentence idea of the proof; C states it with the public payments set to zero and proves it in the text, followed by a remark that S keeps as a plain sentence.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4, §4.1 ¶1-3",
+     "tex": "\\optsec{4}{Participation and the labor market}\n\\optsec{4.1}{The outside option: pricing exit}\nA person who declines paid work still needs somewhere to live, food, energy, and care. In this economy the owner provides that person one basket a period, and the same basket in work.\n\n\\begin{optthm}{Proposition 3}{dependence, living costs, and participation}\nWork is optimal for a worker with cost of work $\\chi$ exactly when the additional baskets an hour's wage buys are worth the hour, $\\log(1+w/P_s)\\ge\\chi$, that is, when\n\\optdisp{w \\ge s,\\qquad s = (e^{\\chi}-1)P_s,}{(13)}\nand employment is\n\\optdisp{N_a=NF\\left(\\log\\left[1+\\frac{w}{P_s}\\right]\\right).}{(14)}\nFor $\\chi>0$, the reservation wage rises with the cost of the basket.\n\\end{optthm}\n\nProposition~3 does not depend on technology, or on who provides the basket: a worker has one basket in work and in exit either way.\n\nAt a fixed wage, a higher basket price reduces the consumption gained from working. With support maintained, participation weakly falls. The condition depends on the wage relative to living costs, so a proportional rescaling of prices leaves the choice unchanged.",
+     "reuses": "L268 (sentence 1); L285 ('work is optimal exactly when', in part); L291; L294"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.2",
+     "tex": "\\optsec{4.2}{Participation and the labor market}\n\\begin{optthm}{Proposition 3}{dependence, living costs, and participation}\nIn every equilibrium, work is optimal for a worker with cost of work $\\chi$ exactly when\n\\optdisp{w \\ge s,\\qquad s = (e^{\\chi}-1)P_s,}{(10)}\nand employment is\n\\optdisp{N_a=NF\\left(\\log\\left[1+\\frac{w}{P_s}\\right]\\right).}{(11)}\nFor $\\chi>0$, the reservation wage rises with the cost of the basket.\n\\end{optthm}\nBy (6), exit gives utility zero and work gives $\\log(1+w/P_s)-\\chi$; workers indifferent between the two have measure zero because $F$ is continuous (Appendix A).\n\nAt a fixed wage, a higher basket price reduces the consumption gained from working. With support maintained, participation weakly falls. The condition depends on the wage relative to living costs, so a proportional rescaling of prices leaves the choice unchanged.",
+     "reuses": "L285 (the phrase 'work is optimal exactly when'); L291; L294"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Participation and the labor market}",
+      "until": "Maintaining that support requires resources"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.19",
+   "title": "Support, dependence and enclosure",
+   "diff": "All three print C's paragraphs, since this discussion of support and the outside option does not depend on the level.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4.1 ¶4-6",
+     "same_as": "C"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.2",
+     "same_as": "C"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Maintaining that support requires resources",
+      "until": "Replacement pricing and participation jointly determine"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.20",
+   "title": "Where replacement meets participation",
+   "diff": "All three state labor-market clearing in the same display; S derives it in the original's words, from the land constraint holding with equality; M derives it from Lemma~1(ii) and ends with a pointer to Section~4.3; C derives it the same way and ends with pointers to the household budgets and to Theorem~1.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4.2 ¶1",
+     "tex": "\\optsec{4.2}{Replacement meets participation}\nReplacement pricing and participation jointly determine the wage and task assignment. All households consume in the basket's proportions, and at a positive rent the owner rents out all its land, so the land constraint in (8) holds with equality, $YB_s=T$. With $B_s>0$, total production supports $T/B_s$ baskets and requires $TL_s/B_s$ human hours. Labor-market clearing is therefore\n\\optdisp{\\underbrace{\\frac{TL_s}{B_s}}_{\\text{hours required}}\n=\\underbrace{NF\\left(\\log\\left[1+\\frac{w}{P_s}\\right]\\right)}_{\\text{hours supplied}}.}{(15)}\nThe requirements $L_s$ and $B_s$ depend on task assignment. Together with replacement pricing in (11), this condition links participation to the equilibrium margin $x^*$.",
+     "reuses": "L304 (sentence 1); L317 (sentences 2-3); L318-321 (display); L322 (sentences 1-2, cross-reference renumbered)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.2",
+     "same_as": "C",
+     "note": "the same text with its own numbering; its last sentence points to its Section 4.3 for existence and uniqueness.",
+     "reuses": "L304 (sentence 1); L318-321 (the display); L322 (sentences 1-2, with its equation reference renumbered)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Replacement pricing and participation jointly determine",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.21",
+   "title": "The ceiling (Lemma 2)",
+   "diff": "S and M define the ceiling in prose, S in its flow form $a+\\lambda\\gamma(x)\\ge1$ and M with $\\rho$ and $\\delta$, and state the lemma in Appendix~A as Lemma~A.2; C states it as Lemma~2 with a remark; all three explain why machines cannot undercut labor at the ceiling or beyond it.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4.2 ¶2",
+     "tex": "In every equilibrium, machines perform almost none of the open tasks at or above the \\emph{ceiling} $x_c$, the first open task at which $a+\\lambda\\gamma(x)\\ge1$, or $x_H$ if there is none. At such a task the machine-hours that would replace an hour embody at least that hour of labor, $\\gamma(x)\\widetilde\\lambda_m\\ge1$, counting the labor needed to build them, so they cost at least the hour at any wage. Since $a+\\lambda\\gamma(0)<1$, the ceiling lies above the first task. Unlike $H$, the ceiling depends on the labor in the machine chain as well as on capability."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.3",
+     "tex": "\\optsec{4.3}{Existence and uniqueness}\nLet $x_c$ be the first open task at which $(\\rho+\\delta)(a+\\lambda\\gamma(x))\\ge1$, or $x_c=x_H$ if there is none; we call it the ceiling, and Assumption 1(b) gives $x_c>0$. At a task in $[x_c,x_H]$, the machine-hours that would replace an hour embody at least that hour of labor, counting the labor needed to build them at the required return, so they cost at least the hour at any wage. In every equilibrium, therefore, machines perform almost no task from $x_c$ on (Lemma A.2). Unlike $H$, the ceiling depends on the labor in the machine chain and on the return, as well as on capability."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Existence and uniqueness}",
+      "until": "At an interior threshold $x<x_c$"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.22",
+   "title": "Labor demand and supply along the margin",
+   "diff": "S writes the wage--rent ratio and labor demand and supply along the margin in one display in flow form; M writes them with Lemma~1's coefficients in two displays; C writes out every price and quantity in four displays with durable machines and ends with the limit of $v/P_s$ at a binding ceiling, which S and M move to Appendix~A with C's closed forms.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4.2 ¶3",
+     "tex": "At an interior margin $x$ below the ceiling, with $r=1$, the closure (11) and the basket's requirements (9) give the wage--rent ratio, the basket's price, and the quantities as functions of the margin. Labor demand and supply are\n\\optdisp{v(x)=\\frac{\\gamma(x)\\,b}{1-a-\\lambda\\gamma(x)},\\qquad\nN_D(x)=Y(x)\\left[1-x+\\frac{\\lambda J(x)}{1-a}\\right],\\qquad\nN_S(x)=NF\\left(\\log\\left[1+\\frac{v(x)}{P_s(x)}\\right]\\right),}{(16)}\nwhere $Y(x)=T/B_s(x)$ and $P_s(x)=v(x)L_s(x)+B_s(x)$, with $L_s(x)$ and $B_s(x)$ given by (9) at $x$. The two components of demand are final-task and machine-sector hours. As $x$ rises to $x_c$, $N_S(x)$ tends to a limit, which we write $N_S(x_c)$.",
+     "reuses": "L708 (sentence 1)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.3",
+     "tex": "At an interior threshold $x<x_c$, machines perform tasks below $x$ and people those above it. By (8), (9) and Lemma 1(i), with $r=1$, the wage--rent ratio, the machine rental, and the basket's price at that threshold are\n\\optdisp{v(x)=\\gamma(x)\\,p_m(x),\\qquad\np_m(x)=\\frac{(\\rho+\\delta)b}{1-(\\rho+\\delta)(a+\\lambda\\gamma(x))},\\qquad\nP_s(x)=v(x)\\widetilde\\lambda_s(x)+\\widetilde b_s(x),}{(13)}\nwhere $\\widetilde\\lambda_s(x)$ and $\\widetilde b_s(x)$, like $L_s(x)$ and $B_s(x)$ below, are the coefficients of Lemma 1 with $x$ in place of $x^*$. With all land in use, Lemma 1(ii) gives output $Y(x)=T/B_s(x)$, and labor demand and supply are\n\\optdisp{N_D(x)=\\frac{TL_s(x)}{B_s(x)},\\qquad\nN_S(x)=NF\\left(\\log\\left[1+\\frac{v(x)}{P_s(x)}\\right]\\right).}{(14)}\nThe two components of demand are final-task and machine-sector hours. As $x$ rises to $x_c$, $N_S(x)$ tends to a limit, which we write $N_S(x_c)$. The denominator of $p_m(x)$ is positive at every open task below the ceiling.",
+     "reuses": "L687 (sentence 3); L690 (the machine rental and the wage-rent ratio at a threshold); L708 (sentence 1)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "At an interior threshold $x<x_c$",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.23",
+   "title": "Existence and uniqueness (Theorem 1)",
+   "diff": "S reports the theorem in one sentence, with the funding condition $rT\\ge NP_s$, and states and proves it in Appendix~A as Theorem~A.1; M states Theorem~1 for the economy without policy, with a short idea of the proof and the case of a wall below the crossing; C states it with every instrument at zero and outlines the proof, and its remark adds that uniqueness rests on the user-cost clause.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4.2 ¶4",
+     "tex": "Theorem~A.1 (Appendix~A.2, proved in Appendix~A.4) shows that if land is more than enough to give every worker a basket's space, $T>Nh$, and at the ceiling more people would work than the economy would employ, $N_S(x_c)>N_D(x_c)$, then every equilibrium has a positive wage and rent and an interior margin at the unique $x^*\\in(0,x_c)$ with $N_D(x^*)=N_S(x^*)$, and that this equilibrium exists exactly when the rent covers the support there, $rT\\ge NP_s$."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.3",
+     "tex": "\\begin{optthm}{Theorem 1}{existence and uniqueness}\nSuppose\n\\optdisp{T>Nh,\\qquad N_S(x_c)>N_D(x_c).}{(15)}\nThen every equilibrium has $w>0$, $r>0$, and an interior margin, at the unique $x^*\\in(0,x_c)$ with $N_D(x^*)=N_S(x^*)$. Up to the choice of numeraire and sets of workers of measure zero, its prices are (4) and (13) at $x^*$, and its quantities are $Y=T/B_s(x^*)$, $X=YJ(x^*)/(1-a\\delta)$ and $N_a=N_D(x^*)$. An equilibrium exists if and only if the owner's income covers the support there, $rT+\\rho V_mX\\ge NP_s$.\n\\end{optthm}\nAs the margin rises, labor demand falls and labor supply does not fall, so (15) leaves one crossing; the proof (Appendix A) uses (15) and the user cost to rule out every other configuration, and the owner's budget decides whether the crossing is an equilibrium. When the wall lies below the crossing, (15) fails, and labor works only in $H$ and in the machine chain; the theorem does not cover that case."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{theorem}[existence and uniqueness]",
+      "until": "\\begin{corollary}[labor supply and the margin]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.24",
+   "title": "Comparative statics (Corollary 1)",
+   "diff": "S gives both parts in prose, keeping the rate at which the wage--rent ratio rises and using the original's sentence for part~(ii), and states them formally in Appendix~A as Corollary~A.1; M states Corollary~1 without the rate, which moves to Appendix~A, with a short idea of each part's proof; C states it with the rate and a remark.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§4.2 ¶5",
+     "tex": "Along the margin, labor demand falls as $x$ rises, while $w/r$ and $w/P_s$ rise. The wage--rent ratio rises at the rate $dv/dx=p_m\\gamma'(x)/[r(1-\\gamma(x)\\widetilde\\lambda_m)]$, the rate of Proposition~1(ii) amplified by $1/(1-\\gamma\\widetilde\\lambda_m)=1+\\lambda v/b$ because the machine rental rises with the margin. Holding technology and support fixed, a lower willingness to work weakly raises $x^*$ and $w/r$, provided an interior equilibrium remains. Appendix~A.2 states both results as Corollary~A.1.",
+     "reuses": "L324 (sentence 2)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§4.3",
+     "tex": "\\begin{optthm}{Corollary 1}{labor supply and the margin}\n(i) As the margin $x$ rises on $(0,x_c)$, labor demand $N_D(x)$ falls, while the wage--rent ratio $v(x)$ and the real wage $v(x)/P_s(x)$ rise.\n(ii) If the distribution of work costs changes from $F$ to $\\widehat F\\le F$ at fixed technology and support, and (15) and funding hold under both, the equilibrium margin, wage--rent ratio, and real wage weakly rise, and strictly if supply falls at the original margin.\n\\end{optthm}\nPart (i) differentiates (13) and (14) and does not need (15); Appendix A also gives the rate at which $v(x)$ rises, the rate of Proposition 1(ii) amplified because the machine rental rises with the margin. For part (ii), $\\widehat F\\le F$ lowers labor supply at every $x$, and with demand falling in $x$ the crossing cannot move down."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{corollary}[labor supply and the margin]",
+      "until": "\\section{Purchasing power and income}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.25",
+   "title": "From the wage-rent ratio to purchasing power",
+   "diff": "All three print C's opening of Section~5, since it says in words what the section shows, which is the same at every level.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§5 ¶1",
+     "same_as": "C"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§5",
+     "same_as": "C"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Purchasing power and income}",
+      "until": "\\subsection{What an hour's wage buys}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.26",
+   "title": "What an hour's wage buys (Proposition 4)",
+   "diff": "S displays the bounds on the final good in Proposition~4, adds the bound for the basket and writes the bounds from a human method in the original's notation ($\\bar L_i$); M keeps C's text, with a one-sentence idea of the proof and the human-chain bounds as a plain paragraph; C puts those bounds in a remark, which also says the proposition needs neither an interior margin nor four goods.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§5.1 ¶1-4",
+     "tex": "\\optsec{5.1}{What an hour's wage buys}\nFor every good or service, the total requirements in (4) give an exact price. A feasible alternative method also bounds that price from above. A worker can make a unit of the final good by hand in an hour, using neither machines nor land.\n\n\\begin{optthm}{Proposition 4}{the real-wage fork}\nIn an equilibrium with $w,r>0$, an hour's wage buys $w/p_i$ units of each good $i$, with\n\\optdisp{\\frac{w}{p_i}=\\frac{1}{\\widetilde\\lambda_i+\\widetilde b_i(r/w)},\\qquad 1\\le\\frac{w}{p}\\le\\frac{w/r}{\\widetilde b_g}.}{(17)}\nIt buys $w/r$ units of space and at least one unit of the final good. When machines perform some tasks, it buys at most $(w/r)/\\widetilde b_g$ units of the final good, where $\\widetilde b_g=bJ(x^*)/(1-a)>0$ is the land the final good's chain requires.\n\\end{optthm}\n\nFor the basket in the same way, $w/P_s=1/(L_s+B_s\\,r/w)\\le(w/r)/B_s$. Combining the task margin of Acemoglu and Restrepo (2018) with the input--output price logic of Leontief (1936) and Sraffa (1960) yields these purchasing-power bounds. Caselli and Manning (2019) prove that real wages cannot fall in terms of goods produced entirely from reproducible inputs; Proposition~4 gives a lower bound from feasible human production and shows how persistent requirements for non-produced inputs constrain wage purchasing power.\n\nThe bounds hold in any production network. Where the entire production chain can be performed by a human method, let $\\bar L_i\\in(0,\\infty)$ and $\\bar b_i\\ge0$ be its total human hours and non-produced services per unit of output. The barred coefficients describe this feasible alternative's complete chain, including its intermediate inputs; the tilde coefficients describe the selected method. If $\\widetilde b_i>0$ (Appendix~B.1),\n\\optdisp{\\frac{1}{\\bar L_i+\\bar b_i(r/w)}\n\\le\\frac{w}{p_i}\n\\le\\frac{w/r}{\\widetilde b_i}.}{(18)}\nA feasible human method with $\\bar b_i=0$ gives $w/p_i\\ge1/\\bar L_i$. Here the final good has $\\bar L=1$ and $\\bar b=0$.\n\nThe rent bound counts the whole supply chain. An hour's wage buys $w/r$ units of the non-produced service; a unit of output embodies $\\widetilde b_i$ units. A good with no direct requirement may still use that input through electricity, materials, or machinery. The human-method bound likewise counts its entire chain. For cloth, consider a feasible hand-production method covering the fibers, spinning, weaving, tools, and workspace. The wage and rent bill for that complete chain caps the competitive price of cloth. Cheaper machine production raises what an hour's wage can buy above the lower bound. Ownership income and transfers fund consumption in addition to wages. Appendix~B.6 gives the task-level representation of these costs.",
+     "reuses": "L334 (sentences 1-4, cross-reference renumbered); L343-347 (display, as (18)); L348 (sentence 1); L90 (sentence 1, edited: year added); L128 (Caselli and Manning sentence, pointer to Proposition 4); L351 (sentences 1-9; sentence 10 with its pointer to Appendix B.6)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§5.1",
+     "same_as": "C",
+     "note": "the same text with its own numbering, a one-line idea of the proof in place of the remark, and Appendix B.1(a) for the bound on every good.",
+     "reuses": "L351 (sentences 1, 3-8; sentence 9 with its pointer); edited as in Complex: L334 (sentences 1-2), L90 (sentence 1), L128 (Caselli and Manning), L343-347 (the bounds (EQ:human), with L renamed lambda), L351 (sentence 2)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{What an hour's wage buys}",
+      "until": "Changes in purchasing power depend jointly"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.27",
+   "title": "Vanishing purchasing power (Corollary 2)",
+   "diff": "S numbers it Corollary~1 and states it without public payments, restating its condition in words; M also states it without public payments, with a one-sentence proof, adds the payment condition in Section~6.1 and moves into the text the remark's point that recursive automation alone cannot drive $w/r$ to zero; C states it with the condition $g_w\\le g_e$, followed by a remark that also treats production networks and a payment that keeps people working.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§5.1 ¶5-8",
+     "tex": "Changes in purchasing power depend jointly on the wage--rent ratio and the requirements embodied in each good. Building taller can supply more floor space on a given site, lowering direct site area per unit. Higher crop yields can reduce the acreage needed for a given number of calories. These changes also alter requirements for structures, machinery, fertilizer, and energy; $\\widetilde b_i$ counts the non-produced inputs throughout those supply chains. At given wages, rents, and total human requirements, a lower $\\widetilde b_i$ reduces the price. Equilibrium affordability also depends on the wage--rent ratio. The ratio $\\bar b_i/\\bar L_i$ describes how strongly rents enter the human-method lower bound; ordering actual price changes requires the selected recipes.\n\n\\begin{optthm}{Corollary 1}{vanishing wage purchasing power and participation}\nAlong a sequence of equilibria with interior margins and a fixed $h$, suppose that the land embodied in the machine-hours that replace an hour at the margin vanishes while the feedback term stays bounded away from zero:\n\\optdisp{\\gamma(x^*)\\widetilde b_m\\to0,\\qquad 1-\\gamma(x^*)\\widetilde\\lambda_m\\ge\\xi>0.}{}\nThen $w/r\\to0$: an hour's wage buys ever less space, while it still buys at least one unit of the final good. If, in addition, the distribution $F$ of work costs is fixed, then\n\\optdisp{\\frac{w}{P_s}\\to0,\\qquad \\frac{N_a}{N}\\to0.}{(19)}\n\\end{optthm}\n\nThe participation result needs the basket to remain available in exit; a public payment that favors work can keep people working along the sequence (Appendix~A.3).\n\nThe conditions concern replacement at the equilibrium margin. At fixed positive $\\gamma(x^*)$ and $\\widetilde b_m$, eliminating embodied labor from machine services leaves $w/r=\\gamma(x^*)\\widetilde b_m>0$. Human-required work can sustain a boundary assignment, and falling non-produced input requirements can sustain purchasing power. Section~7 gives a complete interior equilibrium and a sequence with a persistent hundred-to-one capability ratio across tasks.\n\nThe participation conclusion depends on maintaining the outside option. As wages buy less additional consumption, fewer people choose work when their basic support remains available. If providers' resources shrink and support falls, the participation response can change. Section~6 connects the funded basket to the income available for redistribution.",
+     "reuses": "L353; L374 (sentences 1-3; sentence 4 with its pointer to Section 7); L376 (sentences 1-3; sentence 4 with its pointer to Section 6)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§5.1",
+     "tex": "Changes in purchasing power depend jointly on the wage--rent ratio and the requirements embodied in each good. Building taller can supply more floor space on a given site, lowering direct site area per unit. Higher crop yields can reduce the acreage needed for a given number of calories. These changes also alter requirements for structures, machinery, fertilizer, and energy; $\\widetilde b_i$ counts the non-produced inputs throughout those supply chains, valued at the user cost. At given wages, rents, and $\\widetilde\\lambda_i$, a lower $\\widetilde b_i$ reduces the price. Equilibrium affordability also depends on the wage--rent ratio. The ratio $\\bar b_i/\\bar\\lambda_i$ describes how strongly rents enter the human-method lower bound; ordering actual price changes requires the selected recipes.\n\n\\begin{optthm}{Corollary 2}{vanishing wage purchasing power and participation}\nAlong a sequence of equilibria with interior margins and a fixed $h$, suppose\n\\optdisp{\\gamma(x^*)\\widetilde b_m\\to0,\\qquad 1-\\gamma(x^*)\\widetilde\\lambda_m\\ge\\xi>0.}{}\nThen $w/r\\to0$: an hour's wage buys ever less space, while it still buys at least one unit of the final good. If, in addition, the distribution $F$ of work costs is fixed, then\n\\optdisp{\\frac{w}{P_s}\\to0,\\qquad \\frac{N_a}{N}\\to0.}{(18)}\n\\end{optthm}\nBy (9), $w/r\\le\\gamma(x^*)\\widetilde b_m/\\xi\\to0$; since $P_s\\ge rB_s\\ge rh$, also $w/P_s\\to0$, and (11) gives the limit of participation (Appendix A). Section 6.1 states the condition on public payments under which this limit holds with policy.\n\nThe conditions concern replacement at the equilibrium margin. At fixed positive $\\gamma(x^*)$ and $\\widetilde b_m$, eliminating embodied labor from machine services leaves $w/r=\\gamma(x^*)\\widetilde b_m>0$. Recursive automation alone therefore cannot drive the wage--rent ratio to zero: people leave work only as machines improve at the tasks people still do. Human-required work can sustain a boundary assignment, and falling non-produced input requirements can sustain purchasing power. Section 7 gives a complete interior equilibrium and a sequence with a persistent hundred-to-one capability ratio across tasks.\n\nThe participation conclusion depends on maintaining the outside option. As wages buy less additional consumption, fewer people choose work when their basic support remains available. If providers' resources shrink and support falls, the participation response can change. Section 6 connects the funded basket to the income available for redistribution.",
+     "reuses": "L353 (sentences 1-3 and 6; sentences 4, 5 and 7 edited as in Complex); L374 (sentences 1-3; sentence 4 with its pointer); L376 (sentences 1-3; sentence 4 with its pointer)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Changes in purchasing power depend jointly",
+      "until": "\\subsection{Factor income while labor remains employed}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.28",
+   "title": "Income and labor's share (Proposition 5)",
+   "diff": "S states the original's Proposition~5 for the flow benchmark, where labor's share equals $(w/r)N_a/[(w/r)N_a+T]$; M keeps C's version with the return on machines, where that ratio is an upper bound reached only when $\\rho=0$, and adds a one-sentence proof; C also gives the instance's split of income and a paragraph on the five statements durable machines change, which S and M move to Appendix~A.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§5.2",
+     "tex": "\\optsec{5.2}{Factor income while labor remains employed}\n\\begin{optthm}{Proposition 5}{labor's share}\nIn the competitive flow economy with human hours and one non-produced input as the two primary factors, let $N_a\\le N$ be total employed hours, including labor in machine production, and let $T$ be the fixed, fully employed service endowment of the non-produced input. Final expenditure and factor income satisfy\n\\optdisp{I=wN_a+rT,\\qquad\n\\frac{wN_a}{I}=\\frac{(w/r)N_a}{(w/r)N_a+T}.}{(20)}\nAt given $N_a$ and $T$, a lower wage--rent ratio lowers labor's share. With bounded total hours and fixed $T>0$, $w/r\\to0$ implies that labor's share tends to zero.\n\\end{optthm}\n\nIntermediate payments cancel when final expenditure is traced through the cost system, leaving the payments for all human hours and non-produced services. Ownership of the non-produced input receives the non-wage component of income in this two-factor flow benchmark. The wage bill includes work throughout the network; eliminating labor from machine services leaves any human hours used elsewhere in the income identity. Interest, institutional rents, and transitional capacity rents add income components outside this benchmark. Labor's share responds jointly to the wage--rent ratio and employment, so increased employment can offset a local fall in $w/r$. When the conditions for (19) also hold, both the wage--rent ratio and the employed fraction tend to zero. In the data, the labor share's decline is documented and global (Karabarbounis and Neiman 2014), and its capital-side counterpart resolves substantially into housing, which is to say land (Rognlie 2015; Knoll, Schularick, and Steger 2017).",
+     "reuses": "L381; L382-385 (display); L386; L390 (sentence 1); L393 (sentences 1-4; sentence 5 without 'funded-support', reference renumbered); L132 (factor-share clause, em dash made a comma)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§5.2",
+     "tex": "\\optsec{5.2}{Factor income while labor remains employed}\n\\begin{optthm}{Proposition 5}{labor's share}\nIn every equilibrium, final expenditure equals factor income,\n\\optdisp{I=wN_a+rT+\\rho V_mX,}{(19)}\nwhere $N_a$ counts all employed hours, including those in machine production, and $\\rho V_mX$ is the return on the machine stock. If $r>0$, labor's share satisfies\n\\optdisp{\\frac{wN_a}{I}\\le\\frac{(w/r)N_a}{(w/r)N_a+T},}{(20)}\nwith equality if $\\rho=0$ and, when $N_a>0$, only if $\\rho=0$. When $\\rho=0$, at given $N_a$ and $T$, a lower wage--rent ratio lowers labor's share. With bounded total hours and fixed $T>0$, $w/r\\to0$ implies that labor's share tends to zero.\n\\end{optthm}\nIntermediate payments cancel when final expenditure is traced through the cost system, leaving the payments for all human hours and non-produced services and, from the machine-hour's row, the return on the stock (Appendix A).\n\nWhen $\\rho=0$, ownership of the non-produced input receives the non-wage component of income; with a positive return the owner also receives the return on machines, which (19) counts. The wage bill includes work throughout the network; eliminating labor from machine services leaves any human hours used elsewhere in the income identity. Interest, institutional rents, and transitional capacity rents add income components outside the flow benchmark. Labor's share responds jointly to the wage--rent ratio and employment, so increased employment can offset a local fall in $w/r$. When the conditions for (18) also hold, both the wage--rent ratio and the employed fraction tend to zero. In the data, the labor share's decline is documented and global (Karabarbounis and Neiman 2014), and its capital-side counterpart resolves substantially into housing, which is to say land (Rognlie 2015; Knoll, Schularick, and Steger 2017).",
+     "reuses": "L386 (sentence 2; sentence 1 edited as in Complex); L393 (sentences 2 and 4; sentences 1, 3 and 5 edited as in Complex); L390 (sentence 1, extended by the return on the stock); L132 (factor-share clause, edited as in Complex, its em dash now a comma)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Factor income while labor remains employed}",
+      "until": "\\section{Distribution: rent taxation"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.29",
+   "title": "Rent taxation (Proposition 6)",
+   "diff": "S adds a government here with only the rent tax and the uniform transfer and states Proposition~6 with aggregate receipts $wN_a+R$; M first introduces the government in a new Section~6.1 (its six instruments, the budgets with policy, how Definition~1 extends and which results still hold) and then states Proposition~6 as C does; C states it for the government of Section~3.5, with the other instruments at zero, and adds a remark.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§6 ¶1-4",
+     "tex": "\\optsec{6}{Distribution: rent taxation and a uniform transfer}\nThe income identity separates two sources of purchasing power: hours sold and ownership claims. A lower wage--rent ratio increases the importance of ownership at given employment. Rent taxation and transfers determine how this income is distributed across households.\n\nAn input is \\emph{terminal over a horizon} when its supply cannot expand through production within that horizon. Land is a lasting example; installed grid connections or fabrication capacity may be terminal temporarily. Electricity, structures, and extraction are activities whose input costs are traced through the system. We reserve \\emph{pure rent} for income due to fixed supply and \\emph{site rent} for the land component of real-estate income, excluding structures. Several non-produced inputs enter as $\\mathbf{B}\\mathbf{r}$ in Appendix~B.2. Long-run applications require persistent non-produced inputs.\n\nWe now add a government. It taxes the rental value of land, $R=rT$, at the rate $\\tau_R\\in[0,1]$, owed whether or not the land is used, as a land-value tax is, and balances its budget each period. A tax at rate $\\tau_R$ on pure ownership rents finances a uniform per-person transfer $d=\\tau_RR/N$, paid identically in and out of work. The owner's budget (7) becomes $P_s(c_o+N)=(1-\\tau_R)rT$, and each worker receives $d/P_s$ more baskets in work and in exit.\n\n\\begin{optthm}{Proposition 6}{sharing rents while labor remains employed}\n(i) At any positive rent the owner rents out all its land, whatever the tax rate. The physical supply of the fixed factor is invariant to a tax on its pure ownership rent. Producers continue to pay the gross competitive rental for using it.\n\n(ii) An unconditional transfer pays the same amount in work and exit. Its direct payment differential at the participation boundary is zero, while participation can respond through income effects.\n\n(iii) At given gross prices and hours, aggregate receipts remain $wN_a+R$, since\n\\optdisp{(1-\\tau_R)R+Nd=R.}{}\nThe tax redistributes the rent component toward an equal per-person allocation.\n\\end{optthm}\n\nProposition~6 does not depend on demand or supply elasticities: the taxed input's supply is fixed, and the tax does not depend on its use.",
+     "reuses": "L397; L223-225 (sentences 2-7; sentence 6 with its pointer to Appendix B.2); L399 (sentence 2); L402; L404; L406-410"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§6, §6.1, §6.2",
+     "tex": "\\optsec{6}{Distribution: rent taxation and a uniform transfer}\nThe income identity separates two sources of purchasing power: hours sold and ownership claims. A lower wage--rent ratio increases the importance of ownership at given employment. Rent taxation and transfers determine how this income is distributed across households.\n\nAn input is \\emph{terminal over a horizon} when its supply cannot expand through production within that horizon. Land is a lasting example; installed grid connections or fabrication capacity may be terminal temporarily. Electricity, structures, and extraction are activities whose input costs are traced through the system. We reserve \\emph{pure rent} for income due to fixed supply and \\emph{site rent} for the land component of real-estate income, excluding structures. Several non-produced inputs enter as $\\mathbf{B}\\mathbf{r}$ in Appendix B.2. Long-run applications require persistent non-produced inputs.\n\n\\optsec{6.1}{The government}\nThe government has six instruments. It taxes the rental value of land at the rate $\\tau_R\\in[0,1]$, owed whether or not the land is used, as a land-value tax is; taxes wages at the rate $\\tau_w\\in[0,1)$; pays every worker a uniform transfer $d\\ge0$; pays $g_w\\ge0$ to a worker in work and $g_e\\ge0$ to a worker in exit; and may provide the support basket itself ($\\sigma=0$) in place of the owner ($\\sigma=1$). A worker who sells $n$ hours then consumes $c$ baskets, and the owner $c_o$, with\n\\optdisp{\\begin{aligned}\nP_s\\,c&=P_s+(1-\\tau_w)wn+d+g_n,\\qquad g_1=g_w,\\quad g_0=g_e,\\\\\nP_s\\,(c_o+\\sigma N)&=r\\ell-\\tau_RrT+\\rho V_mX,\n\\end{aligned}}{(21)}\nand the government's budget balances each period:\n\\optdisp{\\tau_RrT+\\tau_wwN_a=Nd+g_wN_a+g_e(N-N_a)+(1-\\sigma)NP_s.}{(22)}\nWith a policy $(\\tau_R,\\tau_w,d,g_w,g_e,\\sigma)$, Definition 1 changes in four places: each worker maximizes (5) subject to the first budget in (21), the owner's budget is the second in place of (7), the government's budget (22) holds, and the final good clears at $Y=N\\int c(\\chi)\\,dF(\\chi)+c_o$. Appendix A states the definition in full. A law that reserves tasks for people is a further policy, recorded in $H$ (Section 3.1).\n\nLemma 1, Propositions 1, 2, 4 and 5, and the first part of Corollary 2 hold as stated in every equilibrium with policy (Appendix A). Corollary 2's limit of participation also holds if no public payment favors work, $g_w\\le g_e$; Appendix A shows how a payment that favors work can keep people working at any wage.\n\n\\optsec{6.2}{Sharing rents}\n\\begin{optthm}{Proposition 6}{sharing rents while labor remains employed}\nLet the government tax the rental value of land, $R=rT$, at $\\tau_R\\in[0,1]$ and pay $d=\\tau_RR/N$ to every worker, with $\\tau_w=g_w=g_e=0$ and $\\sigma=1$.\n(i) At any positive rent the owner rents out all its land, whatever the tax rate. The physical supply of the fixed factor is invariant to a tax on its pure ownership rent. Producers continue to pay the gross competitive rental for using it.\n(ii) An unconditional transfer pays the same amount in work and exit. Its direct payment differential at the participation boundary is zero, while participation can respond through income effects.\n(iii) At given gross prices and hours, aggregate receipts remain $wN_a+R+\\rho V_mX$, since $(1-\\tau_R)R+Nd=R$. The tax redistributes the rent component toward an equal per-person allocation.\n\\end{optthm}\nPart (i) holds because the tax does not depend on use (Lemma A.1(a)); parts (ii) and (iii) follow from the budgets (Appendix A).",
+     "reuses": "L397; L223-225 (sentences 2-5 and 7; sentence 6 with its pointer); L402 (both sentences); L404; L410 (last sentence); L406 edited as in Complex (the return on machines)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Distribution: rent taxation",
+      "until": "Rent revenue can finance the basket"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.30",
+   "title": "Coverage and public provision",
+   "diff": "M's text is C's, renumbered, because M has C's durable machines and, from Section~6.1, C's public provision of the basket; S derives the tax rate that funds one basket per person from a uniform transfer equal to the basket's price, as the original did, and leaves the instance's split of support between rent and the return on machines to Appendix~A.3.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§6 ¶5-8",
+     "tex": "Rent revenue can finance the basket underlying the participation choice. Define coverage by $\\kappa=R/(NP_s)$, with $R>0$. Funding exactly one basket per person requires $d=P_s$, hence\n\\optdisp{\\tau_R=\\frac{NP_s}{R}=\\frac{1}{\\kappa}.}{(21)}\nA tax rate between zero and one can meet this budget exactly when $\\kappa\\ge1$, evaluated at equilibrium prices. Appendix~D.3 relates coverage to the basket's input requirements.\n\nReplacing existing household or public financing while maintaining total support and prices leaves the participation comparison unchanged. If the payment supplements the existing basket, Section~2.3's preferences instead give the reservation wage $(e^\\chi-1)(P_s+d)$: the extra consumption available in both states reduces the gain from work. Redistribution can also change demand, rents, and the resources of support providers. These equilibrium effects determine whether the promised basket remains funded.\n\nWith no tax, the owner's budget (7) requires $rT\\ge NP_s$, so every equilibrium has $\\kappa\\ge1$. The measured coverage, $0.30$ (Section~8), therefore fits this economy only with another source of support (Appendix~A.3).\n\nA wage-funded transfer draws on the labor market as both a financing base and a participation margin. Its incidence depends on demand and supply elasticities. The limiting case also constrains how much support that base can finance.",
+     "reuses": "L417 (sentences 1-3); L418-420 (display); L421; L423 (sentences 1, 3-4; sentence 2 with its pointer to Section 2.3); L425"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§6.2",
+     "same_as": "C",
+     "note": "the same text with its own equation numbers.",
+     "reuses": "L417 (sentence 1; sentences 2-3 edited as in Complex); L421 (both sentences, pointer renumbered); L423 (sentences 1, 3-4; sentence 2 with its pointer); L425"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Rent revenue can finance the basket",
+      "until": "\\begin{corollary}[fiscal capacity"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.31",
+   "title": "Fiscal capacity (Corollary 3)",
+   "diff": "S numbers it Corollary~2 and states its flow version, $R/I\\to1$ and $\\kappa=T/(NB_s)$; M states C's Corollary~3 with a one-sentence proof; C adds a remark on why part~(ii) is not an equilibrium and on coverage with several inputs or durable machines, which S and M reduce to a pointer to Appendix~A; the Keynes passage and the paragraphs after it are the same at every level.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "§6 ¶9-13",
+     "tex": "\\begin{optthm}{Corollary 2}{fiscal capacity as wage income vanishes}\n(i) In the one-input economy, let $N,T>0$ be fixed and $N_a\\le N$. Along a sequence of equilibria with $w/r\\to0$, revenue from any wage tax with a rate between zero and one becomes a vanishing fraction of total income, while $R/I\\to1$. If the basket's total non-produced input requirement $B_s$ stays bounded away from zero, that revenue also funds a vanishing fraction of one basket per person.\n\n(ii) At given methods that use no labor anywhere in the basket's chain, $L_s=0$, and any rent $r>0$, full rent capture yields coverage\n\\optdisp{\\kappa=\\frac{T}{NB_s}.}{(22)}\nIt funds one basket per person exactly when $NB_s\\le T$, the physical feasibility condition for the basket under these recipes.\n\\end{optthm}\n\nPart~(ii) is a statement about prices at given methods; Appendix~A.3 shows that such a configuration is not an equilibrium when $F(z)>0$ for every $z>0$, as in Section~7's instance, and states the condition with several non-produced inputs.\n\nKeynes (1930) looked forward to honoring ``the lilies of the field who toil not, neither do they spin.'' Equation (22) adds two conditions: the field must be large enough, and its rent must reach the lilies.\n\nAs the wage--rent ratio tends to zero, maintaining access to a living basket with a persistent non-produced input requirement increasingly depends on ownership income or transfers. The parents (Section~2) may themselves finance that support from wages. Support financed by another household member's wage faces the same aggregate constraint. A system funded entirely from wages becomes unable to sustain a fixed positive basket entitlement for everyone sufficiently far along the path, while labor may still be employed. A uniform rent dividend gives each person a claim on the income that remains. Broad ownership, collective funds, and other transfer arrangements can also distribute those claims. The financing constraint establishes the need for income beyond wages; institutions determine its distribution and the pace of adjustment.\n\nAppendix~A.4 proves the corollary, and Appendices~D.2 and~D.3 develop payroll-tax incidence and rent-base coverage while labor remains employed. The fiscal lineage is George (1879); the Henry George theorem of Arnott and Stiglitz (1979) is related but distinct. Korinek and Lockwood (2026) show that in an economy without labor, taxing fixed factors is non-distortionary and can redistribute.",
+     "reuses": "L428; L434; L437; L268 (sentence 5, with the pointer to Section 2); L439 (sentence 2)"
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "§6.2",
+     "tex": "\\begin{optthm}{Corollary 3}{fiscal capacity as wage income vanishes}\n(i) In the one-input economy, let $N,T>0$ be fixed and $N_a\\le N$. Along a sequence of equilibria with $w/r\\to0$, revenue from any wage tax with a rate between zero and one becomes a vanishing fraction of total income, while the non-wage share of income, $(R+\\rho V_mX)/I$, tends to one; when $\\rho=0$, $R/I\\to1$. If the basket's total non-produced input requirement $B_s$ stays bounded away from zero, that revenue also funds a vanishing fraction of one basket per person.\n(ii) At given methods that use no labor anywhere in the basket's chain, $\\widetilde\\lambda_s=0$, and any rent $r>0$, full rent capture yields coverage\n\\optdisp{\\kappa=\\frac{T}{N\\widetilde b_s}.}{(24)}\nIt funds one basket per person exactly when $N\\widetilde b_s\\le T$, which implies $NB_s\\le T$, the physical feasibility condition for the basket under these recipes; when $\\rho=0$, $\\widetilde b_s=B_s$ and the two conditions coincide.\n\\end{optthm}\nWage-tax revenue is at most $wN_a$, a vanishing share of (19) by Proposition 5; at methods with $\\widetilde\\lambda_s=0$, the cost system (4) gives $P_s=r\\widetilde b_s$ (Appendix A). Part (ii) is a statement about prices at given methods; Appendix A says why such a configuration is not an equilibrium, states (24) with several non-produced inputs, and evaluates it with durable machines at the instance of Section 7.\n\nKeynes (1930) looked forward to honoring ``the lilies of the field who toil not, neither do they spin.'' Equation (24) adds two conditions: the field must be large enough, and its rent must reach the lilies.\n\nAs the wage--rent ratio tends to zero, maintaining access to a living basket with a persistent non-produced input requirement increasingly depends on ownership income or transfers. The parents (Section 2) may themselves finance that support from wages. Support financed by another household member's wage faces the same aggregate constraint. A system funded entirely from wages becomes unable to sustain a fixed positive basket entitlement for everyone sufficiently far along the path, while labor may still be employed. A uniform rent dividend gives each person a claim on the income that remains. Broad ownership, collective funds, and other transfer arrangements can also distribute those claims. The financing constraint establishes the need for income beyond wages; institutions determine its distribution and the pace of adjustment.\n\nAppendix A proves the corollary, and Appendices D.2 and D.3 develop payroll-tax incidence and rent-base coverage while labor remains employed. The fiscal lineage is George (1879); the Henry George theorem of Arnott and Stiglitz (1979) is related but distinct. Korinek and Lockwood (2026) show that in an economy without labor, taxing fixed factors is non-distortionary and can redistribute.",
+     "reuses": "L437 (sentences 1-6); L439 (sentence 2); edited as in Complex: L428, L434, L268 (sentence 5, with a pointer), L439 (sentence 1)"
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{corollary}[fiscal capacity",
+      "until": "\\section{A numerical economy"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.32",
+   "title": "What the appendix carries",
+   "diff": "S's Appendix~A first restates C's economy and results with durable machines (A.1--A.3) and then gives the proofs (A.4), so each result in S's main text is the flow case of an appendix result; M's holds C's Appendix~A and everything M's main text leaves out of C's Sections 3--6, from Table~A.1 and the matrix system to the remarks beside the proofs; C's holds the owner's problem (Lemma~A.1) and the proofs not given in the text; Appendices B--F are the same at every level.",
+   "options": [
+    {
+     "key": "S",
+     "label": "Simple",
+     "where": "Appendix A",
+     "tex": "\\textbf{Appendix A. The general economy and proofs.} Appendix~A carries everything in Complex Sections 2--6 that the main text does not, so the main text's results are the flow case ($\\rho=0$, $\\delta=1$) of the appendix's. Its results are numbered A.1, A.2, and so on; Proposition~A.$k$ is Complex's Proposition~$k$, of which the main text's Proposition~$k$ is the flow case.\n\\begin{itemize}\n\\item \\textbf{A.1 The economy with durable machines.} Complex Section~3 in full: Table~A.1 (notation); Assumptions A.1--A.5 (tasks, machines, land, workers, the owner), with depreciation $\\delta$, the owner's discount factor $\\beta$ and utility $u$, and the return $\\rho=1/\\beta-1$; the user cost $p_m=(\\rho+\\delta)V_m$ and the price of a machine; the matrix system (3)--(4) with $\\mathbf A_\\rho$ and $\\mathbf A_0$; the workers' Leontief utility and budget with public payments; the owner's sequential budget; the government's six instruments and its budget; Definitions A.1--A.3 (equilibrium, margins, automation), the matrix form of the clearing conditions, and Walras's law.\n\\item \\textbf{A.2 Equilibrium.} Complex Section~4's statements: Lemma~A.1 (prices and quantities, with price coefficients no smaller than the physical requirements); Propositions A.1--A.3 with their remarks (A.2 reading $\\gamma(x^*)\\widetilde\\lambda_m$ on the price basis, A.3 with the instruments at zero); Lemma~A.2 (the ceiling); the margin-indexed prices and quantities (21)--(24) with $\\rho$ and $\\delta$, and the limit of $v/P_s$ at a binding ceiling; Theorem~A.1 (existence and uniqueness, with funding $rT+\\rho V_mX\\ge NP_s$) and its remark; Corollary~A.1 (labor supply and the margin) and its remark.\n\\item \\textbf{A.3 Purchasing power, income, and rent taxation with durable machines.} Propositions A.4--A.6 and Corollaries A.2--A.3 as Complex states them, with their remarks: the price-basis reading of $\\widetilde b_i$; Corollary~A.2 with public payments ($g_w\\le g_e$) and the bound on participation when a payment favors work; Proposition~A.5 with the return on machines, $I=wN_a+rT+\\rho V_mX$, labor's share as an inequality, and the instance's split of income (0.55 wages, 0.13 rent, 0.32 return); Proposition~A.6(iii) and Corollary~A.3 with the return beside rent; (16) under public provision; the instance's coverage (rent 0.38 of support); Corollary~A.3(ii) in $\\widetilde b_s$, with its remark (such a configuration is not an equilibrium; the condition with several inputs; durable machines, 1.71 and 0.66 baskets per person); and the five statements that durable machines change.\n\\item \\textbf{A.4 Proofs.} The current Appendix~A: the owner's problem (now Lemma~A.3) and its remark, and the proofs of every result in A.2 and A.3, including those of Propositions 1--3 that Complex gives in the text.\n\\end{itemize}\nAppendices B--F are unchanged."
+    },
+    {
+     "key": "M",
+     "label": "Medium",
+     "where": "Appendix A",
+     "tex": "\\textbf{Appendix A (Proofs and the full statement of the model)} holds Complex's Appendix A and, from Complex's Sections 3--6, everything the Medium main text leaves out:\n\\begin{itemize}\n\\item Table 1 (notation), as Table A.1.\n\\item The owner in full: Assumption 5's conditions on $u$ and the long-run criterion at $\\beta=1$; the period-by-period budget (10); Lemma A.1 and its remark (the user cost as the owner's first-order condition when $c_o>0$, and why it does not bind at $c_o=0$).\n\\item The cost system in matrix form: the unit cost (2) for any set $\\mathcal M$ of machine tasks; the price system (3) with $\\mathbf A_\\rho$, $\\bm\\lambda$, $\\mathbf b$; the price coefficients (4); $\\mathbf A_0$ and the physical coefficients $(\\mathbf I-\\mathbf A_0)^{-1}\\bm\\lambda$, $(\\mathbf I-\\mathbf A_0)^{-1}\\mathbf b$; and the matrix form of the clearing conditions, with $\\mathbf y$ and $\\mathbf z$.\n\\item Complex's Definition 1 with the full policy and Definition 2 for a set $\\mathcal M$ of machine tasks, with the step from cost minimization to a threshold; Section 3.5's government paragraph; and the workers' budget (8) of Complex.\n\\item Lemma 2 (the ceiling) and its remark, as Lemma A.2, with its proof; Complex's closed forms (18)--(21) for $p(x)$, $Y(x)$ and $X(x)$.\n\\item The proofs of Propositions 1--3 (in Complex's main text), including Proposition 2's derivatives and Proposition 1(ii)'s $N_F$; the proofs of Lemma 1, Theorem 1, Corollaries 1--3 and Propositions 4--6, as in Complex's Appendix A.\n\\item Corollary 2 as Complex states it, with public payments and $g_w\\le g_e$, the example of a payment that favors work, and the proofs that Lemma 1 and Propositions 1, 2, 4 and 5 hold with any policy.\n\\item The remarks on what each result does not depend on, beside each proof; with them Complex's notes that Lemma 1(iii) extends to every good (Proposition B.1(a)), that Corollary 2 holds good by good in a network, that Theorem 1's uniqueness rests on the user-cost clause, and Proposition 6's remark on a tax on rent received.\n\\item From Complex's text after Definition 1: the user-cost clause when support absorbs all the owner's income, and Walras's law.\n\\item Corollary 1(i)'s rate $dv/dx$ and its factor $1+\\lambda v/b$; the limit of $v/P_s$ at the ceiling.\n\\item Section 5.2's paragraph on the five statements that need $\\rho=0$, and the instance's income shares (0.55, 0.13, 0.32; labor's share 0.55 against the bound 0.81).\n\\item Corollary 3's remark: why its part (ii) is not an equilibrium, the coverage formula with several inputs and its reading input by input at $\\rho=0$, and the durable-machine numbers 1.71 and 0.66.\n\\end{itemize}\nAppendices B--F are unchanged. Two sentences of Complex are not moved because the Medium text already says them elsewhere: land as the stand-in for non-produced inputs (Section 2) and ``Interest and institutional rents introduce additional income components outside the flow benchmark'' (Section 5.2 says it)."
+    },
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite appendices",
+     "tex": "Appendix A: the owner's problem (Lemma A.1) and the proofs not given in the text. Appendix B: production networks, several non-produced inputs, machine types and trade, worker types, ideas and institutional rents, task-level costs. Appendices C--F: expenditure shares, the fiscal transition, human-required tasks, and the financing and production accounts."
+    }
+   ]
+  }
+ ]
+}

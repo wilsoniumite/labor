@@ -185,7 +185,7 @@ PREAMBLE = r"""\documentclass[9pt]{extarticle}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb,amsthm,bm,graphicx,booktabs,array,adjustbox,paracol,xcolor,fancyhdr,longtable,microtype,enumitem}
+\usepackage{amsmath,amssymb,amsthm,bm,graphicx,booktabs,array,adjustbox,paracol,xcolor,fancyhdr,longtable,microtype,enumitem,needspace}
 \usepackage[hidelinks]{hyperref}
 \graphicspath{{@PAPER@/}}
 \setlength{\parindent}{0pt}
@@ -201,22 +201,25 @@ PREAMBLE = r"""\documentclass[9pt]{extarticle}
 \fancyhead[L]{\footnotesize\bfseries @HEADTITLE@}
 \fancyhead[R]{\footnotesize @HEADRIGHT@}
 \fancyfoot[C]{\footnotesize\thepage}
-\newcommand{\rowhead}[3]{\par\vspace{0.9em}\noindent\rule{\linewidth}{0.6pt}\par\nopagebreak\vspace{0.15em}%
+\newcommand{\rowhead}[3]{\par\needspace{12\baselineskip}\vspace{0.9em}\noindent\rule{\linewidth}{0.6pt}\par\nopagebreak\vspace{0.15em}%
   \noindent{\large\bfseries #1\quad #2}\par\nopagebreak\noindent{\small\itshape #3}\par\nopagebreak\vspace{0.2em}}
 \newcommand{\cell}[3]{\noindent\colorbox{chip}{\footnotesize\bfseries\strut #1}\ {\footnotesize\bfseries #2}%
   \hfill{\footnotesize\color{black!60}#3}\par\nopagebreak\vspace{0.2em}}
 \newcommand{\optsec}[2]{\par\smallskip\noindent{\bfseries\ifx&#1&\else#1\enspace\fi#2}\par\nopagebreak}
-\newcommand{\optdisp}[2]{\par\smallskip\noindent\makebox[\linewidth]{\hfil
-  \adjustbox{max width=\dimexpr\linewidth-3.2em\relax}{$\displaystyle #1$}\hfil\llap{\footnotesize #2}}\par\smallskip}
+\newcommand{\optdisp}[2]{\par\smallskip\noindent\makebox[\dimexpr\linewidth-2.7em\relax]{%
+  \adjustbox{max width=\dimexpr\linewidth-2.9em\relax}{$\displaystyle #1$}}\makebox[2.7em][r]{\footnotesize #2}\par\smallskip}
 \newcommand{\optfig}[3]{\par\smallskip\noindent\ifx&#1&\else\includegraphics[width=\linewidth]{#1}\par\fi
   {\footnotesize\textbf{#2.} #3}\par\smallskip}
 \newcommand{\opttab}[3]{\par\smallskip\noindent{\footnotesize\textbf{#1.} #2}\par\noindent
-  \adjustbox{max width=\linewidth}{\begin{minipage}{1.45\linewidth}#3\end{minipage}}\par\smallskip}
+  \adjustbox{max width=\linewidth}{#3}\par\smallskip}
 \newenvironment{optthm}[2]{\par\smallskip\noindent\textbf{#1}\ifx&#2&\else\ (#2)\fi.\ \itshape}{\par\smallskip}
 \newcommand{\reason}[1]{\par\smallskip{\footnotesize\color{black!60}Same in every version: #1.}}
 \newcommand{\commentcol}{\cell{}{Comments}{}}
+\newcommand{\cellsrc}[1]{\par\noindent{\scriptsize\color{black!55}#1}\par\nopagebreak\vspace{0.1em}}
+\newcommand{\cellnote}[1]{\par\noindent{\footnotesize\itshape #1}\par\nopagebreak\vspace{0.15em}}
 \newcommand{\pickbox}{$\square$}
 \begin{document}
+\sloppy
 """
 
 
@@ -241,7 +244,8 @@ def render_row(row, sources, parts_cells):
             target = next((m for m in opts if m["key"] == o["same_as"] or m["key"].endswith("=" + o["same_as"])), None)
             if target is None:
                 raise SystemExit(f"{row['id']}: option {o['key']} is same_as {o['same_as']}, which is not in the row")
-            opts.append(dict(target, key=o["key"], label=o["label"], where=o.get("where", ""), text=target["text"]))
+            opts.append(dict(target, key=o["key"], label=o["label"], where=o.get("where", ""), text=target["text"],
+                             note=o.get("note", "")))
     # merge options with identical text
     merged = []
     for o in opts:
@@ -250,6 +254,8 @@ def render_row(row, sources, parts_cells):
             same["key"] += "=" + o["key"]
             same["label"] += " = " + o["label"]
             same["where"] = "; ".join(x for x in (same.get("where", ""), o.get("where", "")) if x)
+            if o.get("note"):
+                same.setdefault("notes", []).append(o["label"] + ": " + o["note"])
         else:
             merged.append(dict(o))
     rid = row["id"]
@@ -268,6 +274,10 @@ def render_row(row, sources, parts_cells):
         if k:
             out.append("\\switchcolumn")
         out.append(f"\\cell{{{rid}-{o['key']}}}{{{o['label']}}}{{{o.get('where', '')}}}")
+        if o.get("reuses"):
+            out.append(f"\\cellsrc{{Reuses the original word for word: {o['reuses']}}}")
+        for nt in o.get("notes", []):
+            out.append(f"\\cellnote{{{nt}}}")
         out.append(o["text"])
         if n == 1 and row.get("reason"):
             out.append(f"\\reason{{{row['reason']}}}")

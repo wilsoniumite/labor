@@ -231,6 +231,27 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 
 ## Log
 
+- **2026-11-06 — option documents for choosing with Johan, round 1.** Stella: "I want new docs
+  with side by side comparisons of sections, lined up even so related paragraphs sit side by
+  side"; landscape, up to three options per row ("or if we really cannot come up with anything
+  different enough, just one with some space for comments"); center the original without
+  Section 2, left the rewrite, right new versions; structure first, then the mathematics at
+  three levels ("I'd put your current version as complex"); main text only; "Each comparison
+  needs to be a real difference"; no cuts for now ("we want more content not less"); Johan hates
+  AI-sounding writing ("poetic stuff, or load-bearing, or too many em dashes").
+  - **Built** in `docs/options/` (README, `LEDGER.md`): a builder that extracts R and O word for
+    word, prints identical text once, and gives single options a comment column, cell IDs and a
+    pick sheet; three documents, sent in session (PDFs not committed): Part 1, eight whole-paper
+    layouts with a content map (6 pages); Part 2, the model at Simple, Medium and Complex (32
+    pages); Part 3.1, the introduction, eleven rows, each with new options, and a new
+    related-literature row (10 pages).
+  - **Checks, no ranking.** Simple and Medium math-checked by separate agents (small fixes
+    applied); the introduction options fact-checked against the paper; `lint_options.py` for the
+    style rules and near-rewordings. Five near-copies of the Complex text were merged into its
+    cell with a note.
+  - **Next.** Her mark-up of round 1 (photos or comments by cell ID) into `LEDGER.md`; then Part
+    3.2 onward (numerical economy, measurement, history and stabilizers, AI and conclusion).
+
 - **2026-11-05 — a rewrite asked for; discussed only, the paper unchanged.** Johan asks for the
   paper to be rewritten in the style of journal papers. Magnus's notes: cut Section 2, and
   introduce the model more systematically in Section 3. ("Like the appendix, but more so" was

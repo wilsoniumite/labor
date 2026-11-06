@@ -4,52 +4,364 @@
  "subtitle": "Rewrite (R), original without Section 2 (O), and new options (N)",
  "preface": "Each row is one topic of the introduction. Its options sit side by side: R is the rewrite, O the original, N1, N2 new versions. Identical text is printed once. A row with one option has a column for comments. The ID in each cell's corner (e.g.\\ T.1.4-R) is for comments and for the pick sheet at the end.",
  "rows": [
-  {"id": "T.1.1", "title": "Opening", "diff": "",
+  {
+   "id": "T.1.1",
+   "title": "Opening",
+   "diff": "R opens with Keynes's question; O opens with the firm's choice at the task margin (row T.1.5); N1 opens with the measured fork in what a U.S. hour's wage buys.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶1", "src": {"doc": "rewrite", "anchor": "Can an economy run without anyone working?"}},
-    {"key": "O", "label": "Original", "where": "§1 ¶1", "tex": "The original opens with the task margin: row T.1.5."}
-   ]},
-  {"id": "T.1.2", "title": "What happened after Keynes", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶1",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Can an economy run without anyone working?"
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶1",
+     "tex": "The original opens with the task margin: row T.1.5."
+    },
+    {
+     "key": "N1",
+     "label": "New: facts first",
+     "where": "§1 ¶1-2",
+     "tex": "Between 1964 and 2024, the average hourly earnings of U.S. production and nonsupervisory workers rose 277 percent when deflated by the consumer-price index for durables. Deflated by the index for food, the same earnings rose 13 percent. Deflated by the index for shelter, they fell 21 percent. The ratio of the durables-deflated to the shelter-deflated wage grew by a factor of 4.8 over the period. In 2024 an hour of work bought much more in durable goods than in 1964, and less in shelter.\n\nThis paper gives a way to read that divergence. In its model, the price of every good resolves into human hours and rents on non-produced inputs, resources such as land whose supply production does not generate. Durable goods are made with machines, and machines are themselves produced. Shelter requires a site, and no one produces sites. As machines take over tasks, and as the making of machines needs less labor, the wage can fall relative to the rent, and what an hour buys then depends on how much of the non-produced input each good embodies. The comparison in the data is descriptive. Attributing the price changes to these channels requires task-level evidence (Section 8)."
+    }
+   ]
+  },
+  {
+   "id": "T.1.2",
+   "title": "What happened after Keynes",
+   "diff": "R gives Leontief's horses and the reinstatement of labor by new tasks; N1 adds what computers did to routine tasks and what kept wages in the cost of machines; N2 adds the measured record that work still finances most consumption while less than half of consumed production is human effort.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶2", "src": {"doc": "rewrite", "anchor": "Half a century later, Leontief (1983)"}}
-   ]},
-  {"id": "T.1.3", "title": "Why the question is back", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶2",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Half a century later, Leontief (1983)"
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: computing and new tasks",
+     "where": "§1 ¶2",
+     "tex": "Half a century later, Leontief (1983) expected the role of humans ``as the most important factor of production'' to diminish as that of horses had, ``first diminished and then eliminated by the introduction of tractors''. By then computers had begun to take over routine cognitive tasks, a change recorded in the routine-task evidence of Autor, Levy, and Murnane (2003) and in the polarization of employment documented by Autor and Dorn (2013). People have still not gone the way of the horses. In the task framework, the creation of new labor tasks has met displacement with reinstatement (Acemoglu and Restrepo 2018; Autor 2015). Machine competition has reached further tasks in each period, physical tasks with industrialization and simple cognitive tasks with computing. In industrialization, machine production itself remained labor-intensive, so both relative human productivity at the margin and the labor embodied in machine services supported the wage (Section 9)."
+    },
+    {
+     "key": "N2",
+     "label": "New: the record in two shares",
+     "where": "§1 ¶2",
+     "tex": "\\cellnote{R's paragraph, then:}Work still pays for most of what people consume. In the United States, labor-origin resources financed 65.8 percent of consumption in 2023. Production depends less on work: counting the full production chain, human effort accounted for 47.2 percent of consumed production in 2023, down from 50.1 percent in 1997. Consumption remains substantially more labor-financed than production is labor-intensive, by about nineteen percentage points at the end of the period the two data sets share (Section 8)."
+    }
+   ]
+  },
+  {
+   "id": "T.1.3",
+   "title": "Why the question is back",
+   "diff": "R cites three AI papers, one each for wages, land and leaving work; N1 widens the account to the other AI papers the paper cites, grouped by what each says happens to wages; N2 first explains why the question is back through what AI does to the two automation channels and to scarce inputs, then gives R's three papers.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶3", "src": {"doc": "rewrite", "anchor": "Artificial intelligence has reopened the question."}}
-   ]},
-  {"id": "T.1.4", "title": "What those models leave out", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶3",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Artificial intelligence has reopened the question."
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: more AI papers",
+     "where": "§1 ¶3",
+     "tex": "Artificial intelligence has reopened the question. Its recent advances have, in the words of Korinek and Suh (2024), ``renewed fears about the displacement of labor'', and they ask whether wages would ``rise or collapse'' on the way to artificial general intelligence; in their scenarios, wages fall to the return on capital once every task is automated. Restrepo (2025) finds that ``wages converge to the opportunity cost of computational resources required to reproduce human work''. Trammell and Korinek (2026) find that fully automating production, so that machines can self-replicate, would raise growth and lower the labor share. Susskind (2017) and Sachs and Kotlikoff (2012) reach technological immiseration through other channels, and Moll, Rachel, and Restrepo (2022) route automation's gains to wealth-holders.\n\nOther papers bear on land and on leaving work. Korinek and Stiglitz (2019) observe that when machines replace workers and production needs land or other non-reproducible factors, human real wages fall and the owners of those factors absorb the rents, and that competition for land used for housing can leave workers worse off. In Korinek and Juelfs (2022), people stop working once their non-labor income is high enough or the marginal product of their labor low enough. Aghion, Jones, and Jones (2019) describe a stabilizer: expenditure concentrating on whatever remains human-required."
+    },
+    {
+     "key": "N2",
+     "label": "New: what AI changes",
+     "where": "§1 ¶3",
+     "tex": "Artificial intelligence has reopened the question, and it may move two margins at once. It can lower the relative productivity of people at tasks where models become effective substitutes. It can also lower the labor embodied in machine services, because software generation, chip design, datacenter operation, logistics, and research contribute to the machine-service supply chain. We call the first task automation and the second recursive automation. For the AI buildout, the relevant scarcity may lie in sites, water, mineral deposits, grid access, or legally protected rights. Electricity and equipment are themselves outputs whose costs trace through the same system. Its recent advances have, in the words of Korinek and Suh (2024), ``renewed fears about the displacement of labor'', and they ask whether wages would ``rise or collapse'' on the way to artificial general intelligence; in their scenarios, wages fall to the return on capital once every task is automated. Korinek and Stiglitz (2019) observe that when machines replace workers and production needs land or other non-reproducible factors, human real wages fall and the owners of those factors absorb the rents, and that competition for land used for housing can leave workers worse off. In Korinek and Juelfs (2022), people stop working once their non-labor income is high enough or the marginal product of their labor low enough."
+    }
+   ]
+  },
+  {
+   "id": "T.1.4",
+   "title": "What those models leave out",
+   "diff": "R says what the AI models keep in the background, the machine's own inputs and the cost of a life outside work; N1 adds the gap left by Caselli and Manning's (2019) theorem on goods made from reproducible inputs; N2 first states the gap in the labor literature, where both ends of the wage bargain are taken as given.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶4", "src": {"doc": "rewrite", "anchor": "Production can do without work only if machines alone"}}
-   ]},
-  {"id": "T.1.5", "title": "The task margin", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶4",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Production can do without work only if machines alone"
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: after Caselli and Manning",
+     "where": "§1 ¶4",
+     "tex": "Production can do without work only if machines alone can make what people need, machines included. Caselli and Manning (2019) prove that real wages cannot fall in terms of goods produced entirely from reproducible inputs. Many goods are not of that kind. A dwelling needs a site and food needs acreage, and a good with no direct requirement may still use a non-produced input through electricity, materials, or machinery. What happens to the wage in terms of such goods is the open question. In Korinek and Suh (2024) and Korinek and Stiglitz (2019) machines are accumulated from output, so automating every task also automates the making of machines; in Korinek and Juelfs (2022) the stock of machines is given. In all three, what the machine that replaces a worker is made of, and what a life outside work costs, stay in the background."
+    },
+    {
+     "key": "N2",
+     "label": "New: the two endpoints",
+     "where": "§1 ¶4",
+     "tex": "Accounts of the wage place it between two endpoints. In search and matching models (Diamond 1982; Mortensen and Pissarides 1994; Pissarides 2000), the wage lies between the worker's outside option and the value of the match. Shimer (2005) showed that the calibrated model generates almost none of the observed volatility, and Ljungqvist and Sargent (2017) show that the proposed resolutions operate through one channel, the fundamental surplus, whose leading deduction from productivity is the value of non-work. The central calibration debate of modern macro-labor is therefore a debate about the level of an object the framework treats as a parameter. In task models, the threshold links the wage to the machine rental and the outside option, and both are again taken as given. Production can do without work only if machines alone can make what people need, machines included. In the first two of the AI models above machines are accumulated from output, so automating every task also automates the making of machines; in the third the stock of machines is given. What the machine that replaces a worker is made of, and what a life outside work costs, likewise stay in the background."
+    }
+   ]
+  },
+  {
+   "id": "T.1.5",
+   "title": "The task margin",
+   "diff": "R and O are the same text, stating that the firm's indifference ties the wage to the machine's cost; N1 makes the point with the paper's loom example; N2 states the margin as an equation and says what the paper keeps from the task framework and what it sets aside.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶5", "src": {"doc": "rewrite", "anchor": "Suppose a firm can perform a task with a worker"}},
-    {"key": "O", "label": "Original", "where": "§1 ¶1 (L72)", "src": {"doc": "original", "lines": [72, 72]}}
-   ]},
-  {"id": "T.1.6", "title": "What prices the substitute?", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶5",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Suppose a firm can perform a task with a worker"
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶1 (L72)",
+     "src": {
+      "doc": "original",
+      "lines": [
+       72,
+       72
+      ]
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: the loom",
+     "where": "§1 ¶5",
+     "tex": "Suppose a loom weaves four meters of cloth per hour and a worker weaves one. At a rental of \\$80 per loom-hour, the two methods have the same weaving cost when the hourly wage is \\$20. If the loom improves to five meters per hour, the wage at which the worker and the loom cost the same falls to \\$16, with the worker's productivity unchanged. For the tasks where the firm is indifferent between a worker and a machine, the wage is tied in this way to the cost of the machine substitute. That mechanism is established and used by the factor-price condition at the task margin in Acemoglu and Restrepo (2018), with the same threshold logic in Zeira (1998) and, for offshoring, in Grossman and Rossi-Hansberg (2008). The loom's rental of \\$80 is itself a price, and this paper asks what sets it and what sets the alternative to working at all."
+    },
+    {
+     "key": "N2",
+     "label": "New: the margin as an equation",
+     "where": "§1 ¶5",
+     "tex": "Suppose a firm can perform a task with a worker or with a machine. Let $\\gamma(x)$ be the productivity of an hour of labor at task $x$ relative to that of a machine-hour, and let $p_m$ be the rental of a machine-hour. Labor holds the task when $w\\le p_m\\gamma(x)$, and at an interior margin $x^*$, where the firm is indifferent,\n\\optdisp{w=p_m\\gamma(x^*).}{}\nWe call $p_m\\gamma(x)$ labor's replacement value at task $x$. This factor-price condition is the one used at the task margin by Acemoglu and Restrepo (2018), with the same threshold logic in Zeira (1998) and, for offshoring, in Grossman and Rossi-Hansberg (2008). We keep the condition and abstract from the force that restores labor in those models, the creation of new labor tasks, a modeling choice motivated by our reading of history and recent U.S. measures. Tasks closed to machines, by capability or by rule, form a wall, and a worker employed only there earns a wage determined within the human-required sector. This paper examines that margin with two questions."
+    }
+   ]
+  },
+  {
+   "id": "T.1.6",
+   "title": "What prices the substitute?",
+   "diff": "R and O are the same text, listing what a machine is made of; N1 follows one machine, the services of an AI model, through its supply chain; N2 states the machine-hour's price and the replacement closure as equations.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶6", "src": {"doc": "rewrite", "anchor": "\\textbf{What prices the substitute?}"}},
-    {"key": "O", "label": "Original", "where": "§1 ¶2 (L74)", "src": {"doc": "original", "lines": [74, 74]}}
-   ]},
-  {"id": "T.1.7", "title": "What prices the alternative to working at all?", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶6",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\textbf{What prices the substitute?}"
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶2 (L74)",
+     "src": {
+      "doc": "original",
+      "lines": [
+       74,
+       74
+      ]
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: an AI machine",
+     "where": "§1 ¶6",
+     "tex": "\\textbf{What prices the substitute?} A machine is itself produced, and its rental belongs to the same cost system as the goods and services households consume. Consider the machine services an AI model supplies when it performs a task. Their price includes chip design and fabrication, software generation, datacenter operation, logistics, and research, together with electricity and equipment. Each of these is produced from labor, other machines, and non-produced inputs: resources whose supply is not generated by the production process, such as sites, water, and mineral deposits. A grid connection or fabrication bottleneck can occupy the same position over a horizon on which its capacity is fixed. Tracing the price of the machine service through this chain leads to human hours and to non-produced inputs. While the chain employs labor, wages remain part of the substitute's cost. As chip design, software generation, and datacenter operation are themselves automated, the chain sheds labor, and rents can account for a larger share of the replacement price."
+    },
+    {
+     "key": "N2",
+     "label": "New: the closure in equations",
+     "where": "§1 ¶6",
+     "tex": "\\textbf{What prices the substitute?} A machine is itself produced, from other machines, labor, energy, sites, minerals, permissions. Its rental belongs to the same cost system as the goods and services households consume. Tracing input costs through production resolves the rental of a machine-hour into its price coefficients $\\widetilde\\lambda_m$ and $\\widetilde b_m$, the human hours and non-produced services of its full supply chain:\n\\optdisp{p_m=w\\widetilde\\lambda_m+r\\widetilde b_m,}{}\nwhere $r$ is the rent on non-produced inputs, resources whose supply is not generated by the production process. Land and mineral deposits are examples, and a grid connection or fabrication bottleneck can occupy the same position over a horizon on which its capacity is fixed. With the task margin, $w=p_m\\gamma(x^*)$, this gives\n\\optdisp{\\frac{w}{r}=\\frac{\\gamma(x^*)\\widetilde b_m}{1-\\gamma(x^*)\\widetilde\\lambda_m}.}{}\nHolding the other terms fixed, the wage--rent ratio falls when machines improve at the marginal task (a lower $\\gamma(x^*)$, task automation) and when the machine chain needs less labor (a lower $\\widetilde\\lambda_m$, recursive automation). The denominator is the feedback from the wage into the cost of its substitute. When no labor remains in the machine chain, $w/r=\\gamma(x^*)\\widetilde b_m$, and in the flow benchmark the machine's price is accounted for by its claim on the non-produced input."
+    }
+   ]
+  },
+  {
+   "id": "T.1.7",
+   "title": "What prices the alternative to working at all?",
+   "diff": "R and O are the same text; N1 makes the point with a household example and the history of common land; N2 states the participation choice and the reservation wage as equations.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶7", "src": {"doc": "rewrite", "anchor": "\\textbf{What prices the alternative to working at all?}"}},
-    {"key": "O", "label": "Original", "where": "§1 ¶3 (L76)", "src": {"doc": "original", "lines": [76, 76]}}
-   ]},
-  {"id": "T.1.8", "title": "The two chains", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶7",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\textbf{What prices the alternative to working at all?}"
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶3 (L76)",
+     "src": {
+      "doc": "original",
+      "lines": [
+       76,
+       76
+      ]
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: parents and common land",
+     "where": "§1 ¶7",
+     "tex": "\\textbf{What prices the alternative to working at all?} Life outside employment still requires somewhere to live, food, energy, and care. An adult may live with parents who provide housing and basic consumption while the adult decides whether to take paid work. If that support continues during employment, a wage buys consumption beyond it, and the choice to work depends on that gain and the value of the time work displaces. The parents may themselves finance the support from wages, and its cost includes the site on which the home stands. Access to common land once played a similar role. Enclosure could remove that access and increase the need for wage income, the mechanism emphasized by Marx (1867), Lewis (1954), and Polanyi (1944). In a modern economy, housing arrangements, household support, and public provision shape the corresponding outside option. Its cost traces back through the same production network as the firm's machine substitute."
+    },
+    {
+     "key": "N2",
+     "label": "New: the reservation wage",
+     "where": "§1 ¶7",
+     "tex": "\\textbf{What prices the alternative to working at all?} Life outside employment still requires somewhere to live, food, energy, and care. Let a household or public institution provide each person one basket of these, at cost $P_s$, whether or not the person works, and let the wage buy further baskets. A person whose market hour has utility cost $\\chi>0$ then works exactly when\n\\optdisp{w\\ge s,\\qquad s=(e^{\\chi}-1)P_s,}{}\nso the reservation wage rises with the cost of the basket. The production network prices the basket as it prices the machine. In the flow benchmark $P_s=wL_s+rB_s$, where $L_s$ and $B_s$ are the total human hours and non-produced services one basket requires. Since $P_s\\ge rB_s$, the wage measured in baskets is at most $(w/r)/B_s$, and since every basket needs living space, $B_s\\ge h>0$, the baskets an hour buys, and with them the gain from work, tend to zero as the wage--rent ratio tends to zero."
+    }
+   ]
+  },
+  {
+   "id": "T.1.8",
+   "title": "The two chains",
+   "diff": "R and O are the same text, with the two chains displayed one under the other; N1 draws them as one diagram that meets at the rents and marks where each automation channel acts; N2 writes the chains in words and adds the third condition, labor-market clearing, with the existence result.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶8", "src": {"doc": "rewrite", "anchor": "This paper endogenizes the two sides of the labor margin."}},
-    {"key": "O", "label": "Original", "where": "§1 ¶4 (L78-86)", "src": {"doc": "original", "lines": [78, 86]}}
-   ]},
-  {"id": "T.1.9", "title": "What the paper claims", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶8",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "This paper endogenizes the two sides of the labor margin."
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶4 (L78-86)",
+     "src": {
+      "doc": "original",
+      "lines": [
+       78,
+       86
+      ]
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: one diagram",
+     "where": "§1 ¶8",
+     "tex": "This paper endogenizes the two sides of the labor margin. The two chains end at the same prices:\n\\optdisp{\\begin{array}{c@{\\hspace{2.5em}}c}\\textit{labor demand} & \\textit{labor supply}\\\\\\Big\\downarrow\\rlap{$\\scriptstyle\\ \\gamma(x^*)$} & \\Big\\downarrow\\rlap{$\\scriptstyle\\ \\chi$}\\\\\\textit{replacement cost} & \\textit{outside option}\\\\[2pt]\\llap{$\\scriptstyle\\widetilde\\lambda_m,\\,\\widetilde b_m\\ $}\\searrow\\qquad & \\qquad\\swarrow\\rlap{$\\scriptstyle\\ L_s,\\,B_s$}\\\\[2pt]\\multicolumn{2}{c}{\\textit{rents on non-produced inputs}}\\end{array}}{}\nTask automation acts on the first link of the demand chain, through relative human productivity at the marginal task, $\\gamma(x^*)$. Recursive automation acts on its second link, through the labor embodied in machine services, $\\widetilde\\lambda_m$. The supply chain passes through the cost of the household's living basket, which the same cost system prices through the hours $L_s$ and non-produced services $B_s$ the basket requires, and through the cost of work $\\chi$. The firm compares a worker with a machine, and the person compares a wage with support, so the wage is measured against the rents on non-produced inputs from both sides of the market. Participation depends on wage purchasing power, the support available outside employment, and preferences. Technological change also moves the prices of the inputs on which production and consumption depend."
+    },
+    {
+     "key": "N2",
+     "label": "New: chains and the labor market",
+     "where": "§1 ¶8",
+     "tex": "This paper endogenizes the two sides of the labor margin. On the demand side, labor demand leads to the replacement cost of labor, and the replacement cost to rents on non-produced inputs. On the supply side, labor supply leads to the outside option, and the outside option to the same rents. One cost system prices the machine substitute and the household's living basket. Participation depends on wage purchasing power, the support available outside employment, and preferences. Technological change affects relative capability at tasks (``task automation''), the labor embodied in machine services (``recursive automation''), and the prices of the inputs on which production and consumption depend. The two chains compare the wage with other prices, and the labor market fixes its level. The non-produced input is in fixed supply, so it limits how many baskets the economy produces and with them how many hours it employs. Hours required must equal the hours people choose to supply,\n\\optdisp{\\frac{TL_s}{B_s}=NF\\left(\\log\\left[1+\\frac{w}{P_s}\\right]\\right),}{}\nwhere $T$ is the endowment of the non-produced input, $N$ the number of potential workers and $F$ the distribution of the cost of work. Task assignment sets the requirements $L_s$ and $B_s$, so this condition and the replacement price together determine the marginal task, the wage--rent ratio, and participation. Under explicit funding conditions the equilibrium exists and is unique (Theorem 1)."
+    }
+   ]
+  },
+  {
+   "id": "T.1.9",
+   "title": "What the paper claims",
+   "diff": "R gives one \"This paper argues\" sentence with its conditions, then George; O states the purchasing-power results and the bounds in words; N1 keeps R's argument and adds a list of four contributions with their result numbers and the measured numbers.",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶9", "src": {"doc": "rewrite", "anchor": "We return to Keynes's question"}},
-    {"key": "O", "label": "Original", "where": "§1 ¶5-6 (L88-90)", "src": {"doc": "original", "lines": [88, 90]}}
-   ]},
-  {"id": "T.1.10", "title": "Roadmap", "diff": "",
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶9",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "We return to Keynes's question"
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶5-6 (L88-90)",
+     "src": {
+      "doc": "original",
+      "lines": [
+       88,
+       90
+      ]
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: four contributions",
+     "where": "§1 ¶9",
+     "tex": "\\cellnote{R's paragraph, with this between its second and last sentences:}We make four contributions.\n\\begin{enumerate}\n\\item We derive the price of labor's machine substitute from the same cost system that prices consumption. At an interior task margin this gives the wage relative to the rent on non-produced inputs in one expression, and it separates two automation channels: task automation, which lowers relative human productivity at the marginal task, and recursive automation, which lowers the labor embodied in machine services. Holding the other price coefficients fixed, each lowers the wage--rent ratio (Proposition 2).\n\\item We price the alternative to working at all through the same network, as the cost of a supported living basket, and close the model with the labor market, where the fixed supply of the non-produced input limits the hours the economy employs. Under explicit funding conditions the equilibrium exists and is unique (Theorem 1).\n\\item We bound what an hour's wage buys. The embodied rent bill gives an upper bound, and a feasible human production method a lower bound. When the wage--rent ratio tends to zero, wage purchasing power tends to zero for goods whose embodied requirement for the non-produced input stays bounded away from zero, and, with support maintained and positive work costs, participation tends to zero (Proposition 4, Corollary 2).\n\\item We measure the objects the model names. Over 1964--2024, U.S. wage measures deflated by durables and by shelter prices diverged by a factor of 4.8. Full capture of the U.S. site-rent base would cover about 30 percent of a subsistence bundle per person in 2025, a coverage ratio of 0.30, up from roughly 0.05 in the 1950s. Labor-origin resources financed 65.8 percent of U.S. consumption in 2023, while human effort accounted for 47.2 percent of consumed production (Section 8).\n\\end{enumerate}"
+    }
+   ]
+  },
+  {
+   "id": "T.1.10",
+   "title": "Related literature",
+   "diff": "Neither R nor O has it; N1 is two compact paragraphs grouped by approach, most lines of work with one clause on how this paper relates to it; N2 is a subsection with short labeled paragraphs that keeps more of the cut Section 2 (Shimer's volatility fact, the Ljungqvist and Sargent quotation, offshoring, the machinery chapter).",
    "options": [
-    {"key": "R", "label": "Rewrite", "where": "§1 ¶10", "src": {"doc": "rewrite", "anchor": "Section \\ref{sec:description} describes the economy"}},
-    {"key": "O", "label": "Original", "where": "§1 ¶7 (L92-96)", "src": {"doc": "original", "lines": [92, 96]}}
-   ]}
+    {
+     "key": "N1",
+     "label": "New: paragraphs by approach",
+     "where": "§1, before the roadmap",
+     "tex": "The paper relates to several accounts of the wage. The textbook answer sets the wage equal to the marginal product of labor, whose level depends on the capital stock and the technology; applied work under Cobb--Douglas imposes fixed factor shares and an aggregate capital measure, assumptions that become fragile when factor shares and capital prices move (Sraffa 1960; Samuelson 1966), and Uzawa (1961) shows that a balanced growth path requires technical change to be labor-augmenting. Search and matching models place the wage between the worker's outside option and the value of the match (Diamond 1982; Mortensen and Pissarides 1994; Pissarides 2000). The debate that followed Shimer (2005), with resolutions by Hall (2005) and Hagedorn and Manovskii (2008), concerns the size of the fundamental surplus (Ljungqvist and Sargent 2017), whose leading deduction from productivity is the value of non-work; we derive that value from the cost of a supported basket. Task models determine the wage at the threshold task (Zeira 1998; Acemoglu and Autor 2011; Acemoglu and Restrepo 2018, 2022) and restore labor through new tasks (Autor 2015); we keep the threshold, derive the machine rental, and abstract from new tasks. Efficiency wages, monopsony, and rent sharing (Shapiro and Stiglitz 1984; Manning 2003; Card, Cardoso, Heining, and Kline 2018) explain why individual wages depart from a common base, and Acemoglu and Restrepo (2026) show that automation is directed at the tasks where these wedges are largest; we take the wedges as given and study the base.\n\nThe classical economists tied the wage to land and subsistence (Malthus 1798; Ricardo 1817; Marx 1867), Lewis (1954) tied the modern-sector wage to what the traditional sector affords, and George (1879) drew the fiscal consequence of rent. Among models of automation and artificial intelligence, Korinek and Suh (2024) is the closest formal predecessor on wage collapse, and Korinek and Stiglitz (2019) observe that when machines replace workers and production needs land or other non-reproducible factors, the owners of those factors absorb the rents. Restrepo (2025) finds that wages converge to the cost of the computational resources needed to reproduce human work, Moll, Rachel, and Restrepo (2022) route automation's gains to wealth-holders, and Aghion, Jones, and Jones (2019) describe a stabilizer in expenditure on whatever remains human-required. Caselli and Manning (2019) prove that real wages cannot fall in terms of goods produced entirely from reproducible inputs; we bound wage purchasing power for goods that need non-produced inputs. Our measures relate to work on the labor share and its housing counterpart (Karabarbounis and Neiman 2014; Rognlie 2015; Knoll, Schularick, and Steger 2017; Piketty and Zucman 2014), on long-run welfare ratios (Allen 2001; Clark 2005), and on payroll-tax incidence (Gruber 1997; Kugler and Kugler 2009; Saez, Schoefer, and Seim 2019)."
+    },
+    {
+     "key": "N2",
+     "label": "New: subsection with labels",
+     "where": "§1.1, before the roadmap",
+     "tex": "\\optsec{1.1}{Related literature}\n\\textbf{Marginal product.} The textbook answer sets the wage equal to the marginal product of labor. Its level depends on the capital stock and the technology, and Cobb--Douglas, the usual applied form, imposes fixed factor shares and requires an aggregate capital measure, assumptions that become fragile when factor shares and capital prices move (Sraffa 1960; Samuelson 1966). In growth theory the wage grows at a pinned rate along a balanced path, which Uzawa (1961) shows requires technical change to be labor-augmenting. Under automation the form of technical change is the open question, so we price the wage at the task margin instead.\n\n\\textbf{Search and bargaining.} Search and matching models (Diamond 1982; Mortensen and Pissarides 1994; Pissarides 2000) place the wage between the worker's outside option and the value of the match. Shimer (2005) showed that the calibrated model generates almost none of the observed volatility; in U.S. data the vacancy--unemployment ratio is roughly twenty times as volatile as labor productivity. Hagedorn and Manovskii (2008) and Hall (2005) proposed resolutions, and Ljungqvist and Sargent (2017) show that these work through the fundamental surplus, ``an upper bound on the fraction of a job's output that the invisible hand can allocate to vacancy creation'', whose leading deduction from productivity is the value of non-work. We endogenize both endpoints, the firm's machine alternative and the worker's outside option, and show that both depend partly on the same scarcity market.\n\n\\textbf{Tasks.} The task framework (Zeira 1998; Acemoglu and Autor 2011; Acemoglu and Restrepo 2018, 2022) determines the wage at the threshold task and is the direct ancestor of this paper. Its equilibrating force is the creation of new labor tasks (Acemoglu and Restrepo 2018; Autor 2015), from which we abstract. Offshoring follows the same logic (Grossman and Rossi-Hansberg 2008): a tradable task stays at home only while the wage beats both the machine rental and the foreign wage.\n\n\\textbf{Wedges.} Efficiency wages (Shapiro and Stiglitz 1984), monopsony (Manning 2003), and firm-level rent sharing (Card, Cardoso, Heining, and Kline 2018) explain why individual wages depart from a common base. Acemoglu and Restrepo (2026) show that automation is directed at the tasks where these wedges are largest. We take the wedges as given and study the common base.\n\n\\textbf{Classical accounts.} Ricardo (1817) priced land at the margin and the wage at its natural price, with Malthus (1798) supplying the mechanism, and the machinery chapter added in 1821 concedes that machinery can injure the laboring class. Marx (1867) priced labor power at its cost of reproduction, Lewis (1954) pinned the modern-sector wage to what the traditional sector affords, and Polanyi (1944) recorded the institutional side of enclosure. George (1879) drew the fiscal consequence that Section 6 derives inside the model.\n\n\\textbf{Automation and AI.} Korinek and Suh (2024) is the closest formal predecessor on wage collapse under transformative AI, and Korinek and Stiglitz (2019) observe that when machines replace workers and production needs land or other non-reproducible factors, the owners of those factors absorb the rents. Restrepo (2025) finds that wages converge to the cost of the computational resources needed to reproduce human work, Trammell and Korinek (2026) find that fully automating production would raise growth and lower the labor share, Susskind (2017) and Sachs and Kotlikoff (2012) reach technological immiseration through other channels, and Moll, Rachel, and Restrepo (2022) route automation's gains to wealth-holders. Aghion, Jones, and Jones (2019) supply a stabilizer, expenditure concentrating on what remains human-required (Appendix E). Caselli and Manning (2019) prove that real wages cannot fall in terms of goods produced entirely from reproducible inputs, and Hémous and Olsen (2022) endogenize automation's direction. Korinek and Lockwood (2026) show that in an economy without labor, taxing fixed factors is non-distortionary and can redistribute.\n\n\\textbf{Measurement.} The decline of the labor share is documented and global (Karabarbounis and Neiman 2014), and its capital-side counterpart resolves substantially into housing (Rognlie 2015; Knoll, Schularick, and Steger 2017; Piketty and Zucman 2014). Welfare ratios (Allen 2001; Clark 2005) measure the wage against a costed living basket, and the quasi-experimental payroll-tax literature (Gruber 1997; Kugler and Kugler 2009; Saez, Schoefer, and Seim 2019) bears on labor-demand and participation elasticities (Appendix D)."
+    }
+   ]
+  },
+  {
+   "id": "T.1.11",
+   "title": "Roadmap",
+   "diff": "R lists the sections in order; O sketches the original order in three sentences; N1 organizes the roadmap by the questions each section answers and adds two shorter reading paths.",
+   "options": [
+    {
+     "key": "R",
+     "label": "Rewrite",
+     "where": "§1 ¶10",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Section \\ref{sec:description} describes the economy"
+     }
+    },
+    {
+     "key": "O",
+     "label": "Original",
+     "where": "§1 ¶7 (L92-96)",
+     "src": {
+      "doc": "original",
+      "lines": [
+       92,
+       96
+      ]
+     }
+    },
+    {
+     "key": "N1",
+     "label": "New: by question",
+     "where": "§1 last ¶",
+     "tex": "The rest of the paper takes these questions in order. Sections 2 and 3 describe the economy and define its equilibrium. Section 4.1 asks what prices the substitute: the task margin and the machine-service row of the cost system give the wage--rent ratio. Section 4.2 asks what prices the alternative to working at all: the cost of the supported basket sets the reservation wage, and the labor market joins the two sides. Section 4.3 asks when an equilibrium exists and whether it is unique. Section 5 asks what an hour's wage buys and who receives income, and Section 6 asks how a tax on pure rents can fund a uniform transfer. Section 7 asks how the two automation channels compare in a numerical economy and follows it along an automation path. Section 8 asks what U.S. data show, Section 9 how the model reads history and what could stabilize wages, and Section 10 what artificial intelligence changes. Section 10 also concludes the paper. The appendices solve the owner's problem, contain the remaining proofs, and extend the economy to production networks and to several non-produced inputs, machine types, and worker types; they also treat expenditure shares under substitution, the fiscal transition, human-required tasks, and the financing and production accounts. A reader interested mainly in the mechanism can read Section 2, Section 4.1 and Section 5. A reader interested mainly in policy can go from Section 2 to Sections 6 and 8."
+    }
+   ]
+  }
  ]
 }

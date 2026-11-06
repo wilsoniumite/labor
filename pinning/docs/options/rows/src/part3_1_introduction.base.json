@@ -1,0 +1,55 @@
+{
+ "part": "3.1",
+ "title": "Part 3.1 — The introduction",
+ "subtitle": "Rewrite (R), original without Section 2 (O), and new options (N)",
+ "preface": "Each row is one topic of the introduction. Its options sit side by side: R is the rewrite, O the original, N1, N2 new versions. Identical text is printed once. A row with one option has a column for comments. The ID in each cell's corner (e.g.\\ T.1.4-R) is for comments and for the pick sheet at the end.",
+ "rows": [
+  {"id": "T.1.1", "title": "Opening", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶1", "src": {"doc": "rewrite", "anchor": "Can an economy run without anyone working?"}},
+    {"key": "O", "label": "Original", "where": "§1 ¶1", "tex": "The original opens with the task margin: row T.1.5."}
+   ]},
+  {"id": "T.1.2", "title": "What happened after Keynes", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶2", "src": {"doc": "rewrite", "anchor": "Half a century later, Leontief (1983)"}}
+   ]},
+  {"id": "T.1.3", "title": "Why the question is back", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶3", "src": {"doc": "rewrite", "anchor": "Artificial intelligence has reopened the question."}}
+   ]},
+  {"id": "T.1.4", "title": "What those models leave out", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶4", "src": {"doc": "rewrite", "anchor": "Production can do without work only if machines alone"}}
+   ]},
+  {"id": "T.1.5", "title": "The task margin", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶5", "src": {"doc": "rewrite", "anchor": "Suppose a firm can perform a task with a worker"}},
+    {"key": "O", "label": "Original", "where": "§1 ¶1 (L72)", "src": {"doc": "original", "lines": [72, 72]}}
+   ]},
+  {"id": "T.1.6", "title": "What prices the substitute?", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶6", "src": {"doc": "rewrite", "anchor": "\\textbf{What prices the substitute?}"}},
+    {"key": "O", "label": "Original", "where": "§1 ¶2 (L74)", "src": {"doc": "original", "lines": [74, 74]}}
+   ]},
+  {"id": "T.1.7", "title": "What prices the alternative to working at all?", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶7", "src": {"doc": "rewrite", "anchor": "\\textbf{What prices the alternative to working at all?}"}},
+    {"key": "O", "label": "Original", "where": "§1 ¶3 (L76)", "src": {"doc": "original", "lines": [76, 76]}}
+   ]},
+  {"id": "T.1.8", "title": "The two chains", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶8", "src": {"doc": "rewrite", "anchor": "This paper endogenizes the two sides of the labor margin."}},
+    {"key": "O", "label": "Original", "where": "§1 ¶4 (L78-86)", "src": {"doc": "original", "lines": [78, 86]}}
+   ]},
+  {"id": "T.1.9", "title": "What the paper claims", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶9", "src": {"doc": "rewrite", "anchor": "We return to Keynes's question"}},
+    {"key": "O", "label": "Original", "where": "§1 ¶5-6 (L88-90)", "src": {"doc": "original", "lines": [88, 90]}}
+   ]},
+  {"id": "T.1.10", "title": "Roadmap", "diff": "",
+   "options": [
+    {"key": "R", "label": "Rewrite", "where": "§1 ¶10", "src": {"doc": "rewrite", "anchor": "Section \\ref{sec:description} describes the economy"}},
+    {"key": "O", "label": "Original", "where": "§1 ¶7 (L92-96)", "src": {"doc": "original", "lines": [92, 96]}}
+   ]}
+ ]
+}

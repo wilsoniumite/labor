@@ -1,0 +1,1199 @@
+{
+ "blocks": [
+  {
+   "id": "B1",
+   "name": "History opening",
+   "contains": "Keynes (1930) and Leontief (1983) on work ending; Korinek and Suh, Korinek and Stiglitz, Korinek and Juelfs on AI and wages; what these models leave in the background (what the machine is made of, what life outside work costs).",
+   "in_S1": "§1 ¶1-4",
+   "in_S2": "§1 (rewrite's text, ahead of main.tex L72)",
+   "new": false,
+   "pages": 0.7
+  },
+  {
+   "id": "B2",
+   "name": "Two questions and two chains",
+   "contains": "The task-margin mechanism; what prices the substitute; what prices the alternative to working; the demand and supply chains back to non-produced inputs; the paper's claim and the George policy pair; the roadmap. Abstract and keywords sit with it.",
+   "in_S1": "§1 ¶5-end",
+   "in_S2": "§1 (main.tex L72-96)",
+   "new": false,
+   "pages": 1.2
+  },
+  {
+   "id": "B3",
+   "name": "Description of the economy",
+   "contains": "Informal account of the economy: workers, the owner (the parents example), firms and tasks, machines built from machine-hours, labor and land, land as the one non-produced input, the government; what is easy (prices given w and r) and what is hard (the wage-rent ratio).",
+   "in_S1": "§2",
+   "in_S2": "§2 opening (not in main.tex)",
+   "new": false,
+   "pages": 1.0
+  },
+  {
+   "id": "B4",
+   "name": "Primitives, notation, tasks, machines and land",
+   "contains": "The list of primitives; Table 1 (notation); Assumptions 1-3 (tasks and the wall H, machines and the user cost, land); the flow benchmark.",
+   "in_S1": "§3 opening, §3.1",
+   "in_S2": "§2.1 (main.tex §3.1, App. A.1)",
+   "new": false,
+   "pages": 2.9
+  },
+  {
+   "id": "B5",
+   "name": "The cost system",
+   "contains": "Unit costs, the Leontief-Sraffa price system, the cost recursion, price coefficients, the machine-hour's coefficients, prices at the user cost and quantities at the replacement rate.",
+   "in_S1": "§3.2",
+   "in_S2": "§2.2 (main.tex §3.2)",
+   "new": false,
+   "pages": 1.1
+  },
+  {
+   "id": "B6",
+   "name": "Workers, the owner and support",
+   "contains": "Assumption 4 (workers, the basket, the cost of work), the basket's cost, the budget; Assumption 5 (the owner), its budget, funded support, the dependence benchmark.",
+   "in_S1": "§3.3-3.4",
+   "in_S2": "§3 (main.tex §4 opening, App. A.1)",
+   "new": false,
+   "pages": 1.4
+  },
+  {
+   "id": "B7",
+   "name": "Government instruments",
+   "contains": "The six instruments (rent tax, wage tax, uniform transfer, payments in work and in exit, public provision of support) and the government budget; task reservation as policy.",
+   "in_S1": "§3.5",
+   "in_S2": "§4 (main.tex App. A.1)",
+   "new": false,
+   "pages": 0.3
+  },
+  {
+   "id": "B8",
+   "name": "Definition of equilibrium and margins",
+   "contains": "Definition 1 (stationary equilibrium), its matrix form, premia set aside, Definition 2 (interior margin, boundary assignment, corner), the task-assignment margin.",
+   "in_S1": "§3.6",
+   "in_S2": "§4 (main.tex App. A.1)",
+   "new": false,
+   "pages": 0.9
+  },
+  {
+   "id": "B9",
+   "name": "Two channels of automation",
+   "contains": "Definition 3 (task automation, recursive automation), the loom and its makers, AI in the model's terms (computing as machine-hours, datacenters as machines), Trammell and Korinek (2026).",
+   "in_S1": "§3.6 end",
+   "in_S2": "§2.4 (main.tex §3.4)",
+   "new": false,
+   "pages": 0.6
+  },
+  {
+   "id": "B10",
+   "name": "Prices and the task margin",
+   "contains": "Lemma 1 (prices and quantities), Proposition 1 (the task margin), Figure 1 (the schedule), the loom example, Restrepo (2025).",
+   "in_S1": "§4.1 first half",
+   "in_S2": "§2.1 (main.tex §3.1)",
+   "new": false,
+   "pages": 1.5
+  },
+  {
+   "id": "B11",
+   "name": "Replacement closure",
+   "contains": "Proposition 2 (the wage-rent ratio at the margin), the feedback term, the limit as machine services shed labor, Figure 2.",
+   "in_S1": "§4.1 second half",
+   "in_S2": "§2.3 (main.tex §3.3-3.4)",
+   "new": false,
+   "pages": 1.7
+  },
+  {
+   "id": "B12",
+   "name": "Participation",
+   "contains": "Proposition 3 (dependence, living costs and participation), the reservation wage, the strain on support, personal assets, enclosure and common land.",
+   "in_S1": "§4.2",
+   "in_S2": "§3 (main.tex §4)",
+   "new": false,
+   "pages": 0.8
+  },
+  {
+   "id": "B13",
+   "name": "Labor-market clearing, existence and uniqueness",
+   "contains": "Labor-market clearing (hours required against hours supplied), Lemma 2 (the ceiling), the margin-indexed prices and quantities, Theorem 1, Corollary 1 (labor supply and the margin).",
+   "in_S1": "§4.2 end, §4.3",
+   "in_S2": "§4 (main.tex §5, App. B Lemma B.1)",
+   "new": false,
+   "pages": 1.6
+  },
+  {
+   "id": "B14",
+   "name": "The real-wage fork and vanishing purchasing power",
+   "contains": "The opening summary of results (main.tex L88-90); Proposition 4 (the fork), the human-chain bounds for any network, Caselli and Manning (2019), embodied requirements, Corollary 2 (vanishing wage purchasing power and participation).",
+   "in_S1": "§5 opening, §5.1",
+   "in_S2": "§5.1 (main.tex §1 L88-90, §6.1)",
+   "new": false,
+   "pages": 2.5
+  },
+  {
+   "id": "B15",
+   "name": "Factor income",
+   "contains": "Proposition 5 (income identity, bound on labor's share), the instance's shares, Karabarbounis and Neiman, Rognlie, the five statements that change with durable machines.",
+   "in_S1": "§5.2",
+   "in_S2": "§5.2 (main.tex §6.2)",
+   "new": false,
+   "pages": 1.0
+  },
+  {
+   "id": "B16",
+   "name": "Rent taxation and a uniform transfer",
+   "contains": "Terminal inputs, Proposition 6, the coverage ratio and the rent tax that funds the basket, the measured coverage against the model, Corollary 3 (fiscal capacity as wage income vanishes), the lilies, Korinek and Lockwood (2026).",
+   "in_S1": "§6",
+   "in_S2": "§6 (main.tex §7)",
+   "new": false,
+   "pages": 2.2
+  },
+  {
+   "id": "B17",
+   "name": "Numerical economy and automation path",
+   "contains": "Table 2 (parameters and targets), the solution, Figure 3 (labor-market clearing under both channels), the automation path along which participation falls to 0.018 and an hour buys 1/426 as much space.",
+   "in_S1": "§7",
+   "in_S2": "§4 (main.tex App. B)",
+   "new": false,
+   "pages": 2.4
+  },
+  {
+   "id": "B18",
+   "name": "Measurement",
+   "contains": "The fork in U.S. wages (4.8 over 1964-2024, Figure 5), the coverage ratio (0.30 in 2025, Figure 6), financing against production (69.6 against 48.9 percent in 2004, Figure 7).",
+   "in_S1": "§8",
+   "in_S2": "§8 (main.tex §9)",
+   "new": false,
+   "pages": 2.3
+  },
+  {
+   "id": "B19",
+   "name": "History as four configurations",
+   "contains": "Heterogeneity and skill premia, Figure 4, pre-industrial, industrial, post-industrial and AI configurations, the trained-entrant wage ratio.",
+   "in_S1": "§9.1",
+   "in_S2": "§7 (main.tex §8)",
+   "new": false,
+   "pages": 2.6
+  },
+  {
+   "id": "B20",
+   "name": "Possible stabilizers",
+   "contains": "Human-required tasks, reservation by law, supply expansion, substitution between services, the wage-premium wedge of Acemoglu and Restrepo (2026).",
+   "in_S1": "§9.2",
+   "in_S2": "§9 (main.tex §10)",
+   "new": false,
+   "pages": 0.6
+  },
+  {
+   "id": "B21",
+   "name": "Artificial intelligence and conclusion",
+   "contains": "Both channels and purchasing power, participation, Leontief's horses and the rent dividend, the conjecture on wage-financed consumption, the classical economists, George and Keynes.",
+   "in_S1": "§10 first half",
+   "in_S2": "§10 (main.tex §11)",
+   "new": false,
+   "pages": 0.9
+  },
+  {
+   "id": "B22",
+   "name": "Future work",
+   "contains": "A dynamic extension, richer participation, the tax mix, a society that no longer organizes itself around paid work.",
+   "in_S1": "§10 second half",
+   "in_S2": "§11 (main.tex §12)",
+   "new": false,
+   "pages": 0.7
+  },
+  {
+   "id": "B23",
+   "name": "Toy economy (new)",
+   "contains": "A small economy solved by hand before the general model: a few tasks, machines built from labor and land that last one period (the flow benchmark), fixed land and a fixed basket; the task margin, the wage-rent ratio and the participation choice with round numbers.",
+   "in_S1": "--",
+   "in_S2": "--",
+   "new": true,
+   "pages": 1.5
+  },
+  {
+   "id": "B24",
+   "name": "Related literature (new)",
+   "contains": "A section built from the original's cut Section 2 (marginal product, search and bargaining, task models, institutions, the classical accounts, automation and the wage, empirical measures), shortened and updated to the papers the rewrite's introduction cites.",
+   "in_S1": "-- (main.tex §2, cut)",
+   "in_S2": "-- (main.tex §2, cut)",
+   "new": true,
+   "pages": 2.0
+  },
+  {
+   "id": "B25",
+   "name": "Contributions list (new)",
+   "contains": "A numbered list of the paper's contributions in the introduction, each pointing to the result that establishes it.",
+   "in_S1": "--",
+   "in_S2": "--",
+   "new": true,
+   "pages": 0.5
+  },
+  {
+   "id": "B26",
+   "name": "Facts and the results that read them (new)",
+   "contains": "A short table pairing each measured fact (the fork, coverage, financing against production, the labor share and housing) with the proposition that reads it.",
+   "in_S1": "--",
+   "in_S2": "--",
+   "new": true,
+   "pages": 0.5
+  },
+  {
+   "id": "B27",
+   "name": "Fiscal transition (from Appendix D)",
+   "contains": "Conditionality, payroll-tax incidence and schedule slope, the coverage ratio and the basket's requirements, dependence and fiscal coverage, financing the transition and the index D. New to the main text.",
+   "in_S1": "App. D",
+   "in_S2": "App. D",
+   "new": true,
+   "pages": 2.5
+  },
+  {
+   "id": "B28",
+   "name": "Production networks (from Appendix B)",
+   "contains": "Any production network with a choice among methods, several non-produced inputs, and the main results restated for them; proofs stay in the appendix. New to the main text.",
+   "in_S1": "App. B.1-B.2",
+   "in_S2": "App. B (in part)",
+   "new": true,
+   "pages": 2.0
+  },
+  {
+   "id": "B29",
+   "name": "Human-required tasks (from Appendix E)",
+   "contains": "Tasks machines cannot hold, the separate wage on them, Baumol concentration of labor income in those tasks while most workers stay exposed. New to the main text.",
+   "in_S1": "App. E",
+   "in_S2": "App. E",
+   "new": true,
+   "pages": 1.3
+  },
+  {
+   "id": "B30",
+   "name": "The two chains as a figure (new)",
+   "contains": "A figure drawing both chains from the labor margin back to non-produced inputs through the cost system, with the machine substitute on one side and the basket on the other.",
+   "in_S1": "--",
+   "in_S2": "--",
+   "new": true,
+   "pages": 0.5
+  },
+  {
+   "id": "B31",
+   "name": "Financing and production shares (from Appendix F)",
+   "contains": "The definitions and construction of the labor-origin financing share and the full-chain human-effort share; bounds and data sources stay in the appendix. New to the main text.",
+   "in_S1": "App. F",
+   "in_S2": "App. F",
+   "new": true,
+   "pages": 1.0
+  }
+ ],
+ "structures": [
+  {
+   "key": "S1",
+   "name": "The rewrite",
+   "idea": "Describe the economy, define its equilibrium and characterize it, then derive the results, solve the example, and end with the evidence and the history.",
+   "new_content": "None.",
+   "appendix": "A, proofs. B, extensions: production networks, several non-produced inputs, machine types and trade, worker types, ideas and institutional rents, task-level costs. C, expenditure shares under substitution. D, fiscal transition while labor remains employed. E, human-required tasks. F, the financing and production accounts.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2"
+     ],
+     "description": "The history opening, the two questions and chains, the claim, the roadmap.",
+     "pages": 2.3
+    },
+    {
+     "number": "2",
+     "title": "Description of the economy",
+     "blocks": [
+      "B3"
+     ],
+     "description": "The economy in words, after Lucas (1978).",
+     "pages": 1.0
+    },
+    {
+     "number": "3",
+     "title": "Definition of equilibrium",
+     "blocks": [
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "B8",
+      "B9"
+     ],
+     "description": "Assumptions 1-5, the cost system, government, Definitions 1-3; Table 1.",
+     "pages": 7.2
+    },
+    {
+     "number": "4",
+     "title": "Equilibrium",
+     "blocks": [
+      "B10",
+      "B11",
+      "B12",
+      "B13"
+     ],
+     "description": "Prices and the task margin, replacement closure, participation, existence and uniqueness.",
+     "pages": 5.6
+    },
+    {
+     "number": "5",
+     "title": "Purchasing power and income",
+     "blocks": [
+      "B14",
+      "B15"
+     ],
+     "description": "The real-wage fork, vanishing purchasing power, factor income.",
+     "pages": 3.5
+    },
+    {
+     "number": "6",
+     "title": "Distribution: rent taxation and a uniform transfer",
+     "blocks": [
+      "B16"
+     ],
+     "description": "Proposition 6, coverage, fiscal capacity as wage income vanishes.",
+     "pages": 2.2
+    },
+    {
+     "number": "7",
+     "title": "A numerical economy and an automation path",
+     "blocks": [
+      "B17"
+     ],
+     "description": "The calibrated instance, both channels, the path to low participation.",
+     "pages": 2.4
+    },
+    {
+     "number": "8",
+     "title": "Measurement",
+     "blocks": [
+      "B18"
+     ],
+     "description": "The fork, coverage, financing against production.",
+     "pages": 2.3
+    },
+    {
+     "number": "9",
+     "title": "History and stabilizers",
+     "blocks": [
+      "B19",
+      "B20"
+     ],
+     "description": "Four configurations of the schedule; possible stabilizers.",
+     "pages": 3.2
+    },
+    {
+     "number": "10",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21",
+      "B22"
+     ],
+     "description": "AI in the two channels, the conjecture, future work.",
+     "pages": 1.6
+    }
+   ],
+   "pages": 31
+  },
+  {
+   "key": "S2",
+   "name": "The original's order",
+   "idea": "The demand side and the cost system come first, then the outside option, then the labor market where the two meet; the rewrite's formal content is placed in these sections.",
+   "new_content": "None. The roadmap and some section openings are rewritten for the order.",
+   "appendix": "A, proofs, task-level costs, timing and institutional rents (main.tex A.2-A.4; A.1's environment is now in Sections 2-4). B, extensions as in the rewrite (main.tex B's numerical economy is now in Section 4). C, factor income and expenditure shares. D, fiscal transition. E, human-required tasks. F, the financing and production accounts.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2"
+     ],
+     "description": "The rewrite's history opening ahead of main.tex's introduction, with its summary of results; the pointer to the old Section 2 becomes a roadmap.",
+     "pages": 2.3
+    },
+    {
+     "number": "2",
+     "title": "The model: task assignment and the cost system",
+     "blocks": [
+      "B3",
+      "B4",
+      "B10",
+      "B5",
+      "B11",
+      "B9"
+     ],
+     "description": "The economy in words, tasks and the margin, the cost recursion, closing the replacement price, two margins of automation.",
+     "pages": 8.8
+    },
+    {
+     "number": "3",
+     "title": "The outside option: pricing exit",
+     "blocks": [
+      "B6",
+      "B12"
+     ],
+     "description": "The basket, workers, the owner and support, Proposition 3.",
+     "pages": 2.2
+    },
+    {
+     "number": "4",
+     "title": "Replacement meets participation",
+     "blocks": [
+      "B7",
+      "B8",
+      "B13",
+      "B17"
+     ],
+     "description": "Government, the definition of equilibrium, labor-market clearing, Theorem 1, and the numerical economy (main.tex's Appendix B).",
+     "pages": 5.2
+    },
+    {
+     "number": "5",
+     "title": "Purchasing power at an interior margin",
+     "blocks": [
+      "B14",
+      "B15"
+     ],
+     "description": "What an hour's wage buys; factor income while labor remains employed.",
+     "pages": 3.5
+    },
+    {
+     "number": "6",
+     "title": "Distribution: rent taxation and a uniform transfer",
+     "blocks": [
+      "B16"
+     ],
+     "description": "As in the rewrite's Section 6.",
+     "pages": 2.2
+    },
+    {
+     "number": "7",
+     "title": "History as four configurations of the model",
+     "blocks": [
+      "B19"
+     ],
+     "description": "The four configurations, before the measurements.",
+     "pages": 2.6
+    },
+    {
+     "number": "8",
+     "title": "Measurement",
+     "blocks": [
+      "B18"
+     ],
+     "description": "The fork, coverage, financing against production.",
+     "pages": 2.3
+    },
+    {
+     "number": "9",
+     "title": "Possible stabilizers",
+     "blocks": [
+      "B20"
+     ],
+     "description": "As in the original.",
+     "pages": 0.6
+    },
+    {
+     "number": "10",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21"
+     ],
+     "description": "As in the rewrite, without the future work.",
+     "pages": 0.9
+    },
+    {
+     "number": "11",
+     "title": "Future work",
+     "blocks": [
+      "B22"
+     ],
+     "description": "A section of its own, as in the original.",
+     "pages": 0.7
+    }
+   ],
+   "pages": 31
+  },
+  {
+   "key": "S3",
+   "name": "Facts first",
+   "idea": "The three measured facts come right after the introduction, so the reader meets the fork, the coverage ratio and the financing gap before the model that accounts for them.",
+   "new_content": "A table pairing each fact with the result that reads it (new, half a page). Appendix F's definitions of the two shares, moved into Section 2 (new to the main text, about a page).",
+   "appendix": "A-E as in the rewrite. F keeps the data sources and the bounds; its definitions move to Section 2.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2"
+     ],
+     "description": "As in the rewrite; the roadmap points to the facts first.",
+     "pages": 2.3
+    },
+    {
+     "number": "2",
+     "title": "Three facts",
+     "blocks": [
+      "B18",
+      "B31",
+      "B26"
+     ],
+     "description": "The measurements, with the construction of the two shares from Appendix F and a table naming the result each fact bears on (new).",
+     "pages": 3.8
+    },
+    {
+     "number": "3",
+     "title": "Description of the economy",
+     "blocks": [
+      "B3"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.0
+    },
+    {
+     "number": "4",
+     "title": "Definition of equilibrium",
+     "blocks": [
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "B8",
+      "B9"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 7.2
+    },
+    {
+     "number": "5",
+     "title": "Equilibrium",
+     "blocks": [
+      "B10",
+      "B11",
+      "B12",
+      "B13"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 5.6
+    },
+    {
+     "number": "6",
+     "title": "Purchasing power and income",
+     "blocks": [
+      "B14",
+      "B15"
+     ],
+     "description": "As in the rewrite; Proposition 4 refers back to the fork of Section 2.",
+     "pages": 3.5
+    },
+    {
+     "number": "7",
+     "title": "Distribution: rent taxation and a uniform transfer",
+     "blocks": [
+      "B16"
+     ],
+     "description": "As in the rewrite; the measured coverage refers back to Section 2.",
+     "pages": 2.2
+    },
+    {
+     "number": "8",
+     "title": "A numerical economy and an automation path",
+     "blocks": [
+      "B17"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.4
+    },
+    {
+     "number": "9",
+     "title": "History and stabilizers",
+     "blocks": [
+      "B19",
+      "B20"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 3.2
+    },
+    {
+     "number": "10",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21",
+      "B22"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.6
+    }
+   ],
+   "pages": 33
+  },
+  {
+   "key": "S4",
+   "name": "Sections named for questions",
+   "idea": "After the model, each section answers one question the paper asks, and its title is that question.",
+   "new_content": "A numbered list of contributions in the introduction (new, half a page). Appendix E's human-required tasks, moved into Section 8 (new to the main text, about 1.3 pages). A short opening to each question section that states the answer (new, a few sentences each).",
+   "appendix": "A-D and F as in the rewrite. E moves to Section 8; its proof joins Appendix A.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2",
+      "B25"
+     ],
+     "description": "As in the rewrite, with a numbered list of contributions (new).",
+     "pages": 2.8
+    },
+    {
+     "number": "2",
+     "title": "The economy",
+     "blocks": [
+      "B3",
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "B8"
+     ],
+     "description": "The description and the definition of equilibrium in one section.",
+     "pages": 7.6
+    },
+    {
+     "number": "3",
+     "title": "What pins the wage?",
+     "blocks": [
+      "B9",
+      "B10",
+      "B11"
+     ],
+     "description": "The two channels of automation, the task margin, replacement closure.",
+     "pages": 3.8
+    },
+    {
+     "number": "4",
+     "title": "Who chooses to work?",
+     "blocks": [
+      "B12",
+      "B13"
+     ],
+     "description": "Participation, labor-market clearing, existence and uniqueness.",
+     "pages": 2.4
+    },
+    {
+     "number": "5",
+     "title": "When does work end?",
+     "blocks": [
+      "B14",
+      "B17"
+     ],
+     "description": "The real-wage fork and Corollary 2, then the numerical path along which participation falls toward zero.",
+     "pages": 4.9
+    },
+    {
+     "number": "6",
+     "title": "Who pays for life outside work?",
+     "blocks": [
+      "B15",
+      "B16"
+     ],
+     "description": "Factor income, the rent tax and transfer, coverage, fiscal capacity.",
+     "pages": 3.2
+    },
+    {
+     "number": "7",
+     "title": "Has this happened before?",
+     "blocks": [
+      "B19",
+      "B18"
+     ],
+     "description": "The four historical configurations, then the measured fork, coverage and financing.",
+     "pages": 4.9
+    },
+    {
+     "number": "8",
+     "title": "What can hold the wage up?",
+     "blocks": [
+      "B20",
+      "B29"
+     ],
+     "description": "The stabilizers, with human-required tasks and Baumol concentration from Appendix E.",
+     "pages": 1.9
+    },
+    {
+     "number": "9",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21",
+      "B22"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.6
+    }
+   ],
+   "pages": 33
+  },
+  {
+   "key": "S5",
+   "name": "The two chains",
+   "idea": "The paper follows the two chains of the introduction: the demand side and replacement, then the supply side and the outside option, then the labor market where they meet.",
+   "new_content": "A figure of the two chains in the introduction (new, half a page). Short openings that place each section on its chain (new).",
+   "appendix": "A, proofs. B, extensions: production networks, several non-produced inputs, machine types and trade, worker types, ideas and institutional rents, task-level costs. C, expenditure shares under substitution. D, fiscal transition while labor remains employed. E, human-required tasks. F, the financing and production accounts.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2",
+      "B30"
+     ],
+     "description": "As in the rewrite, with a figure of the two chains (new).",
+     "pages": 2.8
+    },
+    {
+     "number": "2",
+     "title": "The economy and its cost system",
+     "blocks": [
+      "B3",
+      "B4",
+      "B5"
+     ],
+     "description": "The description, the technology assumptions, the cost system that both chains use.",
+     "pages": 5.0
+    },
+    {
+     "number": "3",
+     "title": "The demand side: replacement",
+     "blocks": [
+      "B9",
+      "B10",
+      "B11"
+     ],
+     "description": "The two channels, the task margin, replacement closure; results stated at prices that satisfy the cost system.",
+     "pages": 3.8
+    },
+    {
+     "number": "4",
+     "title": "The supply side: the outside option",
+     "blocks": [
+      "B6",
+      "B12",
+      "B14"
+     ],
+     "description": "Workers, the owner and support, participation, and what an hour's wage buys against the basket.",
+     "pages": 4.7
+    },
+    {
+     "number": "5",
+     "title": "Where the two sides meet",
+     "blocks": [
+      "B8",
+      "B13",
+      "B17"
+     ],
+     "description": "The definition of equilibrium, labor-market clearing, Theorem 1, the numerical economy.",
+     "pages": 4.9
+    },
+    {
+     "number": "6",
+     "title": "Who pays for support",
+     "blocks": [
+      "B7",
+      "B15",
+      "B16"
+     ],
+     "description": "Government instruments, factor income, the rent tax and transfer, fiscal capacity.",
+     "pages": 3.5
+    },
+    {
+     "number": "7",
+     "title": "Evidence: measurement and history",
+     "blocks": [
+      "B18",
+      "B19"
+     ],
+     "description": "The measured fork, coverage and financing, then the four configurations.",
+     "pages": 4.9
+    },
+    {
+     "number": "8",
+     "title": "Stabilizers, artificial intelligence and conclusion",
+     "blocks": [
+      "B20",
+      "B21",
+      "B22"
+     ],
+     "description": "Possible stabilizers, AI, future work.",
+     "pages": 2.2
+    }
+   ],
+   "pages": 32
+  },
+  {
+   "key": "S6",
+   "name": "From simple to general",
+   "idea": "The model is built up in steps: an economy small enough to solve by hand, the four-good economy, its numerical instance, and general production networks, before the results that use them.",
+   "new_content": "A toy economy (new, about 1.5 pages). The general production networks of Appendix B.1-B.2, with several non-produced inputs, stated in the main text (new to the main text, about 2 pages).",
+   "appendix": "A, proofs, including those for Section 7. B keeps machine types and trade, worker types, ideas and institutional rents, task-level costs. C-F as in the rewrite.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.3
+    },
+    {
+     "number": "2",
+     "title": "A toy economy",
+     "blocks": [
+      "B23"
+     ],
+     "description": "A few tasks, one-period machines made of labor and land, a fixed basket, solved with round numbers (new).",
+     "pages": 1.5
+    },
+    {
+     "number": "3",
+     "title": "Description of the economy",
+     "blocks": [
+      "B3"
+     ],
+     "description": "As in the rewrite, presented as the toy economy's generalization.",
+     "pages": 1.0
+    },
+    {
+     "number": "4",
+     "title": "Definition of equilibrium",
+     "blocks": [
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "B8",
+      "B9"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 7.2
+    },
+    {
+     "number": "5",
+     "title": "Equilibrium",
+     "blocks": [
+      "B10",
+      "B11",
+      "B12",
+      "B13"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 5.6
+    },
+    {
+     "number": "6",
+     "title": "A numerical economy and an automation path",
+     "blocks": [
+      "B17"
+     ],
+     "description": "Moved up to follow the existence theorem; its figures on what an hour buys point forward to Section 8.",
+     "pages": 2.4
+    },
+    {
+     "number": "7",
+     "title": "General production networks",
+     "blocks": [
+      "B28"
+     ],
+     "description": "Any network with a choice of methods and several non-produced inputs; the main results restated (from Appendix B).",
+     "pages": 2.0
+    },
+    {
+     "number": "8",
+     "title": "Purchasing power and income",
+     "blocks": [
+      "B14",
+      "B15"
+     ],
+     "description": "As in the rewrite, with the human-chain bounds stated for the networks of Section 7.",
+     "pages": 3.5
+    },
+    {
+     "number": "9",
+     "title": "Distribution: rent taxation and a uniform transfer",
+     "blocks": [
+      "B16"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.2
+    },
+    {
+     "number": "10",
+     "title": "Measurement",
+     "blocks": [
+      "B18"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.3
+    },
+    {
+     "number": "11",
+     "title": "History and stabilizers",
+     "blocks": [
+      "B19",
+      "B20"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 3.2
+    },
+    {
+     "number": "12",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21",
+      "B22"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.6
+    }
+   ],
+   "pages": 35
+  },
+  {
+   "key": "S7",
+   "name": "Literature and history first",
+   "idea": "Earlier accounts of the wage and the history of work come before the model as its motivation; the model, results and evidence follow.",
+   "new_content": "A related-literature section built from the original's cut Section 2, shortened and updated (new, about 2 pages).",
+   "appendix": "A, proofs. B, extensions: production networks, several non-produced inputs, machine types and trade, worker types, ideas and institutional rents, task-level costs. C, expenditure shares under substitution. D, fiscal transition while labor remains employed. E, human-required tasks. F, the financing and production accounts.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.3
+    },
+    {
+     "number": "2",
+     "title": "Earlier accounts of the wage",
+     "blocks": [
+      "B24"
+     ],
+     "description": "Marginal product, bargaining, task models, institutions, the classical accounts, automation, measures (new, from main.tex Section 2).",
+     "pages": 2.0
+    },
+    {
+     "number": "3",
+     "title": "Work, machines and land in history",
+     "blocks": [
+      "B19"
+     ],
+     "description": "The four configurations told before the model, in words and Figure 4; the skill-premium identity points forward to Proposition 1.",
+     "pages": 2.6
+    },
+    {
+     "number": "4",
+     "title": "Description of the economy",
+     "blocks": [
+      "B3"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.0
+    },
+    {
+     "number": "5",
+     "title": "Definition of equilibrium",
+     "blocks": [
+      "B4",
+      "B5",
+      "B6",
+      "B7",
+      "B8",
+      "B9"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 7.2
+    },
+    {
+     "number": "6",
+     "title": "Equilibrium",
+     "blocks": [
+      "B10",
+      "B11",
+      "B12",
+      "B13"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 5.6
+    },
+    {
+     "number": "7",
+     "title": "Purchasing power and income",
+     "blocks": [
+      "B14",
+      "B15"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 3.5
+    },
+    {
+     "number": "8",
+     "title": "A numerical economy and an automation path",
+     "blocks": [
+      "B17"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.4
+    },
+    {
+     "number": "9",
+     "title": "Measurement",
+     "blocks": [
+      "B18"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 2.3
+    },
+    {
+     "number": "10",
+     "title": "Distribution and stabilizers",
+     "blocks": [
+      "B16",
+      "B20"
+     ],
+     "description": "The rent tax and transfer with the other ways to sustain purchasing power.",
+     "pages": 2.8
+    },
+    {
+     "number": "11",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21",
+      "B22"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.6
+    }
+   ],
+   "pages": 33
+  },
+  {
+   "key": "S8",
+   "name": "Policy at the center",
+   "idea": "The fiscal side becomes a main section: the rent tax, coverage and the transition from Appendix D, after the measurement that supplies their numbers.",
+   "new_content": "Appendix D's fiscal transition, moved into Section 7 (new to the main text, about 2.5 pages). Appendix E's human-required tasks, moved into Section 8 (new to the main text, about 1.3 pages).",
+   "appendix": "A, proofs, including those for Sections 7 and 8. B, C and F as in the rewrite. D and E move to the main text.",
+   "outline": [
+    {
+     "number": "1",
+     "title": "Introduction",
+     "blocks": [
+      "B1",
+      "B2"
+     ],
+     "description": "As in the rewrite; the roadmap leads to the policy section.",
+     "pages": 2.3
+    },
+    {
+     "number": "2",
+     "title": "The economy",
+     "blocks": [
+      "B3",
+      "B4",
+      "B5",
+      "B6",
+      "B8",
+      "B9"
+     ],
+     "description": "The description and the definition of equilibrium, stated with every instrument at zero.",
+     "pages": 7.9
+    },
+    {
+     "number": "3",
+     "title": "Equilibrium",
+     "blocks": [
+      "B10",
+      "B11",
+      "B12",
+      "B13"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 5.6
+    },
+    {
+     "number": "4",
+     "title": "A numerical economy and an automation path",
+     "blocks": [
+      "B17"
+     ],
+     "description": "Moved up, so the path is available to the policy section.",
+     "pages": 2.4
+    },
+    {
+     "number": "5",
+     "title": "Purchasing power and income",
+     "blocks": [
+      "B14",
+      "B15"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 3.5
+    },
+    {
+     "number": "6",
+     "title": "Measurement",
+     "blocks": [
+      "B18"
+     ],
+     "description": "The coverage ratio and financing shares that the policy section uses.",
+     "pages": 2.3
+    },
+    {
+     "number": "7",
+     "title": "Who pays for life outside work?",
+     "blocks": [
+      "B7",
+      "B16",
+      "B27"
+     ],
+     "description": "Government instruments added to the equilibrium, the rent tax and transfer, fiscal capacity, then Appendix D: conditionality, payroll-tax incidence, coverage, financing the transition.",
+     "pages": 5.0
+    },
+    {
+     "number": "8",
+     "title": "Stabilizers and human-required tasks",
+     "blocks": [
+      "B20",
+      "B29"
+     ],
+     "description": "The stabilizers, with Appendix E's human-required tasks.",
+     "pages": 1.9
+    },
+    {
+     "number": "9",
+     "title": "History as four configurations of the model",
+     "blocks": [
+      "B19"
+     ],
+     "description": "As in the rewrite, after the policy discussion.",
+     "pages": 2.6
+    },
+    {
+     "number": "10",
+     "title": "Artificial intelligence and conclusion",
+     "blocks": [
+      "B21",
+      "B22"
+     ],
+     "description": "As in the rewrite.",
+     "pages": 1.6
+    }
+   ],
+   "pages": 35
+  }
+ ]
+}
