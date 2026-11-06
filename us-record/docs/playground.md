@@ -107,3 +107,35 @@ tilt (its start year and its 2024 weight), and the fit moves the tilt's weight w
   shelter 131): the measured series jumps between benchmark years and is missing before 1967, and its jumps pass straight
   into machine prices and the wage. A smooth lambda clock does the same job without passing on the noise
   (`playground/round5*.js`).
+
+## Her spiky settings and technology waves, 2026-11-06
+
+- **The machine is a free unit.** Scaling, year by year, the machine service a task needs by c_t and both the hours and
+  the land in a machine by 1/c_t changes nothing: with wild spikes in c_t the kept model's misfit stays 6.772334 to the
+  last digit (`playground/unit_check.js`); the same spikes in the clock alone leave 21 years without an equilibrium. So
+  the model has two real clocks, the land and the hours embodied per unit of task capacity (b eta and lambda eta);
+  "capability" on its own is a unit. Her spiky settings (misfit 15.9; labour's share 4.2 against the kept model's 17.1,
+  bought with the wage legs) were mostly that unit changing size: her clock and hours-per-machine spikes mirror each
+  other, and the hours per unit of task capacity fall smoothly throughout (`playground/her_spiky.json`,
+  `waves_look.js`). What is left is the land per unit of task capacity: a steep fall to 1965, a rise around 1970, a fall
+  to 1999.
+- **Waves** (her idea: a discovery is chased hard, then the lower fruit comes slower): each lowers both real clocks by a
+  size (logs) as size (1 - exp(-(t - year) / tau)), on a steady pace (`explorer/model.js`, S.waves).
+
+  | Waves | Misfit | By series | Clock by era (1950s / 60-73 / 73-95 / 95-05 / 05-24) |
+  |---|---|---|---|
+  | none (kept) | 6.77 | 6.4 4.7 17.1 1.4 4.2 | 11.3% throughout |
+  | fixed at 1970 and 1995, sizes free | 6.83 | | the fit shrinks both to nothing |
+  | dates free, from 1970 and 1995 | 5.38 | 3.9 4.5 12.9 2.0 3.7 | 12.3 / 10.2 / 8.1 / 18.0 / 7.2 |
+  | dates free, from 1960 and 1985 | 5.39 | 7.7 3.7 9.9 1.7 4.0 | 13.0 / 10.3 / 11.7 / 10.4 / 7.1 |
+  | three, dates free | 5.31 | 4.4 4.6 12.2 1.8 3.7 | 12.9 / 10.1 / 9.1 / 17.7 / 7.2 |
+  | dated from the productivity record: post-war 1948, IT 1995 | 5.53 | 4.4 5.0 12.6 2.0 3.7 | 13.0 / 10.7 / 9.1 / 17.3 / 8.3 |
+  | dated: post-war 1948 alone | 6.39 | 7.3 4.2 13.6 2.5 4.2 | |
+  | dated: IT 1995 alone | 6.68 | | |
+
+  Every flexible fit finds an early burst (from about 1950, winding down over 15-20 years), and it is what pulls
+  labour's share down early. With free dates the later wave lands at 1997 or 1984 for the same misfit: the record does
+  not date it. Dated from outside (the textbook productivity breaks), two waves cost four numbers and take the misfit
+  from 6.77 to 5.53, and the clock then runs the productivity record's shape (fast to 1973, slower to 1995, a burst to
+  2005, slow after), but that shape is put in by the dates, not found. A third dated wave (2015) fell into a worse local
+  optimum (6.53) from every start tried.
