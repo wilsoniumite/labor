@@ -132,6 +132,10 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 
 ## Next
 
+0. **The main case's misses** (Log 19): https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU (`code/report_misses.py`). Her
+   next routes, both open: calibration (c)'s (the return fitted with the chain as a target works; fixed rents in a
+   machine's cost, to take the task line off the ceiling, is the open part) and durables apart (a second good). The
+   page ends with the questions for her before either is built.
 1. **The report on model B** (Log 18): https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir (private to her), built by
    `code/report_B.py` from the stored fits and `code/stress_B.py`. **Her explorer** (Log 13, now opening on B):
    https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs.
@@ -353,7 +357,7 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     gross output against NIPA's 16%; machine services 51% of a machine's cost against at most 38%) is one fact: on the
     chain's ceiling land's share of a machine's cost is the distance to the ceiling, and at a 2% return 73% of machines'
     rent is depreciation (NIPA: 39%). The return walked up keeping 1950's machine-cost shares: misfit 1.96 at 3%, 1.92 at
-    4%, 1.95 at 5%, the chain 40% -> 29%; no 1950 equilibrium past 5% (NIPA's split implies about 8%). SIXTH_TARGET_LOG
+    4%, 1.95 at 5%, the chain 40% -> 29%; no 1950 equilibrium past 5% (NIPA's split implies about 8%). With the chain's measured share of pay (1997-2023) as a sixth target and the return free, the fit finds a 7.4% return (NIPA's split implies about 8%): the five targets at 2.02, the chain 22% of pay (15-18% measured), replacement 22% of gross output; at a fixed 2% the same target costs the five targets 6.45. What the return does not touch: the task line stays on the ceiling (fixed rents ~0 in a machine's cost against at least 18% imported content on theta_V's domestic basis), the site nearly leaves the basket (0.2% of spending), the waterline stays short. Published: https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU.
     (ii) The waterline's median mixes four computer-price measures (7.6-15.2-fold) with two broad-equipment ones
     (2.3-fold); against broad equipment the model's 1.25-fold is short by 1.9, not 6. (iii) The coverage ratio was read on
     all land; the record counts housing land, on which the model rises 2.3-fold (1953-2024) against the rent-flow

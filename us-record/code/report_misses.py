@@ -59,12 +59,12 @@ def main():
     ct = os.path.join(ROOT, "playground", "chain_target.json")
     if os.path.exists(ct):
         runs = [r for r in json.load(open(ct)) if r.get("misfit6") is not None]
-        out["chain_target"] = [dict(label=r["label"], misfit6=r["misfit6"], misfit5=r["misfit5"], by=r["by"],
+        out["chain_target"] = [dict(label=r["label"], misfit6=r["misfit6"], misfit5=r["misfit5"], by=r["by"], rho_free=r.get("rho_free"),
                                     chain_misfit=r["chain_misfit"], rho=r["par"]["rho"], g_eta=r["par"]["g_eta"],
                                     a=r["par"]["a"], sigma_V_2023=r["sigma_V_2023"]) for r in runs]
         if runs:
             best = min(runs, key=lambda r: r["misfit6"])
-            meta6 = dict(META) if "rho" not in best["label"] else dict(META, rho_fixed=None, names=META["names"] + ["rho"])
+            meta6 = dict(META, rho_fixed=None, names=META["names"] + ["rho"]) if best.get("rho_free") else dict(META)
             out["models"]["sixth"] = insides_at(meta6, best["par"])
             out["models"]["sixth"]["label"] = best["label"]
     F.configure(META)
@@ -77,6 +77,8 @@ def main():
                              if str(y) in eco["economy"] else None for y in YEARS]
     g1 = eco["targets_for_macro"]["g1_equipment_ipp_structures_full_chain"]
     rec["cost_split_2023"] = {k: g1[f"{k}_tot"]["2023"] for k in ("theta", "cfc", "tax", "nos")}
+    # the domestic-labour basis, on which the panel's theta_V (the target) is read: imported content apart
+    rec["cost_split_2023_domp"] = {k: g1[f"{k}_domp"]["2023"] for k in ("theta", "cfc", "tax", "nos", "imports")}
     rec["cfc_over_gdp_2023"] = eco["targets_for_macro"]["c_nipa"]["cfc_over_gdp"]["2023"]
     rec["nos_over_gdp_2023"] = eco["targets_for_macro"]["c_nipa"]["nos_over_gdp"]["2023"]
     wc = pd.read_csv(os.path.join(F.REPO, "companion", "data", "wc_grid.csv")).set_index("year")
