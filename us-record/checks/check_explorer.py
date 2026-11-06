@@ -41,7 +41,7 @@ js = json.loads(subprocess.run(["node", "-e", NODE, os.path.join(ROOT, "explorer
                                 os.path.join(ROOT, "explorer", "data.json")],
                                capture_output=True, text=True, check=True).stdout)
 for p in DOC["presets"]:
-    if not p["source"].startswith("results/"):                  # playground presets: JavaScript only, no Python twin
+    if not p["source"].startswith("results/") or "#" in p["source"]:   # variants: JavaScript only, no stored Python twin
         continue
     R = json.load(open(os.path.join(ROOT, p["source"])))
     F.configure(R["meta"])                                   # every setting from the stored run

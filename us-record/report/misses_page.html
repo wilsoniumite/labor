@@ -1,0 +1,343 @@
+<title>How Bad Are the Misses?</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..650;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; each miss is a section with its verdict first and its evidence in a two-up grid below. */
+:root {
+  --paper: #f3f5f4; --surface: #fbfcfb; --ink: #14181b; --ink-2: #4a5358; --ink-3: #7d878b; --rule: #d9dfdd;
+  --grid: #e3e8e6; --axis: #c2cac8; --chip: #e6ebe9;
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4; --c7: #6250d6;
+  --band: rgba(20, 24, 27, 0.09); --shade: rgba(42, 120, 214, 0.06);
+  --good: #0ca30c; --warn: #fab219; --bad: #d03b3b;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1213; --surface: #161a1b; --ink: #eceeed; --ink-2: #b7bfbd; --ink-3: #838c8f; --rule: #2a3032;
+    --grid: #232829; --axis: #3a4143; --chip: #222829;
+    --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c7: #9085e9;
+    --band: rgba(236, 238, 237, 0.10); --shade: rgba(57, 135, 229, 0.09); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1213; --surface: #161a1b; --ink: #eceeed; --ink-2: #b7bfbd; --ink-3: #838c8f; --rule: #2a3032;
+  --grid: #232829; --axis: #3a4143; --chip: #222829;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c7: #9085e9;
+  --band: rgba(236, 238, 237, 0.10); --shade: rgba(57, 135, 229, 0.09); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--c1); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--c1); outline-offset: 2px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+.mast { padding-block: 44px 26px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+h1 { font-family: var(--font-display); font-stretch: 85%; font-weight: 650; font-size: clamp(32px, 5vw, 52px); line-height: 1.04;
+  letter-spacing: -0.01em; margin: 10px 0 16px; text-wrap: balance; }
+.lede { font-size: 19px; line-height: 1.55; max-width: 68ch; margin: 0 0 12px; }
+section { padding-block: 32px 12px; border-bottom: 1px solid var(--rule); counter-increment: sec; }
+main { counter-reset: sec; }
+h2 { font-family: var(--font-display); font-stretch: 88%; font-weight: 650; font-size: 27px; line-height: 1.15; margin: 0 0 10px; text-wrap: balance; }
+h2::before { content: counter(sec) "  "; color: var(--ink-3); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; padding: 2px 10px;
+  border-radius: 12px; border: 1px solid var(--axis); margin-bottom: 10px; }
+.verdict::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; background: var(--ink-3); }
+.verdict.real::before { background: var(--bad); }
+.verdict.data::before { background: var(--warn); }
+.verdict.ok::before { background: var(--good); }
+.prose { max-width: 68ch; }
+.prose p { margin: 0 0 14px; }
+.prose ul, .prose ol { margin: 0 0 14px; padding-left: 22px; }
+.prose li { margin-bottom: 8px; }
+.sym { font-family: var(--font-mono); font-size: 0.86em; }
+.grid2 { display: grid; grid-template-columns: 1fr; gap: 26px 32px; margin: 18px 0; }
+@media (min-width: 820px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+.grid3 { display: grid; grid-template-columns: 1fr; gap: 22px 26px; margin: 18px 0; }
+@media (min-width: 820px) { .grid3 { grid-template-columns: 1fr 1fr 1fr; } }
+figure { margin: 0; min-width: 0; display: flex; flex-direction: column; }
+figure.wide { grid-column: 1 / -1; }
+figcaption { order: -1; }
+.ft { font-family: var(--font-display); font-weight: 600; font-size: 15.5px; line-height: 1.3; margin: 0; }
+.fn { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); margin: 4px 0 8px; max-width: 70ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--font-display); font-size: 12.5px; color: var(--ink-2); margin: 0 0 6px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.key { width: 16px; height: 2px; border-radius: 1px; display: inline-block; }
+.key.dot { width: 8px; height: 8px; border-radius: 50%; }
+.key.wash { width: 14px; height: 10px; border-radius: 2px; }
+.key.thin { height: 1px; }
+.plot { position: relative; background: var(--surface); border-radius: 6px; }
+.plot svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+svg text { font-family: var(--font-display); }
+.grid { stroke: var(--grid); stroke-width: 1; }
+.axis { stroke: var(--axis); stroke-width: 1; }
+.tick { fill: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
+.line { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.dot { stroke: var(--surface); stroke-width: 2; }
+.anchor { stroke: var(--surface); stroke-width: 2; }
+.ref { stroke: var(--axis); stroke-width: 1; }
+.ref-label, .pt-label, .shade-label { fill: var(--ink-3); font-size: 11px; }
+.shade { fill: var(--shade); }
+.vline { stroke: var(--ink-3); stroke-width: 1; }
+.cross { stroke: var(--ink-3); stroke-width: 1; }
+.hit { fill: transparent; cursor: crosshair; }
+.tip { position: absolute; top: 8px; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+  padding: 7px 9px; font-family: var(--font-display); font-size: 12.5px; line-height: 1.35; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
+  min-width: 150px; max-width: 280px; z-index: 2; }
+.tip .th { color: var(--ink-3); margin-bottom: 3px; }
+.tip .tr { display: grid; grid-template-columns: 14px auto 1fr; gap: 6px; align-items: center; }
+.tip .tr b { font-variant-numeric: tabular-nums; font-weight: 650; color: var(--ink); }
+.tip .tr i { font-style: normal; color: var(--ink-2); }
+details.nums { margin-top: 6px; font-family: var(--font-display); font-size: 12.5px; color: var(--ink-3); }
+details.nums summary { cursor: pointer; width: max-content; }
+.tablewrap { overflow-x: auto; margin-top: 6px; }
+table { border-collapse: collapse; font-family: var(--font-display); font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { padding: 4px 10px 4px 0; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { color: var(--ink-3); font-weight: 500; }
+th:first-child, td:first-child { text-align: left; }
+table.doc { font-size: 14px; width: 100%; margin: 14px 0 6px; }
+table.doc th, table.doc td { white-space: normal; vertical-align: top; padding: 8px 14px 8px 0; text-align: left; }
+table.doc td.n { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.split-row { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 10px; align-items: center; margin: 8px 0; font-family: var(--font-display); font-size: 13px; }
+.split-bar { display: flex; gap: 2px; height: 28px; }
+.split-bar div { height: 100%; border-radius: 4px; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center;
+  padding-left: 6px; overflow: hidden; white-space: nowrap; min-width: 2px; }
+.split-bar div.dark-text { color: #0b0b0b; }
+footer { padding-block: 26px 60px; font-size: 14px; color: var(--ink-3); }
+</style>
+
+<header class="mast wrap">
+  <div class="eyebrow">us-record · the main case, B with the 1948 wave · 6 November 2026</div>
+  <h1>How bad are the misses?</h1>
+  <p class="lede" id="lede">None of the misses breaks the fit to the five series. Two of them shrink a lot once the data are
+    read like for like: the waterline and the coverage ratio. One is real and structural: the machine chain, about twice
+    its measured size. The fit puts the economy on the chain's ceiling, where land leaves a machine's cost and depreciation
+    takes almost all of capital's income. A higher required return closes about half of that gap. Past about 5% the model
+    runs out of equilibria.</p>
+  <p class="lede" id="lede2"></p>
+</header>
+
+<main class="wrap">
+  <section id="table">
+    <h2>The misses, one line each</h2>
+    <div class="tablewrap"><table class="doc" id="tbl-verdict"></table></div>
+  </section>
+
+  <section id="chain">
+    <h2>The machine chain</h2>
+    <span class="verdict real">Real and structural</span>
+    <div class="prose">
+      <p>Three checks fail together because they are one fact. The fit matches θ<sub>V</sub>, pay's share of a machine's
+        cost, at about 0.49. It also puts the task line on the machine chain's ceiling from about 1970, where land's share
+        of a machine's cost is exactly the distance to the ceiling, so it falls to almost nothing. Machine services then
+        take the other 51%. With the required return at 2% and depreciation at 5.3%, 73% of the rent on machines is
+        depreciation. NIPA puts consumption of fixed capital at 16% of GDP and the net operating surplus at 26%, so in the
+        record depreciation is about 39% of capital's income.</p>
+      <p>The data are sound here. The chain's share is BEA's input–output tables traced through the full chain, and the
+        model has one wage, so its hours share and pay share are the same thing. The record's pay share is 18% and its
+        hours share 16.5%.</p>
+      <p>The easy part of the extension is the return. The fit is flat or better as the return rises: 1.96 at 3%, 1.92 at
+        4%, 1.95 at 5%. The chain shrinks with it, to 29% of pay at 5%. The model loses its 1950 equilibrium just above
+        5%: the ceiling falls below the tasks 1950's labour force staffs. NIPA's split implies about 8% (depreciation's
+        rate times the surplus over depreciation).</p>
+      <p id="sixth-text"></p>
+    </div>
+    <div class="grid2" id="chain-charts"></div>
+  </section>
+
+  <section id="waterline">
+    <h2>The waterline</h2>
+    <span class="verdict data">Mostly the data as used</span>
+    <div class="prose">
+      <p>The waterline is the production worker's wage over the price of machines, quality adjusted, from 1999. Its median
+        mixes four computer-price measures (they rise 7.6 to 15.2-fold to 2023) with two broad-equipment measures (2.3-fold).
+        The model's machine is every machine: equipment, software and structures. Broad equipment is the fair comparison.
+        Against it the model's 1.25-fold is short by a factor of 1.9, not 6. The shortfall that remains has the same cause
+        as the chain: with the task line on the ceiling, the marginal task hardly moves, and the wage over a unit of machine
+        capability moves only as the marginal task does.</p>
+    </div>
+    <div class="grid2" id="water-charts"></div>
+  </section>
+
+  <section id="coverage">
+    <h2>The coverage ratio</h2>
+    <span class="verdict data">Partly the comparison, partly real</span>
+    <div class="prose">
+      <p>The report compared the record with the model's land rent on all land. The record counts housing land only: rent
+        flows times a land share, or the Fed's household land values. In 1950 the main case's machines held 72% of the
+        land, and almost none by 2024. On housing land the model's ratio rises 2.3-fold from 1953 to 2024; the report's
+        "falls by a fifth" was the wrong basis.</p>
+      <p>The record's median rises 6.7-fold, but it leans on the Z.1 land-value members. These are capitalized at bond yields,
+        swing sixfold within a decade, and are flagged unreliable after 1995 in the measure's own spec. The steady rent-flow
+        member rises 4.4-fold. So the gap is 2.3 against 4.4. It is real and moderate: with land fixed and the basket's site
+        share nearly flat, rent per person cannot grow as fast as recorded.</p>
+    </div>
+    <div class="grid2" id="cov-charts"></div>
+  </section>
+
+  <section id="housing">
+    <h2>Housing's share of spending</h2>
+    <span class="verdict data">A tension in a set value</span>
+    <div class="prose">
+      <p>The levels do not compare: housing in the record is structures and site, while the model's basket holds site alone.
+        At a land share of a third to a half, site would be 4% to 8% of spending; the main case has 1.4%. The trend is
+        informative. The record's share rises 44%; the model's site share 8%.</p>
+      <p>The trend comes from the basket's elasticity. B sets it at 0.875 from the share against shelter's price over
+        <em>durables'</em>. Read against everything but shelter, the price B now uses for goods, the same regression gives
+        0.636. That steepens the site share's rise to 25% and costs the fit 14% (2.28). Cobb–Douglas, the other way, fits 5%
+        better. The record's housing share wants goods and site to be complements; the five targets lean the other way.
+        Choosing one price basis settles which reading the model takes.</p>
+    </div>
+    <div class="grid2" id="housing-charts"></div>
+  </section>
+
+  <section id="oos">
+    <h2>Out of sample</h2>
+    <span class="verdict ok">Expected for a backward model</span>
+    <div class="prose">
+      <p>Fitted to 1950–1995 alone, the main case fits those years at 1.25 and misses 1996–2024 by 21.6, mostly on the
+        wage over shelter and labour's share. Fitted to 1950–1985 the miss after is 16.2. The short fits run the clock at
+        10.6% to 14.7% a year against 6.8% with all years. The drivers' paces are not constant, and the record pins them
+        loosely: with the wave, any steady pace from 2% to 9% a year is within 10% of the best fit. As an account of the
+        record this is not fatal. It does mean the clock's pace is not yet a number to carry forward. Driving the clock
+        from a measured series, broad equipment prices for one, would fix that and test the waterline in the same stroke.</p>
+    </div>
+    <div class="grid3" id="oos-charts"></div>
+  </section>
+
+  <section id="next">
+    <h2>What to try next</h2>
+    <div class="prose">
+      <p>The machine chain is the miss that matters, and both routes you named go at it from different sides.</p>
+      <ol>
+        <li><b>Calibration (c)'s route.</b> Keep a measured share of fixed rents in a machine's cost (calibration (c) reads
+          it from BEA's net operating surplus and imported content), and let the return follow NIPA's split. That keeps the
+          task line off the ceiling. The wages then have to come from the labour market rather than from the ceiling. The
+          sixth-target test above is a first reading of whether they can.</li>
+        <li><b>Durables apart.</b> A second good whose machines improve faster. The durables wage rises 6.2-fold against
+          2.0-fold for everything but shelter, and one good cannot carry both. It may also ease the chain: the fast clock
+          would live in the durables sector rather than in all machines.</li>
+      </ol>
+      <p>Questions for you before building either:</p>
+      <ul>
+        <li>For calibration (c): should the share of fixed rents be a target, with a band from the record, or set outright as
+          calibration (c) sets it? And should the return be fitted, or set from NIPA's split (about 8%)?</li>
+        <li>For durables: two goods with their own clocks but one labour market and one land market, the basket holding
+          both at constant utility? Or durables as a share of the goods basket with its own price index and no machines of
+          its own?</li>
+      </ul>
+    </div>
+  </section>
+  <footer>
+    Built by <span class="sym">code/report_misses.py</span> from <span class="sym">results/fit_Bw.json</span>,
+    <span class="sym">results/stress_Bw.json</span>, <span class="sym">playground/misses.json</span> (the return and the
+    elasticity walked), <span class="sym">playground/chain_target.json</span> (the sixth target) and the panel.
+  </footer>
+</main>
+
+<script>
+const DATA = /*DATA_JSON*/;
+/*CHARTKIT_JS*/
+const YRS = DATA.years, REC = DATA.record, MM = DATA.models;
+const $ = (s) => document.querySelector(s);
+const idx = (y) => YRS.indexOf(y);
+const REC_C = "var(--ink)", REC2_C = "var(--ink-3)";
+const pct = (v, d = 0) => (ok(v) ? (v * 100).toFixed(d) + "%" : "–");
+const SNAME = { wage_goods: "Goods wage", wage_shelter: "Shelter wage", labour_share_c: "Labour share", prime_emp_rate: "Employment", theta_V: "θ_V" };
+
+function verdictTable() {
+  const S = MM.main.series, i23 = idx(2023), w = REC.waterline;
+  const eq = (a) => (ok(a) ? a.toFixed(2) + "×" : "–");
+  const rows = [
+    ["The machine chain's share of all pay, 2023", `${pct(S.chain_share[i23])} against ${pct(REC.chain_tot[i23])}`, "Same", "Yes: BEA input–output", `Return at 5%: ${pct(MM.rho_top.series.chain_share[i23])}`, "Real and structural"],
+    ["Replacement over gross output, 2023", `${pct(S.cfc_gross[i23])} against ${pct(REC.cfc_over_gdp_2023)}`, "Same", "Yes: NIPA", `Return at 5%: ${pct(MM.rho_top.series.cfc_gross[i23])}`, "The same fact"],
+    ["Machine services in a machine's cost, 2023", `${pct(S.kappa_V[i23])} against at most ${pct(REC.cost_split_2023.cfc + REC.cost_split_2023.nos)}`, "Same", "Yes: BEA", "None while on the ceiling", "The same fact"],
+    ["The waterline, 1999–2023", `${eq(S.waterline[i23])} against ${eq(w.wc_median[i23])}`, `${eq(S.waterline[i23])} against ${eq(w.ahetpi_x_equip_broad[i23])} (broad equipment)`, "The median mixes in computer prices", "", "Moderate"],
+    ["The coverage ratio, 1953–2024", `${eq(S.coverage_idx[YRS.length - 1])} against ${eq(REC.coverage_median[YRS.length - 1])}`, `${eq(S.coverage_homes_idx[YRS.length - 1])} against ${eq(REC.coverage_flow[YRS.length - 1])} (housing land, rent flows)`, "The Z.1 members are unreliable", "", "Moderate"],
+    ["Housing's share of spending, 1950–2024", `site +${pct(S.site_share[YRS.length - 1] / S.site_share[0] - 1)} against housing +${pct(REC.housing_share_pce[YRS.length - 1] / REC.housing_share_pce[0] - 1)}`, "Levels differ: housing includes structures", "Yes", "Elasticity on one price basis: +25%, fit 14% worse", "A tension in a set value"],
+    ["Out of sample, 1996–2024", "Misfit 21.6 after fitting to 1995", "", "", "A measured clock", "Expected for a backward model"],
+    ["The wage over durables, 1950–2024", `${eq(S.wage_goods[YRS.length - 1] / 100)} against ${eq(REC.wage_durables[YRS.length - 1] / 100)}`, "", "Yes", "A second good", "The next step"]];
+  htmlTable($("#tbl-verdict"), ["Miss", "As first read", "Like for like", "Data fit for purpose?", "Easy extension", "Verdict"], rows);
+}
+
+function chainSection() {
+  const host = $("#chain-charts"); host.replaceChildren(); const S = MM.main.series, R5 = MM.rho_top.series, X6 = MM.sixth;
+  const series = [{ label: "Record, US cost shares", color: REC_C, values: REC.chain_tot, width: 1.5 }, { label: "Record, domestic labour", color: REC2_C, values: REC.chain_domp, width: 1 },
+    { label: "Main case (return 2%)", color: "var(--c2)", values: S.chain_share }, { label: `Return at ${pct(MM.rho_top.par.rho)}`, color: "var(--c3)", values: R5.chain_share, width: 1.5 }];
+  if (X6) series.push({ label: "With the chain as a sixth target", color: "var(--c7)", values: X6.series.chain_share, width: 1.5 });
+  lineChart(figure(host, { title: "The machine chain's share of all pay", note: "Record: BEA input–output, pay embodied in fixed investment in equipment, software and private structures, 1997–2023." }),
+    { x: YRS, yMin: 0, aria: "Chain share", series });
+  lineChart(figure(host, { title: "Replacement over gross output", note: "Model: depreciation of machines over income plus depreciation. Record: NIPA's consumption of fixed capital over GDP, 2023." }),
+    { x: YRS, yMin: 0, aria: "Replacement share", series: [{ label: "Main case", color: "var(--c2)", values: S.cfc_gross }, { label: `Return at ${pct(MM.rho_top.par.rho)}`, color: "var(--c3)", values: R5.cfc_gross, width: 1.5 }]
+      .concat(X6 ? [{ label: "Sixth target", color: "var(--c7)", values: X6.series.cfc_gross, width: 1.5 }] : []),
+      points: [{ x: 2023, y: REC.cfc_over_gdp_2023, color: REC_C, label: "NIPA 2023", legend: "Record, 2023" }] });
+  const walk = DATA.rho_walk.slice().sort((a, b) => a.rho - b.rho);
+  lineChart(figure(host, { title: "The return walked up", note: "Each point refits the other nine numbers. The misfit (left) improves to 4%; the chain's 2023 share (right) falls. No equilibrium path past 5%." }),
+    { x: walk.map((r) => +(r.rho * 100).toFixed(2)), xTicks: [2, 3, 4, 5], xFmt: (v) => v + "%", aria: "Return walk", digits: 3, tableRows: walk.map((_, i) => i),
+      series: [{ label: "Misfit", color: "var(--c1)", values: walk.map((r) => r.misfit) }] });
+  lineChart(figure(host, { title: "The chain's 2023 share as the return rises", note: "Record: 18% (US cost shares). NIPA's split of capital income implies a return of about 8%." }),
+    { x: walk.map((r) => +(r.rho * 100).toFixed(2)), xTicks: [2, 3, 4, 5], xFmt: (v) => v + "%", aria: "Chain share by return", yMin: 0, digits: 3, tableRows: walk.map((_, i) => i),
+      series: [{ label: "Chain's share of pay, 2023", color: "var(--c2)", values: walk.map((r) => r.chain) }, { label: "Replacement over gross output, 2023", color: "var(--c3)", values: walk.map((r) => r.cfc) }],
+      refs: [{ y: REC.chain_tot[idx(2023)], label: "record, chain 2023" }] });
+  const cs = REC.cost_split_2023, i23 = idx(2023);
+  const parts = (m) => [{ label: "pay", value: m.theta_V[i23], color: "var(--c1)" }, { label: "machine services", value: m.kappa_V[i23], color: "var(--c7)" }, { label: "fixed rents (land)", value: m.sigma_V[i23], color: "var(--c5)" }];
+  const rows = [{ label: "Record", parts: [{ label: "pay", value: cs.theta, color: "var(--c1)" }, { label: "depreciation", value: cs.cfc, color: "var(--c2)" },
+      { label: "taxes on production", value: cs.tax, color: "var(--c4)", dark: true }, { label: "net operating surplus", value: cs.nos, color: "var(--c3)" }] },
+    { label: "Main case", parts: parts(MM.main.series) }];
+  if (X6) rows.push({ label: "Sixth target", parts: parts(X6.series) });
+  splitBars(figure(host, { title: "A machine's cost in 2023", note: "Record: the bundle calibration (c) reads, at US cost shares. The surplus bounds fixed rents and the return together.", wide: true }), rows,
+    [{ label: "pay", color: "var(--c1)" }, { label: "depreciation", color: "var(--c2)" }, { label: "taxes on production", color: "var(--c4)" }, { label: "net operating surplus", color: "var(--c3)" },
+     { label: "machine services (model)", color: "var(--c7)" }, { label: "fixed rents (model)", color: "var(--c5)" }]);
+  if (DATA.chain_target && DATA.chain_target.length) {
+    const t = el("table"); const f = figure(host, { title: "The sixth target, from four starts", note: "Six-series misfit, the five targets' own misfit, and the chain's. The chain's tolerance is 0.02, as θ_V's.", wide: true });
+    const w = el("div", "tablewrap"); w.append(t); f.append(w);
+    htmlTable(t, ["Start", "Six series", "Five targets", ...Object.keys(SNAME).map((s) => SNAME[s]), "Chain", "Return", "Clock", "Land's share 2023"],
+      DATA.chain_target.slice().sort((a, b) => a.misfit6 - b.misfit6).map((r) => [r.label, fmt(r.misfit6, 2), fmt(r.misfit5, 2), ...Object.keys(SNAME).map((s) => fmt(r.by[s], 2)),
+        fmt(r.chain_misfit, 2), pct(r.rho, 1), pct(r.g_eta, 1), pct(r.sigma_V_2023, 1)]));
+  }
+}
+
+function waterSection() {
+  const host = $("#water-charts"); host.replaceChildren(); const w = REC.waterline;
+  lineChart(figure(host, { title: "The waterline's six measures and the model, 1999 = 1", note: "Production workers' (AHETPI) and all workers' (OEWS) wages over PC hedonic prices, the computer PPI, and broad equipment prices. Log scale.", wide: true }),
+    { x: YRS, xMin: 1999, xMax: 2024, xTicks: [2000, 2005, 2010, 2015, 2020], log: true, aria: "Waterline members", series: [
+      { label: "Over the computer PPI", color: REC2_C, values: w.ahetpi_x_ppi_computer, width: 1 }, { label: "Over PC hedonic prices", color: REC2_C, values: w.ahetpi_x_pc_hedonic, width: 1 },
+      { label: "The median of six", color: REC_C, values: w.wc_median, width: 1.5 }, { label: "Over broad equipment prices", color: "var(--c3)", values: w.ahetpi_x_equip_broad },
+      { label: "Main case", color: "var(--c2)", values: MM.main.series.waterline }] });
+}
+
+function coverageSection() {
+  const host = $("#cov-charts"); host.replaceChildren(); const S = MM.main.series;
+  lineChart(figure(host, { title: "The coverage ratio and its members, 1953 = 1", note: "Rent against the cost of a poverty-line basket for everyone. The model's twin: land rent against a basket of 1950's utility for every adult, on housing land and on all land. Log scale.", wide: true }),
+    { x: YRS, xMin: 1953, log: true, aria: "Coverage", series: [
+      { label: "Record, Z.1 household land", color: REC2_C, values: REC.coverage_z1_households, width: 1 }, { label: "Record, median of members", color: REC_C, values: REC.coverage_median, width: 1.5 },
+      { label: "Record, rent flows", color: "var(--c3)", values: REC.coverage_flow }, { label: "Main case, housing land", color: "var(--c2)", values: S.coverage_homes_idx },
+      { label: "Main case, all land", color: "var(--c2)", values: S.coverage_idx, width: 1 }] });
+}
+
+function housingSection() {
+  const host = $("#housing-charts"); host.replaceChildren();
+  lineChart(figure(host, { title: "Housing's share of spending, and the model's site", note: "Levels: record left, model in the same units (share of spending)." }),
+    { x: YRS, yMin: 0, aria: "Housing share", series: [{ label: "Record, housing", color: REC_C, values: REC.housing_share_pce, width: 1.5 },
+      { label: "Main case, site (elasticity 0.875)", color: "var(--c2)", values: MM.main.series.site_share }].concat(MM.sigma_ex ? [{ label: "Site at elasticity 0.636", color: "var(--c3)", values: MM.sigma_ex.series.site_share, width: 1.5 }] : []) });
+  const ix = (a) => a.map((v) => (ok(v) && ok(a[0]) ? v / a[0] : null));
+  lineChart(figure(host, { title: "The same, 1950 = 1", note: "Trends only. The record rises 44%; the model's site 8% at 0.875 and 25% at 0.636." }),
+    { x: YRS, aria: "Housing share index", series: [{ label: "Record, housing", color: REC_C, values: ix(REC.housing_share_pce), width: 1.5 },
+      { label: "Main case, site", color: "var(--c2)", values: ix(MM.main.series.site_share) }].concat(MM.sigma_ex ? [{ label: "Site at 0.636", color: "var(--c3)", values: ix(MM.sigma_ex.series.site_share), width: 1.5 }] : []) });
+}
+
+function oosSection() {
+  const host = $("#oos-charts"); host.replaceChildren(); const sp = DATA.splits[0], base = DATA.base_path, until = sp.until;
+  const rec = { wage_goods: REC.wage_exshelter, wage_shelter: REC.wage_shelter, labour_share_c: REC.labour_share_c };
+  [["wage_goods", "Wage over everything but shelter", true], ["wage_shelter", "Wage over shelter", true], ["labour_share_c", "Labour's share", false]].forEach(([s, t, log]) =>
+    lineChart(figure(host, { title: t, note: `Out of sample ${until + 1}–2024: misfit ${fmt(sp.by_out[s], 1)} (in sample ${fmt(sp.by_in[s], 2)}).` }),
+      { x: YRS, log, height: 180, aria: t, shade: { from: until + 0.5, to: 2024, label: "out of sample" },
+        series: [{ label: "Record", color: REC_C, values: rec[s], width: 1.5 }, { label: "Main case, all years", color: "var(--c2)", values: base[s], width: 1.5 }, { label: `Fitted to ${until}`, color: "var(--c3)", values: sp.path[s] }] }));
+}
+
+verdictTable(); chainSection(); waterSection(); coverageSection(); housingSection(); oosSection();
+</script>

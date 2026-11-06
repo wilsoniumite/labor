@@ -110,6 +110,10 @@ def insides(q):
     d["baskets_pp"] = (q["baskets"] / q["N"]) / (q["baskets"] / q["N"]).iloc[i0]
     d["coverage"] = q["T"] / (q["N"] * col)                     # site rent against a fixed-utility basket for everyone
     d["coverage_idx"] = d["coverage"] / d["coverage"].iloc[3]   # 1953 = 1, where the record starts
+    # the record's coverage counts housing land (rent flows times a land share; Z.1 household land): the model's twin is
+    # the site in baskets, not all land (machines held most of the land in 1950)
+    d["coverage_homes"] = q["site_basket"] * q["baskets"] / (q["N"] * col)
+    d["coverage_homes_idx"] = d["coverage_homes"] / d["coverage_homes"].iloc[3]
     return d
 
 
@@ -246,7 +250,8 @@ if __name__ == "__main__":
         json.dump(out, f, separators=(",", ":"))
     page = os.path.join(ROOT, "report", "page.html")         # the page, with the numbers inlined: one file
     if os.path.exists(page):
-        html = open(page).read().replace("/*DATA_JSON*/", json.dumps(out, separators=(",", ":")))
+        kit = open(os.path.join(ROOT, "report", "chartkit.js")).read()
+        html = open(page).read().replace("/*CHARTKIT_JS*/", kit).replace("/*DATA_JSON*/", json.dumps(out, separators=(",", ":")))
         with open(os.path.join(ROOT, "report", "index.html"), "w") as f:
             f.write(html)
         print("report/index.html written")

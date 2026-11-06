@@ -139,7 +139,8 @@ Her additions in Phase 3, tried on their own merit (decision 12):
 - **N. Dated technology waves** (her idea, 2026-11-06): on top of the steady clock, a discovery chased hard and then the
   lower fruit; the clock falls by size (1 - exp(-(t - year) / tau)) after the wave's year (`fit_base.py --waves 1948`).
   Two free numbers a wave. A post-war wave (1948) takes B from 2.81 to 2.00 (-29%) and the clock from 12.5% to 6.8% a
-  year: it passes the rule, and is the leading candidate for her call.
+  year: it passes the rule. Kept: the main case (decision 24). A wave dated before 1950 is the same model whatever its
+  year (the record starts in 1950): an early clock running fast and slowing.
 
 ## 7. What would count against the mechanism
 

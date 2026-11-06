@@ -249,7 +249,7 @@ def model_path(par, eta=None):
             rows.append(dict(x=q["x"], v=q["v"], p=q["p"], Ps=q["Ps"], wage_goods_raw=q["v"] / q["p"],
                              wage_shelter_raw=q["v"], labour_share_c=q["labour_share_bea"],
                              prime_emp_rate=q["participation"], theta_V=q["theta_V"], gamma=q["gamma"],
-                             x_ceiling=q["x_ceiling"]))
+                             x_ceiling=q["x_ceiling"], chain_share=q["chain_share"], sigma_V=q["sigma_V"]))
             if SIGMA is not None:                         # the basket's make-up, for the figure's checks
                 rows[-1].update(goods_basket=q["goods_basket"], site_basket=q["site_basket"],
                                 site_share=q["site_basket"] / q["Ps"], utility=e.utility)

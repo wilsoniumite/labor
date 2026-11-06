@@ -121,6 +121,14 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     set at 2%; no cap (decision 16 reversed); the utility's knots 1950, 1970, 1990, 2024 (decision 22 reversed); the
     basket and the pinned start as before. `results/fit_B.json`: misfit 2.81, eight fitted numbers, all thirteen starts
     to the same fit. Every piece passes the spec's 20% rule (Log 18).
+24. **The main case is model B with the 1948 wave** (her call, 2026-11-06: "I like your 1948 wave so let's keep that,
+    make it our main case now"). `results/fit_Bw.json`: misfit 2.00, ten fitted numbers (B's eight and the wave's size
+    and pace). Its stress tests (`results/stress_Bw.json`, Log 19) add three readings: the wave's year is not identified
+    before 1950 (1945 fits identically: in effect the clock runs fast in 1950, 15% a year, and slows to its steady 6.8%
+    with a 17-year time constant); the clock's steady pace is barely pinned (2% to 9% within 10% of the best); and the
+    machine chain's hours per unit of task capacity can be tied to the clock at no cost (+0.4%, one number fewer: the
+    explorer's preset "hours per task tied"), which the spec's rule would take. The utility's dip is on the rule's line
+    there (+19.6% without it).
 
 ## Next
 

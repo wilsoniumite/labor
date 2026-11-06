@@ -12,6 +12,8 @@
 #   ablate   one of B's pieces taken out (the official twin of playground/newmodel.js)
 #   profile  the clock's pace held on a grid, everything else refitted: how sharply does the record pin the clock?
 # Run from us-record/:  python3 code/stress_B.py      (writes results/stress_B.json; a few minutes on four cores)
+#                       python3 code/stress_B.py --base fit_Bw      (the main case, B with the 1948 wave ->
+#                                                                    results/stress_Bw.json; adds the wave's own tests)
 
 import json
 import os
@@ -26,9 +28,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "code"))
 import fit_base as F  # noqa: E402
 
-B = json.load(open(os.path.join(ROOT, "results", "fit_B.json")))
+BASE = sys.argv[sys.argv.index("--base") + 1] if "--base" in sys.argv else "fit_B"
+OUT = "stress_B.json" if BASE == "fit_B" else f"stress_{BASE[4:]}.json"
+B = json.load(open(os.path.join(ROOT, "results", f"{BASE}.json")))
 META, PAR = B["meta"], B["best"]["par"]
 NAMES = META["names"]
+G = PAR["g_eta"]
+WAVE_NAMES = [n for n in NAMES if n.startswith("w") and n.endswith(("_size", "_tau"))]
 
 
 def v(group, name, steps, record_steps=False, note=""):
@@ -69,10 +75,18 @@ VARIANTS = [
     v("ablate", "without the basket (fixed basket)", stepped("sigma", [0.5, 0.25, 0.1, None], utility=META["utility"])),
     v("ablate", "return free", dict(rho_fixed=None, names=NAMES + ["rho"])),
     v("profile", "clock slower", [dict(fixed=dict(g_eta=g), names=[n for n in NAMES if n != "g_eta"])
-                                  for g in (0.11, 0.10, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04)], record_steps=True),
+                                  for g in ((0.11, 0.10, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04) if BASE == "fit_B" else
+                                            [round(G * f, 4) for f in (0.92, 0.84, 0.76, 0.68, 0.6, 0.5, 0.4, 0.3)])],
+      record_steps=True),
     v("profile", "clock faster", [dict(fixed=dict(g_eta=g), names=[n for n in NAMES if n != "g_eta"])
-                                  for g in (0.13, 0.135, 0.14, 0.145, 0.15, 0.155, 0.16, 0.17, 0.18)], record_steps=True),
-]
+                                  for g in ((0.13, 0.135, 0.14, 0.145, 0.15, 0.155, 0.16, 0.17, 0.18) if BASE == "fit_B" else
+                                            [round(G * f, 4) for f in (1.06, 1.12, 1.2, 1.3, 1.4, 1.5, 1.65, 1.8)])],
+      record_steps=True),
+] + ([] if not WAVE_NAMES else [
+    v("ablate", "without the wave", dict(waves=[], names=[n for n in NAMES if n not in WAVE_NAMES])),
+    v("set", "the wave from 1945", dict(waves=[1945])),
+    v("set", "the wave from 1952", dict(waves=[1952])),
+])
 
 
 def readout(par):
@@ -130,16 +144,16 @@ if __name__ == "__main__":
     with Pool(min(4, os.cpu_count() or 1)) as pool:
         out = [rec for recs in tqdm(pool.imap(fit_variant, todo), total=len(todo), desc="variants") for rec in recs]
     if only is not None:
-        old = json.load(open(os.path.join(ROOT, "results", "stress_B.json")))["variants"]
+        old = json.load(open(os.path.join(ROOT, "results", OUT)))["variants"]
         names = [x["name"] for x in VARIANTS]
         out = sorted([r for r in old if r["name"] != only] + out, key=lambda r: names.index(r["name"]))
     F.configure(META)
-    base = dict(group="B", name="model B", note="", step={}, settings=F.settings_meta(), par=PAR, misfit=B["best"]["misfit"],
+    base = dict(group="B", name="model B" if BASE == "fit_B" else "model B with the 1948 wave", note="", step={}, settings=F.settings_meta(), par=PAR, misfit=B["best"]["misfit"],
                 status=None, **readout(PAR))
-    with open(os.path.join(ROOT, "results", "stress_B.json"), "w") as f:
-        json.dump(dict(meta=dict(source="results/fit_B.json", seconds=round(time.time() - t0, 1)), base=base, variants=out),
+    with open(os.path.join(ROOT, "results", OUT), "w") as f:
+        json.dump(dict(meta=dict(source=f"results/{BASE}.json", seconds=round(time.time() - t0, 1)), base=base, variants=out),
                   f, indent=1)
-    print(f"results/stress_B.json written ({len(out)} fits, {time.time() - t0:.0f} s)")
+    print(f"results/{OUT} written ({len(out)} fits, {time.time() - t0:.0f} s)")
     for r in [base] + out:
         o = r["by_series_out"]
         oo = [x for x in o.values() if x is not None]

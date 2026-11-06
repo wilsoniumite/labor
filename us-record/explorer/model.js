@@ -420,7 +420,7 @@
   // COORD: [low, high, searched in logs]
   const COORD = { T: [1e-5, 10, true], h: [1e-6, 1, true], hT: [1e-4, 100, true], a: [0.01, 10, true],
                   kappa50: [0.001, 0.99, false], rho: [0, 0.3, false], k: [0.05, 60, true], chi_max: [0.3, 20, true],
-                  g_eta: [-0.05, 0.25, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.1, false],
+                  g_eta: [-0.05, 0.25, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.25, false],
                   g_lamTask: [-0.35, 0.2, false] };
   const DEFAULT_SYS = { land: "Th", machine: "a", labour: "lam" };
   function toCoords(par, D) {

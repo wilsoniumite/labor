@@ -12,14 +12,11 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.join(ROOT, "explorer")
 YEARS = list(range(1950, 2025))
-PRESETS = [("B", "Model B: everything but shelter, women's entry, 2% return, utility dip", "fit_B"),
-           ("Bw", "Model B and a post-war technology wave (1948)", "fit_Bw"),
-           ("kept", "Before B: cap, basket, pinned start (durables)", "fit_capbasket_pin"),
-           ("capbasket", "Cap and basket, start not pinned", "fit_capbasket"),
-           ("turn1990", "Utility turning in 1990", "fit_kink90"),
-           ("base", "The paper's model alone", "fit_base"),
-           ("A", "With A (shelter as building and site)", "fit_A"),
-           ("Acapbasket", "A, cap and basket", "fit_basket")]
+# The explorer's fourth version (her ask, 2026-11-06: cleaner, around the main case): the main case and model B from
+# results/, and two variants of the main case from the stress tests and the misses (playground: no Python twin).
+PRESETS = [("main", "Main case: B with the 1948 wave", "fit_Bw"),
+           ("B", "Model B, no wave", "fit_B")]
+HELD = ["utility:1", "utility:2", "utility:3", "rho", "chi_max"]   # set from data or by choice: the fitter leaves them
 
 
 def num(x):
@@ -39,6 +36,10 @@ def data():
                real_rate=[float(x) for x in D["real_rate"]], wage_exshelter=[float(x) for x in D["wage_exshelter"]])
     for s in ("wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"):
         out[s] = [num(x) for x in D[s]]
+    # the machine chain's share of all pay, BEA input-output at US cost shares (../paths/results/chains.json), 1997-2023
+    eco = json.load(open(os.path.join(os.path.dirname(ROOT), "paths", "results", "chains.json")))["economy"]
+    key = "inv_equipment_ipp_structures_comp_tot_share_of_total_comp"
+    out["chain_share"] = [num(eco[str(y)][key]) if str(y) in eco else None for y in YEARS]
     return out, rw
 
 
@@ -69,35 +70,42 @@ def presets(rw):
         out.append(dict(id=pid, label=label, source=f"results/{name}.json", settings=settings(R["meta"], rw, par),
                         params={k: float(v) for k, v in par.items() if k in BASE_NAMES},
                         misfit=float(R["best"]["misfit"]), by_series={k: float(v) for k, v in R["best"]["by_series"].items()},
-                        locked=(["chi_max"] if R["meta"].get("pin_start") else [])
-                        + (["rho"] if R["meta"].get("rho_fixed") is not None else [])))
+                        held=list(HELD)))
     return out
 
 
-PLAY = [("tilt", "Play: tastes tilt from land after 1995", "playground/round3.json", "internet: tastes tilt from land after 1995"),
-        ("Aprime", "Play: building priced like building work (A′)", "playground/results.json",
-         "A' (shelter's building priced at the wage, site 0.4)"),
-        ("rho5", "Play: required return fixed at 5%", "playground/round4.json", "return 5% (kept model otherwise)")]
+PLAY = [("tied", "Main case, hours per task tied to the clock", "results/stress_Bw.json", "hours per unit of task capacity steady"),
+        ("rho5", "Main case, return 5%", "playground/misses.json", "rho:0.05")]
 
 
-def play_presets():
-    """Playground fits the page can express (explorer/model.js only; checks/check_explorer.py has no Python twin)."""
+def play_presets(rw):
+    """Variants of the main case the page can express (explorer/model.js only; checks/check_explorer.py has no Python
+    twin): a stress-test variant (its settings and numbers) or a point of the misses' return walk."""
     out = []
+    main = json.load(open(os.path.join(ROOT, "results", "fit_Bw.json")))
     for pid, label, path, key in PLAY:
         full = os.path.join(ROOT, path)
         if not os.path.exists(full):
             continue
-        r = json.load(open(full))[key]
-        out.append(dict(id=pid, label=label, source=f"{path}#{key}", settings=r["S"], params=r["par"], misfit=r["misfit"],
-                        by_series=r["by"], locked=["chi_max"] + (["rho"] if pid == "rho5" else [])))
+        doc = json.load(open(full))
+        if key.startswith("rho:"):
+            r = next((x for x in doc.get("rho", []) if abs(x["rho"] - float(key[4:])) < 1e-9), None)
+            if r is None:
+                continue
+            meta, par, misfit, by = main["meta"], r["par"], r["misfit"], r["by"]
+        else:
+            r = next(x for x in doc["variants"] if x["name"] == key)
+            meta, par, misfit, by = r["settings"], r["par"], r["misfit"], r["by_series"]
+        out.append(dict(id=pid, label=label, source=f"{path}#{key}", settings=settings(meta, rw, par),
+                        params={k: float(v) for k, v in par.items() if k in BASE_NAMES}, misfit=float(misfit),
+                        by_series={k: float(v) for k, v in by.items()},
+                        held=list(HELD) + (["g_lamTask"] if pid == "tied" else [])))
     return out
 
 
 def build():
     D, rw = data()
-    meta = json.load(open(os.path.join(ROOT, "results", "fit_capbasket_pin.json")))["meta"]
-    doc = dict(data=D, presets=presets(rw) + play_presets(), set_values=dict(cap=meta["cap"], sigma=meta["sigma"], shelterW=0.4,
-                                                            utility=[[1950, 1.0], [1970, float(rw.loc[1970])]]))
+    doc = dict(data=D, presets=presets(rw) + play_presets(rw))
     with open(os.path.join(HERE, "data.json"), "w") as f:
         json.dump(doc, f, separators=(",", ":"))
     page = open(os.path.join(HERE, "page.html")).read()
