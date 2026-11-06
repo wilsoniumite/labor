@@ -1,0 +1,6195 @@
+{
+ "meta": {
+  "fit": "results/fit_Br.json",
+  "misfit": 1.5285804589974716,
+  "by_series": {
+   "wage_goods": 0.9583733285914919,
+   "wage_shelter": 0.9337275385648961,
+   "labour_share_c": 1.3765419013288138,
+   "prime_emp_rate": 1.4372990691065244,
+   "theta_V": 2.3439239128424383,
+   "wage_durables": 2.121617003550667
+  },
+  "par": {
+   "T": 0.0009906248695733214,
+   "h": 0.00035463260745854567,
+   "a": 2.395524675692926,
+   "k": 5.673863015562798,
+   "g_eta": 0.2019897193084846,
+   "lam0": 33.01892173318625,
+   "g_lam": 0.19866826352071823,
+   "chi_w": -0.15978737109971683,
+   "w0_size": 0.777874961365476,
+   "w0_tau": 7.9985948634265895,
+   "g_dur": 0.22665073882269232,
+   "rho": 0.08,
+   "chi_max": 1.7049809881885019
+  },
+  "years": [
+   1950,
+   2024
+  ]
+ },
+ "six": [
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1950,
+   "record": 100.0,
+   "model": 100.0
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1951,
+   "record": 101.2923,
+   "model": 104.4462
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1952,
+   "record": 104.961,
+   "model": 109.0689
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1953,
+   "record": 111.3445,
+   "model": 112.9544
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1954,
+   "record": 113.803,
+   "model": 116.7124
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1955,
+   "record": 119.653,
+   "model": 120.4974
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1956,
+   "record": 124.5441,
+   "model": 123.4593
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1957,
+   "record": 126.6374,
+   "model": 126.0865
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1958,
+   "record": 126.554,
+   "model": 128.4257
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1959,
+   "record": 131.0627,
+   "model": 130.6312
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1960,
+   "record": 133.6634,
+   "model": 132.865
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1961,
+   "record": 135.4528,
+   "model": 134.8252
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1962,
+   "record": 138.5063,
+   "model": 136.5062
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1963,
+   "record": 140.6946,
+   "model": 137.9014
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1964,
+   "record": 142.9695,
+   "model": 139.3572
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1965,
+   "record": 146.1286,
+   "model": 140.7601
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1966,
+   "record": 147.4993,
+   "model": 141.9005
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1967,
+   "record": 150.1173,
+   "model": 142.9779
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1968,
+   "record": 152.8963,
+   "model": 143.9575
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1969,
+   "record": 155.2511,
+   "model": 144.855
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1970,
+   "record": 156.4104,
+   "model": 145.734
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1971,
+   "record": 159.729,
+   "model": 146.9642
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1972,
+   "record": 166.8069,
+   "model": 148.5673
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1973,
+   "record": 165.9461,
+   "model": 149.7916
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1974,
+   "record": 159.7475,
+   "model": 150.8432
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1975,
+   "record": 156.5719,
+   "model": 150.9052
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1976,
+   "record": 158.0296,
+   "model": 151.5015
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1977,
+   "record": 159.6345,
+   "model": 151.9513
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1978,
+   "record": 161.471,
+   "model": 152.5943
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1979,
+   "record": 158.0896,
+   "model": 153.352
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1980,
+   "record": 152.7847,
+   "model": 154.0697
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1981,
+   "record": 151.1795,
+   "model": 154.1648
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1982,
+   "record": 151.3015,
+   "model": 153.9921
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1983,
+   "record": 152.0141,
+   "model": 154.6065
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1984,
+   "record": 151.2166,
+   "model": 154.6702
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1985,
+   "record": 151.0798,
+   "model": 154.7927
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1986,
+   "record": 152.9609,
+   "model": 154.9558
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1987,
+   "record": 151.6008,
+   "model": 155.4583
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1988,
+   "record": 150.7511,
+   "model": 155.5815
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1989,
+   "record": 149.2817,
+   "model": 155.9071
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1990,
+   "record": 147.3144,
+   "model": 156.2906
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1991,
+   "record": 145.8269,
+   "model": 156.4092
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1992,
+   "record": 145.1722,
+   "model": 157.3399
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1993,
+   "record": 144.6899,
+   "model": 158.1758
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1994,
+   "record": 144.8992,
+   "model": 159.0985
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1995,
+   "record": 145.0893,
+   "model": 159.4452
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1996,
+   "record": 145.8443,
+   "model": 160.2977
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1997,
+   "record": 148.4143,
+   "model": 160.934
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1998,
+   "record": 153.1295,
+   "model": 161.6568
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 1999,
+   "record": 155.818,
+   "model": 162.1109
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2000,
+   "record": 156.4835,
+   "model": 162.2115
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2001,
+   "record": 158.5428,
+   "model": 163.1897
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2002,
+   "record": 162.133,
+   "model": 164.947
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2003,
+   "record": 162.8765,
+   "model": 166.6722
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2004,
+   "record": 161.9529,
+   "model": 168.6322
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2005,
+   "record": 160.3506,
+   "model": 170.5784
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2006,
+   "record": 161.4698,
+   "model": 172.2045
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2007,
+   "record": 163.8845,
+   "model": 173.2803
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2008,
+   "record": 162.7783,
+   "model": 173.7744
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2009,
+   "record": 169.4256,
+   "model": 174.8496
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2010,
+   "record": 169.0441,
+   "model": 175.3702
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2011,
+   "record": 165.7888,
+   "model": 175.8771
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2012,
+   "record": 164.8926,
+   "model": 176.3754
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2013,
+   "record": 166.521,
+   "model": 177.2769
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2014,
+   "record": 168.5669,
+   "model": 177.8423
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2015,
+   "record": 174.3045,
+   "model": 178.5502
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2016,
+   "record": 178.1659,
+   "model": 179.7552
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2017,
+   "record": 179.581,
+   "model": 180.4428
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2018,
+   "record": 181.3092,
+   "model": 181.1235
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2019,
+   "record": 185.7941,
+   "model": 181.8569
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2020,
+   "record": 193.8983,
+   "model": 182.8098
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2021,
+   "record": 192.5264,
+   "model": 184.9983
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2022,
+   "record": 187.8258,
+   "model": 186.6438
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2023,
+   "record": 192.2836,
+   "model": 188.1127
+  },
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "unit": "index",
+   "year": 2024,
+   "record": 196.9043,
+   "model": 188.0383
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1950,
+   "record": 100.0,
+   "model": 100.0
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1951,
+   "record": 105.7832,
+   "model": 101.7388
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1952,
+   "record": 107.3261,
+   "model": 103.7772
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1953,
+   "record": 108.5218,
+   "model": 106.223
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1954,
+   "record": 108.3478,
+   "model": 108.8538
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1955,
+   "record": 111.9167,
+   "model": 111.314
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1956,
+   "record": 116.3037,
+   "model": 114.2579
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1957,
+   "record": 118.0139,
+   "model": 117.2443
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1958,
+   "record": 118.754,
+   "model": 120.1616
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1959,
+   "record": 122.7528,
+   "model": 122.7721
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1960,
+   "record": 124.4311,
+   "model": 124.826
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1961,
+   "record": 126.447,
+   "model": 126.7572
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1962,
+   "record": 129.4055,
+   "model": 128.628
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1963,
+   "record": 131.3141,
+   "model": 130.5066
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1964,
+   "record": 132.9846,
+   "model": 131.92
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1965,
+   "record": 135.4114,
+   "model": 133.0813
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1966,
+   "record": 136.6415,
+   "model": 134.3623
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1967,
+   "record": 138.0069,
+   "model": 135.4972
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1968,
+   "record": 139.5505,
+   "model": 136.5775
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1969,
+   "record": 137.2672,
+   "model": 137.6121
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1970,
+   "record": 133.1709,
+   "model": 138.5275
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1971,
+   "record": 136.1579,
+   "model": 136.1556
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1972,
+   "record": 140.1718,
+   "model": 133.155
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1973,
+   "record": 142.239,
+   "model": 130.7195
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1974,
+   "record": 138.9215,
+   "model": 128.5227
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1975,
+   "record": 135.0315,
+   "model": 127.7674
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1976,
+   "record": 136.6552,
+   "model": 126.1838
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1977,
+   "record": 137.603,
+   "model": 124.7909
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1978,
+   "record": 135.066,
+   "model": 123.106
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1979,
+   "record": 127.9251,
+   "model": 121.2564
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1980,
+   "record": 117.5161,
+   "model": 119.4665
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1981,
+   "record": 114.2425,
+   "model": 118.525
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1982,
+   "record": 112.8773,
+   "model": 117.9292
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1983,
+   "record": 114.9314,
+   "model": 116.2737
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1984,
+   "record": 113.4991,
+   "model": 115.3465
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1985,
+   "record": 110.5818,
+   "model": 114.3369
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1986,
+   "record": 107.1237,
+   "model": 113.2727
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1987,
+   "record": 104.7651,
+   "model": 111.7812
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1988,
+   "record": 103.1868,
+   "model": 110.7718
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1989,
+   "record": 102.5738,
+   "model": 109.5146
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1990,
+   "record": 101.2455,
+   "model": 108.1944
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1991,
+   "record": 99.8856,
+   "model": 108.531
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1992,
+   "record": 98.9912,
+   "model": 107.8759
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1993,
+   "record": 98.5807,
+   "model": 107.3286
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1994,
+   "record": 98.125,
+   "model": 106.6694
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1995,
+   "record": 97.6884,
+   "model": 106.6975
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1996,
+   "record": 97.8226,
+   "model": 106.1071
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1997,
+   "record": 98.5528,
+   "model": 105.7692
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1998,
+   "record": 99.246,
+   "model": 105.3181
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 1999,
+   "record": 100.0895,
+   "model": 105.1818
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2000,
+   "record": 100.6917,
+   "model": 105.4638
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2001,
+   "record": 100.7379,
+   "model": 104.674
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2002,
+   "record": 99.9141,
+   "model": 102.9333
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2003,
+   "record": 100.1589,
+   "model": 102.0393
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2004,
+   "record": 99.5958,
+   "model": 101.1172
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2005,
+   "record": 99.7985,
+   "model": 100.2209
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2006,
+   "record": 100.2141,
+   "model": 99.6133
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2007,
+   "record": 100.5474,
+   "model": 99.4857
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2008,
+   "record": 101.7847,
+   "model": 99.8584
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2009,
+   "record": 103.6957,
+   "model": 99.7342
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2010,
+   "record": 106.5921,
+   "model": 100.0842
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2011,
+   "record": 107.3458,
+   "model": 100.4455
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2012,
+   "record": 106.6258,
+   "model": 100.8139
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2013,
+   "record": 106.3632,
+   "model": 100.8406
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2014,
+   "record": 105.8107,
+   "model": 101.1523
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2015,
+   "record": 104.8069,
+   "model": 101.3439
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2016,
+   "record": 103.8527,
+   "model": 101.1187
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2017,
+   "record": 102.8662,
+   "model": 101.3292
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2018,
+   "record": 102.5436,
+   "model": 101.5458
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2019,
+   "record": 102.7107,
+   "model": 101.7189
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2020,
+   "record": 105.2605,
+   "model": 101.7104
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2021,
+   "record": 107.6205,
+   "model": 100.685
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2022,
+   "record": 108.1424,
+   "model": 100.1169
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2023,
+   "record": 105.58,
+   "model": 99.6991
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "unit": "index",
+   "year": 2024,
+   "record": 104.5049,
+   "model": 100.5367
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1950,
+   "record": 100.0,
+   "model": 100.0
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1951,
+   "record": 102.1303,
+   "model": 105.1041
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1952,
+   "record": 107.0957,
+   "model": 110.4863
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1953,
+   "record": 114.8819,
+   "model": 115.2222
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1954,
+   "record": 120.4655,
+   "model": 119.9346
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1955,
+   "record": 128.4915,
+   "model": 124.794
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1956,
+   "record": 135.3166,
+   "model": 128.8918
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1957,
+   "record": 137.8318,
+   "model": 132.7318
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1958,
+   "record": 139.517,
+   "model": 136.355
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1959,
+   "record": 143.6974,
+   "model": 139.9273
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1960,
+   "record": 149.5158,
+   "model": 143.6359
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1961,
+   "record": 153.427,
+   "model": 147.1301
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1962,
+   "record": 156.9114,
+   "model": 150.3899
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1963,
+   "record": 161.027,
+   "model": 153.392
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1964,
+   "record": 164.2805,
+   "model": 156.5579
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1965,
+   "record": 171.0417,
+   "model": 159.7504
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1966,
+   "record": 177.7199,
+   "model": 162.6929
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1967,
+   "record": 182.6732,
+   "model": 165.6366
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1968,
+   "record": 187.7465,
+   "model": 168.5323
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1969,
+   "record": 192.4897,
+   "model": 171.3968
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1970,
+   "record": 194.918,
+   "model": 174.3183
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1971,
+   "record": 199.2584,
+   "model": 177.846
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1972,
+   "record": 209.8976,
+   "model": 182.0574
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1973,
+   "record": 217.3564,
+   "model": 185.8299
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1974,
+   "record": 217.4586,
+   "model": 189.455
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1975,
+   "record": 208.4277,
+   "model": 191.575
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1976,
+   "record": 209.7472,
+   "model": 194.6382
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1977,
+   "record": 213.2051,
+   "model": 197.5398
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1978,
+   "record": 216.334,
+   "model": 200.8651
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1979,
+   "record": 212.3325,
+   "model": 204.5026
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1980,
+   "record": 208.2965,
+   "model": 208.1853
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1981,
+   "record": 209.446,
+   "model": 210.7953
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1982,
+   "record": 208.7901,
+   "model": 212.9433
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1983,
+   "record": 207.2839,
+   "model": 216.7137
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1984,
+   "record": 203.8416,
+   "model": 219.4684
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1985,
+   "record": 206.5073,
+   "model": 222.4151
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1986,
+   "record": 211.3625,
+   "model": 225.5263
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1987,
+   "record": 213.2786,
+   "model": 229.4809
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1988,
+   "record": 215.787,
+   "model": 232.6922
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1989,
+   "record": 220.6454,
+   "model": 236.4685
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1990,
+   "record": 226.9345,
+   "model": 240.5029
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1991,
+   "record": 228.8024,
+   "model": 244.0031
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1992,
+   "record": 229.2814,
+   "model": 249.7029
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1993,
+   "record": 229.9525,
+   "model": 255.3865
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1994,
+   "record": 229.2554,
+   "model": 261.5465
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1995,
+   "record": 229.688,
+   "model": 266.3088
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1996,
+   "record": 234.9025,
+   "model": 272.7448
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1997,
+   "record": 245.1437,
+   "model": 278.7906
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1998,
+   "record": 257.3963,
+   "model": 285.3624
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 1999,
+   "record": 270.2326,
+   "model": 291.3193
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2000,
+   "record": 282.0086,
+   "model": 296.2871
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2001,
+   "record": 294.4057,
+   "model": 304.5548
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2002,
+   "record": 310.9848,
+   "model": 316.1765
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2003,
+   "record": 329.9659,
+   "model": 328.287
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2004,
+   "record": 344.9358,
+   "model": 341.7449
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2005,
+   "record": 352.9944,
+   "model": 355.6064
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2006,
+   "record": 369.1493,
+   "model": 368.5917
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2007,
+   "record": 390.6887,
+   "model": 379.6219
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2008,
+   "record": 411.2819,
+   "model": 388.4068
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2009,
+   "record": 427.4934,
+   "model": 400.0212
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2010,
+   "record": 431.983,
+   "model": 409.4152
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2011,
+   "record": 435.8954,
+   "model": 418.9749
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2012,
+   "record": 441.393,
+   "model": 428.7254
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2013,
+   "record": 454.1315,
+   "model": 440.6954
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2014,
+   "record": 471.0456,
+   "model": 451.3068
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2015,
+   "record": 486.3114,
+   "model": 462.9145
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2016,
+   "record": 506.7563,
+   "model": 477.4412
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2017,
+   "record": 528.5268,
+   "model": 489.6154
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2018,
+   "record": 548.7849,
+   "model": 502.0688
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2019,
+   "record": 566.2606,
+   "model": 515.1428
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2020,
+   "record": 589.3466,
+   "model": 529.8253
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2021,
+   "record": 559.3828,
+   "model": 552.2045
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2022,
+   "record": 543.2273,
+   "model": 572.0773
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2023,
+   "record": 577.3625,
+   "model": 591.4961
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "unit": "index",
+   "year": 2024,
+   "record": 618.9271,
+   "model": 601.7482
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1950,
+   "record": 0.6638,
+   "model": 0.6701
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1951,
+   "record": 0.661,
+   "model": 0.6636
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1952,
+   "record": 0.6539,
+   "model": 0.6557
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1953,
+   "record": 0.6486,
+   "model": 0.6482
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1954,
+   "record": 0.6401,
+   "model": 0.6404
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1955,
+   "record": 0.6416,
+   "model": 0.6319
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1956,
+   "record": 0.6371,
+   "model": 0.6249
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1957,
+   "record": 0.6336,
+   "model": 0.6185
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1958,
+   "record": 0.6252,
+   "model": 0.6126
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1959,
+   "record": 0.6233,
+   "model": 0.6069
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1960,
+   "record": 0.6182,
+   "model": 0.601
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1961,
+   "record": 0.6125,
+   "model": 0.5957
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1962,
+   "record": 0.6084,
+   "model": 0.5911
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1963,
+   "record": 0.6052,
+   "model": 0.5872
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1964,
+   "record": 0.6025,
+   "model": 0.583
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1965,
+   "record": 0.6044,
+   "model": 0.579
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1966,
+   "record": 0.6057,
+   "model": 0.5756
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1967,
+   "record": 0.6007,
+   "model": 0.5724
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1968,
+   "record": 0.6002,
+   "model": 0.5694
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1969,
+   "record": 0.5948,
+   "model": 0.5667
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1970,
+   "record": 0.5883,
+   "model": 0.5639
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1971,
+   "record": 0.5832,
+   "model": 0.56
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1972,
+   "record": 0.5823,
+   "model": 0.555
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1973,
+   "record": 0.5821,
+   "model": 0.5511
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1974,
+   "record": 0.5777,
+   "model": 0.5476
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1975,
+   "record": 0.5718,
+   "model": 0.5471
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1976,
+   "record": 0.5699,
+   "model": 0.5449
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1977,
+   "record": 0.5666,
+   "model": 0.5432
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1978,
+   "record": 0.5646,
+   "model": 0.5408
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1979,
+   "record": 0.562,
+   "model": 0.5381
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1980,
+   "record": 0.5529,
+   "model": 0.5354
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1981,
+   "record": 0.5426,
+   "model": 0.5346
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1982,
+   "record": 0.5341,
+   "model": 0.5347
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1983,
+   "record": 0.5336,
+   "model": 0.5323
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1984,
+   "record": 0.534,
+   "model": 0.5315
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1985,
+   "record": 0.5331,
+   "model": 0.5306
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1986,
+   "record": 0.5283,
+   "model": 0.5295
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1987,
+   "record": 0.5222,
+   "model": 0.5273
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1988,
+   "record": 0.5176,
+   "model": 0.5262
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1989,
+   "record": 0.5148,
+   "model": 0.5245
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1990,
+   "record": 0.5065,
+   "model": 0.5226
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1991,
+   "record": 0.4947,
+   "model": 0.5215
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1992,
+   "record": 0.4904,
+   "model": 0.5177
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1993,
+   "record": 0.4915,
+   "model": 0.5142
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1994,
+   "record": 0.4934,
+   "model": 0.5102
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1995,
+   "record": 0.4913,
+   "model": 0.5082
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1996,
+   "record": 0.4937,
+   "model": 0.5044
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1997,
+   "record": 0.5012,
+   "model": 0.5012
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1998,
+   "record": 0.5136,
+   "model": 0.4977
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 1999,
+   "record": 0.508,
+   "model": 0.495
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2000,
+   "record": 0.5042,
+   "model": 0.4935
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2001,
+   "record": 0.5072,
+   "model": 0.4888
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2002,
+   "record": 0.504,
+   "model": 0.4812
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2003,
+   "record": 0.4947,
+   "model": 0.4789
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2004,
+   "record": 0.4886,
+   "model": 0.4773
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2005,
+   "record": 0.4772,
+   "model": 0.4757
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2006,
+   "record": 0.4726,
+   "model": 0.4747
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2007,
+   "record": 0.4674,
+   "model": 0.4745
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2008,
+   "record": 0.456,
+   "model": 0.4752
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2009,
+   "record": 0.4703,
+   "model": 0.4751
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2010,
+   "record": 0.4561,
+   "model": 0.4757
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2011,
+   "record": 0.4509,
+   "model": 0.4765
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2012,
+   "record": 0.4593,
+   "model": 0.4772
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2013,
+   "record": 0.4595,
+   "model": 0.4772
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2014,
+   "record": 0.459,
+   "model": 0.4779
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2015,
+   "record": 0.4681,
+   "model": 0.4782
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2016,
+   "record": 0.4717,
+   "model": 0.4778
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2017,
+   "record": 0.4752,
+   "model": 0.4782
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2018,
+   "record": 0.4731,
+   "model": 0.4786
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2019,
+   "record": 0.4749,
+   "model": 0.4789
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2020,
+   "record": 0.4852,
+   "model": 0.4789
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2021,
+   "record": 0.4738,
+   "model": 0.4768
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2022,
+   "record": 0.4762,
+   "model": 0.4757
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2023,
+   "record": 0.4723,
+   "model": 0.4748
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "unit": "share",
+   "year": 2024,
+   "record": 0.4659,
+   "model": 0.4764
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1950,
+   "record": 0.6284,
+   "model": 0.6284
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1951,
+   "record": 0.6441,
+   "model": 0.6394
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1952,
+   "record": 0.6503,
+   "model": 0.6504
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1953,
+   "record": 0.6532,
+   "model": 0.6584
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1954,
+   "record": 0.6386,
+   "model": 0.6657
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1955,
+   "record": 0.6523,
+   "model": 0.6727
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1956,
+   "record": 0.659,
+   "model": 0.6767
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1957,
+   "record": 0.6596,
+   "model": 0.6796
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1958,
+   "record": 0.6462,
+   "model": 0.6813
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1959,
+   "record": 0.6564,
+   "model": 0.6825
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1960,
+   "record": 0.6583,
+   "model": 0.6836
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1961,
+   "record": 0.6529,
+   "model": 0.6837
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1962,
+   "record": 0.6598,
+   "model": 0.683
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1963,
+   "record": 0.6644,
+   "model": 0.6813
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1964,
+   "record": 0.6697,
+   "model": 0.6797
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1965,
+   "record": 0.6765,
+   "model": 0.6779
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1966,
+   "record": 0.6846,
+   "model": 0.6753
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1967,
+   "record": 0.6898,
+   "model": 0.6725
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1968,
+   "record": 0.6946,
+   "model": 0.6694
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1969,
+   "record": 0.6995,
+   "model": 0.666
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1970,
+   "record": 0.6961,
+   "model": 0.6625
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1971,
+   "record": 0.6902,
+   "model": 0.6707
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1972,
+   "record": 0.6951,
+   "model": 0.6799
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1973,
+   "record": 0.7049,
+   "model": 0.6882
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1974,
+   "record": 0.7082,
+   "model": 0.696
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1975,
+   "record": 0.6934,
+   "model": 0.7014
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1976,
+   "record": 0.7061,
+   "model": 0.7082
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1977,
+   "record": 0.7188,
+   "model": 0.7146
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1978,
+   "record": 0.7362,
+   "model": 0.7216
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1979,
+   "record": 0.7459,
+   "model": 0.7289
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1980,
+   "record": 0.7434,
+   "model": 0.7362
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1981,
+   "record": 0.7465,
+   "model": 0.7419
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1982,
+   "record": 0.7351,
+   "model": 0.7469
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1983,
+   "record": 0.737,
+   "model": 0.7541
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1984,
+   "record": 0.7582,
+   "model": 0.7598
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1985,
+   "record": 0.767,
+   "model": 0.7657
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1986,
+   "record": 0.7731,
+   "model": 0.7718
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1987,
+   "record": 0.7836,
+   "model": 0.7788
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1988,
+   "record": 0.7918,
+   "model": 0.7848
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1989,
+   "record": 0.7993,
+   "model": 0.7915
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1990,
+   "record": 0.7968,
+   "model": 0.7983
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1991,
+   "record": 0.7864,
+   "model": 0.7958
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1992,
+   "record": 0.7832,
+   "model": 0.7955
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1993,
+   "record": 0.7854,
+   "model": 0.795
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1994,
+   "record": 0.7923,
+   "model": 0.7947
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1995,
+   "record": 0.7974,
+   "model": 0.7928
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1996,
+   "record": 0.8021,
+   "model": 0.7923
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1997,
+   "record": 0.8086,
+   "model": 0.7911
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1998,
+   "record": 0.8111,
+   "model": 0.7902
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 1999,
+   "record": 0.8142,
+   "model": 0.7886
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2000,
+   "record": 0.8146,
+   "model": 0.7861
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2001,
+   "record": 0.8055,
+   "model": 0.7858
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2002,
+   "record": 0.7933,
+   "model": 0.7875
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2003,
+   "record": 0.7883,
+   "model": 0.7893
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2004,
+   "record": 0.7897,
+   "model": 0.7915
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2005,
+   "record": 0.7933,
+   "model": 0.7937
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2006,
+   "record": 0.7983,
+   "model": 0.7951
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2007,
+   "record": 0.799,
+   "model": 0.795
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2008,
+   "record": 0.7909,
+   "model": 0.7935
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2009,
+   "record": 0.7578,
+   "model": 0.7934
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2010,
+   "record": 0.7508,
+   "model": 0.792
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2011,
+   "record": 0.7512,
+   "model": 0.7905
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2012,
+   "record": 0.7574,
+   "model": 0.7889
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2013,
+   "record": 0.7589,
+   "model": 0.7884
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2014,
+   "record": 0.767,
+   "model": 0.787
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2015,
+   "record": 0.7723,
+   "model": 0.786
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2016,
+   "record": 0.7793,
+   "model": 0.7861
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2017,
+   "record": 0.7863,
+   "model": 0.785
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2018,
+   "record": 0.7936,
+   "model": 0.7839
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2019,
+   "record": 0.7995,
+   "model": 0.7829
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2020,
+   "record": 0.7563,
+   "model": 0.7824
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2021,
+   "record": 0.776,
+   "model": 0.7848
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2022,
+   "record": 0.7988,
+   "model": 0.7858
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2023,
+   "record": 0.8068,
+   "model": 0.7864
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "unit": "share",
+   "year": 2024,
+   "record": 0.8072,
+   "model": 0.7836
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1950,
+   "record": null,
+   "model": 0.3232
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1951,
+   "record": null,
+   "model": 0.3465
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1952,
+   "record": null,
+   "model": 0.3697
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1953,
+   "record": null,
+   "model": 0.3894
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1954,
+   "record": null,
+   "model": 0.4074
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1955,
+   "record": null,
+   "model": 0.4242
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1956,
+   "record": null,
+   "model": 0.4369
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1957,
+   "record": null,
+   "model": 0.4473
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1958,
+   "record": null,
+   "model": 0.4558
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1959,
+   "record": null,
+   "model": 0.4629
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1960,
+   "record": null,
+   "model": 0.4695
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1961,
+   "record": null,
+   "model": 0.4747
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1962,
+   "record": null,
+   "model": 0.4786
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1963,
+   "record": null,
+   "model": 0.4812
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1964,
+   "record": null,
+   "model": 0.4838
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1965,
+   "record": null,
+   "model": 0.4861
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1966,
+   "record": null,
+   "model": 0.4875
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1967,
+   "record": 0.5045,
+   "model": 0.4885
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1968,
+   "record": null,
+   "model": 0.4893
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1969,
+   "record": null,
+   "model": 0.4898
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1970,
+   "record": null,
+   "model": 0.4902
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1971,
+   "record": null,
+   "model": 0.4916
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1972,
+   "record": 0.5504,
+   "model": 0.4941
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1973,
+   "record": null,
+   "model": 0.4955
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1974,
+   "record": null,
+   "model": 0.4963
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1975,
+   "record": null,
+   "model": 0.4944
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1976,
+   "record": null,
+   "model": 0.4939
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1977,
+   "record": 0.5167,
+   "model": 0.4931
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1978,
+   "record": null,
+   "model": 0.4929
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1979,
+   "record": null,
+   "model": 0.4929
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1980,
+   "record": null,
+   "model": 0.4929
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1981,
+   "record": null,
+   "model": 0.4912
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1982,
+   "record": 0.5811,
+   "model": 0.4887
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1983,
+   "record": null,
+   "model": 0.4884
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1984,
+   "record": null,
+   "model": 0.4866
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1985,
+   "record": null,
+   "model": 0.4849
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1986,
+   "record": null,
+   "model": 0.4834
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1987,
+   "record": 0.4765,
+   "model": 0.4828
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1988,
+   "record": null,
+   "model": 0.4811
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1989,
+   "record": null,
+   "model": 0.48
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1990,
+   "record": null,
+   "model": 0.4791
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1991,
+   "record": null,
+   "model": 0.4774
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1992,
+   "record": 0.4963,
+   "model": 0.4779
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1993,
+   "record": null,
+   "model": 0.478
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1994,
+   "record": null,
+   "model": 0.4784
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1995,
+   "record": null,
+   "model": 0.4773
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1996,
+   "record": null,
+   "model": 0.4774
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1997,
+   "record": 0.4963,
+   "model": 0.4769
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1998,
+   "record": 0.5058,
+   "model": 0.4766
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 1999,
+   "record": 0.503,
+   "model": 0.4756
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2000,
+   "record": 0.517,
+   "model": 0.4738
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2001,
+   "record": 0.5254,
+   "model": 0.474
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2002,
+   "record": 0.5006,
+   "model": 0.476
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2003,
+   "record": 0.4879,
+   "model": 0.4779
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2004,
+   "record": 0.4715,
+   "model": 0.4802
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2005,
+   "record": 0.4626,
+   "model": 0.4825
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2006,
+   "record": 0.4583,
+   "model": 0.4839
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2007,
+   "record": 0.4629,
+   "model": 0.4842
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2008,
+   "record": 0.4645,
+   "model": 0.4832
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2009,
+   "record": 0.4778,
+   "model": 0.4835
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2010,
+   "record": 0.4482,
+   "model": 0.4826
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2011,
+   "record": 0.4434,
+   "model": 0.4816
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2012,
+   "record": 0.4457,
+   "model": 0.4807
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2013,
+   "record": 0.4441,
+   "model": 0.4806
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2014,
+   "record": 0.4442,
+   "model": 0.4798
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2015,
+   "record": 0.4544,
+   "model": 0.4793
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2016,
+   "record": 0.458,
+   "model": 0.4798
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2017,
+   "record": 0.4596,
+   "model": 0.4793
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2018,
+   "record": 0.4593,
+   "model": 0.4787
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2019,
+   "record": 0.4657,
+   "model": 0.4783
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2020,
+   "record": 0.4844,
+   "model": 0.4783
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2021,
+   "record": 0.4775,
+   "model": 0.4809
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2022,
+   "record": 0.4692,
+   "model": 0.4823
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2023,
+   "record": 0.47,
+   "model": 0.4833
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "unit": "share",
+   "year": 2024,
+   "record": null,
+   "model": 0.4813
+  }
+ ],
+ "six_misfit": [
+  {
+   "series": "wage_goods",
+   "name": "Wage over goods (all but shelter)",
+   "misfit": 0.96
+  },
+  {
+   "series": "wage_shelter",
+   "name": "Wage over shelter",
+   "misfit": 0.93
+  },
+  {
+   "series": "wage_durables",
+   "name": "Wage over durables",
+   "misfit": 2.12
+  },
+  {
+   "series": "labour_share_c",
+   "name": "Labour's share",
+   "misfit": 1.38
+  },
+  {
+   "series": "prime_emp_rate",
+   "name": "Prime-age employment rate",
+   "misfit": 1.44
+  },
+  {
+   "series": "theta_V",
+   "name": "Pay's share of a machine's cost",
+   "misfit": 2.34
+  }
+ ],
+ "chain": [
+  {
+   "year": 1950,
+   "model": 0.0505,
+   "main_2pct": 0.2261,
+   "record": null,
+   "repl_model": 0.0993,
+   "repl_record": 0.1114
+  },
+  {
+   "year": 1951,
+   "model": 0.0565,
+   "main_2pct": 0.2301,
+   "record": null,
+   "repl_model": 0.103,
+   "repl_record": 0.1087
+  },
+  {
+   "year": 1952,
+   "model": 0.0622,
+   "main_2pct": 0.234,
+   "record": null,
+   "repl_model": 0.1053,
+   "repl_record": 0.1105
+  },
+  {
+   "year": 1953,
+   "model": 0.0686,
+   "main_2pct": 0.238,
+   "record": null,
+   "repl_model": 0.1092,
+   "repl_record": 0.1117
+  },
+  {
+   "year": 1954,
+   "model": 0.0746,
+   "main_2pct": 0.2423,
+   "record": null,
+   "repl_model": 0.1125,
+   "repl_record": 0.1177
+  },
+  {
+   "year": 1955,
+   "model": 0.08,
+   "main_2pct": 0.2471,
+   "record": null,
+   "repl_model": 0.1147,
+   "repl_record": 0.1149
+  },
+  {
+   "year": 1956,
+   "model": 0.0857,
+   "main_2pct": 0.2514,
+   "record": null,
+   "repl_model": 0.1182,
+   "repl_record": 0.1205
+  },
+  {
+   "year": 1957,
+   "model": 0.091,
+   "main_2pct": 0.2556,
+   "record": null,
+   "repl_model": 0.1216,
+   "repl_record": 0.1243
+  },
+  {
+   "year": 1958,
+   "model": 0.0959,
+   "main_2pct": 0.2595,
+   "record": null,
+   "repl_model": 0.1248,
+   "repl_record": 0.1298
+  },
+  {
+   "year": 1959,
+   "model": 0.1003,
+   "main_2pct": 0.2635,
+   "record": null,
+   "repl_model": 0.1275,
+   "repl_record": 0.1255
+  },
+  {
+   "year": 1960,
+   "model": 0.104,
+   "main_2pct": 0.268,
+   "record": null,
+   "repl_model": 0.1294,
+   "repl_record": 0.1252
+  },
+  {
+   "year": 1961,
+   "model": 0.1075,
+   "main_2pct": 0.2723,
+   "record": null,
+   "repl_model": 0.1313,
+   "repl_record": 0.1256
+  },
+  {
+   "year": 1962,
+   "model": 0.1107,
+   "main_2pct": 0.2762,
+   "record": null,
+   "repl_model": 0.1333,
+   "repl_record": 0.1227
+  },
+  {
+   "year": 1963,
+   "model": 0.1137,
+   "main_2pct": 0.2795,
+   "record": null,
+   "repl_model": 0.1354,
+   "repl_record": 0.1224
+  },
+  {
+   "year": 1964,
+   "model": 0.1164,
+   "main_2pct": 0.2833,
+   "record": null,
+   "repl_model": 0.137,
+   "repl_record": 0.1204
+  },
+  {
+   "year": 1965,
+   "model": 0.1188,
+   "main_2pct": 0.2871,
+   "record": null,
+   "repl_model": 0.1383,
+   "repl_record": 0.1186
+  },
+  {
+   "year": 1966,
+   "model": 0.1211,
+   "main_2pct": 0.2904,
+   "record": null,
+   "repl_model": 0.1399,
+   "repl_record": 0.1172
+  },
+  {
+   "year": 1967,
+   "model": 0.1232,
+   "main_2pct": 0.2936,
+   "record": null,
+   "repl_model": 0.1413,
+   "repl_record": 0.1204
+  },
+  {
+   "year": 1968,
+   "model": 0.1252,
+   "main_2pct": 0.2966,
+   "record": null,
+   "repl_model": 0.1427,
+   "repl_record": 0.1205
+  },
+  {
+   "year": 1969,
+   "model": 0.127,
+   "main_2pct": 0.2994,
+   "record": null,
+   "repl_model": 0.1441,
+   "repl_record": 0.1227
+  },
+  {
+   "year": 1970,
+   "model": 0.1288,
+   "main_2pct": 0.3022,
+   "record": null,
+   "repl_model": 0.1453,
+   "repl_record": 0.1275
+  },
+  {
+   "year": 1971,
+   "model": 0.1303,
+   "main_2pct": 0.3063,
+   "record": null,
+   "repl_model": 0.1458,
+   "repl_record": 0.1278
+  },
+  {
+   "year": 1972,
+   "model": 0.1318,
+   "main_2pct": 0.3121,
+   "record": null,
+   "repl_model": 0.1457,
+   "repl_record": 0.1259
+  },
+  {
+   "year": 1973,
+   "model": 0.1333,
+   "main_2pct": 0.3167,
+   "record": null,
+   "repl_model": 0.146,
+   "repl_record": 0.1254
+  },
+  {
+   "year": 1974,
+   "model": 0.1348,
+   "main_2pct": 0.3206,
+   "record": null,
+   "repl_model": 0.1466,
+   "repl_record": 0.1339
+  },
+  {
+   "year": 1975,
+   "model": 0.1364,
+   "main_2pct": 0.3203,
+   "record": null,
+   "repl_model": 0.1488,
+   "repl_record": 0.1416
+  },
+  {
+   "year": 1976,
+   "model": 0.1379,
+   "main_2pct": 0.3224,
+   "record": null,
+   "repl_model": 0.15,
+   "repl_record": 0.1389
+  },
+  {
+   "year": 1977,
+   "model": 0.1394,
+   "main_2pct": 0.3238,
+   "record": null,
+   "repl_model": 0.1514,
+   "repl_record": 0.1392
+  },
+  {
+   "year": 1978,
+   "model": 0.1408,
+   "main_2pct": 0.326,
+   "record": null,
+   "repl_model": 0.1524,
+   "repl_record": 0.1391
+  },
+  {
+   "year": 1979,
+   "model": 0.1423,
+   "main_2pct": 0.3289,
+   "record": null,
+   "repl_model": 0.1533,
+   "repl_record": 0.1423
+  },
+  {
+   "year": 1980,
+   "model": 0.1437,
+   "main_2pct": 0.3315,
+   "record": null,
+   "repl_model": 0.1542,
+   "repl_record": 0.1499
+  },
+  {
+   "year": 1981,
+   "model": 0.1452,
+   "main_2pct": 0.3313,
+   "record": null,
+   "repl_model": 0.156,
+   "repl_record": 0.1519
+  },
+  {
+   "year": 1982,
+   "model": 0.1466,
+   "main_2pct": 0.3297,
+   "record": null,
+   "repl_model": 0.1582,
+   "repl_record": 0.1606
+  },
+  {
+   "year": 1983,
+   "model": 0.148,
+   "main_2pct": 0.3318,
+   "record": null,
+   "repl_model": 0.1592,
+   "repl_record": 0.1548
+  },
+  {
+   "year": 1984,
+   "model": 0.1494,
+   "main_2pct": 0.3313,
+   "record": null,
+   "repl_model": 0.161,
+   "repl_record": 0.1482
+  },
+  {
+   "year": 1985,
+   "model": 0.1508,
+   "main_2pct": 0.3311,
+   "record": null,
+   "repl_model": 0.1627,
+   "repl_record": 0.1475
+  },
+  {
+   "year": 1986,
+   "model": 0.1522,
+   "main_2pct": 0.3309,
+   "record": null,
+   "repl_model": 0.1643,
+   "repl_record": 0.1496
+  },
+  {
+   "year": 1987,
+   "model": 0.1537,
+   "main_2pct": 0.3324,
+   "record": null,
+   "repl_model": 0.1656,
+   "repl_record": 0.1504
+  },
+  {
+   "year": 1988,
+   "model": 0.1551,
+   "main_2pct": 0.3321,
+   "record": null,
+   "repl_model": 0.1672,
+   "repl_record": 0.1498
+  },
+  {
+   "year": 1989,
+   "model": 0.1566,
+   "main_2pct": 0.3327,
+   "record": null,
+   "repl_model": 0.1687,
+   "repl_record": 0.1486
+  },
+  {
+   "year": 1990,
+   "model": 0.1582,
+   "main_2pct": 0.3335,
+   "record": null,
+   "repl_model": 0.1701,
+   "repl_record": 0.149
+  },
+  {
+   "year": 1991,
+   "model": 0.1596,
+   "main_2pct": 0.333,
+   "record": null,
+   "repl_model": 0.1718,
+   "repl_record": 0.1514
+  },
+  {
+   "year": 1992,
+   "model": 0.1615,
+   "main_2pct": 0.3366,
+   "record": null,
+   "repl_model": 0.1726,
+   "repl_record": 0.1473
+  },
+  {
+   "year": 1993,
+   "model": 0.1634,
+   "main_2pct": 0.3398,
+   "record": null,
+   "repl_model": 0.1736,
+   "repl_record": 0.1463
+  },
+  {
+   "year": 1994,
+   "model": 0.1654,
+   "main_2pct": 0.3434,
+   "record": null,
+   "repl_model": 0.1745,
+   "repl_record": 0.1449
+  },
+  {
+   "year": 1995,
+   "model": 0.1672,
+   "main_2pct": 0.344,
+   "record": null,
+   "repl_model": 0.1761,
+   "repl_record": 0.1469
+  },
+  {
+   "year": 1996,
+   "model": 0.1694,
+   "main_2pct": 0.3473,
+   "record": null,
+   "repl_model": 0.1772,
+   "repl_record": 0.1456
+  },
+  {
+   "year": 1997,
+   "model": 0.1714,
+   "main_2pct": 0.3494,
+   "record": 0.1474,
+   "repl_model": 0.1786,
+   "repl_record": 0.1445
+  },
+  {
+   "year": 1998,
+   "model": 0.1737,
+   "main_2pct": 0.352,
+   "record": 0.152,
+   "repl_model": 0.18,
+   "repl_record": 0.1445
+  },
+  {
+   "year": 1999,
+   "model": 0.1758,
+   "main_2pct": 0.3531,
+   "record": 0.1533,
+   "repl_model": 0.1816,
+   "repl_record": 0.1453
+  },
+  {
+   "year": 2000,
+   "model": 0.1776,
+   "main_2pct": 0.3521,
+   "record": 0.1582,
+   "repl_model": 0.1836,
+   "repl_record": 0.1474
+  },
+  {
+   "year": 2001,
+   "model": 0.1803,
+   "main_2pct": 0.3561,
+   "record": 0.1525,
+   "repl_model": 0.1849,
+   "repl_record": 0.1512
+  },
+  {
+   "year": 2002,
+   "model": 0.184,
+   "main_2pct": 0.3647,
+   "record": 0.136,
+   "repl_model": 0.1856,
+   "repl_record": 0.1517
+  },
+  {
+   "year": 2003,
+   "model": 0.1844,
+   "main_2pct": 0.3736,
+   "record": 0.1301,
+   "repl_model": 0.1847,
+   "repl_record": 0.1501
+  },
+  {
+   "year": 2004,
+   "model": 0.1841,
+   "main_2pct": 0.3808,
+   "record": 0.1272,
+   "repl_model": 0.1832,
+   "repl_record": 0.1491
+  },
+  {
+   "year": 2005,
+   "model": 0.1837,
+   "main_2pct": 0.3832,
+   "record": 0.1292,
+   "repl_model": 0.1816,
+   "repl_record": 0.1512
+  },
+  {
+   "year": 2006,
+   "model": 0.1835,
+   "main_2pct": 0.3848,
+   "record": 0.1328,
+   "repl_model": 0.1806,
+   "repl_record": 0.1538
+  },
+  {
+   "year": 2007,
+   "model": 0.1834,
+   "main_2pct": 0.3851,
+   "record": 0.1379,
+   "repl_model": 0.1804,
+   "repl_record": 0.1556
+  },
+  {
+   "year": 2008,
+   "model": 0.1836,
+   "main_2pct": 0.3839,
+   "record": 0.1395,
+   "repl_model": 0.1811,
+   "repl_record": 0.1597
+  },
+  {
+   "year": 2009,
+   "model": 0.1835,
+   "main_2pct": 0.3842,
+   "record": 0.1302,
+   "repl_model": 0.1809,
+   "repl_record": 0.1638
+  },
+  {
+   "year": 2010,
+   "model": 0.1836,
+   "main_2pct": 0.3831,
+   "record": 0.1232,
+   "repl_model": 0.1815,
+   "repl_record": 0.1588
+  },
+  {
+   "year": 2011,
+   "model": 0.1837,
+   "main_2pct": 0.382,
+   "record": 0.1267,
+   "repl_model": 0.1821,
+   "repl_record": 0.1586
+  },
+  {
+   "year": 2012,
+   "model": 0.1838,
+   "main_2pct": 0.3808,
+   "record": 0.1332,
+   "repl_model": 0.1827,
+   "repl_record": 0.1585
+  },
+  {
+   "year": 2013,
+   "model": 0.1838,
+   "main_2pct": 0.3807,
+   "record": 0.1335,
+   "repl_model": 0.1828,
+   "repl_record": 0.1589
+  },
+  {
+   "year": 2014,
+   "model": 0.1839,
+   "main_2pct": 0.3797,
+   "record": 0.1374,
+   "repl_model": 0.1833,
+   "repl_record": 0.1601
+  },
+  {
+   "year": 2015,
+   "model": 0.1839,
+   "main_2pct": 0.379,
+   "record": 0.1382,
+   "repl_model": 0.1836,
+   "repl_record": 0.1598
+  },
+  {
+   "year": 2016,
+   "model": 0.1839,
+   "main_2pct": 0.3796,
+   "record": 0.1374,
+   "repl_model": 0.1832,
+   "repl_record": 0.16
+  },
+  {
+   "year": 2017,
+   "model": 0.1839,
+   "main_2pct": 0.3789,
+   "record": 0.1393,
+   "repl_model": 0.1836,
+   "repl_record": 0.1606
+  },
+  {
+   "year": 2018,
+   "model": 0.184,
+   "main_2pct": 0.3782,
+   "record": 0.1423,
+   "repl_model": 0.1839,
+   "repl_record": 0.1604
+  },
+  {
+   "year": 2019,
+   "model": 0.184,
+   "main_2pct": 0.3777,
+   "record": 0.1442,
+   "repl_model": 0.1842,
+   "repl_record": 0.1614
+  },
+  {
+   "year": 2020,
+   "model": 0.184,
+   "main_2pct": 0.3776,
+   "record": 0.1447,
+   "repl_model": 0.1842,
+   "repl_record": 0.1695
+  },
+  {
+   "year": 2021,
+   "model": 0.1838,
+   "main_2pct": 0.3807,
+   "record": 0.1424,
+   "repl_model": 0.1826,
+   "repl_record": 0.1631
+  },
+  {
+   "year": 2022,
+   "model": 0.1837,
+   "main_2pct": 0.3825,
+   "record": 0.1462,
+   "repl_model": 0.1817,
+   "repl_record": 0.1654
+  },
+  {
+   "year": 2023,
+   "model": 0.1837,
+   "main_2pct": 0.3838,
+   "record": 0.1511,
+   "repl_model": 0.181,
+   "repl_record": 0.1645
+  },
+  {
+   "year": 2024,
+   "model": 0.1839,
+   "main_2pct": 0.3811,
+   "record": null,
+   "repl_model": 0.1824,
+   "repl_record": 0.1635
+  }
+ ],
+ "cost": [
+  {
+   "year": 1950,
+   "pay": 0.3232,
+   "machines": 0.2883,
+   "imported": 0.2,
+   "land": 0.1885
+  },
+  {
+   "year": 1951,
+   "pay": 0.3465,
+   "machines": 0.2907,
+   "imported": 0.2,
+   "land": 0.1628
+  },
+  {
+   "year": 1952,
+   "pay": 0.3697,
+   "machines": 0.2906,
+   "imported": 0.2,
+   "land": 0.1397
+  },
+  {
+   "year": 1953,
+   "pay": 0.3894,
+   "machines": 0.2928,
+   "imported": 0.2,
+   "land": 0.1178
+  },
+  {
+   "year": 1954,
+   "pay": 0.4074,
+   "machines": 0.294,
+   "imported": 0.2,
+   "land": 0.0986
+  },
+  {
+   "year": 1955,
+   "pay": 0.4242,
+   "machines": 0.2935,
+   "imported": 0.2,
+   "land": 0.0823
+  },
+  {
+   "year": 1956,
+   "pay": 0.4369,
+   "machines": 0.2954,
+   "imported": 0.2,
+   "land": 0.0677
+  },
+  {
+   "year": 1957,
+   "pay": 0.4473,
+   "machines": 0.2973,
+   "imported": 0.2,
+   "land": 0.0554
+  },
+  {
+   "year": 1958,
+   "pay": 0.4558,
+   "machines": 0.2991,
+   "imported": 0.2,
+   "land": 0.0451
+  },
+  {
+   "year": 1959,
+   "pay": 0.4629,
+   "machines": 0.3003,
+   "imported": 0.2,
+   "land": 0.0368
+  },
+  {
+   "year": 1960,
+   "pay": 0.4695,
+   "machines": 0.3004,
+   "imported": 0.2,
+   "land": 0.0301
+  },
+  {
+   "year": 1961,
+   "pay": 0.4747,
+   "machines": 0.3007,
+   "imported": 0.2,
+   "land": 0.0246
+  },
+  {
+   "year": 1962,
+   "pay": 0.4786,
+   "machines": 0.3014,
+   "imported": 0.2,
+   "land": 0.02
+  },
+  {
+   "year": 1963,
+   "pay": 0.4812,
+   "machines": 0.3026,
+   "imported": 0.2,
+   "land": 0.0163
+  },
+  {
+   "year": 1964,
+   "pay": 0.4838,
+   "machines": 0.3029,
+   "imported": 0.2,
+   "land": 0.0133
+  },
+  {
+   "year": 1965,
+   "pay": 0.4861,
+   "machines": 0.3031,
+   "imported": 0.2,
+   "land": 0.0108
+  },
+  {
+   "year": 1966,
+   "pay": 0.4875,
+   "machines": 0.3037,
+   "imported": 0.2,
+   "land": 0.0088
+  },
+  {
+   "year": 1967,
+   "pay": 0.4885,
+   "machines": 0.3043,
+   "imported": 0.2,
+   "land": 0.0072
+  },
+  {
+   "year": 1968,
+   "pay": 0.4893,
+   "machines": 0.3049,
+   "imported": 0.2,
+   "land": 0.0058
+  },
+  {
+   "year": 1969,
+   "pay": 0.4898,
+   "machines": 0.3055,
+   "imported": 0.2,
+   "land": 0.0048
+  },
+  {
+   "year": 1970,
+   "pay": 0.4902,
+   "machines": 0.306,
+   "imported": 0.2,
+   "land": 0.0039
+  },
+  {
+   "year": 1971,
+   "pay": 0.4916,
+   "machines": 0.3052,
+   "imported": 0.2,
+   "land": 0.0032
+  },
+  {
+   "year": 1972,
+   "pay": 0.4941,
+   "machines": 0.3032,
+   "imported": 0.2,
+   "land": 0.0027
+  },
+  {
+   "year": 1973,
+   "pay": 0.4955,
+   "machines": 0.3023,
+   "imported": 0.2,
+   "land": 0.0023
+  },
+  {
+   "year": 1974,
+   "pay": 0.4963,
+   "machines": 0.3018,
+   "imported": 0.2,
+   "land": 0.0019
+  },
+  {
+   "year": 1975,
+   "pay": 0.4944,
+   "machines": 0.3041,
+   "imported": 0.2,
+   "land": 0.0016
+  },
+  {
+   "year": 1976,
+   "pay": 0.4939,
+   "machines": 0.3048,
+   "imported": 0.2,
+   "land": 0.0013
+  },
+  {
+   "year": 1977,
+   "pay": 0.4931,
+   "machines": 0.3058,
+   "imported": 0.2,
+   "land": 0.0011
+  },
+  {
+   "year": 1978,
+   "pay": 0.4929,
+   "machines": 0.3062,
+   "imported": 0.2,
+   "land": 0.0009
+  },
+  {
+   "year": 1979,
+   "pay": 0.4929,
+   "machines": 0.3063,
+   "imported": 0.2,
+   "land": 0.0007
+  },
+  {
+   "year": 1980,
+   "pay": 0.4929,
+   "machines": 0.3065,
+   "imported": 0.2,
+   "land": 0.0006
+  },
+  {
+   "year": 1981,
+   "pay": 0.4912,
+   "machines": 0.3083,
+   "imported": 0.2,
+   "land": 0.0005
+  },
+  {
+   "year": 1982,
+   "pay": 0.4887,
+   "machines": 0.3109,
+   "imported": 0.2,
+   "land": 0.0004
+  },
+  {
+   "year": 1983,
+   "pay": 0.4884,
+   "machines": 0.3113,
+   "imported": 0.2,
+   "land": 0.0003
+  },
+  {
+   "year": 1984,
+   "pay": 0.4866,
+   "machines": 0.3131,
+   "imported": 0.2,
+   "land": 0.0003
+  },
+  {
+   "year": 1985,
+   "pay": 0.4849,
+   "machines": 0.3148,
+   "imported": 0.2,
+   "land": 0.0002
+  },
+  {
+   "year": 1986,
+   "pay": 0.4834,
+   "machines": 0.3164,
+   "imported": 0.2,
+   "land": 0.0002
+  },
+  {
+   "year": 1987,
+   "pay": 0.4828,
+   "machines": 0.3171,
+   "imported": 0.2,
+   "land": 0.0002
+  },
+  {
+   "year": 1988,
+   "pay": 0.4811,
+   "machines": 0.3187,
+   "imported": 0.2,
+   "land": 0.0001
+  },
+  {
+   "year": 1989,
+   "pay": 0.48,
+   "machines": 0.3199,
+   "imported": 0.2,
+   "land": 0.0001
+  },
+  {
+   "year": 1990,
+   "pay": 0.4791,
+   "machines": 0.3208,
+   "imported": 0.2,
+   "land": 0.0001
+  },
+  {
+   "year": 1991,
+   "pay": 0.4774,
+   "machines": 0.3225,
+   "imported": 0.2,
+   "land": 0.0001
+  },
+  {
+   "year": 1992,
+   "pay": 0.4779,
+   "machines": 0.3221,
+   "imported": 0.2,
+   "land": 0.0001
+  },
+  {
+   "year": 1993,
+   "pay": 0.478,
+   "machines": 0.3219,
+   "imported": 0.2,
+   "land": 0.0001
+  },
+  {
+   "year": 1994,
+   "pay": 0.4784,
+   "machines": 0.3216,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 1995,
+   "pay": 0.4773,
+   "machines": 0.3227,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 1996,
+   "pay": 0.4774,
+   "machines": 0.3226,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 1997,
+   "pay": 0.4769,
+   "machines": 0.3231,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 1998,
+   "pay": 0.4766,
+   "machines": 0.3234,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 1999,
+   "pay": 0.4756,
+   "machines": 0.3243,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2000,
+   "pay": 0.4738,
+   "machines": 0.3262,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2001,
+   "pay": 0.474,
+   "machines": 0.326,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2002,
+   "pay": 0.476,
+   "machines": 0.3239,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2003,
+   "pay": 0.4779,
+   "machines": 0.3221,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2004,
+   "pay": 0.4802,
+   "machines": 0.3198,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2005,
+   "pay": 0.4825,
+   "machines": 0.3175,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2006,
+   "pay": 0.4839,
+   "machines": 0.3161,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2007,
+   "pay": 0.4842,
+   "machines": 0.3158,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2008,
+   "pay": 0.4832,
+   "machines": 0.3168,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2009,
+   "pay": 0.4835,
+   "machines": 0.3165,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2010,
+   "pay": 0.4826,
+   "machines": 0.3174,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2011,
+   "pay": 0.4816,
+   "machines": 0.3184,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2012,
+   "pay": 0.4807,
+   "machines": 0.3193,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2013,
+   "pay": 0.4806,
+   "machines": 0.3194,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2014,
+   "pay": 0.4798,
+   "machines": 0.3202,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2015,
+   "pay": 0.4793,
+   "machines": 0.3207,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2016,
+   "pay": 0.4798,
+   "machines": 0.3202,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2017,
+   "pay": 0.4793,
+   "machines": 0.3207,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2018,
+   "pay": 0.4787,
+   "machines": 0.3213,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2019,
+   "pay": 0.4783,
+   "machines": 0.3217,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2020,
+   "pay": 0.4783,
+   "machines": 0.3217,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2021,
+   "pay": 0.4809,
+   "machines": 0.3191,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2022,
+   "pay": 0.4823,
+   "machines": 0.3177,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2023,
+   "pay": 0.4833,
+   "machines": 0.3167,
+   "imported": 0.2,
+   "land": 0.0
+  },
+  {
+   "year": 2024,
+   "pay": 0.4813,
+   "machines": 0.3187,
+   "imported": 0.2,
+   "land": 0.0
+  }
+ ],
+ "cost_record": [
+  {
+   "year": 1997,
+   "pay": 0.4963,
+   "imported": 0.1808,
+   "surplus_depreciation": 0.2804,
+   "taxes": 0.0425
+  },
+  {
+   "year": 1998,
+   "pay": 0.5058,
+   "imported": 0.1832,
+   "surplus_depreciation": 0.2684,
+   "taxes": 0.0426
+  },
+  {
+   "year": 1999,
+   "pay": 0.503,
+   "imported": 0.1918,
+   "surplus_depreciation": 0.2631,
+   "taxes": 0.042
+  },
+  {
+   "year": 2000,
+   "pay": 0.517,
+   "imported": 0.1988,
+   "surplus_depreciation": 0.2431,
+   "taxes": 0.0411
+  },
+  {
+   "year": 2001,
+   "pay": 0.5254,
+   "imported": 0.1881,
+   "surplus_depreciation": 0.2453,
+   "taxes": 0.0412
+  },
+  {
+   "year": 2002,
+   "pay": 0.5006,
+   "imported": 0.1901,
+   "surplus_depreciation": 0.2668,
+   "taxes": 0.0426
+  },
+  {
+   "year": 2003,
+   "pay": 0.4879,
+   "imported": 0.1915,
+   "surplus_depreciation": 0.2778,
+   "taxes": 0.0427
+  },
+  {
+   "year": 2004,
+   "pay": 0.4715,
+   "imported": 0.2069,
+   "surplus_depreciation": 0.2792,
+   "taxes": 0.0424
+  },
+  {
+   "year": 2005,
+   "pay": 0.4626,
+   "imported": 0.211,
+   "surplus_depreciation": 0.2839,
+   "taxes": 0.0425
+  },
+  {
+   "year": 2006,
+   "pay": 0.4583,
+   "imported": 0.217,
+   "surplus_depreciation": 0.2833,
+   "taxes": 0.0413
+  },
+  {
+   "year": 2007,
+   "pay": 0.4629,
+   "imported": 0.2118,
+   "surplus_depreciation": 0.2854,
+   "taxes": 0.0399
+  },
+  {
+   "year": 2008,
+   "pay": 0.4645,
+   "imported": 0.2089,
+   "surplus_depreciation": 0.2878,
+   "taxes": 0.0389
+  },
+  {
+   "year": 2009,
+   "pay": 0.4778,
+   "imported": 0.1823,
+   "surplus_depreciation": 0.2998,
+   "taxes": 0.0401
+  },
+  {
+   "year": 2010,
+   "pay": 0.4482,
+   "imported": 0.2037,
+   "surplus_depreciation": 0.3083,
+   "taxes": 0.0398
+  },
+  {
+   "year": 2011,
+   "pay": 0.4434,
+   "imported": 0.2127,
+   "surplus_depreciation": 0.3045,
+   "taxes": 0.0394
+  },
+  {
+   "year": 2012,
+   "pay": 0.4457,
+   "imported": 0.2139,
+   "surplus_depreciation": 0.3013,
+   "taxes": 0.0391
+  },
+  {
+   "year": 2013,
+   "pay": 0.4441,
+   "imported": 0.211,
+   "surplus_depreciation": 0.3053,
+   "taxes": 0.0397
+  },
+  {
+   "year": 2014,
+   "pay": 0.4442,
+   "imported": 0.2159,
+   "surplus_depreciation": 0.3005,
+   "taxes": 0.0394
+  },
+  {
+   "year": 2015,
+   "pay": 0.4544,
+   "imported": 0.2116,
+   "surplus_depreciation": 0.2944,
+   "taxes": 0.0396
+  },
+  {
+   "year": 2016,
+   "pay": 0.458,
+   "imported": 0.2083,
+   "surplus_depreciation": 0.2937,
+   "taxes": 0.04
+  },
+  {
+   "year": 2017,
+   "pay": 0.4596,
+   "imported": 0.2085,
+   "surplus_depreciation": 0.2924,
+   "taxes": 0.0395
+  },
+  {
+   "year": 2018,
+   "pay": 0.4593,
+   "imported": 0.2096,
+   "surplus_depreciation": 0.291,
+   "taxes": 0.04
+  },
+  {
+   "year": 2019,
+   "pay": 0.4657,
+   "imported": 0.2011,
+   "surplus_depreciation": 0.2918,
+   "taxes": 0.0415
+  },
+  {
+   "year": 2020,
+   "pay": 0.4844,
+   "imported": 0.1894,
+   "surplus_depreciation": 0.3112,
+   "taxes": 0.0151
+  },
+  {
+   "year": 2021,
+   "pay": 0.4775,
+   "imported": 0.2002,
+   "surplus_depreciation": 0.2961,
+   "taxes": 0.0263
+  },
+  {
+   "year": 2022,
+   "pay": 0.4692,
+   "imported": 0.1982,
+   "surplus_depreciation": 0.2925,
+   "taxes": 0.04
+  },
+  {
+   "year": 2023,
+   "pay": 0.47,
+   "imported": 0.1846,
+   "surplus_depreciation": 0.3073,
+   "taxes": 0.0381
+  }
+ ],
+ "tasks": [
+  {
+   "year": 1950,
+   "other": 0.6509,
+   "durables": 0.6509,
+   "hours_other": 1.0,
+   "hours_durables": 1.0
+  },
+  {
+   "year": 1951,
+   "other": 0.6684,
+   "durables": 0.6716,
+   "hours_other": 0.9282,
+   "hours_durables": 0.9056
+  },
+  {
+   "year": 1952,
+   "other": 0.6855,
+   "durables": 0.692,
+   "hours_other": 0.8688,
+   "hours_durables": 0.827
+  },
+  {
+   "year": 1953,
+   "other": 0.6991,
+   "durables": 0.7089,
+   "hours_other": 0.8192,
+   "hours_durables": 0.7608
+  },
+  {
+   "year": 1954,
+   "other": 0.7115,
+   "durables": 0.7248,
+   "hours_other": 0.7775,
+   "hours_durables": 0.7045
+  },
+  {
+   "year": 1955,
+   "other": 0.7235,
+   "durables": 0.7403,
+   "hours_other": 0.7422,
+   "hours_durables": 0.6561
+  },
+  {
+   "year": 1956,
+   "other": 0.7323,
+   "durables": 0.7527,
+   "hours_other": 0.7121,
+   "hours_durables": 0.6141
+  },
+  {
+   "year": 1957,
+   "other": 0.7397,
+   "durables": 0.7637,
+   "hours_other": 0.6862,
+   "hours_durables": 0.5774
+  },
+  {
+   "year": 1958,
+   "other": 0.746,
+   "durables": 0.7737,
+   "hours_other": 0.664,
+   "hours_durables": 0.5451
+  },
+  {
+   "year": 1959,
+   "other": 0.7517,
+   "durables": 0.7831,
+   "hours_other": 0.6447,
+   "hours_durables": 0.5163
+  },
+  {
+   "year": 1960,
+   "other": 0.7574,
+   "durables": 0.7925,
+   "hours_other": 0.6278,
+   "hours_durables": 0.4906
+  },
+  {
+   "year": 1961,
+   "other": 0.7621,
+   "durables": 0.8009,
+   "hours_other": 0.6131,
+   "hours_durables": 0.4675
+  },
+  {
+   "year": 1962,
+   "other": 0.7659,
+   "durables": 0.8085,
+   "hours_other": 0.6002,
+   "hours_durables": 0.4464
+  },
+  {
+   "year": 1963,
+   "other": 0.7688,
+   "durables": 0.8153,
+   "hours_other": 0.5888,
+   "hours_durables": 0.4273
+  },
+  {
+   "year": 1964,
+   "other": 0.7719,
+   "durables": 0.8222,
+   "hours_other": 0.5787,
+   "hours_durables": 0.4097
+  },
+  {
+   "year": 1965,
+   "other": 0.7747,
+   "durables": 0.8288,
+   "hours_other": 0.5696,
+   "hours_durables": 0.3935
+  },
+  {
+   "year": 1966,
+   "other": 0.7768,
+   "durables": 0.8348,
+   "hours_other": 0.5616,
+   "hours_durables": 0.3785
+  },
+  {
+   "year": 1967,
+   "other": 0.7788,
+   "durables": 0.8406,
+   "hours_other": 0.5544,
+   "hours_durables": 0.3645
+  },
+  {
+   "year": 1968,
+   "other": 0.7804,
+   "durables": 0.8461,
+   "hours_other": 0.5479,
+   "hours_durables": 0.3515
+  },
+  {
+   "year": 1969,
+   "other": 0.7818,
+   "durables": 0.8514,
+   "hours_other": 0.542,
+   "hours_durables": 0.3392
+  },
+  {
+   "year": 1970,
+   "other": 0.7831,
+   "durables": 0.8566,
+   "hours_other": 0.5366,
+   "hours_durables": 0.3277
+  },
+  {
+   "year": 1971,
+   "other": 0.7852,
+   "durables": 0.8627,
+   "hours_other": 0.5317,
+   "hours_durables": 0.3168
+  },
+  {
+   "year": 1972,
+   "other": 0.7881,
+   "durables": 0.8697,
+   "hours_other": 0.5272,
+   "hours_durables": 0.3065
+  },
+  {
+   "year": 1973,
+   "other": 0.7901,
+   "durables": 0.8757,
+   "hours_other": 0.5231,
+   "hours_durables": 0.2966
+  },
+  {
+   "year": 1974,
+   "other": 0.7916,
+   "durables": 0.8813,
+   "hours_other": 0.5193,
+   "hours_durables": 0.2873
+  },
+  {
+   "year": 1975,
+   "other": 0.7909,
+   "durables": 0.8844,
+   "hours_other": 0.5157,
+   "hours_durables": 0.2784
+  },
+  {
+   "year": 1976,
+   "other": 0.7914,
+   "durables": 0.8889,
+   "hours_other": 0.5124,
+   "hours_durables": 0.2699
+  },
+  {
+   "year": 1977,
+   "other": 0.7916,
+   "durables": 0.893,
+   "hours_other": 0.5093,
+   "hours_durables": 0.2617
+  },
+  {
+   "year": 1978,
+   "other": 0.7921,
+   "durables": 0.8976,
+   "hours_other": 0.5064,
+   "hours_durables": 0.2539
+  },
+  {
+   "year": 1979,
+   "other": 0.7929,
+   "durables": 0.9025,
+   "hours_other": 0.5036,
+   "hours_durables": 0.2463
+  },
+  {
+   "year": 1980,
+   "other": 0.7936,
+   "durables": 0.9072,
+   "hours_other": 0.501,
+   "hours_durables": 0.2391
+  },
+  {
+   "year": 1981,
+   "other": 0.7929,
+   "durables": 0.9105,
+   "hours_other": 0.4985,
+   "hours_durables": 0.2321
+  },
+  {
+   "year": 1982,
+   "other": 0.7917,
+   "durables": 0.9131,
+   "hours_other": 0.4961,
+   "hours_durables": 0.2253
+  },
+  {
+   "year": 1983,
+   "other": 0.7921,
+   "durables": 0.9176,
+   "hours_other": 0.4938,
+   "hours_durables": 0.2188
+  },
+  {
+   "year": 1984,
+   "other": 0.7913,
+   "durables": 0.9208,
+   "hours_other": 0.4916,
+   "hours_durables": 0.2126
+  },
+  {
+   "year": 1985,
+   "other": 0.7907,
+   "durables": 0.9241,
+   "hours_other": 0.4895,
+   "hours_durables": 0.2065
+  },
+  {
+   "year": 1986,
+   "other": 0.7901,
+   "durables": 0.9276,
+   "hours_other": 0.4874,
+   "hours_durables": 0.2006
+  },
+  {
+   "year": 1987,
+   "other": 0.7902,
+   "durables": 0.9318,
+   "hours_other": 0.4854,
+   "hours_durables": 0.1949
+  },
+  {
+   "year": 1988,
+   "other": 0.7895,
+   "durables": 0.9352,
+   "hours_other": 0.4835,
+   "hours_durables": 0.1894
+  },
+  {
+   "year": 1989,
+   "other": 0.7893,
+   "durables": 0.939,
+   "hours_other": 0.4816,
+   "hours_durables": 0.1841
+  },
+  {
+   "year": 1990,
+   "other": 0.7891,
+   "durables": 0.9429,
+   "hours_other": 0.4797,
+   "hours_durables": 0.1789
+  },
+  {
+   "year": 1991,
+   "other": 0.7884,
+   "durables": 0.9462,
+   "hours_other": 0.4779,
+   "hours_durables": 0.1739
+  },
+  {
+   "year": 1992,
+   "other": 0.7893,
+   "durables": 0.9515,
+   "hours_other": 0.4761,
+   "hours_durables": 0.169
+  },
+  {
+   "year": 1993,
+   "other": 0.7899,
+   "durables": 0.9565,
+   "hours_other": 0.4744,
+   "hours_durables": 0.1643
+  },
+  {
+   "year": 1994,
+   "other": 0.7907,
+   "durables": 0.9616,
+   "hours_other": 0.4726,
+   "hours_durables": 0.1597
+  },
+  {
+   "year": 1995,
+   "other": 0.7904,
+   "durables": 0.9655,
+   "hours_other": 0.4709,
+   "hours_durables": 0.1552
+  },
+  {
+   "year": 1996,
+   "other": 0.791,
+   "durables": 0.9704,
+   "hours_other": 0.4692,
+   "hours_durables": 0.1509
+  },
+  {
+   "year": 1997,
+   "other": 0.7912,
+   "durables": 0.9749,
+   "hours_other": 0.4676,
+   "hours_durables": 0.1467
+  },
+  {
+   "year": 1998,
+   "other": 0.7915,
+   "durables": 0.9796,
+   "hours_other": 0.4659,
+   "hours_durables": 0.1426
+  },
+  {
+   "year": 1999,
+   "other": 0.7912,
+   "durables": 0.9836,
+   "hours_other": 0.4643,
+   "hours_durables": 0.1387
+  },
+  {
+   "year": 2000,
+   "other": 0.7903,
+   "durables": 0.9868,
+   "hours_other": 0.4627,
+   "hours_durables": 0.1348
+  },
+  {
+   "year": 2001,
+   "other": 0.791,
+   "durables": 0.992,
+   "hours_other": 0.4611,
+   "hours_durables": 0.1311
+  },
+  {
+   "year": 2002,
+   "other": 0.793,
+   "durables": 0.9988,
+   "hours_other": 0.4595,
+   "hours_durables": 0.1275
+  },
+  {
+   "year": 2003,
+   "other": 0.7949,
+   "durables": 1.0,
+   "hours_other": 0.4579,
+   "hours_durables": 0.1239
+  },
+  {
+   "year": 2004,
+   "other": 0.7972,
+   "durables": 1.0,
+   "hours_other": 0.4564,
+   "hours_durables": 0.1205
+  },
+  {
+   "year": 2005,
+   "other": 0.7994,
+   "durables": 1.0,
+   "hours_other": 0.4548,
+   "hours_durables": 0.1172
+  },
+  {
+   "year": 2006,
+   "other": 0.801,
+   "durables": 1.0,
+   "hours_other": 0.4533,
+   "hours_durables": 0.1139
+  },
+  {
+   "year": 2007,
+   "other": 0.8017,
+   "durables": 1.0,
+   "hours_other": 0.4518,
+   "hours_durables": 0.1108
+  },
+  {
+   "year": 2008,
+   "other": 0.8014,
+   "durables": 1.0,
+   "hours_other": 0.4502,
+   "hours_durables": 0.1077
+  },
+  {
+   "year": 2009,
+   "other": 0.8021,
+   "durables": 1.0,
+   "hours_other": 0.4487,
+   "hours_durables": 0.1047
+  },
+  {
+   "year": 2010,
+   "other": 0.8019,
+   "durables": 1.0,
+   "hours_other": 0.4472,
+   "hours_durables": 0.1018
+  },
+  {
+   "year": 2011,
+   "other": 0.8017,
+   "durables": 1.0,
+   "hours_other": 0.4457,
+   "hours_durables": 0.099
+  },
+  {
+   "year": 2012,
+   "other": 0.8015,
+   "durables": 1.0,
+   "hours_other": 0.4442,
+   "hours_durables": 0.0963
+  },
+  {
+   "year": 2013,
+   "other": 0.8019,
+   "durables": 1.0,
+   "hours_other": 0.4427,
+   "hours_durables": 0.0936
+  },
+  {
+   "year": 2014,
+   "other": 0.8018,
+   "durables": 1.0,
+   "hours_other": 0.4412,
+   "hours_durables": 0.091
+  },
+  {
+   "year": 2015,
+   "other": 0.8019,
+   "durables": 1.0,
+   "hours_other": 0.4398,
+   "hours_durables": 0.0885
+  },
+  {
+   "year": 2016,
+   "other": 0.8028,
+   "durables": 1.0,
+   "hours_other": 0.4383,
+   "hours_durables": 0.0861
+  },
+  {
+   "year": 2017,
+   "other": 0.8029,
+   "durables": 1.0,
+   "hours_other": 0.4368,
+   "hours_durables": 0.0837
+  },
+  {
+   "year": 2018,
+   "other": 0.8029,
+   "durables": 1.0,
+   "hours_other": 0.4354,
+   "hours_durables": 0.0814
+  },
+  {
+   "year": 2019,
+   "other": 0.8031,
+   "durables": 1.0,
+   "hours_other": 0.4339,
+   "hours_durables": 0.0791
+  },
+  {
+   "year": 2020,
+   "other": 0.8036,
+   "durables": 1.0,
+   "hours_other": 0.4325,
+   "hours_durables": 0.077
+  },
+  {
+   "year": 2021,
+   "other": 0.806,
+   "durables": 1.0,
+   "hours_other": 0.4311,
+   "hours_durables": 0.0748
+  },
+  {
+   "year": 2022,
+   "other": 0.8076,
+   "durables": 1.0,
+   "hours_other": 0.4296,
+   "hours_durables": 0.0728
+  },
+  {
+   "year": 2023,
+   "other": 0.8089,
+   "durables": 1.0,
+   "hours_other": 0.4282,
+   "hours_durables": 0.0708
+  },
+  {
+   "year": 2024,
+   "other": 0.8078,
+   "durables": 1.0,
+   "hours_other": 0.4268,
+   "hours_durables": 0.0688
+  }
+ ],
+ "income": [
+  {
+   "year": 1950,
+   "pay": 0.7057,
+   "machines": 0.2187,
+   "imported": 0.0221,
+   "land": 0.0536,
+   "site_share": 0.0328
+  },
+  {
+   "year": 1951,
+   "pay": 0.7034,
+   "machines": 0.2221,
+   "imported": 0.023,
+   "land": 0.0516,
+   "site_share": 0.0329
+  },
+  {
+   "year": 1952,
+   "pay": 0.6992,
+   "machines": 0.2279,
+   "imported": 0.0235,
+   "land": 0.0494,
+   "site_share": 0.033
+  },
+  {
+   "year": 1953,
+   "pay": 0.6959,
+   "machines": 0.2321,
+   "imported": 0.0245,
+   "land": 0.0475,
+   "site_share": 0.033
+  },
+  {
+   "year": 1954,
+   "pay": 0.692,
+   "machines": 0.2371,
+   "imported": 0.0253,
+   "land": 0.0455,
+   "site_share": 0.0331
+  },
+  {
+   "year": 1955,
+   "pay": 0.6868,
+   "machines": 0.2435,
+   "imported": 0.0259,
+   "land": 0.0437,
+   "site_share": 0.0331
+  },
+  {
+   "year": 1956,
+   "pay": 0.6835,
+   "machines": 0.2475,
+   "imported": 0.0268,
+   "land": 0.0422,
+   "site_share": 0.0331
+  },
+  {
+   "year": 1957,
+   "pay": 0.6804,
+   "machines": 0.2511,
+   "imported": 0.0277,
+   "land": 0.0407,
+   "site_share": 0.0331
+  },
+  {
+   "year": 1958,
+   "pay": 0.6776,
+   "machines": 0.2544,
+   "imported": 0.0285,
+   "land": 0.0395,
+   "site_share": 0.033
+  },
+  {
+   "year": 1959,
+   "pay": 0.6746,
+   "machines": 0.2578,
+   "imported": 0.0292,
+   "land": 0.0384,
+   "site_share": 0.033
+  },
+  {
+   "year": 1960,
+   "pay": 0.6708,
+   "machines": 0.262,
+   "imported": 0.0297,
+   "land": 0.0375,
+   "site_share": 0.033
+  },
+  {
+   "year": 1961,
+   "pay": 0.6675,
+   "machines": 0.2655,
+   "imported": 0.0302,
+   "land": 0.0367,
+   "site_share": 0.033
+  },
+  {
+   "year": 1962,
+   "pay": 0.6647,
+   "machines": 0.2685,
+   "imported": 0.0308,
+   "land": 0.0361,
+   "site_share": 0.033
+  },
+  {
+   "year": 1963,
+   "pay": 0.6625,
+   "machines": 0.2706,
+   "imported": 0.0313,
+   "land": 0.0355,
+   "site_share": 0.033
+  },
+  {
+   "year": 1964,
+   "pay": 0.6598,
+   "machines": 0.2733,
+   "imported": 0.0317,
+   "land": 0.0351,
+   "site_share": 0.033
+  },
+  {
+   "year": 1965,
+   "pay": 0.657,
+   "machines": 0.2761,
+   "imported": 0.0321,
+   "land": 0.0347,
+   "site_share": 0.033
+  },
+  {
+   "year": 1966,
+   "pay": 0.6549,
+   "machines": 0.2781,
+   "imported": 0.0325,
+   "land": 0.0344,
+   "site_share": 0.033
+  },
+  {
+   "year": 1967,
+   "pay": 0.6528,
+   "machines": 0.2801,
+   "imported": 0.0329,
+   "land": 0.0342,
+   "site_share": 0.033
+  },
+  {
+   "year": 1968,
+   "pay": 0.6509,
+   "machines": 0.2818,
+   "imported": 0.0333,
+   "land": 0.034,
+   "site_share": 0.033
+  },
+  {
+   "year": 1969,
+   "pay": 0.6491,
+   "machines": 0.2834,
+   "imported": 0.0337,
+   "land": 0.0338,
+   "site_share": 0.033
+  },
+  {
+   "year": 1970,
+   "pay": 0.6473,
+   "machines": 0.2851,
+   "imported": 0.034,
+   "land": 0.0336,
+   "site_share": 0.033
+  },
+  {
+   "year": 1971,
+   "pay": 0.644,
+   "machines": 0.2882,
+   "imported": 0.0342,
+   "land": 0.0336,
+   "site_share": 0.0331
+  },
+  {
+   "year": 1972,
+   "pay": 0.6393,
+   "machines": 0.293,
+   "imported": 0.0341,
+   "land": 0.0337,
+   "site_share": 0.0332
+  },
+  {
+   "year": 1973,
+   "pay": 0.6358,
+   "machines": 0.2963,
+   "imported": 0.0342,
+   "land": 0.0337,
+   "site_share": 0.0333
+  },
+  {
+   "year": 1974,
+   "pay": 0.6329,
+   "machines": 0.299,
+   "imported": 0.0344,
+   "land": 0.0337,
+   "site_share": 0.0334
+  },
+  {
+   "year": 1975,
+   "pay": 0.6335,
+   "machines": 0.2979,
+   "imported": 0.035,
+   "land": 0.0337,
+   "site_share": 0.0334
+  },
+  {
+   "year": 1976,
+   "pay": 0.6321,
+   "machines": 0.2989,
+   "imported": 0.0353,
+   "land": 0.0337,
+   "site_share": 0.0335
+  },
+  {
+   "year": 1977,
+   "pay": 0.6311,
+   "machines": 0.2994,
+   "imported": 0.0357,
+   "land": 0.0338,
+   "site_share": 0.0336
+  },
+  {
+   "year": 1978,
+   "pay": 0.6295,
+   "machines": 0.3008,
+   "imported": 0.036,
+   "land": 0.0338,
+   "site_share": 0.0336
+  },
+  {
+   "year": 1979,
+   "pay": 0.6273,
+   "machines": 0.3026,
+   "imported": 0.0362,
+   "land": 0.0338,
+   "site_share": 0.0337
+  },
+  {
+   "year": 1980,
+   "pay": 0.6253,
+   "machines": 0.3043,
+   "imported": 0.0365,
+   "land": 0.0339,
+   "site_share": 0.0338
+  },
+  {
+   "year": 1981,
+   "pay": 0.6255,
+   "machines": 0.3036,
+   "imported": 0.037,
+   "land": 0.0339,
+   "site_share": 0.0338
+  },
+  {
+   "year": 1982,
+   "pay": 0.6265,
+   "machines": 0.302,
+   "imported": 0.0376,
+   "land": 0.0339,
+   "site_share": 0.0338
+  },
+  {
+   "year": 1983,
+   "pay": 0.6248,
+   "machines": 0.3034,
+   "imported": 0.0379,
+   "land": 0.034,
+   "site_share": 0.0339
+  },
+  {
+   "year": 1984,
+   "pay": 0.6249,
+   "machines": 0.3027,
+   "imported": 0.0384,
+   "land": 0.034,
+   "site_share": 0.034
+  },
+  {
+   "year": 1985,
+   "pay": 0.6248,
+   "machines": 0.3023,
+   "imported": 0.0389,
+   "land": 0.034,
+   "site_share": 0.034
+  },
+  {
+   "year": 1986,
+   "pay": 0.6245,
+   "machines": 0.302,
+   "imported": 0.0393,
+   "land": 0.0341,
+   "site_share": 0.034
+  },
+  {
+   "year": 1987,
+   "pay": 0.6231,
+   "machines": 0.3031,
+   "imported": 0.0397,
+   "land": 0.0341,
+   "site_share": 0.0341
+  },
+  {
+   "year": 1988,
+   "pay": 0.6229,
+   "machines": 0.3028,
+   "imported": 0.0402,
+   "land": 0.0342,
+   "site_share": 0.0341
+  },
+  {
+   "year": 1989,
+   "pay": 0.6219,
+   "machines": 0.3033,
+   "imported": 0.0406,
+   "land": 0.0342,
+   "site_share": 0.0342
+  },
+  {
+   "year": 1990,
+   "pay": 0.6208,
+   "machines": 0.304,
+   "imported": 0.041,
+   "land": 0.0343,
+   "site_share": 0.0343
+  },
+  {
+   "year": 1991,
+   "pay": 0.6205,
+   "machines": 0.3037,
+   "imported": 0.0415,
+   "land": 0.0343,
+   "site_share": 0.0342
+  },
+  {
+   "year": 1992,
+   "pay": 0.6174,
+   "machines": 0.3066,
+   "imported": 0.0417,
+   "land": 0.0343,
+   "site_share": 0.0343
+  },
+  {
+   "year": 1993,
+   "pay": 0.6146,
+   "machines": 0.3091,
+   "imported": 0.042,
+   "land": 0.0344,
+   "site_share": 0.0343
+  },
+  {
+   "year": 1994,
+   "pay": 0.6114,
+   "machines": 0.3119,
+   "imported": 0.0423,
+   "land": 0.0344,
+   "site_share": 0.0344
+  },
+  {
+   "year": 1995,
+   "pay": 0.6102,
+   "machines": 0.3126,
+   "imported": 0.0428,
+   "land": 0.0344,
+   "site_share": 0.0344
+  },
+  {
+   "year": 1996,
+   "pay": 0.6072,
+   "machines": 0.3152,
+   "imported": 0.0431,
+   "land": 0.0344,
+   "site_share": 0.0344
+  },
+  {
+   "year": 1997,
+   "pay": 0.6049,
+   "machines": 0.3171,
+   "imported": 0.0435,
+   "land": 0.0345,
+   "site_share": 0.0345
+  },
+  {
+   "year": 1998,
+   "pay": 0.6023,
+   "machines": 0.3193,
+   "imported": 0.0439,
+   "land": 0.0345,
+   "site_share": 0.0345
+  },
+  {
+   "year": 1999,
+   "pay": 0.6006,
+   "machines": 0.3205,
+   "imported": 0.0444,
+   "land": 0.0345,
+   "site_share": 0.0345
+  },
+  {
+   "year": 2000,
+   "pay": 0.6001,
+   "machines": 0.3204,
+   "imported": 0.045,
+   "land": 0.0345,
+   "site_share": 0.0345
+  },
+  {
+   "year": 2001,
+   "pay": 0.5963,
+   "machines": 0.3237,
+   "imported": 0.0454,
+   "land": 0.0346,
+   "site_share": 0.0346
+  },
+  {
+   "year": 2002,
+   "pay": 0.5897,
+   "machines": 0.3301,
+   "imported": 0.0456,
+   "land": 0.0347,
+   "site_share": 0.0347
+  },
+  {
+   "year": 2003,
+   "pay": 0.5871,
+   "machines": 0.3328,
+   "imported": 0.0453,
+   "land": 0.0348,
+   "site_share": 0.0348
+  },
+  {
+   "year": 2004,
+   "pay": 0.585,
+   "machines": 0.3353,
+   "imported": 0.0448,
+   "land": 0.0349,
+   "site_share": 0.0349
+  },
+  {
+   "year": 2005,
+   "pay": 0.5828,
+   "machines": 0.3378,
+   "imported": 0.0444,
+   "land": 0.0349,
+   "site_share": 0.0349
+  },
+  {
+   "year": 2006,
+   "pay": 0.5814,
+   "machines": 0.3395,
+   "imported": 0.0441,
+   "land": 0.035,
+   "site_share": 0.035
+  },
+  {
+   "year": 2007,
+   "pay": 0.5811,
+   "machines": 0.3398,
+   "imported": 0.044,
+   "land": 0.035,
+   "site_share": 0.035
+  },
+  {
+   "year": 2008,
+   "pay": 0.5821,
+   "machines": 0.3387,
+   "imported": 0.0442,
+   "land": 0.035,
+   "site_share": 0.035
+  },
+  {
+   "year": 2009,
+   "pay": 0.5818,
+   "machines": 0.339,
+   "imported": 0.0442,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2010,
+   "pay": 0.5827,
+   "machines": 0.3378,
+   "imported": 0.0443,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2011,
+   "pay": 0.5837,
+   "machines": 0.3367,
+   "imported": 0.0445,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2012,
+   "pay": 0.5846,
+   "machines": 0.3356,
+   "imported": 0.0447,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2013,
+   "pay": 0.5847,
+   "machines": 0.3355,
+   "imported": 0.0447,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2014,
+   "pay": 0.5855,
+   "machines": 0.3345,
+   "imported": 0.0449,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2015,
+   "pay": 0.586,
+   "machines": 0.3339,
+   "imported": 0.045,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2016,
+   "pay": 0.5855,
+   "machines": 0.3346,
+   "imported": 0.0449,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2017,
+   "pay": 0.586,
+   "machines": 0.3339,
+   "imported": 0.045,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2018,
+   "pay": 0.5865,
+   "machines": 0.3333,
+   "imported": 0.0451,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2019,
+   "pay": 0.5869,
+   "machines": 0.3328,
+   "imported": 0.0452,
+   "land": 0.0351,
+   "site_share": 0.0351
+  },
+  {
+   "year": 2020,
+   "pay": 0.5869,
+   "machines": 0.3328,
+   "imported": 0.0452,
+   "land": 0.0352,
+   "site_share": 0.0352
+  },
+  {
+   "year": 2021,
+   "pay": 0.5843,
+   "machines": 0.3358,
+   "imported": 0.0447,
+   "land": 0.0353,
+   "site_share": 0.0353
+  },
+  {
+   "year": 2022,
+   "pay": 0.5828,
+   "machines": 0.3375,
+   "imported": 0.0444,
+   "land": 0.0353,
+   "site_share": 0.0353
+  },
+  {
+   "year": 2023,
+   "pay": 0.5816,
+   "machines": 0.3388,
+   "imported": 0.0442,
+   "land": 0.0354,
+   "site_share": 0.0354
+  },
+  {
+   "year": 2024,
+   "pay": 0.5837,
+   "machines": 0.3363,
+   "imported": 0.0446,
+   "land": 0.0353,
+   "site_share": 0.0353
+  }
+ ],
+ "held_out": [
+  {
+   "model": "One good, return 2%",
+   "until": 1995,
+   "misfit": 21.62
+  },
+  {
+   "model": "One good, return 2%",
+   "until": 1985,
+   "misfit": 16.19
+  },
+  {
+   "model": "Two goods, return 2%",
+   "until": 1995,
+   "misfit": 9.51
+  },
+  {
+   "model": "Two goods, return 2%",
+   "until": 1985,
+   "misfit": 46.17
+  },
+  {
+   "model": "Set from the record",
+   "until": 1995,
+   "misfit": 2.17
+  },
+  {
+   "model": "Set from the record",
+   "until": 1985,
+   "misfit": 49.07
+  },
+  {
+   "model": "Set from the record, no wave",
+   "until": 1995,
+   "misfit": 5.22
+  },
+  {
+   "model": "Set from the record, no wave",
+   "until": 1985,
+   "misfit": 6.72
+  }
+ ],
+ "profile": [
+  {
+   "rho": 0.04,
+   "misfit": 1.4936,
+   "chain_2023": 0.2485,
+   "repl_2023": 0.2438
+  },
+  {
+   "rho": 0.06,
+   "misfit": 1.5103,
+   "chain_2023": 0.2096,
+   "repl_2023": 0.2062
+  },
+  {
+   "rho": 0.08,
+   "misfit": 1.5286,
+   "chain_2023": 0.1837,
+   "repl_2023": 0.181
+  },
+  {
+   "rho": 0.1,
+   "misfit": 1.544,
+   "chain_2023": 0.1622,
+   "repl_2023": 0.1601
+  },
+  {
+   "rho": 0.12,
+   "misfit": 1.5577,
+   "chain_2023": 0.145,
+   "repl_2023": 0.1434
+  }
+ ],
+ "sources": {
+  "nipa": "https://apps.bea.gov/national/Release/TXT/NipaDataA.txt",
+  "chains": "paths/results/chains.json (BEA input-output, paths/code/chains.py)",
+  "panel": "data/panel.csv (data/manifest.csv)"
+ }
+}

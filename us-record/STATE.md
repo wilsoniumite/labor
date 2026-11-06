@@ -129,6 +129,15 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     machine chain's hours per unit of task capacity can be tied to the clock at no cost (+0.4%, one number fewer: the
     explorer's preset "hours per task tied"), which the spec's rule would take. The utility's dip is on the rule's line
     there (+19.6% without it).
+25. **The main case is the record-set fit** (her call, 2026-11-06, on the flight's candidate: "Ok, I like it a lot",
+    and the doc for Johan built on it). Two goods as in `fit_Bd`, with the return set at 8% (BEA's national accounts:
+    net operating surplus over depreciation, times the depreciation rate, 8.1% on average 1959-2024), imported content
+    as a value-share rent of 20% of a machine's price (BEA input-output, 18-21% 1997-2023) and land in use growing with
+    adults. `results/fit_Br.json` (`fit_base.py ... --rho 0.08 --durables --value-rent 0.2 --land-adults --start-fits
+    playground/record_starts.json --out fit_Br`): misfit 1.529 from two of fifteen starts, the same eleven fitted
+    numbers as `fit_Bd`. `fit_base.py` gains `--land-adults`, `--start-fits` and `moved_start` (calibrated starts moved
+    to a set return and rent, applied only when a rent is set, so earlier fits reproduce unchanged). Still open, hers:
+    the 1948 wave (1.58 without it; without it the fit holds from 1985 out of sample, 6.7 against 49).
 
 ## Next
 

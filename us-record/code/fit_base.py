@@ -205,7 +205,7 @@ def economies(par, eta=None, p_ref=None):
     lam = par["lam0"] * np.exp(par["g_lam"] * T_REL)
     chi = par["chi_max"] * women_path(par)
     land = par["T"] * (np.exp(par["g_T"] * T_REL) if LAND == "grow" else LAND_PATH if LAND == "path"
-                       else np.ones(len(YEARS)))
+                       else N_T if LAND == "adults" else np.ones(len(YEARS)))
     kind, extra = (pm.Economy, {}) if CAP is None else (pm.CappedEconomy, dict(cap=CAP))
     if SIGMA is not None and p_ref is not None:
         kind, extra = pm.BasketEconomy, dict(cap=1.0 if CAP is None else CAP, sigma=SIGMA, p_ref=p_ref)
@@ -423,7 +423,17 @@ def starts():
                 for g in (0.02, 0.04):
                     out.append(dict(T=e.T, h=e.h, a=e.a, k=e.k, chi_max=e.chi_max, rho=e.rho, lam0=e.lam, g_lam=0.0,
                                     g_eta=g))
-    return out
+    return [moved_start(s) for s in out] if VALUE_RENT else out
+
+
+def moved_start(s):
+    """A calibrated start moved to the set return and value-share rent (record-set fits, decision 25): the calibration
+    puts fixed rents all in land and finds its own return, so under a set rent and return it has no 1950 equilibrium.
+    a and lam0 are scaled by the ratio of (rho + delta) in 1950 and a lowered by the rent / (rho + delta), so that
+    1950's distance to the machine chain's ceiling, 1 - phi - (rho + delta)(a + lam m), is about kept."""
+    rho = RHO_FIXED if RHO_FIXED is not None else s["rho"]
+    old, new = s["rho"] + DELTA[0], rho + DELTA[0]
+    return dict(s, a=max(1.1 * BOUNDS["a"][0], (s["a"] * old - VALUE_RENT) / new), lam0=s["lam0"] * old / new, rho=rho)
 
 
 def split_starts(ref):
@@ -549,6 +559,12 @@ if __name__ == "__main__":
     # python3 code/fit_base.py --basket --utility-knots 1950,1970,1990,2024 --pin-start --goods exshelter --women 1990 \
     #     --rho 0.02 --start-from playground/newmodel.json --start-key "her setup: ..." --out fit_B      model B
     # ... --waves 1948 --out fit_Bw                                                         model B and the post-war wave
+    # ... --durables --out fit_Bd                                                   durables apart (two goods, one machine)
+    # the record-set fit (decision 25): fit_Bd's settings with the return, a machine's imported content and land in use
+    # set from the record, the playground's best fits as starts beside the calibrated ones (moved to those settings):
+    # python3 code/fit_base.py --basket --utility-knots 1950,1970,1990,2024 --pin-start --goods exshelter --women 1990 \
+    #     --rho 0.08 --waves 1948 --durables --value-rent 0.2 --land-adults --start-fits playground/record_starts.json \
+    #     --out fit_Br
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -589,6 +605,8 @@ if __name__ == "__main__":
     if "--land-grows" in args:                            # a lead: land in use grows at g_T a year from 1950
         LAND = "grow"
         NAMES.append("g_T")
+    if "--land-adults" in args:                           # land in use grows with adults (the record-set fit)
+        LAND = "adults"
     if "--hours-per-task" in args:
         HOURS_PER_TASK = float(args[args.index("--hours-per-task") + 1])
         NAMES.remove("g_lam")
@@ -599,6 +617,10 @@ if __name__ == "__main__":
         todo = [{n: ref_best[n] for n in NAMES if n in ref_best}] + todo
     if "--start-from" in args:                            # a fit found in the explorer or playground: one more start
         todo = [playground_start(args[args.index("--start-from") + 1], args[args.index("--start-key") + 1])] + todo
+    if "--start-fits" in args:                            # a playground file's "fits": its three best are starts too
+        fits = json.load(open(os.path.join(ROOT, args[args.index("--start-fits") + 1])))["fits"]
+        good = sorted([r for r in fits if r.get("misfit", 1e9) < 10.0], key=lambda r: r["misfit"])[:3]
+        todo = [{n: r["par"][n] for n in NAMES if n in r["par"]} for r in good] + todo
     todo = [complete(s) for s in todo]
     with Pool(min(4, os.cpu_count() or 1)) as pool:        # the starts in parallel; each is deterministic
         results = list(tqdm(pool.imap(run_start, todo), total=len(todo), desc="starts"))
