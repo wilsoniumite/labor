@@ -141,14 +141,12 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 
 ## Next
 
-**From the flight, for her (Log 22).** A candidate main case set from the record: two goods, imported content as a
-value-share rent in a machine's cost (0.20), the return at NIPA's 8%, land in use growing with adults, the six targets
-(`playground/set_from_record.py` D2). No more free numbers than the main case, 1.53-1.54 against 1.85, and the machine
-chain's size, replacement and a machine's cost split come out near the record untargeted. Out of sample it holds far
-better (from 1995: 2.2, without the wave 5.2, against 9.5; from 1985, without the wave, 6.7 against 46). Her calls: adopt it (it
-would need the official fit, its stress battery and the report), keep the wave in it (it no longer earns its place:
-1.58 without), and how to hand the clock to the forward model (on the ceiling only the clock's difference from hours
-per machine is pinned).
+**From the flight, for her (Log 22, 23).** The record-set fit is the main case (decision 25, `results/fit_Br.json`,
+1.529). Her calls still open: the 1948 wave, which no longer earns its place by the spec's rule (1.58 without it,
++3.5%; without it the fit holds from 1985 out of sample, 6.7 against 49, and the 1950s read as machines shedding land
+onto the ceiling, not a technology burst); hours per unit of task capacity held steady (+2.6% for one number fewer,
+which the rule would take); and how to hand the clock to the forward model (only its gap to hours per machine is
+pinned: the clock itself anywhere from 12% to 24% a year fits within 10%).
 
 0. **The main case's misses** (Log 19): https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU (`code/report_misses.py`). Her
    next routes, both open: calibration (c)'s (the return fitted with the chain as a target works; fixed rents in a
@@ -442,3 +440,20 @@ per machine is pinned).
     into it and automation's margin by the chain's own costs (the return, depreciation, the imported share, the hours in a
     machine), not by the labour market; land's absence from a machine's cost is not visible in the record, whose split is
     steady from 1997 to 2023. For her: D2, with or without the wave, as the main case?
+23. **2026-11-06 — the record-set fit made official, stressed, and written up for Johan** (decision 25). `results/fit_Br.json`:
+    1.529 from two of fifteen starts. Stress battery (`stress_B.py --base fit_Br` -> `results/stress_Br.json`, 47 fits):
+    held out from 1995 2.17 (two goods at 2%: 9.51; one good: 21.6), the same with the utility held after 1990 5.41
+    (15.7; 30.0), from 1985 49.1 (46.2; 16.2: fitted to 1985 the wave runs to its size bound over 68 years). A series
+    left out: the goods wage, labour's share and pay's share of a machine are predicted by the rest (1.64, 1.82, 1.53;
+    on two goods at 2% pay's share cost 13), employment less so (3.17), the shelter wage not (10.0). Set values move it
+    little: the basket's elasticity 0.636-1.0 1.55-1.63 (two goods at 2%: 1.81-3.40), the utility's knots, women's
+    entry's end and the schedule's floor 1.52-1.63, a 1% or 3% return 1.48. Pieces: women's entry (3.89 without), the
+    basket (4.09) and the utility's rise (flat 2.65, held after 1970 2.05) earn their place; the wave does not (1.58,
+    +3.5%; started 1945 1.53, 1952 1.51); hours per unit of task capacity held steady costs 2.6% for one number fewer.
+    The clock's own pace is loose (12-24% a year within 10% of the best; hours per unit of task capacity -0.3% a year
+    throughout). Without the wave hours per unit of task capacity fall a steady 0.4% a year and the 1950s' automation
+    comes from machines shedding land (a third of a machine's cost in 1950, under 1% by 1970). The doc for Johan:
+    "Machines, land and wages: a model fitted to the US record, 1950–2024", a Claude Doc
+    (https://claude.ai/artifact/YD5GPRtSBcfLoXQFSoLGK2, private until she shares it): the model, the fit, the tests, the
+    story of 1950-2024 and its gaps, a diagram and eight charts drawn from `results/doc/*.csv` (`code/doc_data.py`),
+    their modules in `docs/doc_charts/`.
