@@ -1,0 +1,543 @@
+{
+ "part": "2",
+ "title": "Part 2 — The model at three levels",
+ "subtitle": "Simple (S), Medium (M) and Complex (C, the rewrite)",
+ "rows": [
+  {
+   "id": "M.1",
+   "title": "What the main text carries",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "tex": "TBD"
+    }
+   ]
+  },
+  {
+   "id": "M.2",
+   "title": "The economy in words",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Description of the economy}",
+      "until": "\\section{Definition of equilibrium}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.3",
+   "title": "Primitives and notation",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Definition of equilibrium}",
+      "until": "\\subsection{Tasks, machines, and land}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.4",
+   "title": "Tasks",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Tasks, machines, and land}",
+      "until": "\\textbf{Machines.}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.5",
+   "title": "Machines and land",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\textbf{Machines.}",
+      "until": "\\subsection{The cost system}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.6",
+   "title": "The cost system",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{The cost system}",
+      "until": "\\subsection{Workers}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.7",
+   "title": "Workers",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Workers}",
+      "until": "\\subsection{The owner and support}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.8",
+   "title": "The owner and support",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{The owner and support}",
+      "until": "\\subsection{Government}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.9",
+   "title": "Government",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Government}",
+      "until": "\\subsection{Equilibrium}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.10",
+   "title": "Definition of equilibrium",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Equilibrium}",
+      "until": "In this economy every hour earns the same wage"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.11",
+   "title": "One wage and competitive markets",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "In this economy every hour earns the same wage",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.12",
+   "title": "Margins and automation",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{definition}[margins]",
+      "until": "A faster loom reduces"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.13",
+   "title": "Automation in practice, and AI",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "A faster loom reduces",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.14",
+   "title": "Prices and quantities (Lemma 1)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Equilibrium}",
+      "until": "Labor, at wage $w$, holds task"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.15",
+   "title": "The task margin (Proposition 1)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Labor, at wage $w$, holds task",
+      "until": "Suppose a loom weaves four meters"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.16",
+   "title": "A numerical illustration: the loom",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Suppose a loom weaves four meters",
+      "until": "\\begin{proposition}[replacement closure]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.17",
+   "title": "The replacement closure (Proposition 2)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{proposition}[replacement closure]",
+      "until": "\\subsection{Participation and the labor market}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.18",
+   "title": "Participation (Proposition 3)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Participation and the labor market}",
+      "until": "Maintaining that support requires resources"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.19",
+   "title": "Support, dependence and enclosure",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Maintaining that support requires resources",
+      "until": "Replacement pricing and participation jointly determine"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.20",
+   "title": "Where replacement meets participation",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Replacement pricing and participation jointly determine",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.21",
+   "title": "The ceiling (Lemma 2)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Existence and uniqueness}",
+      "until": "At an interior threshold $x<x_c$"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.22",
+   "title": "Labor demand and supply along the margin",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "At an interior threshold $x<x_c$",
+      "blocks": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.23",
+   "title": "Existence and uniqueness (Theorem 1)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{theorem}[existence and uniqueness]",
+      "until": "\\begin{corollary}[labor supply and the margin]"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.24",
+   "title": "Comparative statics (Corollary 1)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{corollary}[labor supply and the margin]",
+      "until": "\\section{Purchasing power and income}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.25",
+   "title": "From the wage-rent ratio to purchasing power",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Purchasing power and income}",
+      "until": "\\subsection{What an hour's wage buys}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.26",
+   "title": "What an hour's wage buys (Proposition 4)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{What an hour's wage buys}",
+      "until": "Changes in purchasing power depend jointly"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.27",
+   "title": "Vanishing purchasing power (Corollary 2)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Changes in purchasing power depend jointly",
+      "until": "\\subsection{Factor income while labor remains employed}"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.28",
+   "title": "Income and labor's share (Proposition 5)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\subsection{Factor income while labor remains employed}",
+      "until": "\\section{Distribution: rent taxation"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.29",
+   "title": "Rent taxation (Proposition 6)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\section{Distribution: rent taxation",
+      "until": "Rent revenue can finance the basket"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.30",
+   "title": "Coverage and public provision",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "Rent revenue can finance the basket",
+      "until": "\\begin{corollary}[fiscal capacity"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.31",
+   "title": "Fiscal capacity (Corollary 3)",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "src": {
+      "doc": "rewrite",
+      "anchor": "\\begin{corollary}[fiscal capacity",
+      "until": "\\section{A numerical economy"
+     }
+    }
+   ]
+  },
+  {
+   "id": "M.32",
+   "title": "What the appendix carries",
+   "diff": "",
+   "options": [
+    {
+     "key": "C",
+     "label": "Complex",
+     "where": "rewrite",
+     "tex": "TBD"
+    }
+   ]
+  }
+ ]
+}
