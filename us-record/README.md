@@ -6,4 +6,7 @@ model in `../paths/`.
 
 **Start with `STATE.md`; the plan is `SPEC.md`.**
 
-Status: Phase 3 under way: changes judged by her; the kept model is the paper's with a cap on participation, a basket at constant utility and the 1950 start pinned (misfit 6.8 against the base's 19.3); A dropped, the split shelved.
+Status: Phase 3 under way: changes judged by her. The kept model is model B (decision 23): the goods wage over everything
+but shelter, women's entry to 1990, the return set at 2%, the basket at constant utility with a dip in its utility from
+1970 to 1990, the 1950 start pinned, no cap (misfit 2.81 against the base's 19.3). The report on B, with its stress tests:
+`code/report_B.py` -> `report/index.html`, published at https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir.

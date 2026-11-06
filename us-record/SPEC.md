@@ -99,7 +99,8 @@ Candidates the paper's account would add:
   plus land. Likely needed for fact 2. Dropped (decision 21): priced with the final good, the built part caps the
   model's fork at 1 / (1 - w) = 1.67x, against the data's 5.9x.
 - **B. A shift in who is willing to work.** One smooth curve in the work-cost distribution (women's entry, 1950–2000).
-  Likely needed for fact 4.
+  Likely needed for fact 4. In model B (decision 23): the cost of working falls, straight in logs, to 1990 and is held
+  after; its level by 1990 is one free number (`fit_base.py --women 1990`). Removing it raises B's misfit 133%.
 - **C. Support that rises with income.** The outside option partly indexed to wages (balanced growth).
 
 Rivals, under the same rule so the record can favour them:
@@ -123,12 +124,22 @@ Her additions in Phase 3, tried on their own merit (decision 12):
 - **K. A cap on participation** (her idea, 2026-11-05; decision 15; kept, decision 16): women entered work until both parents in most
   households worked, and then prime-age participation stopped rising, so other things had to move. A share of people
   never works at any wage (`pinning_model.CappedEconomy`); the cap is set at the mean prime-age employment rate since it
-  first reached her 0.78 (1987–2024: 0.788). No new free number.
+  first reached her 0.78 (1987–2024: 0.788). No new free number. Out of model B (decision 23): with women's entry it
+  adds 1.5%.
 - **L. The basket at constant utility** (her framing and call, 2026-11-05; decision 18): the economy finds ways to give
   people less land for the same utility; as goods cheapen, a basket holds more goods and less site
   (`pinning_model.BasketEconomy`). The elasticity is set from the data (housing's share of spending against shelter's
   price over durables', 1950–2024: 0.875); the basket's utility rises until 1970, at the production worker's real-wage
-  growth (2.1% a year), and is held after. No new free number.
+  growth (2.1% a year), and is held after. No new free number. In model B the utility's knots are 1950, 1970, 1990 and
+  2024 (the dip, decision 23): the rise is worth 58% of B's misfit and the dip 29%; the basket 197%.
+- **M. The goods wage read over everything but shelter** (her setup, 2026-11-06; decision 23): a measurement change. The
+  model has one good, and the consumer's goods are mostly not durables; the target becomes production workers' earnings
+  over CPI-U less shelter (`wage_exshelter`, `fit_base.py --goods exshelter`). The durables wage becomes a fact not
+  targeted (section 5); one good cannot carry both (it rises 6.2-fold against 2.0-fold).
+- **N. Dated technology waves** (her idea, 2026-11-06): on top of the steady clock, a discovery chased hard and then the
+  lower fruit; the clock falls by size (1 - exp(-(t - year) / tau)) after the wave's year (`fit_base.py --waves 1948`).
+  Two free numbers a wave. A post-war wave (1948) takes B from 2.81 to 2.00 (-29%) and the clock from 12.5% to 6.8% a
+  year: it passes the rule, and is the leading candidate for her call.
 
 ## 7. What would count against the mechanism
 

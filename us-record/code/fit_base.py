@@ -62,8 +62,8 @@
 #   --waves 1948       dated technology waves (her idea, 2026-11-06): on top of the steady clock, each lowers the clock by
 #                      size (1 - exp(-(t - year) / tau)) after its year, so fastest at the discovery; size and tau free.
 # Two more switches are for the stress tests (code/stress_B.py): --hours-per-task g ties the machine chain's labour to the
-# clock (g_lam = g_eta + g: hours per unit of task capacity change at g a year), and FIT_YEARS / DROP limit which years
-# and series count in the misfit. configure(meta) sets every switch from a results file, so a stored fit re-solves alone.
+# clock (g_lam = g_eta + g: hours per unit of task capacity change at g a year), FIT_YEARS / DROP limit which years
+# and series count in the misfit, and FIXED holds free numbers at given values. configure(meta) sets every switch from a results file, so a stored fit re-solves alone.
 #
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
@@ -112,6 +112,7 @@ WAVES = []                                            # dated technology waves: 
 HOURS_PER_TASK = None                                 # None: g_lam free; a number g: g_lam = g_eta + g (stress tests)
 FIT_YEARS = None                                      # None: every year counts; [from, until]: only those (stress tests)
 DROP = None                                           # None: every series counts; a list: those left out (stress tests)
+FIXED = {}                                            # free numbers held at given values (stress tests: the clock's profile)
 
 
 def utility_path(knots):
@@ -139,7 +140,7 @@ def is_log(n):
 
 def fill(par):
     """The set numbers beside the fitted ones: the return when set, the machine chain's pace when tied to the clock."""
-    par = dict(par)
+    par = dict(par, **FIXED)
     if RHO_FIXED is not None:
         par["rho"] = RHO_FIXED
     if HOURS_PER_TASK is not None:
@@ -386,7 +387,7 @@ def configure(meta):
     """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
     and report read fits this way)."""
     global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
-    global HOURS_PER_TASK, FIT_YEARS, DROP
+    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED
     SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
     if SPLIT_FROM is not None:
         S_N = meta["s_n"]
@@ -395,7 +396,7 @@ def configure(meta):
     UTILITY_KNOTS = list(u.get("knots", [1950, u["until"]] if "until" in u else [1950, 1970]))  # older: the kink year
     GOODS, WOMEN, RHO_FIXED = meta.get("goods", "durables"), meta.get("women"), meta.get("rho_fixed")
     WAVES, HOURS_PER_TASK = list(meta.get("waves") or []), meta.get("hours_per_task")
-    FIT_YEARS, DROP = meta.get("fit_years"), meta.get("drop")
+    FIT_YEARS, DROP, FIXED = meta.get("fit_years"), meta.get("drop"), dict(meta.get("fixed") or {})
     SET.update(meta.get("set") or {})
     NAMES[:] = meta["names"]
 
@@ -405,7 +406,8 @@ def settings_meta():
     return dict(set=dict(SET), shelter_land_share=SHELTER_LAND_SHARE, split_from=SPLIT_FROM, cap=CAP, sigma=SIGMA,
                 utility=None if SIGMA is None else dict(knots=list(UTILITY_KNOTS)), pin_start=PIN_START,
                 s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
-                waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, names=list(NAMES))
+                waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, fixed=dict(FIXED),
+                names=list(NAMES))
 
 
 def run_start(s):

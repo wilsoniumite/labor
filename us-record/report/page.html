@@ -1,0 +1,907 @@
+<title>Model B Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..650;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a working paper with its instruments beside it. One reading column with a contents rail on wide screens;
+   figures break out into a two-up grid; one sticky bar chooses the model every chart shows. */
+:root {
+  --paper: #f3f5f4;        /* page plane: a cool grey with a green-blue bias */
+  --surface: #fbfcfb;      /* figure ground */
+  --ink: #14181b;
+  --ink-2: #4a5358;
+  --ink-3: #7d878b;
+  --rule: #d9dfdd;
+  --grid: #e3e8e6;
+  --axis: #c2cac8;
+  --c1: #2a78d6;  --c2: #eb6834;  --c3: #1baf7a;  --c4: #eda100;
+  --c5: #e87ba4;  --c6: #008300;  --c7: #6250d6;  --c8: #e34948;
+  --band: rgba(20, 24, 27, 0.09);
+  --shade: rgba(42, 120, 214, 0.06);
+  --heat-neg: #2a78d6; --heat-pos: #e34948; --heat-mid: #eceeec;
+  --chip: #e6ebe9;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1213; --surface: #161a1b; --ink: #eceeed; --ink-2: #b7bfbd; --ink-3: #838c8f; --rule: #2a3032;
+    --grid: #232829; --axis: #3a4143;
+    --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; --c8: #e66767;
+    --band: rgba(236, 238, 237, 0.10); --shade: rgba(57, 135, 229, 0.09);
+    --heat-neg: #3987e5; --heat-pos: #e66767; --heat-mid: #2c3133; --chip: #222829;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1213; --surface: #161a1b; --ink: #eceeed; --ink-2: #b7bfbd; --ink-3: #838c8f; --rule: #2a3032;
+  --grid: #232829; --axis: #3a4143;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #008300; --c7: #9085e9; --c8: #e66767;
+  --band: rgba(236, 238, 237, 0.10); --shade: rgba(57, 135, 229, 0.09);
+  --heat-neg: #3987e5; --heat-pos: #e66767; --heat-mid: #2c3133; --chip: #222829;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+a { color: var(--c1); text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--c1); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+
+/* masthead */
+.mast { padding-block: 44px 28px; border-bottom: 1px solid var(--rule); }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+h1 { font-family: var(--font-display); font-stretch: 85%; font-weight: 650; font-size: clamp(32px, 5.2vw, 54px); line-height: 1.04;
+  letter-spacing: -0.01em; margin: 10px 0 16px; text-wrap: balance; max-width: 20ch; }
+.lede { font-size: 19px; line-height: 1.55; max-width: 66ch; color: var(--ink); margin: 0; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; margin: 28px 0 0; border-top: 1px solid var(--rule); }
+.facts div { padding: 14px 18px 4px 0; }
+.facts dt { font-family: var(--font-display); font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); }
+.facts dd { margin: 4px 0 0; font-family: var(--font-display); font-size: 30px; font-weight: 600; font-stretch: 90%; line-height: 1.1; }
+.facts dd small { display: block; font-family: var(--font-body); font-size: 14px; font-weight: 400; color: var(--ink-2); margin-top: 4px; }
+
+/* the control bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-block: 10px; font-family: var(--font-display); font-size: 14px; }
+.bar .lab { color: var(--ink-2); }
+.seg { display: inline-flex; border: 1px solid var(--axis); border-radius: 7px; overflow: hidden; }
+.seg button { font: inherit; font-size: 13.5px; color: var(--ink-2); background: transparent; border: 0; padding: 6px 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px; }
+.seg button + button { border-left: 1px solid var(--axis); }
+.seg button[aria-pressed="true"] { background: var(--chip); color: var(--ink); font-weight: 600; }
+.seg button:hover { color: var(--ink); }
+.swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.bar .note { color: var(--ink-3); font-size: 13px; }
+
+/* body layout */
+.shell { display: grid; grid-template-columns: 1fr; gap: 0 40px; }
+@media (min-width: 1100px) { .shell { grid-template-columns: 190px minmax(0, 1fr); } }
+.toc { display: none; }
+@media (min-width: 1100px) {
+  .toc { display: block; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 64px); align-self: start; padding-top: 34px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-family: var(--font-display); font-size: 14px; counter-reset: s; }
+  .toc li { counter-increment: s; }
+  .toc a { color: var(--ink-2); text-decoration: none; display: grid; grid-template-columns: 22px 1fr; }
+  .toc a::before { content: counter(s); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .toc a:hover, .toc a.on { color: var(--ink); }
+}
+main { min-width: 0; }
+section { padding-block: 34px 10px; border-bottom: 1px solid var(--rule); counter-increment: sec; }
+main { counter-reset: sec; }
+h2 { font-family: var(--font-display); font-stretch: 88%; font-weight: 650; font-size: 28px; line-height: 1.15; margin: 0 0 12px; text-wrap: balance; }
+h2::before { content: counter(sec) "  "; color: var(--ink-3); font-weight: 500; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin: 26px 0 6px; }
+.prose { max-width: 68ch; }
+.prose p { margin: 0 0 14px; }
+.prose ul, .prose ol { margin: 0 0 14px; padding-left: 22px; }
+.prose li { margin-bottom: 8px; }
+.prose li::marker { color: var(--ink-3); }
+.sym { font-family: var(--font-mono); font-size: 0.86em; }
+
+/* figures */
+.grid2 { display: grid; grid-template-columns: 1fr; gap: 26px 32px; margin: 18px 0 18px; }
+@media (min-width: 820px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+.grid3 { display: grid; grid-template-columns: 1fr; gap: 22px 26px; margin: 18px 0; }
+@media (min-width: 820px) { .grid3 { grid-template-columns: 1fr 1fr 1fr; } }
+figure { margin: 0; min-width: 0; display: flex; flex-direction: column; }
+figure.wide { grid-column: 1 / -1; }
+figcaption { order: -1; }
+.ft { font-family: var(--font-display); font-weight: 600; font-size: 15.5px; line-height: 1.3; margin: 0; }
+.fn { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); margin: 4px 0 8px; max-width: 70ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--font-display); font-size: 12.5px; color: var(--ink-2); margin: 0 0 6px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.key { width: 16px; height: 2px; border-radius: 1px; display: inline-block; }
+.key.dot { width: 8px; height: 8px; border-radius: 50%; }
+.key.wash { width: 14px; height: 10px; border-radius: 2px; }
+.key.thin { height: 1px; }
+.plot { position: relative; background: var(--surface); border-radius: 6px; }
+.plot svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+svg text { font-family: var(--font-display); }
+.grid { stroke: var(--grid); stroke-width: 1; }
+.axis { stroke: var(--axis); stroke-width: 1; }
+.tick { fill: var(--ink-3); font-size: 11px; font-variant-numeric: tabular-nums; }
+.line { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.band { opacity: 1; }
+.dot { stroke: var(--surface); stroke-width: 2; }
+.anchor { stroke: var(--surface); stroke-width: 2; }
+.ref { stroke: var(--axis); stroke-width: 1; }
+.ref-label, .pt-label, .shade-label { fill: var(--ink-3); font-size: 11px; }
+.shade { fill: var(--shade); }
+.vline { stroke: var(--ink-3); stroke-width: 1; }
+.cross { stroke: var(--ink-3); stroke-width: 1; }
+.hit { fill: transparent; cursor: crosshair; }
+.tip { position: absolute; top: 8px; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+  padding: 7px 9px; font-family: var(--font-display); font-size: 12.5px; line-height: 1.35; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
+  min-width: 150px; max-width: 260px; z-index: 2; }
+.tip .th { color: var(--ink-3); margin-bottom: 3px; }
+.tip .tr { display: grid; grid-template-columns: 14px auto 1fr; gap: 6px; align-items: center; }
+.tip .tr b { font-variant-numeric: tabular-nums; font-weight: 650; color: var(--ink); }
+.tip .tr i { font-style: normal; color: var(--ink-2); }
+details.nums { margin-top: 6px; font-family: var(--font-display); font-size: 12.5px; color: var(--ink-3); }
+details.nums summary { cursor: pointer; width: max-content; }
+.tablewrap { overflow-x: auto; margin-top: 6px; }
+table { border-collapse: collapse; font-family: var(--font-display); font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { padding: 4px 10px 4px 0; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { color: var(--ink-3); font-weight: 500; }
+th:first-child, td:first-child { text-align: left; }
+table.doc { font-size: 14px; width: 100%; margin: 12px 0 18px; }
+table.doc td, table.doc th { white-space: normal; vertical-align: top; padding: 7px 14px 7px 0; }
+table.doc td.n { white-space: nowrap; }
+table.doc td.why { color: var(--ink-2); }
+table.doc th, table.doc td { text-align: left; }
+#tbl-model th:nth-child(n+4), #tbl-model td:nth-child(n+4), #tbl-ablate th:nth-child(3), #tbl-ablate td:nth-child(3),
+#tbl-ablate th:nth-child(4), #tbl-ablate td:nth-child(4) { text-align: right; }
+.pill { display: inline-block; font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; padding: 1px 8px;
+  border-radius: 10px; border: 1px solid var(--axis); color: var(--ink-2); white-space: nowrap; }
+.pill.keep { border-color: var(--c3); color: var(--ink); }
+.pill.drop { border-color: var(--c8); color: var(--ink); }
+.pill.opt { border-color: var(--c4); color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font: inherit; font-size: 13.5px; color: var(--ink-2); background: transparent; border: 1px solid var(--axis); border-radius: 7px;
+  padding: 5px 11px; cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--chip); color: var(--ink); font-weight: 600; border-color: var(--ink-3); }
+.chips button:hover { color: var(--ink); }
+@media (max-width: 600px) { .bar .note { display: none; } }
+.ctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 14px 0 4px; font-family: var(--font-display); font-size: 14px; color: var(--ink-2); }
+.findings { counter-reset: f; list-style: none; padding: 0 !important; }
+.findings li { counter-increment: f; display: grid; grid-template-columns: 30px minmax(0, 1fr); margin-bottom: 12px !important; }
+.findings li::before { content: counter(f); font-family: var(--font-display); font-weight: 650; color: var(--ink-3); }
+.split-row { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 10px; align-items: center; margin: 8px 0; font-family: var(--font-display); font-size: 13px; }
+.split-bar { display: flex; gap: 2px; height: 28px; }
+.split-bar div { height: 100%; border-radius: 4px; color: #fff; font-size: 12px; font-weight: 600; display: flex; align-items: center;
+  padding-left: 6px; overflow: hidden; white-space: nowrap; min-width: 2px; }
+.split-bar div.dark-text { color: #0b0b0b; }
+footer { padding-block: 26px 60px; font-size: 14px; color: var(--ink-3); }
+@media (prefers-reduced-motion: no-preference) { .plot svg .line { transition: opacity 0.2s; } }
+</style>
+
+<header class="mast wrap">
+  <div class="eyebrow">us-record · the backward model · report of 6 November 2026</div>
+  <h1>Model B against the US record, 1950–2024</h1>
+  <p class="lede">Model B is the paper's pinning model fitted to the US record with the setup chosen in the explorer on
+    6 November. The goods wage is read over everything but shelter. Women enter work until 1990. The required return is set
+    at 2%. The basket substitutes at constant utility, and that utility dips between 1970 and 1990. There is no cap on
+    participation. The report checks B four ways: against the five series it was fitted to, against facts it never saw,
+    by opening up each year's equilibrium, and by moving what was set or chosen.</p>
+  <dl class="facts">
+    <div><dt>Misfit</dt><dd>2.81<small>2.00 with a 1948 technology wave</small></dd></div>
+    <div><dt>Fitted numbers</dt><dd>8<small>10 with the wave</small></dd></div>
+    <div><dt>Starts reaching the best fit</dt><dd>13 of 13<small>8 of 13 with the wave</small></dd></div>
+    <div><dt>Capability clock</dt><dd>12.5% a year<small>6.8% a year with the wave</small></dd></div>
+  </dl>
+</header>
+
+<div class="bar wrap" role="region" aria-label="Model shown">
+  <span class="lab">Charts show</span>
+  <span class="seg" role="group" aria-label="Model">
+    <button id="m-B" aria-pressed="true"><span class="swatch" style="background:var(--c1)"></span>Model B</button>
+    <button id="m-Bw" aria-pressed="false"><span class="swatch" style="background:var(--c2)"></span>B with the 1948 wave</button>
+  </span>
+  <span class="note">The text reads model B; the fit and stress charts show both where it helps.</span>
+</div>
+
+<div class="shell wrap">
+  <nav class="toc" aria-label="Contents">
+    <ol>
+      <li><a href="#found">What the report finds</a></li>
+      <li><a href="#model">The model as set</a></li>
+      <li><a href="#fit">The fit</a></li>
+      <li><a href="#unseen">Facts the fit never saw</a></li>
+      <li><a href="#inside">Inside the model</a></li>
+      <li><a href="#drivers">What drove the record</a></li>
+      <li><a href="#ahead">Carried forward</a></li>
+      <li><a href="#stress">Stress tests</a></li>
+      <li><a href="#simpler">Simpler?</a></li>
+      <li><a href="#next">Where this leaves B</a></li>
+    </ol>
+  </nav>
+  <main>
+
+  <section id="found">
+    <h2>What the report finds</h2>
+    <div class="prose">
+      <ol class="findings">
+        <li><span>B fits all five series with eight fitted numbers, and every one of thirteen starts lands on the same fit (misfit
+          2.81). Its largest misses are the wage over shelter after 2010, about a fifth below the record by 2024, and
+          θ<sub>V</sub> before 1985.</span></li>
+        <li><span>Every piece of the setup earns its place under the spec's rule: removing it must raise the misfit by at least
+          20%. Women's entry is worth 133%, the basket 197%, the utility's rise to 1970 58% and its dip 29%. The cap adds
+          nothing (1.5%) and stays out. Pinning 1950 costs nothing. Setting the return at 2% costs 2.5%. The one cut that
+          removes a fitted number, tying the machine chain's hours to the clock, costs 71%. B is at its simplest.</span></li>
+        <li><span>A post-war technology wave from 1948 cuts the misfit to 2.00 for two more numbers and halves the clock's pace
+          to 6.8% a year. It passes the same rule.</span></li>
+        <li><span>Against facts it never saw, B's machine chain is too large. The chain takes 38% of all pay in 2023, against
+          18% measured. Replacement is 35% of gross output, against 16%. Machine services make up half of a machine's cost (50%),
+          more than depreciation and all of the net operating surplus together (38%). The waterline rises 1.4-fold from 1999
+          to 2023, against 7.6-fold measured.</span></li>
+        <li><span>B's land is too quiet. The coverage ratio rises 6.7-fold in the record and falls by a fifth in the model.
+          Housing's share of spending rises by 44%; the model's site share by 9%.</span></li>
+        <li><span>Inside, from about 1970 the task line sits on the machine chain's ceiling, and land's share of a machine's
+          cost falls from 0.40 to 0.0003. From then on the fast clock (land per unit of task capacity, down 12.5% a year)
+          no longer moves the task line. The slow one does (hours per unit of task capacity, down 0.9% a year).</span></li>
+        <li><span>B describes the record but does not forecast it. Fitted to 1950–1995 alone it fits those years closely
+          (1.27) and misses 1996–2024 by 22.6. Every series is load-bearing: left out of the fit, none is predicted
+          within three tolerances.</span></li>
+        <li><span>Most set values barely matter. The return at 1% or 3%, the utility's knots five years either way, and
+          women's entry ending in 1980 or 2000 all leave the misfit within 7%. The basket's elasticity matters most:
+          Cobb–Douglas fits 9% better, and the elasticity read with B's own goods price fits 25% worse.</span></li>
+        <li><span>Carried forward with its drivers, B's labour share falls from 0.45 in 2024 to 0.38 by 2050 and the task
+          line rises from 0.874 to 0.905. With the clocks stopped both hold. No year to 2050 loses its equilibrium.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="model">
+    <h2>The model as set</h2>
+    <div class="prose">
+      <p>The paper's pinning model (<span class="sym">pinning/code/pinning_model.py</span>), solved in each year from 1950 to
+        2024 with that year's adults and depreciation. Eight numbers are fitted to the record. Everything else is set before
+        the fit, from data or by choice.</p>
+    </div>
+    <div class="tablewrap"><table class="doc" id="tbl-model"></table></div>
+  </section>
+
+  <section id="fit">
+    <h2>The fit</h2>
+    <div class="prose">
+      <p>The misfit counts each series' deviations in tolerances: 5% for the two wages, the band's half-width for labour's
+        share (0.01 where the record has no band), 0.015 for prime-age employment and 0.02 for θ<sub>V</sub>. A series'
+        misfit is its mean squared deviation. The total is the mean over the five, so 1 means the model sits one tolerance
+        from the record on average.</p>
+      <p>B's largest misses are the wage over shelter after 2010 (83 in 2024 against the record's 105, 1950 = 100) and
+        θ<sub>V</sub> before 1985 (0.43 in 1967 against 0.50). The 1948 wave closes most of the early θ<sub>V</sub> gap
+        and half of the shelter gap, and gives up a little on the goods wage and employment.</p>
+    </div>
+    <div class="grid2" id="fit-charts"></div>
+    <div class="grid2">
+      <figure class="wide"><figcaption><p class="ft">Where in time the model misses</p>
+        <p class="fn">Each cell is one year's deviation in tolerances, model minus record, for the model chosen above.
+          Blue where the model is below the record, red where above; capped at three tolerances.</p></figcaption>
+        <div id="fit-heat"></div></figure>
+    </div>
+    <div class="tablewrap"><table id="tbl-misfit"></table></div>
+  </section>
+
+  <section id="unseen">
+    <h2>Facts the fit never saw</h2>
+    <div class="prose">
+      <p>None of these entered the misfit. Where the model has a counterpart, it is drawn against the record. Several come
+        from the machine-chain measurements of <span class="sym">paths/results/chains.json</span> (BEA input–output
+        tables, 1997–2023), which calibration (c) reads in its target year.</p>
+    </div>
+    <div class="grid2" id="unseen-charts"></div>
+  </section>
+
+  <section id="inside">
+    <h2>Inside the model</h2>
+    <div class="prose">
+      <p>Each year's equilibrium, opened up, for the model chosen above.</p>
+    </div>
+    <div class="grid2" id="inside-charts"></div>
+  </section>
+
+  <section id="drivers">
+    <h2>What drove the record</h2>
+    <div class="prose">
+      <p>One driver held at its 1950 value, everything else as fitted. Where a line stops, the model has no equilibrium in
+        that year.</p>
+    </div>
+    <div class="ctrl"><span>Hold at 1950</span><span class="chips" role="group" aria-label="Driver held" id="drv-seg"></span></div>
+    <p class="fn" id="drv-note"></p>
+    <div class="grid2" id="drv-charts"></div>
+    <h3>The 2024 values, each driver held in turn</h3>
+    <div class="tablewrap"><table id="tbl-drivers"></table></div>
+  </section>
+
+  <section id="ahead">
+    <h2>Carried forward</h2>
+    <div class="prose">
+      <p>The fitted drivers continued from 2025 to 2050. The clocks keep their paces. Adults grow as in 2014–2024 (0.8% a
+        year), depreciation stays at its 2015–2024 mean and the cost of working at its 2024 level. The basket's utility is
+        either held at its 2024 value, which is B's own rule after its last knot, or rises as it did over 1990–2024 (0.6% a
+        year). A third run stops both clocks in 2025.</p>
+      <p>Labour's share falls from 0.45 to 0.38 by 2050 and the task line rises from 0.874 to 0.905, whichever way the
+        utility goes. A rising utility takes the prime-age rate down to 0.74. With the clocks stopped, labour's share and the
+        task line hold. Because the task line sits on the ceiling, automation advances at the slow clock's pace, and no
+        year to 2050 loses its equilibrium.</p>
+    </div>
+    <div class="grid2" id="ahead-charts"></div>
+  </section>
+
+  <section id="stress">
+    <h2>Stress tests</h2>
+    <div class="prose">
+      <p>Each test refits B from its best fit. A set value that moves far is stepped there, refitting at each step
+        (<span class="sym">code/stress_B.py</span>; 51 fits).</p>
+    </div>
+    <h3>Out of sample</h3>
+    <div class="prose">
+      <p>Fitted to 1950–1995 alone, B fits those years closely (misfit 1.27) and misses 1996–2024 by 22.6, mostly on the
+        wage over shelter and labour's share. Fitted to 1950–1985 it misses 1986–2024 by 11.6. With the utility held after
+        1990, so that nothing after 1990 enters but adults and depreciation, the miss is 31.9. The shorter records fit the
+        clock at 15.5–17% a year.</p>
+    </div>
+    <div class="ctrl"><span>Fitted on</span><span class="chips" role="group" aria-label="Out-of-sample test" id="oos-seg"></span></div>
+    <div class="grid3" id="oos-charts"></div>
+    <h3>Each series left out</h3>
+    <div class="prose">
+      <p>Each series dropped from the misfit and B refitted on the other four. None is predicted within three tolerances on
+        average. Each series carries information the others do not.</p>
+    </div>
+    <div class="grid2"><figure class="wide"><figcaption><p class="ft">A series' misfit with it in the fit, and left out</p>
+      <p class="fn">Log scale. Left out, a series is predicted by the fit to the other four.</p></figcaption>
+      <div id="loo-chart"></div></figure></div>
+    <h3>Set values moved</h3>
+    <div class="prose">
+      <p>The return, the utility's knots, the end of women's entry and the schedule's floor barely move the misfit. The floor
+        g<sub>0</sub> moves the task line's level (0.91 or 0.83 in 2024), so the record does not pin that level. The
+        basket's elasticity matters most. At 1, Cobb–Douglas, the misfit falls to 2.54. At 0.64 it rises to 3.51; that is
+        what the share regression gives when shelter's price is read against everything but shelter, as B reads goods.</p>
+    </div>
+    <div class="tablewrap"><table id="tbl-set"></table></div>
+    <h3>How sharply the record pins the clock</h3>
+    <div class="prose">
+      <p>The clock's pace held at each value and the rest refitted. The best is 12.5% a year, and anything from 10% to 16%
+        stays within 10% of the best misfit.</p>
+    </div>
+    <div class="grid2"><figure class="wide"><figcaption><p class="ft">Misfit with the clock's pace held</p>
+      <p class="fn">Each point is a refit of the other seven numbers.</p></figcaption>
+      <div id="profile-chart"></div></figure></div>
+  </section>
+
+  <section id="simpler">
+    <h2>Simpler?</h2>
+    <div class="prose">
+      <p>The spec's rule (section 6): a piece stays if removing it raises the misfit by at least 20%, or if without it a
+        targeted series leaves its band. Each piece of B taken out in turn, and two simplifications tried:</p>
+    </div>
+    <div class="tablewrap"><table class="doc" id="tbl-ablate"></table></div>
+    <div class="prose">
+      <p>Every piece stays and the cap stays out. Of the cuts tried, none that removes a fitted number keeps the fit: on
+        this rule B is at its simplest. Taking the basket's utility through the real wage in every year instead of at four
+        knots fits as well (2.88) with no knot years to choose, but it leans harder on the wage data.</p>
+    </div>
+  </section>
+
+  <section id="next">
+    <h2>Where this leaves B</h2>
+    <div class="prose">
+      <p>B fits the five series with eight numbers, and the fit holds when the set values move. The trouble is in what the
+        fit implies. To match the wages and labour's share, the fit drives the economy onto the machine chain's ceiling, where
+        land leaves a machine's cost. The chain then takes about twice its measured share of pay and of output. The
+        waterline, which should read the clock independently of the targets, moves a fifth as far as measured. The record's
+        land, meanwhile, grows in value far faster than anything in B.</p>
+      <p>What to try next, in order:</p>
+      <ol>
+        <li>Make the machine chain's size a target: its share of all pay, 1997–2023, from the input–output tables. Or set
+          land's share of a machine's cost as calibration (c) does. Either is the direct test of whether the ceiling regime
+          is the record's or a corner the fit found.</li>
+        <li>A second good, durables apart from other goods. The durables wage rises 6.2-fold against 2.0-fold for everything
+          but shelter, and one good cannot carry both.</li>
+        <li>Read the basket's elasticity and the goods wage on one price basis. B pairs an elasticity read against durables
+          (0.875) with a goods wage read over everything but shelter (0.64 on that basis).</li>
+        <li>Keep the 1948 wave as the leading candidate addition. It improves three series, halves the clock, and passes
+          the 20% rule.</li>
+      </ol>
+    </div>
+  </section>
+  <footer>
+    Built from <span class="sym">results/fit_B.json</span>, <span class="sym">results/fit_Bw.json</span> and
+    <span class="sym">results/stress_B.json</span> by <span class="sym">code/report_B.py</span>; the record is
+    <span class="sym">data/panel.csv</span>. Every year is an exact equilibrium of the pinning model; the explorer's
+    JavaScript reproduces both fits to 1e-12.
+  </footer>
+  </main>
+</div>
+
+<script>
+const DATA = /*DATA_JSON*/;
+const YRS = DATA.years, ALL = DATA.years.concat(DATA.ahead), REC = DATA.record, ST = DATA.stress;
+const MODEL = { fit_B: { label: "Model B", color: "var(--c1)" }, fit_Bw: { label: "B with the 1948 wave", color: "var(--c2)" } };
+let MKEY = "fit_B";
+const M = () => DATA.models[MKEY];
+const MC = () => MODEL[MKEY].color, ML = () => MODEL[MKEY].label;
+const REC_C = "var(--ink)", REC2_C = "var(--ink-3)";
+const $ = (s, el = document) => el.querySelector(s);
+
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+const ok = (v) => v !== null && v !== undefined && isFinite(v);
+function fmt(v, d = 2) { if (!ok(v)) return "–"; const a = Math.abs(v);
+  if (a >= 1000) return v.toLocaleString("en-US", { maximumFractionDigits: 0 });
+  if (a >= 100) return v.toFixed(Math.min(d, 1)); if (a >= 10) return v.toFixed(Math.min(d, 2));
+  if (a === 0) return "0"; if (a < 0.001) return v.toExponential(1); return v.toFixed(d + (a < 0.1 ? 1 : 0)); }
+function fmtTick(v) { const a = Math.abs(v); if (a === 0) return "0"; if (a >= 1000) return v.toLocaleString("en-US");
+  if (a >= 10) return String(Math.round(v * 100) / 100); if (a >= 1) return String(+v.toFixed(2)); if (a >= 0.01) return String(+v.toFixed(3));
+  return v >= 1e-4 ? String(+v.toFixed(5)) : v.toExponential(0); }
+const idx = (y) => YRS.indexOf(y);
+const scale100 = (arr, base) => arr.map((v) => (ok(v) ? 100 * v / base : null));
+const index1 = (arr, i0 = 0) => arr.map((v) => (ok(v) && ok(arr[i0]) ? v / arr[i0] : null));
+
+// ------------------------------------------------------------------------------------------------- the chart kit
+function niceStep(span, n) { const raw = span / Math.max(1, n), mag = Math.pow(10, Math.floor(Math.log10(raw))), r = raw / mag;
+  return (r >= 7.5 ? 10 : r >= 3.5 ? 5 : r >= 1.5 ? 2 : 1) * mag; }
+function linTicks(lo, hi, n) { const st = niceStep(hi - lo, n), out = [];
+  for (let v = Math.ceil(lo / st - 1e-9) * st; v <= hi + st * 1e-9; v += st) out.push(Math.abs(v) < st * 1e-9 ? 0 : +v.toPrecision(12)); return out; }
+function logTicks(lo, hi) { if (hi / lo < 3.2) return linTicks(lo, hi, 4).filter((v) => v > 0);
+  const e0 = Math.floor(Math.log10(lo)), e1 = Math.ceil(Math.log10(hi)), span = e1 - e0, out = [];
+  const ms = span > 5 ? [1] : span > 2 ? [1, 3] : [1, 2, 5];
+  for (let e = e0; e <= e1; e++) for (const m of ms) { const v = m * Math.pow(10, e); if (v >= lo && v <= hi) out.push(+v.toPrecision(6)); }
+  if (span > 7) return out.filter((v, i) => i % 2 === 0);
+  if (out.length < 2) return linTicks(lo, hi, 3).filter((v) => v > 0); return out; }
+function segments(n, good) { const out = []; let cur = [];
+  for (let i = 0; i < n; i++) { if (good(i)) cur.push(i); else if (cur.length) { out.push(cur); cur = []; } } if (cur.length) out.push(cur); return out; }
+function observe(node, fn) { let t = null, w = node.clientWidth;
+  new ResizeObserver(() => { if (Math.abs(node.clientWidth - w) < 2) return; w = node.clientWidth; clearTimeout(t); t = setTimeout(fn, 60); }).observe(node); }
+
+function legend(items) { const lg = el("div", "legend");
+  for (const it of items) { const s = el("span"); const k = el("span", "key" + (it.kind ? " " + it.kind : ""));
+    k.style.background = it.color; s.append(k, document.createTextNode(it.label)); lg.append(s); } return lg; }
+
+function figure(parent, { title, note, wide }) {
+  const f = el("figure"); if (wide) f.classList.add("wide");
+  const cap = el("figcaption"); cap.append(el("p", "ft", title)); if (note) cap.append(el("p", "fn", note));
+  f.append(cap); const body = el("div"); f.append(body); parent.append(f); return body;
+}
+
+function numbersTable(host, xs, cols, rows) {
+  const d = el("details", "nums"); d.append(el("summary", null, "Numbers"));
+  const w = el("div", "tablewrap"), t = el("table"), hr = el("tr");
+  hr.append(el("th", null, "")); cols.forEach((c) => hr.append(el("th", null, c.label))); t.append(hr);
+  rows.forEach((i) => { const tr = el("tr"); tr.append(el("td", null, String(xs[i])));
+    cols.forEach((c) => tr.append(el("td", null, c.fmt ? c.fmt(c.values[i]) : fmt(c.values[i], 3)))); t.append(tr); });
+  w.append(t); d.append(w); host.append(d);
+}
+function defaultRows(xs, cols) { const out = [];
+  xs.forEach((x, i) => { if (typeof x === "number" && x % 10 === 0 && cols.some((c) => ok(c.values[i]))) out.push(i); });
+  let last = -1; xs.forEach((x, i) => { if (cols.some((c) => ok(c.values[i]))) last = i; });
+  if (last >= 0 && !out.includes(last)) out.push(last); return out.length ? out : xs.map((_, i) => i); }
+
+function lineChart(host, spec) {
+  host.innerHTML = "";
+  const xs = spec.x, ser = spec.series;
+  const items = ser.filter((s) => !s.noLegend).map((s) => ({ label: s.label, color: s.color, kind: s.dots ? "dot" : s.width && s.width < 1.5 ? "thin" : "" }));
+  ser.forEach((s) => { if (s.band && s.bandLabel) items.push({ label: s.bandLabel, color: "var(--band)", kind: "wash" }); });
+  (spec.points || []).forEach((p) => { if (p.legend) items.push({ label: p.legend, color: p.color || "var(--ink)", kind: "dot" }); });
+  if (items.length > 1 || spec.forceLegend) host.append(legend(items));
+  const plot = el("div", "plot"); host.append(plot);
+  const tip = el("div", "tip"); tip.hidden = true; plot.append(tip);
+  let cur = null;
+  const draw = () => {
+    const W = Math.max(260, Math.round(plot.clientWidth || 560)), H = spec.height || 210;
+    const ml = spec.ml || 44, mr = 12, mt = 12, mb = 24;
+    const x0 = spec.xMin ?? xs[0], x1 = spec.xMax ?? xs[xs.length - 1];
+    const inX = (i) => xs[i] >= x0 && xs[i] <= x1;
+    const good = (v) => ok(v) && (!spec.log || v > 0);
+    const vals = [];
+    ser.forEach((s) => { s.values.forEach((v, i) => { if (good(v) && inX(i)) vals.push(v); });
+      if (s.band) ["lo", "hi"].forEach((k) => s.band[k].forEach((v, i) => { if (good(v) && inX(i)) vals.push(v); })); });
+    (spec.points || []).forEach((p) => vals.push(p.y)); (spec.refs || []).forEach((r) => vals.push(r.y));
+    let lo = spec.yMin ?? Math.min(...vals), hi = spec.yMax ?? Math.max(...vals);
+    if (spec.log) { if (spec.yMin == null) lo /= 1.08; if (spec.yMax == null) hi *= 1.08; }
+    else { const pad = (hi - lo) * 0.07 || Math.abs(hi) * 0.1 || 1; if (spec.yMin == null) lo -= pad; if (spec.yMax == null) hi += pad; }
+    const X = (x) => ml + (x - x0) / (x1 - x0) * (W - ml - mr);
+    const Y = spec.log ? (y) => mt + (Math.log(hi) - Math.log(y)) / (Math.log(hi) - Math.log(lo)) * (H - mt - mb)
+                       : (y) => mt + (hi - y) / (hi - lo) * (H - mt - mb);
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" tabindex="0" aria-label="${esc(spec.aria || "")}">`;
+    (spec.shade ? [].concat(spec.shade) : []).forEach((sh) => { const a = X(Math.max(x0, sh.from)), b = X(Math.min(x1, sh.to));
+      s += `<rect x="${a}" y="${mt}" width="${Math.max(0, b - a)}" height="${H - mt - mb}" class="shade"/>`;
+      if (sh.label) s += `<text x="${a + 5}" y="${mt + 12}" class="shade-label">${esc(sh.label)}</text>`; });
+    const yt = spec.log ? logTicks(lo, hi) : linTicks(lo, hi, spec.yTicks || 4);
+    yt.forEach((v) => { const y = Y(v); s += `<line x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}" class="grid"/>` +
+      `<text x="${ml - 6}" y="${y + 3.5}" class="tick" text-anchor="end">${esc(spec.yFmt ? spec.yFmt(v) : fmtTick(v))}</text>`; });
+    const xt = spec.xTicks || linTicks(x0, x1, W < 420 ? 4 : 7).filter((v) => v >= x0 && v <= x1);
+    xt.forEach((v) => { const x = X(v); s += `<line x1="${x}" x2="${x}" y1="${H - mb}" y2="${H - mb + 4}" class="axis"/>` +
+      `<text x="${x}" y="${H - 7}" class="tick" text-anchor="middle">${esc(spec.xFmt ? spec.xFmt(v) : String(v))}</text>`; });
+    s += `<line x1="${ml}" x2="${W - mr}" y1="${H - mb}" y2="${H - mb}" class="axis"/>`;
+    (spec.refs || []).forEach((r) => { const y = Y(r.y); s += `<line x1="${ml}" x2="${W - mr}" y1="${y}" y2="${y}" class="ref"/>`;
+      if (r.label) s += `<text x="${ml + 6}" y="${y - 5}" class="ref-label">${esc(r.label)}</text>`; });
+    (spec.vlines || []).forEach((vl) => { const x = X(vl.x); s += `<line x1="${x}" x2="${x}" y1="${mt}" y2="${H - mb}" class="vline"/>`;
+      if (vl.label) s += `<text x="${x + 5}" y="${mt + 12}" class="shade-label">${esc(vl.label)}</text>`; });
+    ser.forEach((se) => { if (!se.band) return;
+      segments(xs.length, (i) => good(se.band.lo[i]) && good(se.band.hi[i]) && inX(i)).forEach((seg) => {
+        const top = seg.map((i) => `${X(xs[i]).toFixed(1)},${Y(se.band.hi[i]).toFixed(1)}`);
+        const bot = seg.slice().reverse().map((i) => `${X(xs[i]).toFixed(1)},${Y(se.band.lo[i]).toFixed(1)}`);
+        s += `<polygon points="${top.concat(bot).join(" ")}" style="fill:var(--band)"/>`; }); });
+    ser.forEach((se) => { if (se.dots) return;
+      segments(xs.length, (i) => good(se.values[i]) && inX(i)).forEach((seg) => {
+        if (seg.length === 1) { const i = seg[0]; s += `<circle cx="${X(xs[i])}" cy="${Y(se.values[i])}" r="2.5" style="fill:${se.color}"/>`; return; }
+        s += `<path d="M${seg.map((i) => `${X(xs[i]).toFixed(1)},${Y(se.values[i]).toFixed(1)}`).join("L")}" class="line" style="stroke:${se.color};stroke-width:${se.width || 2}"/>`; }); });
+    ser.forEach((se) => { if (!se.dots) return;
+      se.values.forEach((v, i) => { if (!good(v) || !inX(i)) return;
+        s += `<circle cx="${X(xs[i]).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="4" class="dot" style="fill:${se.color}"/>`; }); });
+    (spec.points || []).forEach((p) => { s += `<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="5" class="anchor" style="fill:${p.color || "var(--ink)"}"/>`;
+      if (p.label) s += `<text x="${X(p.x) - 9}" y="${Y(p.y) + 4}" class="pt-label" text-anchor="end">${esc(p.label)}</text>`; });
+    s += `<line class="cross" x1="0" x2="0" y1="${mt}" y2="${H - mb}" visibility="hidden"/>`;
+    s += `<rect class="hit" x="${ml}" y="${mt}" width="${W - ml - mr}" height="${H - mt - mb}"/></svg>`;
+    plot.querySelector("svg")?.remove(); plot.insertAdjacentHTML("afterbegin", s);
+    const svg = plot.querySelector("svg"), cross = svg.querySelector(".cross");
+    const valid = xs.map((_, i) => inX(i) && ser.some((se) => good(se.values[i])));
+    const show = (i) => {
+      if (i == null) return; cur = i; const x = X(xs[i]);
+      cross.setAttribute("x1", x); cross.setAttribute("x2", x); cross.setAttribute("visibility", "visible");
+      tip.replaceChildren(); tip.append(el("div", "th", spec.xFmt ? spec.xFmt(xs[i]) : String(xs[i])));
+      ser.forEach((se) => { const v = se.values[i]; if (!ok(v)) return; const r = el("div", "tr"), k = el("span", "key" + (se.dots ? " dot" : ""));
+        k.style.background = se.color; r.append(k, el("b", null, se.fmt ? se.fmt(v) : fmt(v, spec.digits ?? 3)), el("i", null, se.label)); tip.append(r); });
+      tip.hidden = false; const pw = plot.clientWidth, tw = tip.offsetWidth, px = x / W * pw;
+      tip.style.left = (px + 14 + tw > pw ? Math.max(4, px - 14 - tw) : px + 14) + "px";
+    };
+    const hide = () => { cross.setAttribute("visibility", "hidden"); tip.hidden = true; };
+    const nearest = (xv) => { let b = null, bd = Infinity; xs.forEach((x, i) => { if (!valid[i]) return; const d = Math.abs(x - xv); if (d < bd) { bd = d; b = i; } }); return b; };
+    svg.addEventListener("pointermove", (ev) => { const r = svg.getBoundingClientRect(); const px = (ev.clientX - r.left) * W / r.width;
+      show(nearest(x0 + (px - ml) / (W - ml - mr) * (x1 - x0))); });
+    svg.addEventListener("pointerleave", hide); svg.addEventListener("blur", hide);
+    svg.addEventListener("focus", () => show(cur ?? valid.lastIndexOf(true)));
+    svg.addEventListener("keydown", (ev) => { if (ev.key !== "ArrowLeft" && ev.key !== "ArrowRight") return; ev.preventDefault();
+      let i = cur ?? valid.lastIndexOf(true); const step = ev.key === "ArrowLeft" ? -1 : 1;
+      do { i += step; } while (i >= 0 && i < xs.length && !valid[i]); if (i >= 0 && i < xs.length) show(i); });
+  };
+  draw(); observe(plot, draw);
+  if (spec.table !== false) { const cols = ser.filter((s) => !s.noTable).map((s) => ({ label: s.label, values: s.values, fmt: s.fmt }));
+    numbersTable(host, xs, cols, spec.tableRows || defaultRows(xs, cols)); }
+}
+
+function stackChart(host, spec) {
+  host.innerHTML = ""; const xs = spec.x, layers = spec.layers;
+  host.append(legend(layers.map((l) => ({ label: l.label, color: l.color, kind: "wash" }))));
+  const plot = el("div", "plot"); host.append(plot); const tip = el("div", "tip"); tip.hidden = true; plot.append(tip);
+  const draw = () => {
+    const W = Math.max(260, Math.round(plot.clientWidth || 560)), H = spec.height || 210, ml = 40, mr = 12, mt = 12, mb = 24;
+    const x0 = xs[0], x1 = xs[xs.length - 1], X = (x) => ml + (x - x0) / (x1 - x0) * (W - ml - mr), Y = (y) => mt + (1 - y) * (H - mt - mb);
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" tabindex="0" aria-label="${esc(spec.aria || "")}">`;
+    const base = xs.map(() => 0);
+    layers.forEach((l) => { const top = xs.map((_, i) => base[i] + (ok(l.values[i]) ? l.values[i] : 0));
+      const pts = xs.map((x, i) => `${X(x).toFixed(1)},${Y(top[i]).toFixed(1)}`).concat(xs.slice().reverse().map((x, j) => { const i = xs.length - 1 - j; return `${X(x).toFixed(1)},${Y(base[i]).toFixed(1)}`; }));
+      s += `<polygon points="${pts.join(" ")}" style="fill:${l.color};stroke:var(--surface);stroke-width:1.5"/>`;
+      top.forEach((v, i) => { base[i] = v; }); });
+    [0, 0.25, 0.5, 0.75, 1].forEach((v) => { s += `<text x="${ml - 6}" y="${Y(v) + 3.5}" class="tick" text-anchor="end">${v}</text>`; });
+    linTicks(x0, x1, W < 420 ? 4 : 7).forEach((v) => { if (v < x0 || v > x1) return; s += `<text x="${X(v)}" y="${H - 7}" class="tick" text-anchor="middle">${v}</text>`; });
+    s += `<line class="cross" x1="0" x2="0" y1="${mt}" y2="${H - mb}" visibility="hidden"/><rect class="hit" x="${ml}" y="${mt}" width="${W - ml - mr}" height="${H - mt - mb}"/></svg>`;
+    plot.querySelector("svg")?.remove(); plot.insertAdjacentHTML("afterbegin", s);
+    const svg = plot.querySelector("svg"), cross = svg.querySelector(".cross");
+    const show = (i) => { const x = X(xs[i]); cross.setAttribute("x1", x); cross.setAttribute("x2", x); cross.setAttribute("visibility", "visible");
+      tip.replaceChildren(); tip.append(el("div", "th", String(xs[i])));
+      layers.slice().reverse().forEach((l) => { const r = el("div", "tr"), k = el("span", "key wash"); k.style.background = l.color;
+        r.append(k, el("b", null, fmt(l.values[i], 3)), el("i", null, l.label)); tip.append(r); });
+      tip.hidden = false; const pw = plot.clientWidth, tw = tip.offsetWidth, px = x / W * pw; tip.style.left = (px + 14 + tw > pw ? Math.max(4, px - 14 - tw) : px + 14) + "px"; };
+    let cur = xs.length - 1;
+    svg.addEventListener("pointermove", (ev) => { const r = svg.getBoundingClientRect(); const px = (ev.clientX - r.left) * W / r.width;
+      cur = Math.max(0, Math.min(xs.length - 1, Math.round(x0 + (px - ml) / (W - ml - mr) * (x1 - x0) - x0))); show(cur); });
+    const hide = () => { cross.setAttribute("visibility", "hidden"); tip.hidden = true; };
+    svg.addEventListener("pointerleave", hide); svg.addEventListener("blur", hide); svg.addEventListener("focus", () => show(cur));
+    svg.addEventListener("keydown", (ev) => { if (ev.key === "ArrowLeft" && cur > 0) { cur--; show(cur); ev.preventDefault(); }
+      if (ev.key === "ArrowRight" && cur < xs.length - 1) { cur++; show(cur); ev.preventDefault(); } });
+  };
+  draw(); observe(plot, draw);
+  const cols = layers.map((l) => ({ label: l.label, values: l.values })); numbersTable(host, xs, cols, defaultRows(xs, cols));
+}
+
+function heatStrip(host, spec) {
+  host.innerHTML = ""; const xs = spec.x, rows = spec.rows, clamp = spec.clamp || 3;
+  const lg = el("div", "legend"); [["model below the record", "var(--heat-neg)"], ["on the record", "var(--heat-mid)"], ["model above", "var(--heat-pos)"]]
+    .forEach(([t, c]) => { const s = el("span"), k = el("span", "key wash"); k.style.background = c; s.append(k, document.createTextNode(t)); lg.append(s); });
+  host.append(lg);
+  const plot = el("div", "plot"); host.append(plot); const tip = el("div", "tip"); tip.hidden = true; plot.append(tip);
+  const draw = () => {
+    const W = Math.max(300, Math.round(plot.clientWidth || 900)), ml = 96, mr = 10, mt = 8, rh = 20, mb = 24, H = mt + rows.length * rh + mb;
+    const cw = (W - ml - mr) / xs.length;
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(spec.aria || "")}">`;
+    rows.forEach((r, j) => { const y = mt + j * rh;
+      s += `<text x="${ml - 8}" y="${y + rh / 2 + 4}" class="tick" text-anchor="end" style="fill:var(--ink-2)">${esc(r.short)}</text>`;
+      r.values.forEach((v, i) => { if (!ok(v)) return; const t = Math.max(-1, Math.min(1, v / clamp)), pct = Math.round(Math.abs(t) * 100);
+        const pole = t < 0 ? "var(--heat-neg)" : "var(--heat-pos)";
+        s += `<rect x="${(ml + i * cw).toFixed(2)}" y="${y + 1}" width="${(cw - 0.6).toFixed(2)}" height="${rh - 2}" data-i="${i}" data-j="${j}" style="fill:color-mix(in oklab, ${pole} ${pct}%, var(--heat-mid))"/>`; }); });
+    linTicks(xs[0], xs[xs.length - 1], 7).forEach((v) => { const i = xs.indexOf(v); if (i < 0) return;
+      s += `<text x="${ml + (i + 0.5) * cw}" y="${H - 7}" class="tick" text-anchor="middle">${v}</text>`; });
+    s += `</svg>`; plot.querySelector("svg")?.remove(); plot.insertAdjacentHTML("afterbegin", s);
+    const svg = plot.querySelector("svg");
+    svg.addEventListener("pointermove", (ev) => { const t = ev.target; if (!t.dataset || t.dataset.i == null) { tip.hidden = true; return; }
+      const i = +t.dataset.i, j = +t.dataset.j; tip.replaceChildren(); tip.append(el("div", "th", `${xs[i]} · ${rows[j].label}`));
+      const r = el("div", "tr"), k = el("span", "key wash"); k.style.background = "var(--ink-3)"; r.append(k, el("b", null, fmt(rows[j].values[i], 2)), el("i", null, "tolerances, model minus record")); tip.append(r);
+      tip.hidden = false; const box = plot.getBoundingClientRect(); const px = ev.clientX - box.left; const tw = tip.offsetWidth;
+      tip.style.left = (px + 14 + tw > box.width ? Math.max(4, px - 14 - tw) : px + 14) + "px"; });
+    svg.addEventListener("pointerleave", () => { tip.hidden = true; });
+  };
+  draw(); observe(plot, draw);
+  const cols = rows.map((r) => ({ label: r.label, values: r.values, fmt: (v) => fmt(v, 2) })); numbersTable(host, xs, cols, defaultRows(xs, cols));
+}
+
+function dotPlot(host, spec) {
+  host.innerHTML = ""; host.append(legend([{ label: spec.aLabel, color: spec.aColor, kind: "dot" }, { label: spec.bLabel, color: spec.bColor, kind: "dot" }]));
+  const plot = el("div", "plot"); host.append(plot); const tip = el("div", "tip"); tip.hidden = true; plot.append(tip);
+  const rows = spec.rows;
+  const draw = () => {
+    const W = Math.max(300, Math.round(plot.clientWidth || 800)), ml = W < 520 ? 100 : 190, mr = 16, mt = 10, rh = 30, mb = 26, H = mt + rows.length * rh + mb;
+    const vals = rows.flatMap((r) => [r.a, r.b]).filter((v) => ok(v) && v > 0), lo = Math.min(...vals) / 1.4, hi = Math.max(...vals) * 1.4;
+    const X = (v) => ml + (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * (W - ml - mr);
+    let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(spec.aria || "")}">`;
+    logTicks(lo, hi).forEach((v) => { const x = X(v); s += `<line x1="${x}" x2="${x}" y1="${mt}" y2="${H - mb}" class="grid"/><text x="${x}" y="${H - 8}" class="tick" text-anchor="middle">${fmtTick(v)}</text>`; });
+    rows.forEach((r, j) => { const y = mt + j * rh + rh / 2;
+      s += `<text x="${ml - 10}" y="${y + 4}" class="tick" text-anchor="end" style="fill:var(--ink-2)">${esc(W < 520 ? r.short : r.label)}</text>`;
+      s += `<line x1="${X(r.a)}" x2="${X(r.b)}" y1="${y}" y2="${y}" class="axis"/>`;
+      s += `<circle cx="${X(r.a)}" cy="${y}" r="5" class="dot" style="fill:${spec.aColor}"/><circle cx="${X(r.b)}" cy="${y}" r="5" class="dot" style="fill:${spec.bColor}"/>`;
+      s += `<rect x="${ml}" y="${y - rh / 2}" width="${W - ml - mr}" height="${rh}" fill="transparent" data-j="${j}"/>`; });
+    s += `</svg>`; plot.querySelector("svg")?.remove(); plot.insertAdjacentHTML("afterbegin", s);
+    plot.querySelector("svg").addEventListener("pointermove", (ev) => { const j = ev.target.dataset ? ev.target.dataset.j : null; if (j == null) { tip.hidden = true; return; }
+      const r = rows[+j]; tip.replaceChildren(); tip.append(el("div", "th", r.label));
+      [[spec.aLabel, r.a, spec.aColor], [spec.bLabel, r.b, spec.bColor]].forEach(([l, v, c]) => { const d = el("div", "tr"), k = el("span", "key dot"); k.style.background = c; d.append(k, el("b", null, fmt(v, 2)), el("i", null, l)); tip.append(d); });
+      tip.hidden = false; const box = plot.getBoundingClientRect(), px = ev.clientX - box.left, tw = tip.offsetWidth;
+      tip.style.left = (px + 14 + tw > box.width ? Math.max(4, px - 14 - tw) : px + 14) + "px"; tip.style.top = (mt + (+j) * rh + rh) + "px"; });
+    plot.querySelector("svg").addEventListener("pointerleave", () => { tip.hidden = true; });
+  };
+  draw(); observe(plot, draw);
+  const d = el("details", "nums"); d.append(el("summary", null, "Numbers")); const w = el("div", "tablewrap"), t = el("table");
+  const hr = el("tr"); ["", spec.aLabel, spec.bLabel].forEach((h) => hr.append(el("th", null, h))); t.append(hr);
+  rows.forEach((r) => { const tr = el("tr"); tr.append(el("td", null, r.label), el("td", null, fmt(r.a, 2)), el("td", null, fmt(r.b, 2))); t.append(tr); });
+  w.append(t); d.append(w); host.append(d);
+}
+
+function splitBars(host, rows, legendItems) {
+  host.innerHTML = ""; host.append(legend(legendItems.map((l) => ({ label: l.label, color: l.color, kind: "wash" }))));
+  rows.forEach((r) => { const row = el("div", "split-row"); row.append(el("span", null, r.label)); const bar = el("div", "split-bar");
+    bar.setAttribute("role", "img"); bar.setAttribute("aria-label", r.label + ": " + r.parts.map((p) => `${p.label} ${fmt(p.value, 2)}`).join(", "));
+    r.parts.forEach((p) => { const d = el("div"); d.style.flex = `${Math.max(p.value, 0.0001)} 1 0`; d.style.background = p.color;
+      if (p.dark) d.classList.add("dark-text"); d.title = `${p.label}: ${fmt(p.value, 3)}`; if (p.value >= 0.09) d.textContent = Math.round(p.value * 100) + "%"; bar.append(d); });
+    row.append(bar); host.append(row); });
+  const d = el("details", "nums"); d.append(el("summary", null, "Numbers")); const w = el("div", "tablewrap"), t = el("table");
+  rows.forEach((r) => r.parts.forEach((p) => { const tr = el("tr"); tr.append(el("td", null, r.label), el("td", null, p.label), el("td", null, fmt(p.value, 3))); t.append(tr); }));
+  w.append(t); d.append(w); host.append(d);
+}
+
+function htmlTable(t, head, rows) {
+  t.replaceChildren(); const hr = el("tr"); head.forEach((h) => hr.append(el("th", null, h))); t.append(hr);
+  rows.forEach((r) => { const tr = el("tr"); r.forEach((c) => { const td = el("td"); if (c instanceof Node) td.append(c); else td.textContent = c; tr.append(td); }); t.append(tr); });
+}
+
+// ------------------------------------------------------------------------------------------------- data helpers
+const TOL = DATA.tol_log;
+const recGoods = REC.wage_goods, recShelter = REC.wage_shelter;
+const bandLog = (arr, tol) => ({ lo: arr.map((v) => (ok(v) ? v * Math.exp(-tol) : null)), hi: arr.map((v) => (ok(v) ? v * Math.exp(tol) : null)) });
+const bandLev = (arr, tol) => ({ lo: arr.map((v, i) => (ok(v) ? v - (Array.isArray(tol) ? tol[i] : tol) : null)), hi: arr.map((v, i) => (ok(v) ? v + (Array.isArray(tol) ? tol[i] : tol) : null)) });
+const NAMES = { wage_goods: "Wage over everything but shelter", wage_shelter: "Wage over shelter", labour_share_c: "Labour's share",
+  prime_emp_rate: "Prime-age employment", theta_V: "θ_V, pay's share of a machine's cost" };
+const SHORT = { wage_goods: "Goods wage", wage_shelter: "Shelter wage", labour_share_c: "Labour share", prime_emp_rate: "Employment", theta_V: "θ_V" };
+const pct = (v) => (ok(v) ? (v * 100).toFixed(1) + "%" : "–");
+
+// ------------------------------------------------------------------------------------------------- sections
+function renderModelTable() {
+  const B = DATA.models.fit_B, W = DATA.models.fit_Bw, pb = B.par, pw = W.par;
+  const rows = [
+    ["T", "Land per adult (the land unit is the machine's land b)", "fitted", fmt(pb.T, 5), fmt(pw.T, 5)],
+    ["h", "Site in the basket at 1950's price", "fitted", fmt(pb.h, 5), fmt(pw.h, 5)],
+    ["a", "Machine services to build a machine", "fitted", fmt(pb.a, 3), fmt(pw.a, 3)],
+    ["k", "Convexity of the task schedule", "fitted", fmt(pb.k, 3), fmt(pw.k, 3)],
+    ["g_η", "The capability clock's pace", "fitted", pct(pb.g_eta), pct(pw.g_eta)],
+    ["λ₀, g_λ", "Hours to build a machine in 1950, and their pace", "fitted", `${fmt(pb.lam0, 1)}; ${pct(pb.g_lam)}`, `${fmt(pw.lam0, 1)}; ${pct(pw.g_lam)}`],
+    ["χ_w", "Women's entry: the cost of working by 1990, relative to 1950", "fitted", "×" + fmt(Math.exp(pb.chi_w), 3), "×" + fmt(Math.exp(pw.chi_w), 3)],
+    ["wave", "A technology wave from 1948: its size and pace", "fitted (wave only)", "–", `clock ×${fmt(Math.exp(-pw.w0_size), 3)}; ${fmt(pw.w0_tau, 1)} years`],
+    ["χ_max", "The cost of working's scale", "set: 1950's prime-age employment is the record's (0.628)", fmt(pb.chi_max, 3), fmt(pw.chi_max, 3)],
+    ["ρ", "Required return on machines", "set", "2%", "2%"],
+    ["σ", "Elasticity between goods and site in the basket", "set: slope of housing's share of spending on shelter's price over durables', 1950–2024", fmt(B.meta.sigma, 3), fmt(W.meta.sigma, 3)],
+    ["u", "The basket's utility", "set: the production worker's real wage over the CPI at 1950, 1970, 1990 and 2024, straight in logs between", "1, 1.52, 1.35, 1.66", "same"],
+    ["", "Women's entry ends", "set", "1990", "1990"],
+    ["b, g₀, g₁", "Machine's land; the schedule's floor and slope", "set as calibration (c)", "0.4, 0.01, 0.99", "same"],
+    ["N, δ", "Adults 16+ and depreciation", "measured each year", "2.56× by 2024; 4.0% to 5.3%", "same"]];
+  const t = $("#tbl-model"); t.replaceChildren(); const hr = el("tr"); ["", "What it is", "How", "B", "B with the wave"].forEach((h) => hr.append(el("th", null, h))); t.append(hr);
+  rows.forEach((r) => { const tr = el("tr"); r.forEach((c, j) => { const td = el("td", j === 0 ? "n" : j === 2 ? "why" : j >= 3 ? "n" : null, c); if (j === 0) td.classList.add("sym"); tr.append(td); }); t.append(tr); });
+}
+
+function renderFit() {
+  const host = $("#fit-charts"); host.replaceChildren();
+  const B = DATA.models.fit_B.series, W = DATA.models.fit_Bw.series;
+  const both = (key) => [{ label: "Model B", color: "var(--c1)", values: B[key] }, { label: "B with the 1948 wave", color: "var(--c2)", values: W[key], width: 1.5 }];
+  lineChart(figure(host, { title: "Wage over everything but shelter, 1950 = 100", note: "Production and nonsupervisory hourly earnings over the CPI less shelter (CUUR0000SA0L2). Log scale; the wash is the 5% tolerance." }),
+    { x: YRS, log: true, aria: "Wage over everything but shelter", series: [{ label: "Record", color: REC_C, values: recGoods, band: bandLog(recGoods, TOL.wage_goods), bandLabel: "tolerance", width: 1.5 }, ...both("wage_goods")] });
+  lineChart(figure(host, { title: "Wage over shelter, 1950 = 100", note: "The same earnings over the CPI's shelter. In the model, shelter is pure site. Log scale." }),
+    { x: YRS, log: true, aria: "Wage over shelter", series: [{ label: "Record", color: REC_C, values: recShelter, band: bandLog(recShelter, TOL.wage_shelter), bandLabel: "tolerance", width: 1.5 }, ...both("wage_shelter")] });
+  lineChart(figure(host, { title: "Labour's share of consumption, full chain", note: "The record's band where it has one (weak years), ±0.01 elsewhere. Model: v(1 − x)/P_s." }),
+    { x: YRS, aria: "Labour's share", series: [{ label: "Record", color: REC_C, values: REC.labour_share_c, band: bandLev(REC.labour_share_c, REC.ls_tol), bandLabel: "band", width: 1.5 }, ...both("labour_share_c")] });
+  lineChart(figure(host, { title: "Prime-age employment rate, 25–54", note: "LNS12300060. Pinned in 1950. Tolerance ±0.015." }),
+    { x: YRS, aria: "Prime-age employment", series: [{ label: "Record", color: REC_C, values: REC.prime_emp_rate, band: bandLev(REC.prime_emp_rate, 0.015), bandLabel: "tolerance", width: 1.5 }, ...both("prime_emp_rate")] });
+  lineChart(figure(host, { title: "θ_V, pay's share of a machine's cost", note: "Measured in 33 years (dots). Tolerance ±0.02." }),
+    { x: YRS, aria: "theta V", series: [{ label: "Record", color: REC_C, values: REC.theta_V, dots: true }, ...both("theta_V")] });
+  const misfit = figure(host, { title: "Misfit by series", note: "Mean squared deviation in tolerances. The total is the mean of the five." });
+  const t = el("table"); misfit.append(el("div", "tablewrap")); misfit.lastChild.append(t);
+  const mb = DATA.models.fit_B.by_series, mw = DATA.models.fit_Bw.by_series;
+  htmlTable(t, ["", "Model B", "With the wave"], DATA.series.map((s) => [NAMES[s], fmt(mb[s], 2), fmt(mw[s], 2)])
+    .concat([["Total", fmt(DATA.models.fit_B.misfit, 2), fmt(DATA.models.fit_Bw.misfit, 2)]]));
+  t.style.width = "100%"; $("#tbl-misfit").remove?.();
+}
+function renderHeat() {
+  heatStrip($("#fit-heat"), { x: YRS, aria: "Deviations by year", rows: DATA.series.map((s) => ({ label: NAMES[s], short: SHORT[s], values: M().dev[s] })) });
+}
+
+function renderUnseen() {
+  const host = $("#unseen-charts"); host.replaceChildren(); const S = M().series, c = MC(), L = ML();
+  lineChart(figure(host, { title: "Wage over durables, 1950 = 100", note: "The old goods target. The record rises 6.2-fold; B's one good rises 1.8-fold, close to everything but shelter. Durables' extra fall in price lies outside a one-good model. Log scale." }),
+    { x: YRS, log: true, aria: "Wage over durables", series: [{ label: "Record, over durables", color: REC_C, values: REC.wage_durables, width: 1.5 },
+      { label: "Record, over everything but shelter", color: REC2_C, values: REC.wage_exshelter, width: 1 }, { label: L + ", wage in goods", color: c, values: S.wage_goods }] });
+  lineChart(figure(host, { title: "Wage over the cost of living, 1950 = 100", note: "Model: the wage over the cost of a basket of 1950's utility. Record: the same earnings over the all-items CPI. The utility passes through this record at its knots, so the two agree partly by construction there. The model misses the 1970–1990 fall (151 in 1990 against 135)." }),
+    { x: YRS, aria: "Wage over the cost of living", series: [{ label: "Record, over all items", color: REC_C, values: REC.real_wage_cpi, width: 1.5 }, { label: L, color: c, values: S.wage_living }],
+      vlines: [1970, 1990].map((x) => ({ x, label: "knot" })) });
+  lineChart(figure(host, { title: "Housing's share of consumer spending", note: "Record: housing's share of personal consumption, structures and site together. Model: the site's share of the basket's cost, so its level is lower. The record rises 44%; the model's share 9%." }),
+    { x: YRS, aria: "Housing share", series: [{ label: "Record, housing", color: REC_C, values: REC.housing_share_pce, width: 1.5 }, { label: L + ", site", color: c, values: S.site_share }], yMin: 0 });
+  lineChart(figure(host, { title: "The waterline, 1999 = 1", note: "Record: production workers' wage over hedonic computer and equipment prices, the median of six measures (companion/data/wc_grid.csv). Model: the wage over the price of a unit of machine capability, γ(x*)/η. The record rises 7.6-fold by 2023; the model 1.4-fold. Log scale." }),
+    { x: YRS, xMin: 1999, xMax: 2024, xTicks: [2000, 2005, 2010, 2015, 2020], log: true, aria: "Waterline", series: [{ label: "Record", color: REC_C, values: REC.waterline, width: 1.5 }, { label: L, color: c, values: S.waterline }] });
+  const kb = REC.kappa_med[idx(1953)];
+  lineChart(figure(host, { title: "The coverage ratio, 1953 = 1", note: "Site rent against the cost of a basket for every person. Record: the median and range of its measures (Z.1 land values at two capitalization rates and a rent-flow measure, against two poverty-threshold bundles). Model: land rent against a basket of 1950's utility for every adult. The record rises 6.7-fold; the model's falls by a fifth. Log scale." }),
+    { x: YRS, log: true, xMin: 1953, aria: "Coverage ratio", series: [{ label: "Record, median", color: REC_C, values: REC.kappa_idx, width: 1.5,
+      band: { lo: REC.kappa_lo.map((v) => (ok(v) ? v / kb : null)), hi: REC.kappa_hi.map((v) => (ok(v) ? v / kb : null)) }, bandLabel: "range of measures" }, { label: L, color: c, values: S.coverage_idx }] });
+  lineChart(figure(host, { title: "The machine chain's share of all pay", note: "Record: pay embodied in fixed investment in equipment, software and private structures over all pay (BEA input–output), at US cost shares and for domestic labour only. Model: the chain's hours over all hours; the model has one wage. Model 38% in 2023 against 18%." }),
+    { x: YRS, aria: "Machine chain share", yMin: 0, series: [{ label: "Record, US cost shares", color: REC_C, values: REC.chain_share_tot, width: 1.5 }, { label: "Record, domestic labour", color: REC2_C, values: REC.chain_share_domp, width: 1 }, { label: L, color: c, values: S.chain_share }] });
+  lineChart(figure(host, { title: "Replacement as a share of gross output", note: "Model: depreciation of machines over income plus depreciation. Record: NIPA's consumption of fixed capital over GDP in 2023 (the dot), 0.16. The model's 2023 value: 0.35." }),
+    { x: YRS, aria: "Replacement share", yMin: 0, series: [{ label: L, color: c, values: S.cfc_gross }], points: [{ x: 2023, y: REC.cfc_over_gdp_2023, color: REC_C, label: "NIPA 2023", legend: "Record, 2023" }] });
+  const cs = REC.cost_split_2023.tot, i23 = idx(2023);
+  const sb = figure(host, { title: "A machine's cost in 2023", note: "Record: the bundle calibration (c) reads, at US cost shares. Net operating surplus bounds fixed rents and the return together. Model: machine services, pay and fixed rents (land). Machine services in the model (50%) exceed depreciation and all of the surplus together (38%)." });
+  splitBars(sb, [
+    { label: "Record", parts: [{ label: "pay", value: cs.theta, color: "var(--c1)" }, { label: "depreciation", value: cs.cfc, color: "var(--c2)" },
+      { label: "taxes on production", value: cs.tax, color: "var(--c4)", dark: true }, { label: "net operating surplus", value: cs.nos, color: "var(--c3)" }] },
+    { label: L, parts: [{ label: "pay", value: S.theta_V[i23], color: "var(--c1)" }, { label: "machine services", value: S.kappa_V[i23], color: "var(--c7)" },
+      { label: "fixed rents (land)", value: S.sigma_V[i23], color: "var(--c5)" }] }],
+    [{ label: "pay", color: "var(--c1)" }, { label: "depreciation", color: "var(--c2)" }, { label: "taxes on production", color: "var(--c4)" },
+     { label: "net operating surplus", color: "var(--c3)" }, { label: "machine services (model)", color: "var(--c7)" }, { label: "fixed rents (model)", color: "var(--c5)" }]);
+  lineChart(figure(host, { title: "Labour's share, three readings, 1950 = 1", note: "BLS's nonfarm business labour share (PRS85006173) falls 13% to 2024, on its own basis; the targeted full-chain series falls 30%; the model's 28%." }),
+    { x: YRS, aria: "Labour share readings", series: [{ label: "Record, nonfarm business", color: REC2_C, values: REC.nfb_labour_share, width: 1 },
+      { label: "Record, targeted", color: REC_C, values: index1(REC.labour_share_c), width: 1.5 }, { label: L, color: c, values: index1(S.labour_share_c) }] });
+}
+
+function renderInside() {
+  const host = $("#inside-charts"); host.replaceChildren(); const S = M().series, c = MC(), L = ML();
+  lineChart(figure(host, { title: "The task line and its ceiling", note: "x: the share of tasks machines do. The ceiling: the last task machines can take at any wage, where the services and hours that replace an hour embody the whole hour. From about 1970 the equilibrium sits on it (within 0.002 after 1990), and the task line moves only as the ceiling moves." }),
+    { x: YRS, aria: "Task line", series: [{ label: "Ceiling", color: REC2_C, values: S.x_ceiling, width: 1 }, { label: L + ", x", color: c, values: S.x }] });
+  stackChart(figure(host, { title: "A machine's cost, by part", note: "Machine services κ_V, pay θ_V and fixed rents σ_V, as shares of a machine's cost. Land's share falls from 0.40 in 1950 to 0.0003 in 2024: at the ceiling a machine is a loop of machine services and hours." }),
+    { x: YRS, aria: "Machine cost split", layers: [{ label: "pay θ_V", color: "var(--c1)", values: S.theta_V }, { label: "machine services κ_V", color: "var(--c7)", values: S.kappa_V }, { label: "fixed rents (land) σ_V", color: "var(--c5)", values: S.sigma_V }] });
+  lineChart(figure(host, { title: "The two real clocks, 1950 = 1", note: "Land per unit of task capacity (bη) falls 12.5% a year, to 1/10,000 of its 1950 level. Hours per unit of task capacity (λη) fall 0.9% a year, to half. Hours per machine (λ) rise 11.5% a year. Log scale." }),
+    { x: YRS, log: true, aria: "Two clocks", series: [{ label: "Land per unit of task capacity", color: "var(--c3)", values: S.land_per_task }, { label: "Hours per unit of task capacity", color: c, values: S.hours_per_task }, { label: "Hours per machine", color: "var(--c7)", values: S.lam }] });
+  lineChart(figure(host, { title: "What a basket holds, 1950 = 1", note: "Goods and site in a basket of the year's utility. Utility rises to 1970, dips to 1990 and rises after (its knots). Site per basket peaks in 1970 and falls 43% by 2024; goods fall to 1990, then climb past their 1970 level." }),
+    { x: YRS, aria: "Basket", series: [{ label: "Utility", color: REC2_C, values: M().utility, width: 1 }, { label: "Goods per basket", color: "var(--c7)", values: S.goods_basket }, { label: "Site per basket", color: "var(--c3)", values: S.site_basket }] });
+  lineChart(figure(host, { title: "Labour's share taken apart, 1950 = 1", note: "The share is the wage in goods, times the share of tasks people do, times goods' share of the basket. By 2024 the first is 1.82, the second 0.40 and the third 0.99 of its 1950 level: the fall is the task line's. Log scale." }),
+    { x: YRS, log: true, aria: "Labour share parts", series: [{ label: "Wage in goods", color: "var(--c3)", values: S.ls_wage_goods }, { label: "People's share of tasks", color: "var(--c7)", values: S.ls_people },
+      { label: "Goods' share of the basket", color: "var(--c4)", values: S.ls_goods_share }, { label: "Labour's share", color: c, values: index1(S.labour_share_c), width: 2.5 }] });
+  stackChart(figure(host, { title: "Where the land goes", note: "Shares of the land stock: site in baskets, and land used up in replacing machines. Machines hold 63% in 1950, 6% by 1990 and almost none by 2024." }),
+    { x: YRS, aria: "Land use", layers: [{ label: "homes (site in baskets)", color: "var(--c3)", values: S.land_homes }, { label: "machines", color: "var(--c7)", values: S.land_machines }] });
+  stackChart(figure(host, { title: "Income, three ways", note: "Pay, land rent and the return on machines, as shares of income net of depreciation. Pay rises from 0.67 to 0.72 because the chain's hours are pay; land's share falls from 0.18 to 0.08." }),
+    { x: YRS, aria: "Income split", layers: [{ label: "pay", color: "var(--c1)", values: S.inc_labour }, { label: "return on machines", color: "var(--c7)", values: S.inc_interest }, { label: "land rent", color: "var(--c3)", values: S.inc_land }] });
+  lineChart(figure(host, { title: "Work and its cost, 1950 = 1", note: "The cost of working falls 17% to 1990 (women's entry) and holds. The wage in baskets is log(1 + v/P_s); participation is its ratio to the cost of working, so it rises to 1990 and eases after as the basket's utility climbs." }),
+    { x: YRS, aria: "Work", series: [{ label: "Cost of working", color: "var(--c7)", values: S.chi }, { label: "Wage in baskets", color: "var(--c3)", values: index1(S.z) }, { label: L + ", prime-age rate", color: c, values: index1(S.prime_emp_rate) }] });
+  lineChart(figure(host, { title: "Prices in site units, 1950 = 1", note: "The goods price, the basket's price and the wage, each over the site rent. Log scale." }),
+    { x: YRS, log: true, aria: "Prices", series: [{ label: "Goods price", color: "var(--c7)", values: S.p }, { label: "Basket price", color: "var(--c3)", values: S.Ps }, { label: "Wage", color: c, values: S.v }] });
+}
+
+const DRIVERS = [["clock", "Capability clock"], ["chain", "Hours per machine"], ["both_clocks", "Both clocks"], ["people", "Adults"],
+  ["depreciation", "Depreciation"], ["utility", "Basket utility"], ["women", "Women's entry"]];
+const DRV_NOTE = {
+  clock: "Holding the capability clock while hours per machine keep rising closes the tasks machines can take: no equilibrium after 1977.",
+  chain: "Holding hours per machine while the clock runs hands machines almost every task (0.999 by 2024), and labour's share falls to 0.007. The two clocks move together in the fit; what they do to the record comes from the slow difference between them.",
+  both_clocks: "With both clocks held, the wage in goods ends at 73 (182 fitted), labour's share at 0.61 (0.45), the task line at 0.57 (0.87) and the prime-age rate at 0.42 (0.77).",
+  people: "Holding adults at their 1950 number leaves the wage over shelter at 231 in 2024 (83 fitted): in the model, population growth accounts for the fall in the shelter wage.",
+  depreciation: "Holding depreciation at its 1950 rate (4.0%, against 5.3% in 2024) lowers labour's share to 0.33 and raises the task line to 0.92: faster depreciation slowed automation.",
+  utility: "Holding the basket's utility at its 1950 level puts every prime-age adult to work by 2024 (rate 1.0): the rising utility is what holds participation down.",
+  women: "Without women's entry, the prime-age rate ends at 0.65 (0.77 fitted) and the wage over shelter at 101 (83)." };
+let DRV = "both_clocks";
+function renderDrivers() {
+  const seg = $("#drv-seg"); seg.replaceChildren();
+  DRIVERS.forEach(([k, label]) => { const b = el("button", null, label); b.setAttribute("aria-pressed", String(k === DRV)); b.addEventListener("click", () => { DRV = k; renderDrivers(); }); seg.append(b); });
+  $("#drv-note").textContent = MKEY === "fit_B" ? DRV_NOTE[DRV] : "The notes read model B; the charts show the wave model.";
+  const host = $("#drv-charts"); host.replaceChildren(); const S = M().series, cf = M().counterfactual[DRV], c = MC(), L = ML(), held = DRIVERS.find((d) => d[0] === DRV)[1] + " held";
+  const spec = (key, title, log, rec) => lineChart(figure(host, { title }), { x: YRS, log, aria: title, series: [{ label: "Record", color: REC_C, values: rec, width: 1.5 }, { label: L, color: c, values: S[key] }, { label: held, color: "var(--c3)", values: cf[key] }] });
+  spec("wage_goods", "Wage over everything but shelter, 1950 = 100", true, recGoods);
+  spec("wage_shelter", "Wage over shelter, 1950 = 100", true, recShelter);
+  spec("labour_share_c", "Labour's share", false, REC.labour_share_c);
+  spec("prime_emp_rate", "Prime-age employment rate", false, REC.prime_emp_rate);
+  const last = YRS.length - 1, rows = [["As fitted", ...["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "x"].map((k) => fmt(S[k][last], k.startsWith("wage") ? 1 : 3))]];
+  DRIVERS.forEach(([k, label]) => { const f = M().counterfactual[k]; const solved = f.x.filter(ok).length;
+    rows.push([label + (solved < YRS.length ? ` (no equilibrium after ${YRS[f.x.findLastIndex(ok)]})` : ""), ...["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "x"].map((kk) => fmt(f[kk][last], kk.startsWith("wage") ? 1 : 3))]); });
+  htmlTable($("#tbl-drivers"), ["Held at 1950", "Wage over all but shelter", "Wage over shelter", "Labour's share", "Prime-age rate", "Task line x"], rows);
+}
+
+function renderAhead() {
+  const host = $("#ahead-charts"); host.replaceChildren(); const A = M().ahead, c = MC(), L = ML();
+  const shade = { from: 2024.5, to: 2050, label: "carried forward" };
+  const pad = (arr) => arr.concat(DATA.ahead.map(() => null));
+  const fwd = (arr) => arr.map((v, i) => (ALL[i] >= 2024 ? v : null));     // the runs part from 2024; the history is drawn once
+  const spec = (key, title, opts = {}) => lineChart(figure(host, { title, note: opts.note }), Object.assign({ x: ALL, shade, aria: title, series: [
+    ...(opts.rec ? [{ label: "Record", color: REC_C, values: pad(opts.rec), width: 1.5 }] : []),
+    { label: "utility rising", color: "var(--c3)", values: fwd(A.rising[key]), width: 1.5 },
+    { label: "clocks stopped in 2025", color: "var(--c7)", values: fwd(A.stopped[key]), width: 1.5 },
+    { label: L + ", utility held", color: c, values: A.held[key] }] }, opts.spec || {}));
+  spec("labour_share_c", "Labour's share", { rec: REC.labour_share_c });
+  spec("x", "The task line", { note: "The ceiling moves with the slow clock, and the task line with it." });
+  spec("wage_goods", "Wage over everything but shelter, 1950 = 100", { rec: recGoods, spec: { log: true } });
+  spec("wage_shelter", "Wage over shelter, 1950 = 100", { rec: recShelter, spec: { log: true } });
+  spec("prime_emp_rate", "Prime-age employment rate", { rec: REC.prime_emp_rate });
+  spec("chain_share", "The machine chain's share of all pay", { rec: REC.chain_share_tot });
+}
+
+let OOS = 0;
+function renderStress() {
+  const V = ST.variants, base = ST.base;
+  const splits = V.filter((v) => v.group === "split");
+  const seg = $("#oos-seg"); seg.replaceChildren();
+  const SPL = ["1950–1995", "1950–1985", "1950–1995, utility held after 1990"];
+  splits.forEach((v, i) => { const b = el("button", null, SPL[i] || v.name); b.setAttribute("aria-pressed", String(i === OOS)); b.addEventListener("click", () => { OOS = i; renderStress(); }); seg.append(b); });
+  const sv = splits[OOS], until = sv.settings.fit_years[1];
+  const host = $("#oos-charts"); host.replaceChildren();
+  DATA.series.forEach((s) => {
+    const rec = s === "wage_goods" ? recGoods : s === "wage_shelter" ? recShelter : REC[s];
+    const log = s.startsWith("wage");
+    lineChart(figure(host, { title: NAMES[s], note: `Out of sample ${until + 1}–2024: misfit ${fmt(sv.by_series_out[s], 1)} (in sample ${fmt(sv.by_series_in[s], 2)}).` }),
+      { x: YRS, log, height: 180, aria: NAMES[s], shade: { from: until + 0.5, to: 2024, label: "out of sample" },
+        series: [{ label: "Record", color: REC_C, values: rec, dots: s === "theta_V", width: 1.5 }, { label: "Model B, all years", color: "var(--c1)", values: base.path[s], width: 1.5 },
+          { label: `Fitted to ${until}`, color: "var(--c3)", values: sv.path[s] }] });
+  });
+  const drops = V.filter((v) => v.group === "drop");
+  dotPlot($("#loo-chart"), { aLabel: "In the fit (model B)", bLabel: "Left out, predicted", aColor: "var(--c1)", bColor: "var(--c3)", aria: "Leave one out",
+    rows: drops.map((v) => { const s = v.step.drop[0]; return { label: NAMES[s], short: SHORT[s], a: base.by_series[s], b: v.by_series[s] }; }) });
+  const sets = V.filter((v) => v.group === "set");
+  htmlTable($("#tbl-set"), ["Set value moved", "Misfit", "Change", "Clock", "Hours per task", "Task line 2024"],
+    [["Model B", fmt(base.misfit, 2), "", pct(base.par.g_eta), pct(base.readings.hours_per_task), fmt(base.readings.x_2024, 3)]].concat(
+      sets.map((v) => [v.name, fmt(v.misfit, 2), (v.misfit >= base.misfit ? "+" : "") + ((v.misfit / base.misfit - 1) * 100).toFixed(1) + "%", pct(v.par.g_eta), pct(v.readings.hours_per_task), fmt(v.readings.x_2024, 3)])));
+  const prof = V.filter((v) => v.group === "profile").map((v) => ({ g: v.par.g_eta, m: v.misfit })).concat([{ g: base.par.g_eta, m: base.misfit }]).sort((a, b) => a.g - b.g);
+  lineChart($("#profile-chart"), { x: prof.map((p) => +(p.g * 100).toFixed(2)), aria: "Clock profile", height: 220, xFmt: (v) => v + "%", xTicks: [4, 6, 8, 10, 12, 14, 16, 18],
+    series: [{ label: "Misfit", color: "var(--c1)", values: prof.map((p) => p.m) }], refs: [{ y: base.misfit * 1.1, label: "best + 10%" }],
+    vlines: [{ x: +(base.par.g_eta * 100).toFixed(2), label: "B" }, { x: +(DATA.models.fit_Bw.par.g_eta * 100).toFixed(2), label: "the wave model's pace" }], digits: 2,
+    tableRows: prof.map((_, i) => i) });
+  const ab = V.filter((v) => v.group === "ablate" || v.group === "simpler");
+  const pill = (txt, cls) => { const p = el("span", "pill " + cls, txt); return p; };
+  const rowsA = [
+    ["Women's entry", "without it", "ablate", "without women's entry", true],
+    ["The basket at constant utility", "a fixed basket", "ablate", "without the basket (fixed basket)", true],
+    ["The utility's dip, 1970–1990", "rising to 1970, then held", "ablate", "utility rising to 1970, then held", true],
+    ["The utility's rise", "flat utility", "ablate", "utility flat", true],
+    ["The cap on participation", "with the cap", "ablate", "with the cap", false],
+    ["1950 pinned to the record", "not pinned (one number more)", "ablate", "start not pinned", null],
+    ["Return set at 2%", "return fitted (one number more)", "ablate", "return free", null],
+    ["Hours per task free", "hours per task tied to the clock (one number fewer)", "simpler", "hours per unit of task capacity steady", false],
+    ["Utility at four knots", "through the real wage every year", "simpler", "utility through the real wage every year", null]];
+  const verdict = (name, d) => {
+    if (name === "Women's entry" || name.startsWith("The basket") || name.startsWith("The utility")) return pill("stays", "keep");
+    if (name.startsWith("The cap")) return pill("stays out", "drop");
+    if (name.startsWith("1950")) return pill("pin kept: costs nothing", "keep");
+    if (name.startsWith("Return")) return pill("set: costs 2.5%", "keep");
+    if (name.startsWith("Hours")) return pill("cut fails", "drop");
+    return pill("an option", "opt"); };
+  const rows = rowsA.map(([name, alt, g, vname]) => { const v = ab.find((x) => x.name === vname); const d = v.misfit / base.misfit - 1;
+    return [name, alt, fmt(v.misfit, 2), (d >= 0 ? "+" : "") + (d * 100).toFixed(1) + "%", verdict(name, d)]; });
+  rows.push(["A 1948 technology wave", "added (two numbers more)", fmt(DATA.models.fit_Bw.misfit, 2), ((DATA.models.fit_Bw.misfit / base.misfit - 1) * 100).toFixed(1) + "%", pill("earns a place", "opt")]);
+  htmlTable($("#tbl-ablate"), ["Piece of B", "Tried", "Misfit", "Against B (2.81)", "Under the rule"], rows);
+}
+
+function renderAll() { renderHeat(); renderUnseen(); renderInside(); renderDrivers(); renderAhead(); }
+
+// ------------------------------------------------------------------------------------------------- wiring
+function setModel(k) { MKEY = k; $("#m-B").setAttribute("aria-pressed", String(k === "fit_B")); $("#m-Bw").setAttribute("aria-pressed", String(k === "fit_Bw"));
+  try { localStorage.setItem("modelB-report-model", k); } catch (e) { /* storage blocked: the default stays */ }
+  renderAll(); }
+$("#m-B").addEventListener("click", () => setModel("fit_B"));
+$("#m-Bw").addEventListener("click", () => setModel("fit_Bw"));
+try { const k = localStorage.getItem("modelB-report-model"); if (k && DATA.models[k]) MKEY = k; } catch (e) { /* storage blocked */ }
+$("#m-B").setAttribute("aria-pressed", String(MKEY === "fit_B")); $("#m-Bw").setAttribute("aria-pressed", String(MKEY === "fit_Bw"));
+renderModelTable(); renderFit(); renderStress(); renderAll();
+const links = [...document.querySelectorAll(".toc a")];
+const io = new IntersectionObserver((es) => { es.forEach((e) => { if (e.isIntersecting) links.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id)); }); }, { rootMargin: "-30% 0px -60% 0px" });
+document.querySelectorAll("main section").forEach((s) => io.observe(s));
+</script>

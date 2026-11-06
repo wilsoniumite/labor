@@ -172,3 +172,9 @@ tilt (its start year and its 2024 weight), and the fit moves the tilt's weight w
   What it gives up: the model then has no durables, so the paper's fork (durables against shelter, x4.8 over 1964-2024)
   is not reproduced, only everything-but-shelter against shelter (x1.9). Holding both would take a second good: durables,
   automatable, beside labour-heavy services, both in the basket.
+
+## Consolidated (2026-11-06)
+
+Her setup from the explorer is now model B, the kept model (`STATE.md` decision 23, Log 18): fitted officially by
+`code/fit_base.py`, stress-tested by `code/stress_B.py` and reported by `code/report_B.py`
+(https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir). The playground files above stay as the record of how it was found.

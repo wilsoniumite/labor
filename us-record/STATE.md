@@ -114,16 +114,27 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 22. **The basket's utility turning around in 1990 is shelved** (her idea, 2026-11-05, tried at once): knots at 1950,
     1970, 1990 and 2024 through the real wage over the all-items CPI (1.00, 1.52, 1.35, 1.66: falling 1970–1990, rising
     after; `fit_base.py --utility-knots 1950,1970,1990,2024`). Misfit 6.93 against 6.77 (Log 12): no better, so the
-    utility rises to 1970 and is held after.
+    utility rises to 1970 and is held after. (Revived in model B, decision 23, where the dip earns 29%.)
+23. **Model B is the kept model** (her setup from the explorer, 2026-11-06: "we can remove the participation cap it
+    seems? It seems to be healthy with 2% return, and with a dip added to the basket utility as well"). The goods wage
+    is read over everything but shelter (SPEC M); women's entry to 1990 (SPEC B, one free number); the required return
+    set at 2%; no cap (decision 16 reversed); the utility's knots 1950, 1970, 1990, 2024 (decision 22 reversed); the
+    basket and the pinned start as before. `results/fit_B.json`: misfit 2.81, eight fitted numbers, all thirteen starts
+    to the same fit. Every piece passes the spec's 20% rule (Log 18).
 
 ## Next
 
-1. **Her model explorer** is built (Log 13): https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs (private to her).
-   **The night's playground** (Log 14, `docs/playground.md`) for her morning: leads, not results.
-2. **What is left** (Log 11): labour's share of consumption before about 1985, which the model holds up while
-   participation rises; and the fit's strain (the required return at zero, the clock at 11% a year where the base's was
-   6.4%, trading against the machine chain's labour growing 6.6% a year), so the clock's pace is not yet a number to
-   hand to the forward model.
+1. **The report on model B** (Log 18): https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir (private to her), built by
+   `code/report_B.py` from the stored fits and `code/stress_B.py`. **Her explorer** (Log 13, now opening on B):
+   https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs.
+2. **What is left after B** (Log 18), in the report's order: (i) the machine chain is too large: from about 1970 the
+   task line sits on the chain's ceiling, land leaves a machine's cost (sigma_V 0.40 -> 0.0003), and the chain takes 38%
+   of pay (18% measured, BEA input-output 2023) and replacement 35% of gross output (NIPA CFC/GDP 16%); the waterline
+   moves 1.4-fold against 7.6-fold. The direct test: the chain's share of pay, 1997-2023, as a sixth target, or
+   sigma_V set as in calibration (c). (ii) A second good, durables apart. (iii) The basket's elasticity and the goods
+   wage on one price basis (0.875 is read against durables; 0.64 against everything but shelter, which fits 25% worse;
+   Cobb-Douglas fits 9% better). (iv) The 1948 wave, for her call. The clock's pace is weakly pinned (10-16% a year
+   within 10% of the best misfit), so it is not yet a number to hand to the forward model.
 3. **A's shelter price capped the model's fork** (found at the basket's design; A dropped, decision 21). A prices shelter at w + (1 - w) p_t / p_2024 (rent 1, w 0.4):
    the built part moves with the final good, which the goods target reads as durables. The fork the model can then make
    between the two wage legs over any span is (S_t / p_t) / (S_0 / p_0) = 1 / (w p_t / p_0 + 1 - w) when t is the last
@@ -307,3 +318,22 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     fits within 1.1 to 5.3 tolerances (misfit 2.92, ten of twelve restarts to the same optimum). It still needs a zero
     return and half of a machine's cost in machine services, and it gives up the durables fork, which would take a second
     good. In the explorer: a switch for the goods deflator, a women's-entry control and the preset.
+18. **2026-11-06 — model B consolidated, stress-tested and reported** (decision 23; her request: "see how we can
+    simplify while keeping this fit, consolidate, stress test ... Like a full report"). `fit_base.py` gains B's switches
+    (`--goods exshelter`, `--women 1990` with the free level chi_w, `--rho 0.02`, `--waves`, and for the stress tests
+    `--hours-per-task`, FIT_YEARS, DROP, FIXED) and `configure(meta)`, which the checks now use to re-solve any stored
+    fit; the g_lam bound widens to 0.25 (B needs 11.5%). Official runs: B 2.807 (13 of 13 starts), B with a 1948 wave
+    1.999 (8 of 13); `check_fit_base` green on both and on every older fit; the explorer's JavaScript reproduces both to
+    1e-12 (`check_explorer`, 8 of 8), and the explorer opens on B with a wave switch. Stress tests (`code/stress_B.py`,
+    51 fits, `results/stress_B.json`): fitted to 1950-1995 alone, B fits those years at 1.27 and misses 1996-2024 by 22.6
+    (1950-1985: 11.6); each series left out is predicted badly (misfits 10 to 622): every series is load-bearing; the
+    return at 1-3%, the utility's knots +-5 years, women's entry ending 1980 or 2000, and g0 at 0.005 or 0.02 move the
+    misfit by under 7% (g0 moves the task line's level); the basket's elasticity moves it most (1.0: 2.54; 0.636, read
+    against everything but shelter: 3.51). The clock's profile is shallow: 10-16% a year within 10% of the best.
+    Ablations: women's entry +133%, the basket +197%, the utility's rise +58% and dip +29%, the cap +1.6% with it,
+    unpinned -0.1%, the return free -2.5%; tying hours per task to the clock (one number fewer) +71%. B is at its
+    simplest under the rule. Facts it never saw (`code/report_B.py`): the durables wage (6.2-fold) is beyond one good;
+    housing's share rises 44% in the record and the site share 9% in B; the coverage ratio rises 6.7-fold in the record
+    and falls by a fifth in B; the machine chain is about twice its measured size (Next 2). Carried forward with its
+    drivers, B's labour share reaches 0.38 by 2050 (0.45 with the clocks stopped). The report:
+    https://claude.ai/artifact/B9SmfZ8nbmTPQaSZTEHvir.
