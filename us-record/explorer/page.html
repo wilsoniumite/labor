@@ -10,7 +10,7 @@
   --bg: #f3f5f2; --panel: #ffffff; --ink: #17201b; --ink2: #56625b; --rule: #dde3de; --soft: #eef2ef;
   --data: #2a78d6; --model: #e2622b; --ref: #7b8580; --band: rgba(42, 120, 214, 0.10);
   --good: #2e8553; --fair: #a8741a; --poor: #bf3f2b;
-  --st-labour: #f1a57f; --st-land: #93bd7e; --st-mach: #a3abcb; --worse: #e8806b; --better: #6fb38a;
+  --st-labour: #f1a57f; --st-land: #93bd7e; --st-mach: #a3abcb; --worse: #e8806b; --better: #6fb38a; --guide: #b6dcc4;
   --sans: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
@@ -19,14 +19,14 @@
     --bg: #111613; --panel: #19201c; --ink: #e5ebe7; --ink2: #9aa69f; --rule: #2b342f; --soft: #212a25;
     --data: #5e9ee8; --model: #f07c4a; --ref: #8c9791; --band: rgba(94, 158, 232, 0.14);
     --good: #57b07c; --fair: #d6a24a; --poor: #e0705c;
-    --st-labour: #a9583a; --st-land: #557d48; --st-mach: #5d6688; --worse: #b4523f; --better: #3f8a5e; color-scheme: dark;
+    --st-labour: #a9583a; --st-land: #557d48; --st-mach: #5d6688; --worse: #b4523f; --better: #3f8a5e; --guide: #35614a; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #111613; --panel: #19201c; --ink: #e5ebe7; --ink2: #9aa69f; --rule: #2b342f; --soft: #212a25;
   --data: #5e9ee8; --model: #f07c4a; --ref: #8c9791; --band: rgba(94, 158, 232, 0.14);
   --good: #57b07c; --fair: #d6a24a; --poor: #e0705c;
-  --st-labour: #a9583a; --st-land: #557d48; --st-mach: #5d6688; --worse: #b4523f; --better: #3f8a5e; color-scheme: dark;
+  --st-labour: #a9583a; --st-land: #557d48; --st-mach: #5d6688; --worse: #b4523f; --better: #3f8a5e; --guide: #35614a; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -142,6 +142,38 @@ details summary { cursor: pointer; color: var(--ink2); font-size: 12px; }
 textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 11.5px; background: var(--soft); color: var(--ink);
            border: 1px solid var(--rule); border-radius: 6px; padding: 8px; margin-top: 8px; }
 .status { font-size: 12px; color: var(--ink2); min-height: 1.4em; }
+@media (min-width: 921px) {
+  .main { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 8px); max-height: calc(100dvh - 16px); overflow-y: auto;
+          overscroll-behavior: contain; padding-right: 4px; }
+}
+.num input[type="range"] { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: var(--track, var(--rule)); }
+.num input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--model);
+  border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--model); cursor: pointer; }
+.num input[type="range"]::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%; background: var(--model); border: 2px solid var(--panel);
+  box-shadow: 0 0 0 1px var(--model); cursor: pointer; }
+.num.extreme input[type="text"] { border-color: var(--fair); color: var(--fair); }
+.guide-note { font-size: 11px; color: var(--fair); }
+.sens-mini { display: inline-flex; align-items: center; gap: 4px; margin-left: 2px; vertical-align: middle; }
+.sens-mini .cells span { width: 8px; height: 8px; border-radius: 2px; }
+.mbar { display: inline-block; width: 34px; height: 5px; border-radius: 3px; background: var(--soft); border: 1px solid var(--rule); overflow: hidden; }
+.mbar i { display: block; height: 100%; background: var(--ink2); }
+.edge { font-size: 10.5px; color: var(--poor); }
+.mini { width: 100%; height: auto; display: block; touch-action: none; background: var(--soft); border-radius: 6px; }
+.head-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.focus-btn { font-size: 11px; padding: 1px 8px; }
+.focus-btn[aria-pressed="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.charts.focusing .card.focused { order: -1; grid-column: 1 / -1; }
+.charts.focusing .card.focused svg { max-height: 60vh; }
+.charts.focusing .card:not(.focused) > :not(.head) { display: none; }
+.charts.focusing .card:not(.focused) { opacity: 0.8; }
+.rail.focusing .rfoc.focused { order: -1; }
+.rail.focusing .rfoc:not(.focused) > :not(.head-row) { display: none; }
+.failband { fill: var(--poor); opacity: 0.09; }
+.kg line { stroke: var(--model); stroke-width: 1.5; }
+.kg circle { fill: var(--model); stroke: var(--panel); stroke-width: 2; }
+.kg.fixed circle { fill: var(--panel); stroke: var(--model); }
+.kg.land line { stroke: var(--good); } .kg.land circle { fill: var(--good); } .kg.fixed.land circle { fill: var(--panel); stroke: var(--good); }
+.big.partial { color: var(--ink2); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
@@ -163,6 +195,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     <label for="preset" class="cap-label">Start from</label>
     <select id="preset"></select>
     <button class="primary" id="fit">Fit free numbers</button>
+    <button id="search" title="Moves the free numbers and points at random until every year has an equilibrium: a start for Fit">Find a start</button>
     <button id="stop" hidden>Stop</button>
     <button id="setref">Make this the reference</button>
     <button id="copy">Copy settings</button>
@@ -174,9 +207,10 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     <span>Misfit 1 = one tolerance from the record on average</span></div>
 
   <div class="bench">
-    <aside class="rail">
-      <section class="group" aria-labelledby="g-model">
-        <h2 id="g-model">The model</h2>
+    <aside class="rail" id="rail">
+      <div id="rail-focus-bar" hidden><button id="rail-showall">Show all controls</button></div>
+      <section class="group rfoc" id="grp-modelsec" aria-labelledby="g-model">
+        <div class="head-row"><h2 id="g-model">The model</h2><button class="focus-btn" id="focus-modelsec" aria-pressed="false">Focus</button></div>
         <div class="switch"><input type="checkbox" id="sw-cap"><label for="sw-cap">Cap on prime-age employment</label>
           <input type="text" class="small-in" id="v-cap" aria-label="Cap"></div>
         <div class="switch"><input type="checkbox" id="sw-pin"><label for="sw-pin">1950 employment pinned to the record</label><span></span></div>
@@ -212,6 +246,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         <button role="tab" id="tab-record" aria-selected="true" aria-controls="view-record">Against the record</button>
         <button role="tab" id="tab-inside" aria-selected="false" aria-controls="view-inside">Inside the model</button>
         <button role="tab" id="tab-sens" aria-selected="false" aria-controls="view-sens">Sensitivities</button>
+        <button id="view-showall" hidden style="margin-left:auto;font-size:12px;padding:4px 10px">Show all charts</button>
       </div>
       <section id="view-record" class="charts" role="tabpanel" aria-labelledby="tab-record"></section>
       <section id="view-inside" class="charts" role="tabpanel" aria-labelledby="tab-inside" hidden></section>
@@ -245,8 +280,9 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   const clone = (o) => JSON.parse(JSON.stringify(o));
   const fmt = (x) => (x === null || x === undefined || !isFinite(x) ? "–" : Math.abs(x) < 1e-12 ? "0"
     : Math.abs(x) >= 1000 || Math.abs(x) < 0.001 ? x.toExponential(2) : (+x.toPrecision(4)).toString());
-  const pct = (x) => (isFinite(x) ? (100 * x).toFixed(Math.abs(x) < 0.1 ? 1 : 0) + "%" : "–");
-  const rate = (x) => (isFinite(x) ? (x >= 0 ? "+" : "") + (100 * x).toFixed(1) + "% a year" : "–");
+  const has = (x) => x !== null && x !== undefined && isFinite(x);
+  const pct = (x) => (has(x) ? (100 * x).toFixed(Math.abs(x) < 0.1 ? 1 : 0) + "%" : "–");
+  const rate = (x) => (has(x) ? (x >= 0 ? "+" : "") + (100 * x).toFixed(1) + "% a year" : "–");
 
   // ---------------------------------------------------------------- labels and linked groups
   const LABEL = {
@@ -274,6 +310,50 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
                          lamk: { year: true, level: false }, bk: { year: true, level: false } };
 
   let S, P, free, ref, cur, curMis, worker = null, dragging = false, view = "record";
+  const railFocus = new Set(), cardFocus = { "view-record": new Set(), "view-inside": new Set() };
+  let GUIDE = null;
+
+  // ---------------------------------------------------------------- guides: the usual range of each number
+  function computeGuides() {
+    const G = {
+      rho: [0.01, 0.08, "between the safe real rate (about 2%) and returns on business capital (5–8%)"],
+      kappa50: [0.10, 0.40, "the forward model's calibration measured 0.20 in 2023"],
+      g_eta: [0.03, 0.10, "a judgment, with the base fit's 6.4% a year in the middle"],
+      g_lam: [-0.03, 0.06, "a judgment around the stored fits"],
+      g_lamTask: [-0.08, 0.0, "the hours behind a fixed task should fall: the paper's point"],
+      k: [2, 20, "the paper's instance 4.4, the forward model's 5.7, the fits 9 to 15"] };
+    for (const n of ["T", "h", "hT", "a", "lam0", "chi_max"]) {
+      const vals = DOC.presets.map((p) => M.toCoords(Object.assign({ chi_max: 1 }, p.params), D)[n]).filter((v) => v > 0 && isFinite(v));
+      G[n] = [Math.min(...vals) / 2, Math.max(...vals) * 2, "where the stored fits sit, from half the lowest to twice the highest"];
+    }
+    return G;
+  }
+  function guideState(n, v) { const g = GUIDE[n]; return !g ? null : v < g[0] || v > g[1] ? "outside" : "inside"; }
+
+  // ---------------------------------------------------------------- focus
+  function focusButton(set, id, apply) {
+    const b = document.createElement("button");
+    b.className = "focus-btn"; b.textContent = "Focus"; b.setAttribute("aria-pressed", String(set.has(id)));
+    b.title = "Show only the focused ones; press again to undo";
+    b.addEventListener("click", (ev) => { ev.stopPropagation(); if (set.has(id)) set.delete(id); else set.add(id); b.setAttribute("aria-pressed", String(set.has(id))); apply(); });
+    return b;
+  }
+  function applyRailFocus() {
+    $("rail").classList.toggle("focusing", railFocus.size > 0);
+    document.querySelectorAll(".rfoc").forEach((el) => el.classList.toggle("focused", railFocus.has(el.id)));
+    $("rail-focus-bar").hidden = railFocus.size === 0;
+    $("focus-modelsec").setAttribute("aria-pressed", String(railFocus.has("grp-modelsec")));
+  }
+  function applyCardFocus() {
+    for (const [vid, set] of Object.entries(cardFocus)) {
+      const box = $(vid);
+      box.classList.toggle("focusing", set.size > 0);
+      box.querySelectorAll(":scope > .card").forEach((el) => el.classList.toggle("focused", set.has(el.dataset.id)));
+    }
+    const set = cardFocus["view-" + view];
+    $("view-showall").hidden = !set || set.size === 0;
+    update();
+  }
 
   // ---------------------------------------------------------------- state
   function ensureLocks(key) {
@@ -342,13 +422,25 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     const row = document.createElement("div");
     row.className = "num" + (off ? " off" : "");
     const c = M.toCoords(P, D);
-    const isFree = free.has(n);
-    row.innerHTML = `<span class="name">${LABEL[n][0]} <span class="sym">${LABEL[n][1]}</span>${off ? `<br><span class="hint">${offWhy}</span>` : ""}</span>
+    const isFree = free.has(n), gd = GUIDE[n];
+    if (gd) {
+      const a = sliderPos(n, Math.max(gd[0], M.COORD[n][0])) / 10, b = sliderPos(n, Math.min(gd[1], M.COORD[n][1])) / 10;
+      row.style.setProperty("--track", `linear-gradient(to right, var(--rule) 0 ${a}%, var(--guide) ${a}% ${b}%, var(--rule) ${b}% 100%)`);
+    }
+    row.innerHTML = `<span class="name" title="${gd ? "Shaded on the slider, the usual range: " + gd[2] : ""}">${LABEL[n][0]} <span class="sym">${LABEL[n][1]}</span>
+      <span class="sens-mini" id="sm-${n}"></span>${off ? `<br><span class="hint">${offWhy}</span>` : ""}<br><span class="guide-note"></span></span>
       <input type="text" aria-label="${LABEL[n][0]}" value="${fmt(c[n])}" ${off ? "disabled" : ""}>
       <button class="lock" aria-pressed="${!isFree}" ${off ? "disabled" : ""} title="Fixed numbers stay put when you fit">${isFree ? "Free" : "Fixed"}</button>
       <input type="range" min="0" max="1000" step="1" aria-label="${LABEL[n][0]}" value="${sliderPos(n, c[n])}" ${off ? "disabled" : ""}>`;
     const [txt, lock, rng] = [row.querySelector("input[type=text]"), row.querySelector(".lock"), row.querySelector("input[type=range]")];
-    rng.addEventListener("input", () => { setCoord(n, sliderVal(n, +rng.value)); txt.value = fmt(M.toCoords(P, D)[n]); schedule(); });
+    const note = row.querySelector(".guide-note");
+    const mark = () => {
+      const v = M.toCoords(P, D)[n], st = guideState(n, v);
+      row.classList.toggle("extreme", st === "outside" && !off);
+      note.textContent = st === "outside" && !off ? "outside the usual range" : "";
+    };
+    mark();
+    rng.addEventListener("input", () => { setCoord(n, sliderVal(n, +rng.value)); txt.value = fmt(M.toCoords(P, D)[n]); mark(); schedule(); });
     txt.addEventListener("change", () => {
       const v = parseFloat(txt.value), [lo, hi] = M.COORD[n];
       if (isFinite(v)) setCoord(n, Math.min(Math.max(v, lo), hi));
@@ -371,7 +463,11 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   }
   function groupBox(id, title) {
     const box = $(id); box.innerHTML = "";
-    const h = document.createElement("h3"); h.textContent = title; box.appendChild(h);
+    box.classList.add("rfoc"); box.classList.toggle("focused", railFocus.has(id));
+    const head = document.createElement("div"); head.className = "head-row";
+    const h = document.createElement("h3"); h.textContent = title; head.appendChild(h);
+    head.appendChild(focusButton(railFocus, id, applyRailFocus));
+    box.appendChild(head);
     return box;
   }
   function implied(box, id) { const d = document.createElement("div"); d.className = "implied"; d.id = id; box.appendChild(d); return d; }
@@ -453,8 +549,38 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       sortKnots(key); buildRail(); schedule();
     });
     box.appendChild(add);
+    const mini = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    mini.setAttribute("viewBox", "0 0 320 126"); mini.setAttribute("class", "mini"); mini.id = "mini-" + key;
+    mini.setAttribute("role", "img"); mini.setAttribute("aria-label", KNOT[key].what);
+    box.appendChild(mini);
+    const leg = document.createElement("p"); leg.className = "hint";
+    leg.textContent = "Hollow points are fixed; the lines through a point show which ways it can move. Drag them here or on the charts.";
+    box.appendChild(leg);
     return box;
   }
+  function drawMinis() {
+    for (const key of ["clock", "lamk", "bk", "utility"]) {
+      const el = document.getElementById("mini-" + key);
+      if (!el || !S[key]) continue;
+      const svg = d3.select(el); svg.selectAll("*").remove();
+      const xs = d3.scaleLinear().domain([1948, 2026]).range([34, 312]);
+      const path = key === "clock" ? M.etaPath(P, S, D) : key === "utility" ? M.utilityPath(S, D) : M.knotMul(S[key], D);
+      const logY = key !== "utility";
+      const vals = path.concat(S[key].map((k) => KNOT[key].show(k[1])));
+      const g = { svg, x: xs, w: 320, h: 120, over: svg.append("g") };
+      if (!(dragging && minis[key])) {
+        const lo = d3.min(vals), hi = d3.max(vals);
+        minis[key] = logY ? d3.scaleLog().domain([lo / 1.4, hi * 1.4]) : d3.scaleLinear().domain([Math.min(lo, 0.9) - 0.05, hi + 0.08]);
+        minis[key].range([104, 8]);
+      }
+      g.y = minis[key];
+      svg.insert("g", ":first-child").attr("class", "axis").attr("transform", "translate(34,0)").call(d3.axisLeft(g.y).ticks(3, "~g").tickSizeOuter(0));
+      svg.insert("g", ":first-child").attr("class", "axis").attr("transform", "translate(0,104)").call(d3.axisBottom(xs).tickValues([1960, 1990, 2020]).tickFormat(d3.format("d")).tickSizeOuter(0));
+      svg.insert("path", () => g.over.node()).attr("class", key === "bk" ? "l-land" : "l-model").attr("d", d3.line().x((d, i) => xs(YEARS[i])).y((d) => g.y(d))(path));
+      drawKnots(g, key, (k) => KNOT[key].show(k[1]), (k, v) => { k[1] = KNOT[key].read(v); }, key === "bk" ? "land" : "");
+    }
+  }
+  const minis = {};
   function buildRail() {
     for (const gid of Object.keys(GROUPS)) buildLinked(gid);
     // land in a machine
@@ -542,6 +668,10 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       ref = { label: "your reference", misfit: curMis.total, path: cur }; update(); status("This is now the reference.");
     });
     $("fit").addEventListener("click", startFit);
+    $("search").addEventListener("click", startSearch);
+    $("rail-showall").addEventListener("click", () => { railFocus.clear(); applyRailFocus(); buildRail(); });
+    $("focus-modelsec").addEventListener("click", () => { if (railFocus.has("grp-modelsec")) railFocus.delete("grp-modelsec"); else railFocus.add("grp-modelsec"); applyRailFocus(); });
+    $("view-showall").addEventListener("click", () => { const set = cardFocus["view-" + view]; if (set) set.clear(); document.querySelectorAll(".card .focus-btn").forEach((b) => b.setAttribute("aria-pressed", "false")); applyCardFocus(); });
     $("stop").addEventListener("click", () => stopFit(false));
     const sel = $("preset");
     DOC.presets.forEach((p, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${p.label} (${p.misfit.toFixed(1)})`; sel.appendChild(o); });
@@ -552,7 +682,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         for (const [tid, tv] of [["tab-record", "record"], ["tab-inside", "inside"], ["tab-sens", "sens"]]) {
           $(tid).setAttribute("aria-selected", String(tv === v)); $("view-" + tv).hidden = tv !== v;
         }
-        update();
+        applyCardFocus();
       });
     }
   }
@@ -564,7 +694,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
 
   // ---------------------------------------------------------------- implied numbers, under each group
   function impliedText() {
-    if (!cur || !cur.ok) { for (const id of ["land", "machine", "labour", "bk", "clock", "tasks"]) { const el = $("imp-" + id); if (el) el.textContent = "No equilibrium as set."; } return; }
+    if (!cur || !(cur.ok || cur.partial)) { for (const id of ["land", "machine", "labour", "bk", "clock", "tasks"]) { const el = $("imp-" + id); if (el) el.textContent = "No equilibrium as set."; } return; }
     const a = cur.an, L = NY - 1, c = M.toCoords(P, D), at = (y) => YEARS.indexOf(y);
     const set = (id, lines) => { const el = $("imp-" + id); if (el) el.innerHTML = lines.map((l) => `<div>${l}</div>`).join(""); };
     set("land", [S.coords.land === "TS" ? `So land in a basket <b>h = ${fmt(P.h)}</b>.` : `So a basket's land is <b>${fmt(c.hT)}</b> of the land per adult.`,
@@ -582,10 +712,40 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   }
 
   // ---------------------------------------------------------------- fitting in a worker
+  function busy(on) { $("fit").hidden = on; $("search").hidden = on; $("stop").hidden = !on; }
+  function startSearch() {
+    if (worker) return;
+    const names = fitNames();
+    if (!names.length) { status("Everything is fixed: free at least one number or point to search with."); return; }
+    if (cur && cur.ok) { status("Every year already has an equilibrium: press Fit."); return; }
+    const src = document.getElementById("model-src").textContent + `
+      self.onmessage = (ev) => {
+        const { par, S, D, free, seed } = ev.data; let last = 0;
+        const r = self.USRecordModel.search(par, S, D, free, { maxEval: 4000, seed, onStep: (s) => {
+          const now = Date.now(); if (now - last > 150) { last = now; self.postMessage({ step: s }); } } });
+        self.postMessage({ done: r });
+      };`;
+    worker = new Worker(URL.createObjectURL(new Blob([src], { type: "text/javascript" })));
+    worker.onmessage = (ev) => {
+      const m = ev.data.step || ev.data.done;
+      P = Object.assign({}, P, m.par);
+      for (const key of M.KNOT_KEYS) if (S[key] && m.S[key]) S[key] = m.S[key];
+      update();
+      if (ev.data.done) {
+        status(m.ok ? `Every year has an equilibrium now, after ${m.evals} tries: press Fit.`
+          : `Stopped after ${m.evals} tries with ${m.unsolved} years still without an equilibrium: free more numbers, or try again.`);
+        stopFit(true); buildRail();
+      } else status(`Searching: ${m.unsolved} years without an equilibrium after ${m.evals} tries…`);
+    };
+    worker.onerror = (e) => { status("The search stopped with an error: " + e.message); stopFit(true); };
+    worker.postMessage({ par: P, S: S, D: D, free: names, seed: 1 + (Date.now() % 2147483000) });
+    busy(true); status("Searching with " + names.length + " numbers and points…");
+  }
   function startFit() {
     if (worker) return;
     const names = fitNames();
     if (!names.length) { status("Everything is fixed: free at least one number or point."); return; }
+    if (cur && !cur.ok) { status("Some years have no equilibrium, so the fit cannot start here: press Find a start first."); return; }
     const src = document.getElementById("model-src").textContent + `
       self.onmessage = (ev) => {
         const { par, S, D, free } = ev.data; let last = 0;
@@ -604,11 +764,11 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     };
     worker.onerror = (e) => { status("The fit stopped with an error: " + e.message); stopFit(true); };
     worker.postMessage({ par: P, S: S, D: D, free: names });
-    $("fit").hidden = true; $("stop").hidden = false; status("Fitting " + names.length + " numbers and points…");
+    busy(true); status("Fitting " + names.length + " numbers and points…");
   }
   function stopFit(quiet) {
-    if (worker) { worker.terminate(); worker = null; if (!quiet) { status("Fit stopped where it was."); buildRail(); } }
-    $("fit").hidden = false; $("stop").hidden = true;
+    if (worker) { worker.terminate(); worker = null; if (!quiet) { status("Stopped where it was."); buildRail(); } }
+    busy(false);
   }
 
   // ---------------------------------------------------------------- charts: shared pieces
@@ -619,9 +779,11 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     const h = height || H;
     const card = document.createElement("section");
     card.className = "card" + (wide ? " wide" : "");
-    card.innerHTML = `<div class="head"><h3>${title}</h3><span class="chip" id="chip-${id}" hidden></span></div>
+    card.dataset.id = id;
+    card.innerHTML = `<div class="head"><h3>${title}</h3><span style="display:flex;gap:6px;align-items:center"><span class="chip" id="chip-${id}" hidden></span></span></div>
       <svg viewBox="0 0 ${wide ? 820 : W} ${h}" id="svg-${id}" role="img" aria-label="${title}"></svg>` + (note ? `<p class="note">${note}</p>` : "");
     parent.appendChild(card);
+    if (cardFocus[parent.id]) card.querySelector(".head > span").appendChild(focusButton(cardFocus[parent.id], id, applyCardFocus));
     const svg = d3.select(card.querySelector("svg"));
     const w = wide ? 820 : W;
     svg.append("defs").append("clipPath").attr("id", "clip-" + id).append("rect")
@@ -695,9 +857,11 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     }
   }
   function drawRecord(m, by) {
-    const ok = m && m.ok, rp = ref && ref.path && ref.path.ok ? ref.path : null;
+    const ok = m && (m.ok || m.partial), rp = ref && ref.path && (ref.path.ok || ref.path.partial) ? ref.path : null;
+    const dev = ok ? M.deviations(m, D) : null;
     for (const p of REC) {
       const g = cards[p.id]; clear(g);
+      if (cardFocus["view-record"].size && !cardFocus["view-record"].has(p.id)) continue;
       let dataY = null, modelY = null, refY = null, extra = [];
       if (p.series) { dataY = D[p.series]; modelY = ok ? m[p.series] : null; refY = rp ? rp[p.series] : null; }
       else if (p.id === "clock") { modelY = ok ? m.eta : null; refY = rp ? rp.eta : null; }
@@ -731,6 +895,17 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         if (S.lamk) drawKnots(g, "lamk", (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); });
         if (S.bk) drawKnots(g, "bk", (k) => Math.exp(k[1]), (k, v) => { k[1] = Math.log(v); }, "land");
       }
+      if (m && m.failed && m.failed.length) {                 // years without an equilibrium, shaded
+        g.plot.selectAll("rect.failband").data(m.failed).join("rect").attr("class", "failband")
+          .attr("x", (y) => x(y - 0.5)).attr("width", (y) => x(y + 0.5) - x(y - 0.5)).attr("y", MG.t).attr("height", g.h - MG.t - MG.b);
+      }
+      if (dev && p.series) {                                  // the per-year misfit: amber over one tolerance, red over three
+        const cells = YEARS.map((y, i) => [y, dev[p.series][i]]).filter((d) => isFinite(d[1]) && Math.abs(d[1]) > 1);
+        g.plot.selectAll("rect.dv").data(cells).join("rect").attr("class", "dv")
+          .attr("x", (d) => x(d[0] - 0.5)).attr("width", (d) => x(d[0] + 0.5) - x(d[0] - 0.5)).attr("y", g.h - MG.b - 5).attr("height", 5)
+          .attr("fill", (d) => (Math.abs(d[1]) > 3 ? "var(--poor)" : "var(--fair)")).attr("opacity", 0.8)
+          .append("title").text((d) => `${d[0]}: ${Math.abs(d[1]).toFixed(1)} tolerances off`);
+      }
       chipFor(p.id, by && p.series ? by[p.series] : null);
     }
   }
@@ -744,15 +919,25 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   }
   function drawKnots(g, key, getV, setV, cls) {
     ensureLocks(key);
-    const knots = S[key], locks = S.knotLocks[key];
-    const sel = g.over.selectAll(`circle.knot-${key}`).data(knots).join("circle")
-      .attr("class", (k, i) => `knot knot-${key}` + (cls ? " " + cls : "") + (i === 0 || (locks[i].year && locks[i].level) ? " fixed" : locks[i].year ? " half" : locks[i].level ? " halfx" : ""))
-      .attr("r", 6).attr("cx", (k) => x(k[0])).attr("cy", (k) => g.y(getV(k)));
-    sel.filter((k, i) => i > 0).call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev, k) => {
+    const X = g.x || x, knots = S[key], locks = S.knotLocks[key];
+    const still = (i) => i === 0 || (locks[i].year && locks[i].level);
+    const sel = g.over.selectAll(`g.kg-${key}`).data(knots).join("g")
+      .attr("class", (k, i) => `kg kg-${key}` + (cls ? " " + cls : "") + (still(i) ? " fixed" : ""))
+      .attr("transform", (k) => `translate(${X(k[0])},${g.y(getV(k))})`)
+      .style("cursor", (k, i) => (still(i) ? "default" : !locks[i].year && !locks[i].level ? "move" : !locks[i].year ? "ew-resize" : "ns-resize"));
+    sel.selectAll("*").remove();
+    sel.each(function (k, i) {
+      const gg = d3.select(this), L = locks[i];
+      if (i > 0 && !L.level) gg.append("line").attr("x1", 0).attr("x2", 0).attr("y1", -11).attr("y2", 11);
+      if (i > 0 && !L.year) gg.append("line").attr("x1", -11).attr("x2", 11).attr("y1", 0).attr("y2", 0);
+      gg.append("circle").attr("r", 5.5);
+      gg.append("title").text(i === 0 ? "1950: fixed" : `${(+k[0].toFixed(1))}: year ${L.year ? "fixed" : "free"}, level ${L.level ? "fixed" : "free"}`);
+    });
+    sel.filter((k, i) => !still(i)).call(d3.drag().on("start", () => { dragging = true; }).on("drag", (ev, k) => {
       const i = knots.indexOf(k), L = locks[i];
       if (!L.year) {
         const prev = knots[i - 1][0] + 0.5, next = i < knots.length - 1 ? knots[i + 1][0] - 0.5 : 2024;
-        k[0] = Math.min(Math.max(Math.round(x.invert(ev.x)), prev), next);
+        k[0] = Math.min(Math.max(Math.round(X.invert(ev.x)), prev), next);
       }
       if (!L.level) { const [d0, d1] = g.y.domain(); setV(k, Math.min(Math.max(g.y.invert(ev.y), Math.min(d0, d1)), Math.max(d0, d1))); }
       schedule();
@@ -801,16 +986,17 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   }
   function drawStack(g, layers, overlay) {
     clear(g); setY(g, [0, 1], false);
+    const okYear = YEARS.map((y, i) => layers.every((L) => has(L.vals[i])));
     let base = new Array(NY).fill(0);
     for (const L of layers) {
-      const top = base.map((b, i) => b + L.vals[i]);
+      const top = base.map((b, i) => (okYear[i] ? b + L.vals[i] : b));
       const b0 = base.slice();
-      g.plot.append("path").attr("class", L.cls).attr("d", d3.area().x((d, i) => x(YEARS[i])).y0((d, i) => g.y(b0[i])).y1((d, i) => g.y(top[i]))(YEARS));
+      g.plot.append("path").attr("class", L.cls).attr("d", d3.area().defined((d, i) => okYear[i]).x((d, i) => x(YEARS[i])).y0((d, i) => g.y(b0[i])).y1((d, i) => g.y(top[i]))(YEARS));
       const mid = (b0[NY - 1] + top[NY - 1]) / 2;
-      if (top[NY - 1] - b0[NY - 1] > 0.06) g.over.append("text").attr("class", "stack-label").attr("x", x(2024) - 4).attr("y", g.y(mid) + 3.5)
+      if (okYear[NY - 1] && top[NY - 1] - b0[NY - 1] > 0.06) g.over.append("text").attr("class", "stack-label").attr("x", x(2024) - 4).attr("y", g.y(mid) + 3.5)
         .attr("text-anchor", "end").text(`${L.label} ${pct(L.vals[NY - 1])}`);
       const mid0 = (b0[0] + top[0]) / 2;
-      if (top[0] - b0[0] > 0.06) g.over.append("text").attr("class", "stack-label").attr("x", x(1950) + 4).attr("y", g.y(mid0) + 3.5).text(pct(L.vals[0]));
+      if (okYear[0] && top[0] - b0[0] > 0.06) g.over.append("text").attr("class", "stack-label").attr("x", x(1950) + 4).attr("y", g.y(mid0) + 3.5).text(pct(L.vals[0]));
       base = top;
     }
     if (overlay) overlay(g);
@@ -821,7 +1007,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     if (label) g.over.append("text").attr("class", "marker-label").attr("x", X - 9).attr("y", Y - 4).attr("text-anchor", "end").text(label);
   }
   function drawInside(m) {
-    if (!m || !m.ok) { for (const id of ["task", "st-machine", "st-land", "st-hours", "st-basket", "ls-parts", "ls-level"]) clear(cards[id]); $("task-read").textContent = "No equilibrium as set."; return; }
+    if (!m || !(m.ok || m.partial)) { for (const id of ["task", "st-machine", "st-land", "st-hours", "st-basket", "ls-parts", "ls-level"]) clear(cards[id]); $("task-read").textContent = "No equilibrium as set."; return; }
     const a = m.an, i = YEARS.indexOf(taskYear);
     // the task line
     const g = cards.task; clear(g);
@@ -830,15 +1016,23 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     const grid = d3.range(0, 201).map((j) => j / 200);
     const cost = (yi, xx) => m.eta[yi] * (M.SET.g0 + M.SET.g1 * Math.pow(xx, m.k)) * a.pm[yi];
     let lo = Infinity, hi = -Infinity;
-    for (let yi = 0; yi < NY; yi++) { lo = Math.min(lo, cost(yi, 0), m.v[yi]); hi = Math.max(hi, cost(yi, 1), m.v[yi]); }
+    for (let yi = 0; yi < NY; yi++) if (has(a.pm[yi]) && has(m.v[yi])) { lo = Math.min(lo, cost(yi, 0), m.v[yi]); hi = Math.max(hi, cost(yi, 1), m.v[yi]); }
+    if (!isFinite(lo)) { $("task-read").textContent = "No equilibrium in any year as set."; return; }
     g.y = d3.scaleLog().domain([lo / 1.5, hi * 1.5]).range([g.h - MG.b, MG.t]);
     g.ay.attr("transform", `translate(${MG.l},0)`).call(d3.axisLeft(g.y).ticks(5, "~g").tickSizeOuter(0));
     g.grid.selectAll("line").remove();
     const xStar = m.x[i];
+    if (!has(xStar)) {
+      $("task-year").textContent = taskYear;
+      $("task-read").textContent = `No equilibrium in ${taskYear} as set.`;
+      if (has(m.x[0])) { const c0 = (xx) => cost(0, xx); g.plot.append("path").attr("class", "l-ref").attr("d", d3.line().x((xx) => xs(xx)).y((xx) => g.y(c0(xx)))(grid)); }
+    } else {
     g.plot.append("rect").attr("class", "taskshade").attr("x", xs(0)).attr("y", MG.t).attr("width", xs(xStar) - xs(0)).attr("height", g.h - MG.t - MG.b);
     const curve = (yi, cls) => g.plot.append("path").attr("class", cls).attr("d", d3.line().x((xx) => xs(xx)).y((xx) => g.y(cost(yi, xx)))(grid));
-    curve(0, "l-ref");
-    g.plot.append("line").attr("class", "l-ref").attr("x1", xs(0)).attr("x2", xs(1)).attr("y1", g.y(m.v[0])).attr("y2", g.y(m.v[0]));
+    if (has(m.v[0])) {
+      curve(0, "l-ref");
+      g.plot.append("line").attr("class", "l-ref").attr("x1", xs(0)).attr("x2", xs(1)).attr("y1", g.y(m.v[0])).attr("y2", g.y(m.v[0]));
+    }
     curve(i, "l-model");
     g.plot.append("line").attr("class", "l-data").attr("x1", xs(0)).attr("x2", xs(1)).attr("y1", g.y(m.v[i])).attr("y2", g.y(m.v[i]));
     g.over.append("circle").attr("r", 5).attr("cx", xs(xStar)).attr("cy", g.y(m.v[i])).attr("fill", "var(--ink)");
@@ -846,7 +1040,8 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     g.over.append("text").attr("class", "marker-label").attr("x", xs((1 + xStar) / 2)).attr("y", MG.t + 14).attr("text-anchor", "middle").text("people do these");
     if (a.xCeil[i] !== null && a.xCeil[i] < 1) g.over.append("line").attr("class", "marker").attr("x1", xs(a.xCeil[i])).attr("x2", xs(a.xCeil[i])).attr("y1", MG.t).attr("y2", g.h - MG.b);
     $("task-year").textContent = taskYear;
-    $("task-read").textContent = `Machines do ${pct(xStar)} of tasks; the wage is ${fmt(m.v[i])} land-rents an hour, ${fmt(m.v[i] / m.v[0])} times 1950's.`;
+    $("task-read").textContent = `Machines do ${pct(xStar)} of tasks; the wage is ${fmt(m.v[i])} land-rents an hour` + (has(m.v[0]) ? `, ${fmt(m.v[i] / m.v[0])} times 1950's.` : ".");
+    }
     // stacks
     drawStack(cards["st-machine"], [{ vals: m.theta_V, cls: "stack-labour", label: "labour" }, { vals: a.sigmaV, cls: "stack-land", label: "land" },
                                     { vals: a.kappaV, cls: "stack-mach", label: "services" }], (gg) => {
@@ -861,15 +1056,15 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       (gg) => line(gg, D.housing_share_pce, "l-data"));
     // labour's share apart
     const gp = cards["ls-parts"]; clear(gp);
-    const idx = (arr) => arr.map((v) => v / arr[0]);
+    const idx = (arr) => arr.map((v) => (has(v) && has(arr[0]) ? v / arr[0] : null));
     const f1 = idx(a.wageGoodsLevel), f2 = idx(a.peopleTasks), f3 = idx(a.goodsShare), prod = idx(m.labour_share_c);
     const rec = D.labour_share_c.map((v) => v / D.labour_share_c[0]);
     gp.logY = true; setY(gp, extent([f1, f2, f3, prod, rec], true), true);
     line(gp, rec, "l-data"); line(gp, f1, "l-model"); line(gp, f2, "l-model2");
     gp.plot.append("path").attr("fill", "none").attr("stroke", "var(--model)").attr("stroke-width", 1.4).attr("stroke-dasharray", "1.5 2.5")
-      .attr("d", d3.line().x((d, j) => x(YEARS[j])).y((d, j) => gp.y(f3[j]))(f3));
+      .attr("d", d3.line().defined((d, j) => has(f3[j])).x((d, j) => x(YEARS[j])).y((d, j) => gp.y(f3[j]))(f3));
     gp.plot.append("path").attr("fill", "none").attr("stroke", "var(--model)").attr("stroke-width", 3.2).attr("opacity", 0.55)
-      .attr("d", d3.line().x((d, j) => x(YEARS[j])).y((d, j) => gp.y(prod[j]))(prod));
+      .attr("d", d3.line().defined((d, j) => has(prod[j])).x((d, j) => x(YEARS[j])).y((d, j) => gp.y(prod[j]))(prod));
     const gl = cards["ls-level"]; clear(gl);
     setY(gl, extent([D.labour_share_c, m.labour_share_c, D.ls_lo, D.ls_hi], false), false);
     gl.plot.append("path").attr("class", "band").attr("d", d3.area().defined((d, j) => D.ls_lo[j] !== null).x((d, j) => x(YEARS[j])).y0((d, j) => gl.y(D.ls_lo[j])).y1((d, j) => gl.y(D.ls_hi[j]))(YEARS));
@@ -881,7 +1076,7 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     const items = [];
     for (const n of activeCoords()) {
       const [lo, hi, lg] = M.COORD[n];
-      items.push({ label: LABEL[n][0], sym: LABEL[n][1], step: lg || n === "kappa50" ? "×÷ 1.05" : "± 0.005",
+      items.push({ key: n, inline: true, label: LABEL[n][0], sym: LABEL[n][1], step: lg || n === "kappa50" ? "×÷ 1.05" : "± 0.005",
         apply: (sgn) => {
           const c = M.toCoords(P, D);
           const v = lg || n === "kappa50" ? c[n] * Math.pow(1.05, sgn) : c[n] + 0.005 * sgn;
@@ -904,13 +1099,9 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     });
     return items;
   }
-  function drawSens() {
-    const tbl = $("sens-table");
-    if (!cur || !cur.ok) { tbl.innerHTML = "<tr><td>No equilibrium as set.</td></tr>"; $("sens-base").hidden = true; return; }
-    const base = curMis.by;
-    $("sens-base").hidden = false; $("sens-base").textContent = "misfit now " + curMis.total.toFixed(2);
-    const rows = [];
-    for (const it of sensItems()) {
+  function computeSens(items) {
+    const base = curMis.by, rows = [];
+    for (const it of items) {
       const side = (sgn) => {
         const t = it.apply(sgn);
         if (!t) return { bound: true };
@@ -922,6 +1113,29 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       };
       rows.push({ it, lo: side(-1), hi: side(1) });
     }
+    return rows;
+  }
+  let inlineTimer = null;
+  function drawInlineSens() {
+    document.querySelectorAll(".sens-mini").forEach((el) => { el.innerHTML = ""; });
+    if (!cur || !cur.ok) return;
+    const rows = computeSens(sensItems().filter((it) => it.inline));
+    const mag = (r) => (r.broke ? Infinity : r.bound ? 0 : Math.abs(r.sum));
+    const top = Math.max(1e-9, ...rows.map((r) => Math.max(mag(r.lo), mag(r.hi))).filter(isFinite));
+    for (const r of rows) {
+      const el = document.getElementById("sm-" + r.it.key);
+      if (!el) continue;
+      if (r.lo.broke || r.hi.broke) { el.innerHTML = `<span class="edge" title="A small step this way leaves some year without an equilibrium">near an edge</span>`; continue; }
+      const side = mag(r.hi) >= mag(r.lo) ? r.hi : r.lo, m = Math.max(mag(r.lo), mag(r.hi));
+      const sq = side.ch ? `<span class="cells">${side.ch.map((c, j) => `<span title="${SERIES[j]}: ${(100 * c).toFixed(1)}%" style="${Math.abs(c) > 0.05 ? `background:var(${c > 0 ? "--worse" : "--better"})` : ""}"></span>`).join("")}</span>` : "";
+      el.innerHTML = `${sq}<span class="mbar" title="How much the misfits move for a small step: ${m.toFixed(2)} summed"><i style="width:${Math.round(100 * Math.log1p(m) / Math.log1p(top))}%"></i></span>`;
+    }
+  }
+  function drawSens() {
+    const tbl = $("sens-table");
+    if (!cur || !cur.ok) { tbl.innerHTML = "<tr><td>Not every year has an equilibrium as set: press Find a start.</td></tr>"; $("sens-base").hidden = true; return; }
+    $("sens-base").hidden = false; $("sens-base").textContent = "misfit now " + curMis.total.toFixed(2);
+    const rows = computeSens(sensItems());
     const cells = (r) => r.bound ? `<span class="hint">at its limit</span>` : r.broke ? `<span class="chip poor">no equilibrium</span>`
       : `<span class="cells">${r.ch.map((c, j) => `<span title="${SERIES[j]}: ${(100 * c).toFixed(1)}%" style="${Math.abs(c) > 0.05 ? `background:var(${c > 0 ? "--worse" : "--better"});opacity:${Math.min(1, 0.35 + Math.abs(c))}` : ""}"></span>`).join("")}</span>`;
     const num = (r) => r.bound || r.broke ? "" : `${r.n} · ${(r.sum >= 0 ? "+" : "") + r.sum.toFixed(2)}`;
@@ -942,18 +1156,23 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; update(); }); } }
   function update() {
     cur = M.path(P, S, D);
-    curMis = cur.ok ? M.misfit(cur, D) : null;
-    $("misfit").textContent = curMis ? curMis.total.toFixed(2) : "–";
+    curMis = cur.ok || cur.partial ? M.misfit(cur, D) : null;
+    $("misfit").textContent = curMis && curMis.total !== null ? curMis.total.toFixed(2) : "–";
+    $("misfit").classList.toggle("partial", !cur.ok);
+    $("misfit").title = cur.ok ? "" : "over the years that have an equilibrium";
     $("refmisfit").textContent = ref ? ref.misfit.toFixed(2) : "–";
     const chip = $("solved");
     chip.textContent = cur.ok ? "every year solved" : cur.why; chip.className = "chip " + (cur.ok ? "good" : "poor");
     impliedText();
+    drawMinis();
+    clearTimeout(inlineTimer); inlineTimer = setTimeout(drawInlineSens, dragging ? 600 : 250);
     if (view === "record") drawRecord(cur, curMis ? curMis.by : null);
     if (view === "inside") drawInside(cur);
     if (view === "sens") { clearTimeout(sensTimer); sensTimer = setTimeout(drawSens, dragging ? 400 : 60); }
     if (!dragging) $("settings").value = settingsText();
   }
 
+  GUIDE = computeGuides();
   wireStatic(); buildRecord(); buildInside();
   loadPreset(DOC.presets[0]);
 })();

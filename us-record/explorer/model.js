@@ -143,6 +143,22 @@
     return q;
   }
 
+  // How far an economy is from having an interior equilibrium, in [0, 1): the relative excess of labour demand over
+  // supply at the end of the task range where they fail to cross (0 if they cross). Guides the start search only.
+  function gapMeasure(e) {
+    let xb;
+    try { xb = xCeiling(e); } catch (err) { return 0.99; }
+    const hi = xb >= 1 ? 1 : xb * (1 - 1e-9);
+    try {
+      const a = parts(e, 1e-12), b = parts(e, hi);
+      const fl = (a.nD - a.nS) / Math.max(a.nS, 1e-12), fh = (b.nD - b.nS) / Math.max(b.nS, 1e-12);
+      let g = 0;
+      if (!(fl > 0)) g = isFinite(fl) ? -fl : 1;
+      else if (!(fh < 0)) g = isFinite(fh) ? fh : 1;
+      return g / (1 + g);
+    } catch (err) { return 0.99; }
+  }
+
   // ---------------------------------------------------------------- the record (fit_base.py)
   // D: {years, N (adults, 1950 = 1), delta, data series..., ls_tol, real_wage_cpi}
   // S: {cap: null|share, sigma: null|elasticity, utility: [[year, level], ...] (1950 at 1), pin: bool,
@@ -268,10 +284,19 @@
                    goods_basket: [], site_basket: [], eta: [], utility: [] };
     const an = { pm: [], kappaV: [], sigmaV: [], landHomes: [], landMachines: [], hoursFinal: [], hoursMachine: [],
                  goodsShare: [], siteShare: [], wageGoodsLevel: [], peopleTasks: [], lam: [], b: [], xCeil: [] };
+    const failed = [];
+    let gapSum = 0;
     for (let i = 0; i < es.length; i++) {
-      let q;
-      try { q = solve(es[i]); } catch (err) { return { ok: false, why: "no equilibrium in " + D.years[i], year: D.years[i] }; }
-      if (!isFinite(q.v) || !isFinite(q.p)) return { ok: false, why: "no equilibrium in " + D.years[i], year: D.years[i] };
+      let q = null;
+      try { q = solve(es[i]); } catch (err) { q = null; }
+      if (!q || !isFinite(q.v) || !isFinite(q.p)) {        // no equilibrium this year: nulls, and on to the next
+        failed.push(D.years[i]); gapSum += gapMeasure(es[i]);
+        for (const key of ["x", "v", "p", "Ps", "wg", "ws", "labour_share_c", "prime_emp_rate", "theta_V", "goods_basket", "site_basket"]) cols[key].push(null);
+        cols.eta.push(es[i].eta); cols.utility.push(es[i].utility === undefined ? 1 : es[i].utility);
+        for (const key of Object.keys(an)) an[key].push(null);
+        an.b[i] = es[i].b; an.lam[i] = es[i].thetaV !== undefined ? null : es[i].lam;
+        continue;
+      }
       cols.x.push(q.x); cols.v.push(q.v); cols.p.push(q.p); cols.Ps.push(q.Ps);
       cols.wg.push(q.v / q.p); cols.ws.push(q.v);
       cols.labour_share_c.push(S.lsBasis === "traced" ? q.labour_share_traced : q.labour_share_bea);
@@ -289,15 +314,25 @@
       an.xCeil.push(xc);
     }
     cols.an = an;
+    const nn = (f) => (v, i) => (v === null || v === undefined ? null : f(v, i));
     if (S.shelterW !== null && S.shelterW !== undefined) {      // addition A: shelter is building and site
       const w = S.shelterW, pl = cols.p[cols.p.length - 1], vl = cols.v[cols.v.length - 1];
-      cols.ws = S.shelterBuild === "wage"                         // the building priced like construction: at the wage
-        ? cols.v.map((v) => v / (w + (1 - w) * v / vl))
-        : cols.v.map((v, i) => v / (w + (1 - w) * cols.p[i] / pl));
+      cols.ws = pl === null ? cols.v.map(() => null) : S.shelterBuild === "wage"   // the building priced like construction: at the wage
+        ? cols.v.map(nn((v) => v / (w + (1 - w) * v / vl)))
+        : cols.v.map(nn((v, i) => v / (w + (1 - w) * cols.p[i] / pl)));
     }
-    cols.wage_goods = cols.wg.map((x) => 100 * x / cols.wg[0]);
-    cols.wage_shelter = cols.ws.map((x) => 100 * x / cols.ws[0]);
-    cols.ok = true;
+    cols.wage_goods = cols.wg.map(nn((x) => (cols.wg[0] === null ? null : 100 * x / cols.wg[0])));
+    cols.wage_shelter = cols.ws.map(nn((x) => (cols.ws[0] === null ? null : 100 * x / cols.ws[0])));
+    cols.failed = failed;
+    cols.gapSum = gapSum;
+    cols.ok = failed.length === 0;
+    cols.partial = !cols.ok && failed.length < es.length;
+    if (!cols.ok) {
+      const runs = [];
+      for (const y of failed) { const r = runs[runs.length - 1]; if (r && y === r[1] + 1) r[1] = y; else runs.push([y, y]); }
+      cols.why = `no equilibrium in ${failed.length} year${failed.length > 1 ? "s" : ""}: ` +
+        runs.map((r) => (r[0] === r[1] ? `${r[0]}` : `${r[0]}–${r[1]}`)).join(", ");
+    }
     cols.chi_max = par.chi_max;
     cols.k = par.k;
     return cols;
@@ -310,6 +345,7 @@
       out[s] = D[s].map((y, i) => {
         if (y === null || y === undefined || !isFinite(y)) return NaN;
         const f = m[s][i];
+        if (f === null || f === undefined || !isFinite(f)) return NaN;
         if (s === "wage_goods" || s === "wage_shelter") return (Math.log(f) - Math.log(y)) / TOL[s];
         if (s === "labour_share_c") return (f - y) / D.ls_tol[i];
         return (f - y) / TOL[s];
@@ -318,15 +354,18 @@
     return out;
   }
 
+  // The misfit; over the solved years only when some years have no equilibrium (partial), and then over the series that
+  // have any solved year with data.
   function misfit(m, D) {
     const dev = deviations(m, D), by = {};
-    let tot = 0;
+    let tot = 0, k = 0;
     for (const s of SERIES) {
       let sum = 0, n = 0;
       for (const d of dev[s]) if (isFinite(d)) { sum += d * d; n += 1; }
-      by[s] = sum / n; tot += by[s];
+      by[s] = n ? sum / n : null;
+      if (n) { tot += by[s]; k += 1; }
     }
-    return { total: tot / SERIES.length, by };
+    return { total: k ? tot / k : null, by, partial: !m.ok };
   }
 
   function nObs(D) {
@@ -376,13 +415,10 @@
 
   // ---------------------------------------------------------------- a small fitter (Levenberg-Marquardt, in bounds)
   // free: names from NAMES (not chi_max when pinned), plus "clock:<i>" for the knots of a bent clock (log eta at knot i).
-  // free: coordinate names (COORD), and knots of a path in S: "key:i" its level, "key:i:y" its year (utility levels are
-  // levels, searched in logs; every other path's levels are logs already).
-  function fit(par0, S0, D, free, opts) {
-    opts = opts || {};
-    const N_OBS = nObs(D);
-    const maxIter = opts.maxIter || 300;
-    const onStep = opts.onStep || (() => {});
+  // The space the fitter and the start search move in. free: coordinate names (COORD), and knots of a path in S:
+  // "key:i" its level, "key:i:y" its year (utility levels are levels, searched in logs; every other path's levels are
+  // logs already). Returns the start, the bounds and the map back to (par, S), and a natural step per direction.
+  function space(par0, S0, D, free) {
     const sys = Object.assign({}, DEFAULT_SYS, S0.coords || {});
     const c0 = toCoords(par0, D);
     const isKnot = (n) => n.indexOf(":") > 0;
@@ -412,8 +448,19 @@
       free.forEach((n, j) => { if (isKnot(n)) putK(S, n, u[j]); else c[n] = fromU(n, u[j]); });
       return { par: Object.assign({}, par0, fromCoords(c, sys, D)), S };
     };
+    const u0 = clamp(free.map((n) => (isKnot(n) ? getK(S0, n) : toU(n, c0[n]))));
+    const scale = free.map((n, j) => (isKnot(n) ? (parse(n).year ? 3 : 0.4) : Math.min(1, 0.15 * (hi[j] - lo[j]))));
+    return { u0, lo, hi, clamp, unpack, scale };
+  }
+
+  function fit(par0, S0, D, free, opts) {
+    opts = opts || {};
+    const N_OBS = nObs(D);
+    const maxIter = opts.maxIter || 300;
+    const onStep = opts.onStep || (() => {});
+    const sp = space(par0, S0, D, free), lo = sp.lo, hi = sp.hi, clamp = sp.clamp, unpack = sp.unpack;
     const cost = (r) => r.reduce((a, x) => a + x * x, 0);
-    let u = clamp(free.map((n) => (isKnot(n) ? getK(S0, n) : toU(n, c0[n]))));
+    let u = sp.u0;
     let cur = unpack(u), r = residuals(cur.par, cur.S, D, N_OBS), c = cost(r);
     let mu = 1e-3, quiet = 0, it = 0;
     for (it = 0; it < maxIter; it++) {
@@ -460,6 +507,33 @@
     return { par: cur.par, S: cur.S, misfit: c, iters: it + 1 };
   }
 
+  // The start search (her ask, 2026-11-06): moves the free numbers and points at random around where they are, keeping a
+  // move when fewer years lack an equilibrium (or the same number, nearer to having one), until every year solves. A start
+  // for the fitter, not a fit: it stops as soon as every year solves.
+  function search(par0, S0, D, free, opts) {
+    opts = opts || {};
+    const maxEval = opts.maxEval || 3000, onStep = opts.onStep || (() => {});
+    let seed = opts.seed || 12345;
+    const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+    const gauss = () => { const a = Math.max(rnd(), 1e-12), b = rnd(); return Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b); };
+    const sp = space(par0, S0, D, free);
+    const score = (m) => (m.failed ? m.failed.length + Math.min(0.999, m.gapSum / (1 + m.gapSum)) : D.years.length + 1);
+    let u = sp.u0, best = sp.unpack(u), mBest = path(best.par, best.S, D), sBest = score(mBest);
+    let sigma = 0.5, evals = 1;
+    while (evals < maxEval && !(mBest.ok)) {
+      let improved = false;
+      for (let c = 0; c < 8; c++) {
+        const u2 = sp.clamp(u.map((x, j) => x + sigma * sp.scale[j] * gauss()));
+        const t = sp.unpack(u2), m = path(t.par, t.S, D), sc = score(m);
+        evals += 1;
+        if (sc < sBest) { u = u2; best = t; mBest = m; sBest = sc; improved = true; if (m.ok) break; }
+      }
+      sigma = improved ? Math.min(sigma * 1.5, 3) : Math.max(sigma * 0.85, 0.02);
+      onStep({ evals, unsolved: mBest.failed ? mBest.failed.length : D.years.length, par: best.par, S: best.S });
+    }
+    return { par: best.par, S: best.S, ok: !!mBest.ok, evals, unsolved: mBest.failed ? mBest.failed.length : D.years.length };
+  }
+
   function solveLinear(A, b) {                  // Gaussian elimination with partial pivoting
     const n = b.length, M = A.map((row, i) => row.slice().concat([b[i]]));
     for (let c = 0; c < n; c++) {
@@ -483,7 +557,7 @@
 
   const api = { SET, SERIES, TOL, BOUNDS, LOGP, NAMES, COORD, DEFAULT_SYS, KNOT_KEYS, brentq, gamma, parts, basket, solve,
                 xCeiling, economies, pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath, etaPath,
-                toCoords, fromCoords, knotMul };
+                toCoords, fromCoords, knotMul, search, gapMeasure };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.USRecordModel = api;
 })(typeof self !== "undefined" ? self : this);

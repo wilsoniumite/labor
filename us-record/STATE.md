@@ -286,3 +286,15 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     the growth of the hours to build a machine are the sharpest numbers (half a point moves the misfits' sum by 10 to 18);
     the cap and the utility's turning year barely matter. Shown against the forward model's 2023 measures: the kept fit's
     machine-making takes 55% of all hours by 2024 (measured 15%) and land 0.5% of a machine's cost (measured 33%).
+16. **2026-11-06 — the explorer, third version** (her asks). Years without an equilibrium no longer blank the model: the
+    path is solved year by year, the years that fail are shaded, and the misfit is shown over the years that solve.
+    "Find a start" (`model.js` `search`): moves the free numbers and points at random around where they are, keeping
+    moves that leave fewer years without an equilibrium (or nearer to one), until every year solves; with the clock held
+    at 4% a year it finds a start in under ten tries, and the fit from there reaches 24.3 (the continuation profile of
+    Log 14 reached 26.1). The right pane stays in view as the controls scroll. Guides: each slider shades a usual range
+    (evidence where there is some: the return 1-8%, machine services 10-40% of a machine's cost; judgments for the
+    clock and the growth of machine-making hours, labelled as such; the stored fits' span for the scale numbers), and a
+    number outside it is marked; each record chart marks the years more than one or three tolerances off. Each dial shows
+    its sensitivity (the five series as squares, a bar for how much the misfits move, "near an edge" when a small step
+    loses an equilibrium). Each bendable path has a small plot beside its table, points drawn by what can move. Cards
+    and control groups can be focused: focused ones move to the top, the rest fold to their titles.
