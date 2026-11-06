@@ -23,7 +23,7 @@ def run(job):
     F.configure(META)
     r = F.run_start(F.complete(start))
     m = F.model_path(r["par"])
-    if m is None or r["misfit"] >= 10.0:
+    if m is None:
         return dict(label=label, misfit=None)
     return dict(label=label, misfit=r["misfit"], by=F.misfit_by_series(m), par=dict(r["par"], chi_max=F.pinned_chi(r["par"])),
                 sigma_V={y: float(m.loc[y, "sigma_V"]) for y in (1950, 1970, 1997, 2023)},
