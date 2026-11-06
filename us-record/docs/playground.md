@@ -139,3 +139,36 @@ tilt (its start year and its 2024 weight), and the fit moves the tilt's weight w
   from 6.77 to 5.53, and the clock then runs the productivity record's shape (fast to 1973, slower to 1995, a burst to
   2005, slow after), but that shape is put in by the dates, not found. A third dated wave (2015) fell into a worse local
   optimum (6.53) from every start tried.
+
+## While she was away, 2026-11-06: what labour's share needs
+
+- **Labour's share against the wage in durables.** Weighting labour's share up shows the model can fit it (misfit 1.2
+  at x30), but only by giving up the wage in durables (6.4 -> 33 at x10, 48 at x30) and θ_V; with the dated waves, labour's
+  share reaches 0.9 at a cost of 29 on the durables wage (`explore2.js` A). Within this one-good model a sixfold rise of
+  the wage in durables and a falling labour share pull against each other.
+- **The early burst is labour's share's.** One wave with a free date lands at 1950-53 whether the start is pinned or
+  not and whether or not 1950-55 are counted; with labour's share left out of the fit it vanishes (`explore2.js` D).
+- **Waves on defensible numbers** (the return at 2%, a from the measured split): 9.14 -> 7.90 with the dated waves, the
+  clock's pace 4.4% (`explore2.js` B).
+- **Her developer surge** (the hours to build machines rising after a discovery, then fading): 5.55 -> 5.30 with four
+  more numbers, the surge after 1995 coming out negative: not in the record (`explore2.js` C).
+- **The goods wage read over everything but shelter.** The model has one final good; the wage target deflates it by
+  durables, the goods that cheapened fastest (the real wage in durables x6.2 since 1950, over everything but shelter
+  x2.0, over shelter x1.05). Read over the CPI less shelter (FRED CUUR0000SA0L2, now the panel's `wage_exshelter`, check
+  I10), labour's share fits (17.1 -> 2.5) and employment becomes the strain (11.0): the real wage no longer rises enough
+  to draw people in (`exshelter.js`). Then women's entry, which did nothing before, does the work: the cost of working
+  falling to about 0.8 of 1950's by 1985-90, held after (`exshelter2.js`).
+
+  | Goods wage over | Additions | Misfit | Goods, shelter, labour's share, employment, θ_V |
+  |---|---|---|---|
+  | durables | kept model | 6.77 | 6.4 4.7 17.1 1.4 4.2 |
+  | all but shelter | kept model | 8.32 | 12.5 8.8 2.5 11.0 6.7 |
+  | all but shelter | women's entry to 1990 (one number) | 2.92 | 1.2 5.3 3.2 1.1 3.8 |
+  | all but shelter | women's entry to 1985 + the post-war wave | 2.42 | 1.5 5.3 1.3 1.2 2.8 |
+  | all but shelter | women's entry, measured machine split (return 2%) | 12.67 | 12.4 7.7 14.1 12.4 16.8 |
+
+  Ten of twelve scattered restarts reach the same optimum (2.92); two found no start (`exshelter3.js`). The fit still
+  wants a zero return and machine services at half a machine's cost; with the measured split it falls back to 12.7.
+  What it gives up: the model then has no durables, so the paper's fork (durables against shelter, x4.8 over 1964-2024)
+  is not reproduced, only everything-but-shelter against shelter (x1.9). Holding both would take a second good: durables,
+  automatable, beside labour-heavy services, both in the basket.

@@ -298,3 +298,12 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     its sensitivity (the five series as squares, a bar for how much the misfits move, "near an edge" when a small step
     loses an equilibrium). Each bendable path has a small plot beside its table, points drawn by what can move. Cards
     and control groups can be focused: focused ones move to the top, the rest fold to their titles.
+17. **2026-11-06 — exploring while she was away** (`docs/playground.md`, the last two sections). Her spiky settings are
+    mostly the machine's size changing: the model has two real clocks, the land and the hours embodied per unit of task
+    capacity, and rescaling the machine year by year leaves the fit exact to the last digit. Waves dated from the
+    productivity record (1948, 1995) take the kept model from 6.77 to 5.53. The largest lead: labour's share is at odds
+    with the wage in durables, not with the model; with the goods wage read over everything but shelter (the panel's new
+    `wage_exshelter`, check I10) and women's entry (the cost of working falling to 0.77 by 1990, one number), every series
+    fits within 1.1 to 5.3 tolerances (misfit 2.92, ten of twelve restarts to the same optimum). It still needs a zero
+    return and half of a machine's cost in machine services, and it gives up the durables fork, which would take a second
+    good. In the explorer: a switch for the goods deflator, a women's-entry control and the preset.

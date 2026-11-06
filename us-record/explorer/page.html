@@ -214,6 +214,10 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
         <div class="switch"><input type="checkbox" id="sw-cap"><label for="sw-cap">Cap on prime-age employment</label>
           <input type="text" class="small-in" id="v-cap" aria-label="Cap"></div>
         <div class="switch"><input type="checkbox" id="sw-pin"><label for="sw-pin">1950 employment pinned to the record</label><span></span></div>
+        <div class="switch" style="grid-template-columns:minmax(0,1fr) auto"><span>The goods wage is read over</span>
+          <span class="seg" role="group" aria-label="Goods deflator"><button id="gd-dur" aria-pressed="true">durables</button><button id="gd-ex" aria-pressed="false">all but shelter</button></span></div>
+        <div class="switch"><input type="checkbox" id="sw-chi"><label for="sw-chi">Women's entry: the cost of working falls until the year, to this factor</label>
+          <span style="display:flex;gap:6px"><input type="text" class="small-in" id="v-chiyear" aria-label="Until" style="width:56px"><input type="text" class="small-in" id="v-chi" aria-label="Factor by then" style="width:56px"></span></div>
         <div class="switch"><input type="checkbox" id="sw-A"><label for="sw-A">Shelter read as building and site, site share</label>
           <input type="text" class="small-in" id="v-A" aria-label="Site share of shelter"></div>
         <div class="switch" id="row-build" style="grid-template-columns:minmax(0,1fr) auto"><span>Building priced like</span>
@@ -276,6 +280,12 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   const M = window.USRecordModel;
   const DOC = JSON.parse(document.getElementById("doc").textContent);
   const D = DOC.data, YEARS = D.years, NY = YEARS.length, SERIES = M.SERIES;
+  const WAGE_DUR = D.wage_goods.slice(), WAGE_EX = D.wage_exshelter;       // the goods wage, read two ways
+  function applyGoods() {
+    D.wage_goods = S.goods === "exshelter" ? WAGE_EX : WAGE_DUR;
+    const h = document.querySelector('[data-id="wage_goods"] h3');
+    if (h) h.textContent = S.goods === "exshelter" ? "Real wage in everything but shelter, 1950 = 100" : "Real wage in durables, 1950 = 100";
+  }
   const $ = (id) => document.getElementById(id);
   const clone = (o) => JSON.parse(JSON.stringify(o));
   const fmt = (x) => (x === null || x === undefined || !isFinite(x) ? "–" : Math.abs(x) < 1e-12 ? "0"
@@ -394,6 +404,8 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
   }
   function fitNames() {
     const names = activeCoords().filter((n) => free.has(n));
+    if (S.chi) names.push("chi:1");
+    if (S.tilt) names.push("tilt:2");
     for (const key of activeKnotKeys()) S[key].forEach((k, i) => {
       if (i === 0) return;
       const L = S.knotLocks[key][i];
@@ -634,6 +646,10 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
     $("bld-dur").setAttribute("aria-pressed", String(S.shelterBuild !== "wage")); $("bld-wage").setAttribute("aria-pressed", String(S.shelterBuild === "wage"));
     $("sw-tilt").checked = !!S.tilt;
     $("v-tiltyear").value = S.tilt ? (+S.tilt[1][0].toFixed(0)) : 1995; $("v-tilt").value = S.tilt ? fmt(Math.exp(S.tilt[2][1])) : "0.6";
+    $("gd-dur").setAttribute("aria-pressed", String(S.goods !== "exshelter")); $("gd-ex").setAttribute("aria-pressed", String(S.goods === "exshelter"));
+    $("sw-chi").checked = !!S.chi;
+    $("v-chiyear").value = S.chi ? (+S.chi[1][0].toFixed(0)) : 1990; $("v-chi").value = S.chi ? fmt(Math.exp(S.chi[1][1])) : "0.8";
+    applyGoods();
     $("settings").value = settingsText();
   }
   function wireStatic() {
@@ -650,6 +666,14 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
       syncSwitches(); update();
     };
     $("sw-tilt").addEventListener("change", setTilt); $("v-tiltyear").addEventListener("change", setTilt); $("v-tilt").addEventListener("change", setTilt);
+    $("gd-dur").addEventListener("click", () => { S.goods = undefined; syncSwitches(); update(); });
+    $("gd-ex").addEventListener("click", () => { S.goods = "exshelter"; syncSwitches(); update(); });
+    const setChi = () => {
+      const yr = Math.round(parseFloat($("v-chiyear").value)), f = parseFloat($("v-chi").value);
+      S.chi = $("sw-chi").checked && yr > 1950 && yr <= 2024 && f > 0 ? [[1950, 0], [yr, Math.log(f)]] : null;
+      syncSwitches(); update();
+    };
+    $("sw-chi").addEventListener("change", setChi); $("v-chiyear").addEventListener("change", setChi); $("v-chi").addEventListener("change", setChi);
     $("apply").addEventListener("click", () => {
       try {
         const o = JSON.parse($("settings").value);
@@ -1084,6 +1108,8 @@ textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 
           c[n] = v; return { par: Object.assign({}, P, M.fromCoords(c, S.coords, D)), S };
         } });
     }
+    if (S.chi) items.push({ label: `Women's entry: cost of working by ${(+S.chi[1][0].toFixed(0))}`, sym: "", step: "×÷ 1.05", apply: (sgn) => {
+      const S2 = clone(S); S2.chi[1][1] = S.chi[1][1] + Math.log(1.05) * sgn; return { par: P, S: S2 }; } });
     if (S.cap !== null) items.push({ label: "Cap on employment", sym: "cap", step: "± 0.005", apply: (sgn) => ({ par: P, S: Object.assign({}, S, { cap: S.cap + 0.005 * sgn }) }) });
     if (S.sigma !== null) items.push({ label: "Basket elasticity", sym: "σ", step: "± 0.05", apply: (sgn) => (S.sigma + 0.05 * sgn < 0 ? null : { par: P, S: Object.assign({}, S, { sigma: S.sigma + 0.05 * sgn }) }) });
     if (S.shelterW !== null && S.shelterW !== undefined) items.push({ label: "Site share of shelter", sym: "w", step: "± 0.02", apply: (sgn) => ({ par: P, S: Object.assign({}, S, { shelterW: S.shelterW + 0.02 * sgn }) }) });

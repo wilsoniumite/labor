@@ -34,7 +34,7 @@ def data():
                ls_tol=[float(x) for x in ls_tol], weak=[bool(x) for x in weak],
                ls_lo=[num(x) for x in D["labour_share_c_lo"]], ls_hi=[num(x) for x in D["labour_share_c_hi"]],
                real_wage_cpi=[float(x) for x in rw], housing_share_pce=[num(x) for x in D["housing_share_pce"]],
-               real_rate=[float(x) for x in D["real_rate"]])
+               real_rate=[float(x) for x in D["real_rate"]], wage_exshelter=[float(x) for x in D["wage_exshelter"]])
     for s in ("wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"):
         out[s] = [num(x) for x in D[s]]
     return out, rw
@@ -62,7 +62,9 @@ def presets(rw):
 PLAY = [("tilt", "Play: tastes tilt from land after 1995", "playground/round3.json", "internet: tastes tilt from land after 1995"),
         ("Aprime", "Play: building priced like building work (A′)", "playground/results.json",
          "A' (shelter's building priced at the wage, site 0.4)"),
-        ("rho5", "Play: required return fixed at 5%", "playground/round4.json", "return 5% (kept model otherwise)")]
+        ("rho5", "Play: required return fixed at 5%", "playground/round4.json", "return 5% (kept model otherwise)"),
+        ("exshelter", "Play: goods = everything but shelter, women's entry", "playground/exshelter_best.json",
+         "all but shelter, women's entry to 1990")]
 
 
 def play_presets():

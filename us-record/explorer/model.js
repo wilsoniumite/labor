@@ -181,6 +181,12 @@
     return out;
   }
 
+  function hoursSurge(S, y) {
+    let out = 0;
+    for (const w of S.waves || []) if (w.hours && y > w.year) { const x = (y - w.year) / (w.htau || w.tau); out += w.hours * x * Math.exp(1 - x); }
+    return out;
+  }
+
   function etaPath(par, S, D) {
     if (S.waves && S.waves.length) return D.years.map((y) => Math.exp(-par.g_eta * (y - 1950) + waveLog(S, y)));
     if (S.clock && S.clock.length) {
@@ -220,8 +226,9 @@
       const lam = lamk ? par.lam0 * lamk[i]
         : S.hoursPerTask ? par.lam0 * Math.exp((par.g_lam - par.g_eta) * t) * eta[0] / eta[i]   // hours per task: steady
         : par.lam0 * Math.exp(par.g_lam * t);
+      const lamW = S.waves ? lam * Math.exp(hoursSurge(S, D.years[i])) : lam;
       const rho = S.rhoData ? par.rho + S.rhoData * D.real_rate[i] : par.rho;
-      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b * (bk ? bk[i] : 1), lam,
+      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b * (bk ? bk[i] : 1), lam: lamW,
                   g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max * (chi ? chi[i] : 1), rho,
                   delta: D.delta[i], cap: S.cap === null || S.cap === undefined ? 1 : S.cap, sigma: null };
       if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; if (tilt) e.tilt = tilt[i]; }
@@ -394,9 +401,13 @@
       return out;
     }
     const dev = deviations(m, D);
+    const FW = S.fitWeights || null;               // exploration only: {series: {name: weight}, from: first year counted}
     for (const s of SERIES) {
-      const w = 1 / Math.sqrt(N_OBS[s] * SERIES.length);
-      for (const d of dev[s]) if (isFinite(d)) out.push(d * w);
+      const w = 1 / Math.sqrt(N_OBS[s] * SERIES.length) * (FW && FW.series && FW.series[s] !== undefined ? Math.sqrt(FW.series[s]) : 1);
+      dev[s].forEach((d, i) => {
+        if (D[s][i] === null || D[s][i] === undefined || !isFinite(D[s][i])) return;
+        out.push(FW && FW.from && D.years[i] < FW.from ? 0 : (isFinite(d) ? d * w : 0));
+      });
     }
     return out;
   }
@@ -437,18 +448,19 @@
     const parse = (n) => { const q = n.split(":"); return { key: q[0], i: +q[1], year: q[2] === "y", field: q[2] }; };
     const getK = (S, n) => {
       const k = parse(n);
-      if (k.key === "wave") return k.field === "tau" ? Math.log(S.waves[k.i].tau) : S.waves[k.i][k.field];
+      if (k.key === "wave") return k.field === "tau" || k.field === "htau" ? Math.log(S.waves[k.i][k.field] || S.waves[k.i].tau) : (S.waves[k.i][k.field] || 0);
       const kn = S[k.key][k.i]; return k.year ? kn[0] : (k.key === "utility" ? Math.log(kn[1]) : kn[1]);
     };
     const putK = (S, n, v) => {
       const k = parse(n);
-      if (k.key === "wave") { S.waves[k.i][k.field] = k.field === "tau" ? Math.exp(v) : v; return; }
+      if (k.key === "wave") { S.waves[k.i][k.field] = k.field === "tau" || k.field === "htau" ? Math.exp(v) : v; return; }
       const kn = S[k.key][k.i]; if (k.year) kn[0] = v; else kn[1] = k.key === "utility" ? Math.exp(v) : v;
     };
     const bounds = free.map((n) => {
       if (!isKnot(n)) { const b = COORD[n]; return b[2] ? [Math.log(b[0]), Math.log(b[1])] : [b[0], b[1]]; }
       const k = parse(n);
-      if (k.key === "wave") return k.field === "size" ? [0, 10] : k.field === "tau" ? [Math.log(0.5), Math.log(60)] : [1950, 2022];
+      if (k.key === "wave") return k.field === "size" ? [0, 10] : k.field === "hours" ? [-5, 5]
+        : k.field === "tau" || k.field === "htau" ? [Math.log(0.5), Math.log(60)] : [1950, 2022];
       if (!k.year) return k.key === "clock" ? [-25, 5] : (k.key === "utility" ? [Math.log(0.2), Math.log(5)] : [-6, 6]);
       const arr = S0[k.key], here = arr[k.i][0], prev = arr[k.i - 1][0], last = k.i === arr.length - 1;
       const lo = free.includes(`${k.key}:${k.i - 1}:y`) ? (prev + here) / 2 : prev + 0.5;

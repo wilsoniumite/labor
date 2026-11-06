@@ -202,6 +202,12 @@ def build():
     real = spliced / cpi
     p["real_wage_cpi"] = 100.0 * real / real.loc[1950]
 
+    # ---- the goods wage read over everything but shelter (the playground of 2026-11-06: the model's one final good as all
+    # consumption except shelter, against durables alone): the same linked earnings over the CPI less shelter, 1950 = 100
+    exsh = fred_fetch("CUUR0000SA0L2", "wage_exshelter")
+    real_ex = spliced / exsh
+    p["wage_exshelter"] = 100.0 * real_ex / real_ex.loc[1950]
+
     p = p.loc[YEARS]
     p.to_csv(os.path.join(DATA, "panel.csv"))                    # full precision: anchors are checked exactly
     man = pd.DataFrame(MANIFEST).drop_duplicates("file")

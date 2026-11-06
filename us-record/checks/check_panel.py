@@ -149,6 +149,15 @@ check("I9 the real wage over the all-items CPI is AHEMAN to 1964 and AHETPI afte
       (P["real_wage_cpi"][both] - rw[both]).abs().max() < 1e-9 and (P["real_wage_cpi"].notna() == rw.notna()).all(),
       f"{int(both.sum())} years; 1970 {P.loc[1970, 'real_wage_cpi']:.1f}")
 
+exsh_ = monthly_complete(fred_cache(os.path.join(ROOT, "cache", "CUUR0000SA0L2.csv"), "CUUR0000SA0L2"))
+rx = (link / exsh_).reindex(P.index)
+rx = 100.0 * rx / rx.loc[1950]
+both = P["wage_exshelter"].notna() & rx.notna()
+check("I10 [added 2026-11-06] the goods wage over everything but shelter is the same linked earnings over the CPI less "
+      "shelter (CUUR0000SA0L2), 1950 = 100, recomputed from the raw files (to 1e-9), complete over 1950-2024",
+      (P["wage_exshelter"][both] - rx[both]).abs().max() < 1e-9 and P.loc[1950:2024, "wage_exshelter"].notna().all(),
+      f"{int(both.sum())} years; 2024 {P.loc[2024, 'wage_exshelter']:.0f}")
+
 # ---- B: bands
 inside = lambda v, lo, hi: ((v >= lo - 1e-12) & (v <= hi + 1e-12)).loc[v.dropna().index].all()  # noqa: E731
 weak = P["labour_share_c_tier"] == "WEAK"
