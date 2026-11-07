@@ -151,8 +151,7 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
 `results/fit_Br0.json`). Open, hers: (i) bring the doc for Johan to it, with Log 24's two findings (measured machine
 progress is the durables clock, which resolves the waterline miss; the capability-jump statics); (ii) a third good,
 services apart from nondurables (the wage over services fell to 0.78 of 1957's, over nondurables rose 1.65-fold:
-the slow clock is services); (iii) hours per unit of task capacity held steady (+2.6% on the wave fit, one number
-fewer); (iv) how to hand technology to the forward model: two paces, durables' (-3% a year, as BEA measures
+the slow clock is services); (iii) hours per unit of task capacity held steady: settled, it stays (+20% without the wave, Log 24); (iv) how to hand technology to the forward model: two paces, durables' (-3% a year, as BEA measures
 machines) and everything else's (-0.44%), the clock's own level not pinned.
 
 0. **The main case's misses** (Log 19): https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU (`code/report_misses.py`). Her
@@ -481,3 +480,10 @@ machines) and everything else's (-0.44%), the clock's own level not pinned.
     (`playground/services_split.py`, BLS via FRED): the slow clock is services. (vii) The land-rent miss is not the
     basket's elasticity (2.36-2.68 across 0.636-1, against 4.33). (viii) No 1950s benchmark for a machine's cost split
     in the repository (the century arc lacks compensation before 1967).
+    (ix) `fit_Br0` under the stress battery (`results/stress_Br0.json`, 44 fits): held out from 1995 5.22, from 1985 6.72
+    (the best of every version), from 1995 with the utility held after 1990 12.69 (the wave fit 5.41, two goods at 2%
+    15.7); a series left out: the goods wage and pay's share of a machine predicted by the rest (1.60, 1.58), labour's
+    share (2.89), employment (6.60) and the shelter wage (7.53) less so; set values 1.57-1.75; women's entry (4.53
+    without), the basket (6.53) and the utility's rise (flat 3.05) earn their place, and so, at the rule's line, does the
+    fall in hours per unit of task capacity (held steady 1.90, +20%; on the wave fit +2.6%); the clock is pinned more
+    tightly than with the wave (within 10% of the best from about 16% to 25% a year).
