@@ -302,7 +302,11 @@ Her lean on the wave ("Perhaps drop it yeah"), then: "do a bit more pondering an
   pay 0.18 -> 0.19 / 0.21 / 0.25 / 0.49, the return on machines 0.32 -> 0.33 / 0.35 / 0.39 / 0.52 of income, land rent per
   adult over the basket x1.09 / 1.24 / 1.62 / 3.63. Wages and employment rise, labour's share falls, income moves to the
   owners of machines and of land, and workers move into making machines. If hours in a machine rise with the capability
-  (lambda times eta unchanged) nothing changes on the ceiling, as the identification says.
+  (lambda times eta unchanged) nothing changes on the ceiling, as the identification says. With the basket's utility
+  following the real wage, as along the fitted history (a fixed point), the goods side is unchanged (on the ceiling it is
+  set by technology alone) and land takes more: at s = 0.5 the wage over goods is still x1.27 but over the whole basket
+  x1.09 (held utility: x1.18), land rent per adult over the basket x1.41, employment 0.83; at s = 1, x1.75, x1.22, x2.68,
+  0.88. As living standards rise the demand for land takes part of the gain to wages: the site takes the gains.
 - **A change of pace** (`kinks.py`; fit_base `KINKS`, one fitted number per year, both goods). After 1973: 1.506
   (-4.8%), the pace 1.58% a year before and 0.35% after, the productivity slowdown's direction; after 1995: nothing
   (1.576); both: 1.491 (-1.71%, -0.16%, -0.46%); after 1960: nothing. The 1973 kink beats the 1948 wave (-3.4% for two

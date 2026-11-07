@@ -5,7 +5,8 @@
 # (lambda) rise with it, as in the record (on the ceiling only lambda times eta matters). A comparative static, not a
 # path: the same year's economy before and after. Reads: the share of tasks done by machines, the wage over goods and over
 # the basket, prime-age employment, labour's share, the machine chain's share of pay, income shares, land rent per adult.
-# Run from us-record/:  python3 playground/ai_jump.py      (writes playground/ai_jump.json)
+# A second set lets the basket's utility follow the real wage the jump brings (a fixed point), as along the fitted
+# history. Run from us-record/:  python3 playground/ai_jump.py      (writes playground/ai_jump.json)
 import json
 import sys
 from dataclasses import replace
@@ -55,7 +56,24 @@ if __name__ == "__main__":
             except pm.NoEquilibrium as err:
                 r = dict(error=str(err))
             rows.append(dict(size=s, lam_too=lam_too, **r))
-    json.dump(dict(base=base, jumps=rows), open("playground/ai_jump.json", "w"), indent=1)
+    # the same jumps with the basket's utility following the real wage, as it does along the fitted history (utility set
+    # through the real wage at its knots): a fixed point, utility scaled by the wage-over-basket gain it produces
+    follow = []
+    for s in (0.1, 0.25, 0.5, 0.75, 1.0):
+        u = 1.0
+        for _ in range(60):
+            e2 = replace(e, eta=e.eta * np.exp(-s), utility=e.utility * u)
+            try:
+                r = read(e2, eta_d, cmp)
+            except pm.NoEquilibrium as err:
+                r = dict(error=str(err))
+                break
+            u_new = r["wage_over_basket"] / base["wage_over_basket"]
+            if abs(u_new - u) < 1e-10:
+                break
+            u = 0.5 * u + 0.5 * u_new
+        follow.append(dict(size=s, utility=u, **r))
+    json.dump(dict(base=base, jumps=rows, utility_follows=follow), open("playground/ai_jump.json", "w"), indent=1)
     keys = ["x_other", "wage_over_goods", "wage_over_basket", "participation", "labour_share", "chain", "pay", "machines",
             "land", "rent_per_adult_over_basket"]
     print("2024 as fitted:   " + "  ".join(f"{k} {base[k]:.3f}" for k in keys))
@@ -64,4 +82,11 @@ if __name__ == "__main__":
             print(f"jump {r['size']:.2f}{' (hours too)' if r['lam_too'] else ''}: {r['error']}")
             continue
         print(f"jump {r['size']:.2f}{' +hours' if r['lam_too'] else '       '}: " + "  ".join(
+            f"{k} {r[k] / base[k]:.3f}x" if k.startswith(("wage", "rent")) else f"{k} {r[k]:.3f}" for k in keys))
+    print("with the basket's utility following the real wage:")
+    for r in follow:
+        if "error" in r:
+            print(f"jump {r['size']:.2f}: {r['error']}")
+            continue
+        print(f"jump {r['size']:.2f} (utility x{r['utility']:.3f}): " + "  ".join(
             f"{k} {r[k] / base[k]:.3f}x" if k.startswith(("wage", "rent")) else f"{k} {r[k]:.3f}" for k in keys))
