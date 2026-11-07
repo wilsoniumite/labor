@@ -274,3 +274,47 @@ Leads, not results; every number below is a fit's, from the files named.
   of a machine's cost, is not visible in the record's split (at most part of the surplus, which is mostly the return on
   machines), and the split is steady from 1997 to 2023, as it would be on the ceiling. Once the rents in a machine's cost
   are read as value shares, the knife edge looks like the model's reading of the record rather than its failure.
+
+## After the doc for Johan (2026-11-07)
+
+Her lean on the wave ("Perhaps drop it yeah"), then: "do a bit more pondering and exploration, try more things".
+
+- **The main case without the wave** (`results/fit_Br0.json`): 1.582 from five of fifteen starts (the wave fit 1.529
+  from two). Nine fitted numbers; hours per unit of task capacity fall 0.44% a year from 1950, with no burst.
+- **The machine chain's surplus is a normal return** (BEA input-output, the bundle's split, 1997-2023): at an 8% return
+  and the measured depreciation rate, the return the chain's own capital earns (its depreciation times rho / delta) is
+  its measured surplus to within -0.02 to +0.03 of a machine's cost (+0.01 on average). Imported content is the only
+  rent in a machine's cost, as decision 25 set it. The dip in pay's share of a machine, 52.5% in 2001 to 44% in 2011, is
+  the chain's capital share rising (24.5% to 30.5%), which a constant number of machines in a machine cannot follow.
+- **Measured machine progress is the durables clock** (`hours_measured.py` -> `playground/hours_measured.json`). Hours
+  of work per dollar of the machine bundle (BEA input-output, full chain) times the bundle's quality-adjusted price (BEA
+  NIPA, private nonresidential fixed investment, B008RG) = hours per real unit of machine: -2.90% a year 1998-2023
+  (x0.47). The fit's hours per unit of task capacity in durables: -3.00% a year (x0.47; the wave fit -2.80%, two goods at
+  2% -2.89%), never targeted; in the other goods -0.44%. The wage over a unit of machine capability, read with durables'
+  capability: 2.14-fold 1999-2023 against broad equipment's 2.33 (the old waterline miss, 1.13, read the other goods'
+  capability). Forcing the other goods' pace towards the record's breaks the six (-1% a year 2.22, -1.5% 3.39, -2% 4.89,
+  -3% 8.72, the goods wage 20 tolerances off; the clock's bound widened, no change). Equipment price indexes measure the
+  capability durables embody; the six series say machines get better at everything else at a seventh of that pace.
+- **What a capability jump would do to the 2024 economy** (`ai_jump.py` -> `playground/ai_jump.json`; all else equal,
+  the basket's utility held). Other goods' tasks needing e^-s as much machine service: s = 0.1 / 0.25 / 0.5 / 1.0 move the
+  task line 0.797 -> 0.811 / 0.834 / 0.873 / 0.956, the wage over goods x1.04 / 1.12 / 1.27 / 1.75, prime-age employment
+  0.79 -> 0.80 / 0.83 / 0.87 / 0.98, labour's share 0.474 -> 0.457 / 0.429 / 0.369 / 0.173, the machine chain's share of
+  pay 0.18 -> 0.19 / 0.21 / 0.25 / 0.49, the return on machines 0.32 -> 0.33 / 0.35 / 0.39 / 0.52 of income, land rent per
+  adult over the basket x1.09 / 1.24 / 1.62 / 3.63. Wages and employment rise, labour's share falls, income moves to the
+  owners of machines and of land, and workers move into making machines. If hours in a machine rise with the capability
+  (lambda times eta unchanged) nothing changes on the ceiling, as the identification says.
+- **A change of pace** (`kinks.py`; fit_base `KINKS`, one fitted number per year, both goods). After 1973: 1.506
+  (-4.8%), the pace 1.58% a year before and 0.35% after, the productivity slowdown's direction; after 1995: nothing
+  (1.576); both: 1.491 (-1.71%, -0.16%, -0.46%); after 1960: nothing. The 1973 kink beats the 1948 wave (-3.4% for two
+  numbers) with one number; neither earns its place by the 20% rule.
+- **The slow clock is services** (`services_split.py`, BLS CPI via FRED: CUUR0000SAN nondurables, CUUR0000SASLE services
+  less rent of shelter; `playground/services_split.csv`). The wage over durables x4.49 1957-2024, over nondurables x1.65,
+  over all but shelter x1.55, over services less rent of shelter x0.78: an hour's pay buys fewer services than in 1957.
+  1973-1995 is the low in every one (services -1.85% a year). The fit's other goods average a moderate nondurables clock
+  and a services clock with no headway against labour; a third good would show it.
+- **The land-rent miss is not the basket's elasticity** (`results/stress_Br.json`): rent on housing land per adult over
+  the basket's cost, 1953-2024, is 2.68-fold at 0.636 (the elasticity on the goods wage's own price basis), 2.58 at 0.75,
+  2.48 at 0.875, 2.36 at 1, 3.14 with a fixed basket, against the record's 4.33.
+- **No 1950s benchmark yet.** The two readings of the 1950s (a technology burst, or machines shedding land) differ in
+  pay's share of a machine's cost before 1967; the λ thread's century arc has rows for 1947, 1958 and 1963 but no
+  compensation for them. BEA's historical industry accounts (1947 onward) could supply it: a lead.

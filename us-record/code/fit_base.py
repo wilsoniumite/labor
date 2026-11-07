@@ -119,6 +119,7 @@ LAND = None                                           # None: land fixed; "grow"
                                                       # "path": land in use follows LAND_PATH (1950 = 1; set by the caller)
 LAND_PATH = None
 DUR_WAVES = []                                        # durables apart: waves on durables' clock alone (years; a lead)
+KINKS = []                                            # a lead: years after which the clock's steady pace changes by kink{i}
 VALUE_RENT = None                                     # durables apart: a value-share rent in a machine's cost (a lead)
 EXTRA = []                                            # targets beyond the five (durables apart: the wage over durables)
 EXTRA_TOL_LOG = {"wage_durables": 0.05}               # as the other wages
@@ -170,6 +171,8 @@ def pack(par):
 
 
 def bounds(n):
+    if n.startswith("kink"):
+        return (-0.1, 0.1)
     if n.startswith(("w", "dw")) and n.endswith(("_size", "_tau")):
         return WAVE_BOUNDS[n.split("_")[1]]
     return BOUNDS[n]
@@ -184,9 +187,18 @@ def wave_log(par):
     return out
 
 
+def kink_log(par):
+    """Any kinks' part of the clock, in logs (a lead): after each kink's year the clock falls kink{i} a year faster (a
+    negative kink is a slowdown). Both goods share it, as they share the steady pace."""
+    out = np.zeros(len(YEARS))
+    for i, y0 in enumerate(KINKS):
+        out -= par[f"kink{i}"] * np.maximum(np.array(YEARS, dtype=float) - y0, 0.0)
+    return out
+
+
 def eta_path(par):
-    """The capability clock each year: the steady pace and any dated waves."""
-    return np.exp(-par["g_eta"] * T_REL + wave_log(par))
+    """The capability clock each year: the steady pace, any dated waves and any kinks."""
+    return np.exp(-par["g_eta"] * T_REL + wave_log(par) + kink_log(par))
 
 
 def women_path(par):
@@ -458,6 +470,8 @@ def complete(s):
     for i in range(len(DUR_WAVES)):
         s.setdefault(f"dw{i}_size", 0.3)
         s.setdefault(f"dw{i}_tau", 10.0)
+    for i in range(len(KINKS)):
+        s.setdefault(f"kink{i}", 0.0)
     for i in range(len(WAVES)):
         s.setdefault(f"w{i}_size", 0.05)
         s.setdefault(f"w{i}_tau", 15.0)
@@ -479,7 +493,7 @@ def configure(meta):
     """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
     and report read fits this way)."""
     global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
-    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT
+    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT, KINKS
     SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
     if SPLIT_FROM is not None:
         S_N = meta["s_n"]
@@ -491,6 +505,7 @@ def configure(meta):
     FIT_YEARS, DROP, FIXED = meta.get("fit_years"), meta.get("drop"), dict(meta.get("fixed") or {})
     DURABLES, EXTRA, LAND = meta.get("durables"), list(meta.get("extra") or []), meta.get("land")
     DUR_WAVES, VALUE_RENT = list(meta.get("dur_waves") or []), meta.get("value_rent")
+    KINKS = list(meta.get("kinks") or [])
     SET.update(meta.get("set") or {})
     NAMES[:] = meta["names"]
 
@@ -502,7 +517,7 @@ def settings_meta():
                 s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
                 waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, fixed=dict(FIXED),
                 durables=DURABLES, extra=list(EXTRA), land=LAND, dur_waves=list(DUR_WAVES), value_rent=VALUE_RENT,
-                names=list(NAMES))
+                kinks=list(KINKS), names=list(NAMES))
 
 
 def run_start(s):

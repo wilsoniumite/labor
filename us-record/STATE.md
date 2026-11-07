@@ -139,14 +139,21 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     to a set return and rent, applied only when a rent is set, so earlier fits reproduce unchanged). Still open, hers:
     the 1948 wave (1.58 without it; without it the fit holds from 1985 out of sample, 6.7 against 49).
 
+26. **The main case drops the 1948 wave** (her lean, 2026-11-07: "Perhaps drop it yeah", on the evidence of Log 23:
+    the wave failed the spec's 20% rule, 1.58 without it against 1.53, and without it the fit holds from 1985 out of
+    sample). `results/fit_Br0.json`: decision 25's settings without `--waves`, misfit 1.582 from five of fifteen starts,
+    nine fitted numbers. The 1950s then read as machines shedding land onto the chain's ceiling (a third of a machine's
+    cost in 1950, under 1% by 1970), with hours per unit of task capacity falling a steady 0.44% a year. Her doc for
+    Johan still rests on the wave fit (`fit_Br`); bringing it to `fit_Br0` is offered, not done.
 ## Next
 
-**From the flight, for her (Log 22, 23).** The record-set fit is the main case (decision 25, `results/fit_Br.json`,
-1.529). Her calls still open: the 1948 wave, which no longer earns its place by the spec's rule (1.58 without it,
-+3.5%; without it the fit holds from 1985 out of sample, 6.7 against 49, and the 1950s read as machines shedding land
-onto the ceiling, not a technology burst); hours per unit of task capacity held steady (+2.6% for one number fewer,
-which the rule would take); and how to hand the clock to the forward model (only its gap to hours per machine is
-pinned: the clock itself anywhere from 12% to 24% a year fits within 10%).
+**For her (Logs 22-24).** The main case is the record-set fit without the wave (decisions 25, 26,
+`results/fit_Br0.json`). Open, hers: (i) bring the doc for Johan to it, with Log 24's two findings (measured machine
+progress is the durables clock, which resolves the waterline miss; the capability-jump statics); (ii) a third good,
+services apart from nondurables (the wage over services fell to 0.78 of 1957's, over nondurables rose 1.65-fold:
+the slow clock is services); (iii) hours per unit of task capacity held steady (+2.6% on the wave fit, one number
+fewer); (iv) how to hand technology to the forward model: two paces, durables' (-3% a year, as BEA measures
+machines) and everything else's (-0.44%), the clock's own level not pinned.
 
 0. **The main case's misses** (Log 19): https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU (`code/report_misses.py`). Her
    next routes, both open: calibration (c)'s (the return fitted with the chain as a target works; fixed rents in a
@@ -457,3 +464,20 @@ pinned: the clock itself anywhere from 12% to 24% a year fits within 10%).
     (https://claude.ai/artifact/YD5GPRtSBcfLoXQFSoLGK2, private until she shares it): the model, the fit, the tests, the
     story of 1950-2024 and its gaps, a diagram and eight charts drawn from `results/doc/*.csv` (`code/doc_data.py`),
     their modules in `docs/doc_charts/`.
+24. **2026-11-07 — more pondering (her go: "do a bit more pondering and exploration, try more things")**, all in
+    `docs/playground.md`, "After the doc for Johan". (i) `fit_Br0` official (decision 26). (ii) The machine chain's
+    surplus is a normal return: at 8% and the measured depreciation rate, the chain's own capital earns its measured
+    surplus to within 0.03 of a machine's cost, 1997-2023; imported content is the only rent. (iii) Measured machine
+    progress is the durables clock (`playground/hours_measured.py`): hours per quality-adjusted unit of machine (BEA
+    input-output hours per dollar times BEA's nonresidential investment price, B008RG) fall 2.90% a year 1998-2023; the
+    fit's durables hours per unit of task capacity fall 3.00% (never targeted), the other goods' 0.44%; read with
+    durables' capability the waterline is 2.14 against broad equipment's 2.33, so the old waterline miss (1.13) was a
+    mismatch of concepts; forcing the other goods to the record's pace breaks the six (3% a year: 8.7). (iv) A capability
+    jump on the 2024 economy (`playground/ai_jump.py`, all else equal): wages and employment rise, labour's share falls
+    (0.47 to 0.37 for 39% less machine service per task), income moves to machines' owners and land, workers move into
+    the machine chain. (v) A 1973 kink in the clock fits 4.8% better (1.6% a year before, 0.35% after); 1995 shows
+    nothing; below the 20% rule (`playground/kinks.py`, fit_base `KINKS`). (vi) The wage over services less rent of
+    shelter fell to 0.78 of 1957's while over nondurables it rose 1.65-fold and over durables 4.49-fold
+    (`playground/services_split.py`, BLS via FRED): the slow clock is services. (vii) The land-rent miss is not the
+    basket's elasticity (2.36-2.68 across 0.636-1, against 4.33). (viii) No 1950s benchmark for a machine's cost split
+    in the repository (the century arc lacks compensation before 1967).
