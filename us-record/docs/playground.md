@@ -358,3 +358,37 @@ Her lean on the wave ("Perhaps drop it yeah"), then: "do a bit more pondering an
   the machine chain and depreciation against the record, hours per unit of task capacity by good against BEA's hours per
   quality-adjusted machine, the shares of spending and of income. `check_explorer`: the JavaScript reproduces every
   preset to 1e-11 (two goods) and 2e-8 (services: the knife edge amplifies last-bit differences in the power function).
+
+## Services by skill: a data look (her question, 2026-11-08: "do a worker for each good yeah. and can you split services into low and high skill? What do you think of that idea?")
+
+`playground/services_skill.py` (output in `services_skill.txt`, the group series in `services_skill.csv`). Data only, no
+model: BEA's consumer spending by type of service (NIPA 2.4.4 and 2.4.5, the repository's flat file, 1959-2024) and BLS's
+hourly earnings of production and nonsupervisory employees by industry (CES via FRED, 1964-2024; transportation 1972).
+Groups are a first guess by who does the work: high (hospitals and nursing homes, outpatient care, education,
+professional services, finance, insurance), low (food services, accommodations, recreation, personal care, household
+maintenance, vehicle repair, public transportation, social services), and goods-like services (utilities,
+communication, nonprofits' own consumption).
+
+- **The rise sits in high-skill services.** Price over the production wage, 1959 = 1, by 2024: high 1.39 (1.08 in 1980,
+  1.45 in 1990, 1.52 in 2010), low 0.91, goods-like 0.38. Low-skill services' prices tracked the production wage for 65
+  years. Largest rises: education 2.52, hospitals and nursing homes 2.12, professional services 1.82, insurance 1.45;
+  outpatient care only 1.07, finance fell (0.70). The high group's share of services less housing rose from 34% to 53%.
+- **Pay explains most of it over the whole period, little of the 1980s.** High group, 1964 = 1: price over the production
+  wage 1.38 by 2024; its industries' pay over the production wage 1.27 (education and health 0.79 to 1.04 of the
+  production wage, finance 0.90 to 1.19); price over its own pay 1.09. But in 1980-1990 the price rose from 1.07 to 1.44
+  while pay rose 1.01 to 1.15: price over own pay peaks at 1.26 (1990-2000). Health care alone: price 1.50 (peak 1.84),
+  own-pay price 1.14 (peak 1.47 in 2000). Education is the outlier: own-pay price 1.98 by 2024.
+- **Per-good pay changes the low side's reading.** Low group from 1972: price 1.02, pay 1.23, own-pay price 0.83 (machines
+  gaining ground). From 1964 (without public transportation) pay rose 1.65x, most of it by 1973 (1.29x), the years the
+  federal minimum wage was extended to restaurants, hotels and hospitals (the 1966 amendments): some pay gaps are
+  institutions, not markets.
+- **What these pay series miss.** BLS's are nonsupervisory hourly earnings: no physicians in their own practices, no
+  managers. BEA's all-employee pay per full-time equivalent by industry is in the flat file only from 1998 (table 6.6D);
+  over 1998-2024 it shows high-skill services flat against the private average (hospitals 1.03 to 1.06, outpatient care
+  1.25 to 1.02, education 0.77 to 0.74; finance 1.58 to 1.74). Its older tables (6.6B, 6.6C) were not reachable at BEA's
+  download paths (the historical workbook path returns BEA's not-found page; BEA's site notes it is not being updated
+  during the lapse in appropriations). Not sought elsewhere, per her rule.
+- **Job shares against pay** (share of private jobs, 1964 to 2024; pay over the production wage): manufacturing 33% to
+  10% with pay 0.95 to 0.92; education and health 7% to 20% with pay 0.79 to 1.04; professional and business 8.5% to 17%
+  with pay 1.25 to 1.18; retail (from 1972) 13% to 12% with pay 0.90 to 0.69. Pay gaps did not follow job shifts in any
+  one direction: a single mobility elasticity would be poorly pinned by this record.

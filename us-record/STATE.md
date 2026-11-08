@@ -147,11 +147,12 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     Johan still rests on the wave fit (`fit_Br`); bringing it to `fit_Br0` is offered, not done.
 ## Next
 
-**For her (Logs 22-25).** The main case is the record-set fit without the wave (decisions 25, 26,
+**For her (Logs 22-26).** The main case is the record-set fit without the wave (decisions 25, 26,
 `results/fit_Br0.json`); services apart was built and fitted (Log 25, `results/fit_Bs.json`) and does not earn its
 place (the original six 2.21 against 1.58). Open, hers: (i) bring the doc for Johan to the main case, with Log 24's
-findings; (ii) a channel for services' prices (their wage rising faster than the production wage, two kinds of
-workers; or non-labour costs in services); (iii) how to hand technology to the forward model: durables' pace (-3% a
+findings; (ii) a worker for each good (her go) and services split into low- and high-skill (her idea; Log 26's data
+look: the services price rise is all in high-skill services, and their pay explains most of it over 1964-2024 but not
+the 1980s): the design is proposed, hers to agree; (iii) how to hand technology to the forward model: durables' pace (-3% a
 year, as BEA measures machines) and everything else's (-0.44%), the clock's own level not pinned. The explorer, v5:
 https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs.
 
@@ -502,3 +503,11 @@ https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs.
     Explorer v5 (`explorer/`, published at its link, version 8): the goods model in JavaScript, presets fit_Br0, fit_Bs,
     fit_Br, dials for each good's hours per unit of task capacity, charts of the goods' wages, task lines, the chain,
     depreciation, hours per task capacity against BEA's machines, spending and income shares; `check_explorer` 3/3.
+26. **2026-11-08 — services by skill, a data look** (her question: "do a worker for each good yeah. and can you split
+    services into low and high skill? What do you think of that idea?"; `docs/playground.md`, "Services by skill";
+    `playground/services_skill.py`). No model change. BEA's prices by type of service over the production wage,
+    1959-2024: high-skill services 1.39 (the surge 1980-1990), low-skill 0.91, goods-like services (utilities,
+    communication) 0.38. BLS pay by industry (nonsupervisory, 1964-): the high group's pay rose 1.27x against the
+    production wage, leaving its price over its own pay at 1.09 by 2024 but 1.26 at the 1990s peak; the low group's pay
+    rose 1.23x from 1972 with flat prices (own-pay price 0.83). BEA's pre-1998 pay per full-time equivalent by industry
+    was not reachable at its download paths (not sought elsewhere). The design is hers to agree.

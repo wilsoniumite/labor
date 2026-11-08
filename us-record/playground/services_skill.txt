@@ -1,0 +1,77 @@
+1. Consumer services less housing by type (BEA). Price over the production wage, first year = 1.
+   the types cover 99.8% of services less housing in 2024 (the rest: net foreign travel)
+   -- high: 34% of services less housing in 1959, 53% in 2024
+      Hospitals and nursing homes                            6.1% ->  16.9%   x 2.12 (+1.16%/yr from 1959)
+      Outpatient care (physicians, dentists, paramedical)    8.6% ->  15.1%   x 1.07 (+0.10%/yr from 1959)
+      Financial services                                     5.2% ->   9.6%   x 0.70 (-0.54%/yr from 1959)
+      Insurance                                              6.8% ->   5.0%   x 1.45 (+0.57%/yr from 1959)
+      Education                                              2.8% ->   3.4%   x 2.52 (+1.42%/yr from 1959)
+      Professional and other services                        4.3% ->   2.7%   x 1.82 (+0.92%/yr from 1959)
+   -- low: 47% of services less housing in 1959, 34% in 2024
+      Food services                                         18.6% ->  11.8%   x 1.03 (+0.05%/yr from 1959)
+      Recreation services                                    5.9% ->   7.4%   x 0.72 (-0.51%/yr from 1959)
+      Motor vehicle services (repair, leasing)               5.4% ->   3.6%   x 0.86 (-0.23%/yr from 1959)
+      Social services and religious activities               1.6% ->   3.2%   x 0.87 (-0.21%/yr from 1959)
+      Public transportation                                  3.2% ->   2.8%   x 0.64 (-0.69%/yr from 1959)
+      Personal care and clothing services                    6.2% ->   2.2%   x 1.01 (+0.01%/yr from 1959)
+      Accommodations                                         1.1% ->   1.9%   x 1.02 (+0.03%/yr from 1959)
+      Household maintenance                                  4.7% ->   1.1%   x 1.10 (+0.15%/yr from 1959)
+   -- other: 18% of services less housing in 1959, 13% in 2024
+      Nonprofits' own consumption (NPISHs)                   4.8% ->   5.9%   x 0.21 (-2.38%/yr from 1959)
+      Household utilities                                    8.8% ->   4.3%   x 0.99 (-0.01%/yr from 1959)
+      Communication                                          4.8% ->   3.0%   x 0.12 (-3.25%/yr from 1959)
+   groups, Tornqvist over their types, price over the production wage (1959 = 1):
+      high  1973 0.98 1990 1.45 2000 1.51 2010 1.52 2024 1.39
+      low   1973 0.89 1990 1.03 2000 0.97 2010 0.94 2024 0.91
+      other 1973 0.72 1990 0.66 2000 0.52 2010 0.45 2024 0.38
+
+2. Price, pay and price over own pay by group (BLS pay by industry from 1964; transportation from 1972)
+   high (1964 = 1)
+      price over the production wage   1964 1.00 1973 0.98 1980 1.07 1990 1.44 2000 1.49 2010 1.51 2024 1.38
+      its industries' pay over it      1964 1.00 1973 1.02 1980 1.01 1990 1.15 2000 1.19 2010 1.26 2024 1.27
+      price over its own pay           1964 1.00 1973 0.96 1980 1.06 1990 1.26 2000 1.26 2010 1.20 2024 1.09
+   low (1972 = 1)
+      price over the production wage   1972 1.00 1973 0.99 1980 1.08 1990 1.15 2000 1.09 2010 1.05 2024 1.02
+      its industries' pay over it      1972 1.00 1973 1.01 1980 1.10 1990 1.16 2000 1.16 2010 1.16 2024 1.23
+      price over its own pay           1972 1.00 1973 0.99 1980 0.98 1990 0.98 2000 0.94 2010 0.90 2024 0.83
+   low less public transportation (1964 = 1)
+      price over the production wage   1964 1.00 1973 0.93 1980 1.00 1990 1.06 2000 1.02 2010 0.99 2024 0.97
+      its industries' pay over it      1964 1.00 1973 1.29 1980 1.43 1990 1.53 2000 1.54 2010 1.55 2024 1.65
+      price over its own pay           1964 1.00 1973 0.72 1980 0.70 1990 0.70 2000 0.66 2010 0.64 2024 0.59
+   health care (1964 = 1)
+      price over the production wage   1964 1.00 1973 0.99 1980 1.15 1990 1.72 2000 1.84 2010 1.84 2024 1.50
+      its industries' pay over it      1964 1.00 1973 1.08 1980 1.09 1990 1.23 2000 1.25 2010 1.32 2024 1.32
+      price over its own pay           1964 1.00 1973 0.92 1980 1.06 1990 1.40 2000 1.47 2010 1.39 2024 1.14
+   education (1964 = 1)
+      price over the production wage   1964 1.00 1973 0.97 1980 1.05 1990 1.57 2000 2.06 2010 2.80 2024 2.61
+      its industries' pay over it      1964 1.00 1973 1.08 1980 1.09 1990 1.23 2000 1.25 2010 1.32 2024 1.32
+      price over its own pay           1964 1.00 1973 0.90 1980 0.97 1990 1.28 2000 1.64 2010 2.12 2024 1.98
+
+3a. BLS hourly earnings, production and nonsupervisory employees, over the total private (AHETPI)
+    Manufacturing                          1964  0.95 -> 2024  0.92   share of private jobs 32.6% ->  9.5%
+      durable goods                        1964  1.04 -> 2024  0.97
+      nondurable goods                     1964  0.81 -> 2024  0.85
+    Retail trade                           1972  0.90 -> 2024  0.69   share of private jobs 13.3% -> 11.5%
+    Transportation and warehousing         1972  1.39 -> 2024  0.97   share of private jobs  4.4% ->  4.9%
+    Information                            1964  1.71 -> 2024  1.36   share of private jobs  3.6% ->  2.2%
+    Financial activities                   1964  0.90 -> 2024  1.19   share of private jobs  5.8% ->  6.8%
+    Professional and business services     1964  1.25 -> 2024  1.18   share of private jobs  8.5% -> 16.8%
+    Education and health services          1964  0.79 -> 2024  1.04   share of private jobs  7.1% -> 19.7%
+    Leisure and hospitality                1964  0.43 -> 2024  0.65   share of private jobs  7.7% -> 12.5%
+    Other services                         1964  0.45 -> 2024  0.92   share of private jobs  2.8% ->  4.4%
+
+3b. BEA wages and salaries per full-time equivalent employee (all employees), over private industries
+    Private industries                                   1998  1.00 -> 2024  1.00   (+3.37%/yr nominal)
+    Manufacturing                                        1998  1.13 -> 2024  1.06   (+3.13%/yr nominal)
+    Retail trade                                         1998  0.70 -> 2024  0.60   (+2.75%/yr nominal)
+    Finance and insurance                                1998  1.58 -> 2024  1.74   (+3.74%/yr nominal)
+    Professional, scientific, and technical services     1998  1.56 -> 2024  1.60   (+3.49%/yr nominal)
+    Educational services                                 1998  0.77 -> 2024  0.74   (+3.21%/yr nominal)
+    Ambulatory health care services                      1998  1.25 -> 2024  1.02   (+2.58%/yr nominal)
+    Hospitals                                            1998  1.03 -> 2024  1.06   (+3.47%/yr nominal)
+    Nursing and residential care facilities              1998  0.60 -> 2024  0.61   (+3.42%/yr nominal)
+    Social assistance                                    1998  0.52 -> 2024  0.48   (+3.08%/yr nominal)
+    Arts, entertainment, and recreation                  1998  0.85 -> 2024  0.80   (+3.12%/yr nominal)
+    Accommodation                                        1998  0.67 -> 2024  0.64   (+3.17%/yr nominal)
+    Food services and drinking places                    1998  0.43 -> 2024  0.50   (+3.98%/yr nominal)
+    Other services, except government                    1998  0.68 -> 2024  0.73   (+3.64%/yr nominal)
