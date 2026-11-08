@@ -1,6 +1,7 @@
 // model.js — the backward model in JavaScript, for the explorer page (explorer/index.html): the pinning model
 // (../../pinning/code/pinning_model.py) with the cap and the basket, and (v5, 2026-11-08) the goods model of
-// code/two_goods.py (durables apart, services apart, the value-share rent, land growing with adults), run over the US record
+// code/two_goods.py (durables apart, services apart, the value-share rent, land growing with adults; v6, the skill split
+// and a worker for each good), run over the US record
 // the way code/fit_base.py runs it, the misfit as fit_base.py scores it, and a small least-squares fitter for the page.
 // checks/check_explorer.py holds this file to the Python model, to a relative 1e-9, on every stored fit.
 // Plain functions; works in a browser (window.USRecordModel), a Web Worker (self.USRecordModel) and Node (require).
@@ -12,7 +13,8 @@
   const SERIES = ["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"];
   const TOL = { wage_goods: 0.05, wage_shelter: 0.05, labour_share_c: 0.01, prime_emp_rate: 0.015, theta_V: 0.02 };
   // the goods model's further targets (durables apart, services apart), scored as the other wages: fit_base.EXTRA_TOL_LOG
-  const EXTRA_TOL = { wage_durables: 0.05, wage_services: 0.05, wage_nondurables: 0.05 };
+  const EXTRA_TOL = { wage_durables: 0.05, wage_services: 0.05, wage_nondurables: 0.05, wage_ndg: 0.05, wage_low: 0.05,
+                      wage_high: 0.05 };
   const seriesOf = (extra) => SERIES.concat(extra || []);
   const BOUNDS = { T: [1e-5, 10], h: [1e-6, 1], a: [0.01, 10], k: [0.05, 60], chi_max: [0.3, 20], rho: [0, 0.3],
                    g_eta: [-0.05, 0.25], lam0: [0.01, 1000], g_lam: [-0.1, 0.1] };
@@ -198,20 +200,44 @@
     return [c, (1 - w) * c / pn, w * c / ps];
   }
 
+  function restSkill(pn, pl, ph, cmp) {           // the skill split: nondurables, low- and high-skill services, shares the record's
+    const wl = cmp.omega_l, wh = cmp.omega_h, wn = 1 - wl - wh;
+    let c;
+    if (cmp.mode === "ref") c = pn;
+    else { const rn = cmp.pref_n, rl = cmp.pref_l, rh = cmp.pref_h;
+      c = rn * Math.pow(pn / rn, wn) * Math.pow(pl / rl, wl) * Math.pow(ph / rh, wh); }
+    return [c, wn * c / pn, wl * c / pl, wh * c / ph];
+  }
+
+  const r1 = (x) => (x === undefined || x === null ? 1 : x);   // a good's pay over the production wage (1: one wage)
   function partsG(e, m, etaD, cmp, etaS) {
     const cpt = e.rho + e.delta, phi = cmp.phi || 0;
     const den = 1 - phi - cpt * (e.a + e.lam * m);
     const Vm = e.b / den, pm = cpt * Vm, v = m * pm;
-    const xg = xOf(m, e.eta, e), xd = xOf(m, etaD, e);
+    const rd = r1(cmp.r_d), rg = r1(cmp.r_n);
+    const xg = xOf(rg * m, e.eta, e), xd = xOf(rd * m, etaD, e);
     const Jg = JOf(xg, e.eta, e), Jd = JOf(xd, etaD, e);
-    const pg = v * (1 - xg) + pm * Jg, pd = v * (1 - xd) + pm * Jd;
-    let prest, Jrest, Lrest, extra = {};
-    if (etaS === null || etaS === undefined) { prest = pg; Jrest = Jg; Lrest = 1 - xg; }
-    else {
-      const xs = xOf(m, etaS, e), Js = JOf(xs, etaS, e), ps = v * (1 - xs) + pm * Js;
+    const pg = rg * v * (1 - xg) + pm * Jg, pd = rd * v * (1 - xd) + pm * Jd;
+    let prest, Jrest, Lrest, Wrest, extra = {};
+    if (etaS === null || etaS === undefined) { prest = pg; Jrest = Jg; Lrest = 1 - xg; Wrest = rg * (1 - xg); }
+    else if (!Array.isArray(etaS)) {
+      const rs = r1(cmp.r_s);
+      const xs = xOf(rs * m, etaS, e), Js = JOf(xs, etaS, e), ps = rs * v * (1 - xs) + pm * Js;
       const r = restNest(pg, ps, cmp), dn = r[1], ds = r[2];
       prest = r[0]; Jrest = dn * Jg + ds * Js; Lrest = dn * (1 - xg) + ds * (1 - xs);
+      Wrest = dn * rg * (1 - xg) + ds * rs * (1 - xs);
       extra = { xs, Js, ps, dn, ds, prest };
+    } else {
+      const etaL = etaS[0], etaH = etaS[1], rl = r1(cmp.r_l), rh = r1(cmp.r_h);
+      const xl = xOf(rl * m, etaL, e), xh = xOf(rh * m, etaH, e);
+      const Jl = JOf(xl, etaL, e), Jh = JOf(xh, etaH, e);
+      const pl = rl * v * (1 - xl) + pm * Jl, ph = rh * v * (1 - xh) + pm * Jh;
+      const r = restSkill(pg, pl, ph, cmp), dn = r[1], dl = r[2], dh = r[3];
+      prest = r[0];
+      Jrest = dn * Jg + dl * Jl + dh * Jh;
+      Lrest = dn * (1 - xg) + dl * (1 - xl) + dh * (1 - xh);
+      Wrest = dn * rg * (1 - xg) + dl * rl * (1 - xl) + dh * rh * (1 - xh);
+      extra = { xl, xh, Jl, Jh, pl, ph, dn, dl, dh, prest };
     }
     const cc = composite(pd, prest, cmp), c = cc[0], dd = cc[1], dg = cc[2];
     const gs = basket(e, c), gb = gs[0], sb = gs[1];
@@ -220,10 +246,12 @@
     const B = e.T / (sb + gb * e.b * e.delta * Jmix / (1 - e.a * e.delta));
     const K = B * gb * Jmix / (1 - e.a * e.delta);
     const final = B * gb * (dd * (1 - xd) + dg * Lrest);
+    const final_w = B * gb * (dd * rd * (1 - xd) + dg * Wrest);   // final labour's pay, in production wages
     const mh = e.lam * e.delta * K;
     const z = Math.log1p(v / Ps);
     const nS = e.N * Math.min(Math.max(z / e.chi_max, 0), e.cap);
-    return Object.assign({ m, xg, xd, Jg, Jd, v, pm, Vm, pg, pd, c, dd, dg, gb, sb, Ps, B, K, final, mh, nD: final + mh, nS }, extra);
+    return Object.assign({ m, xg, xd, Jg, Jd, v, pm, Vm, pg, pd, c, dd, dg, gb, sb, Ps, B, K, final, final_w, mh, nD: final + mh, nS,
+                           rd, rg }, extra);
   }
 
   function mCeiling(e, phi) {
@@ -233,10 +261,12 @@
   }
 
   function solveG(e, etaD, cmp, etaS) {
-    const phi = cmp.phi || 0, hasS = etaS !== null && etaS !== undefined;
+    const phi = cmp.phi || 0, hasS = etaS !== null && etaS !== undefined, skill = hasS && Array.isArray(etaS);
     const mbar = mCeiling(e, phi);
-    let top = Math.max(e.eta, etaD) * (e.g0 + e.g1);
-    if (hasS) top = Math.max(top, etaS * (e.g0 + e.g1));
+    const rd = r1(cmp.r_d), rg = r1(cmp.r_n);
+    let top = Math.max(e.eta / rg, etaD / rd) * (e.g0 + e.g1);
+    if (hasS && !skill) top = Math.max(top, etaS / r1(cmp.r_s) * (e.g0 + e.g1));
+    else if (skill) top = Math.max(top, etaS[0] / r1(cmp.r_l) * (e.g0 + e.g1), etaS[1] / r1(cmp.r_h) * (e.g0 + e.g1));
     const hi = isFinite(mbar) ? Math.min(mbar * (1 - 1e-13), top) : top;
     const lo = 1e-12 * hi;
     const f = (m) => { const q = partsG(e, m, etaD, cmp, etaS); return q.nD - q.nS; };
@@ -245,14 +275,19 @@
     const m = brentq(f, lo, hi, 1e-15 * hi, 1e-15);
     const q = partsG(e, m, etaD, cmp, etaS);
     const n = q.nD, interest = e.rho * q.Vm * q.K, rent = phi * q.Vm * e.delta * q.K;
-    const income = q.v * n + e.T + interest + rent;
-    Object.assign(q, { n, participation: n / e.N, income, labour_share_bea: q.v * q.final / income, theta_V: e.lam * q.v / q.Vm,
+    const income = q.v * (q.final_w + q.mh) + e.T + interest + rent;   // each good's workers at their own pay
+    Object.assign(q, { n, participation: n / e.N, income, labour_share_bea: q.v * q.final_w / income, theta_V: e.lam * q.v / q.Vm,
       kappa_V: e.a * q.pm / q.Vm, sigma_V: e.b / q.Vm, phi, fixed_rents: phi + e.b / q.Vm, rent_income: rent / income,
       chain_share: q.mh / n, inv_income: e.delta * q.Vm * q.K / income, m_ceiling: mbar,
-      xg_ceiling: isFinite(mbar) ? xOf(mbar, e.eta, e) : 1, xd_ceiling: isFinite(mbar) ? xOf(mbar, etaD, e) : 1,
+      xg_ceiling: isFinite(mbar) ? xOf(rg * mbar, e.eta, e) : 1, xd_ceiling: isFinite(mbar) ? xOf(rd * mbar, etaD, e) : 1,
       dur_share: q.pd * q.dd / q.c, interest_income: interest / income, land_income: e.T / income });
-    if (hasS) Object.assign(q, { xs_ceiling: isFinite(mbar) ? xOf(mbar, etaS, e) : 1, srv_share: q.ps * q.ds * q.dg / q.c,
-                                 nd_share: q.pg * q.dn * q.dg / q.c });
+    if (hasS && !skill) Object.assign(q, { xs_ceiling: isFinite(mbar) ? xOf(r1(cmp.r_s) * mbar, etaS, e) : 1,
+                                           srv_share: q.ps * q.ds * q.dg / q.c, nd_share: q.pg * q.dn * q.dg / q.c });
+    else if (skill) {
+      const rl = r1(cmp.r_l), rh = r1(cmp.r_h);
+      Object.assign(q, { xl_ceiling: isFinite(mbar) ? xOf(rl * mbar, etaS[0], e) : 1, xh_ceiling: isFinite(mbar) ? xOf(rh * mbar, etaS[1], e) : 1,
+                         low_share: q.pl * q.dl * q.dg / q.c, high_share: q.ph * q.dh * q.dg / q.c, nd_share: q.pg * q.dn * q.dg / q.c, rl, rh });
+    }
     return q;
   }
 
@@ -457,25 +492,55 @@
 
 
   // ---------------------------------------------------------------- the goods model's path (fit_base.durables_years)
+  const isSkill = (S) => S.services === "skill";
   function etaGoods(par, S, D) {                  // the other goods' clock, durables' and services': equal in 1950
     const eta = etaPath(par, S, D), t = (i) => D.years[i] - 1950;
     const etaD = eta.map((v, i) => v * Math.exp(-(par.g_dur - par.g_eta) * t(i)));
+    if (isSkill(S)) {                              // the skill split: low- and high-skill services, each at its own pace
+      const etaL = eta.map((v, i) => v * Math.exp(-(par.g_low - par.g_eta) * t(i)));
+      const etaH = eta.map((v, i) => v * Math.exp(-(par.g_high - par.g_eta) * t(i)));
+      return { eta, etaD, etaS: null, etaL, etaH, etaPair: etaL.map((v, i) => [v, etaH[i]]) };
+    }
     const etaS = S.services ? eta.map((v, i) => v * Math.exp((par.s0_srv || 0) - (par.g_srv - par.g_eta) * t(i))) : null;
-    return { eta, etaD, etaS };
+    return { eta, etaD, etaS, etaPair: etaS };
+  }
+
+  function yearCmp(S, D, i) {                     // fit_base.year_cmp: the nest's shares and each good's pay in year i
+    const out = {};
+    if (isSkill(S)) { out.omega_l = D.low_share[i]; out.omega_h = D.high_share[i]; }
+    else if (S.services) out.omega_s = D.srv_in_rest[i];
+    if (S.pay === "record") Object.assign(out, { r_d: D.pay_dur[i], r_n: D.pay_nd[i], r_l: D.pay_low[i], r_h: D.pay_high[i] });
+    else if (S.pay === "levels") Object.assign(out, { r_d: D.lvl_dur[i], r_n: D.lvl_nd[i], r_l: D.lvl_low[i], r_h: D.lvl_high[i] });
+    return out;
+  }
+
+  // fit_base.solve_year: with pay "levels", each good's pay is kappa times its level, kappa holding the model's average pay
+  // at the production wage (fixed-point iteration on the equilibrium)
+  function solveYear(e, etaD, cmp, etaS, S) {
+    if (S.pay !== "levels") return solveG(e, etaD, cmp, etaS);
+    const lv = { r_d: cmp.r_d, r_n: cmp.r_n, r_l: cmp.r_l, r_h: cmp.r_h };
+    let kappa = 1;
+    for (let it = 0; it < 100; it++) {
+      const q = solveG(e, etaD, Object.assign({}, cmp, { r_d: kappa * lv.r_d, r_n: kappa * lv.r_n, r_l: kappa * lv.r_l, r_h: kappa * lv.r_h }), etaS);
+      const hours = q.dd * (1 - q.xd) + q.dg * (q.dn * (1 - q.xg) + q.dl * (1 - q.xl) + q.dh * (1 - q.xh));
+      const paid = q.dd * lv.r_d * (1 - q.xd) + q.dg * (q.dn * lv.r_n * (1 - q.xg) + q.dl * lv.r_l * (1 - q.xl) + q.dh * lv.r_h * (1 - q.xh));
+      const nw = hours / paid;
+      if (Math.abs(nw - kappa) <= 1e-13 * kappa) { q.kappa = kappa; return q; }
+      kappa = nw;
+    }
+    throw new Error("the pay scale did not settle");
   }
 
   function refCmp(S, D) {
-    const ref = { mode: "ref", omega_d: S.durables.omega_d, phi: S.phi || 0 };
-    if (S.services) ref.omega_s = D.srv_in_rest[0];
-    return ref;
+    return Object.assign({ mode: "ref", omega_d: S.durables.omega_d, phi: S.phi || 0 }, yearCmp(S, D, 0));
   }
 
   function pinnedChiG(par, S, D) {                // fit_base.pinned_chi: 1950's employment, the goods at their reference point
     const e0 = economies(Object.assign({}, par, { chi_max: 1 }), S, D)[0];
-    const g = etaGoods(par, S, D), ref = refCmp(S, D), es0 = S.services ? g.etaS[0] : null;
+    const g = etaGoods(par, S, D), ref = refCmp(S, D), es0 = S.services ? g.etaPair[0] : null;
     const target = D.prime_emp_rate[0];
     const gap = (lc) => {
-      try { return solveG(Object.assign({}, e0, { chi_max: Math.exp(lc) }), g.etaD[0], ref, es0).participation - target; }
+      try { return solveYear(Object.assign({}, e0, { chi_max: Math.exp(lc) }), g.etaD[0], ref, es0, S).participation - target; }
       catch (err) { return NaN; }
     };
     const grid = linspace(Math.log(BOUNDS.chi_max[0]), Math.log(BOUNDS.chi_max[1]), 25), vals = grid.map(gap);
@@ -494,15 +559,18 @@
     }
     const g = etaGoods(par, S, D), ref = refCmp(S, D), phi = S.phi || 0;
     let q0;
-    try { q0 = solveG(economies(par, S, D)[0], g.etaD[0], ref, S.services ? g.etaS[0] : null); }
+    try { q0 = solveYear(economies(par, S, D)[0], g.etaD[0], ref, S.services ? g.etaPair[0] : null, S); }
     catch (err) { return { ok: false, why: "no equilibrium in 1950" }; }
     const cmp = { omega_d: S.durables.omega_d, sigma_dg: S.durables.sigma_dg, pref_d: q0.pd, pref_g: q0.pg, phi };
-    if (S.services) { cmp.pref_n = q0.pg; cmp.pref_s = q0.ps; }
+    if (isSkill(S)) { cmp.pref_n = q0.pg; cmp.pref_l = q0.pl; cmp.pref_h = q0.ph; }
+    else if (S.services) { cmp.pref_n = q0.pg; cmp.pref_s = q0.ps; }
     const es = economies(par, S, D, S.sigma !== null && S.sigma !== undefined ? q0.c : null);
     const keys = ["x", "xd", "xs", "v", "p", "pd", "ps", "c", "Ps", "wg", "ws", "wd", "wsv", "wnd", "labour_share_c", "prime_emp_rate",
-                  "theta_V", "goods_basket", "site_basket", "chain_share", "dur_share", "srv_share"];
+                  "theta_V", "goods_basket", "site_basket", "chain_share", "dur_share", "srv_share", "xl", "xh", "wndg", "wlow", "whigh",
+                  "low_share", "high_share", "r_d", "r_n", "r_l", "r_h", "kappa", "avg_pay"];
     const cols = {}; for (const k of keys) cols[k] = [];
-    cols.eta = g.eta; cols.etaD = g.etaD; cols.etaS = g.etaS; cols.utility = [];
+    cols.eta = g.eta; cols.etaD = g.etaD; cols.etaS = g.etaS; cols.etaL = g.etaL || null; cols.etaH = g.etaH || null; cols.utility = [];
+    const sk = isSkill(S);
     const an = { pm: [], kappaV: [], sigmaV: [], phi: [], landHomes: [], landMachines: [], hoursFinal: [], hoursMachine: [],
                  goodsShare: [], siteShare: [], wageGoodsLevel: [], peopleTasks: [], lam: [], b: [], xCeil: [], xdCeil: [],
                  xsCeil: [], rentIncome: [], interestIncome: [], landIncome: [], payIncome: [], replacement: [] };
@@ -511,7 +579,7 @@
       const e = es[i];
       cols.utility.push(e.utility === undefined ? 1 : e.utility);
       let q = null;
-      try { q = solveG(e, g.etaD[i], S.services ? Object.assign({}, cmp, { omega_s: D.srv_in_rest[i] }) : cmp, S.services ? g.etaS[i] : null); }
+      try { q = solveYear(e, g.etaD[i], Object.assign({}, cmp, yearCmp(S, D, i)), S.services ? g.etaPair[i] : null, S); }
       catch (err) { q = null; }
       if (!q || !isFinite(q.v)) {
         failed.push(D.years[i]);
@@ -519,27 +587,33 @@
         for (const k of Object.keys(an)) an[k].push(null);
         continue;
       }
-      cols.x.push(q.xg); cols.xd.push(q.xd); cols.xs.push(S.services ? q.xs : null); cols.v.push(q.v); cols.p.push(q.pg);
-      cols.pd.push(q.pd); cols.ps.push(S.services ? q.ps : null); cols.c.push(q.c); cols.Ps.push(q.Ps);
+      cols.x.push(q.xg); cols.xd.push(q.xd); cols.xs.push(S.services && !sk ? q.xs : null); cols.v.push(q.v); cols.p.push(q.pg);
+      cols.pd.push(q.pd); cols.ps.push(S.services && !sk ? q.ps : null); cols.c.push(q.c); cols.Ps.push(q.Ps);
       cols.wg.push(q.v / q.c); cols.ws.push(q.v); cols.wd.push(q.v / q.pd);
-      cols.wsv.push(S.services ? q.v / q.ps : null); cols.wnd.push(S.services ? q.v / q.pg : null);
+      cols.wsv.push(S.services && !sk ? q.v / q.ps : null); cols.wnd.push(S.services && !sk ? q.v / q.pg : null);
       cols.labour_share_c.push(q.labour_share_bea); cols.prime_emp_rate.push(q.participation); cols.theta_V.push(q.theta_V);
       cols.goods_basket.push(q.gb); cols.site_basket.push(q.sb); cols.chain_share.push(q.chain_share);
-      cols.dur_share.push(q.dur_share); cols.srv_share.push(S.services ? q.srv_share : null);
+      cols.dur_share.push(q.dur_share); cols.srv_share.push(S.services && !sk ? q.srv_share : null);
+      cols.xl.push(sk ? q.xl : null); cols.xh.push(sk ? q.xh : null);
+      cols.wndg.push(sk ? q.v / q.pg : null); cols.wlow.push(sk ? q.v / q.pl : null); cols.whigh.push(sk ? q.v / q.ph : null);
+      cols.low_share.push(sk ? q.low_share : null); cols.high_share.push(sk ? q.high_share : null);
+      cols.r_d.push(q.rd); cols.r_n.push(q.rg); cols.r_l.push(sk ? q.rl : null); cols.r_h.push(sk ? q.rh : null);
+      cols.kappa.push(q.kappa === undefined ? 1 : q.kappa); cols.avg_pay.push((q.final_w + q.mh) / (q.final + q.mh));
       an.pm.push(q.pm); an.kappaV.push(q.kappa_V); an.sigmaV.push(q.sigma_V); an.phi.push(phi);
       an.landHomes.push(q.sb * q.B / e.T); an.landMachines.push(e.b * e.delta * q.K / e.T);
       an.hoursFinal.push(q.final / q.n); an.hoursMachine.push(q.mh / q.n);
       an.goodsShare.push(q.c * q.gb / q.Ps); an.siteShare.push(q.sb / q.Ps); an.wageGoodsLevel.push(q.v / q.c);
       an.peopleTasks.push(1 - q.xg); an.lam.push(e.lam); an.b.push(e.b);
-      an.xCeil.push(q.xg_ceiling); an.xdCeil.push(q.xd_ceiling); an.xsCeil.push(S.services ? q.xs_ceiling : null);
+      an.xCeil.push(q.xg_ceiling); an.xdCeil.push(q.xd_ceiling); an.xsCeil.push(S.services && !sk ? q.xs_ceiling : null);
       an.rentIncome.push(q.rent_income); an.interestIncome.push(q.interest_income); an.landIncome.push(q.land_income);
-      an.payIncome.push(q.v * q.n / q.income); an.replacement.push(q.inv_income / (1 + q.inv_income));
+      an.payIncome.push(q.v * (q.final_w + q.mh) / q.income); an.replacement.push(q.inv_income / (1 + q.inv_income));
     }
     cols.an = an;
     const i57 = D.years.indexOf(1957);
     const idx = (arr, at) => arr.map((v) => (v === null || arr[at] === null ? null : 100 * v / arr[at]));
     cols.wage_goods = idx(cols.wg, 0); cols.wage_shelter = idx(cols.ws, 0); cols.wage_durables = idx(cols.wd, 0);
-    if (S.services) { cols.wage_services = idx(cols.wsv, i57); cols.wage_nondurables = idx(cols.wnd, i57); }
+    if (S.services && !sk) { cols.wage_services = idx(cols.wsv, i57); cols.wage_nondurables = idx(cols.wnd, i57); }
+    if (sk) { cols.wage_ndg = idx(cols.wndg, 0); cols.wage_low = idx(cols.wlow, 0); cols.wage_high = idx(cols.whigh, 0); }
     cols.extra = S.extra || [];
     cols.failed = failed; cols.gapSum = failed.length; cols.ok = failed.length === 0;
     cols.partial = !cols.ok && failed.length < es.length;
@@ -614,7 +688,8 @@
                   kappa50: [0.001, 0.99, false], rho: [0, 0.3, false], k: [0.05, 60, true], chi_max: [0.3, 20, true],
                   g_eta: [-0.05, 0.8, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.8, false],
                   g_lamTask: [-0.35, 0.2, false], g_dur: [-0.05, 0.9, false], g_srv: [-0.05, 0.9, false],
-                  g_durTask: [-0.35, 0.2, false], g_srvTask: [-0.35, 0.2, false] };
+                  g_durTask: [-0.35, 0.2, false], g_srvTask: [-0.35, 0.2, false], g_low: [-0.05, 0.9, false],
+                  g_high: [-0.05, 0.9, false], g_lowTask: [-0.35, 0.2, false], g_highTask: [-0.35, 0.2, false] };
   const DEFAULT_SYS = { land: "Th", machine: "a", labour: "lam" };
   function toCoords(par, D) {
     const c = { T: par.T, h: par.h, hT: par.h / par.T, a: par.a, kappa50: (par.rho + D.delta[0]) * par.a, rho: par.rho,
@@ -622,6 +697,8 @@
                 g_lamTask: par.g_lam - par.g_eta };
     if (par.g_dur !== undefined) { c.g_dur = par.g_dur; c.g_durTask = par.g_lam - par.g_dur; }    // the goods model: each good's
     if (par.g_srv !== undefined) { c.g_srv = par.g_srv; c.g_srvTask = par.g_lam - par.g_srv; }    // hours per task capacity
+    if (par.g_low !== undefined) { c.g_low = par.g_low; c.g_lowTask = par.g_lam - par.g_low; }    // the skill split's groups
+    if (par.g_high !== undefined) { c.g_high = par.g_high; c.g_highTask = par.g_lam - par.g_high; }
     return c;
   }
   function fromCoords(c, sys, D) {
@@ -631,6 +708,8 @@
                   g_eta: c.g_eta, lam0: c.lam0, g_lam: sys.labour === "task" ? c.g_lamTask + c.g_eta : c.g_lam };
     if (c.g_dur !== undefined) out.g_dur = sys.labour === "task" ? out.g_lam - c.g_durTask : c.g_dur;
     if (c.g_srv !== undefined) out.g_srv = sys.labour === "task" ? out.g_lam - c.g_srvTask : c.g_srv;
+    if (c.g_low !== undefined) out.g_low = sys.labour === "task" ? out.g_lam - c.g_lowTask : c.g_low;
+    if (c.g_high !== undefined) out.g_high = sys.labour === "task" ? out.g_lam - c.g_highTask : c.g_high;
     return out;
   }
   const KNOT_KEYS = ["clock", "land", "chi", "lamk", "tilt", "bk", "utility"];

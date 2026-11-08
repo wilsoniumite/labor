@@ -230,6 +230,12 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
     { id: "g_srvTask", label: "Hours per unit of task capacity, services", unit: "% a year", lin: [-0.1, 0.1], when: () => P.g_srv !== undefined,
       get: () => P.g_lam - P.g_srv, set: (v) => setC("g_srvTask", v), show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
       sub: () => cur && cur.ok && cur.xs ? `Services' tasks done by machines: ${pct(cur.xs[0], 0)} in 1950, ${pct(cur.xs[L], 0)} in 2024. Above 0, machines lose ground at service tasks.` : "" },
+    { id: "g_lowTask", label: "Hours per unit of task capacity, low-skill services", unit: "% a year", lin: [-0.1, 0.1], when: () => P.g_low !== undefined,
+      get: () => P.g_lam - P.g_low, set: (v) => setC("g_lowTask", v), show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
+      sub: () => cur && cur.ok && cur.xl && cur.xl[0] !== null ? `Low-skill services' tasks done by machines: ${pct(cur.xl[0], 0)} in 1950, ${pct(cur.xl[L], 0)} in 2024 (food, recreation, personal care, repair, local transport).` : "" },
+    { id: "g_highTask", label: "Hours per unit of task capacity, high-skill services", unit: "% a year", lin: [-0.1, 0.1], when: () => P.g_high !== undefined,
+      get: () => P.g_lam - P.g_high, set: (v) => setC("g_highTask", v), show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
+      sub: () => cur && cur.ok && cur.xh && cur.xh[0] !== null ? `High-skill services' tasks done by machines: ${pct(cur.xh[0], 0)} in 1950, ${pct(cur.xh[L], 0)} in 2024 (health, education, professional services, finance). Above 0, machines lose ground.` : "" },
     { id: "lam0", label: "Hours to build a machine, 1950", unit: "", log: [0.5, 1000], get: () => P.lam0, set: (v) => setC("lam0", v),
       sub: () => cur && cur.ok ? `Pay is ${pct(cur.theta_V[0], 0)} of a machine's cost in 1950 and ${pct(cur.theta_V[L], 0)} in 2024.` : "" },
     { id: "a", label: "Machine services to build a machine", unit: "", log: [0.05, 10], get: () => P.a, set: (v) => setC("a", v),
@@ -298,6 +304,12 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
       la.addEventListener("change", () => { snapshot(); S.landAdults = la.checked; update(); });
       add("Land in use grows with adults", la);
     }
+    if (S.services === "skill") {                   // a worker for each good (her go, 2026-11-08)
+      const ps = document.createElement("span"); ps.className = "seg";
+      [[null, "one wage"], ["levels", "industry levels"], ["record", "industry changes"]].forEach(([g, t]) => { const b = document.createElement("button"); b.textContent = t;
+        b.setAttribute("aria-pressed", String((S.pay || null) === g)); b.addEventListener("click", () => { snapshot(); S.pay = g; buildSets(); buildCharts(); update(); }); ps.append(b); });
+      add("Each good's pay", ps);
+    }
     const seg = document.createElement("span"); seg.className = "seg";
     [["exshelter", "all but shelter"], [undefined, "durables"]].forEach(([g, t]) => { const b = document.createElement("button"); b.textContent = t;
       b.setAttribute("aria-pressed", String(S.goods === g)); b.addEventListener("click", () => { snapshot(); S.goods = g; buildSets(); update(); }); seg.append(b); });
@@ -317,7 +329,8 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
   }
   function status(t) { $("status").textContent = t; }
   const NAMES = { wage_goods: "goods wage", wage_shelter: "shelter wage", labour_share_c: "labour share", prime_emp_rate: "employment", theta_V: "θ_V",
-                  wage_durables: "durables wage", wage_nondurables: "nondurables wage", wage_services: "services wage" };
+                  wage_durables: "durables wage", wage_nondurables: "nondurables wage", wage_services: "services wage",
+                  wage_ndg: "nondurables wage", wage_low: "low-skill wage", wage_high: "high-skill wage" };
   const level = (v) => (v < 1 ? "var(--good)" : v < 4 ? "var(--warn)" : "var(--bad)");
   function showMisfit() {
     $("misfit").textContent = ok(curMis.total) ? curMis.total.toFixed(2) + (curMis.partial ? "*" : "") : "–";
@@ -432,15 +445,30 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
     { id: "theta_V", title: () => "θ_V, pay's share of a machine's cost", series: "theta_V", rec: () => D0.theta_V, dots: true },
     { id: "wage_durables", when: () => !!S.durables, title: () => "Wage over durables, 1950 = 100", log: true, series: "wage_durables", rec: () => D0.wage_durables,
       band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
-    { id: "wage_nondurables", when: () => !!S.services, title: () => "Wage over nondurables, 1957 = 100", log: true, series: "wage_nondurables", rec: () => D0.wage_nondurables,
+    { id: "wage_nondurables", when: () => !!S.services && S.services !== "skill", title: () => "Wage over nondurables, 1957 = 100", log: true, series: "wage_nondurables", rec: () => D0.wage_nondurables,
       band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
-    { id: "wage_services", when: () => !!S.services, title: () => "Wage over services (less rent of shelter), 1957 = 100", log: true, series: "wage_services", rec: () => D0.wage_services,
+    { id: "wage_ndg", when: () => S.services === "skill", title: () => "Wage over nondurables (with utilities and communication), 1950 = 100", log: true, series: "wage_ndg", rec: () => D0.wage_ndg,
+      note: "Record: BEA's prices within the other goods, on the CPI's level.",
+      band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
+    { id: "wage_low", when: () => S.services === "skill", title: () => "Wage over low-skill services, 1950 = 100", log: true, series: "wage_low", rec: () => D0.wage_low,
+      note: "Food services, hotels, recreation, personal care, repair, local transport, social services.",
+      band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
+    { id: "wage_high", when: () => S.services === "skill", title: () => "Wage over high-skill services, 1950 = 100", log: true, series: "wage_high", rec: () => D0.wage_high,
+      note: "Hospitals and nursing homes, outpatient care, education, professional services, finance, insurance.",
+      band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
+    { id: "wage_services", when: () => !!S.services && S.services !== "skill", title: () => "Wage over services (less rent of shelter), 1957 = 100", log: true, series: "wage_services", rec: () => D0.wage_services,
       band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
     { group: "Inside, and against facts it never saw" },
     { id: "ceiling", title: () => S.durables ? "Each good's task line" : "The task line and its ceiling",
       note: "Share of tasks machines do; the ceiling is the last task they can take at any wage.",
       lines: (m) => [{ v: m.an.xCeil, cls: "l-rec2", label: "ceiling" }, { v: m.x, cls: "l-model", label: S.services ? "nondurables" : S.durables ? "other goods" : "task line", ref: (r) => r.x }]
-        .concat(m.xd ? [{ v: m.xd, cls: "l-s3", label: "durables" }] : []).concat(m.xs && S.services ? [{ v: m.xs, cls: "l-s7", label: "services" }] : []) },
+        .concat(m.xd ? [{ v: m.xd, cls: "l-s3", label: "durables" }] : []).concat(m.xs && S.services && S.services !== "skill" ? [{ v: m.xs, cls: "l-s7", label: "services" }] : [])
+        .concat(S.services === "skill" && m.xl ? [{ v: m.xl, cls: "l-s7", label: "low-skill services" }, { v: m.xh, cls: "l-s4", label: "high-skill services" }] : []) },
+    { id: "pay", when: () => S.services === "skill" && !!S.pay, title: () => "Each good's pay over the production wage",
+      note: () => S.pay === "levels" ? "Each good's industries' level (BLS), times one factor that holds the model's average pay at the production wage." : "Each good's industries' pay against the production wage (BLS), equal in 1950; the model's average is left free.",
+      lines: (m) => [{ v: m.r_d, cls: "l-s3", label: "durables" }, { v: m.r_n, cls: "l-model", label: "nondurables" },
+                     { v: m.r_l, cls: "l-s7", label: "low-skill services" }, { v: m.r_h, cls: "l-s4", label: "high-skill services" },
+                     { v: m.avg_pay, cls: "l-rec2", label: "average" }] },
     { id: "chain", title: () => "The machine chain's share of all pay", note: "Record: BEA input–output, pay embodied in equipment, software and structures (1997–2023).",
       lines: (m) => [{ v: m.an.hoursMachine, cls: "l-model", label: "model", ref: (r) => r.an.hoursMachine }], rec: () => D0.chain_share, yMin: 0 },
     { id: "replacement", when: () => !!S.durables, title: () => "Depreciation's share of gross output", note: "Record: NIPA, consumption of fixed capital over GDP. Never targeted.",
@@ -449,10 +477,12 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
       note: "Record: BEA's hours per quality-adjusted unit of machine (input–output hours per dollar times the investment price), set on durables' line in 1998. Never targeted.", log: true,
       lines: (m) => { const h = (eta) => idx1(m.an.lam.map((l, i) => (ok(l) && ok(eta[i]) ? l * eta[i] : null)));
         return [{ v: h(m.eta), cls: "l-model", label: S.services ? "nondurables" : "other goods" }, { v: h(m.etaD), cls: "l-s3", label: "durables" }]
-          .concat(m.etaS ? [{ v: h(m.etaS), cls: "l-s7", label: "services" }] : []); },
+          .concat(m.etaS ? [{ v: h(m.etaS), cls: "l-s7", label: "services" }] : [])
+          .concat(m.etaL ? [{ v: h(m.etaL), cls: "l-s7", label: "low-skill services" }, { v: h(m.etaH), cls: "l-s4", label: "high-skill services" }] : []); },
       rec: () => { const d = idx1(cur.an.lam.map((l, i) => (ok(l) ? l * cur.etaD[i] : null))), j = at(1998); return D0.machine_hours.map((v) => (ok(v) && ok(d[j]) ? v * d[j] : null)); } },
     { id: "spending", when: () => !!S.durables, title: () => "Shares of spending on all but shelter", note: "Durables' share is never targeted; services' is set from the record each year.",
-      lines: (m) => [{ v: m.dur_share, cls: "l-s3", label: "durables" }].concat(S.services ? [{ v: m.srv_share, cls: "l-s7", label: "services" }] : []),
+      lines: (m) => [{ v: m.dur_share, cls: "l-s3", label: "durables" }].concat(S.services && S.services !== "skill" ? [{ v: m.srv_share, cls: "l-s7", label: "services" }] : [])
+        .concat(S.services === "skill" ? [{ v: m.low_share, cls: "l-s7", label: "low-skill services" }, { v: m.high_share, cls: "l-s4", label: "high-skill services" }] : []),
       rec: () => D0.dur_share },
     { id: "income", when: () => !!S.durables, title: () => "Shares of the model's income", note: "Pay, the return on machines, the payment for imported content, land rent.", yMin: 0,
       lines: (m) => [{ v: m.an.payIncome, cls: "l-model", label: "pay" }, { v: m.an.interestIncome, cls: "l-s3", label: "return on machines" },
@@ -471,7 +501,7 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
       if (c.when && !c.when()) continue;
       const card = document.createElement("section"); card.className = "card";
       card.innerHTML = `<h3></h3><span class="mf"></span>${c.note ? '<p class="note"></p>' : ""}<div class="lg"></div>`;
-      if (c.note) card.querySelector(".note").textContent = c.note;
+      if (c.note) card.querySelector(".note").textContent = typeof c.note === "function" ? c.note() : c.note;
       const svg = d3.select(card).append("svg").attr("viewBox", `0 0 ${CW} ${CH}`).attr("role", "img");
       const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; card.append(tip);
       host.append(card);
@@ -540,7 +570,7 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
   // ---------------------------------------------------------------- fitting, in a worker
   function fitNames() {
     const names = ["T", "h", "a", "k", "g_eta", "lam0", "g_lamTask"].concat(P.g_dur !== undefined ? ["g_durTask"] : [])
-      .concat(P.g_srv !== undefined ? ["g_srvTask"] : []).filter((n) => !held.has(n));
+      .concat(P.g_srv !== undefined ? ["g_srvTask"] : []).concat(P.g_low !== undefined ? ["g_lowTask", "g_highTask"] : []).filter((n) => !held.has(n));
     if (!held.has("rho")) names.push("rho");
     if (!S.pin && !held.has("chi_max")) names.push("chi_max");
     if (S.chi && !held.has("chi:1")) names.push("chi:1");

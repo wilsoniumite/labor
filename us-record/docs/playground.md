@@ -392,3 +392,58 @@ communication, nonprofits' own consumption).
   10% with pay 0.95 to 0.92; education and health 7% to 20% with pay 0.79 to 1.04; professional and business 8.5% to 17%
   with pay 1.25 to 1.18; retail (from 1972) 13% to 12% with pay 0.90 to 0.69. Pay gaps did not follow job shifts in any
   one direction: a single mobility elasticity would be poorly pinned by this record.
+
+## Services by skill and a worker for each good (her go, 2026-11-08: "go ahead with step 1, BLS is fine for now")
+
+- **Built.** Four goods, one machine: durables; nondurables with the goods-like services (utilities, communication);
+  low-skill services; high-skill services (the data look's groups; nonprofits' own consumption left out, an accounting
+  remainder). Each services group has its own clock's pace (`g_low`, `g_high`), all equal in 1950; the nest is
+  Cobb-Douglas at the record's shares each year (`two_goods.rest_skill`). BEA's file carries every type of service from
+  1929, so the split runs from 1950, not 1959 as first said.
+- **Targets on the CPI's level.** BEA's and the CPI's prices drift apart: the wage over BEA's prices of everything but
+  housing ends 17% above the panel's CPI-based wage by 2024 (over durables 84% above). So each group's wage takes BEA's
+  prices relative to the other groups and the CPI's level for the three together (the CPI less shelter less durables, as
+  `dur_rel_price` splits it); the groups' prices aggregate back to that level exactly (`check_panel` I13). Targets: the
+  main case's six and the wages over the three groups (`wage_ndg`, `wage_low`, `wage_high`, 1950 = 100): nine series.
+- **A worker for each good, three ways.** (a) As designed (`--pay record`): each good's pay moves against the production
+  wage as its industries' did (BLS: durable and nondurable manufacturing from 1950; services' industries from 1964; equal
+  in 1950). (b) Found when fitting: BLS's production wage is the average over every industry, services included, and (a)
+  lets the model's average pay drift 21% above it by 2024. So (`--pay levels`) each good's pay is its industries' level
+  against the production wage (1964: low-skill 0.47, high-skill 0.92, durables 1.10, nondurables 0.86), times one factor
+  per year that holds the model's hours-weighted average pay at the production wage (`fit_base.solve_year`). (c) A lead
+  (`playground/skill_distribution.py`): (b) with the goods' workers counting trade, transportation and utilities, whose
+  pay fell from 1.13 to 0.86 of the production wage while their jobs grew from 11.7 to 28.8 million.
+- **Checks.** Panel 37/37 (C7, I12-I15, S10 new); goods 23/23 (K1: one clock and one wage is the main case to 2e-15; K2:
+  one services clock is services apart to 3e-15; K3, K6: pay at one is one wage bit for bit; K4: the accounts add up with
+  each good's pay; K5: dearer high-skill workers make their services dearer and machines take more of their tasks; K6: the
+  average held to 1e-13); fit 9/9; explorer 6/6.
+
+| | misfit (series) | the main case's six | hours per unit of task capacity, a year: durables / nondurables / low / high |
+|---|---|---|---|
+| main case `fit_Br0` | 1.582 (6) | 1.582 | -3.00 / -0.44 (with services) |
+| services apart `fit_Bs` | 2.268 (8) | 2.210 | -3.15 / -1.62 / services +1.25 |
+| **split, one wage `fit_Bk`** | **1.787 (9)** | 2.005 | -2.93 / -1.85 / +0.28 / +4.68 |
+| split, pay as designed `fit_Bkp` | 2.209 (9) | 2.372 | -3.30 / -1.94 / -0.54 / +2.85 |
+| split, pay levels, average held `fit_Bkl` | 1.975 (9) | 2.040 | -2.65 / -1.89 / -0.93 / +4.31 |
+| lead (c), with trade and transport | 2.035 (9) | | -2.75 / -1.77 / -1.13 / +3.34 |
+
+- **The split with one wage** fits low-skill services almost exactly (0.52: their hours per task capacity are flat, their
+  task line steady at about two-thirds), nondurables at 1.30, high-skill services at 2.23 (services apart: 3.28). But it
+  leans on corners: durables fully automated from 1997, nondurables from 2023, and high-skill services' task line falls
+  from 0.58 in 1960 to 0 in 2020, machines losing ground at 4.7% a year. By 2024 the model has no hours in goods (25% in
+  low-skill services, 57% in high-skill, 18% making machines), while about 30% of private jobs are still in manufacturing,
+  trade and transportation. On the main case's six series it is worse than the main case (2.01 against 1.58).
+- **Each good's pay does not help, in any form tried.** As designed it halves the needed loss of ground in high-skill
+  services (+2.85% a year; their task line 0.58 to 0.48, no corner) but the model's average pay ends 21% above the
+  production wage, costing labour's share and employment. With the average held, high-skill workers keep almost none of
+  their relative gain (1.19 of the average in 1950, 1.20 in 2024): as hours move into high-skill services the average
+  itself rises, and the record's offsets (falling pay in retail and transportation, the growth of low-paid leisure and
+  hospitality jobs) are outside the model's four goods or, counted in the goods' pay, too small. In every version
+  low-skill services' pay rises faster than their prices (+58% against about +25% over the production wage since 1964;
+  the leisure and hospitality jump of 1964-1973 coincides with the 1966 minimum-wage extension), which the model can only
+  meet by having machines take their tasks.
+- **Open.** The corners suggest a target the record has: each good's share of hours against the record's jobs by
+  industry. And pay from the model (step 2) is still what the forward model needs.
+- **Explorer v6** (published, version 9): presets for the split with one wage, with pay at levels, with pay as designed;
+  dials for each services group's hours per unit of task capacity; a switch for each good's pay; charts for the three
+  groups' wages, four task lines, each good's pay and the average; `check_explorer` 6/6 (1e-8 or better).

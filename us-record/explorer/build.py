@@ -16,7 +16,13 @@ YEARS = list(range(1950, 2025))
 # The explorer's fifth version (her ask, 2026-11-08: "update the explorer as you go"): the goods model, around the main
 # case (decisions 25, 26: two goods, the record's return and imported content, land growing with adults, no wave), with
 # services apart (three goods) and the main case with the 1948 wave beside it. The one-good model B (v4) is left out.
+# The sixth version (her go, 2026-11-08: the skill split and a worker for each good): services split into low- and
+# high-skill goods, with one wage and with each good's pay (at its industries' level, the average held at the production
+# wage; or moving as its industries' did, the average free, as first designed).
 PRESETS = [("main", "Main case: two goods, no wave", "fit_Br0"),
+           ("skill", "Services by skill: four goods, one wage", "fit_Bk"),
+           ("skillpay", "Services by skill, each good's pay at its industries' level", "fit_Bkl"),
+           ("skillrec", "Services by skill, each good's pay moving as its industries' did", "fit_Bkp"),
            ("services", "Services apart: three goods", "fit_Bs"),
            ("wave", "Main case with the 1948 wave", "fit_Br")]
 HELD = ["utility:1", "utility:2", "utility:3", "rho", "chi_max"]   # set from data or by choice: the fitter leaves them
@@ -41,6 +47,9 @@ def data():
                wage_nondurables=[num(x) for x in D["wage_nondurables"]], srv_in_rest=[float(x) for x in D["srv_in_rest"]],
                srv_share=[num(x) for x in D["srv_share"]], nd_share=[num(x) for x in D["nd_share"]],
                dur_share=[num(x) for x in D["dur_share"]])
+    for c in ("low_share", "high_share", "ndg_share", "wage_ndg", "wage_low", "wage_high", "pay_dur", "pay_nd", "pay_low",
+              "pay_high", "lvl_dur", "lvl_nd", "lvl_low", "lvl_high"):      # the skill split and each good's pay
+        out[c] = [num(x) for x in D[c]]
     for s in ("wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"):
         out[s] = [num(x) for x in D[s]]
     # the machine chain's share of all pay, BEA input-output at US cost shares (../paths/results/chains.json), 1997-2023
@@ -83,12 +92,13 @@ def settings(meta, rw, par):
         S["durables"] = dict(meta["durables"])
         S["phi"] = float(meta.get("value_rent") or 0.0)
         S["landAdults"] = meta.get("land") == "adults"
-        S["services"] = bool(meta.get("services"))
+        S["services"] = meta.get("services") or False     # "record" (services apart) or "skill" (the skill split)
+        S["pay"] = meta.get("pay")                         # None (one wage), "levels" or "record" (each good's pay)
         S["extra"] = list(meta.get("extra") or [])
     return S
 
 
-BASE_NAMES = ("T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam", "g_dur", "g_srv", "s0_srv")
+BASE_NAMES = ("T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam", "g_dur", "g_srv", "s0_srv", "g_low", "g_high")
 
 
 def presets(rw):
