@@ -65,6 +65,14 @@
 # clock (g_lam = g_eta + g: hours per unit of task capacity change at g a year), FIT_YEARS / DROP limit which years
 # and series count in the misfit, and FIXED holds free numbers at given values. configure(meta) sets every switch from a results file, so a stored fit re-solves alone.
 #
+# THE SKILL SPLIT AND A WORKER FOR EACH GOOD (her idea and go, 2026-11-08; --skill, --pay). With --skill, services are
+# two goods, low-skill and high-skill (data/panel.csv's BEA groups; utilities and communication go with nondurables),
+# each with its own clock's pace (g_low, g_high), equal to nondurables' in 1950, nested with nondurables at the record's
+# shares each year; the wages over nondurables (with the goods-like services) and over each services group (BEA prices,
+# 1950 = 100) are targets beside the durables wage. With --pay, each good's workers are paid the production wage times
+# its industries' pay over the production wage (BLS hourly earnings by industry; the panel's pay_dur, pay_nd, pay_low,
+# pay_high: set, not fitted); without it, one wage. Machines are built and participation chosen at the production wage.
+#
 # Run from us-record/:  python3 code/fit_base.py      (writes results/fit_base.json; about ten minutes)
 
 import json
@@ -122,9 +130,16 @@ DUR_WAVES = []                                        # durables apart: waves on
 KINKS = []                                            # a lead: years after which the clock's steady pace changes by kink{i}
 VALUE_RENT = None                                     # durables apart: a value-share rent in a machine's cost (a lead)
 SERVICES = None                                       # durables apart: "record" puts services apart from nondurables, the
-                                                      # nest's services share each year the record's (two_goods.rest)
+                                                      # nest's services share each year the record's (two_goods.rest);
+                                                      # "skill" splits them into low- and high-skill (two_goods.rest_skill)
+PAY = None                                            # the skill split: None, one wage; "record", each good's pay moving
+                                                      # against the production wage as its industries' did (the panel's
+                                                      # pay_* columns, equal in 1950); "levels", each good's pay at its
+                                                      # industries' level (lvl_*) times a factor that holds the model's
+                                                      # average pay at the production wage each year (solve_year)
 EXTRA = []                                            # targets beyond the five (durables apart: the wage over durables)
-EXTRA_TOL_LOG = {"wage_durables": 0.05, "wage_services": 0.05, "wage_nondurables": 0.05}  # as the other wages
+EXTRA_TOL_LOG = {"wage_durables": 0.05, "wage_services": 0.05, "wage_nondurables": 0.05,   # as the other wages
+                 "wage_ndg": 0.05, "wage_low": 0.05, "wage_high": 0.05}
 _DS, _DR = PANEL.loc[1950:2024, "dur_share"], PANEL.loc[1950:2024, "dur_rel_price"]
 SIGMA_DG_SET = float(1.0 - np.polyfit(np.log(_DR.values), np.log(_DS / (1.0 - _DS)).values, 1)[0])  # the share regression
 OMEGA_D_SET = float(PANEL.loc[1950, "dur_share"])     # durables' share of the composite's cost at 1950's prices
@@ -141,11 +156,15 @@ LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positi
 # pinned, so their levels drift; no stored fit sat on the old bounds
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
               g_eta=(-0.05, 0.8), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.8), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0),
-              g_dur=(-0.05, 0.9), g_T=(-0.05, 0.1), g_srv=(-0.05, 0.9), s0_srv=(-2.0, 4.0))
+              g_dur=(-0.05, 0.9), g_T=(-0.05, 0.1), g_srv=(-0.05, 0.9), s0_srv=(-2.0, 4.0), g_low=(-0.05, 0.9),
+              g_high=(-0.05, 0.9))
 WAVE_BOUNDS = dict(size=(1e-4, 10.0), tau=(0.5, 80.0))   # each wave's size (in logs of the clock) and pace (years)
 
 D = PANEL.loc[YEARS]
 OMEGA_S = D["srv_in_rest"].values                     # services apart: services' share of nondurables plus services, the record's
+OMEGA_L, OMEGA_H = D["low_share"].values, D["high_share"].values   # the skill split: the services groups' shares, the record's
+PAY_PATHS = {k: D[c].values for k, c in (("r_d", "pay_dur"), ("r_n", "pay_nd"), ("r_l", "pay_low"), ("r_h", "pay_high"))}
+LVL_PATHS = {k: D[c].values for k, c in (("r_d", "lvl_dur"), ("r_n", "lvl_nd"), ("r_l", "lvl_low"), ("r_h", "lvl_high"))}
 N_T = (D["adults"] / D.loc[1950, "adults"]).values
 DELTA = D["delta"].values
 T_REL = np.array(YEARS) - 1950.0
@@ -242,14 +261,14 @@ def pinned_chi(par):
     if DURABLES is not None:                              # 1950 is the two goods' reference point
         ed0, ref = eta_d_path(fill(par))[0], dict(mode="ref", omega_d=DURABLES["omega_d"], phi=VALUE_RENT or 0.0)
         if SERVICES:                                      # and the services nest's (exact without services when their
-            es0 = eta_s_path(fill(par))[0]                # 1950 level is nondurables', as in every stored fit)
-            ref["omega_s"] = float(OMEGA_S[0])
+            es0 = services_eta(fill(par))[0]              # 1950 level is nondurables', as in every stored fit)
+        ref.update(year_cmp(0))
     target = float(D.loc[1950, "prime_emp_rate"])
 
     def gap(lc):
         try:
             e1 = replace(e0, chi_max=float(np.exp(lc)))
-            return (pm.solve(e1) if DURABLES is None else tg.solve(e1, ed0, ref, es0))["participation"] - target
+            return (pm.solve(e1) if DURABLES is None else solve_year(e1, ed0, ref, es0))["participation"] - target
         except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
             return np.nan
 
@@ -277,6 +296,63 @@ def eta_s_path(par):
     return eta_path(par) * np.exp(par.get("s0_srv", 0.0) - (par["g_srv"] - par["g_eta"]) * T_REL)
 
 
+def eta_skill_path(par):
+    """The skill split's clocks (low-skill and high-skill services): nondurables' clock, waves and kinks and all, each at
+    its own steady pace (g_low, g_high); all three are equal in 1950."""
+    base = eta_path(par)
+    return (base * np.exp(-(par["g_low"] - par["g_eta"]) * T_REL), base * np.exp(-(par["g_high"] - par["g_eta"]) * T_REL))
+
+
+def services_eta(par):
+    """The services clock(s) each year as two_goods.solve takes them: None (two goods), services' clock (services apart),
+    or a (low, high) pair per year (the skill split)."""
+    if SERVICES == "skill":
+        lo, hi = eta_skill_path(par)
+        return list(zip(lo, hi))
+    if SERVICES:
+        return list(eta_s_path(par))
+    return None
+
+
+def year_cmp(i):
+    """Year i's record-set parts of the composite: the nest's shares (services apart, or the skill split) and each good's
+    pay (with PAY)."""
+    out = {}
+    if SERVICES == "skill":
+        out.update(omega_l=float(OMEGA_L[i]), omega_h=float(OMEGA_H[i]))
+    elif SERVICES:
+        out["omega_s"] = float(OMEGA_S[i])
+    if PAY == "record":
+        out.update({k: float(v[i]) for k, v in PAY_PATHS.items()})
+    elif PAY == "levels":                                 # the levels; solve_year scales them to the average
+        out.update({k: float(v[i]) for k, v in LVL_PATHS.items()})
+    return out
+
+
+def solve_year(e, eta_d, cmp, eta_s=None):
+    """A year's equilibrium (two_goods.solve). With PAY "levels" each good's pay is kappa times its level, kappa found so
+    that the hours-weighted average pay of every worker (the machine chain's at the production wage) is the production
+    wage, as BLS's production wage is the average over every industry: kappa = final hours / level-weighted final hours,
+    by fixed-point iteration on the equilibrium (with every level 1, kappa is 1 exactly and this is the one-wage year)."""
+    if PAY != "levels":
+        return tg.solve(e, eta_d, cmp, eta_s)
+    lv = {k: cmp[k] for k in ("r_d", "r_n", "r_l", "r_h")}
+    kappa = 1.0
+    for _ in range(100):
+        q = tg.solve(e, eta_d, dict(cmp, **{k: kappa * v for k, v in lv.items()}), eta_s)
+        hours = q["dd"] * (1.0 - q["xd"]) + q["dg"] * (q["dn"] * (1.0 - q["xg"]) + q["dl"] * (1.0 - q["xl"])
+                                                       + q["dh"] * (1.0 - q["xh"]))
+        paid = q["dd"] * lv["r_d"] * (1.0 - q["xd"]) + q["dg"] * (q["dn"] * lv["r_n"] * (1.0 - q["xg"])
+                                                                  + q["dl"] * lv["r_l"] * (1.0 - q["xl"])
+                                                                  + q["dh"] * lv["r_h"] * (1.0 - q["xh"]))
+        new = hours / paid
+        if abs(new - kappa) <= 1e-13 * kappa:
+            q["kappa"] = kappa
+            return q
+        kappa = new
+    raise pm.NoEquilibrium("the pay scale did not settle")
+
+
 def durables_years(par):
     """Durables apart: each year's equilibrium of the two-good economy (two_goods.solve), 1950 fixing the reference
     prices of the composite and of the outer basket. None if any year has no interior equilibrium."""
@@ -287,18 +363,20 @@ def durables_years(par):
             return None
         par = dict(par, chi_max=chi)
     eta_g, eta_d = eta_path(par), eta_d_path(par)
-    eta_s = eta_s_path(par) if SERVICES else None
+    eta_s = services_eta(par)
     try:
         phi = VALUE_RENT or 0.0
-        ref = dict(mode="ref", omega_d=DURABLES["omega_d"], phi=phi)
-        if SERVICES:
-            ref["omega_s"] = float(OMEGA_S[0])
-        q0 = tg.solve(economies(par, eta_g)[0], eta_d[0], ref, None if eta_s is None else eta_s[0])
+        ref = dict(mode="ref", omega_d=DURABLES["omega_d"], phi=phi, **year_cmp(0))
+        q0 = solve_year(economies(par, eta_g)[0], eta_d[0], ref, None if eta_s is None else eta_s[0])
         cmp = dict(omega_d=DURABLES["omega_d"], sigma_dg=DURABLES["sigma_dg"], pref_d=q0["pd"], pref_g=q0["pg"], phi=phi)
         es = economies(par, eta_g, q0["c"] if SIGMA is not None else None)
-        if SERVICES:                                     # the nest's reference prices are 1950's, its share the record's
+        if SERVICES == "skill":                          # the nest's reference prices are 1950's, its shares the record's
+            cmp.update(pref_n=q0["pg"], pref_l=q0["pl"], pref_h=q0["ph"])
+        elif SERVICES:
             cmp.update(pref_n=q0["pg"], pref_s=q0["ps"])
-            return [tg.solve(e, eta_d[i], dict(cmp, omega_s=float(OMEGA_S[i])), eta_s[i]) for i, e in enumerate(es)], es
+        if eta_s is not None or PAY:
+            return [solve_year(e, eta_d[i], dict(cmp, **year_cmp(i)), None if eta_s is None else eta_s[i])
+                    for i, e in enumerate(es)], es
         return [tg.solve(e, eta_d[i], cmp) for i, e in enumerate(es)], es
     except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
         return None
@@ -319,7 +397,7 @@ def model_path_durables(par):
                       for q, e in zip(qs, es)], index=YEARS)
     for c in ("wage_goods", "wage_durables", "wage_shelter"):
         m[c] = 100.0 * m[c + "_raw"] / m.loc[1950, c + "_raw"]
-    if SERVICES:                                          # services apart: their wage and nondurables', 1957 = 100 as in the
+    if SERVICES == "record":                              # services apart: their wage and nondurables', 1957 = 100 as in the
         m["xs"] = [q["xs"] for q in qs]                   # record (services' index starts in 1957), and the spending shares
         m["wage_services_raw"] = [q["v"] / q["ps"] for q in qs]
         m["wage_nondurables_raw"] = [q["v"] / q["pg"] for q in qs]
@@ -327,6 +405,17 @@ def model_path_durables(par):
             m[c] = 100.0 * m[c + "_raw"] / m.loc[1957, c + "_raw"]
         m["srv_share"] = [q["srv_share"] for q in qs]
         m["nd_share"] = [q["nd_share"] for q in qs]
+    if SERVICES == "skill":                               # the skill split: each group's task line, its wage (1950 = 100),
+        for k in ("xl", "xh", "xl_ceiling", "xh_ceiling", "low_share", "high_share", "nd_share", "pl", "ph"):
+            m[k] = [q[k] for q in qs]                     # the composite's shares, and each good's pay over the production
+        for c, key in (("wage_ndg", "pg"), ("wage_low", "pl"), ("wage_high", "ph")):   # wage and its price over its own pay
+            m[c + "_raw"] = [q["v"] / q[key] for q in qs]
+            m[c] = 100.0 * m[c + "_raw"] / m.loc[1950, c + "_raw"]
+        m["r_d"], m["r_n"] = [q["rd"] for q in qs], [q["rg"] for q in qs]
+        m["r_l"], m["r_h"] = [q["rl"] for q in qs], [q["rh"] for q in qs]
+        m["labour_income_share"] = [q["v"] * (q["final_w"] + q["mh"]) / q["income"] for q in qs]
+        m["avg_pay"] = [(q["final_w"] + q["mh"]) / (q["final"] + q["mh"]) for q in qs]   # the average pay over the
+        m["kappa"] = [q.get("kappa", 1.0) for q in qs]                                  # production wage
     return m
 
 
@@ -495,10 +584,14 @@ def complete(s):
     s.setdefault("chi_w", 0.0)
     if DURABLES is not None:
         s.setdefault("g_dur", s.get("g_eta", 0.05) + 0.03)
-    if SERVICES:
+    if SERVICES == "record":
         s.setdefault("g_srv", s.get("g_eta", 0.05))       # services start on nondurables' clock: the two-good model
     if "s0_srv" in NAMES:
         s.setdefault("s0_srv", 0.0)
+    if SERVICES == "skill":                               # both services groups start on nondurables' clock: the main case
+        s.setdefault("g_low", s.get("g_srv", s.get("g_eta", 0.05)))
+        s.setdefault("g_high", s.get("g_srv", s.get("g_eta", 0.05)))
+        s.pop("g_srv", None)
     if LAND == "grow":
         s.setdefault("g_T", 0.01)
     for i in range(len(DUR_WAVES)):
@@ -527,7 +620,7 @@ def configure(meta):
     """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
     and report read fits this way)."""
     global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
-    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT, KINKS, SERVICES
+    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT, KINKS, SERVICES, PAY
     SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
     if SPLIT_FROM is not None:
         S_N = meta["s_n"]
@@ -539,7 +632,7 @@ def configure(meta):
     FIT_YEARS, DROP, FIXED = meta.get("fit_years"), meta.get("drop"), dict(meta.get("fixed") or {})
     DURABLES, EXTRA, LAND = meta.get("durables"), list(meta.get("extra") or []), meta.get("land")
     DUR_WAVES, VALUE_RENT = list(meta.get("dur_waves") or []), meta.get("value_rent")
-    KINKS, SERVICES = list(meta.get("kinks") or []), meta.get("services")
+    KINKS, SERVICES, PAY = list(meta.get("kinks") or []), meta.get("services"), meta.get("pay")
     SET.update(meta.get("set") or {})
     NAMES[:] = meta["names"]
 
@@ -551,7 +644,7 @@ def settings_meta():
                 s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
                 waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, fixed=dict(FIXED),
                 durables=DURABLES, extra=list(EXTRA), land=LAND, dur_waves=list(DUR_WAVES), value_rent=VALUE_RENT,
-                kinks=list(KINKS), services=SERVICES, names=list(NAMES))
+                kinks=list(KINKS), services=SERVICES, pay=PAY, names=list(NAMES))
 
 
 def run_start(s):
@@ -615,6 +708,9 @@ if __name__ == "__main__":
     #     --rho 0.08 --waves 1948 --durables --value-rent 0.2 --land-adults --start-fits playground/record_starts.json \
     #     --out fit_Br
     # ... without --waves 1948: fit_Br0, the main case (decision 26); with --services as well: services apart, fit_Bs
+    # ... fit_Br0's settings with --skill: the skill split with one wage, fit_Bk; with --pay record as well, each good's pay
+    # moving as its industries' did, fit_Bkp; with --pay levels, each good's pay at its industries' level, the average
+    # held at the production wage, fit_Bkl
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -651,6 +747,13 @@ if __name__ == "__main__":
         SERVICES = "record"                               # wage is targeted, nondurables' too (with services alone
         NAMES.append("g_srv")                             # targeted the fit automated nondurables to offset services:
         EXTRA.extend(["wage_services", "wage_nondurables"])  # their wage 308 in 2024 against the record's 165)
+    if "--skill" in args:                                 # the skill split (her idea and go, 2026-11-08): services as two
+        SERVICES = "skill"                                # goods, low- and high-skill; each good's wage targeted
+        NAMES.extend(["g_low", "g_high"])
+        EXTRA.extend(["wage_ndg", "wage_low", "wage_high"])
+    if "--pay" in args:                                   # a worker for each good (her go, 2026-11-08): each good's pay set
+        PAY = args[args.index("--pay") + 1]               # from its industries' (BLS), with the skill split only: "record"
+        assert PAY in ("record", "levels")                # (changes, equal in 1950) or "levels" (average held)
     if "--value-rent" in args:                            # a lead: a value-share rent in a machine's cost
         VALUE_RENT = float(args[args.index("--value-rent") + 1])
     if "--dur-waves" in args:                             # a lead: waves on durables' clock alone

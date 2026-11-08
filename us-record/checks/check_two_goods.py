@@ -7,6 +7,12 @@
 #      (consumption is income); land adds up (sites in baskets and the machines' land are T); the composite's unit cost
 #      is its goods' cost; at the reference point the composite's demands are the reference shares.
 #   M  monotone: a faster durables clock makes durables cheaper against the other goods.
+#   S  services apart (2026-11-08): nesting, identities, the nest, a slower services clock.
+#   K  the skill split and a worker for each good (2026-11-08): with both services groups on nondurables' clock and one
+#      wage the split is the main case; with the groups on one services clock it is services apart, year by year; pay at
+#      one is one wage bit for bit; with each good's pay from the record the accounts add up; dearer high-skill workers
+#      make high-skill services dearer and machines take more of their tasks; with pay at its industries' level the
+#      model's average pay is the production wage.
 # Run from us-record/:  python3 checks/check_two_goods.py      Exit 0 only if every check passes.
 
 import json
@@ -114,6 +120,104 @@ if got is not None:
     check("S5 a slower services clock leaves services' task line below nondurables' by 2024",
           qs[-1]["xs"] < qs[-1]["xg"] and abs(qs[0]["xs"] - qs[0]["xg"]) < 1e-12,
           f"1950 {qs[0]['xs']:.3f} / {qs[0]['xg']:.3f}, 2024 {qs[-1]['xs']:.3f} / {qs[-1]['xg']:.3f}")
+
+# ---- the skill split and a worker for each good (her idea and go, 2026-11-08)
+F.configure(R0["meta"])
+m2 = F.model_path(R0["best"]["par"])
+SKILL = dict(R0["meta"], services="skill", pay=None, names=R0["meta"]["names"] + ["g_low", "g_high"],
+             extra=["wage_durables", "wage_ndg", "wage_low", "wage_high"])
+F.configure(SKILL)
+par_k = dict(R0["best"]["par"], g_low=R0["best"]["par"]["g_eta"], g_high=R0["best"]["par"]["g_eta"])
+mk = F.model_path(par_k)
+worst = max(float(np.max(np.abs(mk[c].values / m2[c].values - 1.0))) for c in cols) if mk is not None else np.inf
+check("K1 both services groups on nondurables' clock, one wage: the skill split is the main case (fit_Br0) to 1e-12",
+      worst < 1e-12, f"worst relative gap {worst:.1e}")
+RS = json.load(open(os.path.join(ROOT, "results", "fit_Bs.json")))
+F.configure(RS["meta"])
+got = F.durables_years(RS["best"]["par"])
+worst = np.inf
+if got is not None:
+    qs, es_ = got
+    eta_s = F.eta_s_path(F.fill(dict(RS["best"]["par"], chi_max=F.pinned_chi(RS["best"]["par"]))))
+    q0 = qs[0]
+    base = dict(omega_d=F.OMEGA_D_SET, sigma_dg=F.SIGMA_DG_SET, pref_d=q0["pd"], pref_g=q0["pg"], phi=F.VALUE_RENT,
+                pref_n=q0["pg"])
+    worst = 0.0
+    for i, (q, e) in enumerate(zip(qs, es_)):
+        w = float(F.OMEGA_S[i])
+        if i == 0:
+            cmp_k = dict(mode="ref", omega_d=F.OMEGA_D_SET, phi=F.VALUE_RENT, omega_l=0.4 * w, omega_h=0.6 * w)
+        else:
+            cmp_k = dict(base, pref_l=q0["ps"], pref_h=q0["ps"], omega_l=0.4 * w, omega_h=0.6 * w)
+        qk = tg.solve(e, F.eta_d_path(F.fill(dict(RS["best"]["par"], chi_max=F.pinned_chi(RS["best"]["par"]))))[i],
+                      cmp_k, (eta_s[i], eta_s[i]))
+        worst = max(worst, max(abs(qk[k] / q[k] - 1.0) for k in ("v", "pg", "pd", "c", "participation",
+                                                                  "labour_share_bea", "theta_V", "chain_share")),
+                    abs(qk["pl"] / q["ps"] - 1.0), abs(qk["ph"] / q["ps"] - 1.0))
+check("K2 low- and high-skill services on one services clock, one wage, their shares summing to services': every year of "
+      "services apart (fit_Bs) is the skill split's solution (relative 1e-12)", worst < 1e-12, f"{worst:.1e}")
+F.configure(dict(SKILL, pay="record"))
+saved = {k: v.copy() for k, v in F.PAY_PATHS.items()}
+for k in F.PAY_PATHS:
+    F.PAY_PATHS[k] = np.ones_like(saved[k])
+m_one = F.model_path(par_k)
+for k in F.PAY_PATHS:
+    F.PAY_PATHS[k] = saved[k]
+same = m_one is not None and all(np.array_equal(m_one[c].values, mk[c].values) for c in mk.columns)
+check("K3 each good's pay at one is the one-wage split, bit for bit (every column of the path)", same)
+got = F.durables_years(par_k)
+check("K4a with each good's pay from the record (BLS) the split has an equilibrium every year at the main case's numbers",
+      got is not None)
+if got is not None:
+    qs, es_ = got
+    w_lab = max(abs(q["nD"] - q["nS"]) / q["nD"] for q in qs)
+    w_inc = max(abs(q["income"] - q["Ps"] * q["B"]) / q["income"] for q in qs)
+    w_land = max(abs(q["B"] * q["sb"] + e.b * e.delta * q["K"] - e.T) / e.T for q, e in zip(qs, es_))
+    w_nest = max(abs(q["dn"] * q["pg"] + q["dl"] * q["pl"] + q["dh"] * q["ph"] - q["prest"]) / q["prest"] for q in qs)
+    w_sh = max(max(abs(q["dl"] * q["pl"] / q["prest"] - F.OMEGA_L[i]), abs(q["dh"] * q["ph"] / q["prest"] - F.OMEGA_H[i]))
+               for i, q in enumerate(qs))
+    w_pay = 0.0
+    for i, q in enumerate(qs):
+        hd, hn = q["B"] * q["gb"] * q["dd"] * (1 - q["xd"]), q["B"] * q["gb"] * q["dg"] * q["dn"] * (1 - q["xg"])
+        hl, hh = q["B"] * q["gb"] * q["dg"] * q["dl"] * (1 - q["xl"]), q["B"] * q["gb"] * q["dg"] * q["dh"] * (1 - q["xh"])
+        pay = q["v"] * (F.PAY_PATHS["r_d"][i] * hd + F.PAY_PATHS["r_n"][i] * hn + F.PAY_PATHS["r_l"][i] * hl
+                        + F.PAY_PATHS["r_h"][i] * hh + q["mh"])
+        w_pay = max(w_pay, abs(pay / (q["v"] * (q["final_w"] + q["mh"])) - 1.0), abs(hd + hn + hl + hh - q["final"]) / q["final"])
+    check("K4b with each good's pay: labour clears (1e-8), income buys every basket (1e-9), land adds up (1e-9), and labour "
+          "income is each good's hours at its own pay plus the machine chain's at the production wage (1e-12)",
+          w_lab < 1e-8 and w_inc < 1e-9 and w_land < 1e-9 and w_pay < 1e-12,
+          f"labour {w_lab:.1e}, income {w_inc:.1e}, land {w_land:.1e}, pay {w_pay:.1e}")
+    check("K4c the nest's unit cost is its goods' cost, and the services groups' shares of it are the record's (1e-12)",
+          max(w_nest, w_sh) < 1e-12, f"cost {w_nest:.1e}, shares {w_sh:.1e}")
+    e24, q24 = es_[-1], qs[-1]
+    ed24 = F.eta_d_path(F.fill(dict(par_k, chi_max=F.pinned_chi(par_k))))[-1]
+    lo24, hi24 = F.eta_skill_path(F.fill(par_k))
+    cmp24 = dict(omega_d=F.OMEGA_D_SET, sigma_dg=F.SIGMA_DG_SET, pref_d=qs[0]["pd"], pref_g=qs[0]["pg"], phi=F.VALUE_RENT,
+                 pref_n=qs[0]["pg"], pref_l=qs[0]["pl"], pref_h=qs[0]["ph"], **F.year_cmp(len(qs) - 1))
+    qa = tg.solve(e24, ed24, cmp24, (lo24[-1], hi24[-1]))
+    qb = tg.solve(e24, ed24, dict(cmp24, r_h=1.2 * cmp24["r_h"]), (lo24[-1], hi24[-1]))
+    check("K5 2024 with high-skill pay 20% higher: high-skill services dearer against the production wage, and machines "
+          "take more of their tasks", qb["ph"] / qb["v"] > qa["ph"] / qa["v"] and qb["xh"] > qa["xh"],
+          f"price over the wage {qa['ph'] / qa['v']:.3f} -> {qb['ph'] / qb['v']:.3f}, task line {qa['xh']:.3f} -> {qb['xh']:.3f}")
+
+# pay at its industries' level with the average held at the production wage (fit_Bkl's setting)
+F.configure(dict(SKILL, pay="levels"))
+saved = {k: v.copy() for k, v in F.LVL_PATHS.items()}
+for k in F.LVL_PATHS:
+    F.LVL_PATHS[k] = np.ones_like(saved[k])
+m_one = F.model_path(par_k)
+for k in F.LVL_PATHS:
+    F.LVL_PATHS[k] = saved[k]
+same = m_one is not None and all(np.array_equal(m_one[c].values, mk[c].values) for c in mk.columns if c not in ("avg_pay", "kappa"))
+RL = json.load(open(os.path.join(ROOT, "results", "fit_Bkl.json")))
+F.configure(RL["meta"])
+ml = F.model_path(RL["best"]["par"])
+dev = float(np.max(np.abs(ml["avg_pay"].values - 1.0))) if ml is not None else np.inf
+gap = float(np.max(np.abs(ml["r_h"].values / ml["kappa"].values - F.LVL_PATHS["r_h"]))) if ml is not None else np.inf
+check("K6 pay levels at one are the one-wage split bit for bit; at the record's levels (fit_Bkl) the hours-weighted "
+      "average pay is the production wage every year (1e-12) and each good's pay is the common factor times its level",
+      same and dev < 1e-12 and gap < 1e-12, f"average {dev:.1e}, levels {gap:.1e}; factor 1950 {ml['kappa'].iloc[0]:.3f}, "
+      f"2024 {ml['kappa'].iloc[-1]:.3f}")
 
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")

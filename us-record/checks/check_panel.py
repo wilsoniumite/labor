@@ -205,6 +205,96 @@ check("I11 [added 2026-11-06] durables' relative price splits the CPI less shelt
       "weights): each year's change in it is the weighted change in durables' and the other goods' prices (1e-12)",
       float(np.nanmax(np.abs(_tq))) < 1e-12, f"{float(np.nanmax(np.abs(_tq))):.1e}")
 
+# ---- the skill split (her go, 2026-11-08), added after its series were built; tolerances set before the first run
+SPLIT = ["ndg_share", "low_share", "high_share", "wage_ndg", "wage_low", "wage_high", "pay_dur", "pay_nd", "pay_low",
+         "pay_high", "lvl_dur", "lvl_nd", "lvl_low", "lvl_high"]
+gaps = {c: [y for y in range(1950, 2025) if pd.isna(P.loc[y, c])] for c in SPLIT}
+pre = all((P.loc[1950:1963, c] == 1.0).all() for c in ("pay_low", "pay_high"))
+check("C7 [added 2026-11-08] the skill split's fourteen series are complete over 1950-2024, and the services groups' pay is "
+      "exactly 1 before 1964 (BLS's services industries begin in 1964)", not any(gaps.values()) and pre,
+      f"gaps: { {c: g for c, g in gaps.items() if g} }")
+nipa_rows = {}
+for line in open(os.path.join(REPO, "progress_and_prosperity", "lambda", "data", "cache", "NipaDataA.txt"), encoding="utf-8"):
+    parts = line.strip().split(",", 2)
+    if len(parts) == 3 and parts[1].isdigit():
+        nipa_rows.setdefault(parts[0], {})[int(parts[1])] = float(parts[2].strip('"').replace(",", ""))
+GRP = {"ndg": ["DNDGRC", "DUTLRC", "DCOMRC"],
+       "low": ["DFSERC", "DACCRC", "DRCARC", "DPERRC", "DHHMRC", "DMVSRC", "DPUBRC", "DSOCRC"],
+       "high": ["DHPNRC", "DOUTRC", "DTEDRC", "DPRSRC", "DFNLRC", "DINSRC"]}
+yrs = list(range(1950, 2025))
+nv = lambda code: np.array([nipa_rows[code][y] for y in yrs])  # noqa: E731
+add1 = float(np.max(np.abs(P.loc[1950:2024, ["ndg_share", "low_share", "high_share"]].sum(axis=1) - 1.0)))
+srv_lines = sum(nv(c) for g in GRP.values() for c in g if c != "DNDGRC") + nv("DNPIRC") + nv("DFTRRC") - nv("DEXFRC")
+gap_s = float(np.max(np.abs(srv_lines / (nv("DSERRC") - nv("DHSGRC")) - 1.0)))
+check("I12 [added 2026-11-08] the three groups' shares add to one (1e-12), and BEA's lines add up: the groups' services, "
+      "nonprofits' own consumption and net foreign travel are services less housing within 0.05% every year",
+      add1 < 1e-12 and gap_s < 5e-4, f"shares {add1:.1e}, lines {gap_s:.2e}")
+def torn_steps(val, lp):
+    """Chained Tornqvist log index from levels (spending) and log prices, rows = years."""
+    lv = [0.0]
+    for t in range(1, len(val)):
+        w0, w1 = val[t - 1] / val[t - 1].sum(), val[t] / val[t].sum()
+        lv.append(lv[-1] + float(np.dot((w0 + w1) / 2.0, lp[t] - lp[t - 1])))
+    return np.array(lv)
+
+
+glog, gval = {}, {}
+for g, cs in GRP.items():
+    gval[g] = np.array([[nipa_rows[c][y] for c in cs] for y in yrs])
+    glog[g] = torn_steps(gval[g], np.log(np.array([[nipa_rows[c[:-1] + "G"][y] for c in cs] for y in yrs])))
+sh_g = np.column_stack([gval[g].sum(axis=1) for g in GRP])
+nest_log = torn_steps(sh_g, np.column_stack([glog[g] for g in GRP]))
+r_other = np.log(P.loc[1950:2024, "dur_rel_price"].values) - np.log(P.loc[1950:2024, "wage_exshelter"].values
+                                                                    / P.loc[1950:2024, "wage_goods"].values)
+w_other = P.loc[1950:2024, "wage_exshelter"].values * np.exp(r_other)     # the wage over the other goods, CPI level
+wmax = max(float(np.max(np.abs(w_other * np.exp(nest_log - glog[g]) / P.loc[1950:2024, f"wage_{g}"].values - 1.0)))
+           for g in GRP)
+agg = torn_steps(sh_g, -np.column_stack([np.log(P.loc[1950:2024, f"wage_{g}"].values) for g in GRP]))
+amax = float(np.max(np.abs(agg + np.log(w_other / 100.0))))
+check("I13 [added 2026-11-08; changed before the first fit: the CPI's level] each group's wage is the wage over the other "
+      "goods (CPI level) times BEA's three-group price over the group's (chained Tornqvists on spending weights), "
+      "recomputed from the raw flat file on a code path of its own (relative 1e-9); and the groups' prices aggregate on "
+      "the same weights to the other goods' CPI price exactly (1e-12)", wmax < 1e-9 and amax < 1e-12,
+      f"{wmax:.1e}, aggregation {amax:.1e}")
+pmax = 0.0
+for col, sid in (("pay_dur", "CES3100000008"), ("pay_nd", "CES3200000008")):
+    r = (monthly_complete(fred_cache(os.path.join(ROOT, "cache", f"{sid}.csv"), sid)) / link).reindex(yrs)
+    pmax = max(pmax, float(np.max(np.abs((r / r.loc[1950]).values - P.loc[1950:2024, col].values))))
+IND = {"DHPNRC": "CES6500000008", "DOUTRC": "CES6500000008", "DTEDRC": "CES6500000008", "DPRSRC": "CES6000000008",
+       "DFNLRC": "CES5500000008", "DINSRC": "CES5500000008"}
+rel = {c: monthly_complete(fred_cache(os.path.join(ROOT, "cache", f"{sid}.csv"), sid)) / link for c, sid in IND.items()}
+y64 = list(range(1964, 2025))
+val = np.array([[nipa_rows[c][y] for c in GRP["high"]] for y in y64])
+lw = np.log(np.array([[rel[c].loc[y] for c in GRP["high"]] for y in y64]))
+lv = [0.0]
+for t in range(1, len(y64)):
+    w0, w1 = val[t - 1] / val[t - 1].sum(), val[t] / val[t].sum()
+    lv.append(lv[-1] + float(np.dot((w0 + w1) / 2.0, lw[t] - lw[t - 1])))
+hmax = float(np.max(np.abs(np.exp(np.array(lv)) - P.loc[1964:2024, "pay_high"].values)))
+check("I14 [added 2026-11-08] the goods' pay (BLS durable and nondurable manufacturing over the linked earnings, 1950 = "
+      "1; 1e-12) and the high-skill group's pay (its industries over the linked earnings, chained Tornqvist on spending "
+      "weights, 1964 = 1; 1e-9) recomputed from the raw files", pmax < 1e-12 and hmax < 1e-9,
+      f"goods {pmax:.1e}, high {hmax:.1e}")
+lmax = 0.0
+for col, sid in (("lvl_dur", "CES3100000008"), ("lvl_nd", "CES3200000008")):
+    r = (monthly_complete(fred_cache(os.path.join(ROOT, "cache", f"{sid}.csv"), sid)) / link).reindex(yrs)
+    lmax = max(lmax, float(np.max(np.abs(r.values - P.loc[1950:2024, col].values))))
+w64 = np.array([nipa_rows[c][1964] for c in GRP["high"]])
+l64 = float(np.exp(np.dot(w64 / w64.sum(), [np.log(rel[c].loc[1964]) for c in GRP["high"]])))
+hl = float(np.max(np.abs(P.loc[1950:2024, "lvl_high"].values - l64 * P.loc[1950:2024, "pay_high"].values)))
+inrange = all(P.loc[1950:2024, c].between(0.3, 1.5).all() for c in ("lvl_dur", "lvl_nd", "lvl_low", "lvl_high"))
+check("I15 [added 2026-11-08] the pay levels: the goods' are BLS's own ratios over the linked earnings (1e-12); the "
+      "high-skill group's is its industries' 1964 spending-weighted geometric mean carried by its chained index (1e-12); "
+      "all four within [0.3, 1.5]", lmax < 1e-12 and hl < 1e-12 and inrange,
+      f"goods {lmax:.1e}, high {hl:.1e}; 1964 levels low {P.loc[1964, 'lvl_low']:.3f}, high {P.loc[1964, 'lvl_high']:.3f}")
+sh = P.loc[1950:2024]
+ok = sh["high_share"].between(0.08, 0.5).all() and sh.loc[2024, "high_share"] - sh.loc[1950, "high_share"] > 0.2 \
+    and sh["low_share"].between(0.15, 0.35).all() and all(sh[c].between(0.8, 2.0).all() for c in SPLIT[6:10])
+check("S10 [added 2026-11-08] the high-skill share within [0.08, 0.5] and up at least 0.2 from 1950 to 2024, the "
+      "low-skill share within [0.15, 0.35], every pay path within [0.8, 2.0]", ok,
+      f"high {sh.loc[1950, 'high_share']:.3f} -> {sh.loc[2024, 'high_share']:.3f}; pay ranges "
+      + ", ".join(f"{c} {sh[c].min():.2f}..{sh[c].max():.2f}" for c in SPLIT[6:10]))
+
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")
 sys.exit(1 if n_fail else 0)

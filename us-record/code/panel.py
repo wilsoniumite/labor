@@ -241,9 +241,10 @@ def build():
         if row and row[0] in flat and row[1].isdigit():
             flat[row[0]][int(row[1])] = float(row[2].replace(",", ""))
     flat = pd.DataFrame(flat)
+    split_cols = "ndg_share, low_share, high_share, wage_ndg, wage_low, wage_high, pay_low, pay_high, lvl_low, lvl_high"
     record(nipa, "repository file (BEA NIPA annual flat file, https://apps.bea.gov/national/Release/TXT/NipaDataA.txt)",
-           "nd_share, srv_share, srv_in_rest")
-    record(register, "repository file (BEA NIPA series register)", "nd_share, srv_share, srv_in_rest")
+           "nd_share, srv_share, srv_in_rest, " + split_cols)
+    record(register, "repository file (BEA NIPA series register)", "nd_share, srv_share, srv_in_rest, " + split_cols)
     rest = flat["DPCERC"] - flat["DHSGRC"]
     p["nd_share"] = flat["DNDGRC"] / rest
     p["srv_share"] = (flat["DSERRC"] - flat["DHSGRC"]) / rest
@@ -254,6 +255,100 @@ def build():
     nd = fred_fetch("CUUR0000SAN", "wage_nondurables")
     real_nd = (spliced / nd).dropna()                              # the monthly index has gaps before 1956
     p["wage_nondurables"] = 100.0 * real_nd / real_nd.loc[1957]
+
+    # ---- the skill split (her idea and go, 2026-11-08: "can you split services into low and high skill?"; "go ahead
+    # with step 1, BLS is fine for now"; the data look was playground/services_skill.py). Consumer services less housing
+    # in groups by who does the work, from BEA's types of service in the same NIPA file (PCE by type of product, from
+    # 1929): high-skill (hospitals and nursing homes, outpatient care, education, professional services, financial
+    # services, insurance), low-skill (food services, accommodations, recreation, personal care and clothing services,
+    # household maintenance, motor vehicle services, public transportation, social services), and the goods-like services
+    # (household utilities, communication: mostly machines' work, their prices falling against the wage as goods' do),
+    # which go with nondurable goods. Nonprofits' own consumption is left out: an accounting remainder (their output less
+    # their sales to households) whose price is BEA's difference of two indexes. Each group's share of the three groups'
+    # spending is the nest's weight each year. The wages the model is read against take BEA's prices relative to each
+    # other and the CPI's level, as durables apart does: BEA's and the CPI's prices drift apart (the linked earnings over
+    # BEA's prices of everything but housing end 17% above the panel's CPI-based wage by 2024, over durables 84%), and the
+    # other targets are the CPI's. Each group's price is a chained Tornqvist over its lines on spending weights, the
+    # three groups' price a Tornqvist over the groups; a group's wage is the wage over the other goods (the CPI less
+    # shelter less durables, as dur_rel_price splits it) times the three groups' price over the group's, 1950 = 100. The
+    # three groups' wages then aggregate, on the same weights, to the wage over the other goods exactly.
+    # A worker for each good (her go): the hourly earnings of production and nonsupervisory employees in each good's
+    # industries (BLS, CES via FRED) over the linked earnings: durable and nondurable manufacturing for the two goods
+    # (from 1939; 1950 = 1); for each services group, each type's industry (education and health services for health
+    # care, education and social services; professional and business services; financial activities; leisure and
+    # hospitality for meals, rooms and recreation; other services for personal care, household maintenance and vehicle
+    # repair; transportation and warehousing for public transportation), chained Tornqvist over the types on spending
+    # weights, each year over the types measured in both years: 1964 = 1, and held at 1 before (BLS's services industries
+    # begin in 1964, transportation in 1972). The same as levels (lvl_*): each good's industries' hourly earnings over the
+    # production wage, not indexed; for a services group, its 1964 level (the spending-weighted geometric mean of its
+    # types' industries then) carried by its chained index, and held before 1964.
+    groups = {"ndg": ["DNDGRC", "DUTLRC", "DCOMRC"],
+              "low": ["DFSERC", "DACCRC", "DRCARC", "DPERRC", "DHHMRC", "DMVSRC", "DPUBRC", "DSOCRC"],
+              "high": ["DHPNRC", "DOUTRC", "DTEDRC", "DPRSRC", "DFNLRC", "DINSRC"]}
+    want = {"DNDGRC": "Nondurable goods", "DUTLRC": "Household utilities", "DCOMRC": "Communication",
+            "DFSERC": "Food services", "DACCRC": "Accommodations (104)", "DRCARC": "Recreation services",
+            "DPERRC": "Market-based PCE personal care and clothing services",
+            "DHHMRC": "Household maintenance (parts of 31, 33, and 36)", "DMVSRC": "Motor vehicle services",
+            "DPUBRC": "Public transportation", "DSOCRC": "Social services and religious activities (120)",
+            "DHPNRC": "Hospital and nursing home services", "DOUTRC": "Outpatient services",
+            "DTEDRC": "Education services", "DPRSRC": "Professional and other services (121)",
+            "DFNLRC": "Financial services", "DINSRC": "Insurance"}
+    want.update({c[:-1] + "G": lab for c, lab in want.items()})        # each line's price index (BEA's table 2.4.4)
+    for code, label in want.items():
+        if labels.get(code) != label:
+            raise SystemExit(f"STOP: NIPA {code} is {labels.get(code)!r} in SeriesRegister.txt, not {label!r}")
+    lines = {code: {} for code in want}
+    for row in csv.reader(open(nipa, encoding="utf-8")):
+        if row and row[0] in lines and row[1].isdigit():
+            lines[row[0]][int(row[1])] = float(row[2].replace(",", ""))
+    lines = pd.DataFrame(lines).loc[1929:2024]
+    spend = pd.DataFrame({g: lines[cs].sum(axis=1) for g, cs in groups.items()})
+    for g in groups:
+        p[f"{g}_share"] = spend[g] / spend.sum(axis=1)
+
+    def tornqvist(logs, shares, base):
+        """A chained Tornqvist index: each year's change is the mean of the lines' log changes on the two years' mean
+        spending shares among the lines measured in both years; base year = 1."""
+        dl, ok = logs.diff(), logs.notna() & logs.shift(1).notna()
+        sh = shares.where(ok)
+        w = (sh.div(sh.sum(axis=1), axis=0) + shares.shift(1).where(ok).div(shares.shift(1).where(ok).sum(axis=1), axis=0)) / 2.0
+        step = (w * dl).sum(axis=1, min_count=1)
+        idx = np.exp(step.fillna(0.0).cumsum())
+        idx[logs.notna().sum(axis=1) == 0] = np.nan
+        return idx / idx.loc[base]
+
+    gprice = pd.DataFrame({g: tornqvist(np.log(lines[[c[:-1] + "G" for c in cs]]).set_axis(cs, axis=1), lines[cs], 1950)
+                           for g, cs in groups.items()})
+    nest = tornqvist(np.log(gprice), spend, 1950)
+    wage_other = p["wage_exshelter"] * np.exp(-r_g)              # the wage over the other goods on the CPI's level
+    for g in groups:
+        p[f"wage_{g}"] = wage_other * (nest / gprice[g]).reindex(p.index)
+    for g, sid in (("dur", "CES3100000008"), ("nd", "CES3200000008")):
+        rel = fred_fetch(sid, f"pay_{g}, lvl_{g}") / spliced
+        p[f"pay_{g}"] = rel / rel.loc[1950]
+    ind = {"CES6500000008": ["DHPNRC", "DOUTRC", "DTEDRC", "DSOCRC"], "CES6000000008": ["DPRSRC"],
+           "CES5500000008": ["DFNLRC", "DINSRC"], "CES7000000008": ["DFSERC", "DACCRC", "DRCARC"],
+           "CES8000000008": ["DPERRC", "DHHMRC", "DMVSRC"], "CES4300000008": ["DPUBRC"]}
+    pay_of = {}
+    for sid, cs in ind.items():
+        used = ", ".join(f"pay_{g}" for g in ("low", "high") if set(cs) & set(groups[g]))
+        rel = fred_fetch(sid, used) / spliced
+        for c in cs:
+            pay_of[c] = rel
+    for g in ("low", "high"):
+        cs = groups[g]
+        logs = pd.DataFrame({c: np.log(pay_of[c]) for c in cs}).reindex(lines.index)
+        idx = tornqvist(logs.loc[1964:], lines.loc[1964:, cs], 1964)
+        p[f"pay_{g}"] = idx.reindex(p.index).where(lambda x: x.index >= 1964, 1.0)
+        # the group's pay level against the production wage: in 1964 the spending-weighted geometric mean of its types'
+        # industries' levels (those measured then), carried by the chained index after and held before
+        ok = logs.loc[1964].notna()
+        w64 = lines.loc[1964, cs][ok] / lines.loc[1964, cs][ok].sum()
+        p[f"lvl_{g}"] = float(np.exp((w64 * logs.loc[1964][ok]).sum())) * p[f"pay_{g}"]
+    # the levels (her skill split asks for them: low-skill work pays less than high-skill work), for the goods their
+    # industries' own ratios: each good's hourly earnings over the production wage, as BLS measures them
+    for g, sid in (("dur", "CES3100000008"), ("nd", "CES3200000008")):
+        p[f"lvl_{g}"] = fred_fetch(sid, f"pay_{g}, lvl_{g}") / spliced
 
     p = p.loc[YEARS]
     p.to_csv(os.path.join(DATA, "panel.csv"))                    # full precision: anchors are checked exactly
