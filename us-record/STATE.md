@@ -147,12 +147,13 @@ basket and the pinned start (misfit 6.8; A dropped, the split and the 1990 utili
     Johan still rests on the wave fit (`fit_Br`); bringing it to `fit_Br0` is offered, not done.
 ## Next
 
-**For her (Logs 22-24).** The main case is the record-set fit without the wave (decisions 25, 26,
-`results/fit_Br0.json`). Open, hers: (i) bring the doc for Johan to it, with Log 24's two findings (measured machine
-progress is the durables clock, which resolves the waterline miss; the capability-jump statics); (ii) a third good,
-services apart from nondurables (the wage over services fell to 0.78 of 1957's, over nondurables rose 1.65-fold:
-the slow clock is services); (iii) hours per unit of task capacity held steady: settled, it stays (+20% without the wave, Log 24); (iv) how to hand technology to the forward model: two paces, durables' (-3% a year, as BEA measures
-machines) and everything else's (-0.44%), the clock's own level not pinned.
+**For her (Logs 22-25).** The main case is the record-set fit without the wave (decisions 25, 26,
+`results/fit_Br0.json`); services apart was built and fitted (Log 25, `results/fit_Bs.json`) and does not earn its
+place (the original six 2.21 against 1.58). Open, hers: (i) bring the doc for Johan to the main case, with Log 24's
+findings; (ii) a channel for services' prices (their wage rising faster than the production wage, two kinds of
+workers; or non-labour costs in services); (iii) how to hand technology to the forward model: durables' pace (-3% a
+year, as BEA measures machines) and everything else's (-0.44%), the clock's own level not pinned. The explorer, v5:
+https://claude.ai/artifact/SeXw2LyrPk8urB7aH7cMRs.
 
 0. **The main case's misses** (Log 19): https://claude.ai/artifact/2FwS642TUUxPWrshgQ7emU (`code/report_misses.py`). Her
    next routes, both open: calibration (c)'s (the return fitted with the chain as a target works; fixed rents in a
@@ -487,3 +488,17 @@ machines) and everything else's (-0.44%), the clock's own level not pinned.
     without), the basket (6.53) and the utility's rise (flat 3.05) earn their place, and so, at the rule's line, does the
     fall in hours per unit of task capacity (held steady 1.90, +20%; on the wave fit +2.6%); the clock is pinned more
     tightly than with the wave (within 10% of the best from about 16% to 25% a year).
+25. **2026-11-08 — services apart, and the explorer on the goods model** (her go: "go ahead with services, and update
+    the explorer as you go"; `docs/playground.md`, "Services apart"). Three goods (durables, nondurables, services
+    less rent of shelter), one machine; the other goods a nest, Cobb-Douglas with services' share set from the record each
+    year (the share regression's elasticity is -0.69: no constant-taste CES follows the record); services' clock a free
+    pace. Panel: shares from BEA's NIPA file, the wages over services and nondurables (1957 = 100); checks: panel 31/31,
+    two goods 15/15 (S1: services on nondurables' clock are the main case to 1e-15). Targeting services alone the fit
+    over-automated nondurables (their wage 308 in 2024 against 165); with all three wages targeted (`fit_base
+    --services`, `results/fit_Bs.json`) 2.268 over eight series, the original six 2.21 against 1.58, services 3.28:
+    services' hours per unit of task capacity rise 1.25% a year (machines lose ground at service tasks) and still miss
+    the record's 1973-1990 surge in services' prices. Services apart is not kept; the services price needs a channel the
+    model lacks. The clocks' bounds widened (0.25 -> 0.8; no stored fit sat on them); `pinned_chi` passes services.
+    Explorer v5 (`explorer/`, published at its link, version 8): the goods model in JavaScript, presets fit_Br0, fit_Bs,
+    fit_Br, dials for each good's hours per unit of task capacity, charts of the goods' wages, task lines, the chain,
+    depreciation, hours per task capacity against BEA's machines, spending and income shares; `check_explorer` 3/3.

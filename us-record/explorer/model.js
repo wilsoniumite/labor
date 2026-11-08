@@ -1,6 +1,7 @@
 // model.js — the backward model in JavaScript, for the explorer page (explorer/index.html): the pinning model
-// (../../pinning/code/pinning_model.py) with the cap and the basket, run over the US record the way code/fit_base.py runs
-// it, the misfit as fit_base.py scores it, and a small least-squares fitter for the page's "fit" button.
+// (../../pinning/code/pinning_model.py) with the cap and the basket, and (v5, 2026-11-08) the goods model of
+// code/two_goods.py (durables apart, services apart, the value-share rent, land growing with adults), run over the US record
+// the way code/fit_base.py runs it, the misfit as fit_base.py scores it, and a small least-squares fitter for the page.
 // checks/check_explorer.py holds this file to the Python model, to a relative 1e-9, on every stored fit.
 // Plain functions; works in a browser (window.USRecordModel), a Web Worker (self.USRecordModel) and Node (require).
 
@@ -10,6 +11,9 @@
   const SET = { b: 0.4, g0: 0.01, g1: 0.99 };
   const SERIES = ["wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"];
   const TOL = { wage_goods: 0.05, wage_shelter: 0.05, labour_share_c: 0.01, prime_emp_rate: 0.015, theta_V: 0.02 };
+  // the goods model's further targets (durables apart, services apart), scored as the other wages: fit_base.EXTRA_TOL_LOG
+  const EXTRA_TOL = { wage_durables: 0.05, wage_services: 0.05, wage_nondurables: 0.05 };
+  const seriesOf = (extra) => SERIES.concat(extra || []);
   const BOUNDS = { T: [1e-5, 10], h: [1e-6, 1], a: [0.01, 10], k: [0.05, 60], chi_max: [0.3, 20], rho: [0, 0.3],
                    g_eta: [-0.05, 0.25], lam0: [0.01, 1000], g_lam: [-0.1, 0.1] };
   const LOGP = { T: 1, h: 1, a: 1, k: 1, chi_max: 1, lam0: 1 };   // searched in logs
@@ -159,6 +163,99 @@
     } catch (err) { return 0.99; }
   }
 
+
+  // ---------------------------------------------------------------- the goods economy (code/two_goods.py)
+  // Durables apart, and services apart: two or three final goods made by one kind of machine, one wage and one land
+  // market, one equation in the common margin m = v / p_m. Each function is its Python twin's, line for line.
+  // e as above; etaD, etaS: durables' and services' clocks; cmp: {omega_d, sigma_dg, pref_d, pref_g, phi, omega_s, pref_n,
+  // pref_s} or {mode: "ref", omega_d, phi, omega_s} in 1950.
+  function xOf(m, eta, e) {
+    const r = (m / eta - e.g0) / e.g1;
+    if (r <= 0) return 0;
+    if (r >= 1) return 1;
+    return Math.pow(r, 1 / e.k);
+  }
+  function JOf(x, eta, e) { return eta * (e.g0 * x + e.g1 * Math.pow(x, e.k + 1) / (e.k + 1)); }
+
+  function composite(pd, pg, cmp) {                // the goods' CES composite, its unit cost the other goods' at 1950's prices
+    const w = cmp.omega_d;
+    if (cmp.mode === "ref") { const c = pg; return [c, w * c / pd, (1 - w) * c / pg]; }
+    const s = cmp.sigma_dg, rd = cmp.pref_d, rg = cmp.pref_g;
+    if (Math.abs(s - 1) < 1e-12) {
+      const c = rg * Math.pow(pd / rd, w) * Math.pow(pg / rg, 1 - w);
+      return [c, w * c / pd, (1 - w) * c / pg];
+    }
+    const ad = w * Math.pow(rg / rd, 1 - s), ag = 1 - w;
+    const c = Math.pow(ad * Math.pow(pd, 1 - s) + ag * Math.pow(pg, 1 - s), 1 / (1 - s));
+    return [c, ad * Math.pow(pd / c, -s), ag * Math.pow(pg / c, -s)];
+  }
+
+  function restNest(pn, ps, cmp) {                 // services apart: nondurables and services, services' share the record's
+    const w = cmp.omega_s;
+    let c;
+    if (cmp.mode === "ref") c = pn;
+    else { const rn = cmp.pref_n, rs = cmp.pref_s; c = rn * Math.pow(pn / rn, 1 - w) * Math.pow(ps / rs, w); }
+    return [c, (1 - w) * c / pn, w * c / ps];
+  }
+
+  function partsG(e, m, etaD, cmp, etaS) {
+    const cpt = e.rho + e.delta, phi = cmp.phi || 0;
+    const den = 1 - phi - cpt * (e.a + e.lam * m);
+    const Vm = e.b / den, pm = cpt * Vm, v = m * pm;
+    const xg = xOf(m, e.eta, e), xd = xOf(m, etaD, e);
+    const Jg = JOf(xg, e.eta, e), Jd = JOf(xd, etaD, e);
+    const pg = v * (1 - xg) + pm * Jg, pd = v * (1 - xd) + pm * Jd;
+    let prest, Jrest, Lrest, extra = {};
+    if (etaS === null || etaS === undefined) { prest = pg; Jrest = Jg; Lrest = 1 - xg; }
+    else {
+      const xs = xOf(m, etaS, e), Js = JOf(xs, etaS, e), ps = v * (1 - xs) + pm * Js;
+      const r = restNest(pg, ps, cmp), dn = r[1], ds = r[2];
+      prest = r[0]; Jrest = dn * Jg + ds * Js; Lrest = dn * (1 - xg) + ds * (1 - xs);
+      extra = { xs, Js, ps, dn, ds, prest };
+    }
+    const cc = composite(pd, prest, cmp), c = cc[0], dd = cc[1], dg = cc[2];
+    const gs = basket(e, c), gb = gs[0], sb = gs[1];
+    const Ps = c * gb + sb;
+    const Jmix = dd * Jd + dg * Jrest;
+    const B = e.T / (sb + gb * e.b * e.delta * Jmix / (1 - e.a * e.delta));
+    const K = B * gb * Jmix / (1 - e.a * e.delta);
+    const final = B * gb * (dd * (1 - xd) + dg * Lrest);
+    const mh = e.lam * e.delta * K;
+    const z = Math.log1p(v / Ps);
+    const nS = e.N * Math.min(Math.max(z / e.chi_max, 0), e.cap);
+    return Object.assign({ m, xg, xd, Jg, Jd, v, pm, Vm, pg, pd, c, dd, dg, gb, sb, Ps, B, K, final, mh, nD: final + mh, nS }, extra);
+  }
+
+  function mCeiling(e, phi) {
+    const cpt = e.rho + e.delta;
+    if (phi + cpt * e.a >= 1) throw new Error("no equilibrium: machine-service cost undefined even with no labour in the chain");
+    return e.lam <= 0 ? Infinity : ((1 - phi) / cpt - e.a) / e.lam;
+  }
+
+  function solveG(e, etaD, cmp, etaS) {
+    const phi = cmp.phi || 0, hasS = etaS !== null && etaS !== undefined;
+    const mbar = mCeiling(e, phi);
+    let top = Math.max(e.eta, etaD) * (e.g0 + e.g1);
+    if (hasS) top = Math.max(top, etaS * (e.g0 + e.g1));
+    const hi = isFinite(mbar) ? Math.min(mbar * (1 - 1e-13), top) : top;
+    const lo = 1e-12 * hi;
+    const f = (m) => { const q = partsG(e, m, etaD, cmp, etaS); return q.nD - q.nS; };
+    const flo = f(lo), fhi = f(hi);
+    if (!(flo > 0 && fhi < 0)) throw new Error("no interior equilibrium");
+    const m = brentq(f, lo, hi, 1e-15 * hi, 1e-15);
+    const q = partsG(e, m, etaD, cmp, etaS);
+    const n = q.nD, interest = e.rho * q.Vm * q.K, rent = phi * q.Vm * e.delta * q.K;
+    const income = q.v * n + e.T + interest + rent;
+    Object.assign(q, { n, participation: n / e.N, income, labour_share_bea: q.v * q.final / income, theta_V: e.lam * q.v / q.Vm,
+      kappa_V: e.a * q.pm / q.Vm, sigma_V: e.b / q.Vm, phi, fixed_rents: phi + e.b / q.Vm, rent_income: rent / income,
+      chain_share: q.mh / n, inv_income: e.delta * q.Vm * q.K / income, m_ceiling: mbar,
+      xg_ceiling: isFinite(mbar) ? xOf(mbar, e.eta, e) : 1, xd_ceiling: isFinite(mbar) ? xOf(mbar, etaD, e) : 1,
+      dur_share: q.pd * q.dd / q.c, interest_income: interest / income, land_income: e.T / income });
+    if (hasS) Object.assign(q, { xs_ceiling: isFinite(mbar) ? xOf(mbar, etaS, e) : 1, srv_share: q.ps * q.ds * q.dg / q.c,
+                                 nd_share: q.pg * q.dn * q.dg / q.c });
+    return q;
+  }
+
   // ---------------------------------------------------------------- the record (fit_base.py)
   // D: {years, N (adults, 1950 = 1), delta, data series..., ls_tol, real_wage_cpi}
   // S: {cap: null|share, sigma: null|elasticity, utility: [[year, level], ...] (1950 at 1), pin: bool,
@@ -228,7 +325,7 @@
         : par.lam0 * Math.exp(par.g_lam * t);
       const lamW = S.waves ? lam * Math.exp(hoursSurge(S, D.years[i])) : lam;
       const rho = S.rhoData ? par.rho + S.rhoData * D.real_rate[i] : par.rho;
-      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1), h: par.h, a: par.a, b: SET.b * (bk ? bk[i] : 1), lam: lamW,
+      const e = { N: D.N[i], T: par.T * (land ? land[i] : 1) * (S.landAdults ? D.N[i] : 1), h: par.h, a: par.a, b: SET.b * (bk ? bk[i] : 1), lam: lamW,
                   g0: SET.g0, g1: SET.g1, k: par.k, eta: eta[i], chi_max: par.chi_max * (chi ? chi[i] : 1), rho,
                   delta: D.delta[i], cap: S.cap === null || S.cap === undefined ? 1 : S.cap, sigma: null };
       if (util) { e.sigma = S.sigma; e.p_ref = pRef; e.utility = util[i]; if (tilt) e.tilt = tilt[i]; }
@@ -282,6 +379,7 @@
   }
 
   function path(par0, S, D) {
+    if (S.durables) return pathGoods(par0, S, D);
     let par = par0;
     if (S.pinLS) {
       const k = pinnedK(par, S, D);
@@ -357,15 +455,109 @@
     return cols;
   }
 
+
+  // ---------------------------------------------------------------- the goods model's path (fit_base.durables_years)
+  function etaGoods(par, S, D) {                  // the other goods' clock, durables' and services': equal in 1950
+    const eta = etaPath(par, S, D), t = (i) => D.years[i] - 1950;
+    const etaD = eta.map((v, i) => v * Math.exp(-(par.g_dur - par.g_eta) * t(i)));
+    const etaS = S.services ? eta.map((v, i) => v * Math.exp((par.s0_srv || 0) - (par.g_srv - par.g_eta) * t(i))) : null;
+    return { eta, etaD, etaS };
+  }
+
+  function refCmp(S, D) {
+    const ref = { mode: "ref", omega_d: S.durables.omega_d, phi: S.phi || 0 };
+    if (S.services) ref.omega_s = D.srv_in_rest[0];
+    return ref;
+  }
+
+  function pinnedChiG(par, S, D) {                // fit_base.pinned_chi: 1950's employment, the goods at their reference point
+    const e0 = economies(Object.assign({}, par, { chi_max: 1 }), S, D)[0];
+    const g = etaGoods(par, S, D), ref = refCmp(S, D), es0 = S.services ? g.etaS[0] : null;
+    const target = D.prime_emp_rate[0];
+    const gap = (lc) => {
+      try { return solveG(Object.assign({}, e0, { chi_max: Math.exp(lc) }), g.etaD[0], ref, es0).participation - target; }
+      catch (err) { return NaN; }
+    };
+    const grid = linspace(Math.log(BOUNDS.chi_max[0]), Math.log(BOUNDS.chi_max[1]), 25), vals = grid.map(gap);
+    for (let j = 0; j < grid.length - 1; j++) {
+      if (isFinite(vals[j]) && isFinite(vals[j + 1]) && vals[j] * vals[j + 1] < 0) return Math.exp(brentq(gap, grid[j], grid[j + 1], 1e-14));
+    }
+    return null;
+  }
+
+  function pathGoods(par0, S, D) {
+    let par = par0;
+    if (S.pin) {
+      const chi = pinnedChiG(par, S, D);
+      if (chi === null) return { ok: false, why: "no work-cost scale gives 1950's employment" };
+      par = Object.assign({}, par, { chi_max: chi });
+    }
+    const g = etaGoods(par, S, D), ref = refCmp(S, D), phi = S.phi || 0;
+    let q0;
+    try { q0 = solveG(economies(par, S, D)[0], g.etaD[0], ref, S.services ? g.etaS[0] : null); }
+    catch (err) { return { ok: false, why: "no equilibrium in 1950" }; }
+    const cmp = { omega_d: S.durables.omega_d, sigma_dg: S.durables.sigma_dg, pref_d: q0.pd, pref_g: q0.pg, phi };
+    if (S.services) { cmp.pref_n = q0.pg; cmp.pref_s = q0.ps; }
+    const es = economies(par, S, D, S.sigma !== null && S.sigma !== undefined ? q0.c : null);
+    const keys = ["x", "xd", "xs", "v", "p", "pd", "ps", "c", "Ps", "wg", "ws", "wd", "wsv", "wnd", "labour_share_c", "prime_emp_rate",
+                  "theta_V", "goods_basket", "site_basket", "chain_share", "dur_share", "srv_share"];
+    const cols = {}; for (const k of keys) cols[k] = [];
+    cols.eta = g.eta; cols.etaD = g.etaD; cols.etaS = g.etaS; cols.utility = [];
+    const an = { pm: [], kappaV: [], sigmaV: [], phi: [], landHomes: [], landMachines: [], hoursFinal: [], hoursMachine: [],
+                 goodsShare: [], siteShare: [], wageGoodsLevel: [], peopleTasks: [], lam: [], b: [], xCeil: [], xdCeil: [],
+                 xsCeil: [], rentIncome: [], interestIncome: [], landIncome: [], payIncome: [], replacement: [] };
+    const failed = [];
+    for (let i = 0; i < es.length; i++) {
+      const e = es[i];
+      cols.utility.push(e.utility === undefined ? 1 : e.utility);
+      let q = null;
+      try { q = solveG(e, g.etaD[i], S.services ? Object.assign({}, cmp, { omega_s: D.srv_in_rest[i] }) : cmp, S.services ? g.etaS[i] : null); }
+      catch (err) { q = null; }
+      if (!q || !isFinite(q.v)) {
+        failed.push(D.years[i]);
+        for (const k of keys) cols[k].push(null);
+        for (const k of Object.keys(an)) an[k].push(null);
+        continue;
+      }
+      cols.x.push(q.xg); cols.xd.push(q.xd); cols.xs.push(S.services ? q.xs : null); cols.v.push(q.v); cols.p.push(q.pg);
+      cols.pd.push(q.pd); cols.ps.push(S.services ? q.ps : null); cols.c.push(q.c); cols.Ps.push(q.Ps);
+      cols.wg.push(q.v / q.c); cols.ws.push(q.v); cols.wd.push(q.v / q.pd);
+      cols.wsv.push(S.services ? q.v / q.ps : null); cols.wnd.push(S.services ? q.v / q.pg : null);
+      cols.labour_share_c.push(q.labour_share_bea); cols.prime_emp_rate.push(q.participation); cols.theta_V.push(q.theta_V);
+      cols.goods_basket.push(q.gb); cols.site_basket.push(q.sb); cols.chain_share.push(q.chain_share);
+      cols.dur_share.push(q.dur_share); cols.srv_share.push(S.services ? q.srv_share : null);
+      an.pm.push(q.pm); an.kappaV.push(q.kappa_V); an.sigmaV.push(q.sigma_V); an.phi.push(phi);
+      an.landHomes.push(q.sb * q.B / e.T); an.landMachines.push(e.b * e.delta * q.K / e.T);
+      an.hoursFinal.push(q.final / q.n); an.hoursMachine.push(q.mh / q.n);
+      an.goodsShare.push(q.c * q.gb / q.Ps); an.siteShare.push(q.sb / q.Ps); an.wageGoodsLevel.push(q.v / q.c);
+      an.peopleTasks.push(1 - q.xg); an.lam.push(e.lam); an.b.push(e.b);
+      an.xCeil.push(q.xg_ceiling); an.xdCeil.push(q.xd_ceiling); an.xsCeil.push(S.services ? q.xs_ceiling : null);
+      an.rentIncome.push(q.rent_income); an.interestIncome.push(q.interest_income); an.landIncome.push(q.land_income);
+      an.payIncome.push(q.v * q.n / q.income); an.replacement.push(q.inv_income / (1 + q.inv_income));
+    }
+    cols.an = an;
+    const i57 = D.years.indexOf(1957);
+    const idx = (arr, at) => arr.map((v) => (v === null || arr[at] === null ? null : 100 * v / arr[at]));
+    cols.wage_goods = idx(cols.wg, 0); cols.wage_shelter = idx(cols.ws, 0); cols.wage_durables = idx(cols.wd, 0);
+    if (S.services) { cols.wage_services = idx(cols.wsv, i57); cols.wage_nondurables = idx(cols.wnd, i57); }
+    cols.extra = S.extra || [];
+    cols.failed = failed; cols.gapSum = failed.length; cols.ok = failed.length === 0;
+    cols.partial = !cols.ok && failed.length < es.length;
+    if (!cols.ok) cols.why = `no equilibrium in ${failed.length} year${failed.length > 1 ? "s" : ""}`;
+    cols.chi_max = par.chi_max; cols.k = par.k; cols.goods = true;
+    return cols;
+  }
+
   // ---------------------------------------------------------------- the misfit (fit_base.py)
   function deviations(m, D) {
     const out = {};
-    for (const s of SERIES) {
+    for (const s of seriesOf(m.extra)) {
       out[s] = D[s].map((y, i) => {
         if (y === null || y === undefined || !isFinite(y)) return NaN;
-        const f = m[s][i];
+        const f = m[s] ? m[s][i] : null;
         if (f === null || f === undefined || !isFinite(f)) return NaN;
         if (s === "wage_goods" || s === "wage_shelter") return (Math.log(f) - Math.log(y)) / TOL[s];
+        if (EXTRA_TOL[s] !== undefined) return (Math.log(f) - Math.log(y)) / EXTRA_TOL[s];
         if (s === "labour_share_c") return (f - y) / D.ls_tol[i];
         return (f - y) / TOL[s];
       });
@@ -378,7 +570,7 @@
   function misfit(m, D) {
     const dev = deviations(m, D), by = {};
     let tot = 0, k = 0;
-    for (const s of SERIES) {
+    for (const s of seriesOf(m.extra)) {
       let sum = 0, n = 0;
       for (const d of dev[s]) if (isFinite(d)) { sum += d * d; n += 1; }
       by[s] = n ? sum / n : null;
@@ -387,23 +579,23 @@
     return { total: k ? tot / k : null, by, partial: !m.ok };
   }
 
-  function nObs(D) {
+  function nObs(D, extra) {
     const out = {};
-    for (const s of SERIES) out[s] = D[s].filter((y) => y !== null && y !== undefined && isFinite(y)).length;
+    for (const s of seriesOf(extra)) out[s] = D[s].filter((y) => y !== null && y !== undefined && isFinite(y)).length;
     return out;
   }
 
   function residuals(par, S, D, N_OBS) {
-    const m = path(par, S, D);
+    const m = path(par, S, D), ser = seriesOf(S.extra);
     const out = [];
     if (!m.ok) {
-      for (const s of SERIES) for (let j = 0; j < N_OBS[s]; j++) out.push(10);
+      for (const s of ser) for (let j = 0; j < N_OBS[s]; j++) out.push(10);
       return out;
     }
     const dev = deviations(m, D);
     const FW = S.fitWeights || null;               // exploration only: {series: {name: weight}, from: first year counted}
-    for (const s of SERIES) {
-      const w = 1 / Math.sqrt(N_OBS[s] * SERIES.length) * (FW && FW.series && FW.series[s] !== undefined ? Math.sqrt(FW.series[s]) : 1);
+    for (const s of ser) {
+      const w = 1 / Math.sqrt(N_OBS[s] * ser.length) * (FW && FW.series && FW.series[s] !== undefined ? Math.sqrt(FW.series[s]) : 1);
       dev[s].forEach((d, i) => {
         if (D[s][i] === null || D[s][i] === undefined || !isFinite(D[s][i])) return;
         out.push(FW && FW.from && D.years[i] < FW.from ? 0 : (isFinite(d) ? d * w : 0));
@@ -420,19 +612,26 @@
   // COORD: [low, high, searched in logs]
   const COORD = { T: [1e-5, 10, true], h: [1e-6, 1, true], hT: [1e-4, 100, true], a: [0.01, 10, true],
                   kappa50: [0.001, 0.99, false], rho: [0, 0.3, false], k: [0.05, 60, true], chi_max: [0.3, 20, true],
-                  g_eta: [-0.05, 0.25, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.25, false],
-                  g_lamTask: [-0.35, 0.2, false] };
+                  g_eta: [-0.05, 0.8, false], lam0: [0.01, 1000, true], g_lam: [-0.1, 0.8, false],
+                  g_lamTask: [-0.35, 0.2, false], g_dur: [-0.05, 0.9, false], g_srv: [-0.05, 0.9, false],
+                  g_durTask: [-0.35, 0.2, false], g_srvTask: [-0.35, 0.2, false] };
   const DEFAULT_SYS = { land: "Th", machine: "a", labour: "lam" };
   function toCoords(par, D) {
-    return { T: par.T, h: par.h, hT: par.h / par.T, a: par.a, kappa50: (par.rho + D.delta[0]) * par.a, rho: par.rho,
-             k: par.k, chi_max: par.chi_max, g_eta: par.g_eta, lam0: par.lam0, g_lam: par.g_lam,
-             g_lamTask: par.g_lam - par.g_eta };
+    const c = { T: par.T, h: par.h, hT: par.h / par.T, a: par.a, kappa50: (par.rho + D.delta[0]) * par.a, rho: par.rho,
+                k: par.k, chi_max: par.chi_max, g_eta: par.g_eta, lam0: par.lam0, g_lam: par.g_lam,
+                g_lamTask: par.g_lam - par.g_eta };
+    if (par.g_dur !== undefined) { c.g_dur = par.g_dur; c.g_durTask = par.g_lam - par.g_dur; }    // the goods model: each good's
+    if (par.g_srv !== undefined) { c.g_srv = par.g_srv; c.g_srvTask = par.g_lam - par.g_srv; }    // hours per task capacity
+    return c;
   }
   function fromCoords(c, sys, D) {
     sys = Object.assign({}, DEFAULT_SYS, sys || {});
-    return { T: c.T, h: sys.land === "TS" ? c.hT * c.T : c.h,
-             a: sys.machine === "kappa" ? c.kappa50 / (c.rho + D.delta[0]) : c.a, rho: c.rho, k: c.k, chi_max: c.chi_max,
-             g_eta: c.g_eta, lam0: c.lam0, g_lam: sys.labour === "task" ? c.g_lamTask + c.g_eta : c.g_lam };
+    const out = { T: c.T, h: sys.land === "TS" ? c.hT * c.T : c.h,
+                  a: sys.machine === "kappa" ? c.kappa50 / (c.rho + D.delta[0]) : c.a, rho: c.rho, k: c.k, chi_max: c.chi_max,
+                  g_eta: c.g_eta, lam0: c.lam0, g_lam: sys.labour === "task" ? c.g_lamTask + c.g_eta : c.g_lam };
+    if (c.g_dur !== undefined) out.g_dur = sys.labour === "task" ? out.g_lam - c.g_durTask : c.g_dur;
+    if (c.g_srv !== undefined) out.g_srv = sys.labour === "task" ? out.g_lam - c.g_srvTask : c.g_srv;
+    return out;
   }
   const KNOT_KEYS = ["clock", "land", "chi", "lamk", "tilt", "bk", "utility"];
 
@@ -490,7 +689,7 @@
 
   function fit(par0, S0, D, free, opts) {
     opts = opts || {};
-    const N_OBS = nObs(D);
+    const N_OBS = nObs(D, S0.extra);
     const maxIter = opts.maxIter || 300;
     const onStep = opts.onStep || (() => {});
     const sp = space(par0, S0, D, free), lo = sp.lo, hi = sp.hi, clamp = sp.clamp, unpack = sp.unpack;
@@ -590,9 +789,10 @@
     return x.every(isFinite) ? x : null;
   }
 
-  const api = { SET, SERIES, TOL, BOUNDS, LOGP, NAMES, COORD, DEFAULT_SYS, KNOT_KEYS, brentq, gamma, parts, basket, solve,
-                xCeiling, economies, pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath, etaPath,
-                toCoords, fromCoords, knotMul, search, gapMeasure };
+  const api = { SET, SERIES, TOL, EXTRA_TOL, seriesOf, BOUNDS, LOGP, NAMES, COORD, DEFAULT_SYS, KNOT_KEYS, brentq, gamma, parts,
+                basket, solve, xCeiling, economies, pinnedChi, path, deviations, misfit, residuals, nObs, fit, interp, utilityPath,
+                etaPath, toCoords, fromCoords, knotMul, search, gapMeasure, xOf, JOf, composite, restNest, partsG, mCeiling, solveG,
+                etaGoods, pinnedChiG, pathGoods };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.USRecordModel = api;
 })(typeof self !== "undefined" ? self : this);

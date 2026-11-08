@@ -322,3 +322,39 @@ Her lean on the wave ("Perhaps drop it yeah"), then: "do a bit more pondering an
 - **No 1950s benchmark yet.** The two readings of the 1950s (a technology burst, or machines shedding land) differ in
   pay's share of a machine's cost before 1967; the λ thread's century arc has rows for 1947, 1958 and 1963 but no
   compensation for them. BEA's historical industry accounts (1947 onward) could supply it: a lead.
+
+## Services apart (her go, 2026-11-08: "go ahead with services, and update the explorer as you go")
+
+- **Design.** Three goods, one machine, one wage and one land market: durables, nondurables and services (less rent of
+  shelter), each with its own clock, all equal in 1950 (services differ from nondurables only in pace, as durables do).
+  The other goods are a nest of nondurables and services inside the durables composite. The nest is Cobb-Douglas with
+  services' spending share set from the record each year (BEA's NIPA file, the panel's `srv_in_rest`, 0.39 in 1950 to
+  0.72 in 2024): the share regression gives an elasticity of -0.69 (services' share rose fourfold against nondurables'
+  while their relative price only doubled), which no constant-taste CES can produce. No free number for the nest; one for
+  services' clock. With services on nondurables' clock the model is the main case to 1e-15 (`check_two_goods` S1).
+- **Data.** The panel gains nondurables' and services' shares of spending on all but housing (BEA's NIPA file; FRED has
+  no annual copy under the ID tried, `DNDGRC1A027NBEA` returned 404, and BEA's own file matches the panel's FRED series to
+  the dollar), and the linked hourly earnings over the CPI for services less rent of shelter (CUUR0000SASLE, 1957 = 100)
+  and for nondurables (CUUR0000SAN, complete from 1956, 1957 = 100). Existing columns unchanged; `check_panel` 31/31.
+- **Services targeted alone** (`playground/fit_Bs_services_only.json`, 1.906 over seven series) the fit automated
+  nondurables fully by 2010 and de-automated services (61% of tasks in 1957 to 39% in 2024): the wage over nondurables,
+  never seen, came out at 308 in 2024 against the record's 165 (40 tolerances as a target).
+- **All three wages targeted** (`results/fit_Bs.json`, `fit_base --services`): 2.268 over eight series; the original six
+  2.21 against the main case's 1.58 (goods wage 2.60, shelter 1.29, labour's share 2.42, employment 2.79, theta_V 2.32,
+  durables 1.84); nondurables 1.60, services 3.28. Hours per unit of task capacity: durables -3.15% a year (again near
+  BEA's -2.9% for machines), nondurables -1.62%, services +1.25% (machines lose ground at service tasks: services' task line
+  0.68 in 1950, 0.76 about 1960, 0.66 by 2024). Services' 1950 level freed (`s0_srv`, `playground/services_tests.py`): no
+  gain (2.30; services start slightly more automated).
+- **The reading.** The record's wage over services fell to 0.78 of 1957's: services' prices rose 28% faster than the
+  production wage. In this model a good's price can rise against the wage only as machines lose ground at its tasks, and
+  even so the fit misses it (most in 1973-1990) and pulling services that way costs labour's share and employment. Services
+  apart does not earn its place; the main case stays two goods. The services price needs a channel the model lacks: most
+  likely the wage of the people who make services rising faster than the production wage (the skill premium in health and
+  education: the old split into two kinds of workers), or costs in services other than labour.
+- **The explorer, v5** (`explorer/`, published at its usual link): the goods model in JavaScript (`model.js`: two_goods'
+  economy line for line, the value-share rent, land with adults, services apart), presets `fit_Br0` (main), `fit_Bs`
+  (services apart), `fit_Br` (with the wave); dials for each good's hours per unit of task capacity, the imported share
+  and land with adults as set values; charts for the durables, nondurables and services wages, each good's task line,
+  the machine chain and depreciation against the record, hours per unit of task capacity by good against BEA's hours per
+  quality-adjusted machine, the shares of spending and of income. `check_explorer`: the JavaScript reproduces every
+  preset to 1e-11 (two goods) and 2e-8 (services: the knife edge amplifies last-bit differences in the power function).

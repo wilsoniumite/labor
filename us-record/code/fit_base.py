@@ -238,14 +238,18 @@ def pinned_chi(par):
     """The work cost's scale chi_max at which the model's 1950 prime-age employment is the data's (1950's economy is the
     same with or without the basket). None if no chi_max within its bounds does it."""
     e0 = economies(dict(par, chi_max=1.0))[0]
+    es0 = None
     if DURABLES is not None:                              # 1950 is the two goods' reference point
         ed0, ref = eta_d_path(fill(par))[0], dict(mode="ref", omega_d=DURABLES["omega_d"], phi=VALUE_RENT or 0.0)
+        if SERVICES:                                      # and the services nest's (exact without services when their
+            es0 = eta_s_path(fill(par))[0]                # 1950 level is nondurables', as in every stored fit)
+            ref["omega_s"] = float(OMEGA_S[0])
     target = float(D.loc[1950, "prime_emp_rate"])
 
     def gap(lc):
         try:
             e1 = replace(e0, chi_max=float(np.exp(lc)))
-            return (pm.solve(e1) if DURABLES is None else tg.solve(e1, ed0, ref))["participation"] - target
+            return (pm.solve(e1) if DURABLES is None else tg.solve(e1, ed0, ref, es0))["participation"] - target
         except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
             return np.nan
 

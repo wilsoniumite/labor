@@ -3,6 +3,7 @@
 # page is one self-contained file. checks/check_explorer.py holds model.js to the Python model on every preset.
 # Run from us-record/:  python3 explorer/build.py
 
+import csv
 import json
 import os
 
@@ -12,10 +13,12 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.join(ROOT, "explorer")
 YEARS = list(range(1950, 2025))
-# The explorer's fourth version (her ask, 2026-11-06: cleaner, around the main case): the main case and model B from
-# results/, and two variants of the main case from the stress tests and the misses (playground: no Python twin).
-PRESETS = [("main", "Main case: B with the 1948 wave", "fit_Bw"),
-           ("B", "Model B, no wave", "fit_B")]
+# The explorer's fifth version (her ask, 2026-11-08: "update the explorer as you go"): the goods model, around the main
+# case (decisions 25, 26: two goods, the record's return and imported content, land growing with adults, no wave), with
+# services apart (three goods) and the main case with the 1948 wave beside it. The one-good model B (v4) is left out.
+PRESETS = [("main", "Main case: two goods, no wave", "fit_Br0"),
+           ("services", "Services apart: three goods", "fit_Bs"),
+           ("wave", "Main case with the 1948 wave", "fit_Br")]
 HELD = ["utility:1", "utility:2", "utility:3", "rho", "chi_max"]   # set from data or by choice: the fitter leaves them
 
 
@@ -33,13 +36,33 @@ def data():
                ls_tol=[float(x) for x in ls_tol], weak=[bool(x) for x in weak],
                ls_lo=[num(x) for x in D["labour_share_c_lo"]], ls_hi=[num(x) for x in D["labour_share_c_hi"]],
                real_wage_cpi=[float(x) for x in rw], housing_share_pce=[num(x) for x in D["housing_share_pce"]],
-               real_rate=[float(x) for x in D["real_rate"]], wage_exshelter=[float(x) for x in D["wage_exshelter"]])
+               real_rate=[float(x) for x in D["real_rate"]], wage_exshelter=[float(x) for x in D["wage_exshelter"]],
+               wage_durables=[num(x) for x in D["wage_goods"]], wage_services=[num(x) for x in D["wage_services"]],
+               wage_nondurables=[num(x) for x in D["wage_nondurables"]], srv_in_rest=[float(x) for x in D["srv_in_rest"]],
+               srv_share=[num(x) for x in D["srv_share"]], nd_share=[num(x) for x in D["nd_share"]],
+               dur_share=[num(x) for x in D["dur_share"]])
     for s in ("wage_goods", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V"):
         out[s] = [num(x) for x in D[s]]
     # the machine chain's share of all pay, BEA input-output at US cost shares (../paths/results/chains.json), 1997-2023
-    eco = json.load(open(os.path.join(os.path.dirname(ROOT), "paths", "results", "chains.json")))["economy"]
-    key = "inv_equipment_ipp_structures_comp_tot_share_of_total_comp"
-    out["chain_share"] = [num(eco[str(y)][key]) if str(y) in eco else None for y in YEARS]
+    # the machine chain's share of all pay, BEA input-output on the domestic basis the fits are read on (calibration (c)'s
+    # bundle, ../paths/results/chains.json), 1997-2023; and depreciation over GDP (BEA's NIPA file), 1950-2024
+    bun = json.load(open(os.path.join(os.path.dirname(ROOT), "paths", "results", "chains.json")))["bundles"]["equipment_ipp_structures"]
+    out["chain_share"] = [num(bun[str(y)]["comp_share_of_total_comp_domp"]) if str(y) in bun else None for y in YEARS]
+    nipa = {"A191RC": {}, "A262RC": {}}
+    path = os.path.join(os.path.dirname(ROOT), "progress_and_prosperity", "lambda", "data", "cache", "NipaDataA.txt")
+    for row in csv.reader(open(path, encoding="utf-8")):
+        if row and row[0] in nipa and row[1].isdigit():
+            nipa[row[0]][int(row[1])] = float(row[2].replace(",", ""))
+    out["replacement"] = [nipa["A262RC"][y] / nipa["A191RC"][y] if y in nipa["A191RC"] else None for y in YEARS]
+    # hours per quality-adjusted unit of machine (playground/hours_measured.py): hours per dollar of the bundle (BEA
+    # input-output, full chain) times BEA's private nonresidential investment price (B008RG), 1998 = 1
+    price = {}
+    for row in csv.reader(open(path, encoding="utf-8")):
+        if row and row[0] == "B008RG" and row[1].isdigit():
+            price[int(row[1])] = float(row[2].replace(",", ""))
+    hrs = {y: bun[str(y)]["hours_per_dollar_domp"] * price[y] for y in YEARS
+           if str(y) in bun and bun[str(y)].get("hours_per_dollar_domp") is not None and y in price}
+    out["machine_hours"] = [hrs[y] / hrs[1998] if y in hrs else None for y in YEARS]
     return out, rw
 
 
@@ -56,10 +79,16 @@ def settings(meta, rw, par):
     if meta.get("waves"):
         S["waves"] = [dict(year=int(y), size=float(par[f"w{i}_size"]), tau=float(par[f"w{i}_tau"]))
                       for i, y in enumerate(meta["waves"])]
+    if meta.get("durables"):                              # the goods model (v5): durables apart, and what came with it
+        S["durables"] = dict(meta["durables"])
+        S["phi"] = float(meta.get("value_rent") or 0.0)
+        S["landAdults"] = meta.get("land") == "adults"
+        S["services"] = bool(meta.get("services"))
+        S["extra"] = list(meta.get("extra") or [])
     return S
 
 
-BASE_NAMES = ("T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam")
+BASE_NAMES = ("T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam", "g_dur", "g_srv", "s0_srv")
 
 
 def presets(rw):
@@ -74,15 +103,14 @@ def presets(rw):
     return out
 
 
-PLAY = [("tied", "Main case, hours per task tied to the clock", "results/stress_Bw.json", "hours per unit of task capacity steady"),
-        ("rho5", "Main case, return 5%", "playground/misses.json", "rho:0.05")]
+PLAY = []                                              # v4's variants were of the one-good model (left out in v5)
 
 
 def play_presets(rw):
     """Variants of the main case the page can express (explorer/model.js only; checks/check_explorer.py has no Python
     twin): a stress-test variant (its settings and numbers) or a point of the misses' return walk."""
     out = []
-    main = json.load(open(os.path.join(ROOT, "results", "fit_Bw.json")))
+    main = json.load(open(os.path.join(ROOT, "results", "fit_Br0.json")))
     for pid, label, path, key in PLAY:
         full = os.path.join(ROOT, path)
         if not os.path.exists(full):

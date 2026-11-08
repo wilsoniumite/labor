@@ -197,7 +197,7 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
     held = new Set(p.held || []);
     const D = Dfor(S); ref = { m: M.path(P, S, D), label: p.label }; ref.mis = M.misfit(ref.m, D);
     undoStack.length = 0; $("undo").disabled = true;
-    buildDials(); buildSets(); update();
+    buildCharts(); buildDials(); buildSets(); update();
     status(`Loaded: ${p.label}. Misfit ${fmt(p.misfit)}.`);
   }
   function snapshot() { undoStack.push({ P: clone(P), S: clone(S), held: [...held] }); if (undoStack.length > 60) undoStack.shift(); $("undo").disabled = false; }
@@ -213,14 +213,23 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
   const DIALS = [
     { id: "g_eta", label: "Capability clock, steady pace", unit: "% a year", lin: [-0.02, 0.2], get: () => P.g_eta, set: (v) => setC("g_eta", v),
       show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
-      sub: () => `Machines need ${fmt(cur && cur.eta ? cur.eta[L] / cur.eta[0] : NaN)} of 1950's service per task by 2024 (with the wave).` },
+      sub: () => S.durables ? "Its own pace is barely pinned: on the ceiling only each good's hours per unit of task capacity, below, show in the record."
+        : `Machines need ${fmt(cur && cur.eta ? cur.eta[L] / cur.eta[0] : NaN)} of 1950's service per task by 2024${wave() ? " (with the wave)" : ""}.` },
     { id: "wave:0:size", label: "The wave: clock drops to", unit: "×", log: [0.02, 1], when: () => !!wave(), get: () => Math.exp(-wave().size), set: (v) => { wave().size = -Math.log(v); },
       sub: () => `A discovery chased hard from ${wave() ? wave().year : ""}: the extra fall in what machines need, spread over its pace.` },
     { id: "wave:0:tau", label: "The wave's pace", unit: "years", log: [1, 60], when: () => !!wave(), get: () => wave().tau, set: (v) => { wave().tau = v; },
       sub: () => wave() ? `In 1950 the clock runs at ${pct(P.g_eta + wave().size / wave().tau * Math.exp(-(1950 - wave().year) / wave().tau))} a year, then slows toward its steady pace.` : "" },
     { id: "g_lamTask", label: "Hours per unit of task capacity", unit: "% a year", lin: [-0.1, 0.1], get: () => P.g_lam - P.g_eta, set: (v) => setC("g_lamTask", v),
+      labelX: () => (S.services ? ", nondurables" : S.durables ? ", other goods" : ""),
       show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
-      sub: () => `The slow clock. Hours to build a machine change ${pct(P.g_lam)} a year. Hold it at 0 to tie the two clocks.` },
+      sub: () => S.durables ? `On the ceiling this is what the economy feels: hours of machine-making behind a unit of task capacity. Hours to build a machine change ${pct(P.g_lam)} a year.`
+        : `The slow clock. Hours to build a machine change ${pct(P.g_lam)} a year. Hold it at 0 to tie the two clocks.` },
+    { id: "g_durTask", label: "Hours per unit of task capacity, durables", unit: "% a year", lin: [-0.1, 0.05], when: () => P.g_dur !== undefined,
+      get: () => P.g_lam - P.g_dur, set: (v) => setC("g_durTask", v), show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
+      sub: () => `Durables' clock runs ${pct(P.g_dur - P.g_eta, 2)} a year faster than the other goods'. BEA's hours per quality-adjusted machine fell 2.9% a year, 1998–2023.` },
+    { id: "g_srvTask", label: "Hours per unit of task capacity, services", unit: "% a year", lin: [-0.1, 0.1], when: () => P.g_srv !== undefined,
+      get: () => P.g_lam - P.g_srv, set: (v) => setC("g_srvTask", v), show: (v) => (v * 100).toFixed(2), parse: (t) => parseFloat(t) / 100,
+      sub: () => cur && cur.ok && cur.xs ? `Services' tasks done by machines: ${pct(cur.xs[0], 0)} in 1950, ${pct(cur.xs[L], 0)} in 2024. Above 0, machines lose ground at service tasks.` : "" },
     { id: "lam0", label: "Hours to build a machine, 1950", unit: "", log: [0.5, 1000], get: () => P.lam0, set: (v) => setC("lam0", v),
       sub: () => cur && cur.ok ? `Pay is ${pct(cur.theta_V[0], 0)} of a machine's cost in 1950 and ${pct(cur.theta_V[L], 0)} in 2024.` : "" },
     { id: "a", label: "Machine services to build a machine", unit: "", log: [0.05, 10], get: () => P.a, set: (v) => setC("a", v),
@@ -282,6 +291,13 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
     const pin = document.createElement("input"); pin.type = "checkbox"; pin.checked = !!S.pin; pin.setAttribute("aria-label", "Pin 1950");
     pin.addEventListener("change", () => { snapshot(); S.pin = pin.checked; if (!S.pin) P.chi_max = cur && cur.chi_max ? cur.chi_max : P.chi_max; update(); });
     add("1950 employment pinned to the record", pin);
+    if (S.durables) {
+      add("Imported content, share of a machine's price", num(((S.phi || 0) * 100).toFixed(1) + "%", (t, i) => { const v = parseFloat(t) / 100;
+        if (!(v >= 0 && v < 0.9)) { i.value = ((S.phi || 0) * 100).toFixed(1) + "%"; return; } snapshot(); S.phi = v; update(); }));
+      const la = document.createElement("input"); la.type = "checkbox"; la.checked = !!S.landAdults; la.setAttribute("aria-label", "Land grows with adults");
+      la.addEventListener("change", () => { snapshot(); S.landAdults = la.checked; update(); });
+      add("Land in use grows with adults", la);
+    }
     const seg = document.createElement("span"); seg.className = "seg";
     [["exshelter", "all but shelter"], [undefined, "durables"]].forEach(([g, t]) => { const b = document.createElement("button"); b.textContent = t;
       b.setAttribute("aria-pressed", String(S.goods === g)); b.addEventListener("click", () => { snapshot(); S.goods = g; buildSets(); update(); }); seg.append(b); });
@@ -300,13 +316,14 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
     if (!cur.ok && !worker) status(cur.why ? cur.why.charAt(0).toUpperCase() + cur.why.slice(1) + "." : "No equilibrium.");
   }
   function status(t) { $("status").textContent = t; }
-  const NAMES = { wage_goods: "goods wage", wage_shelter: "shelter wage", labour_share_c: "labour share", prime_emp_rate: "employment", theta_V: "θ_V" };
+  const NAMES = { wage_goods: "goods wage", wage_shelter: "shelter wage", labour_share_c: "labour share", prime_emp_rate: "employment", theta_V: "θ_V",
+                  wage_durables: "durables wage", wage_nondurables: "nondurables wage", wage_services: "services wage" };
   const level = (v) => (v < 1 ? "var(--good)" : v < 4 ? "var(--warn)" : "var(--bad)");
   function showMisfit() {
     $("misfit").textContent = ok(curMis.total) ? curMis.total.toFixed(2) + (curMis.partial ? "*" : "") : "–";
     $("misref").textContent = ok(ref.mis.total) ? `case ${ref.mis.total.toFixed(2)}` : "";
     const host = $("chips"); host.replaceChildren();
-    for (const s of M.SERIES) { const v = curMis.by[s]; const c = document.createElement("span"); c.className = "chip";
+    for (const s of M.seriesOf(S.extra)) { const v = curMis.by[s]; const c = document.createElement("span"); c.className = "chip";
       const i = document.createElement("i"); i.style.background = ok(v) ? level(v) : "var(--ink-3)"; const b = document.createElement("b"); b.textContent = ok(v) ? v.toFixed(2) : "–";
       c.append(i, document.createTextNode(NAMES[s] + " "), b); c.title = "Below 1: within a tolerance on average; above 4: two tolerances or more"; host.append(c); }
   }
@@ -413,21 +430,45 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
     { id: "prime_emp_rate", title: () => "Prime-age employment rate", series: "prime_emp_rate", rec: () => D0.prime_emp_rate,
       band: (r) => ({ lo: r.map((v) => (ok(v) ? v - 0.015 : null)), hi: r.map((v) => (ok(v) ? v + 0.015 : null)) }) },
     { id: "theta_V", title: () => "θ_V, pay's share of a machine's cost", series: "theta_V", rec: () => D0.theta_V, dots: true },
+    { id: "wage_durables", when: () => !!S.durables, title: () => "Wage over durables, 1950 = 100", log: true, series: "wage_durables", rec: () => D0.wage_durables,
+      band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
+    { id: "wage_nondurables", when: () => !!S.services, title: () => "Wage over nondurables, 1957 = 100", log: true, series: "wage_nondurables", rec: () => D0.wage_nondurables,
+      band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
+    { id: "wage_services", when: () => !!S.services, title: () => "Wage over services (less rent of shelter), 1957 = 100", log: true, series: "wage_services", rec: () => D0.wage_services,
+      band: (r) => ({ lo: r.map((v) => (ok(v) ? v * Math.exp(-0.05) : null)), hi: r.map((v) => (ok(v) ? v * Math.exp(0.05) : null)) }) },
     { group: "Inside, and against facts it never saw" },
-    { id: "ceiling", title: () => "The task line and its ceiling", note: "Share of tasks machines do; the ceiling is the last task they can take at any wage.",
-      lines: (m) => [{ v: m.an.xCeil, cls: "l-rec2", label: "ceiling" }, { v: m.x, cls: "l-model", label: "task line", ref: (r) => r.x }] },
+    { id: "ceiling", title: () => S.durables ? "Each good's task line" : "The task line and its ceiling",
+      note: "Share of tasks machines do; the ceiling is the last task they can take at any wage.",
+      lines: (m) => [{ v: m.an.xCeil, cls: "l-rec2", label: "ceiling" }, { v: m.x, cls: "l-model", label: S.services ? "nondurables" : S.durables ? "other goods" : "task line", ref: (r) => r.x }]
+        .concat(m.xd ? [{ v: m.xd, cls: "l-s3", label: "durables" }] : []).concat(m.xs && S.services ? [{ v: m.xs, cls: "l-s7", label: "services" }] : []) },
     { id: "chain", title: () => "The machine chain's share of all pay", note: "Record: BEA input–output, pay embodied in equipment, software and structures (1997–2023).",
       lines: (m) => [{ v: m.an.hoursMachine, cls: "l-model", label: "model", ref: (r) => r.an.hoursMachine }], rec: () => D0.chain_share, yMin: 0 },
+    { id: "replacement", when: () => !!S.durables, title: () => "Depreciation's share of gross output", note: "Record: NIPA, consumption of fixed capital over GDP. Never targeted.",
+      lines: (m) => [{ v: m.an.replacement, cls: "l-model", label: "model", ref: (r) => r.an.replacement }], rec: () => D0.replacement, yMin: 0 },
+    { id: "machinehours", when: () => !!S.durables, title: () => "Hours per unit of task capacity, by good (log)",
+      note: "Record: BEA's hours per quality-adjusted unit of machine (input–output hours per dollar times the investment price), set on durables' line in 1998. Never targeted.", log: true,
+      lines: (m) => { const h = (eta) => idx1(m.an.lam.map((l, i) => (ok(l) && ok(eta[i]) ? l * eta[i] : null)));
+        return [{ v: h(m.eta), cls: "l-model", label: S.services ? "nondurables" : "other goods" }, { v: h(m.etaD), cls: "l-s3", label: "durables" }]
+          .concat(m.etaS ? [{ v: h(m.etaS), cls: "l-s7", label: "services" }] : []); },
+      rec: () => { const d = idx1(cur.an.lam.map((l, i) => (ok(l) ? l * cur.etaD[i] : null))), j = at(1998); return D0.machine_hours.map((v) => (ok(v) && ok(d[j]) ? v * d[j] : null)); } },
+    { id: "spending", when: () => !!S.durables, title: () => "Shares of spending on all but shelter", note: "Durables' share is never targeted; services' is set from the record each year.",
+      lines: (m) => [{ v: m.dur_share, cls: "l-s3", label: "durables" }].concat(S.services ? [{ v: m.srv_share, cls: "l-s7", label: "services" }] : []),
+      rec: () => D0.dur_share },
+    { id: "income", when: () => !!S.durables, title: () => "Shares of the model's income", note: "Pay, the return on machines, the payment for imported content, land rent.", yMin: 0,
+      lines: (m) => [{ v: m.an.payIncome, cls: "l-model", label: "pay" }, { v: m.an.interestIncome, cls: "l-s3", label: "return on machines" },
+                     { v: m.an.rentIncome, cls: "l-s4", label: "imported content" }, { v: m.an.landIncome, cls: "l-s7", label: "land rent" }] },
     { id: "basket", title: () => "What a basket holds, 1950 = 1", note: "Goods and site in a basket of the year's utility.",
       lines: (m) => [{ v: idx1(m.goods_basket), cls: "l-s7", label: "goods" }, { v: idx1(m.site_basket), cls: "l-s3", label: "site" }, { v: m.utility, cls: "l-rec2", label: "utility" }] },
-    { id: "clocks", title: () => "The two real clocks, 1950 = 1 (log)", note: "Land per unit of task capacity (bη) and hours per unit of task capacity (λη).", log: true,
+    { id: "clocks", when: () => !S.durables, title: () => "The two real clocks, 1950 = 1 (log)", note: "Land per unit of task capacity (bη) and hours per unit of task capacity (λη).", log: true,
       lines: (m) => [{ v: idx1(m.an.b.map((b, i) => b * m.eta[i])), cls: "l-s3", label: "land per task capacity" }, { v: idx1(m.an.lam.map((l, i) => (ok(l) ? l * m.eta[i] : null))), cls: "l-model", label: "hours per task capacity" }] },
   ];
   const cards = {};
   function buildCharts() {
     const host = $("charts"); host.replaceChildren();
+    for (const k of Object.keys(cards)) delete cards[k];
     for (const c of CHARTS) {
       if (c.group) { const h = document.createElement("h2"); h.textContent = c.group; host.append(h); continue; }
+      if (c.when && !c.when()) continue;
       const card = document.createElement("section"); card.className = "card";
       card.innerHTML = `<h3></h3><span class="mf"></span>${c.note ? '<p class="note"></p>' : ""}<div class="lg"></div>`;
       if (c.note) card.querySelector(".note").textContent = c.note;
@@ -498,7 +539,8 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
 
   // ---------------------------------------------------------------- fitting, in a worker
   function fitNames() {
-    const names = ["T", "h", "a", "k", "g_eta", "lam0", "g_lamTask"].filter((n) => !held.has(n));
+    const names = ["T", "h", "a", "k", "g_eta", "lam0", "g_lamTask"].concat(P.g_dur !== undefined ? ["g_durTask"] : [])
+      .concat(P.g_srv !== undefined ? ["g_srvTask"] : []).filter((n) => !held.has(n));
     if (!held.has("rho")) names.push("rho");
     if (!S.pin && !held.has("chi_max")) names.push("chi_max");
     if (S.chi && !held.has("chi:1")) names.push("chi:1");
@@ -553,7 +595,6 @@ textarea { width: 100%; height: 110px; font-family: var(--font-mono); font-size:
   $("stop").addEventListener("click", () => stopFit(false));
   $("undo").addEventListener("click", undo);
   $("reset").addEventListener("click", () => loadPreset(presetIdx));
-  buildCharts();
-  loadPreset(0);
+  loadPreset(0);                                    // builds the charts that apply to the case
 })();
 </script>
