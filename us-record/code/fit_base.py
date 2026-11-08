@@ -121,8 +121,10 @@ LAND_PATH = None
 DUR_WAVES = []                                        # durables apart: waves on durables' clock alone (years; a lead)
 KINKS = []                                            # a lead: years after which the clock's steady pace changes by kink{i}
 VALUE_RENT = None                                     # durables apart: a value-share rent in a machine's cost (a lead)
+SERVICES = None                                       # durables apart: "record" puts services apart from nondurables, the
+                                                      # nest's services share each year the record's (two_goods.rest)
 EXTRA = []                                            # targets beyond the five (durables apart: the wage over durables)
-EXTRA_TOL_LOG = {"wage_durables": 0.05}               # as the other wages
+EXTRA_TOL_LOG = {"wage_durables": 0.05, "wage_services": 0.05, "wage_nondurables": 0.05}  # as the other wages
 _DS, _DR = PANEL.loc[1950:2024, "dur_share"], PANEL.loc[1950:2024, "dur_rel_price"]
 SIGMA_DG_SET = float(1.0 - np.polyfit(np.log(_DR.values), np.log(_DS / (1.0 - _DS)).values, 1)[0])  # the share regression
 OMEGA_D_SET = float(PANEL.loc[1950, "dur_share"])     # durables' share of the composite's cost at 1950's prices
@@ -135,12 +137,15 @@ def utility_path(knots):
     return np.exp(np.interp(np.array(YEARS, dtype=float), np.array(knots, dtype=float), vals))
 NAMES = ["T", "h", "a", "k", "chi_max", "rho", "g_eta", "lam0", "g_lam"]
 LOG = {"T", "h", "a", "k", "chi_max", "lam0"}         # searched in logs (positive)
+# the clocks' bounds widened 2026-11-08 (services apart sat on 0.25): on the ceiling only differences between them are
+# pinned, so their levels drift; no stored fit sat on the old bounds
 BOUNDS = dict(T=(1e-5, 10.0), h=(1e-6, 1.0), a=(0.01, 10.0), k=(0.05, 60.0), chi_max=(0.3, 20.0), rho=(0.0, 0.3),
-              g_eta=(-0.05, 0.25), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.25), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0),
-              g_dur=(-0.05, 0.4), g_T=(-0.05, 0.1))
+              g_eta=(-0.05, 0.8), lam0=(0.01, 1000.0), g_lam=(-0.1, 0.8), g_c=(0.0, 0.25), chi_w=(-2.0, 2.0),
+              g_dur=(-0.05, 0.9), g_T=(-0.05, 0.1), g_srv=(-0.05, 0.9), s0_srv=(-2.0, 4.0))
 WAVE_BOUNDS = dict(size=(1e-4, 10.0), tau=(0.5, 80.0))   # each wave's size (in logs of the clock) and pace (years)
 
 D = PANEL.loc[YEARS]
+OMEGA_S = D["srv_in_rest"].values                     # services apart: services' share of nondurables plus services, the record's
 N_T = (D["adults"] / D.loc[1950, "adults"]).values
 DELTA = D["delta"].values
 T_REL = np.array(YEARS) - 1950.0
@@ -262,6 +267,12 @@ def eta_d_path(par):
     return out
 
 
+def eta_s_path(par):
+    """Services' capability clock (services apart): the other goods' (nondurables') clock, waves and kinks and all, at its
+    own steady pace g_srv; the two are equal in 1950 unless s0_srv (a lead: services' tasks e^s0 as hard in 1950) is set."""
+    return eta_path(par) * np.exp(par.get("s0_srv", 0.0) - (par["g_srv"] - par["g_eta"]) * T_REL)
+
+
 def durables_years(par):
     """Durables apart: each year's equilibrium of the two-good economy (two_goods.solve), 1950 fixing the reference
     prices of the composite and of the outer basket. None if any year has no interior equilibrium."""
@@ -272,11 +283,18 @@ def durables_years(par):
             return None
         par = dict(par, chi_max=chi)
     eta_g, eta_d = eta_path(par), eta_d_path(par)
+    eta_s = eta_s_path(par) if SERVICES else None
     try:
         phi = VALUE_RENT or 0.0
-        q0 = tg.solve(economies(par, eta_g)[0], eta_d[0], dict(mode="ref", omega_d=DURABLES["omega_d"], phi=phi))
+        ref = dict(mode="ref", omega_d=DURABLES["omega_d"], phi=phi)
+        if SERVICES:
+            ref["omega_s"] = float(OMEGA_S[0])
+        q0 = tg.solve(economies(par, eta_g)[0], eta_d[0], ref, None if eta_s is None else eta_s[0])
         cmp = dict(omega_d=DURABLES["omega_d"], sigma_dg=DURABLES["sigma_dg"], pref_d=q0["pd"], pref_g=q0["pg"], phi=phi)
         es = economies(par, eta_g, q0["c"] if SIGMA is not None else None)
+        if SERVICES:                                     # the nest's reference prices are 1950's, its share the record's
+            cmp.update(pref_n=q0["pg"], pref_s=q0["ps"])
+            return [tg.solve(e, eta_d[i], dict(cmp, omega_s=float(OMEGA_S[i])), eta_s[i]) for i, e in enumerate(es)], es
         return [tg.solve(e, eta_d[i], cmp) for i, e in enumerate(es)], es
     except (pm.NoEquilibrium, ValueError, ZeroDivisionError, FloatingPointError):
         return None
@@ -297,6 +315,14 @@ def model_path_durables(par):
                       for q, e in zip(qs, es)], index=YEARS)
     for c in ("wage_goods", "wage_durables", "wage_shelter"):
         m[c] = 100.0 * m[c + "_raw"] / m.loc[1950, c + "_raw"]
+    if SERVICES:                                          # services apart: their wage and nondurables', 1957 = 100 as in the
+        m["xs"] = [q["xs"] for q in qs]                   # record (services' index starts in 1957), and the spending shares
+        m["wage_services_raw"] = [q["v"] / q["ps"] for q in qs]
+        m["wage_nondurables_raw"] = [q["v"] / q["pg"] for q in qs]
+        for c in ("wage_services", "wage_nondurables"):
+            m[c] = 100.0 * m[c + "_raw"] / m.loc[1957, c + "_raw"]
+        m["srv_share"] = [q["srv_share"] for q in qs]
+        m["nd_share"] = [q["nd_share"] for q in qs]
     return m
 
 
@@ -465,6 +491,10 @@ def complete(s):
     s.setdefault("chi_w", 0.0)
     if DURABLES is not None:
         s.setdefault("g_dur", s.get("g_eta", 0.05) + 0.03)
+    if SERVICES:
+        s.setdefault("g_srv", s.get("g_eta", 0.05))       # services start on nondurables' clock: the two-good model
+    if "s0_srv" in NAMES:
+        s.setdefault("s0_srv", 0.0)
     if LAND == "grow":
         s.setdefault("g_T", 0.01)
     for i in range(len(DUR_WAVES)):
@@ -493,7 +523,7 @@ def configure(meta):
     """Every setting from a results file's meta, so that a stored fit re-solves alone (the checks, figures, stress tests
     and report read fits this way)."""
     global SHELTER_LAND_SHARE, SPLIT_FROM, S_N, CAP, SIGMA, PIN_START, UTILITY_KNOTS, GOODS, WOMEN, RHO_FIXED, WAVES
-    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT, KINKS
+    global HOURS_PER_TASK, FIT_YEARS, DROP, FIXED, DURABLES, EXTRA, LAND, DUR_WAVES, VALUE_RENT, KINKS, SERVICES
     SHELTER_LAND_SHARE, SPLIT_FROM = meta.get("shelter_land_share"), meta.get("split_from")
     if SPLIT_FROM is not None:
         S_N = meta["s_n"]
@@ -505,7 +535,7 @@ def configure(meta):
     FIT_YEARS, DROP, FIXED = meta.get("fit_years"), meta.get("drop"), dict(meta.get("fixed") or {})
     DURABLES, EXTRA, LAND = meta.get("durables"), list(meta.get("extra") or []), meta.get("land")
     DUR_WAVES, VALUE_RENT = list(meta.get("dur_waves") or []), meta.get("value_rent")
-    KINKS = list(meta.get("kinks") or [])
+    KINKS, SERVICES = list(meta.get("kinks") or []), meta.get("services")
     SET.update(meta.get("set") or {})
     NAMES[:] = meta["names"]
 
@@ -517,7 +547,7 @@ def settings_meta():
                 s_n=None if SPLIT_FROM is None else S_N, goods=GOODS, women=WOMEN, rho_fixed=RHO_FIXED,
                 waves=list(WAVES), hours_per_task=HOURS_PER_TASK, fit_years=FIT_YEARS, drop=DROP, fixed=dict(FIXED),
                 durables=DURABLES, extra=list(EXTRA), land=LAND, dur_waves=list(DUR_WAVES), value_rent=VALUE_RENT,
-                kinks=list(KINKS), names=list(NAMES))
+                kinks=list(KINKS), services=SERVICES, names=list(NAMES))
 
 
 def run_start(s):
@@ -580,6 +610,7 @@ if __name__ == "__main__":
     # python3 code/fit_base.py --basket --utility-knots 1950,1970,1990,2024 --pin-start --goods exshelter --women 1990 \
     #     --rho 0.08 --waves 1948 --durables --value-rent 0.2 --land-adults --start-fits playground/record_starts.json \
     #     --out fit_Br
+    # ... without --waves 1948: fit_Br0, the main case (decision 26); with --services as well: services apart, fit_Bs
     args = sys.argv[1:]
     OUT = args[args.index("--out") + 1] if "--out" in args else "fit_base"
     REF = args[args.index("--ref") + 1] if "--ref" in args else None
@@ -612,6 +643,10 @@ if __name__ == "__main__":
         DURABLES = dict(sigma_dg=SIGMA_DG_SET, omega_d=OMEGA_D_SET)
         NAMES.append("g_dur")
         EXTRA = ["wage_durables"]
+    if "--services" in args:                              # services apart (her go, 2026-11-08): a third good; each good's
+        SERVICES = "record"                               # wage is targeted, nondurables' too (with services alone
+        NAMES.append("g_srv")                             # targeted the fit automated nondurables to offset services:
+        EXTRA.extend(["wage_services", "wage_nondurables"])  # their wage 308 in 2024 against the record's 165)
     if "--value-rent" in args:                            # a lead: a value-share rent in a machine's cost
         VALUE_RENT = float(args[args.index("--value-rent") + 1])
     if "--dur-waves" in args:                             # a lead: waves on durables' clock alone

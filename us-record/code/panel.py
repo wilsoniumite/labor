@@ -10,6 +10,7 @@
 #
 # Run from us-record/:  python3 code/panel.py      (writes data/panel.csv and data/manifest.csv)
 
+import csv
 import datetime as dt
 import hashlib
 import json
@@ -221,6 +222,38 @@ def build():
     r_g = (-(w_bar / (1.0 - w_bar)) * r_d.diff()).fillna(0.0).cumsum()   # log of the other goods' price over it
     p["dur_rel_price"] = np.exp(r_d - r_g)                         # durables' price over the other goods', 1950 = 1
     p.loc[p["wage_goods"].isna() | p["wage_exshelter"].isna(), "dur_rel_price"] = np.nan
+
+    # ---- services apart (her go, 2026-11-08): nondurables and services (less housing) as shares of consumer spending on
+    # everything but housing, from BEA's own NIPA annual file (the repository's copy, the lambda thread's cache; codes
+    # checked against its series register; FRED republishes these, and the panel's durables, housing and PCE agree with it
+    # to the dollar), and services' share of nondurables plus services, the nest's weight each year. The same linked
+    # earnings over the CPI for services less rent of shelter and for nondurables, both 1957 = 100 (services' index
+    # starts in 1957, nondurables' monthly index is complete from 1956).
+    nipa = os.path.join(REPO, "progress_and_prosperity", "lambda", "data", "cache", "NipaDataA.txt")
+    register = os.path.join(os.path.dirname(nipa), "SeriesRegister.txt")
+    want = {"DNDGRC": "Nondurable goods", "DSERRC": "Services", "DHSGRC": "Housing", "DPCERC": "Personal consumption expenditures"}
+    labels = {row[0]: row[1] for row in csv.reader(open(register, encoding="utf-8")) if row and not row[0].startswith("%")}
+    for code, label in want.items():
+        if labels.get(code) != label:
+            raise SystemExit(f"STOP: NIPA {code} is {labels.get(code)!r} in SeriesRegister.txt, not {label!r}")
+    flat = {code: {} for code in want}
+    for row in csv.reader(open(nipa, encoding="utf-8")):
+        if row and row[0] in flat and row[1].isdigit():
+            flat[row[0]][int(row[1])] = float(row[2].replace(",", ""))
+    flat = pd.DataFrame(flat)
+    record(nipa, "repository file (BEA NIPA annual flat file, https://apps.bea.gov/national/Release/TXT/NipaDataA.txt)",
+           "nd_share, srv_share, srv_in_rest")
+    record(register, "repository file (BEA NIPA series register)", "nd_share, srv_share, srv_in_rest")
+    rest = flat["DPCERC"] - flat["DHSGRC"]
+    p["nd_share"] = flat["DNDGRC"] / rest
+    p["srv_share"] = (flat["DSERRC"] - flat["DHSGRC"]) / rest
+    p["srv_in_rest"] = p["srv_share"] / (p["srv_share"] + p["nd_share"])
+    srv = fred_fetch("CUUR0000SASLE", "wage_services")
+    real_srv = (spliced / srv).dropna()
+    p["wage_services"] = 100.0 * real_srv / real_srv.loc[1957]
+    nd = fred_fetch("CUUR0000SAN", "wage_nondurables")
+    real_nd = (spliced / nd).dropna()                              # the monthly index has gaps before 1956
+    p["wage_nondurables"] = 100.0 * real_nd / real_nd.loc[1957]
 
     p = p.loc[YEARS]
     p.to_csv(os.path.join(DATA, "panel.csv"))                    # full precision: anchors are checked exactly

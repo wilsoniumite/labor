@@ -56,8 +56,24 @@ def composite(pd, pg, cmp):
     return c, ad * (pd / c) ** (-s), ag * (pg / c) ** (-s)
 
 
-def parts(e, m, eta_d, cmp):
-    """Every price and quantity at margin m (e: a pinning_model economy whose eta is the other goods' clock)."""
+def rest(pn, ps, cmp):
+    """Services apart (her go, 2026-11-08): the other goods as nondurables and services, Cobb-Douglas with services'
+    spending share omega_s set each year from the record (a constant-taste CES cannot follow the record: services' share
+    rose fourfold against nondurables' while their relative price only doubled), the unit cost normalised to nondurables'
+    price at the reference prices (1950's). Returns the nest's unit cost and its demands per unit (nondurables, services).
+    In 1950 (mode "ref") the nest is read at its reference point: unit cost = nondurables' price."""
+    w = cmp["omega_s"]
+    if cmp.get("mode") == "ref":
+        c = pn
+    else:
+        rn, rs = cmp["pref_n"], cmp["pref_s"]
+        c = rn * (pn / rn) ** (1.0 - w) * (ps / rs) ** w
+    return c, (1.0 - w) * c / pn, w * c / ps
+
+
+def parts(e, m, eta_d, cmp, eta_s=None):
+    """Every price and quantity at margin m (e: a pinning_model economy whose eta is the other goods' clock; with eta_s,
+    services' clock, the other goods are nondurables (on e's clock) and services, nested as rest() says)."""
     cpt = e.rho + e.delta
     phi = cmp.get("phi", 0.0)
     den = 1.0 - phi - cpt * (e.a + e.lam * m)
@@ -67,18 +83,27 @@ def parts(e, m, eta_d, cmp):
     xg, xd = x_of(m, e.eta, e), x_of(m, eta_d, e)
     Jg, Jd = J_of(xg, e.eta, e), J_of(xd, eta_d, e)
     pg, pd = v * (1.0 - xg) + pm_ * Jg, v * (1.0 - xd) + pm_ * Jd
-    c, dd, dg = composite(pd, pg, cmp)
+    if eta_s is None:                                   # two goods: the other goods are one good
+        prest, Jrest, Lrest, extra = pg, Jg, 1.0 - xg, {}
+    else:                                               # three goods: the other goods are nondurables and services
+        xs = x_of(m, eta_s, e)
+        Js = J_of(xs, eta_s, e)
+        ps = v * (1.0 - xs) + pm_ * Js
+        prest, dn, ds = rest(pg, ps, cmp)
+        Jrest, Lrest = dn * Jg + ds * Js, dn * (1.0 - xg) + ds * (1.0 - xs)
+        extra = dict(xs=xs, Js=Js, ps=ps, dn=dn, ds=ds, prest=prest)
+    c, dd, dg = composite(pd, prest, cmp)
     gb, sb = e.basket(c)                                # the outer basket, read at the composite's price
     Ps = c * gb + sb
-    Jmix = dd * Jd + dg * Jg
+    Jmix = dd * Jd + dg * Jrest
     B = e.T / (sb + gb * e.b * e.delta * Jmix / (1.0 - e.a * e.delta))
     K = B * gb * Jmix / (1.0 - e.a * e.delta)
-    final = B * gb * (dd * (1.0 - xd) + dg * (1.0 - xg))
+    final = B * gb * (dd * (1.0 - xd) + dg * Lrest)
     mh = e.lam * e.delta * K
     z = np.log1p(v / Ps)
     nS = e.N * min(max(z / e.chi_max, 0.0), getattr(e, "cap", 1.0))
     return dict(m=m, xg=xg, xd=xd, Jg=Jg, Jd=Jd, v=v, pm=pm_, Vm=Vm, pg=pg, pd=pd, c=c, dd=dd, dg=dg, gb=gb, sb=sb, Ps=Ps,
-                B=B, K=K, final=final, mh=mh, nD=final + mh, nS=nS)
+                B=B, K=K, final=final, mh=mh, nD=final + mh, nS=nS, **extra)
 
 
 def m_ceiling(e, phi=0.0):
@@ -89,19 +114,22 @@ def m_ceiling(e, phi=0.0):
     return np.inf if e.lam <= 0 else ((1.0 - phi) / cpt - e.a) / e.lam
 
 
-def solve(e, eta_d, cmp):
-    """The interior equilibrium n_D(m) = n_S(m) on (0, the ceiling); NoEquilibrium where there is none."""
+def solve(e, eta_d, cmp, eta_s=None):
+    """The interior equilibrium n_D(m) = n_S(m) on (0, the ceiling); NoEquilibrium where there is none. With eta_s,
+    services apart (parts)."""
     phi = cmp.get("phi", 0.0)
     mbar = m_ceiling(e, phi)
     top = max(e.eta, eta_d) * (e.g0 + e.g1)              # every task of both goods automated above this
+    if eta_s is not None:
+        top = max(top, eta_s * (e.g0 + e.g1))
     hi = min(mbar * (1.0 - 1e-13), top) if np.isfinite(mbar) else top
     lo = 1e-12 * hi
-    f = lambda m: (lambda q: q["nD"] - q["nS"])(parts(e, m, eta_d, cmp))  # noqa: E731
+    f = lambda m: (lambda q: q["nD"] - q["nS"])(parts(e, m, eta_d, cmp, eta_s))  # noqa: E731
     flo, fhi = f(lo), f(hi)
     if not (flo > 0 and fhi < 0):
         raise pm.NoEquilibrium(f"no interior equilibrium: nD - nS = {flo:.4g} at the bottom, {fhi:.4g} at the top")
     m = brentq(f, lo, hi, xtol=1e-15 * hi, rtol=1e-15)
-    q = parts(e, m, eta_d, cmp)
+    q = parts(e, m, eta_d, cmp, eta_s)
     n = q["nD"]
     interest = e.rho * q["Vm"] * q["K"]
     rent = phi * q["Vm"] * e.delta * q["K"]               # the value-share rent on each machine built (0 by default)
@@ -113,4 +141,7 @@ def solve(e, eta_d, cmp):
              xg_ceiling=x_of(mbar, e.eta, e) if np.isfinite(mbar) else 1.0,
              xd_ceiling=x_of(mbar, eta_d, e) if np.isfinite(mbar) else 1.0,
              dur_share=q["pd"] * q["dd"] / q["c"])        # durables' share of the composite's cost
+    if eta_s is not None:                                 # services apart: their task line and spending share
+        q.update(xs_ceiling=x_of(mbar, eta_s, e) if np.isfinite(mbar) else 1.0,
+                 srv_share=q["ps"] * q["ds"] * q["dg"] / q["c"], nd_share=q["pg"] * q["dn"] * q["dg"] / q["c"])
     return q

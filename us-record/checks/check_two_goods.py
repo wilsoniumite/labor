@@ -85,6 +85,36 @@ if got is not None:
     check("M1 a faster durables clock makes durables cheaper against the other goods by 2024",
           ok_m and rel[-1] < rel[0], f"durables over other goods, 1950 {rel[0]:.3f}, 2024 {rel[-1]:.3f}")
 
+# ---- services apart (her go, 2026-11-08): on nondurables' clock, services are nondurables, and the three-good economy is
+# the two-good one; then services on a slower clock, the accounts adding up and the nest's cost its goods' cost
+R0 = json.load(open(os.path.join(ROOT, "results", "fit_Br0.json")))
+F.configure(R0["meta"])
+m2 = F.model_path(R0["best"]["par"])
+F.configure(dict(R0["meta"], services="record", names=R0["meta"]["names"] + ["g_srv"], extra=["wage_durables", "wage_services"]))
+par_s = dict(R0["best"]["par"], g_srv=R0["best"]["par"]["g_eta"])
+m3 = F.model_path(par_s)
+cols = ["wage_goods", "wage_durables", "wage_shelter", "labour_share_c", "prime_emp_rate", "theta_V", "chain_share"]
+worst = max(float(np.max(np.abs(m3[c].values / m2[c].values - 1.0))) for c in cols) if m3 is not None else np.inf
+check("S1 services on nondurables' clock: the three-good economy is the main case (fit_Br0) to 1e-12", worst < 1e-12,
+      f"worst relative gap {worst:.1e}")
+got = F.durables_years(dict(par_s, g_srv=par_s["g_eta"] - 0.01))
+check("S2 with services a point a year slower the three-good economy has an equilibrium every year", got is not None)
+if got is not None:
+    qs, es_ = got
+    w_lab = max(abs(q["nD"] - q["nS"]) / q["nD"] for q in qs)
+    w_inc = max(abs(q["income"] - q["Ps"] * q["B"]) / q["income"] for q in qs)
+    w_nest = max(abs(q["dn"] * q["pg"] + q["ds"] * q["ps"] - q["prest"]) / q["prest"] for q in qs)
+    w_share = max(abs(q["ds"] * q["ps"] / q["prest"] - w) for q, w in zip(qs, F.OMEGA_S))
+    # labour to 1e-8: near the ceiling a machine's price moves about a million times as fast as the margin, so the root's
+    # last digit in the margin (1e-15) shows as ~1e-9 in labour demand
+    check("S3 labour clears (1e-8: the knife edge's amplification of the root's last digit) and income buys every "
+          "basket (1e-9), services apart", w_lab < 1e-8 and w_inc < 1e-9, f"labour {w_lab:.1e}, income {w_inc:.1e}")
+    check("S4 the nest's unit cost is its goods' cost, and services' share of it is the record's, every year (1e-12)",
+          max(w_nest, w_share) < 1e-12, f"cost {w_nest:.1e}, share {w_share:.1e}")
+    check("S5 a slower services clock leaves services' task line below nondurables' by 2024",
+          qs[-1]["xs"] < qs[-1]["xg"] and abs(qs[0]["xs"] - qs[0]["xg"]) < 1e-12,
+          f"1950 {qs[0]['xs']:.3f} / {qs[0]['xg']:.3f}, 2024 {qs[-1]['xs']:.3f} / {qs[-1]['xg']:.3f}")
+
 n_fail = sum(not ok for _, ok in RESULTS)
 print(f"\n{'ALL GREEN' if not n_fail else f'{n_fail} FAILED'} ({len(RESULTS)} checks)")
 sys.exit(1 if n_fail else 0)
