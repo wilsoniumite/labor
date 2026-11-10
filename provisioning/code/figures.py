@@ -6,6 +6,7 @@
 #   fig_shift         each group's share of market income as labour's share falls            code/exposure.py's identity
 #   fig_path          who is paid along the companion's path, and what the claims cost       code/paper_path.py
 #   fig_bases         the site-rent base and the cost of a floor, 1947-2024                  code/rent_base.py
+#   fig_program       each group's income from capital and land per dollar of labour income  code/program.py
 #
 # Colour: three categorical slots (blue, orange, aqua) and a blue/red pair for above and below zero, validated on a white
 # page with the dataviz skill's validator (all checks pass; aqua is under 3:1 against the page, so every aqua mark has a
@@ -30,6 +31,7 @@ sys.path.insert(0, HERE)
 import exposure as ex  # noqa: E402
 import one_basis_tables as obt  # noqa: E402
 import paper_path as pp  # noqa: E402
+import program as pg  # noqa: E402
 import rent_base as rb  # noqa: E402
 
 OUT = os.path.join(ROOT, "paper", "figures")
@@ -255,7 +257,40 @@ def fig_bases():
     save(fig, "fig_bases")
 
 
+def fig_program():
+    tabs = ex.inputs()
+    now, matched = pg.gaps(tabs, 2023)
+    common, _ = pg.gaps(tabs, 2023, pg.THETA)
+    groups = [("bottom half", "Poorer half"), ("next four tenths", "Next four tenths"), ("top tenth", "Richest tenth")]
+    fig, ax = plt.subplots(figsize=(6.6, 2.2))
+    ax.axvline(100 * matched, color=INK2, lw=0.8, zorder=1)
+    ax.text(100 * matched + 1.5, len(groups) - 0.48, f"a matched group: {100 * matched:.0f}", ha="left", va="bottom", color=INK2, fontsize=8)
+    for j, (key, name) in enumerate(groups):
+        y = len(groups) - 1 - j
+        a, b = 100 * now[key]["per_dollar"], 100 * common[key]["per_dollar"]
+        ax.plot([a, b], [y, y], color=CONTEXT, lw=2.0, zorder=2, solid_capstyle="round")
+        ax.plot([a], [y], marker="o", ms=7.5, mfc=BLUE, mec="white", mew=1.6, zorder=4)
+        ax.plot([b], [y], marker="o", ms=7.5, mfc=ORANGE, mec="white", mew=1.6, zorder=4)
+        ax.annotate(f"{min(a, b):.0f}", (min(a, b), y), xytext=(-8, 0), textcoords="offset points", ha="right", va="center", color=INK2)
+        near = 0 < 100 * matched - max(a, b) < 6                        # a label to the right would sit on the matched line
+        ax.annotate(f"{max(a, b):.0f}", (max(a, b), y), xytext=(0, 7) if near else (8, 0), textcoords="offset points",
+                    ha="center" if near else "left", va="bottom" if near else "center", color=INK2)
+    ax.set_yticks(range(len(groups)), [name for _, name in groups][::-1])
+    ax.tick_params(axis="y", length=0)
+    ax.set_xlim(0, 106)
+    ax.set_ylim(-0.55, len(groups) - 0.15)
+    ax.set_xticks([0, 25, 50, 75, 100])
+    ax.set_xlabel("Cents of income from capital and land for every dollar of labor income")
+    ax.grid(False)
+    ax.grid(True, axis="x")
+    ax.spines["left"].set_visible(False)
+    ax.plot([], [], marker="o", ls="", ms=7, mfc=BLUE, mec="white", mew=1.4, label="In 2023")
+    ax.plot([], [], marker="o", ls="", ms=7, mfc=ORANGE, mec="white", mew=1.4, label="With a fifth of the claims held in common")
+    ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.24), ncol=2, handletextpad=0.3, borderaxespad=0, columnspacing=1.8)
+    save(fig, "fig_program")
+
+
 if __name__ == "__main__":
-    for f in (fig_accounts, fig_exposure, fig_holdings, fig_shift, fig_path, fig_bases):
+    for f in (fig_accounts, fig_exposure, fig_holdings, fig_shift, fig_path, fig_bases, fig_program):
         f()
         print("drew", f.__name__)

@@ -17,8 +17,9 @@ the subject matter. Still not poetic or patronising, but a kind of quiet confide
 usually calm and collected." So the paper describes its own model and data, cites the other paper as a source and
 never as a prerequisite, and does not mention the earlier reading of the nineteen points.
 **The wall:** this repository is public. Public data only.
-**State as of:** 2026-11-10, fourth unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
-`paper/` revised to stand alone, every number in it tied to the tables by `checks/check_draft.py`.
+**State as of:** 2026-11-10, fifth unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
+`paper/` revised to stand alone and given a program for the United States (Section 9), every number in it tied to the
+tables by `checks/check_draft.py`.
 
 ## For her, first
 
@@ -52,13 +53,26 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
    supports it.
 5. **Authors and register** ("Johan will probably be on it. Luna might be too. Keep going, I want to see where you
    take this"), with the register above.
+6. **The paper recommends a mix, for the United States** ("yeah, lets put the mix into the paper, puts some action
+   behind it"; "USA"). This replaces the earlier stance that instruments appear only where they size a base.
 
 ## Claude's calls, in her veto window
 
 - **The folder is `provisioning/`**, after the old P2's provisioning identity. A placeholder; rename freely.
 - **three-taxes stays where it is.** Only its `STATE.md` header changed.
-- **The spine is positive, with one benchmark** (a household matched to its basket). Instruments appear only where
-  they size a base or say who pays.
+- **The spine is positive, with one benchmark** (a household matched to its basket), up to Section 8. Section 9 then
+  recommends, on her call 6.
+- **What the program contains** (Section 9; every size from `code/program.py`). A holding in common of about a fifth,
+  paid as an equal dividend: the corporate income tax put on a cash-flow base at its present 21 percent, a tax on the
+  growth of land rent, charges on the commons, and purchases for the remainder. Funded saving out of wages for the
+  four tenths above the median, whom no holding in common can match. Contributions on wages replaced step by step by a
+  tax on consumption. No further tax on the return to capital, and no universal income beyond the dividend.
+- **"Matched" in Section 9 is the share identity's sense**: a group's share of the claims on capital and land equals
+  its share of labor income. Transfers and baskets are left out of that arithmetic, and the section says the sizes
+  are for the average basket.
+- **What in Section 9 is argued and not computed.** That a tax on all spending at one rate is neutral in the model
+  economy and paid in proportion to income (it follows from hours being fixed and the required return unchanged; the
+  shares themselves are held). That a stake taken through a cash-flow tax pays out less while capital grows.
 - **The paper no longer opens on a gap.** After assembly 1 it opens on the three accounts agreeing, and its subject is
   who holds the claims (`SKETCH.md`, "What changed from v0").
 - **Corporate income that is not paid out is counted as the households'**, in proportion to dividends. Without it every
@@ -100,13 +114,14 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
 | `code/rent_base.py` | The site-rent base a person against income, a poverty-line bundle and GDP, 1947–2024 | `checks/check_rent_base.py`, 5 green |
 | `code/wage_shortfall.py` | Where the production wage fell short of its 1950–73 pace | **Not gated here.** It reads the backward model's panel, on `claude/focused-bardeen-aciw2z` (at 457e38b) |
 | `code/one_basis_tables.py` | The stored tables read without the BEA files (what is made; the financing panel; the Bureau's published grouping) | used by the figures, the decile account and the draft's check |
-| `code/figures.py` → `paper/figures/` | The draft's six figures | drawn from the stored tables; colours validated with the dataviz skill's script |
-| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 10,800 words, 24 pages, with two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 127 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (131 green) |
+| `code/program.py` | The sizes behind Section 9: how far each group is from a matched position, with and without a fifth in common; what a common fifth pays; the years of saving that close the gap; the corporate income tax and the growth of site rent as claims the public could hold; contributions on wages | `checks/check_program.py`, 15 green. Reads only files in the repository |
+| `code/figures.py` → `paper/figures/` | The draft's seven figures | drawn from the stored tables; colours validated with the dataviz skill's script |
+| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 13,000 words, 28 pages, with two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 158 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (162 green) |
 
 Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
-`python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_draft.py` (numpy,
-pandas; the first also scipy and openpyxl through `../paths/code/chains.py`). All five were green on 2026-11-10: 18,
-16, 25, 5 and 127. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
+`python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_program.py`,
+`python3 checks/check_draft.py` (numpy, pandas; the first also scipy and openpyxl through `../paths/code/chains.py`).
+All six were green on 2026-11-10: 18, 16, 25, 5, 15 and 158. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
 
 **Not held on this branch**, and said so in the draft: Section 5's wage accounting (`code/wage_shortfall.py`, the
 backward model's panel) and Section 7.4's land-tax figures (`consumption/lvt/NOTES_us.md` on the `consumption`
@@ -117,7 +132,7 @@ branch). Both were read against their sources on 2026-11-10 and match.
 Assets sections 2 and 3, NipaDataA.txt and SeriesRegister.txt. Six of the seven files `chains.json` records are
 byte-identical to its vintage; NipaDataA.txt is newer (4 November 2026). Nothing was substituted.
 
-## What the four units found
+## What the five units found
 
 1. **Three accounts agree** (B1). Labour makes 0.658 of what consumption buys, finances 0.658 of it, and is 0.666 of
    households' income once corporate income that is not paid out is counted. The first two differ by a point on average
@@ -158,6 +173,16 @@ or drop.
     what their abstract says. On the model's path income is 32 times as large at t = 1 and the real wage 9 times, so
     the path is about the division of a gain, and the draft says so.
 
+12. **The size of the task, and how the program divides it** (Section 9). For every dollar of labor income the poorer
+    half has 24 cents from capital and land, the next four tenths 27, the richest tenth 96; a matched group would have
+    51. The poorer nine tenths hold about half the claims that would match them, and 31.7% of all the claims would
+    have to pass to them: 9.4 points to the poorer half, 22.3 to the next four tenths. A fifth in common leaves the
+    poorer half 1.0 point short and the next four tenths 19.2. The corporate income tax (8% of the income of capital
+    and land) and the growth of site rent (5 to 8% after 25 years at 2%) come to 13 to 16%, about a seventh, which is
+    what keeps the poorer half's share whole. A common fifth pays $4,493 a person a year, 29 to 58% of a poverty-line
+    bundle. Saving 5% of wages closes the upper middle's gap in 34 years at a 5% return (17 at 10%); with labor paid
+    what it is paid at t = 1, in 76.
+
 ## Next
 
 0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first.
@@ -167,7 +192,11 @@ or drop.
    Crossref, RePEc or Open Library, except the title of Brown's chapter; Keynes's two forecasts against the essay's
    text; and what the draft attributes to nine papers against their abstracts (`SKETCH.md` section 10 has the list).
    Not done: what it attributes to Brown, Meade (twice), Auerbach and Kotlikoff, Musgrave, Paine and George, which
-   needs the books.
+   needs the books. For Section 9, the rates of the corporate income tax (21%) and of the tax for old-age, survivors
+   and disability insurance (6.2% on each side) were read in the US Code at law.cornell.edu. Two statements were not
+   confirmed, because ssa.gov, taxpolicycenter.org, congress.gov, oecd.org, cbo.gov, gao.gov and jct.gov all refused
+   the session's requests (HTTP 403): that there is no broad federal tax on consumption, and that Social Security
+   pays current pensions out of current contributions. The draft's drafting note says so.
 3. **Capital in the record** (assembly 4): net surplus split into the normal return and the rest; funded pensions as
    claims; pension systems as cases.
 4. **The long run of B1** (assembly 6): the production account before 1997 on one basis.
@@ -215,3 +244,9 @@ or drop.
    `checks/check_draft.py` rewritten to match (127 green, 131 with the panel) and extended to Appendix A. The reference
    details were completed from RePEc and Open Library, and nine attributions read against abstracts. Not done: baskets
    by tenure; the attributions that need the books; anything in `../pinning/`.
+5. **2026-11-10 — a program for the United States** (her call 6). `code/program.py` and `checks/check_program.py`
+   (15 green) size it from tables already held; the draft gains Section 9 with a table and a figure, and the abstract,
+   the introduction, Section 8.5, the conclusion and Appendix B follow; the old Sections 9 and 10 are now 10 and 11.
+   `checks/check_draft.py` holds the new sentences (158 green, 162 with the panel). Before that, the same day: the
+   words "nineteen points" taken out of the introduction, Section 3.3 and Figure 1, after her question. Not done:
+   baskets by tenure; a tax on consumption computed in the model; anything in `../pinning/`.

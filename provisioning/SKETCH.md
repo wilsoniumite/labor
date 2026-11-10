@@ -309,8 +309,13 @@ Jaravel, Diamond and Geanakoplos, the Meidner plan, Australia's funds.
    there is none. The paragraph, Figure 7's caption and Appendix F's last sentence need restating before the Economic
    Modelling package goes, and Johan should see why.
 2. Title.
-3. Whether the paper recommends a capital route or only prices the three. The draft prices them and rules out one.
-4. Scope: the United States alone, or with Finland (land is built) and a pension-system comparison.
+3. ~~Whether the paper recommends a capital route or only prices the three.~~ **Decided 2026-11-10: it recommends.** Her
+   words: "lets put the mix into the paper, puts some action behind it". The draft's Section 9 is a program: a holding
+   in common of about a fifth (the corporate income tax on a cash-flow base, a tax on the growth of land rent, charges
+   on the commons), paid as an equal dividend; funded saving out of wages for the households above the median; taxes
+   moved from wages to consumption; no further tax on the return to capital and no full universal income.
+   `code/program.py` sizes it and `checks/check_program.py` holds the sizes.
+4. ~~Scope.~~ **Decided 2026-11-10: the United States** (her "USA").
 5. The yardstick in B4: 1950–73 is a choice, and the shares move with it.
 6. When Appendices D and F leave P1.
 7. Whether three-taxes moves under this folder or stays where it is; and this folder's name.
@@ -318,4 +323,5 @@ Jaravel, Diamond and Geanakoplos, the Meidner plan, Australia's funds.
 ---
 
 All prose here is draft register, hers to re-voice. Checks: `checks/check_one_basis.py` (18; needs the BEA files, see
-its header), `checks/check_exposure.py` (15), `checks/check_paper_path.py` (25), `checks/check_rent_base.py` (5).
+its header), `checks/check_exposure.py` (16), `checks/check_paper_path.py` (25), `checks/check_rent_base.py` (5),
+`checks/check_program.py` (15), `checks/check_draft.py` (158).

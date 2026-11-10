@@ -9,6 +9,7 @@
 #   C  land and the cost of a floor (Sections 7 and 8)
 #   D  the model economy (Sections 6 and 8, Appendix A)
 #   E  what the draft quotes from Båge and Wilson (2026): transcriptions, since that paper's source is not here
+#   F  the program for the United States (Section 9, and its lines in the abstract, the introduction and the conclusion)
 #   N  not held on this branch: listed, and held when their inputs are given
 # The wage accounting of Section 5 needs the backward model's panel, which is on another branch; give its path to hold
 # those lines too:   python3 checks/check_draft.py PATH/TO/us-record/data/panel.csv
@@ -27,6 +28,7 @@ sys.path.insert(0, os.path.join(ROOT, "code"))
 import exposure as ex  # noqa: E402
 import one_basis_tables as obt  # noqa: E402
 import paper_path as pp  # noqa: E402
+import program as pg  # noqa: E402
 import rent_base as rb  # noqa: E402
 import wage_shortfall as ws  # noqa: E402
 
@@ -367,6 +369,89 @@ check("D22 Appendix A's targets: labor's share 0.60; building a machine pays 55,
       f"labor's share {m0['labour']:.4f}; the cost of a machine {parts[0]:.3f}, {parts[1]:.3f}, {parts[2]:.3f}")
 sigma = 1.0 + PAR["zeta"] / (PAR["theta"] * (1.0 - eq0["x"]))
 band("D23 Appendix A: 'the elasticity of substitution ... at the margin is 1.05'", sigma, 1.045, 1.055)
+
+# ---------------------------------------------------------------------------------------------------------------- F
+STATUTE = dict(corporate=0.21, oasdi_each=0.062)   # 26 U.S.C. 11(b), 3101(a) and 3111(a), read at law.cornell.edu on 2026-11-10
+g0, matched = pg.gaps(tabs, 2023)
+g5, _ = pg.gaps(tabs, 2023, pg.THETA)
+P, N, R = "bottom half", "next four tenths", "top tenth"
+div, pub_claims, contrib = pg.dividend(tabs, 2023), pg.public_claims(tabs, 2023), pg.receipts(2023)
+short = g5[N]["short"]
+yrs = pg.years_to_match
+says("F1 Table 4, the holding in common",
+     f"| The poorer half holds {p1(bh['capital'])} percent of the claims on capital and land and {p1(bh['labour'])} percent of labor income | "
+     f"A seventh of the claims from two taxes, a fifth as the aim; a fifth pays {div['a_person']:,.0f} dollars a person a year |")
+says("F2 Table 4, saving", f"| The four tenths above the median lack {p1(g0[N]['gap'])} percent of the claims, and no holding in common can supply it |")
+check("F2b 'no holding in common can supply it': matching the next four tenths alone would take more than everything", g0[N]["needs"] > 1.0,
+      f"{g0[N]['needs']:.2f}")
+says("F3 Table 4, taxes",
+     f"| {p0(tau)} percent of tax revenue is raised from labor income | Contributions on wages alone are {p0(contrib)} percent of taxes and contributions |")
+says("F4 Table 4, the return to capital", f"| {p1(-tax['wages'])} percent of income taken from wages for {p1(tax['revenue'])} raised |")
+says("F5 what each group has for every dollar of labor income",
+     f"received {p0(g0[P]['per_dollar'])} cents of income from capital and land for every dollar of labor income, and the next four tenths "
+     f"{p0(g0[N]['per_dollar'])} cents. The richest tenth received {p0(g0[R]['per_dollar'])} cents. A matched group would receive {p0(matched)}.")
+band("F6 'about half the claims that would match them': the poorer nine tenths' claims over their labor income, shares",
+     float((bh["capital"] + nf["capital"]) / (bh["labour"] + nf["labour"])), 0.45, 0.55)
+says("F7 the size of the task",
+     f"{p1(-g0[R]['gap'])} percent of all the claims on capital and land would have to pass from the richest tenth to the rest: "
+     f"{p1(g0[P]['gap'])} points to the poorer half and {p1(g0[N]['gap'])} to the four tenths above the median")
+says("F8 the poorer half with a fifth in common",
+     f"the poorer half would hold {p1(g5[P]['claims'])} percent of the claims against the {p1(bh['labour'])} that would match it, and its income "
+     f"from capital and land would rise from {p0(g0[P]['per_dollar'])} to {p0(g5[P]['per_dollar'])} cents")
+says("F9 the corporate income tax",
+     f"It is levied at {p0(STATUTE['corporate'])} percent (26 U.S.C. § 11), close to the fifth of Table 3, and in 2023 it raised "
+     f"{pub_claims['corporate']:.0f} billion dollars, {p0(pub_claims['corporate_share'])} percent of the income of capital and land")
+says("F10 the tax and the stake in the model",
+     f"In the model the two raise almost the same amount, {p1(tax['revenue'])} and {p1(fifth)} percent of income, and under the second the wage "
+     f"bill is higher by {p1(-tax['wages'])} percent of income.")
+says("F11 the growth of land rent",
+     f"collects nothing at first and {p0(pub_claims['grown'])} percent of site rent after twenty-five years of growth at 2 percent a year. "
+     f"Residential site rent is {p0(pub_claims['site_share'][0])} to {p0(pub_claims['site_share'][1])} percent of the income of capital and "
+     f"land, so such a tax would in time collect {p0(pub_claims['growth_share'][0])} to {p0(pub_claims['growth_share'][1])} percent of that income")
+says("F12 the two together",
+     f"Together the two come to between {p0(pub_claims['together'][0])} and {p0(pub_claims['together'][1])} percent of the income of capital "
+     f"and land, about a seventh.")
+check("F12b 'about a seventh' lies between the two, and 'most of' a fifth is within reach",
+      pub_claims["together"][0] < 1 / 7 < pub_claims["together"][1] and pub_claims["together"][0] > 0.5 * pg.THETA)
+says("F13 the dividend",
+     f"would have been {div['a_person']:,.0f} dollars a person in 2023, or {div['a_person'] / 12:.0f} dollars a month. That is "
+     f"{p0(div['family4'])} percent of a poverty-line bundle for one member of a family of four and {p0(div['single'])} percent for a person "
+     f"living alone.")
+says("F14 a full income",
+     f"would cost {p0(b.floor_gdp_family4)} to {p0(b.floor_gdp_single)} percent of GDP (Section 8.4), and paid from the present tax system it "
+     f"would be, for {p0(tau)} cents in the dollar, a claim on labor")
+says("F15 the dividend along the path",
+     f"the income of a common fifth is {p0(pg.path_dividend(0.0)['of_wages'])} percent of the wage bill at the start of the path and "
+     f"{p0(pg.path_dividend(1.0)['of_wages'])} percent of it at $t = 1$")
+says("F16 the upper middle with a fifth in common",
+     f"they would still lack {p1(g5[N]['gap'])} percent of all the claims, which is {p0(short)} cents of income from capital and land for every "
+     f"dollar of their wages")
+says("F17 saving out of wages",
+     f"At a return of 5 percent, {p0(short)} cents a year for every dollar of wages is a holding worth {d1(short / 0.05)} years' wages. A "
+     f"contribution of 5 percent of wages, invested with its returns, would build that holding in {d0(yrs(short, 0.05, 0.05))} years, and a "
+     f"contribution of 10 percent in {d0(yrs(short, 0.10, 0.05))}. At the 10 percent return of the model economy the holding is "
+     f"{d1(short / 0.10)} years' wages and the times are {d0(yrs(short, 0.05, 0.10))} and {d0(yrs(short, 0.10, 0.10))} years.")
+later = pg.gaps(tabs, 2023, pg.THETA, m1["labour"])[0][N]["short"]
+says("F18 the same saving later on the path",
+     f"where the claims cost {d1(c1['both'] / c0['both'])} times as many years of wages, the same 5 percent would take "
+     f"{d0(yrs(later, 0.05, 0.05))} years in place of {d0(yrs(short, 0.05, 0.05))}")
+says("F19 the tax that finances Social Security", f"a tax of {p1(2 * STATUTE['oasdi_each'])} percent of covered wages")
+says("F20 the base of the tax system",
+     f"In 2023, {p0(tau)} percent of tax revenue was raised from labor income, and contributions for social insurance, which are levied on "
+     f"wages alone, were {p0(contrib)} percent of all taxes and contributions.")
+band("F21 'at t = 1 wages are a sixth of income'", float(m1["labour"]), 0.15, 0.185)
+says("F22 who would pay a tax on consumption in 2023",
+     f"labor income paid for {p0(f23.fin_labour)} percent of consumption, and for {p0(current[2023])} percent of the consumption paid for out "
+     f"of current income")
+says("F23 who would pay it in the model",
+     f"{p0(m0['labour'])}, {p0(m0['interest'])} and {p0(m0['rent'])} percent by labor, interest and rent at the start of the path, and "
+     f"{p0(m1['labour'])}, {p0(m1['interest'])} and {p0(m1['rent'])} percent at $t = 1$")
+says("F24 the tax the program leaves out", f"paid by wages, {p1(-tax['wages'])} percent of income for every {p1(tax['revenue'])} raised")
+says("F25 the first series to watch", f"which was {d3(lab.max())} in {int(lab.idxmax())} and {d3(lab[2023])} in 2023")
+band("F26 'about a generation': 5 percent of wages at a return of 5 percent, in years", yrs(short, 0.05, 0.05), 25.0, 40.0)
+says("F27 introduction: the tax system", f"which raises {p0(tau)} percent of its revenue from labor income")
+band("F28 'would bring the poorer half close to a matched position': the share of the claims it would still lack", float(g5[P]["gap"]), 0.0, 0.02)
+says("F29 abstract and conclusion: the saving rate", "funded saving of 5 percent of wages for")
 
 # ---------------------------------------------------------------------------------------------------------------- E
 PRINTED = dict(median=0.33, low=0.18, high=0.59, cobb_douglas_share=0.48)   # Båge and Wilson (2026), Sections 10.1 and 8.4, as printed
