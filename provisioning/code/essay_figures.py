@@ -1,27 +1,26 @@
 # essay_figures.py — the figures of essay/essay.md, each from a table or a script that a battery holds.
 #
+#   fig_hours     what a forty-hour week made in 1973, in hours of 2024, to make and to buy     ../paths/cache/OPHNFB.csv, HOANBS.csv; the panel
 #   fig_dollar    where a dollar of consumer spending ends up, 2023                         data/one_basis.csv
-#   fig_books     work's part of what is bought, counted from production and from incomes   data/one_basis.csv, the financing panel
 #   fig_tenths    what each tenth of households lives on, 2023                              code/exposure.py
-#   fig_cents     income from owning for every dollar of pay, by group, 2023                code/program.py
-#   fig_keynes    output a person in the United States since 1930, against Keynes's range   ../paths/cache/GDPCA.csv, population
-#   fig_wage      the production worker's hourly wage since 1950, against its early pace    the backward model's panel (see below)
+#   fig_pay       output per hour and the production worker's hourly pay since 1950         ../paths/cache/OPHNFB.csv; the panel
+#   fig_band      a sketch of the argument about the worth of an hour: no data              (none)
+#   fig_time      what people given $1,000 a month did with it: transcribed figures         Vivalt and others, as cited
 #   fig_split     who is paid as machines improve, in the model economy                     code/paper_path.py
 #   fig_buys      what incomes and an hour's pay amount to at the hundredfold point         code/paper_path.py
-#   fig_door      what ownership costs in years of wages, and how long saving for it takes  code/paper_path.py, code/program.py
 #   fig_tax       taxing the return on machines against owning a fifth of them              code/paper_path.py
 #   fig_dividend  what a holding in common would pay a person, against the poverty line     code/program.py
+#   fig_door      what ownership costs in years of wages, and how long saving for it takes  code/paper_path.py, code/program.py
 #   fig_shares    each group's share of market income: now, after a large shift, with a fifth in common   code/exposure.py
 #   fig_floor     what a poverty-line income for everyone would cost, share of GDP          code/rent_base.py
 #   fig_common    who is paid for what along the model's path, under the program            code/program.py
-#   fig_band      a sketch of the argument about the worth of an hour: no data            (none)
-#   fig_time      what people given $1,000 a month did with it: transcribed figures       Vivalt and others, as cited
 #
 # The style, the colours and their validation are figures.py's. One colour means one thing throughout: blue is pay for
 # work, orange is income from owning what was built, aqua is income from owning land. Each figure carries its finding as
 # a title, since a figure in an essay is often seen without the text around it. Static, for a web page.
 #
-# fig_wage needs the backward model's panel, which is on another branch (see wage_shortfall.py); give its path:
+# fig_pay and the third bar of fig_hours need the backward model's panel, which is on another branch (see
+# wage_shortfall.py); give its path:
 # Run from provisioning/:  python3 code/essay_figures.py [PATH/TO/us-record/data/panel.csv]      writes essay/figures/*.png
 
 import os
@@ -44,7 +43,7 @@ import paper_path as pp  # noqa: E402
 import program as pg  # noqa: E402
 import rent_base as rb  # noqa: E402
 import wage_shortfall as ws  # noqa: E402
-from figures import AQUA, BLUE, CONTEXT, INK, INK2, MUTED, ORANGE, RED, dot  # noqa: E402
+from figures import AQUA, BLUE, CONTEXT, GRID, INK, INK2, MUTED, ORANGE, RED, dot  # noqa: E402
 
 OUT = os.path.join(ROOT, "essay", "figures")
 LW = 2.0
@@ -116,31 +115,6 @@ def fig_dollar():
            BOUGHT_FROM, drop=8)
 
 
-def fig_books():
-    made, fin = obt.made(), obt.financing()
-    fig, ax = plt.subplots(figsize=(7.2, 3.2))
-    ax.plot(made.index, 100 * made.labour_factor_psi38, color=BLUE, lw=LW, zorder=4,
-            label="Counted from production: the share of what households buy that is made by work")
-    ax.plot(fin.index, 100 * fin.fin_labour, color=INK2, lw=LW, zorder=3,
-            label="Counted from incomes: the share of what households buy that is paid for out of pay")
-    dot(ax, 2023, 100 * made.labour_factor_psi38[2023], BLUE)
-    dot(ax, 2023, 100 * fin.fin_labour[2023], INK2)
-    peak = int(made.labour_factor_psi38.idxmax())
-    dot(ax, peak, 100 * made.labour_factor_psi38[peak], BLUE)
-    ax.annotate(f"{100 * made.labour_factor_psi38[peak]:.0f}% in {peak}", (peak, 100 * made.labour_factor_psi38[peak]), xytext=(0, 8),
-                textcoords="offset points", ha="center", va="bottom", color=INK2)
-    ax.annotate(f"{100 * made.labour_factor_psi38[2023]:.0f}% on both\ncounts in 2023", (2023, 100 * made.labour_factor_psi38[2023]),
-                xytext=(8, 0), textcoords="offset points", ha="left", va="center", color=INK2)
-    ax.set_xlim(1996.5, 2023.5)
-    ax.set_ylim(50, 80)
-    ax.set_yticks([50, 60, 70, 80], ["50%", "60%", "70%", "80%"])
-    ax.set_xticks([1997, 2004, 2010, 2016, 2023])
-    ax.legend(loc="lower left", bbox_to_anchor=(0.0, 0.03), ncol=1, handlelength=1.6, borderaxespad=0.2)
-    fig.subplots_adjust(right=0.84)
-    finish(fig, ax, "fig_books", "Two sets of books, one answer",
-           "Work's part in what American households buy, measured two ways from separate records", BOUGHT_FROM)
-
-
 def fig_tenths():
     tabs = ex.inputs()
     a = ex.amounts(tabs, 2023)
@@ -170,78 +144,58 @@ def fig_tenths():
            BOUGHT_FROM, lift=26)
 
 
-def fig_cents():
-    tabs = ex.inputs()
-    now, matched = pg.gaps(tabs, 2023)
+def fig_hours(panel_path=None):
+    """What a forty-hour week made in 1973, in hours of 2024: the hours it takes to make it (from output per hour, held
+    here) and, with the backward model's panel, the hours of ordinary pay it takes to buy it."""
+    oph, hours, people = ws.annual("paths/cache/OPHNFB.csv"), ws.annual("paths/cache/HOANBS.csv"), rb.annual(pg.POPULATION)
+    make = 40.0 / (oph[2024] / oph[1973])
+    a_head = (hours[2024] / hours[1973]) / (people[2024] / people[1973]) - 1.0
+    rows = [("A week of work in 1973", 40.0, CONTEXT), ("The hours it takes in 2024\nto make what that week made", make, INK)]
+    if panel_path:
+        w = pd.read_csv(panel_path).set_index("year")["wage_exshelter"]
+        rows.append(("The hours of ordinary pay it takes in 2024\nto buy what that week's pay bought", 40.0 / (w[2024] / w[1973]), BLUE))
     fig, ax = plt.subplots(figsize=(7.2, 2.5))
-    ax.axvline(100 * matched, color=INK2, lw=0.9, zorder=1)
-    ax.text(100 * matched + 1.5, 2.52, f"what would balance a household: {100 * matched:.0f}¢", ha="left", va="bottom", color=INK2, fontsize=9)
-    for j, (key, name) in enumerate(GROUPS):
-        y = 2 - j
-        v = 100 * now[key]["per_dollar"]
-        ax.barh(y, v, height=0.56, color=ORANGE, zorder=3)
-        ax.annotate(f"{v:.0f}¢", (v, y), xytext=(6, 0), textcoords="offset points", ha="left", va="center", color=INK2)
-    ax.set_yticks(range(3), [name for _, name in GROUPS][::-1])
+    for j, (name, v, colour) in enumerate(rows):
+        y = len(rows) - 1 - j
+        ax.barh(y, v, height=0.56, color=colour, zorder=3)
+        ax.annotate(f"{v:.0f} hours", (v, y), xytext=(6, 0), textcoords="offset points", ha="left", va="center", color=INK2)
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows][::-1])
     ax.tick_params(axis="y", length=0)
-    ax.set_xlim(0, 108)
-    ax.set_ylim(-0.5, 2.95)
-    ax.set_xticks([0, 25, 50, 75, 100], ["0", "25¢", "50¢", "75¢", "$1"])
+    ax.set_xlim(0, 46)
+    ax.set_ylim(-0.55, len(rows) - 0.45)
+    ax.set_xticks([0, 10, 20, 30, 40])
+    ax.set_xlabel("Hours a week")
     ax.grid(False)
     ax.grid(True, axis="x")
     ax.spines["left"].set_visible(False)
-    finish(fig, ax, "fig_cents", "Most households own about half of what would balance them",
-           "Income from owning machines, buildings and land for every dollar of pay for work, 2023", BOUGHT_FROM)
+    finish(fig, ax, "fig_hours", "What forty hours made in 1973 takes sixteen hours to make now",
+           f"United States. Over the same years the hours worked in business, for each head of population,\nrose by {100 * a_head:.0f} percent. "
+           "Ordinary pay is measured against prices other than housing",
+           "Source: author's calculations from Bureau of Labor Statistics and Bureau of Economic Analysis series.", drop=48)
 
 
-def fig_keynes():
-    gdp, people = rb.annual("paths/cache/GDPCA.csv"), rb.annual("pinning/cache/B230RC0A052NBEA.csv")
-    per = (gdp / people).dropna()
-    per = per[per.index >= 1930] / per[1930]
-    years = np.arange(1930, 2031)
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
-    for times in (4, 8):
-        ax.plot(years, times ** ((years - 1930) / 100.0), color=CONTEXT, lw=1.1, ls=(0, (4, 3)), zorder=2)
-    ax.plot([2030, 2030], [4, 8], color=INK2, lw=2.2, zorder=3, solid_capstyle="butt")
-    for y in (4, 8):
-        ax.plot([2028.8, 2031.2], [y, y], color=INK2, lw=1.4, zorder=3)
-    ax.plot(per.index, per.values, color=BLUE, lw=LW, zorder=4)
-    dot(ax, 2024, per[2024], BLUE)
-    ax.annotate(f"{per[2024]:.1f} times as much\nin 2024", (2024, per[2024]), xytext=(-9, 8), textcoords="offset points", ha="right", va="bottom",
-                color=INK2)
-    ax.text(2032.5, 6.0, "Keynes's forecast\nfor 2030: four\nto eight times\nas much", ha="left", va="center", color=INK2, fontsize=9, linespacing=1.2)
-    ax.set_xlim(1930, 2050)
-    ax.set_ylim(0, 10)
-    ax.set_xticks([1930, 1950, 1970, 1990, 2010, 2030])
-    ax.set_yticks([1, 2, 4, 6, 8, 10], ["1", "2", "4", "6", "8", "10"])
-    ax.set_ylabel("Output a person, 1930 = 1")
-    finish(fig, ax, "fig_keynes", "Keynes was right about how rich we would be",
-           "Output a person in the United States after inflation. The dashed lines are steady growth that\nreaches four and eight times in a hundred years",
-           BOUGHT_FROM)
-
-
-def fig_wage(panel_path):
-    panel = pd.read_csv(panel_path).set_index("year")
-    w = panel["wage_exshelter"].dropna()
-    w = 100 * w / w[1950]
-    pace = ws.rate(w, 1950, 1973)
-    years = np.arange(1973, 2025)
+def fig_pay(panel_path):
+    oph = ws.annual("paths/cache/OPHNFB.csv")
+    w = pd.read_csv(panel_path).set_index("year")["wage_exshelter"].dropna()
+    years = [y for y in w.index if y in oph.index and y >= 1950]
+    made, pay = 100 * oph.loc[years] / oph[1950], 100 * w.loc[years] / w[1950]
     fig, ax = plt.subplots(figsize=(7.2, 3.5))
-    ax.plot(years, w[1973] * np.exp(pace * (years - 1973)), color=CONTEXT, lw=1.4, ls=(0, (4, 3)), zorder=2)
-    ax.plot(w.index, w.values, color=BLUE, lw=LW, zorder=4)
-    for y in (1973, 2024):
-        dot(ax, y, w[y], BLUE)
-    ax.annotate(f"1973: {100 * (w[1973] / w[1950] - 1):.0f}% above 1950", (1973, w[1973]), xytext=(-8, 9), textcoords="offset points", ha="right",
-                va="bottom", color=INK2)
-    ax.annotate(f"2024: {100 * (w[2024] / w[1973] - 1):.0f}% above 1973", (2024, w[2024]), xytext=(2, 10), textcoords="offset points",
-                ha="right", va="bottom", color=INK2)
-    ax.text(2001, w[1973] * np.exp(pace * (2001 - 1973)) + 14, "where the pace of\n1950 to 1973 led", ha="right", va="bottom", color=INK2, fontsize=9)
-    ax.set_xlim(1950, 2026)
-    ax.set_ylim(80, 540)
+    ax.axvline(1973, color=GRID, lw=1.0, zorder=1)
+    ax.plot(years, made.values, color=INK2, lw=LW, zorder=3)
+    ax.plot(years, pay.values, color=BLUE, lw=LW, zorder=4)
+    for series, colour, label in ((made, INK2, "what an hour of\nwork produces"), (pay, BLUE, "what an hour of\nordinary pay buys")):
+        dot(ax, 2024, series[2024], colour)
+        ax.annotate(f"{label}:\n{series[2024] / 100:.1f} times 1950", (2024, series[2024]), xytext=(8, 0), textcoords="offset points", ha="left",
+                    va="center", color=INK2, fontsize=9, linespacing=1.2)
+    ax.text(1972, 440, "1973", ha="right", va="center", color=MUTED, fontsize=9)
+    ax.set_xlim(1950, 2024.5)
+    ax.set_ylim(80, 480)
     ax.set_xticks([1950, 1973, 1995, 2024])
-    ax.set_yticks([100, 200, 300, 400, 500])
-    ax.set_ylabel("Hourly pay after prices, 1950 = 100")
-    finish(fig, ax, "fig_wage", "An hour of ordinary work stopped buying more in 1973,\nand has gained little since",
-           "Hourly pay of production and nonsupervisory workers in the United States, after consumer prices\nother than shelter",
+    ax.set_yticks([100, 200, 300, 400])
+    ax.set_ylabel("1950 = 100")
+    fig.subplots_adjust(right=0.76)
+    finish(fig, ax, "fig_pay", "Until 1973, ordinary pay kept pace with what an hour produced",
+           "Output per hour in American business, and the hourly pay of production and nonsupervisory workers\nafter consumer prices other than shelter",
            "Source: author's calculations from Bureau of Labor Statistics series.")
 
 
@@ -541,12 +495,13 @@ def fig_time():
 
 if __name__ == "__main__":
     panel = sys.argv[1] if len(sys.argv) > 1 and os.path.exists(sys.argv[1]) else None
-    for f in (fig_dollar, fig_books, fig_tenths, fig_cents, fig_keynes, fig_split, fig_buys, fig_door, fig_tax, fig_dividend, fig_shares,
-              fig_floor, fig_common, fig_band, fig_time):
+    for f in (fig_dollar, fig_tenths, fig_band, fig_time, fig_split, fig_buys, fig_tax, fig_dividend, fig_door, fig_shares, fig_floor, fig_common):
         f()
         print("drew", f.__name__)
+    fig_hours(panel)
+    print("drew fig_hours" + ("" if panel else " without its third bar: give the backward model's panel as an argument (see the header)"))
     if panel:
-        fig_wage(panel)
-        print("drew fig_wage")
+        fig_pay(panel)
+        print("drew fig_pay")
     else:
-        print("NOT DRAWN  fig_wage: give the backward model's panel as an argument (see the header)")
+        print("NOT DRAWN  fig_pay: give the backward model's panel as an argument (see the header)")

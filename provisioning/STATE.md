@@ -19,8 +19,9 @@ never as a prerequisite, and does not mention the earlier reading of the ninetee
 **The wall:** this repository is public. Public data only.
 **State as of:** 2026-11-10, seventh unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
 `paper/` revised to stand alone and given a program for the United States (Section 9), every number in it tied to the
-tables by `checks/check_draft.py`; and an essay for general readers in `essay/` ("Where Do People Get the Money?"),
-in her voice, with sixteen figures, every number in it tied to the tables by `checks/check_essay.py`.
+tables by `checks/check_draft.py`; and an essay for general readers in `essay/` ("Why Are We Still Working This
+Hard?", the second version, rewritten from a blank page), in her voice, with fourteen figures, every number in it tied
+to the tables by `checks/check_essay.py`.
 
 ## For her, first
 
@@ -82,7 +83,14 @@ under finding 14.
 10. **The missing piece is time** (sent while the essay was being finished, with her paper *The Unpriced Value of
    Time*, June 2026): "Even if machines don't get much better, perhaps we are still working more than we need to?
    Meaning, the economy can't accurately measure the price and value of leisure?" The essay's section "Are we already
-   working more than we need to?" is the answer.
+   working more than we need to?" was the first answer.
+11. **Time is not a section** ("No, I don't think it is just it's own section necessarily. Let's pause, take a step
+   back, think about the big picture, and rewrite from a blank slate"). Claude proposed the frame: a wage is a price
+   and a ticket (and a place); the ticket spoils the price, which is the cost in time already paid; the price shrinks
+   the ticket, which is the cost in share that may be coming; one repair, a second ticket made of ownership.
+12. **Theory and feel may carry the time half** ("I agree it's hard to measure, but easy to feel. This is a situation
+   we may need to lean on theory and vibes a fraction more than measurement. But I leave it all up to you"). The
+   rewrite does that in one place, "Why can't we take it as time?", and says there that it is doing it.
 
 ## Claude's calls, in her veto window
 
@@ -142,18 +150,23 @@ under finding 14.
   paper"; the conclusion ends on settling ownership "while it is still cheap to settle". Nothing else was raised in
   pitch. If it reads as too much or too little, those three places are the dial.
 
-- **The essay's shape.** Fourteen questions as headings, in the order the argument needs them; three piles near the
-  end (measured, from a model, judgment). One colour means one thing in every figure: blue is pay for work, orange is
-  income from owning what was built, aqua is income from land. It names no paper of hers and relies on none.
+- **The essay's shape (second version).** It opens on Keynes's two forecasts and three numbers: what took forty hours
+  to make in 1973 takes sixteen now; hours worked for each head of population are 10 percent higher; and it takes
+  thirty-four hours of ordinary pay to buy what forty bought. The spine is the wage's jobs. "Where did the gain go?" is
+  the price shrinking the ticket so far; "Why can't we take it as time?" is the ticket spoiling the price; the model
+  is both carried to the limit; the repair is a second ticket, which has to be ownership. Thirteen questions as
+  headings; four piles near the end (measured, from a model, from argument, from judgment). One colour means one thing
+  in every figure. It names no paper of hers and relies on none. The first version is at commit a45365a.
 - **Where the essay corrects the blog.** The economy does not seize up for want of customers (the owners are the
   customers); the long-run income is mostly the return on machines and only then the rent of land, so a land tax is not
-  most of the answer; a tax on what machines earn lands on wages; a spending tax paying for a dividend is, for now,
-  mostly wage earners paying each other; and the measured part of the wage shortfall that is a move from work to
-  ownership is a little over a fifth, with "about a third" given as a labelled guess.
-- **The section on time is placed after the dividend and before fairness**, as the part of the case that does not need
-  the machines to improve. It states her paper's argument in words that hold whether need is a constraint or sits
-  inside preferences (see finding 16), keeps her third proposition (the gain is real and cannot be had for nothing),
-  and reads the one large experiment as a caution as well as support.
+  most of the answer; a tax on what machines earn lands on wages; a benefit paid from today's taxes is, for 68 cents in
+  the dollar, wage earners paying each other; and of the gap between output per hour and ordinary pay since 1973, a
+  fifth is income moving from pay to ownership and two-fifths is pay spreading out among workers.
+- **How the time half is handled.** Her paper's argument in words that hold whether need is a constraint or sits
+  inside preferences (finding 16); one paragraph that asks the reader to consult their own experience, labelled as not
+  being evidence; then three pieces of evidence of a harder kind (where free time did arrive, Alaska, the experiment),
+  with the experiment read as a caution as well as support; and her third proposition kept, that the gain is real and
+  cannot be had for nothing, answered later by a floor paid from what is held in common.
 
 ## What exists
 
@@ -169,14 +182,14 @@ under finding 14.
 | `code/nipa_fiscal.py` → `data/nipa_fiscal.csv`, `data/nipa_fiscal_vintage.json` | What the United States taxes and pays out, by kind, 2000–2024 (BEA Tables 3.1, 3.5 and 3.12) | needs NipaDataA.txt in the cache to rebuild; the stored table is what everything reads, and `check_program.py` Q9c ties its vintage to the one-basis account's |
 | `code/program.py` | The sizes behind Sections 9 and 10: how far each group is from a matched position, with and without a fifth in common; what a common fifth pays; the years of saving that close the gap; taxes on corporate income and the growth of site rent as claims the public could hold; taxes and benefits by kind; who is paid for what along the model's path under the program | `checks/check_program.py`, 18 green. Reads only files in the repository |
 | `code/figures.py` → `paper/figures/` | The draft's eleven figures | drawn from the stored tables; colours validated with the dataviz skill's script |
-| `code/essay_figures.py` → `essay/figures/` | The essay's sixteen figures, each carrying its finding as a title; `fig_band` is a sketch with no data and `fig_time` draws three figures transcribed from one study's summary | drawn from the stored tables and the scripts above; `fig_wage` needs the backward model's panel as an argument |
-| `essay/essay.md`, `essay/build.py` → `essay/essay.html`, `essay/essay.pdf` | "Where Do People Get the Money?": the essay for general readers (about 11,000 words, 31 pages, one table, sixteen figures, a list of sources) and its reading copies | `checks/check_essay.py`, 123 green: the same test as the draft's, on the essay, and it holds each quotation and outside fact as it was read at its source. With the backward model's panel as an argument it holds the wage figures too (130 green) |
+| `code/essay_figures.py` → `essay/figures/` | The essay's fourteen figures, each carrying its finding as a title; `fig_band` is a sketch with no data and `fig_time` draws three figures transcribed from one study's summary | drawn from the stored tables and the scripts above; `fig_pay` and the third bar of `fig_hours` need the backward model's panel as an argument |
+| `essay/essay.md`, `essay/build.py` → `essay/essay.html`, `essay/essay.pdf` | "Why Are We Still Working This Hard?": the essay for general readers (about 9,700 words, 26 pages, one table, fourteen figures, a list of sources) and its reading copies | `checks/check_essay.py`, 111 green: the same test as the draft's, on the essay, and it holds each quotation and outside fact as it was read at its source. With the backward model's panel as an argument it holds the figures for ordinary pay too (119 green) |
 | `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 15,000 words, 33 pages, five tables, eleven figures, two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 173 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (177 green) |
 
 Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
 `python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_program.py`,
 `python3 checks/check_draft.py`, `python3 checks/check_essay.py` (numpy, pandas; the first also scipy and openpyxl
-through `../paths/code/chains.py`). All seven were green on 2026-11-10: 18, 16, 25, 5, 18, 173 and 123. To rebuild the
+through `../paths/code/chains.py`). All seven were green on 2026-11-10: 18, 16, 25, 5, 18, 173 and 111. To rebuild the
 reading copies: `python3 code/figures.py`, then `python3 paper/build.py`; and `python3 code/essay_figures.py [panel]`,
 then `python3 essay/build.py`.
 
@@ -278,6 +291,15 @@ or drop.
     that money measures the time of the poor cheaply. The essay's wording is true under either. And the experiment
     in finding 15 does not look like a corner: at a corner the whole transfer would be taken as time.
 
+17. **Three numbers for time, two of them held here.** From series stored in `../paths/cache/` (OPHNFB, HOANBS) and
+    population: output per hour in nonfarm business in 2024 is 2.51 times 1973's, so forty hours of 1973's output take
+    15.9 hours; hours worked in nonfarm business for each head of population are 10 percent higher in 2024 than in
+    1973 (11 percent higher than in 1950). With the backward model's panel: ordinary pay over prices other than shelter
+    is 1.19 times 1973's, so forty hours' pay then takes 33.7 hours now; and of the gap between the two since 1973
+    (0.75 in logs), pay spreading out is 38 percent, the fall in labour's share 20 percent, and 42 percent is left
+    over. This is a different division from Section 5 of the draft, which measures the shortfall against the pace of
+    1950 to 1973; the essay uses only this one.
+
 ## Next
 
 0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first; and her read of the essay, which is
@@ -362,3 +384,8 @@ or drop.
    (the list is under "What exists"), and two requests were refused and their facts left out. The section on time was
    added after her second message. Checks: essay 123 (130 with the panel); the other six unchanged. Not done: baskets
    by tenure; an hours-worked series; anything in `../pinning/` or in the draft.
+8. **2026-11-10 — the essay rewritten from a blank page** (her calls 11 and 12). New title, new spine (the wage as a
+   price, a ticket and a place), new opening (finding 17), the program cut to a table and a page. `code/essay_figures.py`
+   loses four figures and gains two (`fig_hours`, `fig_pay`); `checks/check_essay.py` rewritten for the new text (111
+   green, 119 with the panel). The other six batteries unchanged. Not done: an hours series by worker (only hours for
+   each head of population, from what is stored); anything in `../pinning/` or in the draft.
