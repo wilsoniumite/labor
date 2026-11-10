@@ -1,0 +1,65 @@
+{
+ "files": {
+  "AllTablesIO.zip": {
+   "bytes": 16335444,
+   "sha256_16": "ab316fa88157f8a9"
+  },
+  "AllTablesSUP.zip": {
+   "bytes": 20439248,
+   "sha256_16": "fe60d189c01b89df"
+  },
+  "ValueAdded.xlsx": {
+   "bytes": 822351,
+   "sha256_16": "737628be9c44bbb4"
+  },
+  "GrossOutput.xlsx": {
+   "bytes": 506819,
+   "sha256_16": "a5a88e808bd88c5b"
+  },
+  "Section2All_xls.xlsx": {
+   "bytes": 737985,
+   "sha256_16": "e224b8210a3267dd"
+  },
+  "Section3All_xls.xlsx": {
+   "bytes": 2040002,
+   "sha256_16": "5e02af61a2093c04"
+  },
+  "NipaDataA.txt": {
+   "bytes": 12093612,
+   "sha256_16": "adef98fd3e86b492"
+  }
+ },
+ "years": [
+  1997,
+  2023
+ ],
+ "bundles": {
+  "consumption": [
+   "F010"
+  ],
+  "business": [
+   "F02S",
+   "F02E",
+   "F02N"
+  ],
+  "housing": [
+   "F02R"
+  ],
+  "public": [
+   "F06S",
+   "F06E",
+   "F06N",
+   "F07S",
+   "F07E",
+   "F07N",
+   "F10S",
+   "F10E",
+   "F10N"
+  ]
+ },
+ "psi": [
+  0.0,
+  0.38,
+  0.67
+ ]
+}
