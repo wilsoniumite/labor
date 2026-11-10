@@ -17,9 +17,10 @@ the subject matter. Still not poetic or patronising, but a kind of quiet confide
 usually calm and collected." So the paper describes its own model and data, cites the other paper as a source and
 never as a prerequisite, and does not mention the earlier reading of the nineteen points.
 **The wall:** this repository is public. Public data only.
-**State as of:** 2026-11-10, sixth unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
+**State as of:** 2026-11-10, seventh unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
 `paper/` revised to stand alone and given a program for the United States (Section 9), every number in it tied to the
-tables by `checks/check_draft.py`.
+tables by `checks/check_draft.py`; and an essay for general readers in `essay/` ("Where Do People Get the Money?"),
+in her voice, with sixteen figures, every number in it tied to the tables by `checks/check_essay.py`.
 
 ## For her, first
 
@@ -44,6 +45,12 @@ agree once they are on one basis, up to what is saved, taxed or traded. The find
 not on one basis, and that the financing account's central case sits where the production side says it should. The
 draft says so in Section 3.3. It is a correction and a cross-check more than a discovery.
 
+**The essay is hers to re-voice and to disagree with.** `essay/essay.md` opens with a drafting note that lists what
+is not held, what is from general knowledge, and which judgments and guesses were made on her behalf ("Is it fair?" and
+the third pile in "How sure am I?"). It ends with a short note on how it was made, written in her voice as a
+placeholder; her own posts carry such a note at the top. Three places where the essay says more than the paper does are
+under finding 14.
+
 ## Her calls, 2026-11-10
 
 1. **P2 is this paper** ("P2 renamed, I think"). `../progress_and_prosperity/PLAN.md` carries the new entry.
@@ -64,6 +71,18 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
    what we have to do to make it most true"), with her questions: is it fair, does it fall apart if machines do nine
    tenths of the work, is half and half the better rule, and can an arbitrary number be escaped. Section 10 is the
    draft answer; she has not yet accepted it.
+9. **One more piece, a long one, for her readers** ("head to my blog, wilsoniumite.com, and read all my posts that have
+   anything to do with economics. I know many of them have errors, but I think taken together, along with your work
+   here and in the repo, they begin to paint a rather complete picture of something substantial ... Take my voice, and
+   the voice of your paper here, with all the weight that is justified by all the information we've collected, plus
+   maybe a bit more for a strong, educated guess backed by my intuition and yours ... Write so that my average reader
+   would understand. no jargen, references explained in place to add authority. Visualizations. Spark curiosity, ask
+   the key questions and then answer them as best you can. Timeless, standalone, the reader should not have to know my
+   writing, or yours, or any econ papers. Just a smart reader").
+10. **The missing piece is time** (sent while the essay was being finished, with her paper *The Unpriced Value of
+   Time*, June 2026): "Even if machines don't get much better, perhaps we are still working more than we need to?
+   Meaning, the economy can't accurately measure the price and value of leisure?" The essay's section "Are we already
+   working more than we need to?" is the answer.
 
 ## Claude's calls, in her veto window
 
@@ -123,6 +142,19 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
   paper"; the conclusion ends on settling ownership "while it is still cheap to settle". Nothing else was raised in
   pitch. If it reads as too much or too little, those three places are the dial.
 
+- **The essay's shape.** Fourteen questions as headings, in the order the argument needs them; three piles near the
+  end (measured, from a model, judgment). One colour means one thing in every figure: blue is pay for work, orange is
+  income from owning what was built, aqua is income from land. It names no paper of hers and relies on none.
+- **Where the essay corrects the blog.** The economy does not seize up for want of customers (the owners are the
+  customers); the long-run income is mostly the return on machines and only then the rent of land, so a land tax is not
+  most of the answer; a tax on what machines earn lands on wages; a spending tax paying for a dividend is, for now,
+  mostly wage earners paying each other; and the measured part of the wage shortfall that is a move from work to
+  ownership is a little over a fifth, with "about a third" given as a labelled guess.
+- **The section on time is placed after the dividend and before fairness**, as the part of the case that does not need
+  the machines to improve. It states her paper's argument in words that hold whether need is a constraint or sits
+  inside preferences (see finding 16), keeps her third proposition (the gain is real and cannot be had for nothing),
+  and reads the one large experiment as a caution as well as support.
+
 ## What exists
 
 | File | What it is | Gate |
@@ -137,23 +169,37 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
 | `code/nipa_fiscal.py` → `data/nipa_fiscal.csv`, `data/nipa_fiscal_vintage.json` | What the United States taxes and pays out, by kind, 2000–2024 (BEA Tables 3.1, 3.5 and 3.12) | needs NipaDataA.txt in the cache to rebuild; the stored table is what everything reads, and `check_program.py` Q9c ties its vintage to the one-basis account's |
 | `code/program.py` | The sizes behind Sections 9 and 10: how far each group is from a matched position, with and without a fifth in common; what a common fifth pays; the years of saving that close the gap; taxes on corporate income and the growth of site rent as claims the public could hold; taxes and benefits by kind; who is paid for what along the model's path under the program | `checks/check_program.py`, 18 green. Reads only files in the repository |
 | `code/figures.py` → `paper/figures/` | The draft's eleven figures | drawn from the stored tables; colours validated with the dataviz skill's script |
+| `code/essay_figures.py` → `essay/figures/` | The essay's sixteen figures, each carrying its finding as a title; `fig_band` is a sketch with no data and `fig_time` draws three figures transcribed from one study's summary | drawn from the stored tables and the scripts above; `fig_wage` needs the backward model's panel as an argument |
+| `essay/essay.md`, `essay/build.py` → `essay/essay.html`, `essay/essay.pdf` | "Where Do People Get the Money?": the essay for general readers (about 11,000 words, 31 pages, one table, sixteen figures, a list of sources) and its reading copies | `checks/check_essay.py`, 123 green: the same test as the draft's, on the essay, and it holds each quotation and outside fact as it was read at its source. With the backward model's panel as an argument it holds the wage figures too (130 green) |
 | `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 15,000 words, 33 pages, five tables, eleven figures, two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 173 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (177 green) |
 
 Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
 `python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_program.py`,
-`python3 checks/check_draft.py` (numpy, pandas; the first also scipy and openpyxl through `../paths/code/chains.py`).
-All six were green on 2026-11-10: 18, 16, 25, 5, 18 and 173. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
+`python3 checks/check_draft.py`, `python3 checks/check_essay.py` (numpy, pandas; the first also scipy and openpyxl
+through `../paths/code/chains.py`). All seven were green on 2026-11-10: 18, 16, 25, 5, 18, 173 and 123. To rebuild the
+reading copies: `python3 code/figures.py`, then `python3 paper/build.py`; and `python3 code/essay_figures.py [panel]`,
+then `python3 essay/build.py`.
 
 **Not held on this branch**, and said so in the draft: Section 5's wage accounting (`code/wage_shortfall.py`, the
 backward model's panel) and Section 7.4's land-tax figures (`consumption/lvt/NOTES_us.md` on the `consumption`
-branch). Both were read against their sources on 2026-11-10 and match.
+branch). Both were read against their sources on 2026-11-10 and match. The essay uses the same two sets of figures and
+its check lists them in the same way.
+
+**Read at the source for the essay, 2026-11-10** (pages not stored; `checks/check_essay.py` section Q holds what the
+essay prints): Keynes's essay; Paine's *Agrarian Justice* (en.wikisource.org) and George's *Progress and Poverty*
+(Project Gutenberg 55308); 29 U.S.C. 207 (law.cornell.edu); the Nobel citations for 1973 and 2024; the abstracts of
+Acemoglu and Restrepo (2018, 2022), Caselli and Manning, Korinek and Suh, Jones and Marinescu, and Vivalt and others
+(Crossref, nber.org); the Alaska dividend table (pfd.alaska.gov) and fund value (apfc.org); Norges Bank Investment
+Management's "About the fund"; the Swedish Pensions Agency's "National public pension". **Refused or failed:**
+fred.stlouisfed.org (the hours-worked series; the essay uses no hours series and cites the statute instead) and
+ato.gov.au (Australia's compulsory saving rate; left out).
 
 **Data fetched this session** (all from apps.bea.gov, into the gitignored cache
 `../progress_and_prosperity/lambda/data/cache/`): the two input-output zips, ValueAdded.xlsx, GrossOutput.xlsx, Fixed
 Assets sections 2 and 3, NipaDataA.txt and SeriesRegister.txt. Six of the seven files `chains.json` records are
 byte-identical to its vintage; NipaDataA.txt is newer (4 November 2026). Nothing was substituted.
 
-## What the six units found
+## What the seven units found
 
 1. **Three accounts agree** (B1). Labour makes 0.658 of what consumption buys, finances 0.658 of it, and is 0.666 of
    households' income once corporate income that is not paid out is counted. The first two differ by a point on average
@@ -213,9 +259,29 @@ or drop.
     to under 1%. So "half and half" is where the program arrives, not a number put in. And the exposures cancel
     (+0.10, +0.115, −0.14; everyone +0.008), so before a shift matching is an exchange; after it, a transfer.
 
+14. **Three things the essay says that the paper does not, and probably should.** (a) Paying the profits tax out as a
+    dividend means replacing 608 billion dollars a year of general revenue; Section 9.2 calls that revenue "within the
+    public's reach" and does not say it is already spent. (b) Past t = 1 the real wage levels off at about ten times
+    its starting value while income grows another fifty-seven-fold; at t = 1 an hour's pay buys 14 times the goods and
+    rents a twelfth of the land. (c) With a required return of 5 percent in place of 10, rent takes more than interest
+    at t = 1 (0.46 against 0.38) and labour's share is nearly the same (0.16 against 0.17), so how the owners' income
+    divides between machines and land depends on the return, and labour's share hardly does.
+15. **One source has moved.** The summary of Vivalt and others (NBER 32719, revised August 2026; QJE 2026) now reports
+    a 4.2 point fall in participation, one to two hours a week, and other income lower by about 1,900 dollars a year.
+    The blog's June post quotes the 2024 version (2.0 points, 1.3 hours). The essay uses what the page says now: about
+    a sixth of the transfer was taken as time, most of the freed time went to leisure, and job quality did not improve.
+16. **The paper on time, as it bears on this one.** Its third proposition and fifth remark are this paper's program
+    from another side: the gain from letting people refuse is real, is a transfer unless the base that pays for the
+    floor is widely owned, and "the efficiency case for dispersed ownership" follows. One caution for a referee: the
+    wedge comes from putting subsistence outside preferences as a hard constraint. With need inside preferences
+    (Stone–Geary), the wage equals the person's own money value of an hour and the result becomes the familiar one
+    that money measures the time of the poor cheaply. The essay's wording is true under either. And the experiment
+    in finding 15 does not look like a corner: at a corner the whole transfer would be taken as time.
+
 ## Next
 
-0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first.
+0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first; and her read of the essay, which is
+   hers to re-voice. If finding 14(a) is right, Section 9.2 of the draft needs one sentence.
 1. **Baskets by decile and tenure** (assembly 2's second half): the consumer expenditure machinery is on the
    `consumption` branch. Until then B3 gives every decile the average basket, and the paper says so.
 2. **The rest of the verify pass** on section 10's ledger. Done on 2026-11-10: every reference's details against
@@ -289,3 +355,10 @@ or drop.
    (Table 5), sets out the standard of contribution, and shows where it leads when work becomes scarce (Figure 11).
    The old Sections 10 and 11 are now 11 and 12. Checks: program 18, draft 173 (177 with the panel). Not done:
    baskets by tenure; a tax on consumption computed in the model; her acceptance of Section 10.
+7. **2026-11-10 — an essay for her readers** (her calls 9 and 10). Read: all 44 posts on wilsoniumite.com through its
+   public API, the 22 on economics in full (about 35,000 words), and her paper on the value of time. Written:
+   `essay/essay.md`, `code/essay_figures.py` (sixteen figures), `checks/check_essay.py`, `essay/build.py`. The essay
+   uses the draft's numbers and adds what finding 14 lists; every quotation and outside fact was read at its source
+   (the list is under "What exists"), and two requests were refused and their facts left out. The section on time was
+   added after her second message. Checks: essay 123 (130 with the panel); the other six unchanged. Not done: baskets
+   by tenure; an hours-worked series; anything in `../pinning/` or in the draft.
