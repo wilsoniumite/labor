@@ -76,9 +76,9 @@ def fig_accounts():
     made, fin, pub = obt.made(), obt.financing(), obt.published()
     fig, ax = plt.subplots(figsize=(6.6, 3.5))
     ax.fill_between(fin.index, fin.fin_lower, fin.fin_upper, color=ORANGE, alpha=0.10, lw=0, zorder=1)
-    ax.plot(pub.index, pub.human_effort_share, color=CONTEXT, lw=LW, zorder=2, label="Made by labour, as the production account counts it")
-    ax.plot(fin.index, fin.fin_labour, color=ORANGE, lw=LW, zorder=3, label="Paid for by labour (the financing account; its bounds shaded)")
-    ax.plot(made.index, made.labour_factor_psi38, color=BLUE, lw=LW, zorder=4, label="Made by labour, with wear traced back and taxes and imports set aside")
+    ax.plot(pub.index, pub.human_effort_share, color=CONTEXT, lw=LW, zorder=2, label="Made by labor, as the production account counts it")
+    ax.plot(fin.index, fin.fin_labour, color=ORANGE, lw=LW, zorder=3, label="Paid for by labor income (its bounds shaded)")
+    ax.plot(made.index, made.labour_factor_psi38, color=BLUE, lw=LW, zorder=4, label="Made by labor, with wear traced back and taxes and imports set aside")
     for s, c in ((pub.human_effort_share, CONTEXT), (fin.fin_labour, ORANGE), (made.labour_factor_psi38, BLUE)):
         dot(ax, s.index[-1], s.iloc[-1], c)
     ax.annotate("0.66 made and 0.66 paid for", (2023, made.labour_factor_psi38[2023]), xytext=(6, 0), textcoords="offset points",
@@ -88,7 +88,7 @@ def fig_accounts():
     ax.set_xlim(1996.5, 2023.5)
     ax.set_ylim(0.40, 0.86)
     ax.set_yticks([0.4, 0.5, 0.6, 0.7, 0.8])
-    ax.set_ylabel("Labour's share")
+    ax.set_ylabel("Labor's share")
     ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.20), ncol=1, handlelength=1.6, borderaxespad=0)
     fig.subplots_adjust(right=0.74)
     save(fig, "fig_accounts")
@@ -111,9 +111,9 @@ def fig_exposure():
                     ha="center", va="bottom" if v > 0 else "top", color=INK2)
     ax.set_yticks([-0.15, -0.10, -0.05, 0, 0.05, 0.10, 0.15], ["−0.15", "−0.10", "−0.05", "0", "+0.05", "+0.10", "+0.15"])
     ax.set_xlabel("Tenth of households by equivalized disposable income, poorest to richest")
-    ax.set_ylabel("Labour's share of income less\nlabour's share of what it buys")
+    ax.set_ylabel("Labor's share of income less\nlabor's share of what it buys")
     ax.tick_params(axis="x", length=0)
-    ax.plot([], [], color=BLUE, lw=6, label="Paid more by labour than its purchases are made by it")
+    ax.plot([], [], color=BLUE, lw=6, label="Paid more by labor than its purchases are made by it")
     ax.plot([], [], color=RED, lw=6, label="Paid less")
     ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.16), ncol=2, handlelength=0.9, borderaxespad=0, columnspacing=1.6)
     save(fig, "fig_exposure")
@@ -122,7 +122,7 @@ def fig_exposure():
 def fig_holdings():
     g = pd.read_csv(os.path.join(ROOT, "data", "exposure_groups.csv"))
     g = g[g.year == 2023].set_index("group")
-    rows = [("Labour income", "share_of_labour_income"), ("Income of capital and land", "share_of_capital_and_land"),
+    rows = [("Labor income", "share_of_labour_income"), ("Income of capital and land", "share_of_capital_and_land"),
             ("Transfers", "share_of_transfers"), ("Consumption", "share_of_consumption")]
     groups = [("bottom half", "Poorer half", BLUE), ("next four tenths", "Next four tenths", ORANGE), ("top tenth", "Richest tenth", AQUA)]
     fig, ax = plt.subplots(figsize=(6.6, 2.5))
@@ -158,7 +158,7 @@ def fig_shift():
     for ax, (g, h) in zip(axes, held.items()):
         as_now = [ex.income_share(h, x) for x in s]
         common = [ex.income_share(h, x, 0.2) for x in s]
-        ax.plot(s, as_now, color=BLUE, lw=LW, zorder=4, label="Holdings as they are")
+        ax.plot(s, as_now, color=BLUE, lw=LW, zorder=4, label="Holdings as they were in 2023")
         ax.plot(s, common, color=ORANGE, lw=LW, zorder=3, label="A fifth of capital and land held in common")
         ax.axvline(0.17, color=GRID, lw=0.8, zorder=1)
         dot(ax, s_now, as_now[0], BLUE)
@@ -175,11 +175,11 @@ def fig_shift():
                     va="bottom" if above else "top", color=INK2)
         ax.set_title(titles[g], fontweight="normal", color=INK)
         ax.set_xlim(0.80, -0.03)
-        ax.set_xticks([0.66, 0.4, 0.17, 0.0], ["0.66\ntoday", "0.40", "0.17", "0"])
+        ax.set_xticks([0.66, 0.4, 0.17, 0.0], ["0.66\nin 2023", "0.40", "0.17", "0"])
         ax.set_ylim(0, 0.75)
         ax.set_yticks([0, 0.25, 0.5, 0.75], ["0", "25%", "50%", "75%"])
     axes[0].set_ylabel("Share of market income")
-    axes[1].set_xlabel("Labour's share of market income, falling to the right")
+    axes[1].set_xlabel("Labor's share of market income, falling to the right")
     axes[0].legend(loc="upper left", bbox_to_anchor=(0.0, 1.36), ncol=2, handlelength=1.6, borderaxespad=0, columnspacing=1.8)
     fig.subplots_adjust(wspace=0.12)
     save(fig, "fig_shift")
@@ -197,11 +197,11 @@ def fig_path():
     a.fill_between(t, labour + interest, 1, color=AQUA, lw=0, zorder=2)
     a.plot(t, labour, zorder=3, **edge)
     a.plot(t, labour + interest, zorder=3, **edge)
-    a.text(0.12, 0.28, "Labour", color="white", fontweight="bold", va="center")
+    a.text(0.12, 0.28, "Labor", color="white", fontweight="bold", va="center")
     a.text(1.15, 0.36, "Interest", color="white", fontweight="bold", va="center")
     a.text(1.15, 0.83, "Rent", color="white", fontweight="bold", va="center")
     a.axvline(0.77, color=INK2, lw=0.8, zorder=4)
-    a.text(0.80, 0.955, "the threshold", color="white", fontsize=8, va="center", ha="left")
+    a.text(0.80, 0.955, "t = 0.77", color="white", fontsize=8, va="center", ha="left")
     a.set_xlim(0, 2)
     a.set_ylim(0, 1)
     a.set_yticks([0, 0.25, 0.5, 0.75, 1.0], ["0", "25%", "50%", "75%", "100%"])

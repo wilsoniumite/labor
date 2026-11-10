@@ -291,15 +291,17 @@ Samuels and Senel 2026 (verified in P1); Barkai 2020 (verified in P1); Rognlie 2
 Geanakoplos on public funds holding equity; the Meidner plan's history; Australia's contribution rate and fund size;
 plus three-taxes' own ledger for what is taken from it.
 
-**Status, 2026-11-10 (the draft's reference list carries the same notes).** Bibliographic details checked in Crossref:
-Chamley 1986 (first page only), Judd 1985, Piketty, Saez and Zucman 2018, Straub and Werning 2020, Sinai and Souleles
-2005, Freeman 2015, Baxter and Jermann as NBER Working Paper 5019 (the journal version not checked), Keynes's essay in
-*Essays in Persuasion*, and the Routledge reissues of Meade 1964 and Meade 1978. Titles and authors confirmed from
-reviews indexed there, publisher and year not: Auerbach and Kotlikoff 1987, Musgrave 1959, and the Hansen volume that
-holds Brown 1948 (the chapter's own title not checked). Not checked at all: Paine 1797. Keynes's two forecasts (four
-to eight times; a fifteen-hour week) were checked against the essay's text. Still from memory: what the draft
-attributes to each of the others. Listed above and not yet used in the draft: the dual approach to growth accounting,
-Borusyak and Jaravel, Diamond and Geanakoplos, the Meidner plan, Australia's funds, Barkai 2020.
+**Status, 2026-11-10.** Bibliographic details confirmed for every reference in the draft, against Crossref, RePEc or
+Open Library, or taken from the reference list of *What Machines Cannot Make*; the one exception is the title of
+Brown's chapter in the Hansen volume. Keynes's two forecasts (four to eight times; a fifteen-hour week) were read
+against the essay's text. What the draft attributes to these was read against their abstracts: Caselli and Manning
+2019, Korinek and Suh 2024, Sachs and Kotlikoff 2012, Freeman 2015, Moll, Rachel and Restrepo 2022, Piketty, Saez and
+Zucman 2018, Sinai and Souleles 2005, Straub and Werning 2020 (which also states the Chamley-Judd result), and Baxter
+and Jermann 1997. What it attributes to these follows *What Machines Cannot Make*: Zeira 1998, Acemoglu and Restrepo
+2018, Korinek and Stiglitz 2019, Cummins and Violante 2002, Rognlie 2015, Barkai 2020, Hall and Jorgenson 1967,
+Orshansky 1963. Still from memory: Brown 1948, Meade 1964 and 1978, Auerbach and Kotlikoff 1987, Musgrave 1959, Paine
+1797, George 1879. Listed above and not used in the draft: the dual approach to growth accounting, Borusyak and
+Jaravel, Diamond and Geanakoplos, the Meidner plan, Australia's funds.
 
 ## 11. Decisions for her
 

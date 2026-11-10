@@ -10,9 +10,15 @@ checks gate absolutely; direct critique over validation; her voice pass re-voice
 in plain functions, notebook-cell style.
 **Register for prose** (her instruction, 2026-11-10): "please don't be too poetic or terse, nor patronising. A paper
 that most smart people would read." Full sentences, terms defined once, no aphorisms, no clipped notes.
+**And after reading the first draft** (2026-11-10): "making it more standalone, timeless. People haven't read our
+previous 19 point error, or our other paper. They might have heard of the other papers, so referencing them is good
+for authority, but you can't rely on someone having read them. And the paper needs to be a fraction more weighty given
+the subject matter. Still not poetic or patronising, but a kind of quiet confidence, and the worry of someone who is
+usually calm and collected." So the paper describes its own model and data, cites the other paper as a source and
+never as a prerequisite, and does not mention the earlier reading of the nineteen points.
 **The wall:** this repository is public. Public data only.
-**State as of:** 2026-11-10, third unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; a first draft in
-`paper/`, every number in it tied to the tables by `checks/check_draft.py`.
+**State as of:** 2026-11-10, fourth unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
+`paper/` revised to stand alone, every number in it tied to the tables by `checks/check_draft.py`.
 
 ## For her, first
 
@@ -27,8 +33,9 @@ the numbers. Nothing in `../pinning/` was changed. What the two accounts do show
 different data, they agree. The October rewrite (*What Machines Cannot Make*) does not carry the claim; `main.tex`,
 the version in the Economic Modelling package, does.
 
-**The draft withdraws that reading in the authors' voice** (Section 3.3: "We withdraw that reading here"). That
-sentence is hers and Johan's to keep, reword or cut.
+**The draft no longer mentions the earlier reading** (her call after the first draft: the paper stands alone). It
+presents the nineteen points as what a reader would see on setting the Bureau's 47 cents beside labor's share of
+income, and accounts for them (Section 3.3). The correction to `main.tex` is still hers to make there.
 
 **Read the agreement for what it is.** Income and product are two sides of one ledger, so the two accounts should
 agree once they are on one basis, up to what is saved, taxed or traded. The finding is that the earlier comparison was
@@ -69,6 +76,17 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
   (0.30, 0.15 to 0.59), because the rewrite is the companion the draft cites.
 - **Two citations were added to the sketch's list** once Crossref confirmed them: Sinai and Souleles 2005 (owning as a
   hedge against rent) and Freeman 2015.
+- **The paper is in American spelling** (labor, center, gray), as *What Machines Cannot Make* is. The figures follow.
+  The code, the stored tables and these notes keep their spelling.
+- **How the paper stands alone.** The model economy is described in Section 6.1 and stated in Appendix A, with its
+  parameters, targets and path; Båge and Wilson (2026) is cited for the derivations. The data and methods are in
+  Appendix B. The second account is described where it is used (Section 3.3) and is no longer called "the financing
+  account". The reference list follows the October paper's style, without DOIs or notes; what is unconfirmed is in the
+  drafting note at the top of the draft and in `SKETCH.md` section 10.
+- **Where the weight is.** The introduction says why the position is worth examining before anyone knows whether it
+  will matter; Section 8.3 calls the rising price of ownership in years of wages "the most troubling result in the
+  paper"; the conclusion ends on settling ownership "while it is still cheap to settle". Nothing else was raised in
+  pitch. If it reads as too much or too little, those three places are the dial.
 
 ## What exists
 
@@ -82,12 +100,12 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
 | `code/wage_shortfall.py` | Where the production wage fell short of its 1950–73 pace | **Not gated here.** It reads the backward model's panel, on `claude/focused-bardeen-aciw2z` (at 457e38b) |
 | `code/one_basis_tables.py` | The stored tables read without the BEA files (what is made; the financing panel; the Bureau's published grouping) | used by the figures, the decile account and the draft's check |
 | `code/figures.py` → `paper/figures/` | The draft's six figures | drawn from the stored tables; colours validated with the dataviz skill's script |
-| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The first draft (about 8,800 words, 20 pages) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 101 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. With the backward model's panel as an argument it also holds Section 5's wage accounting (105 green) |
+| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 10,800 words, 24 pages, with two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 127 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (131 green) |
 
 Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
 `python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_draft.py` (numpy,
 pandas; the first also scipy and openpyxl through `../paths/code/chains.py`). All five were green on 2026-11-10: 18,
-16, 25, 5 and 101. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
+16, 25, 5 and 127. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
 
 **Not held on this branch**, and said so in the draft: Section 5's wage accounting (`code/wage_shortfall.py`, the
 backward model's panel) and Section 7.4's land-tax figures (`consumption/lvt/NOTES_us.md` on the `consumption`
@@ -98,7 +116,7 @@ branch). Both were read against their sources on 2026-11-10 and match.
 Assets sections 2 and 3, NipaDataA.txt and SeriesRegister.txt. Six of the seven files `chains.json` records are
 byte-identical to its vintage; NipaDataA.txt is newer (4 November 2026). Nothing was substituted.
 
-## What the three units found
+## What the four units found
 
 1. **Three accounts agree** (B1). Labour makes 0.658 of what consumption buys, finances 0.658 of it, and is 0.666 of
    households' income once corporate income that is not paid out is counted. The first two differ by a point on average
@@ -131,14 +149,24 @@ from 1985); in the stored main case land's share of a machine's cost is 0.33 in 
 lost share of income since 1970 goes to interest (5.1 of 6.4 points), not land (0.3). Those are `us-record`'s to keep
 or drop.
 
+11. **What making the paper stand alone turned up.** The second account has three parts, and the paper now gives them:
+    labor income pays for 65.8% of consumption in 2023, other current income for 23.6%, savings or borrowing for 10.6%.
+    The four tenths above the median lose the most points under a larger shift (11.0 against 4.6), but in proportion to
+    its own share the poorer half loses slightly more (32% against 28%); the draft says both. Baxter and Jermann's
+    finding is about the returns to human and physical capital, not labor and capital income, and the draft now says
+    what their abstract says. On the model's path income is 32 times as large at t = 1 and the real wage 9 times, so
+    the path is about the division of a gain, and the draft says so.
+
 ## Next
 
 0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first.
 1. **Baskets by decile and tenure** (assembly 2's second half): the consumer expenditure machinery is on the
    `consumption` branch. Until then B3 gives every decile the average basket, and the paper says so.
-2. **The rest of the verify pass** on section 10's ledger. Done on 2026-11-10: the bibliographic details Crossref
-   holds, and Keynes's two forecasts against the essay's text (`SKETCH.md` section 10 has the list). Not done: what
-   the draft attributes to each source, which needs the sources read; the books' publishers and years; Paine.
+2. **The rest of the verify pass** on section 10's ledger. Done on 2026-11-10: every reference's details against
+   Crossref, RePEc or Open Library, except the title of Brown's chapter; Keynes's two forecasts against the essay's
+   text; and what the draft attributes to nine papers against their abstracts (`SKETCH.md` section 10 has the list).
+   Not done: what it attributes to Brown, Meade (twice), Auerbach and Kotlikoff, Musgrave, Paine and George, which
+   needs the books.
 3. **Capital in the record** (assembly 4): net surplus split into the normal return and the rest; funded pensions as
    claims; pension systems as cases.
 4. **The long run of B1** (assembly 6): the production account before 1997 on one basis.
@@ -179,3 +207,10 @@ or drop.
    journal articles' details were checked and two citations added. The figures were relabelled in the draft's words.
    Footnotes were folded into the text. Coverage is quoted from the rewrite. Not done: baskets by tenure; the claims
    attributed to sources; anything in `../pinning/`.
+4. **2026-11-10 — the draft revised to stand alone, and a little graver** (her two notes on the first draft, quoted
+   under the register above). Rewritten: the abstract, the introduction, Sections 3.3 and 3.4, Section 6 (now with the
+   model economy described), 8.3, 9 and the conclusion; Appendices A and B are new; the earlier reading of the nineteen
+   points and every reliance on the other paper are gone. American spelling throughout, figures relabelled.
+   `checks/check_draft.py` rewritten to match (127 green, 131 with the panel) and extended to Appendix A. The reference
+   details were completed from RePEc and Open Library, and nine attributions read against abstracts. Not done: baskets
+   by tenure; the attributions that need the books; anything in `../pinning/`.
