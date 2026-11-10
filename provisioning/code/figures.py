@@ -84,7 +84,7 @@ def fig_accounts():
     ax.annotate("0.66 made and 0.66 paid for", (2023, made.labour_factor_psi38[2023]), xytext=(6, 0), textcoords="offset points",
                 va="center", color=INK2)
     ax.annotate("0.47", (2023, pub.human_effort_share[2023]), xytext=(6, 0), textcoords="offset points", va="center", color=INK2)
-    ax.annotate("wear, taxes and imports:\nnineteen points", (2012.5, 0.565), ha="center", va="center", color=MUTED, fontsize=8)
+    ax.annotate("wear, taxes\nand imports", (2012.5, 0.565), ha="center", va="center", color=MUTED, fontsize=8)
     ax.set_xlim(1996.5, 2023.5)
     ax.set_ylim(0.40, 0.86)
     ax.set_yticks([0.4, 0.5, 0.6, 0.7, 0.8])

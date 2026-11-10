@@ -33,9 +33,10 @@ the numbers. Nothing in `../pinning/` was changed. What the two accounts do show
 different data, they agree. The October rewrite (*What Machines Cannot Make*) does not carry the claim; `main.tex`,
 the version in the Economic Modelling package, does.
 
-**The draft no longer mentions the earlier reading** (her call after the first draft: the paper stands alone). It
-presents the nineteen points as what a reader would see on setting the Bureau's 47 cents beside labor's share of
-income, and accounts for them (Section 3.3). The correction to `main.tex` is still hers to make there.
+**The draft no longer mentions the earlier reading, or the words "nineteen points"** (her call after the first draft:
+the paper stands alone; and her question on the revision, which had kept one sentence of it in the introduction).
+Section 3.3 reconciles the Bureau's 0.472 with 0.658 step by step and says no more than that; Figure 1's note reads
+"wear, taxes and imports". The correction to `main.tex` is still hers to make there.
 
 **Read the agreement for what it is.** Income and product are two sides of one ledger, so the two accounts should
 agree once they are on one basis, up to what is saved, taxed or traded. The finding is that the earlier comparison was

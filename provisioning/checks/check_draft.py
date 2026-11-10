@@ -70,8 +70,6 @@ says("A2 introduction: the same",
 band("A3 'differ by one point on average': the mean absolute difference, 2004-2023", float(diff.abs().mean()), 0.005, 0.015)
 check("A4 the two accounts are compared over twenty years, 2004 to 2023", years[0] == 2004 and years[-1] == 2023 and len(years) == 20)
 says("A5 the Bureau's reading", f"finds that {p0(pub.human_effort_share[2023])} cents of each dollar spent in 2023 is the work of people in the United States")
-says("A5b the Bureau's reading in the introduction and in Section 3.3",
-     f"attributing {p0(pub.human_effort_share[2023])} cents of the consumer's dollar to labor")
 says("A6 the dollar as counted",
      f"Of the consumer's dollar, {p1(r.gross_comp)} cents is employees' pay. Wear on machines and buildings takes {p1(worn)} cents. The "
      f"surplus left to owners after that wear takes {p1(r.gross_nos)} cents. Taxes on production take {p1(r.gross_tax)} cents and "
@@ -108,8 +106,10 @@ says("A21 where the nineteen points go",
      f"Starting from the Bureau's {d3(pub.human_effort_share[2023])}: our count of labor before any adjustment is "
      f"{d3(pub.human_effort_share[2023] - r.labour_gross_psi38)} lower. Tracing wear back adds {d3(r.labour_dollar_psi38 - r.labour_gross_psi38)}. "
      f"Leaving taxes and imports aside adds {d3(r.labour_factor_psi38 - r.labour_dollar_psi38)}. The result is {d3(r.labour_factor_psi38)}.")
-band("A22 'nineteen points' between the account as usually kept and the other two in 2023",
-     float(f23.fin_labour - pub.human_effort_share[2023]), 0.18, 0.195)
+band("A22 'it lies well below the other two': the account as usually kept against what labor pays for, 2023",
+     float(f23.fin_labour - pub.human_effort_share[2023]), 0.15, 0.25)
+says("A22b the introduction says how the first figure is built",
+     "with the wear on machines and buildings traced back to the work, capital and land that replace it. The second comes from")
 current = fin.fin_labour / (1 - fin.fin_beyond_income)
 says("A23 spending out of current income",
      f"Of the consumption paid for out of current income, labor pays for {p1(current[2023])} percent. That is "
