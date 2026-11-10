@@ -319,9 +319,14 @@ Jaravel, Diamond and Geanakoplos, the Meidner plan, Australia's funds.
 5. The yardstick in B4: 1950–73 is a choice, and the shares move with it.
 6. When Appendices D and F leave P1.
 7. Whether three-taxes moves under this folder or stays where it is; and this folder's name.
+8. **The moral claim** (opened 2026-11-10 with her storyline; `STATE.md` call 8). The draft's Section 10 takes the
+   standard of contribution, as she proposed, and reports where it leads in the model: what is held in common goes
+   from 6% of income to 48% as work becomes scarce. Hers and Johan's to accept or change: the two premises (what no
+   one made is held in common; no one left without means), the judgment that taxing only the growth of rent is a
+   fair division, and the public's stake of a fifth.
 
 ---
 
 All prose here is draft register, hers to re-voice. Checks: `checks/check_one_basis.py` (18; needs the BEA files, see
 its header), `checks/check_exposure.py` (16), `checks/check_paper_path.py` (25), `checks/check_rent_base.py` (5),
-`checks/check_program.py` (15), `checks/check_draft.py` (158).
+`checks/check_program.py` (18), `checks/check_draft.py` (173).

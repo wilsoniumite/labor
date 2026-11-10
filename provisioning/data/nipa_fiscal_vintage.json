@@ -1,0 +1,71 @@
+{
+ "file": "NipaDataA.txt",
+ "bytes": 12093612,
+ "sha256_16": "adef98fd3e86b492",
+ "series": {
+  "W054RC": {
+   "column": "tax_receipts",
+   "label": "Current tax receipts"
+  },
+  "W055RC": {
+   "column": "personal_taxes",
+   "label": "Personal current taxes"
+  },
+  "W056RC": {
+   "column": "production_taxes",
+   "label": "Taxes on production and imports"
+  },
+  "W025RC": {
+   "column": "corporate_taxes",
+   "label": "Taxes on corporate income, payable by corporations and other enterprises"
+  },
+  "W008RC": {
+   "column": "taxes_from_abroad",
+   "label": "Taxes from the rest of the world"
+  },
+  "W782RC": {
+   "column": "contributions",
+   "label": "Contributions for government social insurance"
+  },
+  "B248RC": {
+   "column": "sales_taxes",
+   "label": "State and local sales taxes"
+  },
+  "LA000355": {
+   "column": "property_taxes",
+   "label": "Recurrent taxes on immovable property"
+  },
+  "A063RC": {
+   "column": "benefits",
+   "label": "Government social benefits to persons"
+  },
+  "W823RC": {
+   "column": "social_security",
+   "label": "Social security"
+  },
+  "W824RC": {
+   "column": "medicare",
+   "label": "Medicare"
+  },
+  "W729RC": {
+   "column": "medicaid",
+   "label": "Medicaid"
+  },
+  "A1589C": {
+   "column": "unemployment",
+   "label": "Unemployment insurance"
+  },
+  "A1594C": {
+   "column": "veterans",
+   "label": "Veterans' benefits"
+  },
+  "TRP600": {
+   "column": "snap",
+   "label": "Supplemental Nutrition Assistance Program"
+  },
+  "W811RC": {
+   "column": "refundable_credits",
+   "label": "Refundable tax credits"
+  }
+ }
+}

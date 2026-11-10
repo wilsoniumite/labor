@@ -80,15 +80,38 @@ check("Q7 a common fifth pays $4,493 a person a year in 2023, $374 a month: 0.58
       "four, 0.29 for a person alone",
       *rows([(d["a_person"], 4493, 0), (d["a_person"] / 12, 374, 0), (d["family4"], 0.58, 2), (d["single"], 0.29, 2)]))
 p = pg.public_claims(tabs, Y)
-check("Q8 the corporate income tax raised $621bn in 2023, 0.08 of the income of capital and land; residential site rent is 0.12 to "
+check("Q8 taxes on corporate income raised $608bn for all governments in 2023, 0.08 of the income of capital and land; residential site rent is 0.12 to "
       "0.19 of it; a tax on its growth collects 0.39 of the rent after 25 years at 2%, so 0.05 to 0.08; together 0.13 to 0.16",
-      *rows([(p["corporate"], 621, 0), (p["corporate_share"], 0.08, 2), (p["site_share"][0], 0.12, 2), (p["site_share"][1], 0.19, 2),
+      *rows([(p["corporate"], 608, 0), (p["corporate_share"], 0.08, 2), (p["site_share"][0], 0.12, 2), (p["site_share"][1], 0.19, 2),
              (p["grown"], 0.39, 2), (p["growth_share"][0], 0.05, 2), (p["growth_share"][1], 0.08, 2), (p["together"][0], 0.13, 2),
              (p["together"][1], 0.16, 2)]))
-check("Q9 contributions for social insurance were 0.25 of all taxes and contributions in 2023", prints(pg.receipts(Y), 0.25, 2),
-      f"{pg.receipts(Y):.4f}")
+rc = pg.receipts(Y)
+check("Q9 2023, shares of all taxes and contributions ($7,147bn): personal taxes 0.40, contributions for social insurance 0.25, sales and "
+      "other taxes 0.17, property taxes 0.10 ($697bn), taxes on corporate income 0.09; they add to one",
+      rows([(rc["total"], 7147, 0), (rc["personal"], 0.40, 2), (rc["contributions"], 0.25, 2), (rc["sales"] + rc["other_production"] + rc["abroad"], 0.17, 2),
+            (rc["property"], 0.10, 2), (rc["property_bn"], 697, 0), (rc["corporate"], 0.09, 2)])[0]
+      and abs(rc["personal"] + rc["contributions"] + rc["sales"] + rc["other_production"] + rc["abroad"] + rc["property"] + rc["corporate"] - 1) < 1e-6,
+      f"{rc['personal']:.3f}, {rc['contributions']:.3f}, {rc['sales'] + rc['other_production'] + rc['abroad']:.3f}, {rc['property']:.3f}, {rc['corporate']:.3f}")
+bn = pg.benefits(Y)
+check("Q9b 2023, government social benefits to persons $4,144bn: Social Security 0.33, Medicare 0.25, Medicaid 0.21; a common fifth "
+      "($1,515bn) pays more than Social Security ($1,357bn)",
+      rows([(bn["total"], 4144, 0), (bn["social_security"], 0.33, 2), (bn["medicare"], 0.25, 2), (bn["medicaid"], 0.21, 2), (d["total"], 1515, 0),
+            (bn["social_security_bn"], 1357, 0)])[0] and d["total"] > bn["social_security_bn"])
+import json  # noqa: E402
+vint = json.load(open(os.path.join(os.path.dirname(HERE), "data", "nipa_fiscal_vintage.json")))
+basis = json.load(open(os.path.join(os.path.dirname(HERE), "data", "one_basis_vintage.json")))
+check("Q9c the fiscal table was taken from the same BEA file as the one-basis account (its recorded hash)",
+      vint["sha256_16"] == basis["files"]["NipaDataA.txt"]["sha256_16"], vint["sha256_16"])
 check("Q10 in the model economy the income of a common fifth is 0.13 of the wage bill at the start of the path and 0.96 at t = 1",
       *rows([(pg.path_dividend(0.0)["of_wages"], 0.13, 2), (pg.path_dividend(1.0)["of_wages"], 0.96, 2)]))
+
+c0, c1, c2 = pg.common_income(0.0), pg.common_income(1.0), pg.common_income(2.0)
+whole = max(abs(c["work"] + c["saving"] + c["owners_rent"] + c["common"] - 1.0) for c in (c0, c1, c2, pg.common_income(0.4)))
+check("Q11 the model economy under the program: what is held in common is 0.06 of income at the start, 0.40 at t = 1 and 0.48 at t = 2; "
+      "work 0.60, 0.17 and under 0.01; those who own capital 0.52 at t = 2; the four parts add to one",
+      rows([(c0["common"], 0.06, 2), (c1["common"], 0.40, 2), (c2["common"], 0.48, 2), (c0["work"], 0.60, 2), (c1["work"], 0.17, 2),
+            (c2["saving"], 0.52, 2)])[0] and c2["work"] < 0.01 and whole < 1e-9,
+      f"{c0['common']:.3f}, {c1['common']:.3f}, {c2['common']:.3f}; parts add to one within {whole:.1e}")
 
 n_ok = sum(RESULTS)
 print(f"\n{n_ok}/{len(RESULTS)} checks green")

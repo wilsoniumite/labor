@@ -1,12 +1,9 @@
 # program.py — the sizes behind the draft's Section 9, a program for the United States.
 #
 # Everything here is arithmetic on tables the other scripts make and their checks hold: who holds the claims
-# (exposure.py), site rent and the poverty-line bundle (rent_base.py), the model economy (paper_path.py), and four
-# national-accounts series already in the repository:
-#   ../pinning/cache/A061RC1A027NBEA.csv   contributions for government social insurance, $bn
-#   ../pinning/cache/W054RC1A027NBEA.csv   government current tax receipts, $bn
-#   ../pinning/cache/B230RC0A052NBEA.csv   population, thousands
-#   data/nipa_corporate.csv                taxes on corporate income, $bn
+# (exposure.py), site rent and the poverty-line bundle (rent_base.py), the model economy (paper_path.py), what the
+# United States taxes and pays out (data/nipa_fiscal.csv, written by nipa_fiscal.py from BEA's Tables 3.1, 3.5 and
+# 3.12), and population (../pinning/cache/B230RC0A052NBEA.csv, thousands).
 #
 # A group is matched when its share of the claims on capital and land equals its share of labour income: then its share
 # of market income does not move when payments move between the claims (the identity of the draft's Section 2.2).
@@ -20,6 +17,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import exposure as ex  # noqa: E402
+import nipa_fiscal as nf  # noqa: E402
 import paper_path as pp  # noqa: E402
 import rent_base as rb  # noqa: E402
 
@@ -76,7 +74,7 @@ def public_claims(tabs, y, growth=0.02, years=25):
     _, capital = incomes(tabs, y)
     k = capital.sum()
     people = rb.annual(POPULATION)[y] * 1e3
-    corporate = float(tabs["corp"].loc[y, "taxes_on_corporate_income"])
+    corporate = float(nf.stored().loc[y, "corporate_taxes"])            # received by federal, state and local governments
     row = rb.table().loc[y]
     site = [row[f"rent_pp_{s}"] * people / 1e9 for s in ("30", "50")]
     grown = 1.0 - (1.0 + growth) ** (-years)
@@ -86,10 +84,33 @@ def public_claims(tabs, y, growth=0.02, years=25):
 
 
 def receipts(y):
-    """Contributions for social insurance as a share of all taxes and contributions."""
-    c = rb.annual("pinning/cache/A061RC1A027NBEA.csv")[y]
-    t = rb.annual("pinning/cache/W054RC1A027NBEA.csv")[y]
-    return c / (c + t)
+    """What the United States raises, by kind, as shares of all taxes and contributions for social insurance; and the
+    total, $bn. Sales and property taxes are parts of the taxes on production and imports, shown apart."""
+    r = nf.stored().loc[y]
+    total = r.tax_receipts + r.contributions
+    other = r.production_taxes - r.sales_taxes - r.property_taxes
+    return dict(total=total, personal=r.personal_taxes / total, contributions=r.contributions / total,
+                sales=r.sales_taxes / total, property=r.property_taxes / total, other_production=other / total,
+                corporate=r.corporate_taxes / total, abroad=r.taxes_from_abroad / total, property_bn=r.property_taxes)
+
+
+def benefits(y):
+    """What the United States pays to persons in social benefits, $bn, and the largest programmes as shares of it."""
+    r = nf.stored().loc[y]
+    named = ("social_security", "medicare", "medicaid", "veterans", "refundable_credits", "snap", "unemployment")
+    out = {k: r[k] / r.benefits for k in named}
+    return dict(total=r.benefits, other=1.0 - sum(out.values()), social_security_bn=r.social_security, **out)
+
+
+def common_income(t, stake=THETA):
+    """Along the model's path, who is paid for what under the program, as shares of income: work; saving (the return to
+    capital less the public's stake); and what is held in common, which is the public's stake in the return to capital
+    and the rent of land above what it paid at the start (what a tax on the growth of rent collects)."""
+    start, now = pp.point(0.0), pp.point(t)
+    grown = max(0.0, 1.0 - start["real_rent"] / now["real_rent"])
+    public_stake, public_rent = stake * now["interest"], grown * now["rent"]
+    return dict(work=now["labour"], saving=(1.0 - stake) * now["interest"], owners_rent=(1.0 - grown) * now["rent"],
+                stake=public_stake, rent=public_rent, common=public_stake + public_rent)
 
 
 def path_dividend(t, theta=THETA):
@@ -125,7 +146,16 @@ if __name__ == "__main__":
     print("residential site rent: %.3f to %.3f of the income of capital and land; a tax on its growth collects %.3f of it after 25 years at 2%%: %.3f to %.3f"
           % (*p["site_share"], p["grown"], *p["growth_share"]))
     print("together: %.3f to %.3f of the income of capital and land" % tuple(p["together"]))
-    print("contributions for social insurance: %.3f of taxes and contributions" % receipts(y))
+    rc, bn = receipts(y), benefits(y)
+    print("taxes and contributions $%.0fbn: personal %.3f, contributions %.3f, sales %.3f, property %.3f ($%.0fbn), other on production %.3f, "
+          "corporate %.3f" % (rc["total"], rc["personal"], rc["contributions"], rc["sales"], rc["property"], rc["property_bn"],
+                              rc["other_production"], rc["corporate"]))
+    print("social benefits to persons $%.0fbn: social security %.3f, medicare %.3f, medicaid %.3f, other %.3f"
+          % (bn["total"], bn["social_security"], bn["medicare"], bn["medicaid"], bn["other"]))
+    for t in (0.0, 0.5, 1.0, 2.0):
+        c = common_income(t)
+        print("the model economy at t = %.1f under the program: work %.3f, saving %.3f, held in common %.3f (stake %.3f, rent %.3f), "
+              "rent left to owners %.3f" % (t, c["work"], c["saving"], c["common"], c["stake"], c["rent"], c["owners_rent"]))
     for t in (0.0, 1.0):
         v = path_dividend(t)
         print("the model economy at t = %.0f: a common fifth pays %.3f of the wage bill, %.3f of income" % (t, v["of_wages"], v["of_income"]))

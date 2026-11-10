@@ -17,7 +17,7 @@ the subject matter. Still not poetic or patronising, but a kind of quiet confide
 usually calm and collected." So the paper describes its own model and data, cites the other paper as a source and
 never as a prerequisite, and does not mention the earlier reading of the nineteen points.
 **The wall:** this repository is public. Public data only.
-**State as of:** 2026-11-10, fifth unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
+**State as of:** 2026-11-10, sixth unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
 `paper/` revised to stand alone and given a program for the United States (Section 9), every number in it tied to the
 tables by `checks/check_draft.py`.
 
@@ -55,6 +55,15 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
    take this"), with the register above.
 6. **The paper recommends a mix, for the United States** ("yeah, lets put the mix into the paper, puts some action
    behind it"; "USA"). This replaces the earlier stance that instruments appear only where they size a base.
+7. **Weave it in; more pictures; what the United States does now** ("Yeah, weaving it in is good, and having more
+   tables and figures is good. Right now, section nine reads like a blob of numbers in prose. I want more pictures,
+   and i want to know what the US does now and how those should be changed").
+8. **Her storyline for the moral claim** ("Current wealth holders justify that wealth because standard thinking
+   attributes that wealth to work, intelligence, and giving back to society. The idea that money represents value,
+   and therefore what you contribute to society. I think that framing is fine, so long as it is true, and [this] is
+   what we have to do to make it most true"), with her questions: is it fair, does it fall apart if machines do nine
+   tenths of the work, is half and half the better rule, and can an arbitrary number be escaped. Section 10 is the
+   draft answer; she has not yet accepted it.
 
 ## Claude's calls, in her veto window
 
@@ -70,6 +79,17 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
 - **"Matched" in Section 9 is the share identity's sense**: a group's share of the claims on capital and land equals
   its share of labor income. Transfers and baskets are left out of that arithmetic, and the section says the sizes
   are for the average basket.
+- **Section 10 is a draft of the authors' position on fairness**, written to her storyline and hers and Johan's to
+  change. Judgments made on their behalf there: that the standard of contribution is "a reasonable standard"; that a
+  tax on the growth of rent is "a fair division" between people who bought land in good faith and the public; that
+  inherited capital is left aside; that a second premise is needed (no one left without means) and that the dividend
+  is how the program meets it. What it adds to her storyline: pay measures what would be lost if the person stopped,
+  so a worker's contribution falls when a machine learns the job; and the share held in common is an outcome of the
+  standard, about half in the model's limit, with two numbers still chosen (the public's stake, and what is enough).
+- **How Section 9 was made less of a blob.** Table 4 sets what the United States does now beside what the program
+  would change; four figures carry the sizes (where each group stands, what a holding in common would pay, the years
+  of saving, what is taxed now); the prose keeps the argument and few numbers. The statute citations moved to
+  Appendix B.
 - **What in Section 9 is argued and not computed.** That a tax on all spending at one rate is neutral in the model
   economy and paid in proportion to income (it follows from hours being fixed and the required return unchanged; the
   shares themselves are held). That a stake taken through a cash-flow tax pays out less while capital grows.
@@ -114,14 +134,15 @@ draft says so in Section 3.3. It is a correction and a cross-check more than a d
 | `code/rent_base.py` | The site-rent base a person against income, a poverty-line bundle and GDP, 1947–2024 | `checks/check_rent_base.py`, 5 green |
 | `code/wage_shortfall.py` | Where the production wage fell short of its 1950–73 pace | **Not gated here.** It reads the backward model's panel, on `claude/focused-bardeen-aciw2z` (at 457e38b) |
 | `code/one_basis_tables.py` | The stored tables read without the BEA files (what is made; the financing panel; the Bureau's published grouping) | used by the figures, the decile account and the draft's check |
-| `code/program.py` | The sizes behind Section 9: how far each group is from a matched position, with and without a fifth in common; what a common fifth pays; the years of saving that close the gap; the corporate income tax and the growth of site rent as claims the public could hold; contributions on wages | `checks/check_program.py`, 15 green. Reads only files in the repository |
-| `code/figures.py` → `paper/figures/` | The draft's seven figures | drawn from the stored tables; colours validated with the dataviz skill's script |
-| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 13,000 words, 28 pages, with two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 158 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (162 green) |
+| `code/nipa_fiscal.py` → `data/nipa_fiscal.csv`, `data/nipa_fiscal_vintage.json` | What the United States taxes and pays out, by kind, 2000–2024 (BEA Tables 3.1, 3.5 and 3.12) | needs NipaDataA.txt in the cache to rebuild; the stored table is what everything reads, and `check_program.py` Q9c ties its vintage to the one-basis account's |
+| `code/program.py` | The sizes behind Sections 9 and 10: how far each group is from a matched position, with and without a fifth in common; what a common fifth pays; the years of saving that close the gap; taxes on corporate income and the growth of site rent as claims the public could hold; taxes and benefits by kind; who is paid for what along the model's path under the program | `checks/check_program.py`, 18 green. Reads only files in the repository |
+| `code/figures.py` → `paper/figures/` | The draft's eleven figures | drawn from the stored tables; colours validated with the dataviz skill's script |
+| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 15,000 words, 33 pages, five tables, eleven figures, two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 173 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (177 green) |
 
 Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
 `python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_program.py`,
 `python3 checks/check_draft.py` (numpy, pandas; the first also scipy and openpyxl through `../paths/code/chains.py`).
-All six were green on 2026-11-10: 18, 16, 25, 5, 15 and 158. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
+All six were green on 2026-11-10: 18, 16, 25, 5, 18 and 173. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
 
 **Not held on this branch**, and said so in the draft: Section 5's wage accounting (`code/wage_shortfall.py`, the
 backward model's panel) and Section 7.4's land-tax figures (`consumption/lvt/NOTES_us.md` on the `consumption`
@@ -132,7 +153,7 @@ branch). Both were read against their sources on 2026-11-10 and match.
 Assets sections 2 and 3, NipaDataA.txt and SeriesRegister.txt. Six of the seven files `chains.json` records are
 byte-identical to its vintage; NipaDataA.txt is newer (4 November 2026). Nothing was substituted.
 
-## What the five units found
+## What the six units found
 
 1. **Three accounts agree** (B1). Labour makes 0.658 of what consumption buys, finances 0.658 of it, and is 0.666 of
    households' income once corporate income that is not paid out is counted. The first two differ by a point on average
@@ -183,6 +204,15 @@ or drop.
     bundle. Saving 5% of wages closes the upper middle's gap in 34 years at a 5% return (17 at 10%); with labor paid
     what it is paid at t = 1, in 76.
 
+13. **What the United States does now, and where the standard of contribution leads** (Sections 9 and 10). Of all taxes
+    and contributions in 2023 ($7,147bn): personal taxes 40%, contributions on wages 25%, sales and other taxes 17%,
+    property taxes 10% ($697bn), taxes on corporate income 9% ($608bn). Social benefits $4,144bn, none paid to
+    everyone; a common fifth ($1,515bn) would pay out more than Social Security ($1,357bn). In the model economy under
+    the program, what is held in common (the public's fifth of the return to capital, and the rent of land above what
+    it paid at the start) is 6% of income at the start, 40% at t = 1 and 48% at t = 2, while work goes from 60% to 17%
+    to under 1%. So "half and half" is where the program arrives, not a number put in. And the exposures cancel
+    (+0.10, +0.115, −0.14; everyone +0.008), so before a shift matching is an exchange; after it, a transfer.
+
 ## Next
 
 0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first.
@@ -196,7 +226,9 @@ or drop.
    and disability insurance (6.2% on each side) were read in the US Code at law.cornell.edu. Two statements were not
    confirmed, because ssa.gov, taxpolicycenter.org, congress.gov, oecd.org, cbo.gov, gao.gov and jct.gov all refused
    the session's requests (HTTP 403): that there is no broad federal tax on consumption, and that Social Security
-   pays current pensions out of current contributions. The draft's drafting note says so.
+   pays current pensions out of current contributions. Three more in Table 4 are from general knowledge: that
+   property taxes fall on land and buildings together, that interest, dividends and gains are taxed as personal
+   income, and that no social benefit is paid to everyone. The draft's drafting note lists all five.
 3. **Capital in the record** (assembly 4): net surplus split into the normal return and the rest; funded pensions as
    claims; pension systems as cases.
 4. **The long run of B1** (assembly 6): the production account before 1997 on one basis.
@@ -250,3 +282,10 @@ or drop.
    `checks/check_draft.py` holds the new sentences (158 green, 162 with the panel). Before that, the same day: the
    words "nineteen points" taken out of the introduction, Section 3.3 and Figure 1, after her question. Not done:
    baskets by tenure; a tax on consumption computed in the model; anything in `../pinning/`.
+6. **2026-11-10 — Section 9 in tables and pictures, what the United States does now, and a section on fairness** (her
+   calls 7 and 8). `code/nipa_fiscal.py` takes taxes and benefits by kind from the BEA file into `data/nipa_fiscal.csv`.
+   Section 9 now opens on Table 4 (now, and under the program) and carries four figures; six sentences of consequence
+   were woven into Sections 4.2, 5, 6.3, 7.4, 8.2 and 8.3. Section 10, new, separates efficiency from fairness
+   (Table 5), sets out the standard of contribution, and shows where it leads when work becomes scarce (Figure 11).
+   The old Sections 10 and 11 are now 11 and 12. Checks: program 18, draft 173 (177 with the panel). Not done:
+   baskets by tenure; a tax on consumption computed in the model; her acceptance of Section 10.

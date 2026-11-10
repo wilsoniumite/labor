@@ -7,6 +7,10 @@
 #   fig_path          who is paid along the companion's path, and what the claims cost       code/paper_path.py
 #   fig_bases         the site-rent base and the cost of a floor, 1947-2024                  code/rent_base.py
 #   fig_program       each group's income from capital and land per dollar of labour income  code/program.py
+#   fig_receipts      what the United States taxes now, and the same total under the program data/nipa_fiscal.csv
+#   fig_dividend      what a holding in common would pay a person, against the poverty line  code/program.py
+#   fig_saving        years of saving that close the upper middle's gap, now and later        code/program.py
+#   fig_common        who is paid for what along the path under the program                   code/program.py
 #
 # Colour: three categorical slots (blue, orange, aqua) and a blue/red pair for above and below zero, validated on a white
 # page with the dataviz skill's validator (all checks pass; aqua is under 3:1 against the page, so every aqua mark has a
@@ -290,7 +294,124 @@ def fig_program():
     save(fig, "fig_program")
 
 
+def fig_receipts():
+    r = pg.receipts(2023)
+    rest = r["sales"] + r["other_production"] + r["abroad"]
+    rows = [("Personal taxes", r["personal"], False, "left as they are"),
+            ("Contributions on wages", r["contributions"], True, "replaced, step by step, by a tax on consumption"),
+            ("Sales and other taxes", rest, False, "left as they are"),
+            ("Property taxes", r["property"], True, "joined by a tax on the growth of site rent"),
+            ("Taxes on corporate income", r["corporate"], True, "moved to cash flow, and paid out as the dividend")]
+    fig, ax = plt.subplots(figsize=(6.6, 2.3))
+    for j, (name, v, changed, what) in enumerate(rows):
+        y = len(rows) - 1 - j
+        ax.barh(y, v, height=0.56, color=ORANGE if changed else CONTEXT, zorder=3)
+        ax.annotate(f"{100 * v:.0f}%", (v, y), xytext=(5, 0), textcoords="offset points", ha="left", va="center", color=INK2)
+        ax.text(0.50, y, what, ha="left", va="center", color=INK if changed else MUTED, fontsize=8.5)
+    ax.text(0.50, len(rows) - 0.32, "Under the program", ha="left", va="bottom", color=INK2, fontsize=8.5, fontweight="bold")
+    ax.set_yticks(range(len(rows)), [x[0] for x in rows][::-1])
+    ax.tick_params(axis="y", length=0)
+    ax.set_xlim(0, 1.02)
+    ax.set_ylim(-0.55, len(rows) - 0.05)
+    ax.set_xticks([0, 0.2, 0.4], ["0", "20%", "40%"])
+    ax.set_xlabel("Share of all taxes and contributions, 2023", loc="left")
+    ax.grid(False)
+    ax.spines["bottom"].set_bounds(0, 0.42)
+    ax.plot([], [], color=ORANGE, lw=6, label="Changed by the program")
+    ax.plot([], [], color=CONTEXT, lw=6, label="Left as it is")
+    ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.17), ncol=2, handlelength=0.9, borderaxespad=0, columnspacing=1.6)
+    save(fig, "fig_receipts")
+
+
+def fig_dividend():
+    tabs = ex.inputs()
+    d, p = pg.dividend(tabs, 2023), pg.public_claims(tabs, 2023)
+    people = rb.annual(pg.POPULATION)[2023] * 1e3
+    k = pg.incomes(tabs, 2023)[1].sum() * 1e9 / people                     # the income of capital and land, dollars a person
+    growth = [x * k for x in p["growth_share"]]
+    social_security = pg.benefits(2023)["social_security_bn"] * 1e9 / people
+    line4, line1 = d["a_person"] / d["family4"], d["a_person"] / d["single"]
+    rows = [("Taxes on corporate income", p["corporate_a_person"], ORANGE, None),
+            ("The growth of site rent, after 25 years", growth[1], ORANGE, growth[0]),
+            ("A fifth of the claims held in common", d["a_person"], ORANGE, None),
+            ("Social Security benefits", social_security, CONTEXT, None),
+            ("Poverty line, one of a family of four", line4, CONTEXT, None),
+            ("Poverty line, a person living alone", line1, CONTEXT, None)]
+    fig, ax = plt.subplots(figsize=(6.6, 2.6))
+    for j, (name, v, colour, low) in enumerate(rows):
+        y = len(rows) - 1 - j
+        if low is None:
+            ax.barh(y, v, height=0.56, color=colour, zorder=3)
+            label = f"{v:,.0f}"
+        else:                                                              # a range: solid to its low end, lighter to its high end
+            ax.barh(y, low, height=0.56, color=colour, zorder=3)
+            ax.barh(y, v - low, left=low, height=0.56, color=colour, alpha=0.45, zorder=3)
+            label = f"{low:,.0f} to {v:,.0f}"
+        ax.annotate(label, (v, y), xytext=(5, 0), textcoords="offset points", ha="left", va="center", color=INK2)
+    ax.set_yticks(range(len(rows)), [r[0] for r in rows][::-1])
+    ax.tick_params(axis="y", length=0)
+    ax.set_xlim(0, 18000)
+    ax.set_xticks([0, 5000, 10000, 15000], ["0", "5,000", "10,000", "15,000"])
+    ax.set_xlabel("Dollars a person a year, 2023")
+    ax.grid(False)
+    ax.grid(True, axis="x")
+    ax.plot([], [], color=ORANGE, lw=6, label="What the public could hold")
+    ax.plot([], [], color=CONTEXT, lw=6, label="For comparison")
+    ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.14), ncol=2, handlelength=0.9, borderaxespad=0, columnspacing=1.6)
+    save(fig, "fig_dividend")
+
+
+def fig_saving():
+    tabs = ex.inputs()
+    now = pg.gaps(tabs, 2023, pg.THETA)[0]["next four tenths"]["short"]
+    later = pg.gaps(tabs, 2023, pg.THETA, pp.mix(1.0)["labour"])[0]["next four tenths"]["short"]
+    rates = np.linspace(0.02, 0.15, 131)
+    fig, ax = plt.subplots(figsize=(6.6, 2.7))
+    for short, colour, label in ((now, BLUE, "At the prices of 2023"), (later, ORANGE, "With labor paid what it is paid at t = 1 in the model economy")):
+        ax.plot(100 * rates, [pg.years_to_match(short, c, 0.05) for c in rates], color=colour, lw=LW, zorder=3, label=label)
+        y5 = pg.years_to_match(short, 0.05, 0.05)
+        dot(ax, 5, y5, colour)
+        ax.annotate(f"{y5:.0f} years", (5, y5), xytext=(7, 6), textcoords="offset points", ha="left", va="bottom", color=INK2)
+    ax.set_xlim(2, 15)
+    ax.set_ylim(0, 100)
+    ax.set_xticks([2, 5, 10, 15], ["2%", "5%", "10%", "15%"])
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.set_xlabel("Share of wages saved each year")
+    ax.set_ylabel("Years of saving")
+    ax.legend(loc="upper left", bbox_to_anchor=(0.0, 1.2), ncol=1, handlelength=1.6, borderaxespad=0)
+    save(fig, "fig_saving")
+
+
+def fig_common():
+    t = np.linspace(0, 2, 201)
+    c = [pg.common_income(x) for x in t]
+    work, saving, owners, common = (np.array([r[k] for r in c]) for k in ("work", "saving", "owners_rent", "common"))
+    fig, ax = plt.subplots(figsize=(6.6, 3.0))
+    edge = dict(lw=1.2, color="white")
+    ax.fill_between(t, 0, work, color=BLUE, lw=0, zorder=2)
+    ax.fill_between(t, work, work + saving, color=ORANGE, lw=0, zorder=2)
+    ax.fill_between(t, work + saving, work + saving + owners, color=CONTEXT, lw=0, zorder=2)
+    ax.fill_between(t, work + saving + owners, 1, color=AQUA, lw=0, zorder=2)
+    for line in (work, work + saving, work + saving + owners):
+        ax.plot(t, line, zorder=3, **edge)
+    ax.text(0.08, 0.30, "Paid for work", color="white", fontweight="bold", va="center")
+    ax.text(1.05, 0.30, "Paid to those who saved", color="white", fontweight="bold", va="center")
+    ax.text(1.05, 0.84, "Held in common", color="white", fontweight="bold", va="center")
+    held = [100 * pg.common_income(x)["common"] for x in (0.0, 1.0, 2.0)]
+    ax.text(1.05, 0.765, f"{held[0]:.0f}% at the start, {held[1]:.0f}% at t = 1, {held[2]:.0f}% at t = 2", color="white", fontsize=8, va="center")
+    ax.annotate("rent left to those\nwho own land now", (0.22, float(np.interp(0.22, t, work + saving + owners / 2))), xytext=(0.30, 1.07),
+                ha="left", va="center", color=INK2, fontsize=8, arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6), annotation_clip=False)
+    ax.set_xlim(0, 2)
+    ax.set_ylim(0, 1)
+    ax.set_yticks([0, 0.25, 0.5, 0.75, 1.0], ["0", "25%", "50%", "75%", "100%"])
+    ax.set_xlabel("Technology index t")
+    ax.set_ylabel("Share of income")
+    ax.grid(False)
+    save(fig, "fig_common")
+
+
 if __name__ == "__main__":
-    for f in (fig_accounts, fig_exposure, fig_holdings, fig_shift, fig_path, fig_bases, fig_program):
+    for f in (fig_accounts, fig_exposure, fig_holdings, fig_shift, fig_path, fig_bases, fig_program, fig_receipts, fig_dividend, fig_saving,
+              fig_common):
         f()
         print("drew", f.__name__)
