@@ -19,6 +19,7 @@ figcaption { color: #555; }
 h2 { font-size: 1.42em; margin-top: 2.1em; }
 h3 { font-size: 1.12em; margin-top: 1.6em; }
 ol { padding-left: 1.4em; }
+li, li p { hyphens: manual; }
 hr { border: 0; border-top: 0.7px solid #999; margin: 2.4em 0 1.4em 0; }
 td, th { text-align: left; }
 table { font-size: 0.86em; }

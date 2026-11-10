@@ -20,8 +20,8 @@ never as a prerequisite, and does not mention the earlier reading of the ninetee
 **State as of:** 2026-11-10, seventh unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; the draft in
 `paper/` revised to stand alone and given a program for the United States (Section 9), every number in it tied to the
 tables by `checks/check_draft.py`; and an essay for general readers in `essay/` ("Why Are We Still Working This
-Hard?", the second version, rewritten from a blank page), in her voice, with fourteen figures, every number in it tied
-to the tables by `checks/check_essay.py`.
+Hard?", the third version: about 5,200 words and eight figures, built on one thread and ending on what there is to
+hope for), in her voice, every number in it tied to the tables by `checks/check_essay.py`.
 
 ## For her, first
 
@@ -91,6 +91,10 @@ under finding 14.
 12. **Theory and feel may carry the time half** ("I agree it's hard to measure, but easy to feel. This is a situation
    we may need to lean on theory and vibes a fraction more than measurement. But I leave it all up to you"). The
    rewrite does that in one place, "Why can't we take it as time?", and says there that it is doing it.
+13. **What the reader should leave with** ("A feeling like they understand the truth, whatever that is, and maybe some
+   hope. To do that by the way, they need to also want to read it, and finish reading it"). The third version is the
+   answer: half the length, one thread to follow (where the twenty-four hours went), and a last section on the grounds
+   for hope that the evidence supports.
 
 ## Claude's calls, in her veto window
 
@@ -150,13 +154,16 @@ under finding 14.
   paper"; the conclusion ends on settling ownership "while it is still cheap to settle". Nothing else was raised in
   pitch. If it reads as too much or too little, those three places are the dial.
 
-- **The essay's shape (second version).** It opens on Keynes's two forecasts and three numbers: what took forty hours
-  to make in 1973 takes sixteen now; hours worked for each head of population are 10 percent higher; and it takes
-  thirty-four hours of ordinary pay to buy what forty bought. The spine is the wage's jobs. "Where did the gain go?" is
-  the price shrinking the ticket so far; "Why can't we take it as time?" is the ticket spoiling the price; the model
-  is both carried to the limit; the repair is a second ticket, which has to be ownership. Thirteen questions as
-  headings; four piles near the end (measured, from a model, from argument, from judgment). One colour means one thing
-  in every figure. It names no paper of hers and relies on none. The first version is at commit a45365a.
+- **The essay's shape (third version).** One thread: what forty hours made in 1973 takes sixteen hours to make now,
+  so twenty-four were freed; eighteen never reached ordinary paychecks (the price shrinking the ticket) and six reached
+  them and were taken as more things (the ticket spoiling the price). Then the model as both carried to the limit, the
+  repair (a second ticket, which has to be ownership), what it would take, fairness in three paragraphs, what it will
+  not fix, and four grounds for hope: making enough is nearly solved, most of the repair can still be done as a trade,
+  every piece exists somewhere, and the same machines give two worlds that differ only in who holds the tickets. The
+  sorting of claims and the sources come after the ending, for the careful. Cut from the second version (and in the
+  repository's history at e8dce73): the second count of the dollar, the model's rules as a list, the table of what the
+  United States does now, the detail of the land tax's transition, the comparison with a basic income, and six figures.
+  The first version is at a45365a.
 - **Where the essay corrects the blog.** The economy does not seize up for want of customers (the owners are the
   customers); the long-run income is mostly the return on machines and only then the rent of land, so a land tax is not
   most of the answer; a tax on what machines earn lands on wages; a benefit paid from today's taxes is, for 68 cents in
@@ -182,14 +189,14 @@ under finding 14.
 | `code/nipa_fiscal.py` → `data/nipa_fiscal.csv`, `data/nipa_fiscal_vintage.json` | What the United States taxes and pays out, by kind, 2000–2024 (BEA Tables 3.1, 3.5 and 3.12) | needs NipaDataA.txt in the cache to rebuild; the stored table is what everything reads, and `check_program.py` Q9c ties its vintage to the one-basis account's |
 | `code/program.py` | The sizes behind Sections 9 and 10: how far each group is from a matched position, with and without a fifth in common; what a common fifth pays; the years of saving that close the gap; taxes on corporate income and the growth of site rent as claims the public could hold; taxes and benefits by kind; who is paid for what along the model's path under the program | `checks/check_program.py`, 18 green. Reads only files in the repository |
 | `code/figures.py` → `paper/figures/` | The draft's eleven figures | drawn from the stored tables; colours validated with the dataviz skill's script |
-| `code/essay_figures.py` → `essay/figures/` | The essay's fourteen figures, each carrying its finding as a title; `fig_band` is a sketch with no data and `fig_time` draws three figures transcribed from one study's summary | drawn from the stored tables and the scripts above; `fig_pay` and the third bar of `fig_hours` need the backward model's panel as an argument |
-| `essay/essay.md`, `essay/build.py` → `essay/essay.html`, `essay/essay.pdf` | "Why Are We Still Working This Hard?": the essay for general readers (about 9,700 words, 26 pages, one table, fourteen figures, a list of sources) and its reading copies | `checks/check_essay.py`, 111 green: the same test as the draft's, on the essay, and it holds each quotation and outside fact as it was read at its source. With the backward model's panel as an argument it holds the figures for ordinary pay too (119 green) |
+| `code/essay_figures.py` → `essay/figures/` | The essay's eight figures, each carrying its finding as a title; `fig_band` is a sketch with no data | drawn from the stored tables and the scripts above; `fig_pay` and the split of the freed hours in `fig_hours` need the backward model's panel as an argument |
+| `essay/essay.md`, `essay/build.py` → `essay/essay.html`, `essay/essay.pdf` | "Why Are We Still Working This Hard?": the essay for general readers (about 5,200 words to its ending, then a sorting of its claims and a list of sources; 17 pages, eight figures) and its reading copies | `checks/check_essay.py`, 70 green: the same test as the draft's, on the essay, and it holds each quotation and outside fact as it was read at its source. With the backward model's panel as an argument it holds the figures for ordinary pay too (79 green) |
 | `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The draft (about 15,000 words, 33 pages, five tables, eleven figures, two appendices) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 173 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. It also holds Appendix A's parameters, targets and path against `code/paper_path.py`. With the backward model's panel as an argument it holds Section 5's wage accounting too (177 green) |
 
 Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
 `python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_program.py`,
 `python3 checks/check_draft.py`, `python3 checks/check_essay.py` (numpy, pandas; the first also scipy and openpyxl
-through `../paths/code/chains.py`). All seven were green on 2026-11-10: 18, 16, 25, 5, 18, 173 and 111. To rebuild the
+through `../paths/code/chains.py`). All seven were green on 2026-11-10: 18, 16, 25, 5, 18, 173 and 70. To rebuild the
 reading copies: `python3 code/figures.py`, then `python3 paper/build.py`; and `python3 code/essay_figures.py [panel]`,
 then `python3 essay/build.py`.
 
@@ -389,3 +396,8 @@ or drop.
    loses four figures and gains two (`fig_hours`, `fig_pay`); `checks/check_essay.py` rewritten for the new text (111
    green, 119 with the panel). The other six batteries unchanged. Not done: an hours series by worker (only hours for
    each head of population, from what is stored); anything in `../pinning/` or in the draft.
+9. **2026-11-10 — the essay cut to what a reader will finish** (her call 13). Third version: about 5,200 words where
+   the second had 9,700, eight figures where it had fourteen, the opening figure redrawn as one forty-hour bar divided
+   into sixteen, eighteen and six, and a closing section on hope. The land-tax figures that were not held are no longer
+   quoted. `checks/check_essay.py` rewritten again (70 green, 79 with the panel). Not done: anything in the draft or in
+   `../pinning/`.
