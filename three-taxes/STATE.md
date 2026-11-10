@@ -1,5 +1,11 @@
 # STATE — resume point for the next session
 
+> **2026-11-10: absorbed into P2, *What pays for consumption* (`../provisioning/`).** Stella's call ("Three taxes
+> probably won't get revived by me so you can absorb it if you want"). This folder is now the record: blocks T1–T12 with
+> their checks, the design memo and the napkin code, unchanged. `../provisioning/SKETCH.md` section 6 lists which blocks
+> P2 takes (T1, T3–T5, T7, T8, T10, T11) and which stay here (the gate tax's design, the use-split rule, the valuation
+> mechanism, the removal and allocation rules). Start a session there, not here.
+
 **Project:** "Three Taxes" — candidate standalone paper on the fiscal
 architecture as labor's share falls: the three-tier taxonomy (scarcity /
 gate / corrective), the convergence theorems (the gate tax retires into
