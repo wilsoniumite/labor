@@ -41,6 +41,8 @@ ROOT = os.path.dirname(HERE)
 REPO = os.path.dirname(ROOT)
 sys.path.insert(0, os.path.join(REPO, "paths", "code"))
 import chains as ch  # noqa: E402  (the lambda thread's engine and the depreciation ratios)
+sys.path.insert(0, HERE)
+from one_basis_tables import financing, published  # noqa: E402,F401  (the two accounts this one is set beside)
 
 FILES = ("AllTablesIO.zip", "AllTablesSUP.zip", "ValueAdded.xlsx", "GrossOutput.xlsx", "Section2All_xls.xlsx",
          "Section3All_xls.xlsx", "NipaDataA.txt")
@@ -159,24 +161,6 @@ def vintage():
         fp = os.path.join(ch.CACHE, name)
         out[name] = dict(bytes=os.path.getsize(fp), sha256_16=hashlib.sha256(open(fp, "rb").read()).hexdigest()[:16])
     return out
-
-
-def financing():
-    """The financing account's modern panel (2004-2023): labour-origin share of consumption, its bounds, and the share
-    spent beyond current income."""
-    d = pd.read_csv(os.path.join(REPO, "pinning", "effort", "archive_v28", "expected", "DF19_FINAL_modern_DF_panel_2004_2023.csv"))
-    return d.set_index("year").rename(columns={"labor_financing_weak_central_share_pce": "fin_labour",
-                                               "labor_financing_source_free_lower_share_pce": "fin_lower",
-                                               "labor_financing_source_free_upper_share_pce": "fin_upper",
-                                               "hard_minimum_intertemporal_share_pce": "fin_beyond_income"})[
-        ["fin_labour", "fin_lower", "fin_upper", "fin_beyond_income"]]
-
-
-def published():
-    """BEA WP2026-01's own grouping of the consumption dollar, as digitized for the production account."""
-    d = pd.read_csv(os.path.join(REPO, "pinning", "effort", "archive_v28", "inputs", "dq",
-                                 "D_Q11_bea_wp2026_fullchain_consumption_grouped_1997_2023_digitized.csv")).set_index("year")
-    return d[["human_effort_share", "domestic_capital_total_share", "foreign_content_share"]]
 
 
 if __name__ == "__main__":

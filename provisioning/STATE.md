@@ -1,60 +1,129 @@
 # STATE — provisioning (P2; resume point for the next session)
 
-**Project:** P2, renamed and re-centred on 2026-11-10: *What pays for consumption* (working title). How consumption is
-financed against what it is made of; who is exposed to payments moving between labour, capital and land; and what a
-matched claim would cost. The governing document is `SKETCH.md`; read it first. The companion is P1 (`../pinning/`),
-which says which way factor payments move.
+**Project:** P2, renamed and re-centred on 2026-11-10: *What pays for consumption* (working title). What consumption is
+made of against what pays for it; who holds which claim; what a shift of payments between labour, capital and land does
+to each household; and what it would take to change the holdings. The governing document is `SKETCH.md` (v1); read it
+first. The companion is P1 (`../pinning/`), which says which way factor payments move.
+**Authors:** Stella Wilson; Johan Båge probably; Luna possibly (her words, 2026-11-10).
 **Collaboration:** same contract as the sibling threads: working format, sequencing and drafting delegated to Claude;
 checks gate absolutely; direct critique over validation; her voice pass re-voices any prose that enters a paper. Code
 in plain functions, notebook-cell style.
+**Register for prose** (her instruction, 2026-11-10): "please don't be too poetic or terse, nor patronising. A paper
+that most smart people would read." Full sentences, terms defined once, no aphorisms, no clipped notes.
 **The wall:** this repository is public. Public data only.
-**State as of:** 2026-11-10 (founding session). Sketch v0 written; three scripts and two batteries; nothing drafted.
+**State as of:** 2026-11-10, third unit. Assemblies 1 and 2 (first cut) built and gated; sketch v1; a first draft in
+`paper/`, every number in it tied to the tables by `checks/check_draft.py`.
+
+## For her, first
+
+**P1's Section 9 needs restating before the Economic Modelling package goes.** `../pinning/paper/main.tex` says
+"consumption remains substantially more labor-financed than production is labor-intensive ... a gap of about nineteen
+percentage points" (Section 9, Figure 7, Appendix F). The gap is a difference of definitions. BEA's production account
+counts machines' wear as capital's and sets taxes on production and imports beside the factors; the financing account
+is in incomes, which are net of wear. With wear traced back into the labour, capital and land that rebuild the machines,
+and taxes and imports set aside, labour makes 0.658 of what consumption buys in 2023 and finances 0.658 of it, and over
+2004–2023 the two differ by 0.000 on average (between −0.025 and +0.020). `checks/check_one_basis.py` Q4 and Q6 hold
+the numbers. Nothing in `../pinning/` was changed. What the two accounts do show is worth saying there: built from
+different data, they agree. The October rewrite (*What Machines Cannot Make*) does not carry the claim; `main.tex`,
+the version in the Economic Modelling package, does.
+
+**The draft withdraws that reading in the authors' voice** (Section 3.3: "We withdraw that reading here"). That
+sentence is hers and Johan's to keep, reword or cut.
+
+**Read the agreement for what it is.** Income and product are two sides of one ledger, so the two accounts should
+agree once they are on one basis, up to what is saved, taxed or traded. The finding is that the earlier comparison was
+not on one basis, and that the financing account's central case sits where the production side says it should. The
+draft says so in Section 3.3. It is a correction and a cross-check more than a discovery.
 
 ## Her calls, 2026-11-10
 
 1. **P2 is this paper** ("P2 renamed, I think"). `../progress_and_prosperity/PLAN.md` carries the new entry.
 2. **three-taxes is absorbed** ("Three taxes probably won't get revived by me so you can absorb it if you want").
-   `SKETCH.md` section 6 lists what is taken and what stays behind as record.
-3. **Capital is in** ("Yes, I realise now we need to tackle capital"). It is block B6 and the paper's largest new part.
+3. **Capital is in** ("Yes, I realise now we need to tackle capital").
 4. **The distortion conjecture is conditional** ("Sure on distortion"): a section only if the participation test
    supports it.
+5. **Authors and register** ("Johan will probably be on it. Luna might be too. Keep going, I want to see where you
+   take this"), with the register above.
 
 ## Claude's calls, in her veto window
 
 - **The folder is `provisioning/`**, after the old P2's provisioning identity. A placeholder; rename freely.
-- **three-taxes stays where it is.** Only its `STATE.md` header changed. Moving the folder would break its checks'
-  paths for no gain today.
+- **three-taxes stays where it is.** Only its `STATE.md` header changed.
 - **The spine is positive, with one benchmark** (a household matched to its basket). Instruments appear only where
-  they size a loop or say who pays. She did not rule on this; three-taxes' design blocks are held back on that reading.
-- **P1 is not touched.** Its Appendices D and F and its closing conjecture are this paper's opening, but
-  `../pinning/paper/main.tex` is at the journal-package stage and waits on Johan's sign-off.
+  they size a base or say who pays.
+- **The paper no longer opens on a gap.** After assembly 1 it opens on the three accounts agreeing, and its subject is
+  who holds the claims (`SKETCH.md`, "What changed from v0").
+- **Corporate income that is not paid out is counted as the households'**, in proportion to dividends. Without it every
+  decile looks more dependent on labour than it is (check W2 shows both).
+- **P1 is not touched.**
 - **The companion economy is the rewrite's** (*What Machines Cannot Make*, October 2026, the PDF she uploaded; its
   source is not in this repository). `code/paper_path.py` re-derives it from the printed equations and parameters.
+- **The draft is Markdown** (`paper/draft.md`), with a script that renders it to HTML and PDF for reading. No TeX is
+  installed in the cloud session; pandoc turns the same file into LaTeX when she wants it in Overleaf. Its two
+  displayed formulas are written so that pandoc can set them in the text's font (no math font is installed either).
+- **The draft has no footnotes.** What is provisional is said in the text where it is used, and in a status note at
+  the top.
+- **The draft's names for the groups** are the poorer half, the next four tenths and the richest tenth. The code and
+  the stored tables keep "bottom half" and "top tenth".
+- **Coverage is quoted from the rewrite** (0.33, range 0.18 to 0.59, its Section 10.1), not from the September version
+  (0.30, 0.15 to 0.59), because the rewrite is the companion the draft cites.
+- **Two citations were added to the sketch's list** once Crossref confirmed them: Sinai and Souleles 2005 (owning as a
+  hedge against rent) and Freeman 2015.
 
 ## What exists
 
 | File | What it is | Gate |
 |---|---|---|
-| `SKETCH.md` | The paper sketch, v0: claim, objects, blocks B1–B8, what not to claim, absorption ledger, plan, assemblies, decisions | — |
-| `code/paper_path.py` | The rewrite's calibrated economy, re-derived; who is paid along the path, what the claims cost, who bears a tax on interest | `checks/check_paper_path.py`, 25 green: the rewrite's Appendix C baseline, Table 2, Sections 8.3, 8.5 and 8.7, the accounts, and every number B6 and B7 quote |
-| `code/rent_base.py` | The site-rent base a person against income, a poverty-line bundle and GDP, 1947–2024 | `checks/check_rent_base.py`, 5 green: equal to the paper's four rent-bill coverage members in all 72 common years (1e-16), and the quoted readings |
-| `code/wage_shortfall.py` | Where the production wage fell short of its 1950–73 pace | **Not gated here.** It reads the backward model's panel, which is on `claude/focused-bardeen-aciw2z` (at 457e38b). Run against that file it prints B4's numbers |
+| `SKETCH.md` | The paper sketch, v1 | — |
+| `code/one_basis.py` → `data/one_basis.csv`, `data/one_basis_vintage.json`, `data/nipa_corporate.csv` | What consumption is made of, 1997–2023, with machines' wear traced back into the claims that rebuild them; shelter and the rest apart | `checks/check_one_basis.py`, 18 green. Needs the BEA files in the gitignored cache (`python3 code/one_basis.py --pull`). The engine reproduces the λ thread's series to 1e-16 and `chains.json`'s investment bundle to 1e-16 |
+| `code/exposure.py` → `data/exposure_deciles.csv`, `data/exposure_groups.csv` | Each income decile's income against what consumption is made of, 2004–2023; who holds which claim; shares of income at other labour shares and common shares; the 2004–2023 shift-share | `checks/check_exposure.py`, 16 green. Reads only files in the repository |
+| `code/paper_path.py` | The rewrite's calibrated economy, re-derived; who is paid along the path, what the claims cost, who bears a tax on interest | `checks/check_paper_path.py`, 25 green |
+| `code/rent_base.py` | The site-rent base a person against income, a poverty-line bundle and GDP, 1947–2024 | `checks/check_rent_base.py`, 5 green |
+| `code/wage_shortfall.py` | Where the production wage fell short of its 1950–73 pace | **Not gated here.** It reads the backward model's panel, on `claude/focused-bardeen-aciw2z` (at 457e38b) |
+| `code/one_basis_tables.py` | The stored tables read without the BEA files (what is made; the financing panel; the Bureau's published grouping) | used by the figures, the decile account and the draft's check |
+| `code/figures.py` → `paper/figures/` | The draft's six figures | drawn from the stored tables; colours validated with the dataviz skill's script |
+| `paper/draft.md`, `paper/build.py` → `paper/draft.html`, `paper/draft.pdf` | The first draft (about 8,800 words, 20 pages) and its reading copies. Needs pandoc and Node's playwright | `checks/check_draft.py`, 101 green: each sentence or table row that prints a number is rebuilt from the tables and must be in the draft, and numbers given in words sit inside stated bands. With the backward model's panel as an argument it also holds Section 5's wage accounting (105 green) |
 
-Run from this folder: `python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py` (numpy and pandas).
+Run from this folder: `python3 checks/check_one_basis.py`, `python3 checks/check_exposure.py`,
+`python3 checks/check_paper_path.py`, `python3 checks/check_rent_base.py`, `python3 checks/check_draft.py` (numpy,
+pandas; the first also scipy and openpyxl through `../paths/code/chains.py`). All five were green on 2026-11-10: 18,
+16, 25, 5 and 101. To rebuild the reading copies: `python3 code/figures.py`, then `python3 paper/build.py`.
 
-## What the founding session found
+**Not held on this branch**, and said so in the draft: Section 5's wage accounting (`code/wage_shortfall.py`, the
+backward model's panel) and Section 7.4's land-tax figures (`consumption/lvt/NOTES_us.md` on the `consumption`
+branch). Both were read against their sources on 2026-11-10 and match.
 
-1. **The companion economy reproduces.** Every number tried from the rewrite's Section 8 comes out of an independent
-   re-derivation, cheaper finance (8.7) included, which is the lever the capital block uses.
-2. **A tax on the return to capital is paid by wages** (B6). At 20%, long run, today's technology: revenue 6.3% of
-   income, wages −6.1, owners' interest −5.9, rents −0.8, real income −6.5%. At t = 1 the same tax falls on land.
-   A cash-flow tax or a purchase moves the same share with nothing else changed.
-3. **The window** (B6): the claims on interest and rent cost 6.7 years of the wage bill today and 48 at t = 1.
-4. **The floor is cheaper than it was** (B5, B6): 9–18% of GDP in 2024, 18–35% in 1975, 27–52% in 1955.
-5. **The two accounts are not on one basis** (B1). On a rough count the 19-point gap halves once replacement is traced
-   back into the claims that rebuild machines. Assembly 1 settles it, and it comes first.
-6. **The stagnation is mostly not a land story** (B4): shelter's price is 8% of the shortfall and labour's share 16%;
-   slower output per hour is 42% and dispersion inside labour 30%.
+**Data fetched this session** (all from apps.bea.gov, into the gitignored cache
+`../progress_and_prosperity/lambda/data/cache/`): the two input-output zips, ValueAdded.xlsx, GrossOutput.xlsx, Fixed
+Assets sections 2 and 3, NipaDataA.txt and SeriesRegister.txt. Six of the seven files `chains.json` records are
+byte-identical to its vintage; NipaDataA.txt is newer (4 November 2026). Nothing was substituted.
+
+## What the three units found
+
+1. **Three accounts agree** (B1). Labour makes 0.658 of what consumption buys, finances 0.658 of it, and is 0.666 of
+   households' income once corporate income that is not paid out is counted. The first two differ by a point on average
+   over twenty years. P1's nineteen points are wear (+0.079), taxes and imports (+0.128) and the engine (−0.021).
+2. **Who holds the claims** (B3). The bottom nine tenths are long labour by about a tenth of income; the top tenth is
+   short by 0.14 and holds 0.67 of the claims on capital and land (0.62 in 2004). Everyone together is exposed by
+   +0.008.
+3. **The shift so far is small, and most of it is not between claims** (B3, B4). 2004–2023: the top tenth gained 4.2
+   points of market income, 1.4 from payments moving between claims and 2.8 from holding more of each. The next four
+   tenths lost 4.1. The bottom half's share barely moved.
+4. **Shelter is where a wage earner is most exposed** (B2). Labour is 0.23 of the factor cost of shelter and 0.74 of
+   the rest; a household on wages alone that spends 30–40% on shelter is exposed by 0.42–0.47.
+5. **A common share of about a seventh holds the bottom half** (B6) at any labour share; nothing short of 0.86 holds
+   the next four tenths.
+6. **A tax on the return to capital is paid by wages** (B6): at 20%, revenue 6.3% of income, wages −6.1, real income
+   −6.5%. A cash-flow tax or a purchase moves the same share with nothing else changed.
+7. **The window** (B6): the claims on interest and rent cost 6.7 years of the wage bill today and 48 at t = 1.
+8. **The floor is cheaper than it was** (B5, B6): 9–18% of GDP in 2024, 18–35% in 1975, 27–52% in 1955.
+9. **The stagnation is mostly not a land story** (B4): shelter's price is 8% of the wage's shortfall and labour's share
+   16%; slower output per hour is 42% and dispersion inside labour 30%.
+10. **Corrections the draft's own check and reading pass forced.** Labour pays for 8 points more of spending from
+    current income than it makes (7 on average), not 7. Taxing only the growth of rent does not avoid a fall in the
+    price of land: the price falls by the share of value that growth accounts for (40% at 2 and 5 percent), against
+    85%. Net surplus is not "several times" the cost of a floor: the floor is 14 to 27 cents of the consumer's dollar
+    and net surplus 30.5. The financing account's bounds are 12 points below its centre and 14 above on average.
 
 Also from the session, belonging to other threads and not landed here: a no-change benchmark for the backward model's
 out-of-sample splits (the main case 5.2 against 4.6 from 1995, 12.7 with the utility held after 1990; 6.7 against 13.6
@@ -64,25 +133,28 @@ or drop.
 
 ## Next
 
-0. **Her read of `SKETCH.md`** and its section 11 (title; whether the paper recommends a capital route; scope; B4's
-   yardstick; when P1 gives up its appendices and whether Johan is on this paper; three-taxes' folder; this folder's
-   name).
-1. **Assembly 1: the two accounts on one basis.** Nothing else rests on a firm number until this is done.
-2. **Assembly 2: exposure by decile and tenure.** The paper's first new exhibit.
-3. **The verify pass** on section 10's ledger before any prose.
-4. When `us-record` and `consumption` are on the same branch as this folder: gate `wage_shortfall.py`, and read the
-   LVT units and the decile machinery directly.
+0. **Her read of the draft and of `SKETCH.md` section 11**, P1's Section 9 first.
+1. **Baskets by decile and tenure** (assembly 2's second half): the consumer expenditure machinery is on the
+   `consumption` branch. Until then B3 gives every decile the average basket, and the paper says so.
+2. **The rest of the verify pass** on section 10's ledger. Done on 2026-11-10: the bibliographic details Crossref
+   holds, and Keynes's two forecasts against the essay's text (`SKETCH.md` section 10 has the list). Not done: what
+   the draft attributes to each source, which needs the sources read; the books' publishers and years; Paine.
+3. **Capital in the record** (assembly 4): net surplus split into the normal return and the rest; funded pensions as
+   claims; pension systems as cases.
+4. **The long run of B1** (assembly 6): the production account before 1997 on one basis.
+5. When `us-record` and `consumption` are on the same branch as this folder: gate `wage_shortfall.py`.
 
 ## Cross-thread map
 
-- **P1** (`../pinning/`): the cost system, the direction of the risk, the threshold. Untouched.
+- **P1** (`../pinning/`): the cost system, the direction of the risk, the threshold. Untouched; see "For her, first".
 - **three-taxes** (`../three-taxes/`): absorbed; the block ledger T1–T12, the design memo and their checks stay there.
-- **PLAN** (`../progress_and_prosperity/PLAN.md`): P2's entry rewritten; P5 keeps the political economy and reads
-  B3's table.
+- **PLAN** (`../progress_and_prosperity/PLAN.md`): P2's entry rewritten on 2026-11-10 (before assembly 1; its sentence
+  about the nineteen points says they shrink, which they did, to nothing).
+- **λ thread and paths** (`../progress_and_prosperity/lambda/`, `../paths/code/chains.py`): the input-output engine and
+  the depreciation ratios B1 runs on.
 - **Branches not merged into this one:** `us-record` (`claude/focused-bardeen-aciw2z`), `consumption`
   (`claude/nice-johnson-v2zp7f`), `landtax` (`claude/friendly-ritchie-2ewxw8`), the Lucas-style rewrite of P1
-  (`claude/elegant-bardeen-7q0oxs`). This folder was written on a branch from `main` and names them where it leans on
-  them; the root `README.md` is edited on each, so expect one small conflict there.
+  (`claude/elegant-bardeen-7q0oxs`). The root `README.md` is edited on each, so expect one small conflict there.
 - **participation** (`../participation/`): B8's test.
 
 ## Log
@@ -90,6 +162,20 @@ or drop.
 1. **2026-11-10 — founded.** From her question on the rewrite and the backward model. The session read the rewrite in
    full, the `us-record` thread through its Log 27, three-taxes, the plan, and the `consumption` thread's state; put
    the Great Stagnation reading against the record; and ended on her statement of the paper and her four calls.
-   Written: `SKETCH.md`, the three scripts, the two batteries; `PLAN.md`'s P2 entry; the root README's rows;
-   three-taxes' header. Not done, deliberately: no paper prose, no citation verified, nothing in `../pinning/` or in
-   three-taxes' contents changed, no data fetched.
+   Written: `SKETCH.md` v0, three scripts, two batteries; `PLAN.md`'s P2 entry; the root README's rows; three-taxes'
+   header.
+2. **2026-11-10 — assemblies 1 and 2, sketch v1, a first draft** (her "keep going"). BEA's files fetched (see above).
+   `code/one_basis.py` runs the λ thread's engine on the consumption bundle and three investment bundles and closes the
+   replacement of wear with three linear equations; the first run showed the two accounts meeting, and the sketch was
+   rewritten around that. `code/exposure.py` reads BEA's distribution of personal income by decile, already in the
+   repository as the financing account's input. Both gated. Then the draft (`paper/`), in the register she asked for.
+   Not done, deliberately: nothing in `../pinning/` or in three-taxes' contents changed; no citation verified; no
+   baskets by decile or tenure.
+3. **2026-11-10 — the draft made checkable, read through and corrected** (the same "keep going"). `paper/build.py`
+   renders the Markdown to HTML and PDF. `checks/check_draft.py` rebuilds every sentence and table row that prints a
+   number from the tables; writing it and reading the render turned up the four corrections in finding 10. The wage
+   accounting was re-run on a copy of the backward model's panel and the land-tax figures read against the
+   `consumption` branch's notes; both match and both stay marked as not held here. Crossref was reachable, so the
+   journal articles' details were checked and two citations added. The figures were relabelled in the draft's words.
+   Footnotes were folded into the text. Coverage is quoted from the rewrite. Not done: baskets by tenure; the claims
+   attributed to sources; anything in `../pinning/`.

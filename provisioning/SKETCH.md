@@ -291,6 +291,16 @@ Samuels and Senel 2026 (verified in P1); Barkai 2020 (verified in P1); Rognlie 2
 Geanakoplos on public funds holding equity; the Meidner plan's history; Australia's contribution rate and fund size;
 plus three-taxes' own ledger for what is taken from it.
 
+**Status, 2026-11-10 (the draft's reference list carries the same notes).** Bibliographic details checked in Crossref:
+Chamley 1986 (first page only), Judd 1985, Piketty, Saez and Zucman 2018, Straub and Werning 2020, Sinai and Souleles
+2005, Freeman 2015, Baxter and Jermann as NBER Working Paper 5019 (the journal version not checked), Keynes's essay in
+*Essays in Persuasion*, and the Routledge reissues of Meade 1964 and Meade 1978. Titles and authors confirmed from
+reviews indexed there, publisher and year not: Auerbach and Kotlikoff 1987, Musgrave 1959, and the Hansen volume that
+holds Brown 1948 (the chapter's own title not checked). Not checked at all: Paine 1797. Keynes's two forecasts (four
+to eight times; a fifteen-hour week) were checked against the essay's text. Still from memory: what the draft
+attributes to each of the others. Listed above and not yet used in the draft: the dual approach to growth accounting,
+Borusyak and Jaravel, Diamond and Geanakoplos, the Meidner plan, Australia's funds, Barkai 2020.
+
 ## 11. Decisions for her
 
 1. **P1's Section 9.** It reads the two accounts as a nineteen-point gap between financing and production. On one basis

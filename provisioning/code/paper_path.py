@@ -12,9 +12,7 @@
 #   claims(t)        what the claims on interest and rent cost, in years of the whole wage bill (the window)
 #   interest_tax(tau) the long-run incidence of a tax on interest, the required return after tax held at rho
 #
-# Plain functions, numpy only, bisection by hand. Run from provisioning/:  python3 code/paper_path.py
-
-import numpy as np
+# Plain functions, no dependencies, bisection by hand. Run from provisioning/:  python3 code/paper_path.py
 
 PAR = dict(theta=2.21694, zeta=0.0997862, a=2.35294, lam=3.23529, b=3.23842,   # Appendix C, as printed
            alpha=0.08, rho=0.10, delta=0.07, T=1.0, Na=0.6)

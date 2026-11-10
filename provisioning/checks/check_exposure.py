@@ -121,6 +121,10 @@ check("Q8 a common share of the claims on capital and land that holds the bottom
       *rows([(ex.holding_share(bh, s_now, 0.17), 0.13, 2), (ex.holding_share(bh, s_now, 0.0), 0.15, 2),
              (ex.income_share(bh, 0.17, 0.2), 0.168, 3), (ex.income_share(bh, 0.0, 0.2), 0.166, 3),
              (ex.holding_share(nf, s_now, 0.17), 0.86, 2), (ex.holding_share(nf, s_now, 0.0), 0.96, 2)]))
+check("Q8b with a fifth held in common: the next four tenths 0.309 with labour paid 0.17 and 0.276 with labour paid nothing; the "
+      "top tenth 0.523 and 0.558",
+      *rows([(ex.income_share(nf, 0.17, 0.2), 0.309, 3), (ex.income_share(nf, 0.0, 0.2), 0.276, 3),
+             (ex.income_share(tt, 0.17, 0.2), 0.523, 3), (ex.income_share(tt, 0.0, 0.2), 0.558, 3)]))
 tot = sum(ex.income_share(h, 0.3, 0.37) for h in held.values())
 check("Q9 the groups' shares of market income add to one at any labour share and any common share (an identity)", abs(tot - 1) < 1e-12)
 ss, s0, s1 = ex.shift_share(tabs, 2004, 2023)
