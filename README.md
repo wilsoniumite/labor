@@ -18,6 +18,7 @@ Each folder is a self-contained thread whose `STATE.md` is the session entry poi
 | Folder | What it grows toward |
 |---|---|
 | `dynamics/` | The dynamic extension (capital as time: waiting and build lags): the v2 dynamic draft of the paper, its transition engine and checks, the HTML-to-LaTeX pipeline. |
+| `outlook/` | The current case (what we think is happening as AI takes over paid work, in seven points) and the model run behind watch.wilsoniumite.com, set 2026-11-13 from a clean slate: the crash engine of `paths/` with the case's inputs, each measured or stated. |
 | `paths/` | The dynamic model built for risk: the mechanism as paths over time at speeds set by three clocks (technology, recognition, institutions). First layer: the yield curve (policy, cycle target, destination, speed, term premium, basis), its checks (the public test on the Fed's 2021–23 cycle is a record at the tag `paths-pre-cuts`); the world crash model and her case on a dated vintage. Public data only. |
 | `participation/` | Participation in the model's terms (sex, age, retirement, schooling, youth): a pre-registered test of the outside option's floor kink on a European country panel, with an explore/confirm country split and a time holdout. Public data only. |
 | `three-taxes/` | The fiscal architecture as labor's share falls: the three-tier taxonomy, gate-tax to rent-tax convergence, the 100 percent ceiling, the practical design. Sequenced after the dynamics paper. |

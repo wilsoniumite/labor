@@ -410,6 +410,10 @@ class Shock:
     runs: dict = field(default_factory=dict)         # the bank runs' measured path by step, where one exists (decision 92:
                                                      # 1929-33, the money stock's fall over its largest), in place of the
                                                      # model's stress in the money channel; 1 = all capital lost
+    push: dict = field(default_factory=dict)         # inflation already in the pipeline at the start, by step, points a
+                                                     # year, added to core inflation (outlook/code/outlook.py: each region's
+                                                     # measured core inflation above or below what the model's expectations
+                                                     # give at the start, fading at its measured pace); none: the model before
 
 
 def ramp(total: float, start: int, quarters: int, n: int, hold: bool = True) -> np.ndarray:
@@ -797,6 +801,8 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             kap = k0 if cm.expect_over > 0 else phillips_step(k0, anchor_q[r], dt)   # the slope as the anchor: decision 87
             # inflation answers the gap against capacity: the measured gap plus the capacity oil has idled
             pi = pie + kap * (y + o["cap"][k] if capacity else y) + (0.03 * tariff_up) / dt
+            if r in shock.push:                     # the inflation in the pipeline at the start (Shock.push)
+                pi += float(shock.push[r][k])
             o["pi"][k] = pi
             o["pi_h"][k] = pi + o["e_pi"][k] if r in shock.oil else pi
             o["P"][k] = o["P"][k - 1] * (1 + pi / 100 * dt)

@@ -1,5 +1,10 @@
 # STATE — paths (the dynamic model for risk; resume point for the next session)
 
+**2026-11-13: the case and the site's model moved to `../outlook/`** (its `STATE.md` says why). This thread keeps the
+engine (`code/global_crash.py`, with one input added that day, `Shock.push`, off unless given: check_global_crash 85/85),
+the dated vintage and the splits tracker; its case (`code/case.py`), its pace of a point a year, the predictions of
+8 October derived from it and the long-run block on calibration (c) are records.
+
 **Project:** the paper's mechanism as paths over time, at speeds set by three clocks
 (technology, recognition, institutions), coherent enough to stress a bank's balance sheet.
 Founded 2026-09-24 from a risk question: what does a bank face if the world comes to see that
