@@ -1,0 +1,2198 @@
+{
+ "inputs": {
+  "set": "2026-11-13",
+  "start": "2026Q3",
+  "steps": 70,
+  "ends": "2032-06",
+  "pace": {
+   "seen": {
+    "window": "2024-09 to 2026-08",
+    "trend": 0.0,
+    "bound": 0.218,
+    "endpoints": 0.39,
+    "exit_share_by_base": {
+     "the peak (3-month average)": 0.94,
+     "2024 average": 0.59,
+     "2023-24 average": 0.18
+    },
+    "exit_share": 0.59
+   },
+   "ceiling_points_a_year": 1.0,
+   "options": {
+    "none": {
+     "doubles_every_years": null,
+     "us_points_a_year": {
+      "2026-09": 0.0,
+      "2027-09": 0.0,
+      "2028-09": 0.0,
+      "2029-09": 0.0,
+      "2030-09": 0.0,
+      "2031-09": 0.0
+     },
+     "reaches_the_ceiling": null
+    },
+    "seen": {
+     "doubles_every_years": null,
+     "us_points_a_year": {
+      "2026-09": 0.218,
+      "2027-09": 0.218,
+      "2028-09": 0.218,
+      "2029-09": 0.218,
+      "2030-09": 0.218,
+      "2031-09": 0.218
+     },
+     "reaches_the_ceiling": null
+    },
+    "central": {
+     "doubles_every_years": 2.0,
+     "us_points_a_year": {
+      "2026-09": 0.218,
+      "2027-09": 0.308,
+      "2028-09": 0.436,
+      "2029-09": 0.617,
+      "2030-09": 0.872,
+      "2031-09": 1.0
+     },
+     "reaches_the_ceiling": "2031-02"
+    },
+    "fast": {
+     "doubles_every_years": 1.0,
+     "us_points_a_year": {
+      "2026-09": 0.218,
+      "2027-09": 0.436,
+      "2028-09": 0.872,
+      "2029-09": 1.0,
+      "2030-09": 1.0,
+      "2031-09": 1.0
+     },
+     "reaches_the_ceiling": "2028-12"
+    }
+   },
+   "ratio_to_the_us": {
+    "US": 1.0,
+    "EA": 0.5,
+    "FR": 0.5,
+    "SE": 0.6,
+    "CN": 0.8
+   }
+  },
+  "inflation_in_the_pipeline": {
+   "US": {
+    "core_inflation_at_the_start": 3.01,
+    "excess": 0.907,
+    "half_life_years": 1.76,
+    "measured": {
+     "series": "PCEPILFE",
+     "peak": [
+      "2024-01",
+      3.22
+     ],
+     "low": [
+      "2025-03",
+      2.56
+     ],
+     "half_life_years": 1.76217533010554
+    }
+   },
+   "EA": {
+    "core_inflation_at_the_start": 2.67,
+    "excess": 0.606,
+    "half_life_years": 0.96,
+    "measured": {
+     "series": "00XEFDEZ19M086NEST",
+     "peak": [
+      "2024-01",
+      3.25
+     ],
+     "low": [
+      "2026-01",
+      2.17
+     ],
+     "half_life_years": 0.9642428001861112
+    }
+   },
+   "FR": {
+    "core_inflation_at_the_start": 1.77,
+    "excess": 0.0
+   },
+   "SE": {
+    "core_inflation_at_the_start": 1.12,
+    "excess": 0.0
+   },
+   "CN": {
+    "core_inflation_at_the_start": -0.07,
+    "excess": 0.0
+   }
+  },
+  "bust": {
+   "peak": "2026-10-06",
+   "peak_2000": "2000-03-10",
+   "size": 0.5,
+   "us_household_equity_fall_at_the_trough_dot_com": 0.447,
+   "delay_quarters": -0.7118412046543463
+  },
+  "inflation_options": {
+   "fades": "as each region's own excess has faded (measured)",
+   "stays": "the excess at the start stays",
+   "wave": {
+    "points": 3.0,
+    "from": 0.25,
+    "full": 1.25,
+    "until": 2.25,
+    "gone": 3.25,
+    "on": "the fading path, in every economy",
+    "stated": true
+   }
+  },
+  "robots": "never",
+  "policy": "modern rules",
+  "switches": {
+   "today": {
+    "rates": "rule",
+    "expect": "anchored",
+    "prices": "sticky",
+    "insured": "on",
+    "rescues": "on",
+    "benefits": 1.0,
+    "response": "stimulus",
+    "share": 0.9,
+    "trigger": 2.0,
+    "tariff": 0.0,
+    "tariff_by": "all",
+    "tariff_from": "2027",
+    "care": "trend",
+    "care_pace": 1.0,
+    "paid": "borrowing",
+    "levy": 0.5
+   },
+   "bundles": {
+    "today": {},
+    "guarantee": {
+     "response": "guarantee",
+     "trigger": 1.5
+    },
+    "care": {
+     "care": "expand",
+     "trigger": 1.5
+    },
+    "erode": {
+     "expect": "slipping",
+     "rescues": "off",
+     "response": "cuts",
+     "tariff": 20.0,
+     "care": "cut"
+    },
+    "1930s": {
+     "rates": "gold",
+     "expect": "loose",
+     "prices": "free",
+     "insured": "off",
+     "rescues": "off",
+     "benefits": 0.0,
+     "response": "cuts",
+     "tariff": 20.0,
+     "care": "cut"
+    }
+   },
+   "options": {
+    "rates": [
+     "rule",
+     "hold",
+     "gold"
+    ],
+    "expect": [
+     "anchored",
+     "slipping",
+     "loose"
+    ],
+    "prices": [
+     "sticky",
+     "free"
+    ],
+    "insured": [
+     "on",
+     "off"
+    ],
+    "rescues": [
+     "on",
+     "off"
+    ],
+    "benefits": [
+     0.0,
+     1.5
+    ],
+    "response": [
+     "none",
+     "stimulus",
+     "guarantee",
+     "cuts"
+    ],
+    "share": [
+     0.5,
+     1.0
+    ],
+    "trigger": [
+     0.5,
+     4.0
+    ],
+    "tariff": [
+     0.0,
+     30.0
+    ],
+    "tariff_by": [
+     "all",
+     "us"
+    ],
+    "tariff_from": [
+     "2027",
+     "2028",
+     "2029"
+    ],
+    "care": [
+     "trend",
+     "cut",
+     "expand"
+    ],
+    "care_pace": [
+     0.5,
+     2.0
+    ],
+    "paid": [
+     "borrowing",
+     "wages",
+     "levy"
+    ],
+    "levy": [
+     0.25,
+     1.0
+    ]
+   }
+  },
+  "trigger_points": {
+   "today": 2.0,
+   "guarantee": 1.5,
+   "care": 1.5,
+   "erode": 2.0,
+   "1930s": 2.0
+  },
+  "vintage": null
+ },
+ "settings": {
+  "policy": "today",
+  "size": 0.5,
+  "speed": 1.0,
+  "shape": "2000",
+  "start": "2026-10-06",
+  "pace": "central",
+  "adoption": "1",
+  "robots": "never",
+  "inflation": "fades",
+  "rates": "rule",
+  "expect": "anchored",
+  "prices": "sticky",
+  "insured": "on",
+  "rescues": "on",
+  "benefits": 1.0,
+  "response": "stimulus",
+  "share": 0.9,
+  "trigger": 2.0,
+  "tariff": 0.0,
+  "tariff_by": "all",
+  "tariff_from": "2027",
+  "care": "trend",
+  "care_pace": 1.0,
+  "paid": "borrowing",
+  "levy": 0.5
+ },
+ "case": {
+  "us_unemployment": {
+   "2026Q4": 4.25,
+   "2027Q2": 4.57,
+   "2027Q4": 5.23,
+   "2028Q4": 5.86,
+   "2029Q4": 4.97,
+   "2030Q4": 4.77,
+   "2032Q2": 7.42
+  },
+  "us_out_of_work": {
+   "2026Q4": 4.26,
+   "2027Q4": 5.33,
+   "2028Q4": 6.08,
+   "2029Q4": 5.36,
+   "2030Q4": 5.39,
+   "2032Q2": 8.56
+  },
+  "us_left_the_workforce_2032Q2": 1.14,
+  "us_unemployment_first_high": [
+   "2029Q1",
+   6.2
+  ],
+  "us_unemployment_low_after": [
+   "2030Q3",
+   4.74
+  ],
+  "us_out_of_work_highest": [
+   "2032Q2",
+   8.56
+  ],
+  "still_rising_at_the_end": true,
+  "us_sahm_rule_month": "2027-07",
+  "us_policy_rate": {
+   "2026Q4": 4.02,
+   "2027Q2": 4.11,
+   "2027Q4": 3.74,
+   "2028Q4": 2.68,
+   "2030Q4": 2.99,
+   "2032Q2": 1.75
+  },
+  "us_policy_rate_high": [
+   "2027Q1",
+   4.13
+  ],
+  "us_policy_rate_low": [
+   "2032Q2",
+   1.75
+  ],
+  "us_inflation": {
+   "2027Q4": 2.42,
+   "2028Q4": 2.07,
+   "2032Q2": 1.51
+  },
+  "us_output_worst": [
+   "2032Q2",
+   -3.78
+  ],
+  "four_output_worst": [
+   "2032Q2",
+   -3.99
+  ],
+  "us_output": {
+   "2027Q4": -1.51,
+   "2028Q4": -2.3,
+   "2029Q4": -0.71,
+   "2030Q4": -0.24,
+   "2032Q2": -3.78
+  },
+  "four_output": {
+   "2027Q4": -1.13,
+   "2028Q4": -1.94,
+   "2029Q4": -0.99,
+   "2030Q4": -0.89,
+   "2032Q2": -3.99
+  },
+  "four_output_worst_in_the_downturn": [
+   "2029Q1",
+   -2.33
+  ],
+  "us_household_equity_fall_most_pct": 22.3,
+  "us_pace_summed_to_the_end": 3.64,
+  "policy_lever_from": {
+   "US": "2029-04",
+   "EA": "2029-04",
+   "FR": "2028-12",
+   "SE": "2028-08",
+   "CN": null
+  },
+  "regions": {
+   "US": {
+    "out_of_work": {
+     "2027Q4": 5.33,
+     "2028Q4": 6.08,
+     "2030Q4": 5.39,
+     "2032Q2": 8.56
+    },
+    "unemployment_highest": 7.42,
+    "output_worst": -3.78,
+    "policy_rate": {
+     "2027Q2": 4.11,
+     "2027Q4": 3.74,
+     "2028Q4": 2.68
+    },
+    "bank_capital_lost_most_pct": 33
+   },
+   "EA": {
+    "out_of_work": {
+     "2027Q4": 6.59,
+     "2028Q4": 7.64,
+     "2030Q4": 6.83,
+     "2032Q2": 9.39
+    },
+    "unemployment_highest": 9.39,
+    "output_worst": -3.72,
+    "policy_rate": {
+     "2027Q2": 2.6,
+     "2027Q4": 2.36,
+     "2028Q4": 1.56
+    },
+    "bank_capital_lost_most_pct": 34
+   },
+   "FR": {
+    "out_of_work": {
+     "2027Q4": 9.04,
+     "2028Q4": 10.26,
+     "2030Q4": 10.79,
+     "2032Q2": 14.2
+    },
+    "unemployment_highest": 14.2,
+    "output_worst": -5.01,
+    "policy_rate": {
+     "2027Q2": 2.6,
+     "2027Q4": 2.36,
+     "2028Q4": 1.56
+    },
+    "bank_capital_lost_most_pct": 40
+   },
+   "SE": {
+    "out_of_work": {
+     "2027Q4": 9.5,
+     "2028Q4": 10.47,
+     "2030Q4": 10.67,
+     "2032Q2": 15.65
+    },
+    "unemployment_highest": 15.65,
+    "output_worst": -7.69,
+    "policy_rate": {
+     "2027Q2": 1.71,
+     "2027Q4": 1.49,
+     "2028Q4": 0.8
+    },
+    "bank_capital_lost_most_pct": 40
+   },
+   "CN": {
+    "out_of_work": {
+     "2027Q4": 5.29,
+     "2028Q4": 5.53,
+     "2030Q4": 5.85,
+     "2032Q2": 6.39
+    },
+    "unemployment_highest": 6.39,
+    "output_worst": -4.2,
+    "policy_rate": {
+     "2027Q2": 1.83,
+     "2027Q4": 2.09,
+     "2028Q4": 1.85
+    },
+    "bank_capital_lost_most_pct": 25
+   }
+  },
+  "four_output_worst_month": [
+   "2032-06",
+   -4.1
+  ],
+  "verdict": "deep"
+ },
+ "paths": {
+  "quarters": [
+   "2026Q3",
+   "2026Q4",
+   "2027Q1",
+   "2027Q2",
+   "2027Q3",
+   "2027Q4",
+   "2028Q1",
+   "2028Q2",
+   "2028Q3",
+   "2028Q4",
+   "2029Q1",
+   "2029Q2",
+   "2029Q3",
+   "2029Q4",
+   "2030Q1",
+   "2030Q2",
+   "2030Q3",
+   "2030Q4",
+   "2031Q1",
+   "2031Q2",
+   "2031Q3",
+   "2031Q4",
+   "2032Q1",
+   "2032Q2"
+  ],
+  "regions": {
+   "US": {
+    "unemployment": [
+     4.2,
+     4.25,
+     4.39,
+     4.57,
+     4.91,
+     5.23,
+     5.4,
+     5.69,
+     5.74,
+     5.86,
+     6.2,
+     5.47,
+     5.0,
+     4.97,
+     4.87,
+     4.82,
+     4.74,
+     4.77,
+     4.92,
+     5.16,
+     5.59,
+     6.22,
+     6.86,
+     7.42
+    ],
+    "out_of_work": [
+     4.2,
+     4.26,
+     4.42,
+     4.62,
+     4.99,
+     5.33,
+     5.53,
+     5.85,
+     5.93,
+     6.08,
+     6.46,
+     5.77,
+     5.35,
+     5.36,
+     5.31,
+     5.31,
+     5.29,
+     5.39,
+     5.61,
+     5.93,
+     6.45,
+     7.16,
+     7.9,
+     8.56
+    ],
+    "output": [
+     0.0,
+     -0.09,
+     -0.3,
+     -0.58,
+     -1.13,
+     -1.51,
+     -1.73,
+     -2.13,
+     -2.09,
+     -2.3,
+     -2.84,
+     -1.06,
+     -0.74,
+     -0.71,
+     -0.5,
+     -0.37,
+     -0.2,
+     -0.24,
+     -0.42,
+     -0.74,
+     -1.39,
+     -2.28,
+     -3.12,
+     -3.78
+    ],
+    "inflation": [
+     3.01,
+     2.94,
+     2.82,
+     2.7,
+     2.55,
+     2.42,
+     2.32,
+     2.2,
+     2.15,
+     2.07,
+     1.94,
+     2.17,
+     2.19,
+     2.16,
+     2.17,
+     2.18,
+     2.18,
+     2.16,
+     2.11,
+     2.05,
+     1.93,
+     1.78,
+     1.63,
+     1.51
+    ],
+    "rate": [
+     3.88,
+     4.02,
+     4.13,
+     4.11,
+     3.98,
+     3.74,
+     3.48,
+     3.19,
+     2.91,
+     2.68,
+     2.42,
+     2.26,
+     2.43,
+     2.57,
+     2.69,
+     2.8,
+     2.9,
+     2.99,
+     3.02,
+     2.99,
+     2.86,
+     2.6,
+     2.21,
+     1.75
+    ]
+   },
+   "EA": {
+    "unemployment": [
+     6.0,
+     6.01,
+     6.07,
+     6.17,
+     6.34,
+     6.59,
+     6.84,
+     7.13,
+     7.41,
+     7.64,
+     7.91,
+     7.81,
+     7.45,
+     7.21,
+     7.04,
+     6.93,
+     6.85,
+     6.83,
+     6.89,
+     7.05,
+     7.38,
+     7.91,
+     8.61,
+     9.39
+    ],
+    "out_of_work": [
+     6.0,
+     6.01,
+     6.07,
+     6.17,
+     6.34,
+     6.59,
+     6.84,
+     7.13,
+     7.41,
+     7.64,
+     7.91,
+     7.81,
+     7.45,
+     7.21,
+     7.04,
+     6.93,
+     6.85,
+     6.83,
+     6.89,
+     7.05,
+     7.38,
+     7.91,
+     8.61,
+     9.39
+    ],
+    "output": [
+     0.0,
+     -0.05,
+     -0.17,
+     -0.3,
+     -0.57,
+     -0.87,
+     -1.06,
+     -1.37,
+     -1.48,
+     -1.64,
+     -1.91,
+     -0.72,
+     -0.41,
+     -0.42,
+     -0.36,
+     -0.35,
+     -0.34,
+     -0.42,
+     -0.59,
+     -0.9,
+     -1.5,
+     -2.26,
+     -3.04,
+     -3.72
+    ],
+    "inflation": [
+     2.67,
+     2.6,
+     2.49,
+     2.39,
+     2.28,
+     2.17,
+     2.09,
+     2.0,
+     1.94,
+     1.89,
+     1.82,
+     1.97,
+     2.0,
+     1.99,
+     1.99,
+     1.99,
+     1.99,
+     1.97,
+     1.93,
+     1.88,
+     1.79,
+     1.66,
+     1.53,
+     1.42
+    ],
+    "rate": [
+     2.5,
+     2.58,
+     2.62,
+     2.6,
+     2.51,
+     2.36,
+     2.17,
+     1.97,
+     1.75,
+     1.56,
+     1.39,
+     1.27,
+     1.38,
+     1.48,
+     1.55,
+     1.6,
+     1.64,
+     1.65,
+     1.63,
+     1.56,
+     1.42,
+     1.17,
+     0.82,
+     0.41
+    ]
+   },
+   "FR": {
+    "unemployment": [
+     8.2,
+     8.29,
+     8.42,
+     8.56,
+     8.77,
+     9.04,
+     9.33,
+     9.67,
+     9.99,
+     10.26,
+     10.38,
+     10.5,
+     10.43,
+     10.43,
+     10.47,
+     10.54,
+     10.64,
+     10.79,
+     11.03,
+     11.41,
+     11.92,
+     12.6,
+     13.39,
+     14.2
+    ],
+    "out_of_work": [
+     8.2,
+     8.29,
+     8.42,
+     8.56,
+     8.77,
+     9.04,
+     9.33,
+     9.67,
+     9.99,
+     10.26,
+     10.38,
+     10.5,
+     10.43,
+     10.43,
+     10.47,
+     10.54,
+     10.64,
+     10.79,
+     11.03,
+     11.41,
+     11.92,
+     12.6,
+     13.39,
+     14.2
+    ],
+    "output": [
+     0.0,
+     -0.28,
+     -0.39,
+     -0.53,
+     -0.8,
+     -1.1,
+     -1.31,
+     -1.64,
+     -1.8,
+     -1.76,
+     -1.74,
+     -1.58,
+     -1.31,
+     -1.38,
+     -1.4,
+     -1.45,
+     -1.51,
+     -1.65,
+     -1.99,
+     -2.42,
+     -3.01,
+     -3.77,
+     -4.44,
+     -5.01
+    ],
+    "inflation": [
+     1.77,
+     1.94,
+     1.92,
+     1.91,
+     1.87,
+     1.83,
+     1.79,
+     1.74,
+     1.71,
+     1.71,
+     1.71,
+     1.73,
+     1.78,
+     1.77,
+     1.76,
+     1.76,
+     1.75,
+     1.73,
+     1.68,
+     1.61,
+     1.52,
+     1.4,
+     1.29,
+     1.19
+    ],
+    "rate": [
+     2.5,
+     2.58,
+     2.62,
+     2.6,
+     2.51,
+     2.36,
+     2.17,
+     1.97,
+     1.75,
+     1.56,
+     1.39,
+     1.27,
+     1.38,
+     1.48,
+     1.55,
+     1.6,
+     1.64,
+     1.65,
+     1.63,
+     1.56,
+     1.42,
+     1.17,
+     0.82,
+     0.41
+    ]
+   },
+   "SE": {
+    "unemployment": [
+     8.6,
+     8.61,
+     8.69,
+     8.84,
+     9.1,
+     9.5,
+     9.91,
+     10.4,
+     10.62,
+     10.47,
+     10.57,
+     10.74,
+     10.56,
+     10.47,
+     10.43,
+     10.43,
+     10.47,
+     10.67,
+     11.12,
+     11.76,
+     12.58,
+     13.56,
+     14.59,
+     15.65
+    ],
+    "out_of_work": [
+     8.6,
+     8.61,
+     8.69,
+     8.84,
+     9.1,
+     9.5,
+     9.91,
+     10.4,
+     10.62,
+     10.47,
+     10.57,
+     10.74,
+     10.56,
+     10.47,
+     10.43,
+     10.43,
+     10.47,
+     10.67,
+     11.12,
+     11.76,
+     12.58,
+     13.56,
+     14.59,
+     15.65
+    ],
+    "output": [
+     0.0,
+     -0.05,
+     -0.25,
+     -0.5,
+     -1.03,
+     -1.63,
+     -2.02,
+     -2.65,
+     -1.83,
+     -1.53,
+     -2.08,
+     -1.92,
+     -1.25,
+     -1.31,
+     -1.24,
+     -1.24,
+     -1.27,
+     -1.82,
+     -2.61,
+     -3.5,
+     -4.59,
+     -5.69,
+     -6.69,
+     -7.69
+    ],
+    "inflation": [
+     1.12,
+     1.91,
+     1.9,
+     1.88,
+     1.82,
+     1.74,
+     1.68,
+     1.58,
+     1.69,
+     1.74,
+     1.66,
+     1.68,
+     1.78,
+     1.77,
+     1.79,
+     1.79,
+     1.79,
+     1.71,
+     1.58,
+     1.44,
+     1.27,
+     1.09,
+     0.93,
+     0.76
+    ],
+    "rate": [
+     1.75,
+     1.66,
+     1.7,
+     1.71,
+     1.65,
+     1.49,
+     1.28,
+     1.01,
+     0.76,
+     0.8,
+     0.79,
+     0.67,
+     0.74,
+     0.84,
+     0.91,
+     0.98,
+     1.03,
+     1.02,
+     0.86,
+     0.57,
+     0.16,
+     -0.36,
+     -0.5,
+     -0.5
+    ]
+   },
+   "CN": {
+    "unemployment": [
+     5.2,
+     5.2,
+     5.21,
+     5.22,
+     5.25,
+     5.29,
+     5.35,
+     5.41,
+     5.47,
+     5.53,
+     5.6,
+     5.66,
+     5.68,
+     5.71,
+     5.74,
+     5.77,
+     5.8,
+     5.85,
+     5.9,
+     5.97,
+     6.04,
+     6.14,
+     6.26,
+     6.39
+    ],
+    "out_of_work": [
+     5.2,
+     5.2,
+     5.21,
+     5.22,
+     5.25,
+     5.29,
+     5.35,
+     5.41,
+     5.47,
+     5.53,
+     5.6,
+     5.66,
+     5.68,
+     5.71,
+     5.74,
+     5.77,
+     5.8,
+     5.85,
+     5.9,
+     5.97,
+     6.04,
+     6.14,
+     6.26,
+     6.39
+    ],
+    "output": [
+     0.0,
+     -0.0,
+     -0.09,
+     -0.18,
+     -0.41,
+     -0.73,
+     -0.96,
+     -1.28,
+     -1.45,
+     -1.66,
+     -1.97,
+     -1.89,
+     -1.66,
+     -1.73,
+     -1.75,
+     -1.8,
+     -1.86,
+     -2.01,
+     -2.21,
+     -2.44,
+     -2.78,
+     -3.24,
+     -3.72,
+     -4.2
+    ],
+    "inflation": [
+     -0.07,
+     1.81,
+     1.84,
+     1.88,
+     1.89,
+     1.88,
+     1.84,
+     1.79,
+     1.77,
+     1.73,
+     1.68,
+     1.69,
+     1.72,
+     1.71,
+     1.71,
+     1.7,
+     1.69,
+     1.67,
+     1.64,
+     1.6,
+     1.55,
+     1.47,
+     1.4,
+     1.32
+    ],
+    "rate": [
+     1.4,
+     1.3,
+     1.6,
+     1.83,
+     2.0,
+     2.09,
+     2.1,
+     2.05,
+     1.96,
+     1.85,
+     1.72,
+     1.57,
+     1.52,
+     1.5,
+     1.48,
+     1.45,
+     1.43,
+     1.39,
+     1.32,
+     1.23,
+     1.1,
+     0.93,
+     0.7,
+     0.43
+    ]
+   }
+  },
+  "four_output": [
+   0.0,
+   -0.06,
+   -0.21,
+   -0.4,
+   -0.78,
+   -1.13,
+   -1.35,
+   -1.7,
+   -1.76,
+   -1.94,
+   -2.33,
+   -1.27,
+   -0.98,
+   -0.99,
+   -0.9,
+   -0.86,
+   -0.8,
+   -0.89,
+   -1.09,
+   -1.39,
+   -1.94,
+   -2.67,
+   -3.38,
+   -3.99
+  ]
+ },
+ "around": {
+  "funding holds": {
+   "changes": {
+    "size": 0.0
+   },
+   "us_unemployment_2028Q4": 4.86,
+   "us_out_of_work_2028Q4": 5.03,
+   "us_out_of_work_2032Q2": 6.15,
+   "us_out_of_work_highest": [
+    "2031Q2",
+    6.9
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2031Q3",
+    1.98
+   ],
+   "four_output_worst": [
+    "2030Q4",
+    -1.78
+   ],
+   "us_sahm_rule_month": "2030-08",
+   "us_lever_from": "2031-08",
+   "verdict": "recession",
+   "us_policy_rate_high": [
+    "2027Q2",
+    4.19
+   ],
+   "us_policy_rate_2028Q4": 3.55,
+   "us_inflation_2028Q4": 2.31,
+   "us_unemployment_first_high": [
+    "2031Q2",
+    6.13
+   ],
+   "out_of_work_2032Q2": {
+    "US": 6.15,
+    "EA": 7.2,
+    "FR": 11.68,
+    "SE": 11.21,
+    "CN": 6.01
+   }
+  },
+  "a dot-com-sized bust": {
+   "changes": {
+    "size": 1.0
+   },
+   "us_unemployment_2028Q4": 4.98,
+   "us_out_of_work_2028Q4": 5.21,
+   "us_out_of_work_2032Q2": 9.56,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    9.56
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    0.01
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -5.38
+   ],
+   "us_sahm_rule_month": "2027-05",
+   "us_lever_from": "2028-04",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.1
+   ],
+   "us_policy_rate_2028Q4": 2.87,
+   "us_inflation_2028Q4": 2.26,
+   "us_unemployment_first_high": [
+    "2028Q1",
+    6.2
+   ],
+   "out_of_work_2032Q2": {
+    "US": 9.56,
+    "EA": 12.13,
+    "FR": 17.0,
+    "SE": 20.46,
+    "CN": 6.91
+   }
+  },
+  "a severe bust": {
+   "changes": {
+    "size": 1.5
+   },
+   "us_unemployment_2028Q4": 5.8,
+   "us_out_of_work_2028Q4": 6.03,
+   "us_out_of_work_2032Q2": 10.79,
+   "us_out_of_work_highest": [
+    "2032Q1",
+    10.83
+   ],
+   "still_rising_at_the_end": false,
+   "us_policy_rate_low": [
+    "2030Q3",
+    0.0
+   ],
+   "four_output_worst": [
+    "2031Q4",
+    -6.99
+   ],
+   "us_sahm_rule_month": "2027-04",
+   "us_lever_from": "2027-10",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.07
+   ],
+   "us_policy_rate_2028Q4": 2.57,
+   "us_inflation_2028Q4": 2.08,
+   "us_unemployment_first_high": [
+    "2027Q3",
+    5.88
+   ],
+   "out_of_work_2032Q2": {
+    "US": 10.79,
+    "EA": 14.63,
+    "FR": 19.39,
+    "SE": 24.98,
+    "CN": 7.15
+   }
+  },
+  "no AI job losses": {
+   "changes": {
+    "pace": "none"
+   },
+   "us_unemployment_2028Q4": 5.5,
+   "us_out_of_work_2028Q4": 5.54,
+   "us_out_of_work_2032Q2": 4.27,
+   "us_out_of_work_highest": [
+    "2029Q3",
+    6.26
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2029Q4",
+    2.01
+   ],
+   "four_output_worst": [
+    "2029Q3",
+    -2.39
+   ],
+   "us_sahm_rule_month": "2027-08",
+   "us_lever_from": "2029-10",
+   "verdict": "recession",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 2.85,
+   "us_inflation_2028Q4": 2.13,
+   "us_unemployment_first_high": [
+    "2029Q3",
+    6.19
+   ],
+   "out_of_work_2032Q2": {
+    "US": 4.27,
+    "EA": 6.24,
+    "FR": 10.84,
+    "SE": 10.96,
+    "CN": 5.63
+   }
+  },
+  "the pace stays as seen": {
+   "changes": {
+    "pace": "seen"
+   },
+   "us_unemployment_2028Q4": 5.74,
+   "us_out_of_work_2028Q4": 5.88,
+   "us_out_of_work_2032Q2": 5.82,
+   "us_out_of_work_highest": [
+    "2029Q1",
+    6.19
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2029Q2",
+    2.22
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -2.59
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2029-05",
+   "verdict": "recession",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 2.72,
+   "us_inflation_2028Q4": 2.08,
+   "us_unemployment_first_high": [
+    "2029Q1",
+    6.04
+   ],
+   "out_of_work_2032Q2": {
+    "US": 5.82,
+    "EA": 7.64,
+    "FR": 12.35,
+    "SE": 13.02,
+    "CN": 5.88
+   }
+  },
+  "the pace doubles every year": {
+   "changes": {
+    "pace": "fast"
+   },
+   "us_unemployment_2028Q4": 6.07,
+   "us_out_of_work_2028Q4": 6.45,
+   "us_out_of_work_2032Q2": 10.11,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    10.11
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    0.92
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -4.93
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2029-02",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 2.62,
+   "us_inflation_2028Q4": 2.04,
+   "us_unemployment_first_high": [
+    "2028Q4",
+    6.07
+   ],
+   "out_of_work_2032Q2": {
+    "US": 10.11,
+    "EA": 10.79,
+    "FR": 15.58,
+    "SE": 17.65,
+    "CN": 6.75
+   }
+  },
+  "firms automate twice the jobs they cut": {
+   "changes": {
+    "adoption": "2"
+   },
+   "us_unemployment_2028Q4": 5.96,
+   "us_out_of_work_2028Q4": 6.25,
+   "us_out_of_work_2032Q2": 9.29,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    9.29
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    1.41
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -4.36
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2029-03",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 2.65,
+   "us_inflation_2028Q4": 2.05,
+   "us_unemployment_first_high": [
+    "2029Q1",
+    6.08
+   ],
+   "out_of_work_2032Q2": {
+    "US": 9.29,
+    "EA": 9.92,
+    "FR": 14.93,
+    "SE": 16.63,
+    "CN": 6.45
+   }
+  },
+  "robots from late 2029": {
+   "changes": {
+    "robots": "3"
+   },
+   "us_unemployment_2028Q4": 5.86,
+   "us_out_of_work_2028Q4": 6.08,
+   "us_out_of_work_2032Q2": 9.5,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    9.5
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    1.61
+   ],
+   "four_output_worst": [
+    "2032Q1",
+    -3.69
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2029-04",
+   "verdict": "recession",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 2.68,
+   "us_inflation_2028Q4": 2.07,
+   "us_unemployment_first_high": [
+    "2029Q1",
+    6.2
+   ],
+   "out_of_work_2032Q2": {
+    "US": 9.5,
+    "EA": 9.89,
+    "FR": 14.85,
+    "SE": 16.32,
+    "CN": 7.3
+   }
+  },
+  "an income guarantee": {
+   "changes": {
+    "policy": "guarantee"
+   },
+   "us_unemployment_2028Q4": 5.48,
+   "us_out_of_work_2028Q4": 5.7,
+   "us_out_of_work_2032Q2": 7.92,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    7.92
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    1.47
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -3.28
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2028-06",
+   "verdict": "recession",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 2.85,
+   "us_inflation_2028Q4": 2.16,
+   "us_unemployment_first_high": [
+    "2032Q2",
+    6.66
+   ],
+   "out_of_work_2032Q2": {
+    "US": 7.92,
+    "EA": 10.42,
+    "FR": 14.72,
+    "SE": 17.0,
+    "CN": 6.5
+   }
+  },
+  "more care jobs": {
+   "changes": {
+    "policy": "care"
+   },
+   "us_unemployment_2028Q4": 4.04,
+   "us_out_of_work_2028Q4": 4.22,
+   "us_out_of_work_2032Q2": 7.46,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    7.46
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    1.41
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -3.3
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2028-06",
+   "verdict": "recession",
+   "us_policy_rate_high": [
+    "2027Q1",
+    4.13
+   ],
+   "us_policy_rate_2028Q4": 3.48,
+   "us_inflation_2028Q4": 2.5,
+   "us_unemployment_first_high": [
+    "2028Q2",
+    5.45
+   ],
+   "out_of_work_2032Q2": {
+    "US": 7.46,
+    "EA": 8.89,
+    "FR": 13.15,
+    "SE": 14.41,
+    "CN": 6.37
+   }
+  },
+  "spending cuts and tariffs": {
+   "changes": {
+    "policy": "erode"
+   },
+   "us_unemployment_2028Q4": 7.57,
+   "us_out_of_work_2028Q4": 8.03,
+   "us_out_of_work_2032Q2": 17.66,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    17.66
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2029Q4",
+    0.0
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -16.91
+   ],
+   "us_sahm_rule_month": "2027-05",
+   "us_lever_from": "2027-12",
+   "verdict": "labour",
+   "us_policy_rate_high": [
+    "2027Q3",
+    5.34
+   ],
+   "us_policy_rate_2028Q4": 2.37,
+   "us_inflation_2028Q4": 1.82,
+   "us_unemployment_first_high": [
+    "2032Q2",
+    15.15
+   ],
+   "out_of_work_2032Q2": {
+    "US": 17.66,
+    "EA": 30.05,
+    "FR": 34.1,
+    "SE": 50.0,
+    "CN": 9.22
+   }
+  },
+  "the better case": {
+   "changes": {
+    "size": 0.0,
+    "pace": "seen"
+   },
+   "us_unemployment_2028Q4": 4.74,
+   "us_out_of_work_2028Q4": 4.85,
+   "us_out_of_work_2032Q2": 5.66,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    5.66
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    2.11
+   ],
+   "four_output_worst": [
+    "2032Q1",
+    -1.78
+   ],
+   "us_sahm_rule_month": null,
+   "us_lever_from": null,
+   "verdict": "slowdown",
+   "us_policy_rate_high": [
+    "2027Q2",
+    4.19
+   ],
+   "us_policy_rate_2028Q4": 3.59,
+   "us_inflation_2028Q4": 2.33,
+   "us_unemployment_first_high": [
+    "2032Q2",
+    5.48
+   ],
+   "out_of_work_2032Q2": {
+    "US": 5.66,
+    "EA": 7.78,
+    "FR": 11.08,
+    "SE": 10.62,
+    "CN": 5.69
+   }
+  },
+  "the worse case": {
+   "changes": {
+    "size": 1.0,
+    "policy": "erode"
+   },
+   "us_unemployment_2028Q4": 8.69,
+   "us_out_of_work_2028Q4": 9.2,
+   "us_out_of_work_2032Q2": 21.44,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    21.44
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2029Q2",
+    0.0
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -21.22
+   ],
+   "us_sahm_rule_month": "2027-04",
+   "us_lever_from": "2027-09",
+   "verdict": "depression",
+   "us_policy_rate_high": [
+    "2027Q2",
+    5.26
+   ],
+   "us_policy_rate_2028Q4": 1.28,
+   "us_inflation_2028Q4": 1.46,
+   "us_unemployment_first_high": [
+    "2032Q2",
+    18.5
+   ],
+   "out_of_work_2032Q2": {
+    "US": 21.44,
+    "EA": 35.45,
+    "FR": 39.26,
+    "SE": 50.0,
+    "CN": 10.26
+   }
+  },
+  "inflation stays where it is": {
+   "changes": {
+    "inflation": "stays"
+   },
+   "us_unemployment_2028Q4": 5.93,
+   "us_out_of_work_2028Q4": 6.15,
+   "us_out_of_work_2032Q2": 9.12,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    9.12
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    2.59
+   ],
+   "four_output_worst": [
+    "2032Q2",
+    -4.61
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2029-03",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2027Q2",
+    4.22
+   ],
+   "us_policy_rate_2028Q4": 3.28,
+   "us_inflation_2028Q4": 2.61,
+   "us_unemployment_first_high": [
+    "2029Q1",
+    6.05
+   ],
+   "out_of_work_2032Q2": {
+    "US": 9.12,
+    "EA": 10.33,
+    "FR": 15.11,
+    "SE": 16.54,
+    "CN": 6.47
+   }
+  },
+  "a second wave of inflation": {
+   "changes": {
+    "inflation": "wave"
+   },
+   "us_unemployment_2028Q4": 5.28,
+   "us_out_of_work_2028Q4": 5.51,
+   "us_out_of_work_2032Q2": 9.63,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    9.63
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    0.35
+   ],
+   "four_output_worst": [
+    "2032Q1",
+    -4.47
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2028-10",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2029Q1",
+    7.25
+   ],
+   "us_policy_rate_2028Q4": 6.88,
+   "us_inflation_2028Q4": 5.6,
+   "us_unemployment_first_high": [
+    "2028Q3",
+    6.15
+   ],
+   "out_of_work_2032Q2": {
+    "US": 9.63,
+    "EA": 11.94,
+    "FR": 14.72,
+    "SE": 16.38,
+    "CN": 6.46
+   }
+  },
+  "a second wave, expectations slipping": {
+   "changes": {
+    "inflation": "wave",
+    "expect": "slipping"
+   },
+   "us_unemployment_2028Q4": 5.08,
+   "us_out_of_work_2028Q4": 5.3,
+   "us_out_of_work_2032Q2": 10.22,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    10.22
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    0.0
+   ],
+   "four_output_worst": [
+    "2031Q4",
+    -5.23
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2028-09",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2029Q2",
+    10.29
+   ],
+   "us_policy_rate_2028Q4": 9.57,
+   "us_inflation_2028Q4": 7.08,
+   "us_unemployment_first_high": [
+    "2028Q2",
+    6.0
+   ],
+   "out_of_work_2032Q2": {
+    "US": 10.22,
+    "EA": 13.17,
+    "FR": 15.84,
+    "SE": 17.83,
+    "CN": 6.64
+   }
+  },
+  "a second wave, expectations loose": {
+   "changes": {
+    "inflation": "wave",
+    "expect": "loose"
+   },
+   "us_unemployment_2028Q4": 5.08,
+   "us_out_of_work_2028Q4": 5.31,
+   "us_out_of_work_2032Q2": 12.29,
+   "us_out_of_work_highest": [
+    "2032Q2",
+    12.29
+   ],
+   "still_rising_at_the_end": true,
+   "us_policy_rate_low": [
+    "2032Q2",
+    2.61
+   ],
+   "four_output_worst": [
+    "2031Q3",
+    -8.13
+   ],
+   "us_sahm_rule_month": "2027-07",
+   "us_lever_from": "2028-08",
+   "verdict": "deep",
+   "us_policy_rate_high": [
+    "2029Q3",
+    19.36
+   ],
+   "us_policy_rate_2028Q4": 15.75,
+   "us_inflation_2028Q4": 10.98,
+   "us_unemployment_first_high": [
+    "2028Q2",
+    6.06
+   ],
+   "out_of_work_2032Q2": {
+    "US": 12.29,
+    "EA": 17.01,
+    "FR": 19.28,
+    "SE": 22.0,
+    "CN": 6.9
+   }
+  }
+ },
+ "ranges": {
+  "us_out_of_work_2032Q2_by_pace": [
+   5.82,
+   8.56,
+   10.11
+  ],
+  "us_out_of_work_2032Q2_by_bust": [
+   6.15,
+   8.56,
+   9.56
+  ]
+ },
+ "switches": {
+  "central banks hold their rates": {
+   "changes": {
+    "rates": "hold"
+   },
+   "us_unemployment_2028Q4": 5.9,
+   "us_out_of_work_2032Q2": 9.3,
+   "us_policy_rate_2028Q4": 3.88,
+   "four_output_worst": [
+    "2032Q2",
+    -4.95
+   ],
+   "us_lever_from": "2029-03",
+   "verdict": "deep"
+  },
+  "expectations slipping": {
+   "changes": {
+    "expect": "slipping"
+   },
+   "us_unemployment_2028Q4": 6.0,
+   "us_out_of_work_2032Q2": 9.11,
+   "us_policy_rate_2028Q4": 3.21,
+   "four_output_worst": [
+    "2032Q2",
+    -5.17
+   ],
+   "us_lever_from": "2029-02",
+   "verdict": "deep"
+  },
+  "no deposit insurance": {
+   "changes": {
+    "insured": "off"
+   },
+   "us_unemployment_2028Q4": 5.31,
+   "us_out_of_work_2032Q2": 13.14,
+   "us_policy_rate_2028Q4": 2.51,
+   "four_output_worst": [
+    "2032Q2",
+    -10.19
+   ],
+   "us_lever_from": "2028-10",
+   "verdict": "deep"
+  },
+  "no bank rescues": {
+   "changes": {
+    "rescues": "off"
+   },
+   "us_unemployment_2028Q4": 5.86,
+   "us_out_of_work_2032Q2": 8.56,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -4.01
+   ],
+   "us_lever_from": "2029-04",
+   "verdict": "deep"
+  },
+  "no unemployment benefits": {
+   "changes": {
+    "benefits": 0.0
+   },
+   "us_unemployment_2028Q4": 6.01,
+   "us_out_of_work_2032Q2": 10.4,
+   "us_policy_rate_2028Q4": 2.38,
+   "four_output_worst": [
+    "2032Q2",
+    -6.94
+   ],
+   "us_lever_from": "2028-12",
+   "verdict": "deep"
+  },
+  "benefits half as high again": {
+   "changes": {
+    "benefits": 1.5
+   },
+   "us_unemployment_2028Q4": 5.7,
+   "us_out_of_work_2032Q2": 7.92,
+   "us_policy_rate_2028Q4": 2.8,
+   "four_output_worst": [
+    "2032Q2",
+    -2.92
+   ],
+   "us_lever_from": "2029-05",
+   "verdict": "recession"
+  },
+  "no response": {
+   "changes": {
+    "response": "none"
+   },
+   "us_unemployment_2028Q4": 5.87,
+   "us_out_of_work_2032Q2": 9.5,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -5.04
+   ],
+   "us_lever_from": null,
+   "verdict": "deep"
+  },
+  "spending cuts": {
+   "changes": {
+    "response": "cuts"
+   },
+   "us_unemployment_2028Q4": 5.87,
+   "us_out_of_work_2032Q2": 10.18,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -6.05
+   ],
+   "us_lever_from": "2029-03",
+   "verdict": "deep"
+  },
+  "a response after one point": {
+   "changes": {
+    "trigger": 1.0
+   },
+   "us_unemployment_2028Q4": 3.92,
+   "us_out_of_work_2032Q2": 8.31,
+   "us_policy_rate_2028Q4": 4.12,
+   "four_output_worst": [
+    "2031Q4",
+    -3.19
+   ],
+   "us_lever_from": "2027-12",
+   "verdict": "recession"
+  },
+  "an income guarantee, borrowed": {
+   "changes": {
+    "response": "guarantee"
+   },
+   "us_unemployment_2028Q4": 5.87,
+   "us_out_of_work_2032Q2": 7.95,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -3.31
+   ],
+   "us_lever_from": "2029-03",
+   "verdict": "recession"
+  },
+  "an income guarantee, taxed on wages": {
+   "changes": {
+    "response": "guarantee",
+    "paid": "wages"
+   },
+   "us_unemployment_2028Q4": 5.87,
+   "us_out_of_work_2032Q2": 8.71,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -4.08
+   ],
+   "us_lever_from": "2029-03",
+   "verdict": "deep"
+  },
+  "an income guarantee, a levy on AI's income": {
+   "changes": {
+    "response": "guarantee",
+    "paid": "levy"
+   },
+   "us_unemployment_2028Q4": 5.87,
+   "us_out_of_work_2032Q2": 7.95,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -3.3
+   ],
+   "us_lever_from": "2029-03",
+   "verdict": "recession"
+  },
+  "tariffs of 20 points by everyone": {
+   "changes": {
+    "tariff": 20.0
+   },
+   "us_unemployment_2028Q4": 4.89,
+   "us_out_of_work_2032Q2": 10.54,
+   "us_policy_rate_2028Q4": 3.4,
+   "four_output_worst": [
+    "2032Q1",
+    -7.08
+   ],
+   "us_lever_from": "2027-12",
+   "verdict": "deep"
+  },
+  "tariffs of 20 points by the US": {
+   "changes": {
+    "tariff": 20.0,
+    "tariff_by": "us"
+   },
+   "us_unemployment_2028Q4": 4.8,
+   "us_out_of_work_2032Q2": 9.92,
+   "us_policy_rate_2028Q4": 3.18,
+   "four_output_worst": [
+    "2032Q2",
+    -5.41
+   ],
+   "us_lever_from": "2028-04",
+   "verdict": "deep"
+  },
+  "care stops hiring": {
+   "changes": {
+    "care": "cut"
+   },
+   "us_unemployment_2028Q4": 5.93,
+   "us_out_of_work_2032Q2": 9.42,
+   "us_policy_rate_2028Q4": 2.7,
+   "four_output_worst": [
+    "2032Q2",
+    -3.8
+   ],
+   "us_lever_from": "2029-03",
+   "verdict": "recession"
+  },
+  "care built out, borrowed": {
+   "changes": {
+    "care": "expand"
+   },
+   "us_unemployment_2028Q4": 5.86,
+   "us_out_of_work_2032Q2": 7.39,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -3.49
+   ],
+   "us_lever_from": "2029-04",
+   "verdict": "recession"
+  },
+  "care built out, taxed on wages": {
+   "changes": {
+    "care": "expand",
+    "paid": "wages"
+   },
+   "us_unemployment_2028Q4": 5.86,
+   "us_out_of_work_2032Q2": 7.5,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -3.6
+   ],
+   "us_lever_from": "2029-04",
+   "verdict": "recession"
+  },
+  "care built out, a levy on AI's income": {
+   "changes": {
+    "care": "expand",
+    "paid": "levy"
+   },
+   "us_unemployment_2028Q4": 5.86,
+   "us_out_of_work_2032Q2": 7.39,
+   "us_policy_rate_2028Q4": 2.68,
+   "four_output_worst": [
+    "2032Q2",
+    -3.49
+   ],
+   "us_lever_from": "2029-04",
+   "verdict": "recession"
+  }
+ },
+ "without_the_inflation_input": {
+  "us_policy_rate": {
+   "2026Q4": 3.88,
+   "2027Q2": 3.42,
+   "2027Q4": 2.86,
+   "2028Q4": 1.85,
+   "2030Q4": 2.34,
+   "2032Q2": 0.89
+  },
+  "us_inflation": {
+   "2027Q4": 1.78,
+   "2028Q4": 1.62,
+   "2032Q2": 1.23
+  },
+  "us_unemployment": {
+   "2026Q4": 4.25,
+   "2027Q2": 4.54,
+   "2027Q4": 5.16,
+   "2028Q4": 5.88,
+   "2029Q4": 5.12,
+   "2030Q4": 5.05,
+   "2032Q2": 8.16
+  }
+ }
+}
