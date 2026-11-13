@@ -19,6 +19,13 @@
 #   policy         today's rules, each economy's discretionary lever starting the month after its own unemployment has
 #                  risen by the rules' trigger in that run (global_crash.trigger_dates): governments respond to what
 #                  happens in the run, not on dates fixed in another.
+# A run is named by its settings. The response is a set of switches (SWITCHES), each with a level where it has one:
+# the central bank's rule, how firmly inflation is expected to return to target, bank rescues and deposit insurance,
+# unemployment benefits and their level, what governments do once unemployment has risen by a trigger (a stimulus, an
+# income guarantee, spending cuts), tariffs (their level, by whom, from when), care (as usual, cut, or built out at a
+# pace) and how a guarantee or a build-out is paid for (borrowing, a tax on wages, a levy on AI's income at a rate).
+# The engine's presets are bundles of them (BUNDLES), reproduced exactly (check L1). Inflation is a setting too
+# (INFLATIONS): fading as measured (the case), staying where it started, or a second wave (stated).
 # The runs around the case change one setting at a time; the page's settings (the watcher's web/model_export.py) are
 # the same ones.
 #
@@ -56,13 +63,55 @@ CEILING = 1.0                          # the most the pace reaches, points of th
 PACES = (("none", None), ("seen", None), ("central", 2.0), ("fast", 1.0))
 # core inflation by region on the vintage (the engine's pi is core): the series its excess's fading is measured on
 CORE = {"US": "PCEPILFE", "EA": "00XEFDEZ19M086NEST", "FR": "FR_HICP_CORE", "SE": "00XEFDSEM086NEST"}
-POLICIES = {"today": "modern rules", "guarantee": "rules expand under pressure", "care": "rules expand into care",
-            "care-tax": "care financed by labour taxes", "care-levy": "care financed by a levy on AI income",
-            "erode": "rules erode under pressure", "1930s": "the 1930s' rules"}
 ADOPTIONS = {"1": 1.0, "2": 2.0, "3": 3.0}
 ROBOTS = {"0": 0.0, "1": 1.0, "2": 2.0, "3": 3.0, "never": 99.0}
+# inflation's options: fading as each region's own excess has faded (measured); staying where it started; a second
+# wave on top of the fading path, in every economy (stated: WAVE)
+INFLATIONS = ("fades", "stays", "wave")
+# the second wave, stated: points of extra core inflation a year, building over a year from the start of 2027, held
+# through 2028 and gone by the start of 2030 (years after index 0's end)
+WAVE = {"points": 3.0, "from": 0.25, "full": 1.25, "until": 2.25, "gone": 3.25}
+# the response, switch by switch: (key, its options; or (lowest, highest) where it is a level)
+SWITCHES = (
+    ("rates", ("rule", "hold", "gold")),          # central banks set rates by their rule; hold them where they are;
+                                                  # or let them drift down as under the gold standard (no reflation)
+    ("expect", ("anchored", "slipping", "loose")),    # how firmly inflation is expected to return to target
+    ("prices", ("sticky", "free")),               # prices and wages as today, or falling freely as in 1929-33
+    ("insured", ("on", "off")),                   # deposit insurance
+    ("rescues", ("on", "off")),                   # failing banks rescued
+    ("benefits", (0.0, 1.5)),                     # unemployment benefits, times today's (0: none)
+    ("response", ("none", "stimulus", "guarantee", "cuts")),   # once unemployment has risen by the trigger
+    ("share", (0.5, 1.0)),                        # the share of lost pay an income guarantee replaces
+    ("trigger", (0.5, 4.0)),                      # the rise in unemployment, points, at which the response starts
+    ("tariff", (0.0, 30.0)),                      # tariffs, points
+    ("tariff_by", ("all", "us")),                 # raised by everyone on everyone, or by the US and on the US in return
+    ("tariff_from", ("2027", "2028", "2029")),    # from April of the year
+    ("care", ("trend", "cut", "expand")),         # care hires as usual, stops hiring, or is built out by the state
+    ("care_pace", (0.5, 2.0)),                    # the build-out's pace, points of employment a year
+    ("paid", ("borrowing", "wages", "levy")),     # how a guarantee or a build-out is paid for
+    ("levy", (0.25, 1.0)),                        # the levy: the share of the pay AI displaced that is taken from its owners
+)
+TODAY = {"rates": "rule", "expect": "anchored", "prices": "sticky", "insured": "on", "rescues": "on", "benefits": 1.0,
+         "response": "stimulus", "share": 0.9, "trigger": 2.0, "tariff": 0.0, "tariff_by": "all", "tariff_from": "2027",
+         "care": "trend", "care_pace": 1.0, "paid": "borrowing", "levy": 0.5}
+# the engine's presets as bundles of switches: what each sets differently from today's policies
+BUNDLES = {
+    "today": {},
+    "guarantee": {"response": "guarantee", "trigger": 1.5},
+    "care": {"care": "expand", "trigger": 1.5},
+    "erode": {"expect": "slipping", "rescues": "off", "response": "cuts", "tariff": 20.0, "care": "cut"},
+    "1930s": {"rates": "gold", "expect": "loose", "prices": "free", "insured": "off", "rescues": "off", "benefits": 0.0,
+              "response": "cuts", "tariff": 20.0, "care": "cut"},
+}
+# the engine's preset each bundle is (global_crash.PRESETS), and two more that a bundle and one switch give
+POLICIES = {"today": "modern rules", "guarantee": "rules expand under pressure", "care": "rules expand into care",
+            "erode": "rules erode under pressure", "1930s": "the 1930s' rules"}
+ANCHORS = {"anchored": 0.9, "slipping": 0.6, "loose": 0.2}
+FISCAL = {"none": "none", "stimulus": "stimulus", "guarantee": "guarantee", "cuts": "austerity"}
+FINANCE = {"borrowing": "borrowing", "wages": "labour taxes", "levy": "ai levy"}
+TARIFF_QUARTER = {"2027": 3, "2028": 7, "2029": 11}     # the quarter its tariffs arrive: the second of the year
 CENTRAL = {"policy": "today", "size": 0.5, "speed": 1.0, "shape": "2000", "start": PEAK, "pace": "central",
-           "adoption": "1", "robots": "never"}
+           "adoption": "1", "robots": "never", "inflation": "fades", **TODAY}
 # the runs around the case, one change each (the last two change two): (key, what changes)
 AROUND = (
     ("funding holds", {"size": 0.0}),
@@ -78,6 +127,31 @@ AROUND = (
     ("spending cuts and tariffs", {"policy": "erode"}),
     ("the better case", {"size": 0.0, "pace": "seen"}),
     ("the worse case", {"size": 1.0, "policy": "erode"}),
+    ("inflation stays where it is", {"inflation": "stays"}),
+    ("a second wave of inflation", {"inflation": "wave"}),
+    ("a second wave, expectations slipping", {"inflation": "wave", "expect": "slipping"}),
+    ("a second wave, expectations loose", {"inflation": "wave", "expect": "loose"}),
+)
+# one switch at a time on the case, for the record of what each does (results' "switches")
+ONE_SWITCH = (
+    ("central banks hold their rates", {"rates": "hold"}),
+    ("expectations slipping", {"expect": "slipping"}),
+    ("no deposit insurance", {"insured": "off"}),
+    ("no bank rescues", {"rescues": "off"}),
+    ("no unemployment benefits", {"benefits": 0.0}),
+    ("benefits half as high again", {"benefits": 1.5}),
+    ("no response", {"response": "none"}),
+    ("spending cuts", {"response": "cuts"}),
+    ("a response after one point", {"trigger": 1.0}),
+    ("an income guarantee, borrowed", {"response": "guarantee"}),
+    ("an income guarantee, taxed on wages", {"response": "guarantee", "paid": "wages"}),
+    ("an income guarantee, a levy on AI's income", {"response": "guarantee", "paid": "levy"}),
+    ("tariffs of 20 points by everyone", {"tariff": 20.0}),
+    ("tariffs of 20 points by the US", {"tariff": 20.0, "tariff_by": "us"}),
+    ("care stops hiring", {"care": "cut"}),
+    ("care built out, borrowed", {"care": "expand"}),
+    ("care built out, taxed on wages", {"care": "expand", "paid": "wages"}),
+    ("care built out, a levy on AI's income", {"care": "expand", "paid": "levy"}),
 )
 
 
@@ -148,11 +222,18 @@ def fading(sid: str) -> dict:
             "half_life_years": math.log(2) / -slope}
 
 
-def push_paths(regs: dict, n: int, cm=None) -> tuple[dict, dict]:
-    """The inflation in the pipeline at the start, by region and step (Shock.push), and how each was measured: core
-    inflation at the start above what the engine's expectations give in the first step (the anchor's weight on the
-    target, the rest on the past year's inflation), fading at the region's measured half-life; none where core inflation
-    is at or below that."""
+def wave(n: int) -> np.ndarray:
+    """The second wave by step (WAVE): building, held, fading; points of core inflation a year."""
+    t = np.arange(n) * DT
+    return WAVE["points"] * (np.clip((t - WAVE["from"]) / (WAVE["full"] - WAVE["from"]), 0, 1)
+                             * np.clip((WAVE["gone"] - t) / (WAVE["gone"] - WAVE["until"]), 0, 1))
+
+
+def push_paths(regs: dict, n: int, cm=None, option: str = "fades") -> tuple[dict, dict]:
+    """The inflation input by region and step (Shock.push), and how each was measured: core inflation at the start
+    above what the engine's expectations give in the first step (the anchor's weight on the target, the rest on the
+    past year's inflation), fading at the region's measured half-life ("fades"), or staying there ("stays"); none where
+    core inflation is at or below that. "wave": the fading path, and a second wave on top of it in every economy."""
     cm = cm or stored()[0]
     paths, info = {}, {}
     anchor = gc.MODERN.anchor
@@ -163,9 +244,11 @@ def push_paths(regs: dict, n: int, cm=None) -> tuple[dict, dict]:
             info[r] = {"core_inflation_at_the_start": round(g.pi0, 2), "excess": 0.0}
             continue
         f = fading(CORE[r])
-        paths[r] = excess * 0.5 ** (np.arange(n) * DT / f["half_life_years"])
+        paths[r] = np.full(n, excess) if option == "stays" else excess * 0.5 ** (np.arange(n) * DT / f["half_life_years"])
         info[r] = {"core_inflation_at_the_start": round(g.pi0, 2), "excess": round(excess, 3),
                    "half_life_years": round(f["half_life_years"], 2), "measured": f}
+    if option == "wave":
+        paths = {r: paths.get(r, 0.0) + wave(n) for r in regs}
     return paths, info
 
 
@@ -206,23 +289,90 @@ def length(delay: float) -> int:
 
 
 # ------------------------------------------------------------------ a run
-def settings_of(pick: dict | None = None) -> dict:
-    """A run's settings: the case's, with `pick`'s changes. Without a bust its speed, shape and day do not apply."""
-    s = {**CENTRAL, **(pick or {})}
-    bad = [k for k in s if k not in CENTRAL]
-    if bad or s["policy"] not in POLICIES or s["pace"] not in dict(PACES) or s["adoption"] not in ADOPTIONS \
-            or s["robots"] not in ROBOTS or s["shape"] not in ("2000", "ramp"):
-        raise ValueError(f"no such run: {pick}")
+def settle(s: dict) -> dict:
+    """A run's settings with what does not apply put back to its default, so that one run has one naming: without a
+    fall in shares its speed, shape and day; without a guarantee its share; without a response or a care build-out the
+    trigger; without tariffs who raises them and when; without a build-out its pace; with neither a guarantee nor a
+    build-out how they are paid for; without a levy its rate."""
     if s["size"] == 0:
         s.update(speed=1.0, shape="2000", start=PEAK)
+    if s["response"] != "guarantee":
+        s["share"] = TODAY["share"]
+    if s["response"] == "none" and s["care"] != "expand":
+        s["trigger"] = TODAY["trigger"]
+    if s["tariff"] == 0:
+        s.update(tariff_by=TODAY["tariff_by"], tariff_from=TODAY["tariff_from"])
+    if s["care"] != "expand":
+        s["care_pace"] = TODAY["care_pace"]
+    if s["care"] != "expand" and s["response"] != "guarantee":
+        s["paid"] = TODAY["paid"]
+    if s["paid"] != "levy":
+        s["levy"] = TODAY["levy"]
     return s
+
+
+def bundle(name: str) -> dict:
+    """A bundle's switches in full."""
+    return {**TODAY, **BUNDLES[name]}
+
+
+def settings_of(pick: dict | None = None) -> dict:
+    """A run's settings: the case's, with `pick`'s changes. `policy` names a bundle of switches (BUNDLES); a switch
+    named beside it changes that one. The settings name the bundle the switches make, if they make one, and else the
+    one they started from."""
+    pick = dict(pick or {})
+    base = pick.pop("policy", CENTRAL["policy"])
+    bad = [k for k in pick if k not in CENTRAL]
+    if bad or base not in BUNDLES:
+        raise ValueError(f"no such run: {pick}")
+    s = {**CENTRAL, **bundle(base), **pick}
+    for k, options in SWITCHES:
+        if isinstance(options[0], str):
+            if s[k] not in options:
+                raise ValueError(f"{k}: no option {s[k]!r}")
+        else:
+            s[k] = float(s[k])
+            if not options[0] <= s[k] <= options[1]:
+                raise ValueError(f"{k} {s[k]} outside {options[0]}-{options[1]}")
+    if s["pace"] not in dict(PACES) or s["adoption"] not in ADOPTIONS or s["robots"] not in ROBOTS \
+            or s["shape"] not in ("2000", "ramp") or s["inflation"] not in INFLATIONS:
+        raise ValueError(f"no such run: {pick}")
+    settle(s)
+    s["policy"] = next((name for name in BUNDLES if all(s[k] == v for k, v in settle(dict(s, **bundle(name))).items()
+                                                        if k in TODAY)), base)
+    return s
+
+
+def inside(regs: dict, r: str) -> float:
+    """The share of region r's exports that go to the other members of its currency union (no tariffs inside it)."""
+    g = regs[r]
+    return sum(v for q, v in g.trade.items() if g.union and q != r and q in regs and regs[q].union == g.union)
+
+
+def rules_of(s: dict, regs: dict) -> dict:
+    """The engine's rules by region for a run's switches (their levers undated). Tariffs raised by the US alone: the
+    US's on what each other economy sells to it, as a tariff on what that economy sells outside its union (the engine's
+    tariffs spare trade inside one), and the same on the US's own exports in return."""
+    build, pays = s["care"] == "expand", s["response"] == "guarantee"
+    rl = replace(gc.MODERN, name=s["policy"], policy={"rule": "taylor", "hold": "path", "gold": "gold"}[s["rates"]],
+                 anchor=ANCHORS[s["expect"]], kappa_1930s=s["prices"] == "free", insured=s["insured"] == "on",
+                 backstop=s["rescues"] == "on", support=s["benefits"] > 0,
+                 support_level=s["benefits"] if s["benefits"] > 0 else 1.0, fiscal=FISCAL[s["response"]],
+                 guarantee=s["share"], guarantee_finance=FINANCE[s["paid"]] if pays else "borrowing",
+                 trigger=s["trigger"], tariff=s["tariff"],
+                 tariff_q=TARIFF_QUARTER[s["tariff_from"]] if s["tariff"] > 0 else gc.MODERN.tariff_q,
+                 care=s["care"], care_pace=s["care_pace"], care_finance=FINANCE[s["paid"]] if build else "borrowing")
+    if s["tariff"] == 0 or s["tariff_by"] == "all":
+        return {r: rl for r in regs}
+    return {r: rl if r == "US" else
+            replace(rl, tariff=round(s["tariff"] * regs[r].trade.get("US", 0.0) / (1 - inside(regs, r)), 2)) for r in regs}
 
 
 def run(pick: dict | None = None, regs: dict | None = None, cm=None, push: bool = True) -> dict:
     """One run of the engine by its settings: {settings, regions, rules (with their levers' dates), dates, shock, out,
     n}. The levers start the month after the region's own unemployment has risen by the rules' trigger in this run."""
     s = settings_of(pick)
-    cm = cm or stored()[0]
+    cm = replace(cm or stored()[0], ai_levy=s["levy"])
     regs = regs or regions()
     rg = {r: replace(g, eta=g.eta * ADOPTIONS[s["adoption"]]) for r, g in regs.items()}
     delay = delay_of(s["start"], s["shape"])
@@ -230,9 +380,11 @@ def run(pick: dict | None = None, regs: dict | None = None, cm=None, push: bool 
     shock = gc.ai_shock(n, s["size"], s["speed"], delay=delay, shape=s["shape"], dt=DT) if s["size"] > 0 else gc.Shock()
     shock.drift = pace_paths(s["pace"], n, rg)
     if push:
-        shock.push = push_paths(rg, n, cm)[0]
+        shock.push = push_paths(rg, n, cm, s["inflation"])[0]
+    if s["rates"] == "hold":                    # the rate as set: where each central bank's stood at the start
+        shock.rate = {r: np.full(n, g.i0) for r, g in rg.items()}
     waves = gc.Waves(split=True, robot_lag=ROBOTS[s["robots"]], absorb=True)
-    rl = gc.PRESETS[POLICIES[s["policy"]]]
+    rl = rules_of(s, rg)
     dates = gc.trigger_dates(rg, rl, shock, cm, n, DT, waves=waves)
     rules = gc.dated(rl, dates)
     out = gc.simulate(rg, rules, shock, cm, n, waves=waves, dt=DT)
@@ -360,6 +512,8 @@ def short(x: dict) -> dict:
             "still_rising_at_the_end": x["still_rising_at_the_end"], "us_policy_rate_low": x["us_policy_rate_low"],
             "four_output_worst": x["four_output_worst"], "us_sahm_rule_month": x["us_sahm_rule_month"],
             "us_lever_from": x["policy_lever_from"]["US"], "verdict": x["verdict"],
+            "us_policy_rate_high": x["us_policy_rate_high"], "us_policy_rate_2028Q4": x["us_policy_rate"]["2028Q4"],
+            "us_inflation_2028Q4": x["us_inflation"]["2028Q4"], "us_unemployment_first_high": x["us_unemployment_first_high"],
             "out_of_work_2032Q2": {g: v["out_of_work"]["2032Q2"] for g, v in x["regions"].items()}}
 
 
@@ -385,8 +539,11 @@ def inputs() -> dict:
         "bust": {"peak": PEAK, "peak_2000": PEAK_2000, "size": CENTRAL["size"],
                  "us_household_equity_fall_at_the_trough_dot_com": round(float(b["equity_fall"].max()), 3),
                  "delay_quarters": delay_of(PEAK)},
+        "inflation_options": {"fades": "as each region's own excess has faded (measured)", "stays": "the excess at the "
+                              "start stays", "wave": {**WAVE, "on": "the fading path, in every economy", "stated": True}},
         "robots": CENTRAL["robots"], "policy": POLICIES[CENTRAL["policy"]],
-        "trigger_points": {k: gc.PRESETS[v].trigger for k, v in POLICIES.items()},
+        "switches": {"today": TODAY, "bundles": BUNDLES, "options": {k: list(v) for k, v in SWITCHES}},
+        "trigger_points": {k: bundle(k)["trigger"] for k in BUNDLES},
         "vintage": vintage.manifest().get("written") if hasattr(vintage, "manifest") else None,
     }
 
@@ -409,6 +566,15 @@ def build() -> dict:
         "us_out_of_work_2032Q2_by_bust": [a["funding holds"]["us_out_of_work_2032Q2"], mid,
                                           a["a dot-com-sized bust"]["us_out_of_work_2032Q2"]],
     }
+    # one switch at a time, on the case
+    res["switches"] = {}
+    for key, pick in ONE_SWITCH:
+        x = readings(run(pick, regs, cm))
+        res["switches"][key] = {"changes": pick, "us_unemployment_2028Q4": x["us_unemployment"]["2028Q4"],
+                                "us_out_of_work_2032Q2": x["us_out_of_work"]["2032Q2"],
+                                "us_policy_rate_2028Q4": x["us_policy_rate"]["2028Q4"],
+                                "four_output_worst": x["four_output_worst"], "us_lever_from": x["policy_lever_from"]["US"],
+                                "verdict": x["verdict"]}
     # the engine as stored, with none of the case's inflation input, on the case's other settings: what the input does
     bare = readings(run(None, regs, cm, push=False))
     res["without_the_inflation_input"] = {"us_policy_rate": bare["us_policy_rate"], "us_inflation": bare["us_inflation"],
@@ -431,7 +597,11 @@ def main():
     print("  levers from", c["policy_lever_from"])
     for k, v in res["around"].items():
         print(f"  {k:40} u 2028Q4 {v['us_unemployment_2028Q4']:5.2f}  out of work 2028Q4 {v['us_out_of_work_2028Q4']:5.2f}  "
-              f"2032Q2 {v['us_out_of_work_2032Q2']:5.2f}  four {v['four_output_worst'][1]:6.2f}  {v['verdict']}")
+              f"2032Q2 {v['us_out_of_work_2032Q2']:5.2f}  four {v['four_output_worst'][1]:6.2f}  {v['verdict']}  "
+              f"Fed high {v['us_policy_rate_high'][1]:5.2f} core 2028Q4 {v['us_inflation_2028Q4']:5.2f}")
+    for k, v in res["switches"].items():
+        print(f"  one switch: {k:44} u 2028Q4 {v['us_unemployment_2028Q4']:5.2f}  out of work 2032Q2 "
+              f"{v['us_out_of_work_2032Q2']:5.2f}  four {v['four_output_worst'][1]:6.2f}  lever {v['us_lever_from']}  {v['verdict']}")
 
 
 if __name__ == "__main__":

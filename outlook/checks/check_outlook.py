@@ -126,6 +126,97 @@ hi = ol.q_of(case["us_unemployment_first_high"][0])
 check("R9 after the downturn the share out of work never returns to where it started",
       oow[hi:].min() > oow[0] + 0.8, f"its lowest after the first high {oow[hi:].min():.2f}% against {oow[0]:.2f}% at the start")
 
+print("The switches and the inflation setting")
+# L1: the engine's presets are bundles of switches, reproduced exactly (their names apart), and so are the two that
+# pay for a care build-out another way
+pairs = [(k, {"policy": k}, gc.PRESETS[v]) for k, v in ol.POLICIES.items()]
+pairs += [("care, taxed on wages", {"policy": "care", "paid": "wages"}, gc.PRESETS["care financed by labour taxes"]),
+          ("care, a levy on AI's income", {"policy": "care", "paid": "levy"}, gc.PRESETS["care financed by a levy on AI income"])]
+off = []
+for name, pick, preset in pairs:
+    st = ol.settings_of(pick)
+    rules = ol.rules_of(st, regs)
+    if any(replace(rl, name=preset.name) != preset for rl in rules.values()) or cm.ai_levy != ol.TODAY["levy"]:
+        off.append(name)
+check("L1 each of the engine's presets is a bundle of switches, rule for rule", not off,
+      f"{len(pairs)} presets" + (f"; not reproduced: {off}" if off else ""))
+# L2: one run has one naming: a switch that does not apply is put back, and switches that make a bundle name it
+same = [ol.settings_of({"share": 0.6}) == ol.settings_of(), ol.settings_of({"levy": 1.0, "care_pace": 2.0}) == ol.settings_of(),
+        ol.settings_of({"tariff_by": "us", "tariff_from": "2029"}) == ol.settings_of(),
+        ol.settings_of({"response": "guarantee", "trigger": 1.5}) == ol.settings_of({"policy": "guarantee"}),
+        ol.settings_of({"policy": "erode", "expect": "anchored", "rescues": "on", "response": "stimulus", "tariff": 0.0,
+                        "care": "trend"}) == ol.settings_of(),
+        ol.settings_of({"policy": "erode", "tariff": 10.0})["policy"] == "erode",
+        ol.settings_of({"policy": "guarantee"})["policy"] == "guarantee"]
+refused = 0
+for bad_pick in ({"benefits": 2.0}, {"tariff": -1.0}, {"expect": "firm"}, {"policy": "care-tax"}, {"inflation": "falls"},
+                 {"weather": "fine"}):
+    try:
+        ol.settings_of(bad_pick)
+    except ValueError:
+        refused += 1
+check("L2 one run has one naming, and a setting or value the model does not have is refused", all(same) and refused == 6,
+      f"{sum(same)} of {len(same)} namings settle alike; {refused} of 6 refused")
+# L3: what each switch does, on the case (the share of the US workforce out of work in 2032Q2)
+sw = {k: v["us_out_of_work_2032Q2"] for k, v in R["switches"].items()}
+mid = case["us_out_of_work"]["2032Q2"]
+worse = ["central banks hold their rates", "expectations slipping", "no deposit insurance", "no unemployment benefits",
+         "no response", "spending cuts", "tariffs of 20 points by everyone", "tariffs of 20 points by the US",
+         "care stops hiring"]
+better = ["benefits half as high again", "a response after one point", "an income guarantee, borrowed",
+          "an income guarantee, a levy on AI's income", "care built out, borrowed", "care built out, taxed on wages",
+          "care built out, a levy on AI's income"]
+check("L3 each switch moves the outcome the way it should: fewer out of work with more support, more with less",
+      all(sw[k] > mid for k in worse) and all(sw[k] < mid for k in better)
+      and sw["tariffs of 20 points by the US"] < sw["tariffs of 20 points by everyone"]
+      and sw["spending cuts"] > sw["no response"] and abs(sw["no bank rescues"] - mid) < 0.5,
+      f"the case {mid}%; worse: {min(sw[k] for k in worse)}-{max(sw[k] for k in worse)}%; better: "
+      f"{min(sw[k] for k in better)}-{max(sw[k] for k in better)}%; without bank rescues {sw['no bank rescues']}% "
+      f"(the rescues' floor does not bind in the US in the case)")
+# L4: how a guarantee is paid for: a tax on wages costs the spending of those who pay it; a levy on AI's income costs
+# none and borrows less than borrowing all of it
+g_b, g_w, g_l = (ol.run({"response": "guarantee", "paid": k}, regs, cm) for k in ("borrowing", "wages", "levy"))
+debt = [float(x["out"]["US"]["debt_extra"][-1]) for x in (g_b, g_w, g_l)]
+fin = float(np.min(g_w["out"]["US"]["d_fin"]))
+check("L4 a guarantee paid for by a tax on wages or a levy borrows less; the tax costs demand, the levy none",
+      debt[1] < debt[0] and debt[2] < debt[0] and fin < 0 and float(np.min(g_l["out"]["US"]["d_fin"])) == 0.0
+      and sw["an income guarantee, taxed on wages"] > sw["an income guarantee, borrowed"],
+      f"US debt added by the end, % of GDP: borrowed {debt[0]:.2f}, wage tax {debt[1]:.2f}, levy {debt[2]:.2f}; the tax's "
+      f"drag on spending at most {fin:.2f}% of GDP")
+# L5: benefits at their level: the replacement rate scales and is never above 1
+lv = {b: gc.support_rate(regs["US"], ol.rules_of(ol.settings_of({"benefits": b}), regs)["US"]) for b in (0.0, 0.5, 1.0, 1.5)}
+check("L5 the benefits' level scales the replacement rate", lv[0.0] == 0.0 and lv[1.0] == regs["US"].replacement
+      and abs(lv[0.5] - 0.5 * lv[1.0]) < 1e-12 and lv[1.5] == min(1.5 * lv[1.0], 1.0),
+      f"US replacement rate {lv[1.0]:.2f} today; {lv[0.5]:.2f} at half, {lv[1.5]:.2f} at one and a half times")
+# L6: tariffs by the US alone: its own in full, the others' by their sales to it
+tu = ol.rules_of(ol.settings_of({"tariff": 20.0, "tariff_by": "us"}), regs)
+check("L6 tariffs raised by the US fall on the others by what they sell to it", tu["US"].tariff == 20.0
+      and all(0 < tu[r].tariff < 20.0 for r in ("EA", "FR", "SE", "CN")),
+      ", ".join(f"{r} {tu[r].tariff}" for r in gc.R))
+# I6: the inflation options
+n_ = ol.N
+fades, stays, wv = (ol.push_paths(regs, n_, cm, k)[0] for k in ol.INFLATIONS)
+check("I6 inflation's options: staying holds the start's excess; the second wave adds three points in every economy "
+      "through 2028 and is gone by 2030",
+      all(np.allclose(stays[r], fades[r][0]) for r in fades) and sorted(wv) == sorted(gc.R)
+      and abs(float(wv["SE"][24]) - ol.WAVE["points"]) < 1e-9 and float(wv["SE"][40]) == 0.0
+      and abs(float(wv["US"][24] - fades["US"][24]) - ol.WAVE["points"]) < 1e-9,
+      f"US excess {float(fades['US'][0]):.2f} at the start; the wave {float(wv['SE'][12]):.2f} points at the end of September "
+      f"2027, {float(wv['SE'][24]):.2f} a year later")
+# R10: stagflation is in the model only when expectations come loose
+ar_ = R["around"]
+st_, w0, w1, w2 = (ar_[k] for k in ("inflation stays where it is", "a second wave of inflation",
+                                    "a second wave, expectations slipping", "a second wave, expectations loose"))
+check("R10 inflation that stays costs little; a second wave with expectations loose sends the Fed's rate past 15% and "
+      "leaves more out of work than any pace does",
+      st_["us_out_of_work_2032Q2"] - mid < 1.0 and st_["us_policy_rate_high"][1] < 5
+      and w0["us_policy_rate_high"][1] < w1["us_policy_rate_high"][1] < w2["us_policy_rate_high"][1]
+      and w2["us_policy_rate_high"][1] > 15 and w2["us_out_of_work_2032Q2"] > ar_["the pace doubles every year"]["us_out_of_work_2032Q2"],
+      f"out of work in 2032Q2: stays {st_['us_out_of_work_2032Q2']}%, wave {w0['us_out_of_work_2032Q2']}%, slipping "
+      f"{w1['us_out_of_work_2032Q2']}%, loose {w2['us_out_of_work_2032Q2']}% (the case {mid}%); the Fed's high "
+      f"{st_['us_policy_rate_high'][1]}, {w0['us_policy_rate_high'][1]}, {w1['us_policy_rate_high'][1]}, "
+      f"{w2['us_policy_rate_high'][1]}%")
+
 bad = [n_ for n_, ok, _ in RESULTS if not ok]
 print(f"\n{len(RESULTS) - len(bad)}/{len(RESULTS)} checks pass")
 sys.exit(1 if bad else 0)

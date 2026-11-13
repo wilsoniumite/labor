@@ -348,8 +348,13 @@ class Rules:
     backstop: bool = True       # lender of last resort, recapitalisation: spreads capped, capital floored
     capital_floor: float = 0.6  # share of capital a recapitalisation restores to, under a backstop
     support: bool = True        # unemployment support at the region's replacement rate
+    support_level: float = 1.0  # ... times this (1: today's benefits; the replacement rate never above 1). The model
+                                # charges ordinary benefits to no budget, so a higher level costs nothing in it
     fiscal: str = "stimulus"    # "stimulus" | "none" | "austerity" | "guarantee"
     guarantee: float = 0.9      # under "guarantee": the share of lost labour income the state replaces, with no time limit
+    guarantee_finance: str = "borrowing"   # how the guarantee is paid for: "borrowing" | "labour taxes" | "ai levy" (as
+                                # care_finance: the same sources, shared with a care build-out on the same one, which
+                                # draws first; what the source cannot cover is borrowed)
     trigger: float = 2.0        # the rise in unemployment (points) at which the preset's dates are set (trigger_dates,
                                 # decision 91); the model itself has no triggers
     fiscal_quarters: int = 8
@@ -525,13 +530,21 @@ def after(at: float | None, k: int, dt: float) -> float:
 
 
 # ------------------------------------------------------------------ the simulation
+def support_rate(g: Region, rl: Rules) -> float:
+    """The share of a lost wage public support replaces under the rules: the region's replacement rate at the rules'
+    level, never above 1; none without support."""
+    if not rl.support:
+        return 0.0
+    return g.replacement if rl.support_level == 1.0 else min(g.replacement * rl.support_level, 1.0)
+
+
 def wave_weights(g: Region, rl: Rules, cm: Common, waves: Waves) -> dict | None:
     """Under the split: a recession's usual job-loss mix by group, and each group's weight per point of unemployment
     for spending (lost net pay), bank losses (debt, taken proportional to pay) and an income guarantee (pay) — relative
     to that mix, so a recession's usual unemployment weighs what the fit assumed. None in the uniform case."""
     if not waves.split:
         return None
-    rep = g.replacement if rl.support else 0.0
+    rep = support_rate(g, rl)
     z = sum(g.groups[q] * cm.beta[q] for q in GROUPS)
     mix = {q: g.groups[q] * cm.beta[q] / z for q in GROUPS}
     rep_q = {q: rep * min(1.0, g.benefit_cap / g.premium[q]) for q in GROUPS}
@@ -574,15 +587,20 @@ def displaced(o: dict, j: int, g: Region, w: dict) -> dict:
     return {q: struct[q] * f for q in GROUPS}
 
 
-def financing_room(o: dict, j: int, g: Region, rl: Rules, cm: Common) -> float:
-    """What the build-out's source can pay for at quarter j, % of GDP a year (unlimited when borrowing)."""
-    if rl.care_finance == "labour taxes":
+def source_room(o: dict, j: int, g: Region, cm: Common, source: str) -> float:
+    """What a source of finance can pay for at quarter j, % of GDP a year (unlimited when borrowing)."""
+    if source == "labour taxes":
         # the highest take on a wage base the displaced have left (pay-weighted), less what labour already pays
         return cm.tax_max * (1 - o["pay_weighted"][j] / 100) - g.labour_tax
-    if rl.care_finance == "ai levy":
+    if source == "ai levy":
         lost = sum((o[s][j] + o[at][j] + o[ax][j]) * g.premium[q] for q, s, at, ax in ABSORBED)
         return cm.ai_levy * cm.labour_share * lost
     return float("inf")
+
+
+def financing_room(o: dict, j: int, g: Region, rl: Rules, cm: Common) -> float:
+    """What the build-out's source can pay for at quarter j, % of GDP a year (unlimited when borrowing)."""
+    return source_room(o, j, g, cm, rl.care_finance)
 
 
 def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n: int = 24, active=None,
@@ -703,7 +721,7 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
             cx = shock.capex.get(r, np.zeros(n))[k]
             d_wealth = -cm.wealth_mpc * g.equity_wealth * eq * 100
             d_capex = -g.ai_capex * cx
-            rep = g.replacement if rl.support else 0.0
+            rep = support_rate(g, rl)
             if W[r] is None:
                 d_unemp = -(cm.mpc_u - cm.mpc_rep) * cm.labour_share * max(o["u"][k - 1] - g.u0 + o["out"][k - 1], 0.0) * (1 - rep)
                 owed = max(o["u"][k - 1] - g.u0 + o["out"][k - 1], 0.0) * max(rl.guarantee - rep, 0.0)
@@ -774,7 +792,20 @@ def simulate(regions: dict, rules: dict, shock: Shock, cm: Common = Common(), n:
                     d_fiscal = 0.8 * g.stimulus * f * min(max(years + 1.0 - since, 0.0), 1.0)
                 elif rl.fiscal == "guarantee":
                     d_fiscal = (cm.mpc_u - cm.mpc_rep) * cm.labour_share * owed * f
-                    o["deficit_extra"][k] = cm.labour_share * owed * f
+                    due = cm.labour_share * owed * f
+                    if rl.guarantee_finance != "borrowing":
+                        # its source pays what it can, after a care build-out on the same source; the rest is borrowed.
+                        # Taxes on labour cost the spending of those who pay them, as for care; a levy on AI's income
+                        # costs none (its owners spend as the representative household does)
+                        left = source_room(o, k - 1, g, cm, rl.guarantee_finance)
+                        if rl.care_finance == rl.guarantee_finance:
+                            left -= covered
+                        paid_for = min(due, max(left, 0.0))
+                        if rl.guarantee_finance == "labour taxes":
+                            d_fin -= (cm.mpc_taxed - cm.mpc_rep) * paid_for
+                            o["d_fin"][k] = d_fin
+                        due -= paid_for
+                    o["deficit_extra"][k] = due
                 elif rl.fiscal == "austerity":
                     d_fiscal = -0.8 * min(0.5 * max(unemp_up, 0.0) / 5, 2.0) * f
             d_other = shock.demand.get(r, np.zeros(n))[k]
