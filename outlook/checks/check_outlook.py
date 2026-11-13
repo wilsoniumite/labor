@@ -110,9 +110,10 @@ check("R6 by 2032 the pace matters more than the bust's size",
       and abs(ar["a dot-com-sized bust"]["us_out_of_work_2028Q4"] - ar["funding holds"]["us_out_of_work_2028Q4"]) <
       abs(o["2028Q4"] - ar["funding holds"]["us_out_of_work_2028Q4"]) + 1.5, f"spread by pace {by_pace[-1] - by_pace[1]:.2f} points, by bust {by_bust[2] - by_bust[0]:.2f}")
 w, e = ar["the worse case"], ar["spending cuts and tariffs"]
-check("R7 eroding rules turn the same case into a labour depression, and with a dot-com-sized bust a depression",
-      e["verdict"] in ("labour", "labour-held") and w["verdict"] == "depression" and case["verdict"] == "recession",
-      f"the case: {case['verdict']} ({case['four_output_worst'][1]}% at worst); cuts and tariffs: {e['verdict']} ({e['us_out_of_work_2032Q2']}% out of work, "
+check("R7 the case's downturn is a recession and its end a deep one; eroding rules turn it into a labour depression, and with a dot-com-sized bust a depression",
+      e["verdict"] in ("labour", "labour-held") and w["verdict"] == "depression" and case["verdict"] == "deep"
+      and -4 < case["four_output_worst_in_the_downturn"][1] <= -2 and case["four_output_worst_month"][0] == R["inputs"]["ends"],
+      f"the case: {case['four_output_worst_in_the_downturn'][1]}% at worst in the downturn, {case['four_output_worst_month'][1]}% in its last month ({case['verdict']}); cuts and tariffs: {e['verdict']} ({e['us_out_of_work_2032Q2']}% out of work, "
       f"output {e['four_output_worst'][1]}%); with a dot-com-sized bust: {w['verdict']} ({w['us_out_of_work_2032Q2']}%, {w['four_output_worst'][1]}%)")
 none = ol.readings(ol.run({"size": 0.0, "pace": "none"}, regs, cm))
 check("R8 the engine does not return to where it started on its own: with no bust and no AI job losses unemployment still drifts up",

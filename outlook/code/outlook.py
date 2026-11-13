@@ -257,7 +257,8 @@ def four(rg: dict, out: dict) -> np.ndarray:
 
 def verdict(out_min: float, us_peak: float, us_u0: float) -> str:
     """The run's outcome in a word (the page's reading, web/model_export.verdict): on the four economies' output at its
-    worst and the US share out of work at its highest."""
+    worst and the US share out of work at its highest, over the run's months. It reads the whole run, so a run that
+    ends at its worst is named by its end, not by its downturn."""
     if out_min <= -20:
         return "depression"
     if us_peak >= 15:
@@ -332,7 +333,12 @@ def readings(r: dict) -> dict:
                                "output_worst": round(float(quarters(o["y"]).min()), 2),
                                "policy_rate": {q: at(quarters(o["i"]), q) for q in ("2027Q2", "2027Q4", "2028Q4")},
                                "bank_capital_lost_most_pct": round(float(np.max(o["stress"])) * 100)}
-    res["verdict"] = verdict(float(f.min()), float(oow.max()), float(u[0]))
+    # the outcome in a word, as the site's page reads a run (web/model_export.summarise): on the extremes over the
+    # run's months, each to one decimal, so that the page and this file name the same run alike
+    f_m, oow_m = four(rg, out), np.asarray(us["u"]) + np.asarray(us["out"])
+    k_f = int(np.argmin(f_m))
+    res["four_output_worst_month"] = [gc.month_label(k_f), round(float(f_m[k_f]), 1)]
+    res["verdict"] = verdict(round(float(f_m[k_f]), 1), round(float(oow_m.max()), 1), float(us["u"][0]))
     return res
 
 

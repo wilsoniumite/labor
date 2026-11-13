@@ -325,7 +325,11 @@
     "bank_capital_lost_most_pct": 25
    }
   },
-  "verdict": "recession"
+  "four_output_worst_month": [
+   "2032-06",
+   -4.1
+  ],
+  "verdict": "deep"
  },
  "paths": {
   "quarters": [
