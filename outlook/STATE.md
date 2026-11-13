@@ -68,13 +68,19 @@ now. What the evidence did to them, in short:
 - `paths/code/global_crash.py`: `Shock.push` added (six lines); `paths/checks/check_global_crash.py` 85/85 after it.
 - The case's run: US unemployment 5.23% in 2027Q4, a first high of 6.2% in 2029Q1, 4.74% in 2030Q3, 7.42% in
   2032Q2; out of work 8.56% in 2032Q2, rising; the Fed's rate 4.13% in 2027Q1, 2.68% in 2028Q4, 1.75% in 2032Q2;
-  the Sahm rule in July 2027; the four economies' output −2.33% at worst in the downturn (2029Q1).
+  the Sahm rule in July 2027; the four economies' output −2.33% at worst in the downturn (2029Q1) and −4.1% in the
+  run's last month. A run's outcome in a word is read as the site's page reads it, on the run's months: the
+  downturn is a recession, the run as a whole a deep one (it ends at its worst).
+- The watcher and the site (`wilsoniumite/watch`, branch `claude/eloquent-gates-emehst` until merged) are on this
+  case: the export and the page's engine with the pace, the inflation input and per-run levers (checked against
+  the Python on 182 runs, to 1e-9); the seven points; sixteen predictions derived from the run
+  (`docs/predictions-2026-11-13.md` there); the charter and the lens. The site builds from `main` of both
+  repositories, so both branches are merged together.
 
 ## Next
 
-1. **The watcher and the site** (in `wilsoniumite/watch`): the export on this model, the page's engine with the
-   pace and inflation inputs and per-run levers, the seven points, a new set of dated predictions derived from the
-   case's run, the charter and the lens.
+1. **Merge and go live**: this branch and the watcher's into their `main`s (the watcher's `deploy/hal/README.md`
+   has the steps and the log lines to expect). The first sweep after it writes the first assessment of this case.
 2. **A measured doubling time for the pace.** Candidates: the share of firms using AI in production (Census BTOS),
    announced job cuts attributed to AI, entrants' hiring. Until then it is the case's largest stated assumption.
 3. **The build-out as a model block:** investment demand, external funding and the long-term real rate, so that
@@ -92,3 +98,11 @@ now. What the evidence did to them, in short:
    polished 2–4 November and its review's finding on calibration (c), and the watcher's log of 24 September to
    13 November (327 flagged items, 13 assessments, the 16 predictions' readings). Built: `Shock.push`, this thread,
    the case's run and the runs around it. Decisions 1–10 above.
+2. **2026-11-13 — the watcher and the site moved to the case.** In `wilsoniumite/watch`: the model export and the
+   page's JavaScript engine on this module (`Shock.push`, the pace's paths, levers dated per run); the register's
+   points and sixteen new predictions (US unemployment's signal by September 2027 from this run; the Nasdaq 20%
+   below its high by 30 June 2027 on 2000's daily path at half size; the other downturn signals by their longest
+   lag behind the unemployment signal in past downturns); the judge's charter and lens; every page of the site.
+   Here: the run's outcome word read on months, as the page reads it (the case sits on the line: the four
+   economies' output is 3.99% below capacity on the last quarter's average, 4.1% in the last month), and R7
+   restated to what is found.
