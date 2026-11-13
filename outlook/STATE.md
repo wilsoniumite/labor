@@ -5,7 +5,7 @@ run that puts numbers on it, for watch.wilsoniumite.com. `README.md` is the case
 what is open.
 **Set:** 2026-11-13, from a clean slate, on her instruction: the thesis and the model rethought from what `paths/`
 and seven weeks of the watcher's news had shown; one current case on the site, with no record there of earlier views.
-**Collaboration:** as the sibling threads. Checks gate absolutely (`checks/check_outlook.py`, 17/17). She left the
+**Collaboration:** as the sibling threads. Checks gate absolutely (`checks/check_outlook.py`, 25/25). She left the
 case to Claude; every choice below is hers to veto with a word.
 **The wall:** public data only, as everywhere in this repository.
 
@@ -58,22 +58,46 @@ now. What the evidence did to them, in short:
    exchange rates; the debt-deflation term on a mild undershoot) and are shown on the model's page with that limit.
 10. **No long-run block.** The site no longer shows fifteen-year paths of income shares; the paper's limiting
     results are stated as such.
+11. **The response as switches** (her call of 13 November: policies turned on and off one by one, each with its
+    level; the care presets had confused). Sixteen switches; the engine's presets are bundles of them and stay as
+    places to start from. A run is named by the bundle its switches are nearest to, so one response has one name
+    whichever bundle it was reached from. *Left out:* a tax on land or rents (the engine has no rents to tax).
+12. **Two rules added to the engine** for it, off at their defaults: the level of benefits and how a guarantee is
+    paid for. A guarantee paid for by a tax on wages leaves more out of work than no guarantee (8.7% against 8.6%):
+    the tax costs the spending of those still in work. A levy on the income AI moves to owners costs none in the
+    engine, because its owners are taken to spend as the average household does; that is an assumption and flatters
+    the levy.
+13. **Inflation as a setting, and stagflation as the named risk.** Her question: why not stagflation as in the
+    1980s. The case keeps inflation fading (pay not chasing prices, a demand-led downturn, relative-price scarcity,
+    anchored expectations) and states it as an assumption with what would show otherwise. The second wave is stated,
+    not measured, and is put in every economy (a wave in the US and the euro area alone is milder elsewhere and
+    harder on the dollar bloc: 10.7% and 13.5% out of work in the two expectation runs, against 10.2% and 12.3%).
+    The engine counts no cost of inflation itself: with rates held through the wave it shows fewer out of work. That
+    is a blind spot, said on the site wherever the runs are quoted.
 
 ## Where things stand
 
 - `code/outlook.py`: the inputs (`seen`, `us_pace`, `push_paths`, `delay_of`), a run by its settings (`run`), its
   readings and paths, the runs around the case (`AROUND`), `results/outlook.json`.
-- `checks/check_outlook.py`: 17/17. E1–E3 the engine and its one new input; I1–I5 the inputs; R1–R9 the results
-  (R8 records the engine's upward drift with no shock at all).
-- `paths/code/global_crash.py`: `Shock.push` added (six lines); `paths/checks/check_global_crash.py` 85/85 after it.
+- `code/outlook.py` also holds the response's switches and bundles (`SWITCHES`, `TODAY`, `BUNDLES`, `settle`,
+  `nearest`, `rules_of`), inflation's options (`INFLATIONS`, `WAVE`, `push_paths`), and one switch at a time on the
+  case (`ONE_SWITCH`, the results' "switches").
+- `checks/check_outlook.py`: 25/25. E1–E3 the engine and its inputs; I1–I6 the inputs (I6 inflation's options);
+  R1–R10 the results (R8 records the engine's upward drift with no shock at all; R10 the runs with inflation that
+  does not fade); L1–L6 the switches (L1 each preset is a bundle rule for rule; L4 how a guarantee is paid for; L5
+  the benefits' level, and the weights' limit where the whole wage is replaced).
+- `paths/code/global_crash.py`: `Shock.push`, `Rules.support_level`, `Rules.guarantee_finance` (with `support_rate`,
+  `source_room`), and `wave_weights` given its limit where support replaces every wage in full (it divided by zero
+  there; found by the site's export on 13 November). `paths/checks/check_global_crash.py` 85/85 after each.
 - The case's run: US unemployment 5.23% in 2027Q4, a first high of 6.2% in 2029Q1, 4.74% in 2030Q3, 7.42% in
   2032Q2; out of work 8.56% in 2032Q2, rising; the Fed's rate 4.13% in 2027Q1, 2.68% in 2028Q4, 1.75% in 2032Q2;
   the Sahm rule in July 2027; the four economies' output −2.33% at worst in the downturn (2029Q1) and −4.1% in the
   run's last month. A run's outcome in a word is read as the site's page reads it, on the run's months: the
   downturn is a recession, the run as a whole a deep one (it ends at its worst).
 - The watcher and the site (`wilsoniumite/watch`, branch `claude/eloquent-gates-emehst` until merged) are on this
-  case: the export and the page's engine with the pace, the inflation input and per-run levers (checked against
-  the Python on 182 runs, to 1e-9); the seven points; sixteen predictions derived from the run
+  case: the export and the page's engine with the pace, inflation's options, the response's switches and per-run
+  levers (checked against the Python on 224 runs, to 1e-9, and on 6,505 namings of a run); the seven points; sixteen
+  predictions derived from the run
   (`docs/predictions-2026-11-13.md` there); the charter and the lens. The site builds from `main` of both
   repositories, so both branches are merged together.
 
@@ -89,6 +113,8 @@ now. What the evidence did to them, in short:
    below-target inflation: the two reasons the engine's European numbers are overstated. Both change the fit.
 5. **Refresh the vintage** after the December data, and score the case's first quarter (2026Q4: unemployment 4.25%,
    the Fed's rate 4.02% on the quarter's average).
+6. **A cost of inflation in the engine** (real incomes, or a credibility term), so that holding rates through a wave
+   is not free; and **a tax on land or rents** as a source of finance, once the engine carries rents (item 3).
 
 ## Log
 
@@ -106,3 +132,11 @@ now. What the evidence did to them, in short:
    Here: the run's outcome word read on months, as the page reads it (the case sits on the line: the four
    economies' output is 3.99% below capacity on the last quarter's average, 4.1% in the last month), and R7
    restated to what is found.
+3. **2026-11-13 — the response as switches, inflation as a setting.** Her question: why the case expects no
+   stagflation as in the 1980s; and her request: policies such as taxes, benefits and tariffs turned on and off one
+   by one, each with its level, in place of the care presets. Answered with runs (decision 13) and built (decisions
+   11–12): the two engine rules, the switches and bundles, `nearest`, inflation's three options, `ONE_SWITCH`, checks
+   L1–L6, I6, R10. In `wilsoniumite/watch` the model page sets each policy on its own and the page's engine is held
+   to the Python on every switch; "If inflation does not fade" is a section of the site's view. Found on the way:
+   the engine divided by zero where benefits replace every wage in full (fixed to its limit; unreachable from the
+   page's range, 1.5 times today's, at which France and Sweden replace 97.5%).

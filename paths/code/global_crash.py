@@ -552,13 +552,17 @@ def wave_weights(g: Region, rl: Rules, cm: Common, waves: Waves) -> dict | None:
     net_mix = sum(mix[q] * net[q] for q in GROUPS)
     pay_mix = sum(mix[q] * g.premium[q] for q in GROUPS)
     w_care = g.premium["in_person"]          # what the displaced earn in care: service and care workers' pay (ISCO 5)
-    return {"mix": mix, "rep": rep_q, "spend": {q: net[q] / net_mix * (1 - rep) for q in GROUPS},
+    if net_mix > 0:
+        per = lambda x: x / net_mix * (1 - rep)  # noqa: E731
+    else:                                    # support replaces every wage in full (a level that reaches the whole wage
+        per = lambda x: x / pay_mix          # under a cap that binds no group): the weights' limit as it nears that
+    return {"mix": mix, "rep": rep_q, "spend": {q: per(net[q]) for q in GROUPS},
             "pay": {q: g.premium[q] / pay_mix for q in GROUPS}, "w_care": w_care,
             # in care's existing jobs: the displaced's pay gap plus the care pay of the person who would have been
             # hired instead, and who stays out of work — their whole previous pay, with no support
-            "spend_trend": {q: g.premium[q] / net_mix * (1 - rep) for q in GROUPS},
+            "spend_trend": {q: per(g.premium[q]) for q in GROUPS},
             # in newly funded care jobs: the pay gap only
-            "spend_care": {q: max(g.premium[q] - w_care, 0.0) / net_mix * (1 - rep) for q in GROUPS},
+            "spend_care": {q: per(max(g.premium[q] - w_care, 0.0)) for q in GROUPS},
             "pay_care": {q: max(g.premium[q] - w_care, 0.0) / pay_mix for q in GROUPS}}
 
 

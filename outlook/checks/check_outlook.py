@@ -185,9 +185,18 @@ check("L4 a guarantee paid for by a tax on wages or a levy borrows less; the tax
       f"drag on spending at most {fin:.2f}% of GDP")
 # L5: benefits at their level: the replacement rate scales and is never above 1
 lv = {b: gc.support_rate(regs["US"], ol.rules_of(ol.settings_of({"benefits": b}), regs)["US"]) for b in (0.0, 0.5, 1.0, 1.5)}
+# ... and where a level replaces the whole wage of every group (Sweden's at four times, under its cap), the weights
+# are their limit: no spending lost with a job, and finite
+full = gc.wave_weights(regs["SE"], replace(gc.MODERN, support_level=4.0), cm, gc.Waves(split=True, absorb=True))
+near = gc.wave_weights(regs["SE"], replace(gc.MODERN, support_level=(1 - 1e-9) / regs["SE"].replacement), cm,
+                       gc.Waves(split=True, absorb=True))
 check("L5 the benefits' level scales the replacement rate", lv[0.0] == 0.0 and lv[1.0] == regs["US"].replacement
-      and abs(lv[0.5] - 0.5 * lv[1.0]) < 1e-12 and lv[1.5] == min(1.5 * lv[1.0], 1.0),
-      f"US replacement rate {lv[1.0]:.2f} today; {lv[0.5]:.2f} at half, {lv[1.5]:.2f} at one and a half times")
+      and abs(lv[0.5] - 0.5 * lv[1.0]) < 1e-12 and lv[1.5] == min(1.5 * lv[1.0], 1.0)
+      and all(v == 0.0 for v in full["spend"].values())
+      and all(abs(full[k][q] - near[k][q]) < 1e-6 for k in ("spend", "spend_trend", "spend_care") for q in gc.GROUPS),
+      f"US replacement rate {lv[1.0]:.2f} today; {lv[0.5]:.2f} at half, {lv[1.5]:.2f} at one and a half times; with the "
+      f"whole wage replaced the weights are their limit (Sweden, in care's existing jobs: "
+      f"{full['spend_trend']['cognitive']:.3f} against {near['spend_trend']['cognitive']:.3f} a hair short of it)")
 # L6: tariffs by the US alone: its own in full, the others' by their sales to it
 tu = ol.rules_of(ol.settings_of({"tariff": 20.0, "tariff_by": "us"}), regs)
 check("L6 tariffs raised by the US fall on the others by what they sell to it", tu["US"].tariff == 20.0

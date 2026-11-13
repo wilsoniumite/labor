@@ -1,7 +1,9 @@
 # STATE — paths (the dynamic model for risk; resume point for the next session)
 
 **2026-11-13: the case and the site's model moved to `../outlook/`** (its `STATE.md` says why). This thread keeps the
-engine (`code/global_crash.py`, with one input added that day, `Shock.push`, off unless given: check_global_crash 85/85),
+engine (`code/global_crash.py`, with three additions that day, each off at its default: `Shock.push`, an inflation
+input; `Rules.support_level`, the level of benefits; `Rules.guarantee_finance`, how an income guarantee is paid for;
+and `wave_weights` given its limit where support replaces every wage in full: check_global_crash 85/85),
 the dated vintage and the splits tracker; its case (`code/case.py`), its pace of a point a year, the predictions of
 8 October derived from it and the long-run block on calibration (c) are records.
 

@@ -316,10 +316,16 @@ def bundle(name: str) -> dict:
     return {**TODAY, **BUNDLES[name]}
 
 
+def nearest(s: dict) -> str:
+    """The bundle a run's switches are nearest to: the one with the fewest switches to change, the first of them in
+    BUNDLES' order. One response has one name, whichever bundle it was reached from."""
+    return min(BUNDLES, key=lambda name: sum(s[k] != v for k, v in settle(dict(s, **bundle(name))).items() if k in TODAY))
+
+
 def settings_of(pick: dict | None = None) -> dict:
-    """A run's settings: the case's, with `pick`'s changes. `policy` names a bundle of switches (BUNDLES); a switch
-    named beside it changes that one. The settings name the bundle the switches make, if they make one, and else the
-    one they started from."""
+    """A run's settings: the case's, with `pick`'s changes. `policy` names a bundle of switches (BUNDLES) to start
+    from; a switch named beside it changes that one. The settings name the bundle the switches are nearest to
+    (nearest): the one they make, if they make one."""
     pick = dict(pick or {})
     base = pick.pop("policy", CENTRAL["policy"])
     bad = [k for k in pick if k not in CENTRAL]
@@ -338,8 +344,7 @@ def settings_of(pick: dict | None = None) -> dict:
             or s["shape"] not in ("2000", "ramp") or s["inflation"] not in INFLATIONS:
         raise ValueError(f"no such run: {pick}")
     settle(s)
-    s["policy"] = next((name for name in BUNDLES if all(s[k] == v for k, v in settle(dict(s, **bundle(name))).items()
-                                                        if k in TODAY)), base)
+    s["policy"] = nearest(s)
     return s
 
 

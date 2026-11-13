@@ -70,6 +70,17 @@ what would make us drop the point.
 - **That the engine returns to where it started.** With no bust and no AI job losses US unemployment still drifts
   from 4.2% to 4.7% by 2032 (check R8): a small early gap is never fully closed. Readings far out lean on the
   assumed pace and on this.
+- **A return of the 1970s.** The case has inflation fading while unemployment rises. It holds that because pay is
+  not chasing prices (labour's share is falling), the downturn comes from lost spending, scarce power and sites move
+  some prices against others, and expected inflation has stayed near target. It is an assumption, and the main way
+  the squeeze could go further than the case has it. If core inflation stays where it started, 9.1% of the US
+  workforce is out of work by mid-2032 (the case: 8.6%). With a second wave of three points through 2028 the Federal
+  Reserve's rate reaches 7.3% and 9.6% are out of work; with expectations half following inflation, 10.3% and 10.2%;
+  with expectations following it as in the 1970s, 19% and 12.3% (check R10). *What would show it:* core inflation
+  still near 3% in mid-2027 while unemployment rises; inflation expected five to ten years ahead leaving 1.5–3%; real
+  pay per hour outgrowing output per hour. The engine counts no harm from inflation itself, only from the policy
+  rate's answer to it: these runs price the fight against a second wave, not the cost of letting one run (with rates
+  held through the same wave the engine shows fewer out of work, which is its blind spot, not a finding).
 
 ## The model
 
@@ -88,12 +99,46 @@ or stated:
 | robots | not within the run | stated |
 | policy | today's rules; each lever starts once unemployment there has risen by its trigger in the run | the engine's rules |
 
-One change to the engine's code: `Shock.push`, an inflation input that is off unless given (check E1: without it the
-engine is the stored one, bit for bit).
+Three additions to the engine's code, each off at its default (check E1 and the engine's own 85 checks: without
+them the engine is the stored one, bit for bit): `Shock.push`, an inflation input; `Rules.support_level`, the level
+of unemployment benefits against today's; `Rules.guarantee_finance`, how an income guarantee is paid for (borrowing,
+a tax on wages or a levy on the income AI moves to owners: the sources a care build-out already had, shared with it).
+
+### The response, policy by policy
+
+A run's response is set switch by switch (`SWITCHES`, `TODAY`); the engine's presets are bundles of them (`BUNDLES`,
+reproduced rule for rule: check L1), and a run is named by the bundle its switches are nearest to (`nearest`), so one
+response has one name. A switch that does nothing in a run (a guarantee's share without a guarantee) is put back to
+today's (`settle`).
+
+| switch | options or range | today |
+|---|---|---|
+| `rates` | `rule` (Taylor), `hold` (where they stood at the start), `gold` (no reflation) | rule |
+| `expect` | `anchored` (0.9 on the target), `slipping` (0.6), `loose` (0.2, the 1930s' and the 1970s') | anchored |
+| `prices` | `sticky`, `free` (1929–33's slope) | sticky |
+| `insured`, `rescues` | `on`, `off` | on |
+| `benefits` | 0–1.5 times today's replacement rate | 1 |
+| `response` | `none`, `stimulus`, `guarantee`, `cuts`, from a rise of `trigger` (0.5–4 points); a guarantee replaces `share` (0.5–1) of lost pay | stimulus, 2 points |
+| `tariff` | 0–30 points, raised `tariff_by` `all` or `us` (the US, and on its exports in return), `tariff_from` April 2027, 2028 or 2029 | 0 |
+| `care` | `trend`, `cut`, `expand` at `care_pace` (0.5–2 points of employment a year) | trend |
+| `paid` | how a guarantee or a build-out is paid for: `borrowing`, `wages`, `levy` (which takes `levy`, 0.25–1, of the pay AI displaced) | borrowing |
+
+One switch at a time on the case (US share out of work in mid-2032; the case 8.6%): central banks hold their rates
+9.3%; expectations slipping 9.1%; no deposit insurance 13.1%; no benefits 10.4%, half as high again 7.9%; no response
+9.5%; spending cuts 10.2%; a response after one point 8.3%; an income guarantee borrowed 7.9%, by a levy 7.9%, by a
+tax on wages 8.7% (worse than none: those still in work spend less; check L4); tariffs of 20 points by everyone 10.5%,
+by the US 9.9%; care stops hiring 9.4%; care built out 7.4%, by a tax on wages 7.5%. Benefits and the stimulus are
+charged to no budget in the engine; a land or rent tax is not in it.
+
+### Inflation
+
+`inflation` is a setting: `fades` (the case: each region's excess at its measured half-life), `stays` (the excess at
+the start does not fade), `wave` (stated: three points more core inflation a year in every economy, building through
+2027, held through 2028, gone by 2030).
 
 ```
-python code/outlook.py            # writes results/outlook.json (a few seconds)
-python checks/check_outlook.py    # 17 checks: the engine untouched, the inputs as measured, the findings as found
+python code/outlook.py            # writes results/outlook.json (under a minute)
+python checks/check_outlook.py    # 25 checks: the engine untouched, the inputs as measured, the findings as found
 ```
 
 The watcher (`wilsoniumite/watch`) exports this model to the website, runs the same engine in the page, and holds
