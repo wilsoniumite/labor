@@ -110,6 +110,9 @@ changes in w/P_s:
 - **Figure 3 versus Section 3.4.** Figure 3's experiment is mostly the productivity effect on tasks machines already
   hold, so its sign depends on σ and flips near 1.6. Section 3.4's definition, capability gains near the margin, is
   the displacement experiment, and it is negative on every member.
+- **That holds however "near the margin" is read.** I tried symmetric windows around x* (both sides; widths 0.01,
+  0.03 and the full band) on four members (σ 0.3, 0.6, 1.25, 2.29). Every one lowers w/P_s, by 2% to 20%. Only
+  windows strictly below the margin, on tasks machines already hold, raise it (+1% to +14%).
 - **Recursive automation is the biggest negative channel at literature σ** (−15% to −18%). Labor sits near the soft
   wall, and λ̃_m is what moves that wall.
 - **Long paths.** Along Appendix B's path (λ̃_m = 0, γ × η), σ = 0.6 is non-monotone and much slower than the low
