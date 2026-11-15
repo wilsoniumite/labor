@@ -31,12 +31,13 @@ The headline numbers (details and sources in REPORT.md):
   Gamma halved everywhere (Figure 3) flips sign near sigma 1.6 (+12% at 0.6).
 - The hard-wall floor along the automation path is (T/h)|H| = 5.9|H| on every member.
 - Latent goods: general-purpose automation switches them on already automated; reinstatement with people starts only
-  once the real wage turns down.
+  once the real wage turns down. In general equilibrium (`code/latent_ge.py`), an untouched reservoir of size 0.3 is a
+  low-wage floor (participation 0.22, w/P_s 0.63 at eta 0.001 on both members); a general-purpose one barely
+  registers (0.150 against 0.141 at sigma 0.6).
 
 ## Open (not started)
 
-- Latent goods in general equilibrium: reinstated labor feeding back on the wage, with buyers' budgets (owners vs
-  workers).
+- Latent goods with income effects: buyers' budgets (owners vs workers) deciding what switches on.
 - Machine-specific theta: the soft wall per machine type (computers' lambda-hat vs equipment's), and for AI services.
 - If she takes REPORT.md section 7's item 1 or 2: a port into `pinning/` (Figure 3's experiment, Appendix B's sigma
   sentence or eighth target), following the paper's contract (word diffs, her one-word decisions).

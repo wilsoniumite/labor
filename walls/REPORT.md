@@ -30,6 +30,8 @@ against `pinning/code/appendix_b.py` (`checks/check_model.py`, 18/18).*
 5. **Latent goods make reinstatement testable.**
    - Under general-purpose automation, most latent goods switch on already automated.
    - Reinstatement with people happens only once real wages fall, and it is bought increasingly by owners.
+   - In general equilibrium, a reservoir that automation can't touch is a floor, like H, but a low-wage one
+     (w/P_s 0.63 against 2.77 today). If automation reaches the latent tasks, the floor all but vanishes.
 6. **An asymptote in γ at H remains the least honest picture.** The jump stays.
 
 ## 1. The soft wall
@@ -159,6 +161,22 @@ current ones; `code/latent.py`):
 
 ![latent](figures/latent.png)
 
+**In general equilibrium** (`code/latent_ge.py`), the reservoir's labor demand enters labor-market clearing and its
+machines compete for land. The reservoir is sized so that it would take 0.3 hours a person if people did all of it.
+Participation and w/P_s at η = 0.001:
+
+| | low root | σ 0.6 |
+|---|---|---|
+| no reservoir | 0.018 / 0.04 | 0.141 / 0.36 |
+| reservoir that automation can't touch | 0.222 / 0.63 (latent services absorb all labor from η 0.01) | 0.220 / 0.63 |
+| reservoir improved with everything else | 0.018 / 0.04 | 0.150 / 0.39 |
+
+- **An untouched reservoir is a floor, like H.** Late in the path, machines hold every final-good task, and the
+  latent services set the wage.
+- **But it is a low-wage floor:** w/P_s 0.63, against 2.77 today.
+- **If automation reaches the latent tasks, the floor all but disappears.** Reinstatement through latent goods is a
+  stabilizer only to the extent that automation is not general-purpose.
+
 **For the paper.** This turns Section 2.3's choice ("abstracts from the creation of new labor tasks") into an
 assumption about a distribution: that the latent reservoir above the margin is thin, or reached by automation first.
 It also gives O*NET's task births falling to zero since 2012 (the companion's series) a second reading: O*NET only
@@ -202,9 +220,11 @@ fixed reservoir (it keeps the paper's no-new-tasks stance); and a remark in Sect
 - **The companion read can be biased either way.** Occupational flips miss automation within occupations, which reads
   σ low. Flips caused by γ changes get charged to the waterline, which reads σ high. And w/c is not w/p_m.
 - **The first-order formula drifts at large σ:** 0.71 actual against 0.66 predicted at σ 2.5.
-- **The latent-goods results are partial equilibrium.** They use the path's prices, a fixed reservoir and
-  illustrative distributions. There is no general-equilibrium feedback from reinstated labor to the wage and no
-  budget constraint, so only the signs and orderings should be read.
+- **The latent-goods results rest on illustrative choices.** The partial-equilibrium run uses the path's prices.
+  The general-equilibrium run adds labor-market and land feedback but keeps demand quasi-linear in baskets, so who
+  holds income does not change what is bought. Both use a fixed reservoir with illustrative distributions (uniform
+  positions, uniform distance to viability, size 0.3). Read only the signs, orderings and the contrast between
+  untouched and general-purpose reservoirs.
 - **The hard-wall floors are upper bounds:** one good, every task in fixed proportion, output limited by land.
 - **Everything is on Appendix B's economy and its shares.** Nothing was re-estimated, and the only new data are the
   verified σ figures.
@@ -221,7 +241,8 @@ fixed reservoir (it keeps the paper's no-new-tasks stance); and a remark in Sect
 | `code/flip_check.py` | σ from the companion envelope |
 | `code/landing.py` | where automation lands; long paths |
 | `code/hard_wall.py` | the hard-wall endgame |
-| `code/latent.py`, `code/complete_schedule.py` | latent goods; `figures/latent.png`, `figures/complete_schedule.png` |
+| `code/latent.py`, `code/complete_schedule.py` | latent goods (partial equilibrium); `figures/latent.png`, `figures/complete_schedule.png` |
+| `code/latent_ge.py` | latent goods in general equilibrium, including the regime where they absorb all labor |
 | `code/toys_wall_shapes.py`, `code/toy_law_only.py`, `code/calib_options_first_pass.py` | the evening's mock-ups (`figures/toy_*.png`) |
 | `results/*.json` | every number above |
 
