@@ -77,7 +77,7 @@ the referee's larger requests, which need new modeling or data, are listed under
 ## Decisions taken for her (2026-11-16, on "I leave those questions up to you, go ahead")
 
 1. **Byline:** Stella Wilson alone, with pinning's affiliation and email and a views disclaimer. Johan is added only
-   with his agreement; hers to change.
+   with their agreement; hers to change.
 2. **Figure 2** stays in the main text, drawn over ρ from 0.04 to 0.10, the range the text discusses (lower required
    returns on productive capital are not in view).
 3. **Policy:** the rent dividend stays unmodeled and is left to pinning; the conclusion says that rent alone pays for
