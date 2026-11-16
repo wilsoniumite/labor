@@ -226,7 +226,10 @@ def numbers(P=BASE):
         ceil_quarter=pi_ceiling(with_(P, **REGIMES["quarter"])),
         ceil_conditioned=pi_ceiling(with_(P, **REGIMES["conditioned"])),
         Ninf_conditioned=N_inf(with_(P, **REGIMES["conditioned"])),
+        # the share of land that machines, and the machines that build them, use at the funded threshold
+        machine_land_base=1.0 - P["h"] / q["funded"]["B_s"],
     )
+    out["pi_rise_enclosed_ceiling"] = out["ceil_enclosed"] / out["pi_enclosed"] - 1.0
     e1, e2 = solve(with_(P, **REGIMES["enclosed"])), solve(with_(P, **REGIMES["enclosed"], rho=0.04))
     f1, f2 = solve(with_(P, **REGIMES["funded"])), solve(with_(P, **REGIMES["funded"], rho=0.04))
     out.update(rate_v_drop_enclosed=1.0 - e2["v"] / e1["v"], rate_omega_drop_enclosed=1.0 - e2["omega"] / e1["omega"],

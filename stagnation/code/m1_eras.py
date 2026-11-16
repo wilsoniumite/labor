@@ -95,6 +95,12 @@ def numbers(a):
     out["labor_share"] = dict(level_1948=ls[1948], level_2000=ls[2000], level_2025=ls[2025],
                               pct_1948_2000=100 * (ls[2000] / ls[1948] - 1), pct_2000_2025=100 * (ls[2025] / ls[2000] - 1),
                               min_year=int(ls.idxmin()), min_level=ls.min())
+    # on decade averages, so that neither end is a cyclical peak or trough: 1948-57, 1990-99, 2016-25
+    avg = {k: float(ls.loc[y0:y1].mean()) for k, (y0, y1) in (("1948_1957", (1948, 1957)), ("1990_1999", (1990, 1999)),
+                                                              ("2016_2025", (2016, 2025)))}
+    out["labor_share"].update({f"avg_{k}": v for k, v in avg.items()},
+                              pct_avg_1948_57_to_1990s=100 * (avg["1990_1999"] / avg["1948_1957"] - 1),
+                              pct_avg_1990s_to_2016_25=100 * (avg["2016_2025"] / avg["1990_1999"] - 1))
     rr = a.REAINTRATREARAT10Y.dropna()
     out["real_rate"] = dict(avg_1982_1984=rr.loc[1982:1984].mean(), min_year=int(rr.idxmin()), min_value=rr.min(),
                             avg_2023_2025=rr.loc[2023:2025].mean(), tips_2020=a.DFII10[2020],

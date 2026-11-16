@@ -465,6 +465,8 @@ QUOTES = [
     ("rate_land_mult_enclosed", "{:.1f}", r"price of land in hours of work by"),
     ("rate_v_drop_funded", "pct", r"funded exit the same fall"), ("rate_n_funded_low", "{:.2f}", r"participation"),
     ("rate_pi_rise_funded", "pct", r"output per hour rises"),
+    ("machine_land_base", "pct", r"use \d+ percent of the land"),
+    ("pi_rise_enclosed_ceiling", "pct", r"even when nobody can leave work"),
 ]
 # the instance's parameters and the illustrations' settings (inputs, not results), and the fork, cited from the
 # companion paper
@@ -496,7 +498,8 @@ else:
         near = any(re.search(anchor, body[max(0, p - 300):p + 300]) for p in hits)
         check(f"Q1 {key} = '{s}' printed near /{anchor}/", bool(hits) and near, f"{len(hits)} hit(s)")
         found_strings.add(s.split(" ")[0])
-    prose = re.sub(r"\\(label|ref|eqref|input)\{[^}]*\}|\\includegraphics\[[^\]]*\]\{[^}]*\}", "", body)
+    prose = re.sub(r"\\(label|ref|eqref|input)\{[^}]*\}|\\includegraphics\[[^\]]*\]\{[^}]*\}"
+                   r"|\\begin\{tabular\}\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\}|\\renewcommand\{[^}]*\}\{[^}]*\}", "", body)
     decimals = set(re.findall(r"(?<![\w.])\d+\.\d+", prose))
     unchecked = sorted(dd for dd in decimals if dd not in found_strings and dd not in ALLOWED)
     check("Q2 no decimal in the theory sections left unchecked", not unchecked, ", ".join(unchecked[:12]))

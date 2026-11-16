@@ -9,7 +9,8 @@
 #      exact in every member and era; the annual identity; the 1997 splice; the frozen verdict recomputed
 #   M3 the split of the gap exact; the BLS labor-share identity; the published share near the implied one; the verdict
 #   M4 the Penn World Table values; the counterfactual arithmetic by a second route
-#   M5 the verdict by the frozen rule
+#   M5 the frozen condition: nothing counts against the account (the plan stated no prediction for these years)
+#   R  Appendix C: every commit time it gives equals git's, and every pull time equals the caches' manifests
 #   Q  every number in the paper's DATA-NUMBERS regions (the abstract and introduction; Sections 5-7) is printed inside
 #      a phrase rebuilt here from recomputed values; no number in those regions left outside such a phrase (bar a
 #      short list of inputs and citations); the words that carry a quantity ("about a third") are within their range;
@@ -19,6 +20,7 @@ import csv
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -219,8 +221,8 @@ check("M4.2 the counterfactuals and the envelope by a second route",
 # ------------------------------------------------------------------------------------------------- M5: since 2019
 holds = r5["faster"] and not r5["rising_hours"] and r5["compressed"]
 against = r5["faster"] and r5["rising_hours"] and not r5["compressed"]
-check("M5.1 by the frozen rule the prediction holds and nothing counts against it",
-      holds and not against and r5["prediction_holds"] and not r5["counts_against"])
+check("M5.1 by the frozen condition nothing counts against the account; the opposite combination occurred",
+      holds and not against and r5["opposite_combination"] and not r5["counts_against"])
 
 # --------------------------------------------------------------------------------------------- Q: the text
 TEX = ROOT / "paper" / "main.tex"
@@ -246,6 +248,9 @@ W1, W2 = r3["1973-2024"], r3["1983-2024"]
 pr, pa, iv = hx["primary"], hx["panel"], hx["iv_pwt"]
 LS, RR, LA = n1["labor_share"], n1["real_rate"], n1["land_share"]
 VI = r2["vintage"]
+SW = n1["lemma1_swing_1948_1973_to_1973_1995"]
+HS = n1["hours_per_person_smoothed"]
+PJ = n1["population_january_step"]
 assert RR["min_value"] < 0 and RR["tips_2020"] < 0 and pr["beta"] > 0 and pa["beta"] < 0 and iv["beta"] > 0
 assert all(hp[k] < 0 for k in ("1948-1973", "1995-2004", "2004-2019", "2019-2025")) and hp["1973-1995"] > 0
 assert all(F["sector_productivity"][k]["con"] < 0 for k in ("1973-1995", "2004-2019"))
@@ -255,14 +260,15 @@ assert r5["hours_pp_2019_2025"] < 0 and W2["removed_by_ex_energy"] < 0 < W1["rem
 PHRASES = [
     # the abstract
     f"account for {pc(V['1973-1995']['median_share'])} and {pc(V['2004-2019']['median_share'])} percent of the "
-    f"slowdowns of 1973--95 and 2004--19, though {pc(X1['1973-1995']['composition_share'])} and "
-    f"{pc(X1['2004-2019']['composition_share'])} percent once the end of the farm exodus is set aside",
+    f"slowdowns of 1973--95 and 2004--19 against 1948--73, though {pc(X1['1973-1995']['composition_share'])} and "
+    f"{pc(X1['2004-2019']['composition_share'])} percent without the end of the farm exodus, a reading added afterwards",
     # the introduction
     f"grew {f1(e['1948-1973'])} percent a year between 1948 and 1973. It grew {f1(e['1973-1995'])} percent a year "
     f"between 1973 and 1995 and, after a decade of {f1(e['1995-2004'])} percent during the spread of information "
     f"technology, {f1(e['2004-2019'])} percent a year between 2004 and 2019",
-    f"fell {f0(-LS['pct_2000_2025'])} percent between 2000 and 2025, after falling {f1(-LS['pct_1948_2000'])} percent "
-    f"over the half century before",
+    f"labor's share of income in the nonfarm business sector was {f1(-LS['pct_avg_1990s_to_2016_25'])} percent lower in "
+    f"2016--25 than in the 1990s, after falling {f1(-LS['pct_avg_1948_57_to_1990s'])} percent between 1948--57 and the "
+    f"1990s",
     f"which fell {f2(-r4['us_rate_1950_1980'])} percent a year between 1950 and 1980, have fallen "
     f"{f2(-r4['us_rate_1980_end'])} percent a year since",
     f"fell from {f1(RR['avg_1982_1984'])} percent in 1982--84 to below zero in {RR['min_year']}",
@@ -271,21 +277,29 @@ PHRASES = [
     f"output per hour is {pc(NUM['pi_drop_enclosed'])} percent lower when nobody can leave work",
     f"account for {pc(V['1973-1995']['median_share'])} percent of the slowdown of 1973--95 against 1948--73 and "
     f"{pc(V['2004-2019']['median_share'])} percent of that of 2004--19",
-    f"without agriculture the shares are {pc(X1['1973-1995']['composition_share'])} and "
-    f"{pc(X1['2004-2019']['composition_share'])} percent",
+    f"without agriculture, a reading added after the data were seen, the shares are "
+    f"{pc(X1['1973-1995']['composition_share'])} and {pc(X1['2004-2019']['composition_share'])} percent",
     f"makes up {pc(W1['wedge_share_of_gap'])} percent of the gap between pay and productivity since 1973, and shelter "
     f"accounts for {pc(W1['removed_by_ex_shelter'])} percent of that rise",
+    f"have been {f1(r4['pi_level_pct_trend_mid'])} percent higher in 2023, or {f2(r4['pi_growth_pp_trend_mid'])} points "
+    f"a year",
     # 5.1
     f"Output per hour grew {f1(e['1948-1973'])} percent a year in 1948--73, {f1(e['1973-1995'])} in 1973--95, "
     f"{f1(e['1995-2004'])} in 1995--2004, {f1(e['2004-2019'])} in 2004--19 and {f1(e['2019-2025'])} in 2019--25",
     f"fell {f2(-hp['1948-1973'])} percent a year in 1948--73, rose {f2(hp['1973-1995'])} percent a year in 1973--95, "
     f"and fell in every era since: {f2(-hp['1995-2004'])} percent a year in 1995--2004, {f2(-hp['2004-2019'])} in "
     f"2004--19 and {f2(-hp['2019-2025'])} in 2019--25",
-    f"at most {f2(n1['lemma1_hours_pp_1973_1995']['at_most'])} points a year of that era's slowdown of "
-    f"{f1(n1['slowdown']['1973-1995'])} points against 1948--73, and for "
-    f"{f2(n1['lemma1_hours_pp_1973_1995']['instance'])} at the instance's elasticity",
-    f"fell {f1(-LS['pct_1948_2000'])} percent between 1948 and 2000 and {f0(-LS['pct_2000_2025'])} percent between "
-    f"2000 and 2025, when it was at its lowest",
+    f"the largest {f1(PJ['max_pct'])} percent in {PJ['max_year']} and {f1(PJ['y2025_pct'])} percent in 2025",
+    f"hours per person grow {f2(abs(HS['1948-1973']))}, {f2(HS['1973-1995'])}, $-{f2(-HS['1995-2004'])}$, "
+    f"$-{f2(-HS['2004-2019'])}$ and $-{f2(-HS['2019-2025'])}$ percent a year over the five eras, and the ranking that "
+    f"follows is unchanged",
+    f"the swing from hours per person falling {f2(-hp['1948-1973'])} percent a year in 1948--73 to rising "
+    f"{f2(hp['1973-1995'])} in 1973--95 can account for at most {f2(SW['at_most'])} points a year of the slowdown of "
+    f"{f1(n1['slowdown']['1973-1995'])} points between the two eras, and for {f2(SW['instance'])} at the instance's "
+    f"elasticity",
+    f"fell {f1(-LS['pct_avg_1948_57_to_1990s'])} percent between 1948--57 and the 1990s and "
+    f"{f1(-LS['pct_avg_1990s_to_2016_25'])} percent between the 1990s and 2016--25; in {LS['min_year']} it was at its "
+    f"lowest",
     f"averaged {f1(RR['avg_1982_1984'])} percent in 1982--84 and reached its low in {RR['min_year']}, "
     f"$-{f2(-RR['min_value'])}$ percent",
     f"was $-{f2(-RR['tips_2020'])}$ percent that year and {f2(RR['tips_2025'])} percent in 2025",
@@ -302,14 +316,17 @@ PHRASES = [
     f"of value added and {f2(-G['1973-1995']['realloc_change'])} from the reallocation of hours; the slowdown of "
     f"{f2(-G['2004-2019']['change'])} points in 2004--19 into {f2(-G['2004-2019']['within_slowdown'])}, "
     f"{f2(-G['2004-2019']['weight_shift'])} and {f2(-G['2004-2019']['realloc_change'])}",
+    f"is thus {pc(G['1973-1995']['weight_shift'] / G['1973-1995']['change'])} and "
+    f"{pc(G['2004-2019']['weight_shift'] / G['2004-2019']['change'])} percent of the two slowdowns",
     f"composition is {pc(V['1973-1995']['median_share'])} percent of the 1973--95 slowdown (the median; the range is "
     f"{pc(V['1973-1995']['min_share'])} to {pc(V['1973-1995']['max_share'])}) and "
     f"{pc(V['2004-2019']['median_share'])} percent of the 2004--19 slowdown ({pc(V['2004-2019']['min_share'])} to "
     f"{pc(V['2004-2019']['max_share'])}), and it is negative in every member",
-    f"of {f2(VI['growth_1998_2016_newer'])} percent a year and the older {f2(VI['growth_1998_2016_older'])}. On the "
-    f"older file alone, composition is {pc(VI['share_2004_2016_older']['median'])} percent of the 2004--16 slowdown "
-    f"(the median over the grid; the range is {pc(VI['share_2004_2016_older']['min'])} to "
-    f"{pc(VI['share_2004_2016_older']['max'])}), against {pc(VI['share_2004_2016_spliced']['median'])} percent "
+    f"over their overlap, 1998--2016, the newer gives growth of output per hour in the baseline scope of "
+    f"{f2(VI['growth_1998_2016_newer'])} percent a year and the older {f2(VI['growth_1998_2016_older'])}. On the older "
+    f"file alone, a check added after the data were seen, composition is {pc(VI['share_2004_2016_older']['median'])} "
+    f"percent of the 2004--16 slowdown (the median over the grid; the range is {pc(VI['share_2004_2016_older']['min'])} "
+    f"to {pc(VI['share_2004_2016_older']['max'])}), against {pc(VI['share_2004_2016_spliced']['median'])} percent "
     f"({pc(VI['share_2004_2016_spliced']['min'])} to {pc(VI['share_2004_2016_spliced']['max'])}) on the spliced panel",
     f"Agriculture held {f0(F['agr_hours_share']['1948'])} percent of the hours in scope in 1948 and "
     f"{f0(F['agr_hours_share']['1973'])} percent in 1973",
@@ -318,17 +335,21 @@ PHRASES = [
     f"{f2(-G['1973-1995']['realloc_change'])} points by which the reallocation term fell in 1973--95, and for "
     f"{f2(-F['realloc_change_by_sector']['2004-2019']['agr'])} of the {f2(-G['2004-2019']['realloc_change'])} points "
     f"in 2004--19",
+    f"without the subtraction, agriculture's pieces are "
+    f"{f2(-F['realloc_change_by_sector_raw']['1973-1995']['agr'])} and "
+    f"{f2(-F['realloc_change_by_sector_raw']['2004-2019']['agr'])}",
     f"composition is {pc(X1['1973-1995']['composition_share'])} percent of the 1973--95 slowdown and "
-    f"{pc(X1['2004-2019']['composition_share'])} percent of the 2004--19 slowdown: partial by the same thresholds",
+    f"{pc(X1['2004-2019']['composition_share'])} percent of the 2004--19 slowdown: above a quarter in the first era and "
+    f"below it in the second, so partial by the same thresholds",
     f"within sectors: {pc(F['within_share_of_change']['1973-1995'])} percent in 1973--95 and "
     f"{pc(F['within_share_of_change']['2004-2019'])} percent in 2004--19 in the baseline, with manufacturing the "
-    f"largest single piece in both",
+    f"largest single piece in both.",
     f"growth of output per hour of {f1(F['sector_productivity']['1948-1973']['con'])} percent a year in 1948--73 to "
     f"declines of {f1(-F['sector_productivity']['1973-1995']['con'])} percent a year in 1973--95 and "
     f"{f1(-F['sector_productivity']['2004-2019']['con'])} percent a year in 2004--19",
     f"growth within sectors added {f2(G['1995-2004']['within_slowdown'])} points a year more than in 1948--73, all of "
     f"it in the machine-contestable sectors, while composition took away {f2(-G['1995-2004']['composition'])} points, "
-    f"as much as in the slow eras",
+    f"more than in either slow era",
     f"share of hours rose from {f0(F['hours_share']['1948']['H'])} percent in 1948 to "
     f"{f0(F['hours_share']['2024']['H'])} percent in 2024, and their share of value added from "
     f"{f0(F['va_share']['1948']['H'])} to {f0(F['va_share']['2024']['H'])} percent",
@@ -360,10 +381,13 @@ PHRASES = [
     f"{f2(r4['pi_growth_pp_trend_lo'])} points a year) for elasticities between $-0.4$ and $-1$; on the European "
     f"path, {f1(r4['pi_level_pct_europe_mid'])} percent higher ({f1(r4['pi_level_pct_europe_hi'])} to "
     f"{f1(r4['pi_level_pct_europe_lo'])})",
-    f"output per hour grew {f2(r4['ophnfb_rate_1980_end'])} percent a year, against {f2(r4['ophnfb_rate_1948_1973'])} "
-    f"in 1948--73: the {f2(r4['pi_growth_pp_trend_mid'])} points are {pc(r4['envelope_share_trend_mid'])} percent of "
-    f"that slowdown of {f2(r4['slowdown_1980_end'])} points, and {pc(r4['envelope_share_trend_hi'])} to "
-    f"{pc(r4['envelope_share_trend_lo'])} percent across the range of elasticities",
+    f"the {f2(r4['pi_growth_pp_trend_mid'])} points are {pc(r4['envelope_share_trend_mid'])} percent of the fall in the "
+    f"growth of output per hour from {f2(r4['ophnfb_rate_1948_1973'])} percent a year in 1948--73 to "
+    f"{f2(r4['ophnfb_rate_1980_end'])} in 1980--2023, but {pc(r4['envelope_share_matched_1950_1980'])} percent of the "
+    f"smaller fall from {f2(r4['ophnfb_rate_1950_1980'])} in 1950--80, the window of the hours trend, and "
+    f"{pc(r4['envelope_share_break_1973'])} percent when hours and output per hour are both broken at 1973",
+    f"slowed after 1980 by more than America's did, by {f2(r4['eu_slowing_of_fall'])} points a year against "
+    f"{f2(r4['us_slowing_of_fall'])}",
     # 5.5
     f"The sample has {hx['n']} countries; Colombia, Estonia and Korea lack some years",
     f"Across countries the coefficient is $+{f2(pr['beta'])}$ (standard error {f2(pr['se'])}, $p={f2(pr['p'])}$",
@@ -379,11 +403,12 @@ PHRASES = [
     f"{f2(r5['productivity_2004_2019'])} in 2004--19, and {f2(r5['productivity_q4_2019_to_last'])} percent a year from "
     f"the fourth quarter of 2019 to the third quarter of 2026",
     f"Hours per person aged 16 and over fell {f2(-r5['hours_pp_2019_2025'])} percent a year, against "
-    f"{f2(-r5['hours_pp_2004_2019'])} in 2004--19",
+    f"{f2(-r5['hours_pp_2004_2019'])} in 2004--19, or {f2(-HS['2019-2025'])} against {f2(-HS['2004-2019'])} with the "
+    f"January steps in the population smoothed",
     f"rose from {r5['compression_level_2019']:.3f} to {r5['compression_level_2025']:.3f} of those of all private "
     f"employees, or {f2(r5['compression_2019_2025'])} percent a year, against {f2(r5['compression_2007_2019'])} percent "
     f"a year in 2007--19",
-    # Section 6, Table 1
+    # Section 6, Table 2
     f"{pc(V['1973-1995']['median_share'])} and {pc(V['2004-2019']['median_share'])} percent (medians over the grid; "
     f"ranges {pc(V['1973-1995']['min_share'])}--{pc(V['1973-1995']['max_share'])} and "
     f"{pc(V['2004-2019']['min_share'])}--{pc(V['2004-2019']['max_share'])}). Without agriculture, exploratory: "
@@ -396,7 +421,11 @@ PHRASES = [
     f"hours per person falling {f2(-r5['hours_pp_2019_2025'])} percent a year; compression "
     f"{f2(r5['compression_2019_2025'])} percent a year",
     # Section 7
+    f"have grown {f2(r4['pi_growth_pp_trend_mid'])} points a year faster at the instance's elasticity, and at most "
+    f"{f2(r4['pi_growth_pp_trend_lo'])}",
     f"Rent alone would pay for {f2(NUM['rent_cover_base'])} of a basket per person",
+    # cited from the companion paper, not recomputed here: the coverage ratio and its band
+    "0.30 in 2025 (0.15 to 0.59 across their measures)",
 ]
 # inputs and citations that may stand alone in the regions: index bases, the PWT version, ages, the pull date, the
 # bootstrap draws, the significance level, Lemma 1's bounds and the elasticity range, the fork and the coverage ratio
@@ -420,8 +449,8 @@ for pat in (r"\\(label|ref|eqref|input)\{[^}]*\}", r"\\includegraphics\[[^\]]*\]
 unchecked = []
 for m in re.finditer(r"\d{1,3}(?:,\d{3})+(?!\d)|\d+\.\d+|\d+", scan):
     t = m.group()
-    if len(t) == 4 and t.isdigit() and 1900 <= int(t) <= 2030:
-        continue                                            # a year
+    if len(t) == 4 and t.isdigit() and 1800 <= int(t) <= 2030:
+        continue                                            # a year or a decade
     if t in ALLOWED or claimed[m.start():m.end()].all():
         continue
     unchecked.append(f"{t} [{text[max(0, m.start() - 40):m.start()].strip()}]")
@@ -432,11 +461,19 @@ check("Q2 no number in the data regions left outside a recomputed phrase or the 
 order_pi = sorted(("1973-1995", "1995-2004", "2004-2019", "2019-2025"), key=lambda k: e[k])
 order_h = sorted(("1973-1995", "1995-2004", "2004-2019", "2019-2025"), key=lambda k: hp[k])
 within_by = F["within_by_sector"]
+order_hs = sorted(("1973-1995", "1995-2004", "2004-2019", "2019-2025"), key=lambda k: HS[k])
+comp = {k: -G[k]["composition"] for k in ("1973-1995", "1995-2004", "2004-2019")}
+shares_by = {m: (r2[m]["1973-1995"]["composition_share"], r2[m]["2004-2019"]["composition_share"]) for m in M2.GRID}
 WORDS = [
     ("about a third of the rise of consumer relative to producer prices that makes up most of the gap",
      all(0.30 <= w["removed_by_ex_shelter"] < 0.40 for w in (W1, W2)) and W1["wedge_share_of_gap"] > 0.5),
-    ("account for about a sixth of the slowdown over those years", 0.14 <= r4["envelope_share_trend_mid"] <= 0.20),
+    ("Composition took even more from the growth of 1995--2004", comp["1995-2004"] > max(comp["1973-1995"],
+                                                                                      comp["2004-2019"])),
+    ("composition took even more from the boom of 1995--2004", comp["1995-2004"] > max(comp["1973-1995"],
+                                                                                    comp["2004-2019"])),
+    ("rose relative to the average", r5["compression_2019_2025"] > 0),
     ("Since 1973 the four eras rank in exactly opposite orders by the two measures", order_pi == order_h[::-1]),
+    ("and the ranking that follows is unchanged", order_pi == order_hs[::-1]),
     ("with the fastest growth of output per hour and nearly flat hours per person",
      e["1948-1973"] < max(e.values()) and abs(hp["1948-1973"]) < 0.1),
     ("removing energy from the CPI barely changes it, while removing shelter removes a third of it",
@@ -444,21 +481,28 @@ WORDS = [
     ("The measurement supports the prediction, narrowly in the later window",
      1 / 3 <= W2["removed_by_ex_shelter"] < 0.35 and W1["removed_by_ex_shelter"] > W2["removed_by_ex_shelter"]),
     ("shelter is a third of the price wedge", all(0.30 <= w["removed_by_ex_shelter"] < 0.40 for w in (W1, W2))),
-    ("Two support the account, one narrowly, and the composition result is partial",
+    ("Two predictions support the account, one narrowly, and the composition result is partial",
      V["overall"] == "supports" and all(v == "supports" for v in v3.values()) and x1_overall == "partial"),
+    ("Nothing counted against the account after 2019", not r5["counts_against"]),
     ("By the rule fixed beforehand the test is uninformative", hx["decision"] == "uninformative"),
     ("positive, the opposite of the prediction, and far from significant", pr["beta"] > 0 and pr["p"] > 0.2),
     ("never significant", min(hx["loo_beta_range"]) > 0 and hx["loo_p_above_005"] == hx["sample"]),
+    (r"its size is less than half of Lemma~\ref{lem:1}'s elasticity in the instance", abs(pa["beta"]) < 0.5 * abs(eps)),
     ("with manufacturing the largest single piece in both",
      all(min(within_by[k], key=within_by[k].get) == "mfg" for k in ("1973-1995", "2004-2019"))),
     ("all of it in the machine-contestable sectors",
      G["1995-2004"]["by_class"]["within_slowdown"]["M"] >= G["1995-2004"]["within_slowdown"] > 0),
-    ("as much as in the slow eras", -G["1995-2004"]["composition"] >= max(-G[k]["composition"]
-                                                                         for k in ("1973-1995", "2004-2019"))),
+    ("more than in either slow era", comp["1995-2004"] > max(comp["1973-1995"], comp["2004-2019"])),
+    ("the median is the baseline's, and the other values come from the two members that add government or real estate",
+     all(shares_by[m] == shares_by["G1"] for m in ("G2", "G3", "G6"))
+     and all(V[k]["median_share"] == r2["G1"][k]["composition_share"] for k in ("1973-1995", "2004-2019"))
+     and all({V[k]["min_share"], V[k]["max_share"]} <= {r2[m][k]["composition_share"] for m in ("G1", "G4", "G5")}
+             for k in ("1973-1995", "2004-2019"))),
+    ("Its hours per worker fell faster than America's before 1980 and after",
+     r4["eu_rate_1950_1980"] < r4["us_rate_1950_1980"] and r4["eu_rate_1980_end"] < r4["us_rate_1980_end"]),
     ("real interest rates that fell for four decades", 35 <= RR["min_year"] - int(rr.index.min()) <= 45),
     ("Colombia, Estonia and Korea lack some years", hx["dropped_incomplete"] == ["COL", "EST", "KOR"]),
     ("the third quarter of 2026", r5["last_quarter"] == "2026-07-01"),
-    ("The reading does not change", VI["share_2004_2016_older"]["median"] >= 0.25),
 ]
 for phrase, ok in WORDS:
     check(f"Q3 \"{phrase}\" is printed and holds", phrase in text and ok)
@@ -471,6 +515,26 @@ check("Q4 the five data figures exist (PDF and PNG) and are included",
 caps = re.findall(r"\\caption\{(.*?)\}\s*\\label\{fig", regions[1], flags=re.S)
 check("Q4 their captions end with the AI line", len(caps) == 5 and all(
     c.rstrip().endswith("Drawn by code written with Claude (Anthropic).") for c in caps))
+
+# --------------------------------------------------------------------------------------- R: the record of the plan
+app = tex[tex.index(r"\label{app:C}"):tex.index(r"\section*{Declaration")]
+rows = re.findall(r"^(\d\d:\d\d)(?:--(\d\d:\d\d))? &\s*([0-9a-f]{7})?\s*& (.*?)\\\\$", app, flags=re.M)
+commits = [(t0, h) for t0, _, h, _ in rows if h]
+times = {}
+for t0, h in commits:
+    out = subprocess.run(["git", "log", "-1", "--format=%cd", "--date=format-local:%H:%M", h], cwd=ROOT,
+                         capture_output=True, text=True, env={"TZ": "UTC", "PATH": "/usr/bin:/bin"})
+    times[h] = out.stdout.strip()
+check("R1 every commit in Appendix C exists and was made at the time given (UTC)",
+      len(commits) == 5 and all(times[h] == t0 for t0, h in commits), str(times))
+fred_minutes = {r["pulled_utc"][11:16] for r in rows_fred} if (rows_fred := list(csv.DictReader(
+    (ROOT / "cache" / "fred" / "MANIFEST.csv").open()))) else set()
+pulls = {(t0, t1) for t0, t1, h, _ in rows if not h}
+check("R2 the pull times in Appendix C equal the manifests' (FRED's file; the others' notes in cache/MANIFEST.md)",
+      ("11:04", "") in pulls and fred_minutes == {"11:04"}
+      and ("10:58", "10:59") in pulls and "pulled 10:58 UTC" in man and "pulled 10:59 UTC" in man
+      and ("11:10", "11:12") in pulls and "pulled 11:10 UTC" in man and "pulled 11:12 UTC" in man,
+      f"rows {sorted(pulls)}, FRED minutes {sorted(fred_minutes)}")
 
 n_fail = sum(1 for _, okk in RESULTS if not okk)
 print(f"\n{len(RESULTS) - n_fail}/{len(RESULTS)} checks passed")

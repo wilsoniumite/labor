@@ -65,6 +65,9 @@ def envelope(h, y0=1950, y1=1980, yend=None):
     h73 = 100 * ((np.log(us[yend]) - np.log(us[1973])) / (yend - 1973) - (np.log(us[1973]) - np.log(us[y0])) / (1973 - y0))
     out["envelope_pp_break_1973"] = -ELASTICITIES[1] * h73        # hours fell more slowly after 1973: h73 > 0
     out["envelope_share_break_1973"] = out["envelope_pp_break_1973"] / (g(1948, 1973) - g(1973, yend))
+    # how much the fall in hours per worker slowed after 1980, in points a year
+    out["us_slowing_of_fall"] = out["us_rate_1980_end"] - out["us_rate_1950_1980"]
+    out["eu_slowing_of_fall"] = out["eu_rate_1980_end"] - out["eu_rate_1950_1980"]
     return out, eu
 
 

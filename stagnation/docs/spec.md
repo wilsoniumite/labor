@@ -263,3 +263,19 @@ Summers 2017; Acemoglu and Restrepo 2018; Båge and Wilson 2026.
   1997–2024 release (nominal value added, value-added and labor-hours quantity indexes). Real value added by
   double deflation; the vintages spliced at 1997 (hours levels carried forward by the newer hours index); the last
   era becomes 2019–2024. Sectors, classes, the grid G1–G6, the decomposition and the thresholds are unchanged.
+- 2026-11-16, logged late (found by the referee read): when Section 4 was restated after the theory review (db7daad,
+  10:44 UTC, before any outcome data were pulled), the thesis sentence of Section 1 changed with it, from "measured
+  productivity grows at the pace of machine progress" to "measured productivity eventually rises in proportion to
+  machine capability", to match Proposition 2(iv) as proved. The amendment above did not mention it.
+- 2026-11-16, after the measurements were computed (outcome data seen); no prediction, threshold, window, source or
+  verdict changes. Added, each labeled in the paper as a check or reading made after the data were seen: X1, the
+  baseline without agriculture, read by the same thresholds; a comparison of BEA's two files over their overlap and the
+  2004-16 shares on the older file alone; BLS's January population-control steps, smoothed as a sensitivity for hours
+  per person; the dependence of M4's envelope, as a share of the slowdown, on the windows compared (the planned report,
+  the level effect, unchanged); labor's share on decade averages beside the planned endpoint comparison. Descriptive
+  numbers the text quotes were added to the scripts' outputs (class shares of hours and value added, sector pieces of
+  the within and reallocation terms, Lemma 1's bound on the swing in hours per person between 1948-73 and 1973-95,
+  Europe's and America's slowing of the fall in hours). Two descriptions corrected after the independent data review:
+  M5 carried only a condition that would count against the account, not a prediction, and the paper now says so;
+  the plan's M3 fact F2 says "typical pay", but M3 as specified uses average hourly compensation, and the paper says
+  that the gap for the typical worker is wider.

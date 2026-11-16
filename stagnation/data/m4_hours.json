@@ -37,5 +37,7 @@
   "ophnfb_rate_1950_1980": 2.220489355167089,
   "envelope_share_matched_1950_1980": 0.4621727340027916,
   "envelope_pp_break_1973": 0.06804858280054933,
-  "envelope_share_break_1973": 0.06997920127340798
+  "envelope_share_break_1973": 0.06997920127340798,
+  "us_slowing_of_fall": 0.2474016702901532,
+  "eu_slowing_of_fall": 0.5881717462627458
 }

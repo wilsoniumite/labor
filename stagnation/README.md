@@ -3,12 +3,13 @@
 A paper that stands on its own and cites *Pinning the Wage to Scarcity and Technology* (`../pinning/`) for the
 general cost system. Its claim: measured output per hour is an equilibrium outcome, the inverse of the hours an
 economy uses per unit of output; in a task economy whose prices resolve into hours and the rents of inputs that
-cannot be produced, machine progress raises output per hour only as far as hours are released. It measures the
+cannot be produced, and whose consumption needs land, land caps output, and beyond that machine progress raises output
+per hour only as hours are released. It measures the
 claim's implications in U.S. data since 1948 and across OECD countries since 1995, against predictions written down
 before the data were pulled. `STATE.md` is the session entry point; `docs/spec.md` is the plan, the predictions and the
 pre-registered test.
 
-**Status (2026-11-16):** a complete draft, 30 pages. The theory (Sections 3–4, Appendices A–B) and the measurements
+**Status (2026-11-16):** a complete draft, 36 pages, revised after an independent data review and a referee read. The theory (Sections 3–4, Appendices A–B) and the measurements
 (Section 5) are checked by three batteries; Section 6 scores the predictions; Section 7 concludes. Byline: Stella
 Wilson (see `STATE.md`).
 
@@ -33,15 +34,15 @@ code/m5_recent.py     M5: 2019 onward
 code/hx_test.py       H-X: the frozen cross-country test (OECD Productivity Database); code/fig_hx.py, Figure 7
 data/                 the measurement scripts' outputs (JSON, CSV)
 cache/                raw data as pulled (MANIFEST.md says what, where from, when, and the SHA-256)
-checks/check_theory.py  the theory battery (169 checks): sympy, a cross-check against the companion paper's solver,
+checks/check_theory.py  the theory battery (171 checks): sympy, a cross-check against the companion paper's solver,
                       equilibrium conditions from primitives, each result, 300 random economies, and every model
                       number in the theory sections found in main.tex next to its words
 checks/check_hx.py    the H-X battery (21 checks): the frozen specification, the regressions recomputed with
                       statsmodels, the bootstrap at a second seed, the IV, leave-one-out, the decision rule, the text
-checks/check_data.py  the measurement battery (107 checks): the caches' hashes, every data file against a fresh run,
-                      second routes to the eras, the industry panel and the counterfactuals, the frozen verdicts, and
+checks/check_data.py  the measurement battery (123 checks): the caches' hashes, every data file against a fresh run,
+                      second routes to the eras, the industry panel and the counterfactuals, the frozen verdicts,
                       every number in the abstract, the introduction and Sections 5-7 inside a phrase rebuilt from
-                      recomputed values, with no other number allowed there
+                      recomputed values (no other number allowed there), and Appendix C's times against git
 ```
 
 ## Figures and tables
@@ -55,7 +56,9 @@ checks/check_data.py  the measurement battery (107 checks): the caches' hashes, 
 | Figure 5, pay against productivity | `paper/figures/fig_gap.pdf` | `code/m3_gap.py` | `cache/fred/` |
 | Figure 6, hours per worker | `paper/figures/fig_hours.pdf` | `code/m4_hours.py` | `cache/pwt/` |
 | Figure 7, the cross-country test | `paper/figures/fig_hx.pdf` | `code/fig_hx.py` | `cache/oecd/`, via `code/hx_test.py` |
-| Table 1, the predictions scored | in `paper/main.tex` | numbers checked by `checks/check_data.py` | `data/` |
+| Table 1, the facts and what moves them | in `paper/main.tex` | none (a map of the results) | none |
+| Table 2, the predictions scored | in `paper/main.tex` | numbers checked by `checks/check_data.py` | `data/` |
+| Table C.1, the record of the plan | in `paper/main.tex` | times checked by `checks/check_data.py` (group R) | git, `cache/` manifests |
 | Table B.1, the instance under four rules | `paper/tables/tab_regimes.tex` | `code/table_regimes.py` | none (the model) |
 
 Each figure is drawn at the width it prints (0.88 of the 16 cm text width), text at 6.5–8.5 pt, no titles in the
@@ -69,7 +72,7 @@ validated categorical order (blue, orange, aqua, yellow); lines are also labeled
 | Every model number in Sections 3–4 and the appendices | `code/model.py`, `numbers()`; recomputed and found by `checks/check_theory.py` (group Q) |
 | Every data number in the abstract, the introduction and Sections 5–7 | the measurement scripts' outputs in `data/`; rebuilt from the cache and found in their phrases by `checks/check_data.py` (group Q) |
 | The H-X results | `code/hx_test.py` → `data/hx_results.json`; recomputed by `checks/check_hx.py` |
-| The real-wage fork, 4.8× (1964–2024), and the coverage ratio, 0.30 (2025) | cited from Båge and Wilson (2026), not rebuilt here |
+| The real-wage fork, 4.8× (1964–2024), and the coverage ratio, 0.30 (0.15–0.59) in 2025 | cited from Båge and Wilson (2026), not rebuilt here |
 
 ## Reproduce
 
@@ -88,9 +91,9 @@ python code/m4_hours.py           # M4, Figure 6
 python code/m5_recent.py          # M5
 python code/hx_test.py            # H-X (about 5 s)
 python code/fig_hx.py             # Figure 7
-python checks/check_theory.py     # 169 checks
+python checks/check_theory.py     # 171 checks
 python checks/check_hx.py         # 21 checks
-python checks/check_data.py       # 107 checks
+python checks/check_data.py       # 123 checks
 cd paper && latexmk -pdf -outdir=_build main.tex
 ```
 
