@@ -255,3 +255,11 @@ Summers 2017; Acemoglu and Restrepo 2018; Båge and Wilson 2026.
   growth rate; Proposition 3(ii) new (prices fall whoever can leave work); Lemma 2 on price requirements; Lemma 3(b)
   new; the welfare remark withdrawn. M4's mapping from hours to output per hour (Section 6) uses Lemma 1 and so holds
   technology, land and the basket fixed: it remains an envelope. Nothing in H-X changes.
+- 2026-11-16, M2's data source, changed before any M2 outcome was computed (the files' structure seen, no values):
+  BEA's NAICS-based GDP-by-industry history for 1947–96 is not where the spec expected it (BEA now lists only
+  SIC-based history), and NIPA hours cover employees only. M2 therefore uses the BEA–BLS integrated industry-level
+  production account, published by BEA: the 1947–2016 research tables' underlying data (Eldridge et al. 2020;
+  nominal gross output and intermediate inputs, their quantity indexes, total hours of all workers) and the
+  1997–2024 release (nominal value added, value-added and labor-hours quantity indexes). Real value added by
+  double deflation; the vintages spliced at 1997 (hours levels carried forward by the newer hours index); the last
+  era becomes 2019–2024. Sectors, classes, the grid G1–G6, the decomposition and the thresholds are unchanged.
