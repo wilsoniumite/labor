@@ -1,6 +1,7 @@
 # eras.py — output per hour by era, U.S. nonfarm business sector (FRED OPHNFB, index), the introduction's numbers.
 # Annual averages of the quarterly index (complete years only), then annualized log growth between era endpoints.
-# Reads cache/OPHNFB.csv (see cache/MANIFEST.md). M1 rebuilds these from a dated fresh pull.
+# Reads cache/fred/OPHNFB.csv, the dated pull of 2026-11-16 (cache/fred/MANIFEST.csv), which replaced the vintage
+# copied from ../paths/cache (identical through 2019; 2019-25 revised from 2.16 to 2.25 percent a year).
 # Run from stagnation/:  ../venv/bin/python code/eras.py
 from pathlib import Path
 
@@ -11,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ERAS = ((1948, 1973), (1973, 1995), (1995, 2004), (2004, 2019), (2019, 2025))
 
 
-def annual(path=ROOT / "cache" / "OPHNFB.csv"):
+def annual(path=ROOT / "cache" / "fred" / "OPHNFB.csv"):
     s = pd.read_csv(path, parse_dates=["observation_date"]).set_index("observation_date")["OPHNFB"]
     g = s.groupby(s.index.year)
     return g.mean()[g.count() == 4]

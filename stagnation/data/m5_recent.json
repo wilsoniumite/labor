@@ -1,0 +1,18 @@
+{
+  "productivity_2004_2019": 1.500449311653463,
+  "productivity_2019_2025": 2.248077976951309,
+  "productivity_q4_2019_to_last": 2.1995114110462257,
+  "last_quarter": "2026-07-01",
+  "hours_pp_2004_2019": -0.22118817272151148,
+  "hours_pp_2019_2025": -0.47600457495987253,
+  "compression_2007_2019": 0.06925359285139358,
+  "compression_2019_2025": 0.4000457778351558,
+  "compression_level_2019": 0.8395440204774096,
+  "compression_level_2025": 0.8599391735839566,
+  "compression_pct_2019_2025": 2.4293131282084657,
+  "faster": true,
+  "rising_hours": false,
+  "compressed": true,
+  "counts_against": false,
+  "prediction_holds": true
+}

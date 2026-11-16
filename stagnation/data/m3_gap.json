@@ -1,0 +1,41 @@
+{
+  "identity_max_dev": 0.0655070551348178,
+  "1973-2024": {
+    "productivity": 92.30725488665695,
+    "real_pay_cpi": 40.022523953193,
+    "real_pay_ex_shelter": 54.09573403061248,
+    "product_wage": 78.10067323482507,
+    "share_term": 14.206581651832018,
+    "share_term_published": 15.258391565231033,
+    "wedge_cpi": 38.07814928163206,
+    "wedge_ex_shelter": 24.004939204212572,
+    "wedge_ex_energy": 36.42382898679066,
+    "wedge_ex_medical": 33.286866340063426,
+    "gap_cpi": 52.28473093346395,
+    "split_residual": -1.2789769243681803e-13,
+    "removed_by_ex_shelter": 0.3695875546191014,
+    "removed_by_ex_energy": 0.04344539653452639,
+    "removed_by_ex_medical": 0.12582762114123613,
+    "verdict": "supports",
+    "wedge_share_of_gap": 0.728284311725525
+  },
+  "1983-2024": {
+    "productivity": 80.39629977375088,
+    "real_pay_cpi": 38.460665057813394,
+    "real_pay_ex_shelter": 48.94738717140027,
+    "product_wage": 69.10489965909512,
+    "share_term": 11.291400114655836,
+    "share_term_published": 12.461105782737025,
+    "wedge_cpi": 30.644234601281727,
+    "wedge_ex_shelter": 20.157512487694852,
+    "wedge_ex_energy": 32.54762026146536,
+    "wedge_ex_medical": 26.72886546077041,
+    "gap_cpi": 41.93563471593749,
+    "split_residual": -7.460698725481052e-14,
+    "removed_by_ex_shelter": 0.3422086487077167,
+    "removed_by_ex_energy": -0.06211235767344059,
+    "removed_by_ex_medical": 0.1277685408513206,
+    "verdict": "supports",
+    "wedge_share_of_gap": 0.7307445042589398
+  }
+}
