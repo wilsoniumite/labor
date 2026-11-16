@@ -18,6 +18,7 @@ from matplotlib import rcParams
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "code"))
 import model as M  # noqa: E402
+import eras  # noqa: E402
 
 EUROPE = ("DEU", "FRA", "GBR", "NLD", "SWE")
 NAMES = {"USA": "United States", "DEU": "Germany", "FRA": "France", "GBR": "United Kingdom", "NLD": "Netherlands",
@@ -49,6 +50,13 @@ def envelope(h, y0=1950, y1=1980, yend=None):
             dpi = eps * dlogh                                                         # log change in output per hour
             out[f"pi_level_pct_{tag}_{name}"] = 100 * (np.exp(dpi) - 1)
             out[f"pi_growth_pp_{tag}_{name}"] = 100 * dpi / (yend - y1)               # per year, over 1980-end
+    a = eras.annual()
+    g = lambda y0_, y1_: 100 * (np.log(a[y1_]) - np.log(a[y0_])) / (y1_ - y0_)  # noqa: E731
+    out["ophnfb_rate_1948_1973"], out["ophnfb_rate_1980_end"] = g(1948, 1973), g(y1, yend)
+    out["slowdown_1980_end"] = out["ophnfb_rate_1948_1973"] - out["ophnfb_rate_1980_end"]
+    for tag in ("trend", "europe"):
+        for name in ("lo", "mid", "hi"):
+            out[f"envelope_share_{tag}_{name}"] = out[f"pi_growth_pp_{tag}_{name}"] / out["slowdown_1980_end"]
     return out, eu
 
 

@@ -177,12 +177,12 @@ def era_stats(q, y0, y1):
     return s_e, pi_e, r_e, r_dev
 
 
-def decompose(p, member):
+def decompose(p, member, eras=ERAS):
     cls = GRID[member]
     q = annual_terms(p, list(cls))
     s0, pi0, r0, rd0 = era_stats(q, *BASE)
     out = {}
-    for y0, y1 in ERAS:
+    for y0, y1 in eras:
         s1, pi1, r1, rd1 = era_stats(q, y0, y1)
         W0, W1 = (s0 * pi0).sum(), (s1 * pi1).sum()
         within_slow = 0.5 * (s1 + s0) * (pi1 - pi0)
@@ -224,6 +224,53 @@ def verdict(results):
     eras = [out[e]["verdict"] for e in out]
     out["overall"] = ("supports" if all(v == "supports" for v in eras) else
                       "counts against" if all(v == "counts against" for v in eras) else "partial")
+    return out
+
+
+def facts(p, res):
+    """Descriptive numbers the text quotes, on the baseline member G1: class shares of hours and value added,
+    agriculture's share of hours, the within-sector share of each era's change, and sector pieces of the two slow eras'
+    within-sector slowdown and reallocation change (reallocation against aggregate hours growth, as in decompose())."""
+    q = p[p.sector.isin(list(G1))].copy()
+    q["cls"] = q.sector.map(G1)
+    years = (1948, 1973, 1995, 2004, 2019, 2024)
+    share = lambda col, y: (q[q.year == y].groupby("cls")[col].sum() / q[q.year == y][col].sum())  # noqa: E731
+    out = dict(hours_share={y: {c: 100 * float(share("hours", y)[c]) for c in "MSH"} for y in years},
+               va_share={y: {c: 100 * float(share("va", y)[c]) for c in "MSH"} for y in years},
+               agr_hours_share={y: 100 * float(q[(q.year == y) & (q.sector == "agr")].hours.sum()
+                                               / q[q.year == y].hours.sum()) for y in years})
+    r = res["G1"]
+    out["within_share_of_change"] = {e: r[e]["within_slowdown"] / r[e]["change"] for e in ("1973-1995", "2004-2019",
+                                                                                          "2019-2024")}
+    aq = annual_terms(p, list(G1))
+    s0, pi0, r0, rd0 = era_stats(aq, *BASE)
+    out["sector_productivity"] = {f"{BASE[0]}-{BASE[1]}": {k: 100 * float(v) for k, v in pi0.items()}}
+    for y0, y1 in ((1973, 1995), (2004, 2019)):
+        s1, pi1, r1, rd1 = era_stats(aq, y0, y1)
+        e = f"{y0}-{y1}"
+        out["sector_productivity"][e] = {k: 100 * float(v) for k, v in pi1.items()}
+        out.setdefault("within_by_sector", {})[e] = {k: 100 * float(v) for k, v in (0.5 * (s1 + s0) * (pi1 - pi0)).items()}
+        out.setdefault("realloc_change_by_sector", {})[e] = {k: 100 * float(v) for k, v in (rd1 - rd0).items()}
+    return out
+
+
+def vintage_check(p):
+    """Exploratory, after the frozen run: BEA's two files overlap in 1997-2016. Growth of output per hour in G1's scope
+    over 1998-2016 on each file, and the share of composition in the 2004-16 slowdown (grid median and range) on the
+    older file alone against the spliced panel p over the same years."""
+    a, b = research()
+    pa, pb = sectors_research(a), sectors_research(b)
+    older = pd.concat([pa[pa.year <= 1963], pb[pb.year > 1963]], ignore_index=True).sort_values(["sector", "year"])
+    newer = release(b[b.yr == SPLICE].set_index("Description")[["hrs", "sector"]])
+    agg = lambda d: annual_terms(d[(d.year >= SPLICE) & (d.year <= 2016)], list(G1)).groupby("year").apply(  # noqa
+        lambda y: (y.within + y.realloc).sum(), include_groups=False)
+    g_old, g_new = agg(pb), agg(newer)
+    out = dict(growth_1998_2016_older=100 * float(g_old.mean()), growth_1998_2016_newer=100 * float(g_new.mean()),
+               corr_1998_2016=float(np.corrcoef(g_old, g_new)[0, 1]))
+    eras = (BASE, (2004, 2016))
+    for tag, panel_ in (("older", older), ("spliced", p)):
+        shares = sorted(decompose(panel_, m, eras)["2004-2016"]["composition_share"] for m in GRID)
+        out[f"share_2004_2016_{tag}"] = dict(median=float(np.median(shares)), min=shares[0], max=shares[-1])
     return out
 
 
@@ -271,6 +318,8 @@ if __name__ == "__main__":
     p.to_csv(ROOT / "data" / "m2_sectors.csv", index=False)
     res = {m: decompose(p, m) for m in GRID}
     res["verdict"] = verdict(res)
+    res["facts"] = facts(p, res)
+    res["vintage"] = vintage_check(p)
     GRID_ALL = {**GRID, **EXPLORE}
     for m, cls in EXPLORE.items():
         GRID[m] = cls                       # decompose() reads the class map from GRID

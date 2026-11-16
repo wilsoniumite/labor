@@ -469,7 +469,7 @@ QUOTES = [
 # the instance's parameters and the illustrations' settings (inputs, not results), and the fork, cited from the
 # companion paper
 ALLOWED = {"0.01", "0.0017", "1.4", "0.4", "7.3", "0.05", "0.09", "0.99", "4.4", "2.2", "0.3", "0.25", "0.04",
-           "4.8"}
+           "0.10", "4.8"}
 
 
 def fmt(key, how):
@@ -519,8 +519,9 @@ else:
     for fig in ("fig_paths.pdf", "fig_rates.pdf"):
         check(f"Q5 {fig} exists and is included", (ROOT / "paper" / "figures" / fig).exists()
               and f"figures/{fig}" in tex)
+    # the theory's two figures and the five data figures (checks/check_data.py checks the latter's numbers)
     caps = re.findall(r"\\caption\{(.*?)\}\s*\\label\{fig", tex, flags=re.S)
-    check("Q5 every figure caption ends with the AI line", len(caps) == 2 and all(
+    check("Q5 every figure caption ends with the AI line (seven figures)", len(caps) == 7 and all(
         c.rstrip().endswith("Drawn by code written with Claude (Anthropic).") for c in caps))
 
 n_fail = sum(1 for _, okk in RESULTS if not okk)

@@ -16,6 +16,9 @@ from matplotlib import rcParams
 
 import eras
 import fred
+import model
+
+EPS = model.numbers()["eps_base"]          # Lemma 1's elasticity in the instance
 
 ROOT = Path(__file__).resolve().parents[1]
 ERAS = eras.ERAS
@@ -55,6 +58,13 @@ def growth(s, y0, y1):
 def numbers(a):
     out = {"output_per_hour": {f"{y0}-{y1}": growth(a.OPHNFB, y0, y1) for y0, y1 in ERAS},
            "hours_per_person": {f"{y0}-{y1}": growth(a.hours_per_person, y0, y1) for y0, y1 in ERAS if y0 >= 1948}}
+    base = out["output_per_hour"]["1948-1973"]
+    out["slowdown"] = {f"{y0}-{y1}": base - out["output_per_hour"][f"{y0}-{y1}"] for y0, y1 in ERAS[1:]}
+    # Lemma 1 at given technology, land and basket: the elasticity of output per hour with respect to hours lies in
+    # (-1, 0), so a rise in hours per person of g a year lowers growth of output per hour by at most g, and by |eps| g
+    # at the instance's elasticity (code/model.py)
+    g = out["hours_per_person"]["1973-1995"]
+    out["lemma1_hours_pp_1973_1995"] = dict(at_most=g, instance=-EPS * g)
     ls = a.PRS85006173
     out["labor_share"] = dict(level_1948=ls[1948], level_2000=ls[2000], level_2025=ls[2025],
                               pct_1948_2000=100 * (ls[2000] / ls[1948] - 1), pct_2000_2025=100 * (ls[2025] / ls[2000] - 1),

@@ -24,5 +24,14 @@
   "pi_level_pct_europe_mid": 5.413298948678369,
   "pi_growth_pp_europe_mid": 0.12260143754259624,
   "pi_level_pct_europe_hi": 3.647968138981139,
-  "pi_growth_pp_europe_hi": 0.08332569675444473
+  "pi_growth_pp_europe_hi": 0.08332569675444473,
+  "ophnfb_rate_1948_1973": 2.75683597200379,
+  "ophnfb_rate_1980_end": 1.9054426756009728,
+  "slowdown_1980_end": 0.8513932964028172,
+  "envelope_share_trend_lo": 0.2905844705795061,
+  "envelope_share_trend_mid": 0.17102082650728684,
+  "envelope_share_trend_hi": 0.11623378823180243,
+  "envelope_share_europe_lo": 0.24467451501703238,
+  "envelope_share_europe_mid": 0.14400094299613816,
+  "envelope_share_europe_hi": 0.09786980600681297
 }

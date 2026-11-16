@@ -1,5 +1,6 @@
 # fig_rates.py — the paper's figure of Proposition 3: the required return.
-# Along the required return rho from 0.01 to 0.10, in the instance with funded exit and with nobody supported outside
+# Along the required return rho from 0.04 to 0.10 (the range the text discusses; lower required returns on productive
+# capital are not in view, since they fell much less than safe rates), in the instance with funded exit and with nobody supported outside
 # work: (a) the wage-rent ratio w/r, (b) the price of land in hours of work, 1/(rho w/r), (c) output per hour, each
 # relative to its value at the instance's rho = 0.09. Enclosed, the margin does not move: lower returns lower w/r
 # and raise land's price in hours, and output per hour stays where it is; with funded exit, people leave work as the
@@ -31,7 +32,7 @@ NAME = {"funded": "Funded exit", "enclosed": "All enclosed"}
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 RHO0 = M.BASE["rho"]
 
-RHOS = np.linspace(0.01, 0.10, 91)
+RHOS = np.linspace(0.04, 0.10, 61)
 i0 = int(np.argmin(np.abs(RHOS - RHO0)))
 assert abs(RHOS[i0] - RHO0) < 1e-12
 runs = {k: M.rates(M.with_(M.BASE, **M.REGIMES[k]), RHOS) for k in COLOR}
@@ -55,8 +56,8 @@ for ax, (key, ylabel, scale), tag in zip(axes, panels, ("(a)", "(b)", "(c)")):
     for k in ("funded", "enclosed"):
         ax.plot(RHOS, ser[k][key], color=COLOR[k], lw=1.4, solid_capstyle="round", label=NAME[k])
     ax.set_yscale(scale)
-    ax.set_xlim(0.0, 0.105)
-    ax.set_xticks([0.0, 0.05, 0.10])
+    ax.set_xlim(0.036, 0.103)
+    ax.set_xticks([0.04, 0.06, 0.08, 0.10])
     ax.set_ylabel(ylabel)
     ax.grid(True, which="major", color=GRID, lw=0.5)
     ax.spines[["top", "right"]].set_visible(False)
@@ -65,15 +66,15 @@ for ax, (key, ylabel, scale), tag in zip(axes, panels, ("(a)", "(b)", "(c)")):
 fig.supxlabel(r"Required return, $\rho$", fontsize=8.5)
 top = max(ser[k]["v"].max() for k in COLOR)
 axes[0].set_ylim(0, 1.06 * top)
-axes[1].set_yticks([1, 3, 10, 30])
+axes[1].set_yticks([1, 2, 5])
 axes[1].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y:g}"))
 axes[1].yaxis.set_minor_formatter(plt.NullFormatter())
 lo, hi = min(ser[k]["pi"].min() for k in COLOR), max(ser[k]["pi"].max() for k in COLOR)
 axes[2].set_ylim(lo - 0.006, hi + 0.008)
 # direct labels on panel (c), where the two lines separate (ink text beside each line)
-axes[2].annotate(NAME["funded"], xy=(0.030, float(np.interp(0.030, RHOS, ser["funded"]["pi"])) + 0.004), ha="left",
+axes[2].annotate(NAME["funded"], xy=(0.047, float(np.interp(0.047, RHOS, ser["funded"]["pi"])) + 0.003), ha="left",
                  va="bottom", fontsize=7.5, color=INK)
-axes[2].annotate(NAME["enclosed"], xy=(0.012, 1.0025), ha="left", va="bottom", fontsize=7.5, color=INK)
+axes[2].annotate(NAME["enclosed"], xy=(0.041, 1.0015), ha="left", va="bottom", fontsize=7.5, color=INK)
 fig.legend(*axes[0].get_legend_handles_labels(), loc="outside upper center", ncol=2, frameon=False, fontsize=7.5,
            handlelength=1.6, columnspacing=1.5)
 OUT = Path(__file__).resolve().parents[1] / "paper" / "figures" / "fig_rates.png"

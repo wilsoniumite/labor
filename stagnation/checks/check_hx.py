@@ -102,16 +102,16 @@ check("D1 the decision follows the frozen rule", rule == res["decision"], res["d
 # ------------------------------------------------------------------------------------------ the text, if written
 TEX = ROOT / "paper" / "main.tex"
 tex = TEX.read_text()
-sec = tex[tex.find(r"\label{sec:5}"):tex.find(r"\label{sec:6}")]
-if "H-X" in sec and "draftnote" not in sec[:400]:
-    quotes = [(f"{pr['beta']:+.2f}".replace("+", ""), "cross-section|across countries"),
-              (f"{pr['p']:.2f}", "cross-section|across countries"), (f"{pa['beta']:.2f}".replace("-", ""), "within"),
-              (f"{pa['p_boot']:.3f}", "within|bootstrap"), (str(res["n"]), "countries")]
-    for s, anchor in quotes:
-        hits = [mm.start() for mm in re.finditer(r"(?<![\d.])" + re.escape(s) + r"(?![\d])", sec)]
-        check(f"Q1 '{s}' printed in Section 5 near /{anchor}/", any(re.search(anchor, sec[max(0, h - 400):h + 400])
-                                                                   for h in hits), f"{len(hits)} hit(s)")
-    check("Q2 Section 5 states the frozen decision", res["decision"] in sec)
+sec = tex[tex.find(r"\label{sec:5.5}"):tex.find(r"\label{sec:5.6}")]
+check("Q0 Section 5.5 (the frozen test) is written", len(sec) > 2000 and "draftnote" not in sec)
+quotes = [(f"{pr['beta']:+.2f}".replace("+", ""), "cross-country|across countries"),
+          (f"{pr['p']:.2f}", "cross-country|across countries"), (f"{pa['beta']:.2f}".replace("-", ""), "within"),
+          (f"{pa['p_boot']:.3f}", "within|bootstrap"), (str(res["n"]), "countries")]
+for s, anchor in quotes:
+    hits = [mm.start() for mm in re.finditer(r"(?<![\d.])" + re.escape(s) + r"(?![\d])", sec)]
+    check(f"Q1 '{s}' printed in Section 5.5 near /{anchor}/",
+          any(re.search(anchor, sec[max(0, h - 400):h + 400], flags=re.I) for h in hits), f"{len(hits)} hit(s)")
+check("Q2 Section 5.5 states the frozen decision", res["decision"] in sec)
 
 n_fail = sum(1 for _, ok in RESULTS if not ok)
 print(f"\n{len(RESULTS) - n_fail}/{len(RESULTS)} checks passed")
