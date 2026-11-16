@@ -217,7 +217,10 @@ ax.grid(alpha=0.25, lw=0.33)
 ax.spines[["top", "right"]].set_visible(False)
 
 ax = axs[1]
-P = ab.PRINTED
+# Appendix B's printed instance as this thread studied it (appendix_b.PRINTED until 2026-11-16; code/model.py's
+# PRINTED_2026_11_03)
+P = dict(N=1.0, T=0.01, h=0.0017, a=1.4, b=0.4, lam=7.3, g0=0.01, g1=0.99, k=4.4, eta=1.0, chi_max=2.2, rho=0.09,
+         delta=0.05)
 q = ab.solve(P)
 xc = q["x_ceiling"]
 xs = grid(xc)

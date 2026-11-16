@@ -17,6 +17,11 @@ its JSON unless given `--recompute`.
 
 ## State as of 2026-11-16
 
+Later on 2026-11-16 the paper adopted the ceiling, the sigma-targeted instance, task automation at the tasks people
+perform, latent goods and the floor, on her go (`../pinning/STATE.md`, Log 2026-11-16). This thread's "printed
+instance" is the one it studied, now pinned as `code/model.py`'s `PRINTED_2026_11_03` (`checks/check_model.py`
+18/18 after the port).
+
 Done: the closed-form backward calibration and its free shape parameter; sigma at the margin against the literature
 (verified by search) and the companion envelope; the soft wall from the lambda series; the first-order formula
 (contestable share = s_M sigma ln(1/theta)) on two schedule families; where automation lands; long paths; the

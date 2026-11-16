@@ -55,9 +55,10 @@ for k in (4.355, 15.498):
         gate(f"root k = {kr:.3f}, hard wall at {xH}: same equilibrium", abs(qH["x"] - q["x"]) < 1e-10
              and abs(qH["real_wage"] - q["real_wage"]) < 1e-10)
 
-# 4. the printed instance's rounded parameters sit next to the low root
-q = m.solve(m.appendix_b_economy(ab.PRINTED))
-gate("printed instance: x* 0.82987, x_c 0.94634 (Appendix B's numbers)",
+# 4. the printed instance's rounded parameters sit next to the low root (the instance this thread studied; the paper
+#    has printed the sigma-targeted instance since 2026-11-16)
+q = m.solve(m.appendix_b_economy(m.PRINTED_2026_11_03))
+gate("printed instance of 2026-11-03: x* 0.82987, x_c 0.94634 (Appendix B's numbers then)",
      abs(q["x"] - 0.82987) < 5e-6 and abs(q["x_c"] - 0.94634) < 5e-6)
 
 print(f"{sum(ok)}/{len(ok)} passed")

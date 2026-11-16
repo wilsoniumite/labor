@@ -1,6 +1,8 @@
 # fig_schedule.py — Figure 1 of the paper: the task-assignment schedule with the
-# set H of tasks closed to machines drawn as a wall (Section 3). Pure schematic,
-# no data. Carved from the three-schematic script fig_model_schematics.py on
+# set H of tasks closed to machines drawn as a wall (Section 3), and, since
+# 2026-11-16, the ceiling of Section 3.3: the level gamma = 1/lambda_m above which
+# machine services would embody more labor than they replace, so labor holds those
+# tasks at every wage (shaded darker). Pure schematic, no data. Carved from the three-schematic script fig_model_schematics.py on
 # 2026-09-04 (the other two schematics belong to the dynamics thread).
 # Run from pinning/:  ../venv/Scripts/python.exe code/fig_schedule.py
 from pathlib import Path
@@ -41,6 +43,12 @@ rho = 0.4 + 3.6 * (xo / M_CLOSED) ** 1.8
 wc = 2.0
 xstar = M_CLOSED * ((wc - 0.4) / 3.6) ** (1 / 1.8)
 YTOP = 5.2
+# the ceiling: gamma(x) lambda_m >= 1. With theta = gamma(x*) lambda_m = 0.6, as at Figure 2's A
+# (code/fig_replacement_closure.py), the level 1/lambda_m is w/p_m / theta
+THETA = 0.6
+CEIL = wc / THETA
+xceil = M_CLOSED * ((CEIL - 0.4) / 3.6) ** (1 / 1.8)
+assert xstar < xceil < M_CLOSED and float(rho[-1]) > CEIL      # the ceiling cuts the open stretch above the margin
 
 # the earlier 8.6 x 4.6 in canvas saved at 8.48 x 4.48 in; the aspect is kept
 fig, ax = plt.subplots(figsize=(PRINT_W, PRINT_W / 1.894), layout="constrained")
@@ -53,6 +61,8 @@ ax.axvline(xstar, color="#666666", lw=0.65, ls=":")
 ax.fill_between(xo, 0, rho, where=xo <= xstar, color=GRAY, alpha=0.35)
 ax.fill_between(xo, 0, rho, where=xo >= xstar, color=BLUE, alpha=0.18)
 ax.axvspan(M_CLOSED, 1.0, color=BLUE, alpha=0.10, lw=0)
+ax.plot([0, M_CLOSED], [CEIL, CEIL], color=NAVY, lw=0.8, ls=(0, (4, 2.5)))     # as Figure 2's ceiling line
+ax.fill_between(xo, 0, rho, where=xo >= xceil, color=BLUE, alpha=0.22, lw=0)  # above the ceiling: labor at every wage
 # labels per her 2026-09-02 ruling on the editorial sheet: short, sentence
 # case, mathtext; the argument lives in the caption, not the plot. The ratio is
 # w/p_m, the paper's notation for the machine rental (was w/c); label positions
@@ -60,6 +70,7 @@ ax.axvspan(M_CLOSED, 1.0, color=BLUE, alpha=0.10, lw=0)
 # from the typography pass, which breaks the H label over two lines to stay
 # in H and centers the Labor label between x* and the wall (was x = 0.59)
 ax.annotate("$w/p_m$", xy=(0.025, wc + 0.12), color=RED, fontsize=8)
+ax.annotate(r"ceiling $1/\widetilde{\lambda}_m$", xy=(0.025, CEIL + 0.12), color=NAVY, fontsize=8)
 ax.annotate("$x^*$", xy=(xstar + 0.008, 0.18), color="#444444", fontsize=8)
 ax.annotate(r"Machines: $\gamma(x) < w/p_m$",
             xy=(0.235, 0.16), ha="center", fontsize=8, color="#555555")

@@ -25,6 +25,10 @@ from scipy.optimize import brentq
 
 TARGETS = dict(theta_V=0.47, machines=0.20, labor=0.47, site=0.06, chain=0.15, part=0.60, Y=3.0)
 FIXED = dict(N=1.0, b=0.4, delta=0.05)
+# Appendix B's printed instance as this thread studied it (pinning/code/appendix_b.py PRINTED until 2026-11-16,
+# when the paper adopted the sigma-targeted instance this thread suggested); REPORT.md's 'printed instance' is this one
+PRINTED_2026_11_03 = dict(N=1.0, T=0.01, h=0.0017, a=1.4, b=0.4, lam=7.3, g0=0.01, g1=0.99, k=4.4, eta=1.0,
+                          chi_max=2.2, rho=0.09, delta=0.05)
 
 
 # ---------------------------------------------------------------- schedules

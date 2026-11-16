@@ -23,7 +23,7 @@ Submit at https://www.editorialmanager.com/ECMODE/default.aspx and choose the ar
 
 - Title: Pinning the Wage to Scarcity and Technology: Replacement, exit, and the rents of non-produced inputs in a task economy
 - Authors, in this order: Johan Båge; Stella Wilson (corresponding, thmwi@kth.se)
-- Abstract: as in the manuscript (140 words; limit 250)
+- Abstract: as in the manuscript (163 words; limit 250)
 - Keywords (1–7): automation; artificial intelligence; wages; land rent; production networks; labor force participation; rent taxation
 - JEL codes, if asked: J31, O33, E25, J22, R31, H21
 - Funding: This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.

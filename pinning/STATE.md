@@ -6,7 +6,12 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-11-04 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+**State as of:** 2026-11-16 — the paper's model now carries the findings of the overnight `../walls/` thread, on
+her go (Log, 2026-11-16): the machine chain's ceiling (Section 3.3, drawn in Figures 1 and 2), task automation as
+a capability gain at the tasks people perform (Figure 3), reinstatement as a latent good switching on, Appendix
+E's floor, and Appendix B's instance set with an elasticity of substitution of about 0.6 at the margin. Her flags
+on it are Open 13; the package is rebuilt (43 pages). Before that, 2026-11-04 — `paper/main.tex` is the version
+posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
@@ -215,6 +220,25 @@ both at tag `pre-cleanup-2026-09-04`.
        Social Security Bulletin article returned HTTP 403, so no entry was added); "Future Work"
        after the conclusion.
 
+13. **The walls port (2026-11-16): her calls.** The port is in (Log, 2026-11-16); these are the choices it made
+   that she may want back:
+   (a) Figure 1 now draws the ceiling: a dashed level 1/lambda_m (theta = 0.6, as at Figure 2's A) with the tasks
+       above it shaded darker, and one caption sentence. Keep, or the SSRN figure?
+   (b) The abstract's new sentence ("Because machine services embody labor, tasks whose machine replacement would
+       embody more labor than it saves stay with people at any wage.") and, so that "ceiling" names one thing in the
+       paper, "embodied rent costs impose a ceiling" became "impose an upper bound" (the introduction's own word);
+       the cover letter follows. Keep?
+   (c) Section 12 says the ceiling "can be measured". The walls thread measured 1/theta, machinery's vertically
+       integrated labor-compensation share inverted, at 1.45–1.92 over 1967–2023, with the calibration's 1.71
+       mid-range (`../walls/REPORT.md`, section 1). Quote it in Section 3.3 or 12 (its pipeline would then join the
+       paper's data note), or leave it as future work?
+   (d) "Contestable": Section 3.3 now reads "Of the tasks labor holds, those between the margin and the ceiling are
+       contestable", so Section 3.1's "machine-contestable" reads as "not closed", by H or by the ceiling. Open 12(i)
+       ("active contestable margin" undefined) is still open and could settle both in one definition.
+   (e) Page 21 is a float page (Figures 5 and 6). Fine for a working paper; move a float?
+   (f) `paper/submission/abstract.txt` is still the 21 September bundle's abstract, as before this port; the EM form
+       takes the abstract from the manuscript (163 words).
+
 ## Note on the batteries
 
 `check_pinning`, `check_fan` and `checks/corner/` were written against the propositions
@@ -224,6 +248,36 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-16 — the walls thread's findings adopted as the paper's model.** Her go, after reading
+  `../walls/REPORT.md`: "Alright, I really like your findings. Now I'd like you to go through and fix the paper,
+  and make sure that it reads as though this was our model all along (which might take a few passes)." Three
+  passes: the port; a whole-paper read of the TeX for seams; a read of the compiled PDF.
+  **The model.** Section 3.3 states the machine chain's ceiling: where gamma(x) lambda_m >= 1 the machine services
+  that would replace an hour embody at least an hour of labor, so labor holds the task at every wage; theta =
+  gamma(x*) lambda_m, the labor share of machine-service cost, puts it at gamma(x*)/theta, and unlike H it moves
+  with technology. The abstract, introduction, Sections 3.1, 3.4, 6.1, 8, 11 and 12, Table A.1 and Appendices A.4
+  and B carry it; Figures 1 and 2 draw it (Open 13a). Task automation is a capability gain at the tasks people
+  perform: Figure 3 halves gamma on [x*, 1), the schedule relabeled so it increases (continuous, two kinks);
+  gains at the tasks machines perform raise w/P_s in the instance (+36%; the schedule then jumps at the old
+  margin and the new margin lies above it). Reinstatement is a latent good switching on (Sections 2.3 and 10).
+  Appendix E: along Appendix B's path the human-required set bounds participation from below, |H|T/(Nh), 0.29
+  with 5 percent of tasks. Seams fixed in passes 2–3: Section 2.3's "that reservoir" (the SSRN sentence
+  restored, the latent good after it), Section 11's "that ratio", Section 12's measurement sentence, Appendix E's
+  "the bound on employment", the industrial era's ceiling sentence, and "ceiling" for the rent bound (Open 13b).
+  **The instance.** Appendix B's gamma is 0.074 + 14x^19 (was 0.01 + 0.99x^4.4), set with the rest from the same
+  U.S.-like shares plus sigma_m = 0.6 at the margin, within Chirinko (2008) and Oberfield and Raval (2021), both
+  added to the references; `set_from_targets()` gives it before rounding. x* 0.82784 below the ceiling 0.85494;
+  theta 0.585, wall multiple 1.71; 16 percent of labor's tasks contestable; Figure 3 2.76/0.60, recursive
+  2.34/0.55, task 2.44/0.56; the path's participation rises to 0.61 near eta 0.24 before falling to 0.14 at
+  0.001; capability ratio 190 (README's numbers table).
+  **Code and checks.** `code/appendix_b.py` (relabeled schedules, the ceiling reading, provenance, the floor);
+  `checks/check_interior.py`, now 130 checks (groups R, C, W, H and P are new, with S3 and Q passages for
+  Sections 3.3 and 6.1 and Appendix E); `code/fig_schedule.py`, `code/fig_replacement_closure.py` and
+  `code/fig_labor_market_clearing.py` redrawn. Every battery green: check_pinning 51, check_fan,
+  check_cost_system 22, check_interior 130, lint (86 labels), the eleven corner checks. The paper compiles to
+  43 pages (was 41). The EM package is rebuilt (abstract 163 words); the cover letter carries the abstract's
+  new sentence. Word diff against the 2026-11-04 text handed over in session.
 
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately

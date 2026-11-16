@@ -1,9 +1,14 @@
-# check_interior.py — the battery for Appendix B and Figure 3 (2026-11-03): Lemma B.1 in its durable-machine form and its
-# illustrative instance, set from U.S.-like shares. The economies are solved by code/appendix_b.py; every check
+# check_interior.py — the battery for Appendix B and Figure 3 (2026-11-03; the instance and Figure 3's task automation
+# since 2026-11-16): Lemma B.1 in its durable-machine form and its illustrative instance, set from U.S.-like shares and
+# a measured elasticity of substitution at the margin. The economies are solved by code/appendix_b.py; every check
 # recomputes its object from the paper's equations, written here, and prints PASS or FAIL. Economies: the printed
-# instance (durable machines, a binding ceiling); Figure 3's recursive- and task-automation economies; and two test
-# economies (appendix_b.TEST_ECONOMIES: the SSRN version's instance, in the flow benchmark, and a labor-heavy chain whose
-# ceiling binds; the paper prints no number from them). Groups:
+# instance (durable machines, a binding ceiling); Figure 3's recursive- and task-automation economies (task automation:
+# machines twice as productive at every task people perform at baseline, the schedule relabeled so gamma increases); and
+# two test economies (appendix_b.TEST_ECONOMIES: the SSRN version's instance, in the flow benchmark, and a labor-heavy
+# chain whose ceiling binds; the paper prints no number from them). For a relabeled schedule the battery takes gamma and J
+# from appendix_b after group R has checked them against a direct sort of the task gammas. Groups:
+#   R  the relabeled schedules (Figure 3's task automation; capability gains at the tasks machines perform): gamma and J
+#      against a sort of 4,000,000 task gammas, monotonicity, continuity, and the kinks where a stretch starts or stops
 #   E  the equilibrium conditions, per economy: the task margin and task costs, the user-cost machine price, labor-market
 #      clearing, the goods, machine and land markets, participation from utility, funding, the standing assumptions,
 #      Lemma B.1's conditions (25) and its proof's monotonicity and derivative claims
@@ -16,11 +21,18 @@
 #      output, threshold, hours and prices match the solver's within a priori discretization bounds
 #   F  the flow special case: (21)-(24) at rho = 0, delta = 1 are the SSRN version's flow equations; its instance solves
 #      to the numbers printed there; income without interest
-#   S  the automation path of Appendix B's last paragraph (lambda = 0, gamma scaled by eta)
-#   Q  every number quoted in Appendix B, the Figure 3 caption and Section 6.1, recomputed and found in paper/main.tex,
-#      each anchored to the words around it; no decimal there left unchecked; the shares the instance's paragraph states;
-#      Section 5's and D.3's flow-benchmark statements; the data note's cell count; the AI line in every figure caption;
-#      no residue of calibration (c)'s wording; Figure 3's file
+#   S  the automation path of Appendix B's last paragraph (lambda = 0, gamma scaled by eta), its rise and fall
+#   C  Section 3.3's ceiling and Appendix B's elasticity of substitution at the margin: theta, gamma(x_c) = gamma(x*)/theta,
+#      sigma_m against a numerical elasticity, the contestable share and its first-order value
+#   W  where capability lands (Sections 3.4 and 5): gains at the tasks people perform lower w/P_s and participation, gains
+#      at the tasks machines perform raise w/P_s; both of Figure 3's channels lower both
+#   H  Appendix E's floor: with the tasks [1 - |H|, 1] closed along the path, labor ends holding only H, output tends to
+#      T/h and participation to |H| T/(N h)
+#   P  the instance's provenance: appendix_b.set_from_targets() hits the eight targets, and PRINTED is its rounding
+#   Q  every number quoted in Appendix B, the Figure 3 caption, Sections 3.3 and 6.1 and Appendix E, recomputed and
+#      found in paper/main.tex, each anchored to the words around it; no decimal there left unchecked; the shares the
+#      instance's paragraph states; Section 5's and D.3's flow-benchmark statements; the data note's cell count; the AI
+#      line in every figure caption; no residue of calibration (c)'s wording; Figure 3's file
 # Tolerances are set a priori: 1e-12 relative for identities; the program's from the midpoint rule's error bound and one
 # cell's variation in gamma at the margin, carried through the crossing of demand and supply (group L says how).
 # Run from pinning/:  python3 checks/check_interior.py      Exit 0 only if every check passes.
@@ -59,18 +71,36 @@ SOL = {k: B.solve(P) for k, P in ECON.items()}
 
 # ---------------------------------------------------------------- primitives, written here from the paper's equations
 def g_(P, x):
-    """gamma(x) = eta (g0 + g1 x^k): the schedule, from the parameters."""
+    """gamma(x) = eta (g0 + g1 x^k): the schedule, from the parameters; a relabeled schedule from appendix_b, which
+    group R checks against a direct sort of the task gammas."""
+    if "gain" in P:
+        return B.gamma(P, x)
     return P["eta"] * (P["g0"] + P["g1"] * x ** P["k"])
 
 
+def kinks_(P):
+    """Where a relabeled schedule's slope jumps (none for the power schedule)."""
+    return B.kinks(P) if "gain" in P else []
+
+
 def J_quad(P, x):
-    """J(x) = the integral of gamma over [0, x], by adaptive quadrature."""
-    return quad(lambda t: g_(P, t), 0.0, x, epsabs=1e-15, epsrel=1e-13, limit=200)[0]
+    """J(x) = the integral of gamma over [0, x], by adaptive quadrature (breaking at any kink)."""
+    pts = [t for t in kinks_(P) if 0.0 < t < x]
+    return quad(lambda t: g_(P, t), 0.0, x, epsabs=1e-15, epsrel=1e-13, limit=400, points=pts or None)[0]
 
 
 def J_(P, x):
     """J(x) in closed form (E1 checks it against the quadrature)."""
+    if "gain" in P:
+        return B.J(P, x)
     return P["eta"] * (P["g0"] * x + P["g1"] * x ** (P["k"] + 1.0) / (P["k"] + 1.0))
+
+
+def dg_(P, x):
+    """gamma'(x): closed form, or appendix_b's for a relabeled schedule (one over the density of task gammas)."""
+    if "gain" in P:
+        return B.dgamma(P, x)
+    return P["eta"] * P["g1"] * P["k"] * x ** (P["k"] - 1.0)
 
 
 def F_(P, z):
@@ -115,7 +145,8 @@ for r, P in ECON.items():
           f"(400 wages, 1e-6 to 1e3 times w)",
           np.all(mc[below] < lc) and np.all(mc[above] > lc) and (xc < 1.0) == bool(len(closed)) and any_wage,
           f"x* {x:.6f}, x_c {xc:.6f}")
-    p_task = v * quad(lambda t: min(1.0, g_(P, t) / g_(P, x)), 0.0, 1.0, points=[x], epsabs=1e-15, limit=200)[0]
+    p_task = v * quad(lambda t: min(1.0, g_(P, t) / g_(P, x)), 0.0, 1.0, points=sorted({x, *kinks_(P)}), epsabs=1e-15,
+                      limit=400)[0]
     check(f"E5[{r}] the final good's price from its task costs, w times the integral of min(1, gamma/gamma(x*)) ((20)), "
           f"equals (22) (1e-10)", rel(p_task, q["p"]) <= 1e-10, f"p {q['p']:.6g}")
     nS = P["N"] * F_(P, math.log1p(v / Ps))
@@ -158,7 +189,7 @@ for r, P in ECON.items():
     nd = np.array([model_at(P, t)["nD"] for t in grid])
     ws_ = np.array([model_at(P, t)["w"] for t in grid])
     ns = np.array([P["N"] * F_(P, math.log1p(w_)) for w_ in ws_])
-    pts = np.linspace(0.5 * xc, 0.95 * xc, 100)
+    pts = [t for t in np.linspace(0.5 * xc, 0.95 * xc, 100) if all(abs(t - kk) > 1e-4 for kk in kinks_(P))]
     hh = 1e-5
 
     def d4(fun, t):
@@ -173,7 +204,8 @@ for r, P in ECON.items():
         errs.append(max(rel(dp, dv * (1 - t + cpt * P["lam"] * Jt / (1 - cpt * P["a"]))),
                         rel(dvP, dv * (P["h"] + cpt * P["b"] * Jt / (1 - cpt * P["a"])) / a_["Ps"] ** 2)))
     check(f"E12[{r}] the proof's claims: n_D strictly decreasing and v/P_s nondecreasing (to 4 ulps) on 20,001 points of (0, x_c), "
-          f"n_D - n_S changes sign once; p'(x) and d(v/P_s)/dx match the displayed formulas at 100 points of [x_c/2, 0.95 x_c] (1e-6)",
+          f"n_D - n_S changes sign once; p'(x) and d(v/P_s)/dx match the displayed formulas at 100 points of [x_c/2, 0.95 x_c], "
+          f"away from any kink (1e-6)",
           np.all(np.diff(nd) < 0) and np.all(np.diff(ws_) >= -4 * np.finfo(float).eps * ws_[1:])   # flat where gamma' ~ 0: ulps
           and int(np.sum(np.diff(np.sign(nd - ns)) != 0)) == 1
           and max(errs) < 1e-6, f"largest derivative gap {max(errs):.1e}")
@@ -288,10 +320,18 @@ def program_tolerances(P, q, cells=CELLS):
     d, x = 1.0 / cells, q["x"]
     cpt, ad = P["rho"] + P["delta"], P["a"] * P["delta"]
     near = np.linspace(max(x - d, 0.0), min(x + d, 1.0), 101)
-    g1 = float(np.max(P["eta"] * P["g1"] * P["k"] * near ** (P["k"] - 1.0)))
+    g1 = float(np.max([dg_(P, t) for t in near]))
     xs = np.linspace(0.0, min(x + d, 1.0), 4001)
-    g2 = float(np.max(np.abs(P["eta"] * P["g1"] * P["k"] * (P["k"] - 1.0) * xs ** max(P["k"] - 2.0, 0.0)))) if P["k"] != 1.0 else 0.0
-    E = x * d * d / 24.0 * g2 + g1 * d * d / 8.0
+    if "gain" in P:          # gamma'' numerically on each smooth stretch; each kink adds d^2/8 |jump in gamma'|
+        dgs = np.array([dg_(P, t) for t in xs])
+        g2s = np.abs(np.gradient(dgs, xs))
+        away = np.array([all(abs(t - kk) > 3 * (xs[1] - xs[0]) for kk in kinks_(P)) for t in xs])
+        g2 = float(np.max(g2s[away]))
+        kink_err = sum(d * d / 8.0 * abs(dg_(P, kk + 1e-9) - dg_(P, kk - 1e-9)) for kk in kinks_(P) if kk < x + d)
+    else:
+        g2 = float(np.max(np.abs(P["eta"] * P["g1"] * P["k"] * (P["k"] - 1.0) * xs ** max(P["k"] - 2.0, 0.0)))) if P["k"] != 1.0 else 0.0
+        kink_err = 0.0
+    E = x * d * d / 24.0 * g2 + g1 * d * d / 8.0 + kink_err
     tau = q["multiplier"] * g1 * d / g_(P, x) * (1.0 + P["rho"] / cpt) + 1e-9
     m = model_at(P, x)
     om = m["w"]
@@ -350,7 +390,8 @@ qp = SOL["ssrn_flow"]
 # the SSRN version (paper/ssrn-7226858.pdf, Appendix B and the Figure 3 caption), as printed
 RECORD = dict(x=0.86315, v=0.54344, Y=7.88061, n=1.34338, final_hours=1.07846, chain_hours=0.26492, support=5.44630)
 FIG3_RECORD = {"baseline": (0.40, 0.34), "recursive": (0.37, 0.32), "task": (0.24, 0.21)}
-f3p = B.figure3(SS)
+# the SSRN version's task automation halved gamma at every task (eta 0.5), as its Figure 3 caption printed
+f3p = {"baseline": B.solve(SS), "recursive": B.solve({**SS, "lam": 0.0}), "task": B.solve({**SS, "eta": 0.5})}
 check("F1 the SSRN version's instance (rho 0, delta 1; N 4, T 10, h 1, a 0.3, b 0.4, lambda 0.05, gamma 0.2 + 0.8x, chi "
       "uniform on [0, 1]) solves to its printed x*, v, Y, N_a and its split, and N P_s to five decimals, and its Figure 3 "
       "equilibria to two: 0.40/0.34, 0.37/0.32, 0.24/0.21",
@@ -391,16 +432,173 @@ check("S1 along lambda = 0 with the instance's schedule scaled by eta, eta from 
       and np.all(rows[:, 6] == 1.0) and B.SEQUENCE == dict(lam=0.0)
       and rel(rows[-1, 1], B.figure3(PR)["recursive"]["participation"]) <= 1e-12)
 cpt_ = PR["rho"] + PR["delta"]
-bound = cpt_ * PR["b"] / (1.0 - cpt_ * PR["a"])
+bound = (PR["g0"] + PR["g1"]) * cpt_ * PR["b"] / (1.0 - cpt_ * PR["a"])     # gamma(1) (rho + delta) b/[1 - (rho + delta) a]
 low_eta = rows[:, 0] <= 0.01
-check("S2 ... 0 < v <= eta (rho + delta) b/[1 - (rho + delta) a], so v -> 0; participation falls toward zero (below its "
-      "eta = 1 value for every eta <= 0.01, and under 0.002 at eta = 1e-4), with P_s >= h; relative capability "
-      "gamma_eta(1)/gamma_eta(0) is 100 at every eta",
+check("S2 ... 0 < v <= eta gamma(1) (rho + delta) b/[1 - (rho + delta) a], so v -> 0; participation falls toward zero "
+      "(below its eta = 1 value for every eta <= 0.01, and under 0.03 at eta = 1e-4), with P_s >= h; relative capability "
+      "gamma_eta(1)/gamma_eta(0) is (g0 + g1)/g0 at every eta",
       np.all(rows[:, 2] > 0) and np.all(rows[:, 2] <= rows[:, 0] * bound * (1 + 1e-12))
       and np.all(rows[low_eta, 1] < rows[-1, 1]) and np.all(np.diff(rows[low_eta, 1]) > 0)
-      and rows[0, 1] < 0.002 and np.all(rows[:, 7] >= PR["h"]) and rel(B.sequence_bound(PR), bound) <= 1e-15
-      and all(abs(g_(B.sequence(PR, e), 1.0) / g_(B.sequence(PR, e), 0.0) - 100.0) < 1e-9 for e in etas[::100]),
+      and rows[0, 1] < 0.03 and np.all(rows[:, 7] >= PR["h"]) and rel(B.sequence_bound(PR), bound) <= 1e-15
+      and all(abs(g_(B.sequence(PR, e), 1.0) / g_(B.sequence(PR, e), 0.0) - (PR["g0"] + PR["g1"]) / PR["g0"]) < 1e-9
+              for e in etas[::100]),
       f"bound {bound:.5f} eta; participation {rows[-1, 1]:.4f} at eta 1, {rows[0, 1]:.6f} at eta 1e-4")
+
+
+# ---------------------------------------------------------------- S3: the path's rise and fall
+ipk = int(np.argmax(rows[:, 1]))
+check("S3 along the path participation first rises as eta falls from 1, to a single peak, and then falls monotonically "
+      "(2,001 points): the shape Appendix B's last paragraph describes",
+      0 < ipk < len(rows) - 1 and np.all(np.diff(rows[ipk:, 1]) < 0) and np.all(np.diff(rows[:ipk + 1, 1]) > 0),
+      f"peak {rows[ipk, 1]:.4f} at eta {rows[ipk, 0]:.4f}")
+
+
+# ---------------------------------------------------------------- R: the relabeled schedules
+def sorted_tasks(P, n):
+    """A relabeled schedule by brute force: every task's gamma after the gain, sorted; gamma and J on the grid."""
+    lo, hi, f = P["gain"]
+    base = {k: v for k, v in P.items() if k != "gain"}
+    xs = (np.arange(n) + 0.5) / n
+    vals = np.sort(g_(base, xs) * np.where((xs >= lo) & (xs < hi), f, 1.0))
+    return base, vals, np.concatenate([[0.0], np.cumsum(vals) / n])
+
+
+NSORT = 4_000_000
+for name, Pg in (("task", ECON["task"]), ("machine tasks", B.machine_task_gain(PR))):
+    base, vals, cum = sorted_tasks(Pg, NSORT)
+    lo, hi, f = Pg["gain"]
+    us = np.linspace(0.005, 0.995, 199)
+    idx = (us * NSORT).astype(int)
+    eg = max(abs(g_(Pg, u) - vals[i]) / vals[i] for u, i in zip(us, idx))
+    eJ = max(abs(J_(Pg, u) - cum[i]) / cum[i] for u, i in zip(us, idx))
+    # a priori: a sorted value is within two grid steps of the quantile, J within half a cell of gamma
+    tg = max(2.0 * dg_(Pg, u) / g_(Pg, u) / NSORT for u in us) + 1e-12
+    tJ = max(2.0 * g_(Pg, u) / J_(Pg, u) / NSORT for u in us) + 1e-12
+    check(f"R1[{name}] the relabeled schedule's gamma and J at 199 positions match a direct sort of {NSORT:,} task gammas "
+          f"(gamma times {f} on [{lo:.5f}, {hi:.5f}), base gamma elsewhere), within the grid's resolution",
+          eg <= tg and eJ <= tJ, f"gamma {eg:.1e}/{tg:.0e}, J {eJ:.1e}/{tJ:.0e}")
+    grid = np.linspace(0.0, 1.0, 20001)
+    gg = g_(Pg, grid)
+    ks = kinks_(Pg)
+    if name == "task":
+        k1, k2 = ks
+        below, above = grid < k1 - 1e-9, grid > k2 + 1e-9
+        jumps = [abs(g_(Pg, kk + 1e-10) - g_(Pg, kk - 1e-10)) for kk in ks]
+        rising = (gg[1:] - g_(base, 0.0)) > 1e-9 * g_(base, 0.0)       # resolvable above the flat start (k = 19)
+        check("R2[task] the relabeled schedule is continuous and increasing (20,001 points: nondecreasing to 4 ulps, strictly "
+              "where it rises resolvably above gamma(0); gamma continuous at both kinks to 1e-8), equals the base schedule "
+              "below the first kink and half of it above the second, and its slope jumps at the kinks, where the halved tasks "
+              "start and stop merging with the base ones",
+              len(ks) == 2 and np.all(np.diff(gg) >= -4 * np.finfo(float).eps * gg[1:]) and np.all(np.diff(gg)[rising] > 0)
+              and max(jumps) < 1e-8
+              and np.allclose(gg[below], g_(base, grid[below]), rtol=1e-12)
+              and np.allclose(gg[above], f * g_(base, grid[above]), rtol=1e-12)
+              and all(abs(dg_(Pg, kk + 1e-7) - dg_(Pg, kk - 1e-7)) > 1e-3 for kk in ks),
+              f"kinks {k1:.5f}, {k2:.5f}")
+    else:
+        below, above = grid < hi - 1e-9, grid > hi + 1e-9                # the gain is on [0, x*): x* is its end
+        rising = (gg[1:] - f * g_(base, 0.0)) > 1e-9 * g_(base, 0.0)
+        check("R2[machine tasks] the relabeled schedule is the halved base schedule below x* and the base schedule above it, "
+              "increasing (nondecreasing to 4 ulps, strictly where resolvable), with one jump at x* (no task gamma lies "
+              "between half of gamma(x*) and gamma(x*))",
+              lo == 0.0 and ks == [round(hi, 15)] and np.all(np.diff(gg) >= -4 * np.finfo(float).eps * gg[1:])
+              and np.all(np.diff(gg)[rising] > 0)
+              and np.allclose(gg[below], f * g_(base, grid[below]), rtol=1e-12)
+              and np.allclose(gg[above], g_(base, grid[above]), rtol=1e-12)
+              and g_(Pg, hi + 1e-12) - g_(Pg, hi - 1e-12) > 0.4 * g_(base, hi), f"jump at {hi:.5f}")
+
+# ---------------------------------------------------------------- C: Section 3.3's ceiling and the elasticity at the margin
+q = SOL["printed"]
+cpt = PR["rho"] + PR["delta"]
+lam_t = cpt * PR["lam"] / (1.0 - cpt * PR["a"])          # full-chain labor in a machine-hour, user cost (Appendix A.4)
+theta = g_(PR, q["x"]) * lam_t
+xc = q["x_ceiling"]
+check("C1 Section 3.3's ceiling in the instance: theta = gamma(x*) lambda-tilde_m is labor's full-chain share of the "
+      "machine rental, lambda-tilde_m v/p_m; the ceiling solves gamma(x_c) lambda-tilde_m = 1, so gamma(x_c)/gamma(x*) = 1/theta "
+      "(1e-12); with labor 'about half' and machine services 'about a fifth' of build cost, theta = theta_V/(1 - (rho+delta) a)",
+      rel(theta, lam_t * q["v"] / q["pm"]) <= 1e-12 and rel(g_(PR, xc) * lam_t, 1.0) <= 1e-12
+      and rel(g_(PR, xc) / g_(PR, q["x"]), 1.0 / theta) <= 1e-12
+      and rel(theta, NUM_theta_V := PR["lam"] * q["v"] / q["Vm"] / (1.0 - cpt * PR["a"])) <= 1e-12,
+      f"theta {theta:.4f}, gamma(x_c)/gamma(x*) {g_(PR, xc) / g_(PR, q['x']):.4f}")
+hx = 1e-6
+lnML = lambda t: math.log(J_(PR, t) / (1.0 - t))                       # noqa: E731
+num_sigma = (lnML(q["x"] + hx) - lnML(q["x"] - hx)) / (math.log(g_(PR, q["x"] + hx)) - math.log(g_(PR, q["x"] - hx)))
+sig_formula = (g_(PR, q["x"]) / J_(PR, q["x"]) + 1.0 / (1.0 - q["x"])) * g_(PR, q["x"]) / dg_(PR, q["x"])
+check("C2 Appendix B's sigma_m = [gamma/J + 1/(1 - x*)] gamma/gamma' at x* is the elasticity of J(x)/(1 - x), machine "
+      "service per human hour in final tasks, with respect to gamma(x) = w/p_m (central differences, 1e-6), equals "
+      "appendix_b's, and lies within the cited estimates' span, 0.40 (Chirinko's low end) to 0.7 (Oberfield and Raval's high)",
+      rel(sig_formula, num_sigma) <= 1e-6 and rel(sig_formula, B.sigma_margin(PR, q["x"])) <= 1e-12 and 0.40 <= sig_formula <= 0.7,
+      f"sigma_m {sig_formula:.4f} (numerical {num_sigma:.4f})")
+sM = q["pm"] * q["J"] / (q["pm"] * q["J"] + q["v"] * (1.0 - q["x"]))
+contest = (xc - q["x"]) / (1.0 - q["x"])
+first = sM * sig_formula * math.log(1.0 / theta)
+check("C3 the contestable share of labor's tasks, (x_c - x*)/(1 - x*), and its first-order value s_M sigma_m ln(1/theta), "
+      "s_M the machines' share of final-task cost p_m J/(p_m J + w(1 - x*)), agree within 0.01; at sigma_m = 1 the first-order "
+      "share s_M ln(1/theta) is below one half, so elasticities below one leave most of labor's tasks beyond the ceiling",
+      abs(contest - first) < 0.01 and sM * math.log(1.0 / theta) < 0.5
+      and all(rel(a_, b_) <= 1e-12 for a_, b_ in ((sM, B.ceiling_reading(PR, q)["s_M"]), (contest, B.ceiling_reading(PR, q)["contestable"]))),
+      f"contestable {contest:.4f}, first order {first:.4f}, s_M {sM:.4f}")
+
+# ---------------------------------------------------------------- W: where capability lands
+f3w = B.figure3(PR)
+check("W1 both of Figure 3's channels lower w/P_s and participation: recursive automation and task automation at the tasks "
+      "people perform (Section 5's 'both automation channels lower the real wage and participation together')",
+      all(f3w[s_]["real_wage"] < f3w["baseline"]["real_wage"] and f3w[s_]["participation"] < f3w["baseline"]["participation"]
+          for s_ in ("recursive", "task")),
+      ", ".join(f"{s_} {f3w[s_]['real_wage']:.3f}/{f3w[s_]['participation']:.3f}" for s_ in f3w))
+Pm = B.machine_task_gain(PR)
+qm = B.solve(Pm)
+xs_ = np.linspace(0.0, 1.0, 20001)
+mc = g_(Pm, xs_) * qm["pm"]
+cpt_m = Pm["rho"] + Pm["delta"]
+check("W2 capability gains at the tasks machines perform (gamma halved on [0, x*), relabeled) raise w/P_s: the equilibrium "
+      "satisfies the task margin w/p_m = gamma(x*) (1e-12), machines are cheaper on every task below x* and labor above it "
+      "(20,001 tasks), and labor clears (1e-12); the new margin lies above the schedule's jump at the old margin, where the "
+      "schedule is continuous, and below the ceiling (Section 3.4's 'they raise the real wage'; Appendix B's 'the new margin "
+      "lies above it')",
+      qm["real_wage"] > f3w["baseline"]["real_wage"] and rel(qm["v"] / qm["pm"], g_(Pm, qm["x"])) <= 1e-12
+      and qm["x"] > SOL["printed"]["x"] + 1e-3 and g_(Pm, SOL["printed"]["x"] - 1e-9) < 0.51 * g_(Pm, SOL["printed"]["x"] + 1e-9)
+      and cpt_m * (Pm["a"] + Pm["lam"] * g_(Pm, qm["x"])) < 1.0
+      and np.all(mc[xs_ < qm["x"] - 1e-9] < qm["v"]) and np.all(mc[xs_ > qm["x"] + 1e-9] > qm["v"])
+      and rel(qm["nD"], Pm["N"] * F_(Pm, math.log1p(qm["v"] / qm["Ps"]))) <= 1e-12
+      and rel(qm["pm"], cpt_m * Pm["b"] / (1.0 - cpt_m * (Pm["a"] + Pm["lam"] * g_(Pm, qm["x"])))) <= 1e-12,
+      f"w/P_s {f3w['baseline']['real_wage']:.4f} -> {qm['real_wage']:.4f} ({qm['real_wage'] / f3w['baseline']['real_wage'] - 1:+.1%}), "
+      f"margin {SOL['printed']['x']:.5f} -> {qm['x']:.5f}")
+
+# ---------------------------------------------------------------- H: Appendix E's floor along the path
+for Hm in (0.05, 0.10):
+    floor = Hm * PR["T"] / (PR["N"] * PR["h"])
+    path_h = [(e, B.solve({**B.sequence(PR, e), "H": Hm})) for e in (1e-2, 3e-3, 1e-3, 3e-4, 1e-4)]
+    eL, qL = path_h[-1]
+    PL = {**B.sequence(PR, eL), "H": Hm}
+    cptL = PL["rho"] + PL["delta"]
+    pm_wall = cptL * (PL["lam"] * qL["v"] + PL["b"]) / (1.0 - cptL * PL["a"])
+    check(f"H1[|H| {Hm}] with the tasks [1 - |H|, 1] closed to machines along the path, labor holds only H once eta is small: "
+          f"at eta = 1e-4 the margin sits at 1 - |H| with w/p_m above gamma there, the rental is the user cost on the wage "
+          f"(1e-12), participation clears (1e-12) and is within 1e-3 of |H| T/(N h) = {floor:.4f}, output within 1e-3 of T/h, "
+          f"and support stays funded",
+          qL["regime"] == "only H" and qL["x"] == 1.0 - Hm and qL["v"] / qL["pm"] > g_(PL, 1.0 - Hm)
+          and rel(qL["pm"], pm_wall) <= 1e-12 and rel(qL["n"], PL["N"] * F_(PL, math.log1p(qL["real_wage"]))) <= 1e-12
+          and rel(qL["participation"], floor) <= 1e-3 and rel(qL["Y"], PR["T"] / PR["h"]) <= 1e-3 and qL["funded"],
+          ", ".join(f"eta {e:g}: {qq['participation']:.4f} ({qq['regime']})" for e, qq in path_h))
+
+# ---------------------------------------------------------------- P: the instance's provenance
+U = B.set_from_targets()
+qu = B.solve(U)
+su = B.shares(U, qu)
+tgt = B.TARGETS
+hits = dict(theta_V=su["theta_V"], machines=su["machines"], labor=su["labor"], site=su["site"], chain=su["chain"],
+            participation=qu["participation"], baskets=qu["Y"] / U["N"], sigma=B.sigma_margin(U, qu["x"]))
+sig2 = lambda v_: float(f"{v_:.2g}")                                    # noqa: E731
+check("P1 set_from_targets(), the instance before rounding, solves to its eight targets: labor 0.47 and machine services "
+      "0.20 of a machine's build cost, labor 0.47 of consumption, site 0.06 of the basket, the chain 0.15 of hours, "
+      "participation 0.60, 3 baskets a person, sigma_m 0.6 at the margin (1e-9)",
+      all(rel(hits[k], tgt[k]) <= 1e-9 for k in tgt), ", ".join(f"{k} {hits[k]:.6g}" for k in tgt))
+check("P2 PRINTED is that instance rounded: h, a, lambda, chi_max, g0, g1 and k to two significant figures, rho to two "
+      "decimals; N, T, b and delta as set",
+      all(PR[k] == sig2(U[k]) for k in ("h", "a", "lam", "chi_max", "g0", "g1", "k")) and PR["rho"] == round(U["rho"], 2)
+      and all(PR[k] == U[k] for k in ("N", "T", "b", "delta", "eta")),
+      ", ".join(f"{k} {U[k]:.5g} -> {PR[k]:g}" for k in ("h", "a", "lam", "chi_max", "rho", "g0", "g1", "k")))
 
 # ---------------------------------------------------------------- Q: the numbers quoted in the text
 TEX = (ROOT / "paper" / "main.tex").read_text(encoding="utf-8")
@@ -416,6 +614,8 @@ R_S5 = region(r"\section{Replacement meets participation}", r"\section{Purchasin
 R_CAP = region(r"\caption{Labor-market clearing", r"\label{fig:3}")
 R_61 = region(r"\subsection{What an hour's wage buys}", r"\subsection{Factor income while labor remains employed}")
 R_D3 = region(r"\subsection{Feasibility: the coverage ratio}", r"\subsection{Dependence and fiscal coverage}")
+R_33 = region(r"\subsection{Closing the replacement price}", r"\subsection{Two margins of automation}")
+R_E = region(r"\section{Human-required tasks}", r"\section{The financing and production accounts}")
 WORDS = {100: "hundred"}               # n-to-one, a n times as high
 
 
@@ -441,47 +641,66 @@ def fill(template, *vals):
 
 
 NUM = B.paper_numbers()
-assert dict(B.SCENARIOS)["task"] == {"eta": 0.5} and dict(B.SCENARIOS)["recursive"] == {"lam": 0.0}
+assert dict(B.SCENARIOS)["recursive"] == {"lam": 0.0} and ECON["task"]["gain"] == (SOL["printed"]["x"], 1.0, 0.5)
 SEQ = B.SEQUENCE
 EXPECT = {  # region -> [(label, template, values)]; every template carries the words around its numbers
     "B": [
         ("flow benchmark", r"With $\rho=<d>$ and $\delta=<d>$ the economy is the main text's flow benchmark.", (0, 1)),
         ("instance", r"For a numerical instance, take $N=<d>$, $T=<.2f>$, $h=<.4f>$, $a=<.1f>$, $b=<.1f>$, $\lambda=<.1f>$, "
-                     r"$\delta=<.2f>$, $\rho=<.2f>$, $\gamma(x)=<.2f>+<.2f>x^{<.1f>}$, and $\chi$ uniform on $[0,<.1f>]$.",
+                     r"$\delta=<.2f>$, $\rho=<.2f>$, $\gamma(x)=<.3f>+<d>x^{<d>}$, and $\chi$ uniform on $[0,<.1f>]$.",
          (PR["N"], PR["T"], PR["h"], PR["a"], PR["b"], PR["lam"], PR["delta"], PR["rho"], PR["g0"], PR["g1"], PR["k"],
           PR["chi_max"])),
         ("shares", r"labor is about half of a machine's build cost and of the full-chain cost of consumption, machine services "
                    r"are about a fifth of a machine's build cost, and site rent is <pct1> percent of the basket; participation "
                    r"is <pct> percent.", (NUM["site"], NUM["participation"])),
+        ("sigma", r"Here it is about <.1f>, within the range of estimates of the aggregate elasticity of substitution between "
+                  r"capital and labor (Chirinko 2008; Oberfield and Raval 2021).", (NUM["sigma"],)),
         ("solution", r"The solution has $x^*\simeq<.5f>$, below the ceiling $x_c\simeq<.5f>$, $v\simeq<.5f>$, $Y\simeq<.5f>$, "
                      r"and $N_a\simeq<.5f>$: about $<.5f>$ hours at final tasks and $<.5f>$ in machine production.",
          (NUM["x_star"], NUM["x_c"], NUM["v"], NUM["Y"], NUM["N_a"], NUM["final_hours"], NUM["chain_hours"])),
         ("support", r"Support costs $NP_s\simeq<.5f>$ out of the provider's rent and interest of $<.5f>$.",
          (NUM["support"], NUM["provider_income"])),
-        ("path", r"retain these parameters and set $\lambda=<d>$ and $\gamma_\eta(x)=\eta(<.2f>+<.2f>x^{<.1f>})$, with "
+        ("contestable", r"The tasks between them, about <pct> percent of those labor performs, are contestable; labor holds the "
+                        r"rest at any wage.", (NUM["contestable"],)),
+        ("first order", r"where $s_M\simeq<.2f>$ is the machines' share of final-task cost and $\theta\simeq<.2f>$ the labor "
+                        r"share of machine-service cost at the margin (Section~\ref{sec:3.3}), which gives <.2f> here.",
+         (NUM["s_M"], NUM["theta"], NUM["first_order"])),
+        ("machine gain", r"Halving $\gamma$ instead at the tasks machines already perform leaves the schedule with a jump at the "
+                         r"old margin; the new margin lies above it, and $w/P_s$ rises by about <pct> percent.",
+         (NUM["machine_gain_w"],)),
+        ("path", r"retain these parameters and set $\lambda=<d>$ and $\gamma_\eta(x)=\eta(<.3f>+<d>x^{<d>})$, with "
                  r"$0<\eta\le1$; at $\eta=1$ this is the recursive-automation economy of Figure~\ref{fig:3}.",
          (SEQ["lam"], PR["g0"], PR["g1"], PR["k"])),
-        ("path bound", r"$0<v\le\eta(\rho+\delta)b/[1-(\rho+\delta)a]\to0$", ()),
-        ("path ratio", r"Relative capability remains a <word> times as high at the last task as at the first.",
+        ("path bound", r"$0<v\le\eta\gamma(1)(\rho+\delta)b/[1-(\rho+\delta)a]\to0$", ()),
+        ("path ratio", r"Relative capability remains about <.0f> times as high at the last task as at the first.",
          (NUM["capability_ratio"],)),
-        ("path participation", r"it is $<.2f>$ at $\eta=1$ and $<.2f>$ at $\eta=0.01$.", (NUM["seq_n_eta1"], NUM["seq_n_eta001"])),
+        ("path participation", r"It first rises, from $<.2f>$ at $\eta=1$ to about $<.2f>$ near $\eta=<.2f>$, as cheaper machine "
+                               r"work lowers the basket's price, and then falls, to $<.2f>$ at $\eta=0.01$ and $<.2f>$ at "
+                               r"$\eta=0.001$.",
+         (NUM["seq_n_eta1"], NUM["seq_peak_n"], NUM["seq_peak_eta"], NUM["seq_n_eta001"], NUM["seq_n_eta0001"])),
     ],
     "CAP": [
         ("parameters", r"($N=<d>$, $T=<.2f>$, $h=<.4f>$, $a=<.1f>$, $b=<.1f>$, $\delta=<.2f>$, $\rho=<.2f>$, $\chi$ uniform on "
                        r"$[0,<.1f>]$)", (PR["N"], PR["T"], PR["h"], PR["a"], PR["b"], PR["delta"], PR["rho"], PR["chi_max"])),
         ("participation curve", r"The participation curve $N_a/N=\log(1+w/P_s)/<.1f>$ holds support and preferences fixed.",
          (PR["chi_max"],)),
-        ("baseline", r"At baseline ($\lambda=<.1f>$, $\gamma(x)=<.2f>+<.2f>x^{<.1f>}$), the equilibrium has $w/P_s\simeq<.2f>$ "
+        ("baseline", r"At baseline ($\lambda=<.1f>$, $\gamma(x)=<.3f>+<d>x^{<d>}$), the equilibrium has $w/P_s\simeq<.2f>$ "
                      r"and $N_a/N\simeq<.2f>$.",
          (PR["lam"], PR["g0"], PR["g1"], PR["k"], NUM["fig3_baseline_w"], NUM["fig3_baseline_n"])),
         ("recursive", r"Recursive automation ($\lambda=<d>$) moves it to about $<.2f>$ and $<.2f>$;",
          (0, NUM["fig3_recursive_w"], NUM["fig3_recursive_n"])),
-        ("task", r"task automation, which halves $\gamma$ at every task, moves it to about $<.2f>$ and $<.2f>$.",
-         (NUM["fig3_task_w"], NUM["fig3_task_n"])),
+        ("task", r"task automation, which halves $\gamma$ at every task people perform at baseline, moves it to about $<.2f>$ "
+                 r"and $<.2f>$.", (NUM["fig3_task_w"], NUM["fig3_task_n"])),
     ],
-    "61": [("hundred-to-one", r"a sequence with a persistent <word>-to-one capability ratio across tasks", (NUM["capability_ratio"],))],
+    "61": [("capability ratio", r"a sequence with a persistent capability ratio of about <.0f> to one across tasks",
+            (NUM["capability_ratio"],))],
+    "33": [("ceiling", r"With labor about half of a machine's build cost and machine services about a fifth of it, as in "
+                       r"Appendix~\ref{app:B}, $\theta\simeq<.2f>$ and the ceiling lies where relative human productivity is "
+                       r"about <.1f> times its value at the margin.", (NUM["theta"], NUM["wall_multiple"]))],
+    "E": [("floor", r"In the instance $T/(Nh)\simeq<.2f>$: a human-required set of <pct> percent of tasks keeps participation "
+                    r"near $<.2f>$.", (NUM["land_baskets"], 0.05, NUM["wall_floor_5pct"]))],
 }
-REGIONS = {"B": R_B, "CAP": R_CAP, "61": R_61}
+REGIONS = {"B": R_B, "CAP": R_CAP, "61": R_61, "33": R_33, "E": R_E}
 DEC = re.compile(r"(?<![\d.])\d+\.\d+(?![\d.])(?!\s*(?:cm|pt|mm|em|ex|in\b|\\textwidth|\\linewidth))")
 
 
@@ -500,7 +719,8 @@ for key, items in EXPECT.items():
             missing.append(f"{label}: {s!r} ({len(spans)} matches)")
         covered += spans
     loose = [m.group(0) for m in DEC.finditer(blank(text)) if not any(a <= m.start() < b for a, b in covered)]
-    where = {"B": "Appendix B", "CAP": "the Figure 3 caption", "61": "Section 6.1's pointer to Appendix B"}[key]
+    where = {"B": "Appendix B", "CAP": "the Figure 3 caption", "61": "Section 6.1's pointer to Appendix B",
+             "33": "Section 3.3", "E": "Appendix E"}[key]
     check(f"Q1[{key}] every quoted number in {where} is recomputed and found once as printed, with its words "
           f"({len(items)} passages)", not missing, "; ".join(missing[:4]) if missing else f"{len(covered)} matches")
     check(f"Q2[{key}] no decimal in {where} is left unchecked", not loose, f"unchecked: {loose[:10]}" if loose else "")

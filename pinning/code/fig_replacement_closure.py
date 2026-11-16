@@ -4,7 +4,12 @@
 # Drawn against gamma(x*) with b_m = 1 at two fixed values of lambda_m, 0.3 and
 # 0 (the line w/r = gamma(x*) b_m). From A, task automation moves the economy
 # along its curve (gamma(x*) falls); recursive automation moves it down to the
-# line (lambda_m falls). Pure schematic, no data: the curves are the formula,
+# line (lambda_m falls). With lambda_m = 0.3 the curve rises without bound as
+# gamma(x*) approaches 1/lambda_m, the ceiling of Section 3.3, beyond which tasks
+# are closed to machines at every wage. A sits at gamma(x*) = 2, where the labor
+# share of machine-service cost, theta = gamma(x*) lambda_m, is 0.6, about
+# Appendix B's instance, so the ceiling lies 1/theta = 1.67 times above A, as
+# Section 3.3 says. Pure schematic, no data: the curves are the formula,
 # the values illustrative. Written 2026-11-02 to reproduce the SSRN figure
 # (paper/figures/ssrn/fig_replacement_closure.png), which had no script here.
 # Run from pinning/:  ../venv/Scripts/python.exe code/fig_replacement_closure.py
@@ -35,9 +40,10 @@ NAVY, BLUE, RED, GRAY = "#1a1a3d", "#4878b8", "#8b2020", "#c8c8c8"
 
 B_M = 1.0                              # full-chain non-produced input per machine-hour
 LAM_M = 0.3                            # full-chain labor in a machine-hour, the upper curve
-G_A = 1.5                              # gamma(x*) at A
-G_TASK = 0.95                          # gamma(x*) after task automation
-XMAX, YTOP = 2.0, 4.5
+G_A = 2.0                              # gamma(x*) at A: theta = 0.6 there
+G_TASK = 1.3                           # gamma(x*) after task automation
+XMAX, YTOP = 3.8, 10.0
+CEIL = 1.0 / LAM_M                     # the ceiling: gamma(x*) lambda_m = 1
 
 
 def closure(g, lam):
@@ -48,19 +54,21 @@ def closure(g, lam):
 
 
 g = np.linspace(0, XMAX, 400)
+go = CEIL * (1.0 - np.geomspace(1.0, 1e-4, 800))     # the open part, packed toward the ceiling
 wr_a = float(closure(G_A, LAM_M))
 wr_task = float(closure(G_TASK, LAM_M))
 wr_rec = float(closure(G_A, 0.0))
 # the picture's claims, checked on the formula: w/r rises with gamma(x*) and
 # with lambda_m, and lambda_m = 0 is the line w/r = gamma(x*) b_m
-assert np.all(np.diff(closure(g, LAM_M)) > 0)
-assert np.all(closure(g[1:], LAM_M) > closure(g[1:], 0.0))
+assert np.all(np.diff(closure(go, LAM_M)) > 0) and closure(go[-1], LAM_M) > 100 * YTOP   # rises without bound
+assert np.all(closure(go[1:], LAM_M) > closure(go[1:], 0.0))
+assert abs(G_A * LAM_M - 0.6) < 1e-12 and abs(CEIL / G_A - 1 / 0.6) < 1e-12
 assert np.allclose(closure(g, 0.0), g * B_M)
 assert wr_task < wr_a and wr_rec < wr_a
 
 # the earlier 8.6 x 4.6 in canvas saved at 8.36 x 4.48 in; the aspect is kept
 fig, ax = plt.subplots(figsize=(PRINT_W, PRINT_W / 1.866), layout="constrained")
-ax.plot(g, closure(g, LAM_M), color=NAVY, lw=1.73,
+ax.plot(go, np.minimum(closure(go, LAM_M), YTOP + 1), color=NAVY, lw=1.73,
         label=r"$\widetilde{\lambda}_m = 0.3$")
 ax.plot(g, closure(g, 0.0), color=BLUE, lw=1.46,
         label=r"$\widetilde{\lambda}_m = 0$ (machines made by machines)")
@@ -72,14 +80,20 @@ ax.annotate("", xy=(G_A, wr_rec), xytext=(G_A, wr_a),
             arrowprops=dict(arrowstyle="-|>", color=NAVY, lw=0.93,
                             shrinkA=4, shrinkB=0, mutation_scale=9.3))
 ax.plot(G_A, wr_a, "o", color=NAVY, ms=5, mec="white", mew=1.0, zorder=5)
-ax.annotate("A", xy=(G_A - 0.055, wr_a + 0.21), ha="center", va="center",
+ax.annotate("A", xy=(G_A - 0.10, wr_a + 0.45), ha="center", va="center",
             fontsize=8.5, fontweight="bold", color=NAVY)
+# the ceiling: the curve's asymptote, beyond which tasks are closed to machines at every wage
+ax.axvline(CEIL, color=NAVY, lw=0.8, ls=(0, (4, 2.5)))
+ax.axvspan(CEIL, XMAX, color=NAVY, alpha=0.07, lw=0)
+ax.annotate("ceiling", xy=(CEIL - 0.04, 9.35), ha="right", va="center", fontsize=8, color=NAVY)
+ax.annotate("closed to\nmachines\nat every\nwage", xy=(CEIL + 0.235, 6.2), ha="center", va="center",
+            fontsize=7.5, color="#555555", linespacing=1.15)
 # labels short, sentence case, mathtext; the argument lives in the caption
 ax.annotate("Task automation:\n" r"$\gamma(x^*)$ falls",
-            xy=(0.99, 2.37), ha="right", va="center", fontsize=8, color=NAVY)
+            xy=(1.22, 4.55), ha="right", va="center", fontsize=8, color=NAVY)
 ax.annotate("Recursive automation:\n" r"$\widetilde{\lambda}_m$ falls",
-            xy=(1.55, 2.13), ha="left", va="center", fontsize=8, color=NAVY)
-ax.annotate(r"$w/r = \gamma(x^*)\,\widetilde{b}_m$", xy=(1.97, 1.31),
+            xy=(2.08, 3.25), ha="left", va="center", fontsize=8, color=NAVY)
+ax.annotate(r"$w/r = \gamma(x^*)\,\widetilde{b}_m$", xy=(3.27, 2.3),
             ha="right", va="center", fontsize=8, color="#555555")
 leg = ax.legend(loc="upper left", frameon=False, fontsize=8,
                 title="Full-chain labor in a machine-hour", title_fontsize=8,
@@ -88,8 +102,8 @@ leg.get_title().set_color("#555555")
 ax.set_xlabel(r"Relative human productivity at the marginal task, $\gamma(x^*)$")
 ax.set_ylabel(r"Wage–rent ratio $w/r$")
 ax.set_xlim(0, XMAX); ax.set_ylim(0, YTOP)
-ax.set_xticks([0.0, 0.5, 1.0, 1.5, 2.0])
-ax.set_yticks([0, 1, 2, 3, 4])
+ax.set_xticks([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5])
+ax.set_yticks([0, 2, 4, 6, 8, 10])
 ax.grid(alpha=0.25, lw=0.33)
 ax.spines[["top", "right"]].set_visible(False)
 OUT = Path(__file__).resolve().parents[1] / "paper" / "figures" / "fig_replacement_closure.png"

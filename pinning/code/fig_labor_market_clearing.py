@@ -1,10 +1,11 @@
 # fig_labor_market_clearing.py — Figure 3 of the paper: labor-market clearing in the numerical economy of Appendix B
-# (appendix_b.PRINTED, the illustrative instance set from U.S.-like shares; solved by code/appendix_b.py). The curve set
+# (appendix_b.PRINTED, the illustrative instance set from U.S.-like shares and a measured elasticity of substitution;
+# solved by code/appendix_b.py). The curve set
 # is the SSRN figure's (paper/figures/ssrn/fig_labor_market_clearing.png): the participation curve
 # N_a/N = F(log(1 + w/P_s)), F uniform on [0, chi_max], with support and preferences fixed; and labor demand n_D/N
 # against w/P_s as the task margin moves over the tasks open to machines, [0, x_c], at baseline, under recursive
-# automation (lambda = 0: no labor in the machine chain) and under task automation (gamma halved at every task), each
-# equilibrium marked.
+# automation (lambda = 0: no labor in the machine chain) and under task automation (gamma halved at every task people
+# perform at baseline, the schedule relabeled so gamma increases), each equilibrium marked.
 # Run from pinning/:  python3 code/fig_labor_market_clearing.py
 import sys
 from pathlib import Path
@@ -35,7 +36,7 @@ for _ax in ("xtick", "ytick"):
     rcParams[f"{_ax}.major.size"] = 2.3
 
 NAVY, BLUE, RED, LIGHT, GRAY = "#1a1a3d", "#4878b8", "#8b2020", "#8fa9d4", "#555555"
-XMAX, YTOP = 0.8, 7.0                  # curves top out near 5.2; the legend takes the band above them
+XMAX, YTOP = 0.8, 7.0                  # the legend takes the band above the equilibria
 
 P = B.PRINTED
 eq = B.figure3(P)
@@ -43,14 +44,20 @@ curves = {name: B.demand_curve(B.scenario(P, name)) for name, _ in B.SCENARIOS}
 na, rw = B.participation_curve(P, upto=XMAX)
 
 # the picture's claims, checked before drawing: each marked point is on its demand curve and on the participation curve;
-# demand falls as w/P_s rises along each curve (w/P_s is flat at x = 0, where gamma'(0) = 0 for k > 1); both
-# automation channels lower w/P_s and N_a/N; every demand curve stays below the frame's top
+# demand falls as w/P_s rises along each curve (w/P_s is flat where the schedule is: at x = 0, where gamma'(0) = 0 for
+# k > 1, and, with k = 19, to machine precision wherever gamma(x) - gamma(0) is below 1e-9 of gamma(0)); both automation
+# channels lower w/P_s and N_a/N; every demand curve is inside the frame at the participation of every marked equilibrium
+# (with k = 19 the curves climb steeply as the margin nears the ceiling, or the last task when lambda = 0, and leave
+# the frame's top at low participation, away from the legend)
 for name, (nd, w, xs) in curves.items():
     e = eq[name]
-    assert np.all(np.diff(nd) < 0) and np.all(np.diff(w) >= 0) and np.all(np.diff(w[1:]) > 0), name
+    sc = B.scenario(P, name)
+    rising = (B.gamma(sc, xs[1:]) - B.gamma(sc, 0.0)) > 1e-9 * B.gamma(sc, 0.0)
+    assert np.all(np.diff(nd) < 0) and np.all(np.diff(w) >= -4 * np.finfo(float).eps * w[1:]) \
+        and np.all(np.diff(w)[rising] > 0), name      # nondecreasing to 4 ulps, as check_interior.py's E12
     assert abs(np.interp(e["real_wage"], w, nd) - e["participation"]) < 1e-4, name
     assert abs(np.expm1(P["chi_max"] * e["participation"]) - e["real_wage"]) < 1e-12, name
-    assert w.max() < YTOP, name
+    assert all(np.interp(q['participation'], nd[::-1], w[::-1]) < YTOP for q in eq.values()), name
 for name in ("recursive", "task"):
     assert eq[name]["real_wage"] < eq["baseline"]["real_wage"] and eq[name]["participation"] < eq["baseline"]["participation"]
 low = min(("recursive", "task"), key=lambda k: eq[k]["real_wage"])
@@ -61,7 +68,7 @@ fig, ax = plt.subplots(figsize=(PRINT_W, PRINT_W / 1.70), layout="constrained")
 ax.plot(na, rw, color=RED, lw=1.55, label="Participation (support and preferences fixed)", zorder=3)
 style = {"baseline": dict(color=NAVY, lw=1.65, ls="-", label="Labor demand, baseline (Appendix B)"),
          "recursive": dict(color=BLUE, lw=1.4, ls=(0, (3.7, 1.6)), label=r"Labor demand, recursive automation: $\lambda=0$"),
-         "task": dict(color=LIGHT, lw=1.4, ls=(0, (5.2, 1.6, 1.0, 1.6)), label=r"Labor demand, task automation: $\gamma$ halved")}
+         "task": dict(color=LIGHT, lw=1.4, ls=(0, (5.2, 1.6, 1.0, 1.6)), label=r"Labor demand, task automation: $\gamma$ halved at people's tasks")}
 for name, (nd, w, xs) in curves.items():
     ax.plot(nd, w, zorder=2, **style[name])
 for name, e in eq.items():
