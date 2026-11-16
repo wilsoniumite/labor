@@ -1,0 +1,406 @@
+% ============================================================
+% Understanding the Great Stagnation
+% Draft of 2026-11-16: the theory (Sections 3-4, Appendices A-B) in full; the introduction and Section 2 drafted;
+% Sections 5-7 outlined (draft notes) until the data are pulled (docs/spec.md, units 3-4).
+% Every model number between THEORY-NUMBERS-BEGIN and THEORY-NUMBERS-END is recomputed by checks/check_theory.py
+% (group Q) from code/model.py; Table B.1 is written by code/table_regimes.py; the eras in the introduction come from
+% code/eras.py. References are not yet checked against Crossref (unit 4).
+% ============================================================
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\clubpenalty=10000
+\widowpenalty=10000
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[labelfont=bf, labelsep=period, font={footnotesize,stretch=1}, justification=justified]{caption}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\refentry}[1]{\par\hangindent=1.5em\hangafter=1\noindent #1}
+\newcommand{\draftnote}[1]{\par\smallskip\noindent\colorbox{black!6}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+  \footnotesize\itshape Draft note. #1}}\par\smallskip}
+
+\title{\bfseries Understanding the Great Stagnation\thanks{Draft of 16 November 2026. The theory (Sections~3--4 and
+  the appendices) is complete and checked; Sections~5--7 are outlines until their data are pulled. Prepared with
+  Claude (Anthropic); see the declaration on generative AI at the end.}\\[7pt]
+  \large\mdseries Machine progress, scarce land, and the hours that did not fall}
+\author{[Byline to be confirmed]}
+\date{Draft, November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent Since the early 1970s, and again since the mid-2000s, U.S. output per hour has grown slowly while machines, computers above all, improved fast. We argue that measured productivity is an equilibrium outcome: the inverse of the hours an economy uses per unit of output. In a task economy whose prices resolve into hours and the rents of inputs that cannot be produced, machine progress raises output per hour only as far as hours are released. We generalize who can leave work: some people have support outside work, some have none, and support can be paid on condition of working. Hours that cannot leave work are re-employed at tasks where machines are relatively better, so output per hour falls with technology unchanged. Along a path of machine progress, output per hour grows at the pace of machine capability when support outside work is funded and unconditional, and converges to a ceiling, land per remaining hour over land per basket, when some hours cannot fall; the wage relative to rent then tends to zero and the gains go to rents. A lower required return on capital lowers the wage relative to rent and raises the price of land in hours of work, and raises output per hour only where people can leave work. We state the predictions that separate this account from exhausted ideas, mismeasurement and weak demand, and specify the tests.
+\end{abstract}
+
+\noindent\textbf{Keywords:} productivity slowdown; automation; land rent; labor force participation; disguised unemployment; secular stagnation; task models\\
+\textbf{JEL codes:} O47, O33, E24, J22, R31, E43
+
+\section{Introduction}\label{sec:1}
+
+Output per hour in the U.S. nonfarm business sector grew 2.8 percent a year between 1948 and 1973. It grew 1.4 percent a year between 1973 and 1995 and, after a decade of 3.0 percent during the spread of information technology, 1.5 percent a year between 2004 and 2019. Over the same decades the cost of computation fell by many orders of magnitude (Nordhaus 2007). Solow (1987) put the puzzle in one line: the computer age could be seen everywhere but in the productivity statistics.
+
+The slowdown came with other changes that are usually studied apart. Labor's share of income fell, mostly after 2000. Average hours per worker in the United States stopped falling around 1980, half a century after Keynes (1930) expected his grandchildren to work fifteen hours a week. Real interest rates fell from the early 1980s until 2020. Land, rather than structures, accounts for a growing share of the value of housing (Davis and Heathcote 2007; Knoll, Schularick, and Steger 2017), and much of the rise in the capital share is housing (Rognlie 2015). Deflated by the consumer prices of durable goods and of shelter, the same hourly wage diverged by a factor of 4.8 between 1964 and 2024 (B\r{a}ge and Wilson 2026).
+
+\draftnote{The facts in this paragraph are measured in Section~\ref{sec:5} (M1--M4) from primary sources before the text quotes numbers for them. The eras in the first paragraph are computed by \texttt{code/eras.py} from the FRED series OPHNFB (annual averages of the quarterly index).}
+
+Existing accounts read these facts as separate puzzles, or as signs of one shortage: of ideas (Gordon 2016; Cowen 2011; Bloom, Jones, Van Reenen, and Webb 2020), of demand (Summers 2014; Mian, Straub, and Sufi 2021), or of competition (De Loecker, Eeckhout, and Unger 2020; Philippon 2019). Section~\ref{sec:2} reviews them. We propose an account in which the faces share one cause, and in which slow growth of measured productivity is not evidence that machines stopped improving.
+
+Output per hour is a ratio of two equilibrium quantities. In a task economy, where firms assign each task to whichever of labor and machines performs it more cheaply (Zeira 1998; Acemoglu and Restrepo 2018), the hours used per unit of output depend on where the line between machine and human tasks sits, and that line depends on how many hours people offer. If more people must work at any wage, the wage falls until firms take them on, at tasks where machines are relatively better than at the tasks labor already holds. The hours used per unit of output rise and output per hour falls, with technology unchanged. Robinson (1936) called the re-employment of displaced workers in occupations of lower productivity disguised unemployment. A version of it, spread over decades, is what we think the great stagnation looks like from inside the productivity statistics.
+
+Who must work at any wage? People whose consumption is financed by their own wages and who have no support if they leave work; people whose support is paid only when they work; and people whose support has been eaten by the rents of the land and the other inputs that support requires. B\r{a}ge and Wilson (2026) price the machine that replaces a worker and the living basket that sustains a person outside work through one cost system, in which every price resolves into hours and the rents of inputs that cannot be produced. We take their stationary economy, with durable machines and land, and generalize who can leave work: a share $\theta$ of people has no support outside work, the rest have a basket of support in work and out, and support can include a payment $\Delta$ for working.
+
+Three results follow. First (Proposition~\ref{prop:1}), when $\theta$ or $\Delta$ rises, the line moves toward labor: hours and output rise, and output per hour, the wage relative to rent and the wage in baskets all fall. In an instance whose parameters were set from U.S. cost shares, output per hour is 26 percent lower when nobody can leave work than when everyone can, with the same machines. Second (Proposition~\ref{prop:2}), along a path of machine progress, output per hour grows at the pace of machine capability when exit is funded and unconditional, and converges to a ceiling when some hours cannot fall: land per remaining hour divided by land per basket. Machine progress cannot raise that ceiling. It drives the wage relative to rent toward zero and moves income to the owners of land, and the growth rate of output per hour goes to zero however fast machines improve. Third (Proposition~\ref{prop:3}), a lower required return on capital cheapens machine services relative to land. It lowers the wage relative to rent, with an elasticity equal to the inverse of land's share of a machine's cost, and raises the price of land in hours of work; it raises output per hour only where people can leave work. Two lemmas connect these results to measured prices. The ratio of real pay to output per hour is labor's share times the ratio of producer to consumer prices, and that ratio falls with the wage--rent ratio when consumption is more land-intensive than measured output (Lemma~\ref{lem:2}). With an elasticity of substitution below one between machine-made goods and goods bound by land or by people, measured growth converges to the bound goods' growth (Lemma~\ref{lem:3}; Baumol 1967).
+
+The account does not claim that the technological frontier failed to slow: the industries that produce computers slowed after 2004 too (Fernald 2015). It claims that the measured aggregate can stall while machines improve, and it says what must hold for that to happen: some hours cannot fall, and some goods need land or people in proportions that machine progress cannot change. Section~\ref{sec:6} states the predictions that separate it from its rivals, and Section~\ref{sec:5} measures them, including one test fixed in writing before its data were pulled.
+
+Section~\ref{sec:3} sets out the model and Section~\ref{sec:4} the results; Appendix~\ref{app:A} proves them and Appendix~\ref{app:B} reports the instance and the checks.
+
+\section{Accounts of the great stagnation}\label{sec:2}
+
+\textbf{Exhausted opportunities.} Gordon (2016) argues that the great inventions of 1870--1970 transformed living standards once, that the inventions since are narrower, and that demography, education, inequality and debt add headwinds. Cowen (2011) argues that the United States had used up its low-hanging fruit, free land among it. Bloom, Jones, Van Reenen, and Webb (2020) find that research productivity has fallen across fields: sustaining a constant rate of progress takes ever more researchers. These accounts locate the slowdown in the rate at which technology improves. Ours does not need that rate to fall.
+
+\textbf{Measurement.} If price indexes overstate inflation for new and free digital goods, real growth is understated. Byrne, Fernald, and Reinsdorf (2016) and Syverson (2017) conclude that mismeasurement cannot account for the size and timing of the slowdown. We take measured output as given.
+
+\textbf{Demand and the interest rate.} Hansen (1939) argued that slower population growth and the closing of the frontier would leave investment short of saving. Summers (2014) revived the argument as secular stagnation, a natural rate of interest too low for monetary policy to reach; Eggertsson, Mehrotra, and Robbins (2019) give it a quantitative model, and Mian, Straub, and Sufi (2021) trace low rates to saving by the rich lent to everyone else. In those accounts low rates are a symptom of weak demand. Here a lower required return is also a force on the supply side: it cheapens machine services relative to land, lowers the wage relative to rent, and raises the price of land in hours of work (Proposition~\ref{prop:3}).
+
+\textbf{Market power.} De Loecker, Eeckhout, and Unger (2020) document rising markups since 1980, and Philippon (2019) a decline of competition in U.S. markets. In the accounting used here, markups sustained by exclusion are institutional rents: income accruing to an input whose supply production does not expand, like the rent of land.
+
+\textbf{Structural change.} Baumol (1967) showed that when the relative prices of slow-productivity services rise and demand for them is inelastic, they take a growing share of spending and slow aggregate growth; Nordhaus (2008) studies the effect in U.S. industry data, and Ngai and Pissarides (2007) give the multisector growth model. Vollrath (2020) reads the slowdown as a by-product of success: the shift to services and slower population growth. Lemma~\ref{lem:3} is the version of Baumol's result in which goods are bound by land or by tasks only people can do.
+
+\textbf{Land and housing.} Rising house prices are largely rising land prices (Davis and Heathcote 2007; Knoll, Schularick, and Steger 2017), and much of the rise in the capital share is housing (Rognlie 2015). Glaeser and Gyourko (2018) trace high housing costs to limits on building. Hsieh and Moretti (2019) estimated large output losses from housing constraints in productive cities; Greaney (2026) finds errors in that computation and a far smaller effect. Goolsbee and Syverson (2023) document falling productivity in U.S. construction. In our account land matters less through where people can afford to live than through the ceiling it puts on output per hour when hours cannot fall (Proposition~\ref{prop:2}).
+
+\textbf{Hours, employment, and productivity.} Keynes (1930) expected rising productivity to shorten the working week to fifteen hours. Robinson (1936) observed that workers displaced in a slump take up occupations of lower productivity rather than remaining idle; Lewis (1954) built a theory of development on labor held at low productivity. Across European countries, Dew-Becker and Gordon (2008) find that employment growth after the labor-market reforms of the late 1990s came with slower productivity growth, and Bourl\`es and Cette (2007) adjust productivity levels for the hours and employment rates behind them. Prescott (2004) attributes lower European hours to taxes on labor, and Warren and Tyagi (2003) argue that second incomes in American families were bid into the price of housing. Habakkuk (1962) and Allen (2009) argue that dear labor induced mechanization, and Acemoglu (2010) states when labor scarcity encourages innovation. Proposition~\ref{prop:1} gives the mechanism behind the trade-off between employment and productivity in a cost system with land.
+
+\textbf{Wages pinned by replacement.} The task framework sets the wage at the threshold task against the cost of the machine alternative (Zeira 1998; Acemoglu and Restrepo 2018). B\r{a}ge and Wilson (2026) price that machine and the living basket outside work through one cost system and derive bounds on what an hour's wage buys. This paper uses their stationary economy and asks what it implies for measured productivity.
+
+% THEORY-NUMBERS-BEGIN
+\section{The model}\label{sec:3}
+
+We use the stationary task economy of B\r{a}ge and Wilson (2026, Appendix~B) with one change: who can leave work. Everything the results need is restated here.
+
+\subsection{Tasks, machines, and land}\label{sec:3.1}
+
+A unit of the final good requires one unit of each task $x\in[0,1]$. An hour of work completes one unit of any task; a machine-hour completes $1/\gamma(x)$ units of task $x$. Relative human productivity $\gamma(x)$ is continuous and positive, and tasks are ordered so that it is strictly increasing on $(0,1]$: machines are relatively best at the tasks with low $x$. Write $J(x)=\int_0^x\gamma(t)\,dt$ for the machine-hours used by the tasks below $x$ in a unit of the final good.
+
+Machines are produced. Building one takes $a$ units of machine services, $\lambda$ hours, and $b>0$ units of land services; it supplies one unit of service a period and wears out at rate $\delta\in(0,1]$, and its owner requires the return $\rho\ge0$. A machine therefore costs $V_m=ap_m+\lambda w+br$ to build and rents at the user cost
+\begin{equation}\label{eq:1}
+p_m=(\rho+\delta)V_m,
+\end{equation}
+where $w$ is the wage and $r$ the rent of land. Land supplies a fixed endowment $T$ of services a period. We assume $(\rho+\delta)\bigl(a+\lambda\gamma(0)\bigr)<1$ and $a\delta<1$, so that machine services can be produced at a finite price.
+
+At a threshold $x$, machines perform the tasks below it and people the tasks above it, and the two cost the same at the threshold: $w=p_m\gamma(x)$. Substituting into \eqref{eq:1},
+\begin{equation}\label{eq:2}
+\frac{p_m}{r}=\frac{(\rho+\delta)b}{D(x)},\qquad
+\frac{w}{r}=\frac{\gamma(x)(\rho+\delta)b}{D(x)},\qquad
+D(x)=1-(\rho+\delta)\bigl(a+\lambda\gamma(x)\bigr).
+\end{equation}
+$D(x)=br/V_m$ is land's share of the cost of building a machine. Tasks with $D(x)\le0$ are closed to machines at every wage, because the machine services that would replace an hour there cost more than the hour; let $x_c$ be the first such task, or $x_c=1$ if there is none.
+
+People consume baskets, each one unit of the final good and $h>0$ units of space. The final good costs $p=w(1-x)+p_mJ(x)$, and a basket costs
+\begin{equation}\label{eq:3}
+P_s=w(1-x)+p_mJ(x)+hr.
+\end{equation}
+In a stationary state a stock of $X$ machines supplies $YJ(x)$ services to final tasks and $a\delta X$ to replacing the $\delta X$ machines that wear out each period. Clearing the markets for machine services and land gives output and the hours it needs,
+\begin{equation}\label{eq:4}
+Y=\frac{T}{B_s(x)},\qquad N_a=\frac{T\,L_s(x)}{B_s(x)},\qquad
+B_s(x)=h+\frac{b\delta J(x)}{1-a\delta},\qquad L_s(x)=1-x+\frac{\lambda\delta J(x)}{1-a\delta},
+\end{equation}
+where $B_s$ and $L_s$ are the land and the hours a basket requires along its whole chain of production, including the machines that make it and the machines that make those.
+
+\subsection{Who can leave work}\label{sec:3.2}
+
+There are $N$ people, each of whom supplies one hour or none. A share $1-\theta$ have \emph{funded exit}: a provider supplies them one basket a period whether or not they work, and pays $\Delta\ge0$ baskets to everyone who works. Such a person, with work cost $\chi$, works when
+\begin{equation}\label{eq:5}
+\log(1+\omega+\Delta)\ge\chi,\qquad \omega=\frac{w}{P_s},
+\end{equation}
+the participation choice of B\r{a}ge and Wilson (2026, Section~4) with a payment for working added. Work costs are distributed by a continuous $F$ on $[0,\infty)$ with $F(0)=0$. The remaining share $\theta$ have no support outside work, and work at any positive wage. At threshold $x$, labor supply is
+\begin{equation}\label{eq:6}
+n_S(x)=N\Bigl[\theta+(1-\theta)\,F\bigl(\log(1+\omega(x)+\Delta)\bigr)\Bigr].
+\end{equation}
+The parameter $\theta$ indexes enclosure: support never given, or support eroded because those who would give it cannot afford a basket whose price includes the rent of land. $\Delta$ indexes conditioning: support paid only to those who work, as earned-income tax credits, employer-provided health insurance and work requirements in benefit programs pay it. The provider owns the land and the machines and pays for support out of rent and interest; support is funded when
+\begin{equation}\label{eq:7}
+rT+\rho V_mX\ \ge\ P_s\bigl[(1-\theta)N+\Delta N_a\bigr].
+\end{equation}
+
+\subsection{Equilibrium}\label{sec:3.3}
+
+An interior equilibrium is a threshold $x^*\in(0,x_c)$ at which the hours production needs equal the hours people supply, $T L_s(x^*)/B_s(x^*)=n_S(x^*)$, with prices \eqref{eq:2}--\eqref{eq:3}, quantities \eqref{eq:4} and funded support \eqref{eq:7}. Labor demand $TL_s/B_s$ falls as the threshold rises and the wage in baskets $\omega$ rises with it, so if $T>Nh$ and supply exceeds demand at $x_c$, there is exactly one interior equilibrium (Appendix~\ref{app:A}). Income is wages, rent and interest, $P_sY=wN_a+rT+\rho V_mX$; the provider consumes what is left after support. With $\theta=\Delta=0$ the economy is that of B\r{a}ge and Wilson (2026, Appendix~B).
+
+We illustrate with that paper's instance, whose parameters were set so that cost shares are of the order seen in U.S. data: $N=1$, $T=0.01$, $h=0.0017$, $a=1.4$, $b=0.4$, $\lambda=7.3$, $\delta=0.05$, $\rho=0.09$, $\gamma(x)=0.01+0.99x^{4.4}$, and $\chi$ uniform on $[0,2.2]$. With funded exit for everyone ($\theta=\Delta=0$) the threshold is $x^*\simeq0.830$ and participation is 0.60. We compare three other rules for who can leave work: a quarter of people without support ($\theta=0.25$), nobody with support ($\theta=1$), and support for everyone plus 0.3 baskets for working ($\Delta=0.3$). Support is funded under every rule (Table~\ref{tab:B.1}).
+
+\section{Results}\label{sec:4}
+
+\subsection{Output per hour is an equilibrium outcome}\label{sec:4.1}
+
+\begin{lemma}[output per hour]\label{lem:1}
+At an interior equilibrium, output per hour is
+\begin{equation}\label{eq:8}
+\pi\equiv\frac{Y}{N_a}=\frac{1}{L_s(x^*)}.
+\end{equation}
+On $(0,x_c)$, $L_s$ is strictly decreasing and $B_s$ strictly increasing. Across equilibria with the same technology,
+\begin{equation}\label{eq:9}
+\frac{d\log\pi}{d\log N_a}=-\frac{1}{1+\psi(x^*)},\qquad
+\psi(x)=\frac{B_s'(x)/B_s(x)}{-L_s'(x)/L_s(x)}>0,
+\end{equation}
+so the elasticity of output per hour with respect to hours lies between $-1$ and $0$.
+\end{lemma}
+
+Output per hour is the inverse of the hours a basket takes along its whole chain of production. Those hours depend on where the threshold sits, and the threshold depends on how many hours people offer. When the threshold moves toward labor, people take over tasks from machines and the economy uses more hours per basket; output rises only because the machines no longer built free the land they would have used. The ratio $\psi$ measures how much land the threshold frees per hour it adds. When machines use little land, $\psi$ is near zero and output per hour falls almost one for one with hours. In the instance $\psi\simeq0.70$ and the elasticity is $-0.59$.
+
+\begin{proposition}[absorption]\label{prop:1}
+Fix technology $(\gamma,a,b,\lambda,\delta,\rho)$ and $T$, $h$. Compare two interior equilibria whose labor supplies satisfy $n_S^1(x)\ge n_S^0(x)$ on $[0,x_c]$, strictly at $x^*_0$. Then $x^*_1<x^*_0$: hours and output are higher, and output per hour, the wage--rent ratio $w/r$ and the wage in baskets $w/P_s$ are lower. A rise in $\theta$ or in $\Delta$ is such a shift wherever some people with support do not work.
+\end{proposition}
+
+Proposition~\ref{prop:1} is disguised unemployment in a task economy. Hours that cannot leave work are not idle: the wage falls until firms take them on, and firms take them on at tasks that machines performed more cheaply before the wage fell. Measured output rises and measured output per hour falls, while every machine is as good as before. In the instance, output per hour is 5.01 baskets with funded exit for everyone, 4.87 with conditioned support (participation 0.63), 4.64 when a quarter have no support (0.69), and 3.72 when nobody has support, 26 percent lower than with funded exit (Table~\ref{tab:B.1}).
+
+Absorption does not account for the fall in labor's share. More hours at a lower wage raise labor's share of income in the instance, from 0.55 with funded exit to 0.58 when nobody has support. The share falls through the channels of Propositions~\ref{prop:2} and~\ref{prop:3}.
+
+\subsection{Machine progress and the hours that remain}\label{sec:4.2}
+
+Let machines improve at every task: $\gamma_\eta=\eta\hat\gamma$ with $\eta\in(0,1]$, so that as $\eta$ falls a machine-hour does $1/\eta$ times as much at every task. Define the hours worked when the wage buys nothing,
+\begin{equation}\label{eq:10}
+N_\infty=N\bigl[\theta+(1-\theta)F\bigl(\log(1+\Delta)\bigr)\bigr].
+\end{equation}
+
+\begin{proposition}[machine progress and the hours that remain]\label{prop:2}
+Let $\eta\downarrow0$ with everything else fixed, along interior equilibria. Then
+\begin{itemize}\itemsep0pt
+\item[(i)] $w/r\to0$, $w/P_s\to0$, and labor's share of income tends to zero;
+\item[(ii)] hours worked tend to $N_\infty$;
+\item[(iii)] output tends to $T/h$; output per hour tends to
+\begin{equation}\label{eq:11}
+\pi_\infty=\frac{T}{hN_\infty}
+\end{equation}
+if $N_\infty>0$, and grows without bound if $N_\infty=0$;
+\item[(iv)] if $\eta$ falls at a constant rate $g$, $\hat\gamma$ is continuously differentiable, and $F$ has a continuous density $f$ near $\log(1+\Delta)$, with $f(0)>0$ when $N_\infty=0$, then the growth rate of output per hour tends to $g$ if $N_\infty=0$ and to zero if $N_\infty>0$.
+\end{itemize}
+For small $\eta$ the equilibria are interior if $T>Nh$ and either $N_\infty>0$, or $\lambda=0$, or
+\begin{equation}\label{eq:12}
+N f(0)\,(\rho+\delta)\,b\,\hat\gamma(1)\,(1-a\delta)\ >\ T\lambda\delta\hat J(1)\bigl(1-(\rho+\delta)a\bigr).
+\end{equation}
+\end{proposition}
+
+The ceiling \eqref{eq:11} is land per remaining hour divided by land per basket. It does not depend on machines. Machine progress moves the economy toward it and then only lowers the wage relative to rent: in the limit a basket costs the rent of the land in it, and income goes to those who own the land. When exit is funded and unconditional, falling wages release hours, and output per hour rises with machine capability even though output itself is capped by land. With $f(0)>0$, $N_\infty=0$ only when $\theta=\Delta=0$: conditioned support also leaves hours that cannot fall, since people keep working for the payment when the wage buys nothing.
+
+Figure~\ref{fig:1} draws the four rules of the instance. With funded exit, output per hour grows one for one with machine capability. With conditioned support it levels off at 49.3 baskets, with a quarter of people unsupported at 23.5, and with nobody supported at 5.88; hours tend to zero, 0.12, 0.25 and 1. Read as history, Proposition~\ref{prop:2}(iv) says that slow growth of measured productivity is the signature of hours that cannot fall, and that faster machine progress does not help: it reaches the ceiling sooner.
+
+The ceiling rests on the basket: people need space in fixed proportion to goods. Lemma~\ref{lem:3} below shows that a ceiling of this kind survives substitution between machine-made goods and space, or any other bound good, at an elasticity below one, and not at one or above.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/fig_paths.pdf}
+\caption{Output per hour (a) and hours worked per person (b) along a path of machine progress in the instance of Section~\ref{sec:3.3}, under four rules for who can leave work: funded, unconditional exit for everyone ($\theta=\Delta=0$); support for everyone plus 0.3 baskets for working ($\Delta=0.3$); a quarter of people with no support outside work ($\theta=0.25$); and nobody with support ($\theta=1$). Machine capability is $1/\eta$, with relative human productivity $\eta\gamma(x)$ at every task. The thin horizontal lines are the ceilings $T/(hN_\infty)$ of Proposition~\ref{prop:2}. Drawn by code written with Claude (Anthropic).}
+\label{fig:1}
+\end{figure}
+
+\subsection{The required return}\label{sec:4.3}
+
+\begin{proposition}[the required return]\label{prop:3}
+(i) At a given threshold $x$,
+\[
+\frac{\partial\log(w/r)}{\partial\log(\rho+\delta)}=\frac{1}{D(x)}>1,
+\]
+the inverse of land's share of a machine's build cost, and $w/P_s$ increases with $\rho$.
+(ii) If $\theta=1$, the equilibrium threshold does not depend on $\rho$. A lower required return lowers $w/r$ and $w/P_s$, leaves hours, output and output per hour unchanged, and raises the price of land in hours of work, $(r/\rho)/w$, whose elasticity with respect to $\rho$ is $-1-\rho/[(\rho+\delta)D(x^*)]$.
+(iii) If $\theta<1$, a lower required return lowers labor supply at every threshold, strictly where some people with support do not work: the threshold rises, hours fall, and output per hour rises.
+\end{proposition}
+
+Cheaper capital makes machine services cheaper relative to land, and since the wage at the threshold equals the cost of the machine services that replace an hour, the wage falls relative to rent. The chain amplifies the effect: machines are built with machine services, so a lower return cheapens them again at every round, and the elasticity is the inverse of the share of land, the one cost the return does not touch. The price of land in hours of work rises twice, once because the rent is capitalized at a lower rate and once because the wage falls relative to the rent. Whether cheaper capital shows up as productivity depends on who can leave work. With nobody supported, only prices move. With funded exit, people leave work as the wage falls, and output per hour rises.
+
+In the instance, land is 35 percent of a machine's build cost at the threshold with funded exit, so the elasticity in (i) is 2.87 there; at the threshold with nobody supported it is 1.96. A fall in the required return from 0.09 to 0.04 lowers $w/r$ by 52 percent and $w/P_s$ by 11 percent when nobody is supported, and multiplies the price of land in hours of work by 4.7. With funded exit the same fall lowers $w/r$ by 60 percent, participation falls to 0.58, and output per hour rises 3 percent (Figure~\ref{fig:2}). These magnitudes depend on land's share of machine cost, which the instance was not set to match, and on the return required on productive capital, which fell much less than safe interest rates (Gomme, Ravikumar, and Rupert 2011; Caballero, Farhi, and Gourinchas 2017). They illustrate the proposition; they are not an estimate.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/fig_rates.pdf}
+\caption{The required return in the instance of Section~\ref{sec:3.3}, with funded exit for everyone and with nobody supported: (a) the wage--rent ratio, (b) the price of land in hours of work, $(r/\rho)/w$, and (c) output per hour, each relative to its value at $\rho=0.09$. Drawn by code written with Claude (Anthropic).}
+\label{fig:2}
+\end{figure}
+
+\subsection{Prices}\label{sec:4.4}
+
+\begin{lemma}[the price wedge]\label{lem:2}
+In a cost system with hours and land as the primary inputs, let consumption and measured output be bundles whose full-chain requirements of hours and land are $(L_C,B_C)$ and $(L_Y,B_Y)$, so that $P_j=wL_j+rB_j$. Then
+\[
+\frac{\partial\log(P_C/P_Y)}{\partial\log(r/w)}=\beta_C-\beta_Y,\qquad\beta_j=\frac{rB_j}{P_j},
+\]
+and for measured output of nominal value $P_YY$ produced with $N_a$ hours,
+\begin{equation}\label{eq:13}
+\frac{w/P_C}{Y/N_a}=\frac{wN_a}{P_YY}\cdot\frac{P_Y}{P_C}.
+\end{equation}
+\end{lemma}
+
+Real pay per hour, deflated by consumer prices, can fall behind output per hour, deflated by producer prices, for two reasons: labor's share falls, or consumer prices rise relative to producer prices. Lemma~\ref{lem:2} says the second has the first's cause. When the wage falls relative to rent, consumer prices rise relative to producer prices if consumption is more land-intensive than measured output, as it is when consumption is heavy in shelter and output heavy in machines. Section~\ref{sec:5} measures the split of the gap between the two.
+
+\begin{lemma}[composition]\label{lem:3}
+Let consumption be $C=\bigl[\alpha^{1/\sigma}c_M^{(\sigma-1)/\sigma}+(1-\alpha)^{1/\sigma}c_S^{(\sigma-1)/\sigma}\bigr]^{\sigma/(\sigma-1)}$ over a machine-made good $c_M$ and a bound good $c_S$, with $\sigma,\alpha\in(0,1)$, chosen at prices $p_M$, $p_S$. If $q=p_M/p_S\to0$ with $\dot q/q$ bounded, the bound good's share of spending tends to one, and measured consumption growth, the Divisia index $g_C=\dot c_S/c_S+s_M\sigma(-\dot q/q)$ with $s_M$ the machine-made good's share, tends to the growth of the bound good. For every $c_M$, $C<(1-\alpha)^{1/(\sigma-1)}c_S$.
+\end{lemma}
+
+The bound good is any good whose supply machine progress cannot raise: space, which needs land, or care, which needs people. With an elasticity below one, the cheaper machine-made goods become, the smaller their share of spending, and measured growth converges to that of the bound goods (Baumol 1967; Ngai and Pissarides 2007). The level of consumption is capped by the bound good, so the ceiling of Proposition~\ref{prop:2} survives substitution between goods and space if, and only if, the elasticity is below one. The real-wage fork of B\r{a}ge and Wilson (2026) measures $q$ for durable goods against shelter: between 1964 and 2024 durables became 4.8 times cheaper relative to shelter in hours of U.S. production work.
+
+\subsection{What the model leaves out}\label{sec:4.5}
+
+\textbf{Welfare.} The two sources of absorption differ. A payment for working draws in people with work costs between $\log(1+\omega)$ and $\log(1+\omega+\Delta)$, whose hour is worth less to them in consumption than it costs: the familiar wedge of a work subsidy. A share of people without support is a matter of who owns what: they work because they are poor, not because a price is wrong. A tax on the rent of land, paid out as a uniform transfer, leaves the use of land unchanged and pays the same in work and out of it (B\r{a}ge and Wilson 2026, Section~7); it moves people toward funded exit without a wedge and, by Proposition~\ref{prop:1}, raises output per hour.
+
+\textbf{Directed automation.} Technology is given here. If firms direct effort toward automating the tasks where automation saves most, cheap absorbed labor lowers the return to automating the tasks labor holds (Habakkuk 1962; Allen 2009; Acemoglu 2010). That would be a further channel from absorption to slower progress, which this paper does not model.
+
+\textbf{Where $\theta$ comes from.} The share without support is a primitive here. When support is paid out of another household member's wage, it erodes as rents rise relative to wages, and $\theta$ becomes an outcome of the same prices; that version belongs to a study of the transition.
+
+\textbf{Dynamics.} The results compare stationary equilibria. They say where a path leads, not how fast it gets there: adjustment costs, the time it takes to build machines, and the timing of support are outside them.
+% THEORY-NUMBERS-END
+
+\section{Measurement}\label{sec:5}
+
+\draftnote{This section is specified in \texttt{docs/spec.md} (committed before any of its data were pulled) and is written once the data are in. Planned contents: M1, the eras of output per hour with hours, labor's share, the real interest rate and land's share of household real estate (FRED); M2, the slowdown decomposed by industry into within-industry growth, the shift of spending toward slow industries, and the reallocation of hours, with industries classified by what binds them (machine-contestable, site- and resource-bound, human-required) as a labeled grid (BEA GDP by industry and NIPA hours); M3, the gap between pay and productivity split by \eqref{eq:13} into labor's share and the ratio of producer to consumer prices, with and without shelter; M4, hours per worker in the United States against European countries since 1950 (Penn World Table), with the output-per-hour level that Lemma~\ref{lem:1}'s elasticity implies for the hours that did not fall, labeled an envelope; M5, 2019 onward. H-X, the cross-country test of absorption fixed in writing before its data were pulled: across OECD countries, 1995--2019, faster growth of hours per working-age person goes with slower growth of output per hour.}
+
+\section{Predictions and what would count against them}\label{sec:6}
+
+\draftnote{Each prediction is stated with what would count against it in \texttt{docs/spec.md}, Section~6. In brief: (1) the shift of spending toward slow industries and the reallocation of hours account for at least a quarter of the slowdown against 1948--73 (M2); (2) the ratio of consumer to producer prices rises, and at least a third of the rise disappears when shelter is removed from consumer prices (M3); (3) across OECD countries, faster growth of hours per working-age person goes with slower growth of output per hour (H-X); (4) the pickup in output per hour after 2019 comes with falling hours per person and compressed pay at the bottom (M5). A positive association in (3), or composition terms below a tenth in (1), would count against the account.}
+
+\section{Conclusion}\label{sec:7}
+
+\draftnote{To be written with the measurement. Planned: what the account explains and what it leaves to its rivals; the policy reading (a tax on the rent of land paid out uniformly releases absorbed hours without a wedge; building, and denser use of land, raise the ceiling of Proposition~\ref{prop:2}; work-conditioned support lowers it); and artificial intelligence, which moves both automation margins at once and, on this account, shows up in output per hour only to the extent that hours are released.}
+
+\appendix
+\counterwithin{equation}{section}
+\counterwithin{table}{section}
+\titleformat{\section}{\normalfont\Large\bfseries}{Appendix~\thesection.}{0.6em}{}
+
+% THEORY-NUMBERS-BEGIN
+\section{Proofs}\label{app:A}
+
+Write $v=w/r$ and set $r=1$.
+
+\textbf{Equilibrium: existence and uniqueness.} On $(0,x_c)$,
+\[
+L_s'(x)=-1+\frac{\lambda\delta\gamma(x)}{1-a\delta},\qquad
+1-a\delta-\lambda\delta\gamma(x)=D(x)+\rho\bigl(a+\lambda\gamma(x)\bigr)>0,
+\]
+so $L_s'<0$, and $B_s'(x)=b\delta\gamma(x)/(1-a\delta)>0$. Labor demand $n_D=TL_s/B_s$ is therefore strictly decreasing. The wage $v=\gamma p_m$ rises with $x$, since $\gamma'>0$ and $p_m=(\rho+\delta)b/D$ with $D'=-(\rho+\delta)\lambda\gamma'\le0$; and differentiating $\omega=v/P_s$ with $P_s'=v'(1-x)+p_m'J$ gives
+\[
+\omega'(x)=\frac{v'(x)\bigl[h+(\rho+\delta)bJ(x)/(1-(\rho+\delta)a)\bigr]}{P_s(x)^2}>0,
+\]
+so $n_S$ is nondecreasing. At $x_c$, $v$ and $P_s$ are unbounded but $\omega$ is not; it is computed as $(\rho+\delta)b\gamma/[(\rho+\delta)b(\gamma(1-x)+J)+hD]$. Since $n_D(0)=T/h>N\ge n_S(0)$ and $n_S(x_c)>n_D(x_c)$ by assumption, there is exactly one crossing in $(0,x_c)$. Substituting \eqref{eq:2}--\eqref{eq:4} gives $P_sY=vN_a+T+\rho V_mX$, so the provider consumes $(T+\rho V_mX)/P_s-(1-\theta)N-\Delta N_a\ge0$ baskets under \eqref{eq:7}, and baskets consumed sum to $Y$.
+
+\begin{proof}[Proof of Lemma~\ref{lem:1}]
+$Y/N_a=(T/B_s)/(TL_s/B_s)=1/L_s$, and the signs were shown above. Along a change that moves $x^*$ with technology fixed, $d\log\pi=-(L_s'/L_s)\,dx^*$ and $d\log N_a=(L_s'/L_s-B_s'/B_s)\,dx^*$. Dividing gives \eqref{eq:9}, which lies in $(-1,0)$ since $\psi>0$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:1}]
+Technology fixes $n_D$. The excess demand $n_D-n_S^1$ is strictly decreasing and negative at $x^*_0$, where $n_D(x^*_0)=n_S^0(x^*_0)<n_S^1(x^*_0)$, so its zero $x^*_1$ lies below $x^*_0$. Then $N_a=n_D$ is higher, $Y=T/B_s$ is higher, $\pi=1/L_s$ is lower, and $v$ and $\omega$, both increasing in $x$, are lower. For the parameters, $\partial n_S/\partial\theta=N[1-F(\cdot)]$ and $\partial n_S/\partial\Delta=N(1-\theta)f(\cdot)/(1+\omega+\Delta)$, both nonnegative and positive where some people with support do not work.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:2}]
+Write $\gamma_\eta=\eta\hat\gamma$ and $J_\eta=\eta\hat J$. For small $\eta$, $D_\eta(1)=1-(\rho+\delta)(a+\lambda\eta\hat\gamma(1))\ge\underline D=[1-(\rho+\delta)a]/2>0$, so $x_c=1$ and $D_\eta\ge\underline D$ on $[0,1]$.
+
+(i) $v=\eta\hat\gamma(x)(\rho+\delta)b/D_\eta(x)\le\eta\hat\gamma(1)(\rho+\delta)b/\underline D\to0$ uniformly in $x$, and $\omega\le v/h$ since $P_s\ge h$. Labor's share is $vN_a/(P_sY)=\omega N_a/Y\le\omega N/Y$, with $Y\ge T/[h+b\delta\hat J(1)/(1-a\delta)]$ for $\eta\le1$; it tends to zero.
+
+(ii) $N_a=n_S(x^*)$ tends to $N_\infty$ by continuity of $F$, since $\omega(x^*)\to0$.
+
+(iii) $h\le B_s(x^*)\le h+\eta b\delta\hat J(1)/(1-a\delta)$, so $Y\to T/h$, and $\pi=Y/N_a$ gives the limits.
+
+(iv) Let $G(x,\eta)=TL_s(x;\eta)/B_s(x;\eta)-n_S(x;\eta)$, with $F$ extended linearly below zero (which changes nothing, since $\omega\ge0$). Near $\eta=0$, $G$ is continuously differentiable: $L_s$ and $B_s$ are linear in $\eta$, and $\omega=\eta(\rho+\delta)b\hat\gamma/[\eta(\rho+\delta)b(\hat\gamma(1-x)+\hat J)+hD_\eta]$ is smooth with a denominator near $hD_0>0$. At $\eta=0$, $G(x,0)=T(1-x)/h-N_\infty$ and $\partial G/\partial x=-T/h\neq0$.
+
+If $N_\infty>0$, $G(\cdot,0)$ vanishes at $x_0=1-hN_\infty/T\in(0,1)$, since $0<hN_\infty\le hN<T$. By the implicit function theorem $x^*(\eta)$ is continuously differentiable near zero with $x^*(0)=x_0$, so the equilibria are interior for small $\eta$, and $\pi(\eta)=1/L_s(x^*(\eta);\eta)$ is continuously differentiable with $\pi(0)=T/(hN_\infty)>0$. Then $d\log\pi/d\log\eta=\eta\pi'(\eta)/\pi(\eta)\to0$, and with $\eta=e^{-gt}$ the growth rate $d\log\pi/dt=-g\,d\log\pi/d\log\eta$ tends to zero.
+
+If $N_\infty=0$, then $\theta=\Delta=0$, and $G(1,0)=0$, so $x^*(\eta)$ is continuously differentiable near zero with $x^*(0)=1$. Along it, $N_a(\eta)=NF\bigl(\log(1+\omega(x^*(\eta);\eta))\bigr)$, where $\omega(x;0)=0$ and $\partial\omega/\partial\eta(1,0)=\hat\kappa=(\rho+\delta)b\hat\gamma(1)/[h(1-(\rho+\delta)a)]>0$, so $N_a'(0)=Nf(0)\hat\kappa>0$. On the demand side $N_a'(0)=(T/h)[-x^{*\prime}(0)+\lambda\delta\hat J(1)/(1-a\delta)]$; equating the two, $x^{*\prime}(0)<0$ exactly when \eqref{eq:12} holds, in which case $x^*(\eta)<1$ for small $\eta>0$ and the equilibria are interior (with $\lambda=0$, \eqref{eq:12} holds automatically). Since $N_a(\eta)=N_a'(0)\eta+o(\eta)$ with $N_a'$ continuous, $d\log N_a/d\log\eta\to1$; $Y$ is continuously differentiable with $Y(0)=T/h$, so $d\log Y/d\log\eta\to0$. Hence $d\log\pi/d\log\eta\to-1$, and $d\log\pi/dt\to g$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:3}]
+(i) With $c=\rho+\delta$ and $A=a+\lambda\gamma(x)$, $v=\gamma(x)cb/(1-cA)$, so $\partial\log v/\partial\log c=1+cA/(1-cA)=1/D(x)$; and $V_m=p_m/c=b/D$, so $D=b/V_m$. Further, $\omega=\gamma/[\gamma(1-x)+J+h/p_m]$ with $p_m=cb/(1-cA)$ increasing in $c$, so $\omega$ increases with $\rho$.
+(ii) With $\theta=1$, $n_S\equiv N$, and $n_D=TL_s/B_s$ does not involve $\rho$; nor, then, do $x^*$, $N_a$, $Y$ and $\pi$. By (i), $v$ and $\omega$ fall with $\rho$. A unit of land yields $r$ a period; at the required return it is worth $r/\rho$, or $1/(\rho v)$ hours of work, whose elasticity with respect to $\rho$ is $-1-\partial\log v/\partial\log\rho=-1-\rho/[(\rho+\delta)D]$.
+(iii) By (i), $\omega(x)$ rises with $\rho$ at every $x$, so $n_S(x)$ is nondecreasing in $\rho$, and increasing where $f(\log(1+\omega+\Delta))>0$. A lower $\rho$ therefore shifts supply down at every threshold, and the argument of Proposition~\ref{prop:1}, reversed, gives the result.
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lem:2}]
+$P_j/w=L_j+(r/w)B_j$, so
+\[
+\frac{\partial\log(P_C/P_Y)}{\partial\log(r/w)}=\frac{(r/w)B_C}{P_C/w}-\frac{(r/w)B_Y}{P_Y/w}=\beta_C-\beta_Y.
+\]
+Equation~\eqref{eq:13} multiplies and divides by $P_Y$.
+\end{proof}
+
+\begin{proof}[Proof of Lemma~\ref{lem:3}]
+Demand gives $c_M/c_S=[\alpha/(1-\alpha)]q^{-\sigma}$, so $s_M=\alpha q^{1-\sigma}/[\alpha q^{1-\sigma}+1-\alpha]\to0$ as $q\to0$, since $1-\sigma>0$. The Divisia index grows at $s_M\dot c_M/c_M+(1-s_M)\dot c_S/c_S=\dot c_S/c_S+s_M\sigma(-\dot q/q)$, which tends to $\dot c_S/c_S$ when $s_M\to0$ and $\dot q/q$ is bounded. For the level, $(\sigma-1)/\sigma<0$, so $C^{(\sigma-1)/\sigma}>(1-\alpha)^{1/\sigma}c_S^{(\sigma-1)/\sigma}$; raising both sides to the negative power $\sigma/(\sigma-1)$ gives $C<(1-\alpha)^{1/(\sigma-1)}c_S$.
+\end{proof}
+
+\section{The instance and the checks}\label{app:B}
+
+Table~\ref{tab:B.1} reports the instance of Section~\ref{sec:3.3} under the four rules for who can leave work. It is written by \texttt{code/table\_regimes.py} from \texttt{code/model.py}, which solves the economy of Section~\ref{sec:3}.
+
+\begin{table}[htbp]
+\centering
+\caption{The instance under four rules for who can leave work.}
+\label{tab:B.1}
+\input{tables/tab_regimes.tex}
+\end{table}
+
+\texttt{checks/check\_theory.py} verifies every result of Section~\ref{sec:4}. In sympy it derives the slopes of $L_s$ and $B_s$ and their signs, the formula for $\omega'$, Lemma~\ref{lem:1}'s elasticity, the income identity, the user cost, $D$ as land's share of build cost, the elasticities of Proposition~\ref{prop:3}, Lemma~\ref{lem:2}, and the limit in Lemma~\ref{lem:3}. With funded exit it reproduces, to machine precision, the independent solver that accompanies B\r{a}ge and Wilson (2026). In each economy of Table~\ref{tab:B.1} it checks the equilibrium from primitives: cost-minimizing assignment on a grid of tasks, the final good's price as the integral of least task costs, the markets for machine services, land and labor, participation counted from utility over a grid of work costs, funding, and goods clearing. It checks Lemma~\ref{lem:1} against finite shifts of supply; Proposition~\ref{prop:1} along $\theta$ and $\Delta$; Proposition~\ref{prop:2} along a millionfold path of machine progress, including the ceilings, the rates at which hours and output per hour converge, the growth rates in (iv) and condition \eqref{eq:12}; Proposition~\ref{prop:3} along the required return; Lemma~\ref{lem:2} on random cost systems and Lemma~\ref{lem:3} on a simulated path; and Lemma~\ref{lem:1}, Proposition~\ref{prop:1} and Proposition~\ref{prop:3}(ii) on three hundred random economies. It recomputes every model number in Sections~\ref{sec:3}--\ref{sec:4} and finds it in this text next to its words.
+% THEORY-NUMBERS-END
+
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+
+During the preparation of this work the authors used Claude (Anthropic) to draft the formalization, proofs, computations, figures and prose, under the authors' direction. [To be completed with the byline.]
+
+\section*{References}
+
+% Not yet checked against Crossref (unit 4); entries shared with Bage and Wilson (2026) are copied from its audited list.
+{\small\singlespacing
+\refentry{Acemoglu, D. (2010). ``When Does Labor Scarcity Encourage Innovation?'' \emph{Journal of Political Economy} 118(6): 1037--1078.}
+\refentry{Acemoglu, D., and P. Restrepo (2018). ``The Race between Man and Machine: Implications of Technology for Growth, Factor Shares, and Employment.'' \emph{American Economic Review} 108(6): 1488--1542. \url{https://doi.org/10.1257/aer.20160696}.}
+\refentry{Allen, R. C. (2009). \emph{The British Industrial Revolution in Global Perspective.} Cambridge University Press.}
+\refentry{B\r{a}ge, J., and S. Wilson (2026). ``Pinning the Wage to Scarcity and Technology: Replacement, Exit, and the Rents of Non-Produced Inputs in a Task Economy.'' Working paper, SSRN 7226858.}
+\refentry{Baumol, W. J. (1967). ``Macroeconomics of Unbalanced Growth: The Anatomy of Urban Crisis.'' \emph{American Economic Review} 57(3): 415--426.}
+\refentry{Bloom, N., C. I. Jones, J. Van Reenen, and M. Webb (2020). ``Are Ideas Getting Harder to Find?'' \emph{American Economic Review} 110(4): 1104--1144.}
+\refentry{Bourl\`es, R., and G. Cette (2007). ``Trends in `Structural' Productivity Levels in the Major Industrialized Countries.'' \emph{Economics Letters} 95(1): 151--156.}
+\refentry{Byrne, D. M., J. G. Fernald, and M. B. Reinsdorf (2016). ``Does the United States Have a Productivity Slowdown or a Measurement Problem?'' \emph{Brookings Papers on Economic Activity} 2016(1): 109--182.}
+\refentry{Caballero, R. J., E. Farhi, and P.-O. Gourinchas (2017). ``Rents, Technical Change, and Risk Premia: Accounting for Secular Trends in Interest Rates, Returns on Capital, Earning Yields, and Factor Shares.'' \emph{American Economic Review} 107(5): 614--620.}
+\refentry{Cowen, T. (2011). \emph{The Great Stagnation: How America Ate All the Low-Hanging Fruit of Modern History, Got Sick, and Will (Eventually) Feel Better.} Dutton.}
+\refentry{Davis, M. A., and J. Heathcote (2007). ``The Price and Quantity of Residential Land in the United States.'' \emph{Journal of Monetary Economics} 54(8): 2595--2620.}
+\refentry{De Loecker, J., J. Eeckhout, and G. Unger (2020). ``The Rise of Market Power and the Macroeconomic Implications.'' \emph{The Quarterly Journal of Economics} 135(2): 561--644.}
+\refentry{Dew-Becker, I., and R. J. Gordon (2008). ``The Role of Labor Market Changes in the Slowdown of European Productivity Growth.'' NBER Working Paper 13840.}
+\refentry{Eggertsson, G. B., N. R. Mehrotra, and J. A. Robbins (2019). ``A Model of Secular Stagnation: Theory and Quantitative Evaluation.'' \emph{American Economic Journal: Macroeconomics} 11(1): 1--48.}
+\refentry{Fernald, J. G. (2015). ``Productivity and Potential Output before, during, and after the Great Recession.'' \emph{NBER Macroeconomics Annual} 29: 1--51.}
+\refentry{Glaeser, E., and J. Gyourko (2018). ``The Economic Implications of Housing Supply.'' \emph{Journal of Economic Perspectives} 32(1): 3--30.}
+\refentry{Gomme, P., B. Ravikumar, and P. Rupert (2011). ``The Return to Capital and the Business Cycle.'' \emph{Review of Economic Dynamics} 14(2): 262--278.}
+\refentry{Goolsbee, A., and C. Syverson (2023). ``The Strange and Awful Path of Productivity in the U.S. Construction Sector.'' NBER Working Paper 30845.}
+\refentry{Gordon, R. J. (2016). \emph{The Rise and Fall of American Growth: The U.S. Standard of Living since the Civil War.} Princeton University Press.}
+\refentry{Greaney, B. (2026). ``Housing Constraints and Spatial Misallocation: Comment.'' \emph{American Economic Journal: Macroeconomics} 18(2): 409--428. \url{https://doi.org/10.1257/mac.20230141}.}
+\refentry{Habakkuk, H. J. (1962). \emph{American and British Technology in the Nineteenth Century: The Search for Labour-Saving Inventions.} Cambridge University Press.}
+\refentry{Hansen, A. H. (1939). ``Economic Progress and Declining Population Growth.'' \emph{American Economic Review} 29(1): 1--15.}
+\refentry{Hsieh, C.-T., and E. Moretti (2019). ``Housing Constraints and Spatial Misallocation.'' \emph{American Economic Journal: Macroeconomics} 11(2): 1--39.}
+\refentry{Keynes, J. M. (1930). ``Economic Possibilities for Our Grandchildren.'' In \emph{Essays in Persuasion} (1931), Macmillan.}
+\refentry{Knoll, K., M. Schularick, and T. Steger (2017). ``No Price Like Home: Global House Prices, 1870--2012.'' \emph{American Economic Review} 107(2): 331--353. \url{https://doi.org/10.1257/aer.20150501}.}
+\refentry{Lewis, W. A. (1954). ``Economic Development with Unlimited Supplies of Labour.'' \emph{The Manchester School} 22(2): 139--191. \url{https://doi.org/10.1111/j.1467-9957.1954.tb00021.x}.}
+\refentry{Mian, A., L. Straub, and A. Sufi (2021). ``Indebted Demand.'' \emph{The Quarterly Journal of Economics} 136(4): 2243--2307.}
+\refentry{Ngai, L. R., and C. A. Pissarides (2007). ``Structural Change in a Multisector Model of Growth.'' \emph{American Economic Review} 97(1): 429--443.}
+\refentry{Nordhaus, W. D. (2007). ``Two Centuries of Productivity Growth in Computing.'' \emph{The Journal of Economic History} 67(1): 128--159.}
+\refentry{Nordhaus, W. D. (2008). ``Baumol's Diseases: A Macroeconomic Perspective.'' \emph{The B.E. Journal of Macroeconomics} 8(1).}
+\refentry{Philippon, T. (2019). \emph{The Great Reversal: How America Gave Up on Free Markets.} Harvard University Press.}
+\refentry{Prescott, E. C. (2004). ``Why Do Americans Work So Much More Than Europeans?'' \emph{Federal Reserve Bank of Minneapolis Quarterly Review} 28(1): 2--13.}
+\refentry{Robinson, J. (1936). ``Disguised Unemployment.'' \emph{The Economic Journal} 46(182): 225--237.}
+\refentry{Rognlie, M. (2015). ``Deciphering the Fall and Rise in the Net Capital Share: Accumulation or Scarcity?'' \emph{Brookings Papers on Economic Activity} 2015(1): 1--69. \url{https://doi.org/10.1353/eca.2016.0002}.}
+\refentry{Solow, R. M. (1987). ``We'd Better Watch Out.'' \emph{New York Times Book Review}, July 12, p.~36.}
+\refentry{Summers, L. H. (2014). ``U.S. Economic Prospects: Secular Stagnation, Hysteresis, and the Zero Lower Bound.'' \emph{Business Economics} 49(2): 65--73.}
+\refentry{Syverson, C. (2017). ``Challenges to Mismeasurement Explanations for the US Productivity Slowdown.'' \emph{Journal of Economic Perspectives} 31(2): 165--186.}
+\refentry{Vollrath, D. (2020). \emph{Fully Grown: Why a Stagnant Economy Is a Sign of Success.} University of Chicago Press.}
+\refentry{Warren, E., and A. W. Tyagi (2003). \emph{The Two-Income Trap: Why Middle-Class Mothers and Fathers Are Going Broke.} Basic Books.}
+\refentry{Zeira, J. (1998). ``Workers, Machines, and Economic Growth.'' \emph{The Quarterly Journal of Economics} 113(4): 1091--1117. \url{https://doi.org/10.1162/003355398555847}.}\par
+}
+
+\end{document}

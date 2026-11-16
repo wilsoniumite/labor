@@ -4,3 +4,4 @@ __pycache__/
 .lake/
 progress_and_prosperity/lambda/data/cache/
 pinning/paper/submission/_build/
+stagnation/paper/_build/
