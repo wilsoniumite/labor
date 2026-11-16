@@ -3,6 +3,9 @@
 # hourly earnings of production and nonsupervisory employees over those of all employees (AHETPI / CES0500000003, the
 # latter from 2006). Annual averages (code/m1_eras.py; 2025 over the 11 months the household survey published).
 # As frozen: counts against the account if output per hour grew faster with rising hours per person and no compression.
+# The plan stated no prediction for these years (the pickup in output per hour was known when it was written);
+# `opposite_combination` records whether the opposite of the counting-against combination occurred, the pattern
+# Proposition 1 gives when hours leave work.
 # Writes data/m5_recent.json.
 # Run from stagnation/:  ../venv/bin/python code/m5_recent.py
 import json
@@ -39,7 +42,7 @@ def run():
     compressed = out["compression_2019_2025"] > 0
     out.update(faster=bool(faster), rising_hours=bool(rising_hours), compressed=bool(compressed),
                counts_against=bool(faster and rising_hours and not compressed),
-               prediction_holds=bool(faster and not rising_hours and compressed))
+               opposite_combination=bool(faster and not rising_hours and compressed))
     return out
 
 

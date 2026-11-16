@@ -43,6 +43,20 @@ def annual(sid):
     return g.mean()[keep]
 
 
+def population_smoothed():
+    """CNP16OV with each January's log change replaced by the mean log change of the other months of its year, as
+    annual means over the same months annual() keeps (a sensitivity: BLS's January population-control steps)."""
+    s = fred.fetch("CNP16OV")
+    d = np.log(s).diff()
+    jan = d.index.month == 1
+    yr = d.index.year
+    d[jan] = d[~jan].groupby(yr[~jan]).mean().reindex(yr[jan]).values
+    d.iloc[0] = 0.0
+    sm = np.exp(np.log(s.iloc[0]) + d.cumsum())
+    keep = annual("CNP16OV").index
+    return sm.groupby(sm.index.year).mean().loc[keep]
+
+
 def build():
     a = pd.DataFrame({sid: annual(sid) for sid in ("OPHNFB", "HOANBS", "PRS85006173", "REAINTRATREARAT10Y", "DFII10",
                                                    "HOOREVLMHMV", "BOGZ1LM155012665Q", "CNP16OV")})
@@ -61,10 +75,22 @@ def numbers(a):
     base = out["output_per_hour"]["1948-1973"]
     out["slowdown"] = {f"{y0}-{y1}": base - out["output_per_hour"][f"{y0}-{y1}"] for y0, y1 in ERAS[1:]}
     # Lemma 1 at given technology, land and basket: the elasticity of output per hour with respect to hours lies in
-    # (-1, 0), so a rise in hours per person of g a year lowers growth of output per hour by at most g, and by |eps| g
-    # at the instance's elasticity (code/model.py)
-    g = out["hours_per_person"]["1973-1995"]
-    out["lemma1_hours_pp_1973_1995"] = dict(at_most=g, instance=-EPS * g)
+    # (-1, 0), so a swing in the growth of hours per person of g points a year between two eras moves the growth of
+    # output per hour by at most g, and by |eps| g at the instance's elasticity (code/model.py). The swing from
+    # 1948-73 to 1973-95 is the rise in 1973-95 plus the fall in 1948-73.
+    g = out["hours_per_person"]["1973-1995"] - out["hours_per_person"]["1948-1973"]
+    out["lemma1_swing_1948_1973_to_1973_1995"] = dict(swing=g, at_most=g, instance=-EPS * g)
+    # sensitivity, added after the data were seen: BLS introduces new population controls each January without
+    # revising earlier months, so CNP16OV steps each January; with each January's change set to the mean change of the
+    # other months of its year, hours per person by era
+    hpp_s = a.HOANBS / population_smoothed()
+    out["hours_per_person_smoothed"] = {f"{y0}-{y1}": growth(hpp_s, y0, y1) for y0, y1 in ERAS}
+    s = np.log(fred.fetch("CNP16OV")).diff().dropna()
+    jan = s[s.index.month == 1]
+    rest = s[s.index.month != 1]
+    step = (jan.groupby(jan.index.year).first() - rest.groupby(rest.index.year).mean()).dropna()
+    out["population_january_step"] = dict(max_year=int(step.idxmax()), max_pct=100 * float(step.max()),
+                                          y2025_pct=100 * float(step[2025]))
     ls = a.PRS85006173
     out["labor_share"] = dict(level_1948=ls[1948], level_2000=ls[2000], level_2025=ls[2025],
                               pct_1948_2000=100 * (ls[2000] / ls[1948] - 1), pct_2000_2025=100 * (ls[2025] / ls[2000] - 1),

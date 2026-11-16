@@ -251,6 +251,7 @@ def facts(p, res):
         out["sector_productivity"][e] = {k: 100 * float(v) for k, v in pi1.items()}
         out.setdefault("within_by_sector", {})[e] = {k: 100 * float(v) for k, v in (0.5 * (s1 + s0) * (pi1 - pi0)).items()}
         out.setdefault("realloc_change_by_sector", {})[e] = {k: 100 * float(v) for k, v in (rd1 - rd0).items()}
+        out.setdefault("realloc_change_by_sector_raw", {})[e] = {k: 100 * float(v) for k, v in (r1 - r0).items()}
     return out
 
 

@@ -57,6 +57,14 @@ def envelope(h, y0=1950, y1=1980, yend=None):
     for tag in ("trend", "europe"):
         for name in ("lo", "mid", "hi"):
             out[f"envelope_share_{tag}_{name}"] = out[f"pi_growth_pp_{tag}_{name}"] / out["slowdown_1980_end"]
+    # the share depends on the windows set against each other (a sensitivity, added after the data were seen):
+    # against output per hour in 1950-80, the hours trend's own window; and with hours and output per hour both
+    # broken at 1973 (hours 1950-73 against 1973-end, output per hour 1948-73 against 1973-end)
+    out["ophnfb_rate_1950_1980"] = g(y0, y1)
+    out["envelope_share_matched_1950_1980"] = out["pi_growth_pp_trend_mid"] / (g(y0, y1) - g(y1, yend))
+    h73 = 100 * ((np.log(us[yend]) - np.log(us[1973])) / (yend - 1973) - (np.log(us[1973]) - np.log(us[y0])) / (1973 - y0))
+    out["envelope_pp_break_1973"] = -ELASTICITIES[1] * h73        # hours fell more slowly after 1973: h73 > 0
+    out["envelope_share_break_1973"] = out["envelope_pp_break_1973"] / (g(1948, 1973) - g(1973, yend))
     return out, eu
 
 

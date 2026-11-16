@@ -33,5 +33,9 @@
   "envelope_share_trend_hi": 0.11623378823180243,
   "envelope_share_europe_lo": 0.24467451501703238,
   "envelope_share_europe_mid": 0.14400094299613816,
-  "envelope_share_europe_hi": 0.09786980600681297
+  "envelope_share_europe_hi": 0.09786980600681297,
+  "ophnfb_rate_1950_1980": 2.220489355167089,
+  "envelope_share_matched_1950_1980": 0.4621727340027916,
+  "envelope_pp_break_1973": 0.06804858280054933,
+  "envelope_share_break_1973": 0.06997920127340798
 }

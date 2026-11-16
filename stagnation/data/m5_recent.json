@@ -14,5 +14,5 @@
   "rising_hours": false,
   "compressed": true,
   "counts_against": false,
-  "prediction_holds": true
+  "opposite_combination": true
 }
