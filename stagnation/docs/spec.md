@@ -201,7 +201,7 @@ band.
 | Market power (De Loecker, Eeckhout and Unger 2020; Philippon 2019) | rents from markups | rents here are on fixed inputs; markups are institutional rents in the same accounting |
 | Baumol, structural change (Nordhaus 2008; Vollrath 2020) | composition | Lemma 3 is the fixed-input version; M2 measures it |
 | Housing constraints (Hsieh and Moretti 2019, magnitude disputed; Glaeser and Gyourko 2018) | spatial misallocation | Proposition 2: land per basket sets the ceiling |
-| Labor reforms and productivity (Dew-Becker and Gordon 2008; Bourlès and Cette 2007) | employment composition | H-X re-measures it; Proposition 1 is the mechanism |
+| Labor reforms and productivity (Dew-Becker and Gordon 2012; Bourlès and Cette 2007) | employment composition | H-X re-measures it; Proposition 1 is the mechanism |
 
 ## 9. Risks and limits
 
@@ -221,10 +221,10 @@ band.
 Keynes 1930; Robinson 1936; Hansen 1939; Habakkuk 1962; Baumol 1967; Solow 1987; Jorgenson 1988; Bruno and Sachs
 1985; Ngai and Pissarides 2007; Nordhaus 2007, 2008; Allen 2009; Acemoglu 2010; Cowen 2011; Summers 2014; Rognlie
 2015; Fernald 2015; Byrne, Fernald and Reinsdorf 2016; Gordon 2016; Syverson 2017; Caballero, Farhi and Gourinchas
-2017; Knoll, Schularick and Steger 2017; Glaeser and Gyourko 2018; Hsieh and Moretti 2019 (and the comment on its
+2017; Knoll, Schularick and Steger 2017; Glaeser and Gyourko 2018; Hsieh and Moretti 2019 (and Greaney 2026, the comment on its
 magnitude); Eggertsson, Mehrotra and Robbins 2019; Philippon 2019; Bloom, Jones, Van Reenen and Webb 2020; De
 Loecker, Eeckhout and Unger 2020; Vollrath 2020; Mian, Straub and Sufi 2021; Brynjolfsson, Rock and Syverson 2021;
-Goolsbee and Syverson 2023; Autor, Dube and McGrew 2023; Dew-Becker and Gordon 2008; Bourlès and Cette 2007;
+Goolsbee and Syverson 2023; Autor, Dube and McGrew 2023; Dew-Becker and Gordon 2012; Bourlès and Cette 2007;
 Davis and Heathcote 2007; Deaton and Laroque 2001; Warren and Tyagi 2003; Prescott 2004; Goldin 2006; Stansbury and
 Summers 2017; Acemoglu and Restrepo 2018; Båge and Wilson 2026.
 
@@ -238,4 +238,6 @@ Summers 2017; Acemoglu and Restrepo 2018; Båge and Wilson 2026.
 
 ## Amendments
 
-(none)
+- 2026-11-16, no outcome data seen (none pulled): citations only, nothing tested changes. Dew-Becker and Gordon
+  cited as published (Review of Economics and Institutions 3(2), 2012) instead of the 2008 working paper; the
+  comment on Hsieh and Moretti named (Greaney 2026, AEJ: Macroeconomics 18(2)), verified the same day.
