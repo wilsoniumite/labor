@@ -23,7 +23,7 @@ code/fig_rates.py     Figure 2: the required return
 code/table_regimes.py Table B.1: the instance under the four rules
 code/eras.py          the introduction's eras of output per hour (FRED OPHNFB)
 cache/                raw series as pulled (MANIFEST.md says what and when)
-checks/check_theory.py  the battery (142 checks): sympy, a cross-check against the companion paper's solver,
+checks/check_theory.py  the battery (169 checks): sympy, a cross-check against the companion paper's solver,
                       equilibrium conditions from primitives, each result, 300 random economies, and every
                       number in the theory sections found in main.tex next to its words
 ```
@@ -60,7 +60,7 @@ python code/fig_paths.py          # Figure 1
 python code/fig_rates.py          # Figure 2
 python code/table_regimes.py      # Table B.1
 python code/eras.py               # the introduction's eras
-python checks/check_theory.py     # 142 checks; exit 0 only if all pass (about 10 s)
+python checks/check_theory.py     # 169 checks; exit 0 only if all pass (about 15 s)
 cd paper && latexmk -pdf -outdir=_build main.tex
 ```
 

@@ -200,9 +200,10 @@ def small_eta_interior(P):
     return lhs, rhs
 
 
-def growth_per_log_capability(P, eta, step=1e-3):
-    """d log(output per hour) / d log(1/eta) at eta: the growth of output per hour per unit of growth in machine
-    capability (Proposition 2(iv))."""
+def elasticity_capability(P, eta, step=1e-3):
+    """d log(output per hour) / d log(1/eta) at eta: the elasticity of output per hour with respect to machine
+    capability across stationary equilibria (Proposition 2(iv)); a comparison of stationary states, not a growth rate
+    along a path."""
     a, b = solve(with_(P, eta=eta)), solve(with_(P, eta=eta * np.exp(-step)))
     return (np.log(b["pi"]) - np.log(a["pi"])) / step
 
@@ -231,7 +232,18 @@ def numbers(P=BASE):
     out.update(rate_v_drop_enclosed=1.0 - e2["v"] / e1["v"], rate_omega_drop_enclosed=1.0 - e2["omega"] / e1["omega"],
                rate_land_mult_enclosed=e2["land_price_hours"] / e1["land_price_hours"],
                rate_pi_rise_funded=f2["pi"] / f1["pi"] - 1.0, rate_n_funded_low=f2["n"],
-               rate_v_drop_funded=1.0 - f2["v"] / f1["v"])
+               rate_v_drop_funded=1.0 - f2["v"] / f1["v"],
+               rate_ls_enclosed=e2["labor_share"], rate_ls_funded=f2["labor_share"])
+    # labor's share under absorption with a steeper schedule (k = 8 in place of 4.4): it falls there
+    k1, k2 = solve(with_(P, k=8.0)), solve(with_(P, k=8.0, **REGIMES["enclosed"]))
+    out.update(ls_k8_funded=k1["labor_share"], ls_k8_enclosed=k2["labor_share"])
+    # the elasticity of output per hour with respect to machine capability over the first and the third tenfold gain
+    for key in REGIMES:
+        pis = [solve(with_(P, **REGIMES[key], eta=e))["pi"] for e in (1.0, 0.1, 0.01, 0.001)]
+        out[f"slope_{key}_d1"] = np.log(pis[1] / pis[0]) / np.log(10.0)
+        out[f"slope_{key}_d3"] = np.log(pis[3] / pis[2]) / np.log(10.0)
+    # what rent alone would pay for: T / (N P_s) baskets per person at the funded baseline
+    out["rent_cover_base"] = P["T"] / (P["N"] * q["funded"]["Ps"])
     return out
 
 
@@ -248,7 +260,7 @@ if __name__ == "__main__":
         row = [solve(with_(P, eta=e)) for e in (1, 1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6)]
         print(f"  {k:12s} ceiling {pi_ceiling(P):8.4g}: " + "  ".join(f"{q['pi']:.4g} ({q['n']:.3g})" for q in row))
         print(f"  {'':12s} growth per log capability at 1e-2, 1e-4, 1e-6: "
-              + ", ".join(f"{growth_per_log_capability(P, e):.5f}" for e in (1e-2, 1e-4, 1e-6)))
+              + ", ".join(f"{elasticity_capability(P, e):.5f}" for e in (1e-2, 1e-4, 1e-6)))
     print("--- the required return 0.09 -> 0.04")
     for k in ("enclosed", "funded"):
         a, b = solve(with_(BASE, **REGIMES[k])), solve(with_(BASE, **REGIMES[k], rho=0.04))

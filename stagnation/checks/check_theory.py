@@ -116,6 +116,17 @@ check("A9 dlog(P_C/P_Y)/dlog(r/w) = beta_C - beta_Y", sp.simplify(sp.diff(wedge,
 w_, PC, PY, Yn, Na = sp.symbols("w P_C P_Y Y_n N_a", positive=True)
 check("A10 (w/P_C)/((Y_n/P_Y)/N_a) = (w N_a/Y_n)(P_Y/P_C): real pay over productivity = labor's share x price ratio",
       sp.simplify((w_ / PC) / ((Yn / PY) / Na) - (w_ * Na / Yn) * (PY / PC)) == 0)
+# identity (A.1): with v = gamma p_m, 1/omega = P_s/v = (1 - x) + J/gamma + h/v
+check("A12 identity (A.1): P_s/v = 1 - x + J/gamma + h/v", sp.simplify(Ps_s / v_s - (1 - x + Jx / g + h / v_s)) == 0)
+gp_, Jp_ = sp.symbols("gamma_prime J_prime", real=True)
+m_prime = sp.diff(1 - x + sp.Function("J")(x) / G(x), x).subs(sp.Derivative(sp.Function("J")(x), x), G(x))
+check("A12 m(x) = 1 - x + J/gamma has m' = -J gamma'/gamma^2 <= 0 (with J' = gamma)",
+      sp.simplify(m_prime + sp.Function("J")(x) * sp.diff(G(x), x) / G(x) ** 2) == 0)
+# Lemma 2's requirements: the basket's price resolves into hours and land with machine rounds charged at rho + delta
+Lt_s = 1 - x + c * lam * Jx / (1 - c * a)
+Bt_s = h + c * b * Jx / (1 - c * a)
+check("A13 P_s = v L~_s + B~_s with price requirements L~_s = 1 - x + (rho+delta) lambda J/(1 - (rho+delta) a), "
+      "B~_s = h + (rho+delta) b J/(1 - (rho+delta) a)", sp.simplify(Ps_s - (v_s * Lt_s + Bt_s)) == 0)
 # Lemma 3 (the paper's normalization, C = [alpha^(1/s) c_M^((s-1)/s) + (1-alpha)^(1/s) c_S^((s-1)/s)]^(s/(s-1))):
 # demand c_M/c_S = (alpha/(1-alpha)) q^(-s), so the share is alpha q^(1-s)/(alpha q^(1-s) + 1 - alpha), -> 0 for s < 1
 qq, al, cs_, mm = sp.symbols("q alpha c_S m", positive=True)
@@ -236,14 +247,18 @@ for k, P in REG.items():
         check(f"P2 {k}: output per hour -> T/(h N_inf) = {M.pi_ceiling(P):.6f} from below, the gap in proportion to eta",
               gap_p6 < 1e-3 * M.pi_ceiling(P) and lin(gap_p6, gap_p5)
               and all(q["pi"] <= M.pi_ceiling(P) * (1 + 1e-12) for q in qs), f"{last['pi']:.8f}")
-        gr = M.growth_per_log_capability(P, 1e-6)
-        check(f"P2 {k}: growth of output per hour per unit of log capability -> 0", abs(gr) < 1e-3, f"{gr:.2e}")
+        gr = M.elasticity_capability(P, 1e-6)
+        check(f"P2 {k}: elasticity of output per hour w.r.t. machine capability -> 0", abs(gr) < 1e-3, f"{gr:.2e}")
     else:
         check(f"P2 {k}: hours -> 0", last["n"] < 1e-4, f"{last['n']:.3e}")
-        gr = M.growth_per_log_capability(P, 1e-6)
-        check(f"P2 {k}: growth of output per hour per unit of log capability -> 1", abs(gr - 1) < 1e-3, f"{gr:.6f}")
+        gr = M.elasticity_capability(P, 1e-6)
+        check(f"P2 {k}: elasticity of output per hour w.r.t. machine capability -> 1", abs(gr - 1) < 1e-3, f"{gr:.6f}")
         lhs_, rhs_ = M.small_eta_interior(P)
         check(f"P2 {k}: the small-eta interior condition holds", lhs_ > rhs_, f"{lhs_:.5f} > {rhs_:.6f}")
+    check(f"P2 {k}: support funded at every point of the path, and the limit condition T > h[(1-theta)N + Delta N_inf]",
+          all(q["funded"] for q in qs)
+          and P["T"] > P["h"] * ((1 - P["theta"]) * P["N"] + P["Delta"] * ninf),
+          f"worst support/income {max(q['support'] / q['provider_income'] for q in qs):.3f}")
     check(f"P2 {k}: output -> T/h", rel(last["Y"], P["T"] / P["h"]) < 1e-4, f"{last['Y']:.6f}")
     check(f"P2 {k}: output per hour rises along the path",
           all(qs[i + 1]["pi"] > qs[i]["pi"] for i in range(len(qs) - 1)))
@@ -256,8 +271,13 @@ for k, P in REG.items():
           and last["omega"] < 1e-4 and last["labor_share"] < 1e-4,
           f"{len(open_all)} points open; w/P_s {last['omega']:.2e}, share {last['labor_share']:.2e}")
 qs0 = M.path(M.with_(B0, lam=0.0))
-check("P2 lambda = 0 (no labor in the machine chain): interior along the whole path, growth -> 1",
-      len(qs0) == len(M.ETAS) and abs(M.growth_per_log_capability(M.with_(B0, lam=0.0), 1e-6) - 1) < 1e-3)
+check("P2 lambda = 0 (no labor in the machine chain): interior along the whole path, elasticity -> 1",
+      len(qs0) == len(M.ETAS) and abs(M.elasticity_capability(M.with_(B0, lam=0.0), 1e-6) - 1) < 1e-3)
+# the funding condition is part of the equilibrium: an economy whose labor market clears but whose support is not
+# funded exists (Delta = 1 in the instance), so funding is checked, not assumed
+qD = M.solve(M.with_(B0, Delta=1.0))
+check("P2 funding is a separate condition: with Delta = 1 the labor market clears but support is not funded",
+      0 < qD["x"] < qD["x_c"] and not qD["funded"], f"support {qD['support']:.4f} of {qD['provider_income']:.4f}")
 
 # --------------------------------------------------------------------------------------- P3: the required return
 qe = M.rates(REG["enclosed"])
@@ -282,8 +302,24 @@ for tag, P in (("enclosed", REG["enclosed"]), ("funded", REG["funded"])):
     check(f"P3 {tag}: dlog(land in hours)/dlog rho = -1 - rho/((rho+delta) D) at the fixed margin",
           abs(fd_l - an_l) < 1e-5, f"{fd_l:.6f} vs {an_l:.6f}")
 qf = M.rates(REG["funded"])
-check("P3 funded: as rho falls the margin rises, hours fall, output per hour rises",
+check("P3(iv) funded: as rho falls the margin rises, hours fall, output per hour rises",
       inc_r(qf[::-1], lambda q: q["x"]) and inc_r(qf, lambda q: q["n"]) and inc_r(qf[::-1], lambda q: q["pi"]))
+# P3(ii): whoever can leave work, a lower return lowers w/r, w/P_s and labor's share and raises land's price in hours
+for k in REG:
+    qr = M.rates(REG[k])
+    check(f"P3(ii) {k}: w/r, w/P_s and labor's share rise with rho; land in hours falls; funded on the whole grid",
+          inc_r(qr, lambda q: q["v"]) and inc_r(qr, lambda q: q["omega"]) and inc_r(qr, lambda q: q["labor_share"])
+          and inc_r(qr[::-1], lambda q: q["land_price_hours"]) and all(q["funded"] for q in qr))
+# the identity behind P3(ii): 1/omega = m(x) + h/v with m(x) = 1 - x + J/gamma nonincreasing
+worst_id, m_ok = 0.0, True
+for k, P in REG.items():
+    xs_ = np.linspace(1e-4, M.ceiling(P) - 1e-4, 4001)
+    m_ = 1 - xs_ + M.J(P, xs_) / M.gamma(P, xs_)
+    m_ok &= np.all(np.diff(m_) <= 1e-15)
+    worst_id = max(worst_id, max(abs(1 / M.omega(P, s) - (1 - s + M.J(P, s) / M.gamma(P, s) + P["h"] / M.v(P, s)))
+                                 * M.omega(P, s) for s in xs_[::40]))
+check("P3(ii) identity (A.1): 1/omega = m(x) + h/v, with m nonincreasing on the grid, in every rule",
+      worst_id < 1e-12 and m_ok, f"worst {worst_id:.1e}")
 
 # ------------------------------------------------------------------------------------------------- W: Lemma 2
 rng = np.random.default_rng(20261116)
@@ -319,6 +355,20 @@ for sig in (0.3, 0.6, 0.9):
     details.append(f"sigma {sig}: growth {div[-1]:.6f}, share {share_M[-1]:.1e}")
 check("C1 Lemma 3: measured growth = g_S + s_M sigma g_q -> g_S, s_M falls to 0, the level below "
       "(1-alpha)^(1/(sigma-1)) c_S", ok_c, "; ".join(details))
+# Lemma 3(b): with sigma >= 1 consumption is unbounded in c_M at fixed c_S
+ok_b = True
+for sig in (1.0, 1.5, 3.0):
+    al_, cS0 = 0.6, 1.0
+    cMs = np.logspace(0, 12, 25)
+    if sig == 1.0:
+        C = (cMs / al_) ** al_ * (cS0 / (1 - al_)) ** (1 - al_)
+    else:
+        rc = (sig - 1) / sig
+        C = (al_ ** (1 / sig) * cMs ** rc + (1 - al_) ** (1 / sig) * cS0 ** rc) ** (1 / rc)
+        ok_b &= np.all(C > al_ ** (1 / (sig - 1)) * cMs * (1 - 1e-12))
+    ok_b &= np.all(np.diff(C) > 0) and C[-1] > 1e6 * C[0]
+check("C2 Lemma 3(b): with sigma = 1, 1.5, 3 consumption grows without bound in c_M (and C > alpha^(1/(sigma-1)) c_M "
+      "for sigma > 1)", ok_b)
 
 # --------------------------------------------------------------------------------------- R: random economies
 def draw(r):
@@ -331,13 +381,25 @@ def draw(r):
     return P
 
 
+def funded_solve(P):
+    """An equilibrium is a clearing threshold at which support is funded; None if either fails."""
+    try:
+        q = M.solve(P)
+    except ValueError:
+        return None
+    return q if q["funded"] else None
+
+
 rng = np.random.default_rng(7)
-kept, bad = 0, []
-for _ in tqdm(range(3000), desc="random economies", leave=False):
+kept, bad, unfunded = 0, [], 0
+for _ in tqdm(range(20000), desc="random economies", leave=False):
     P = draw(rng)
     try:
         q = M.solve(P)
     except ValueError:
+        continue
+    if not q["funded"]:
+        unfunded += 1
         continue
     kept += 1
     # Lemma 1 against a small supply shift (N scaled up: strict at every margin; n_D does not depend on N)
@@ -356,17 +418,23 @@ for _ in tqdm(range(3000), desc="random economies", leave=False):
     # income identity
     if rel(q["Ps"] * q["Y"], q["income"]) > 1e-12:
         bad.append(("I", P))
-    # Proposition 3(ii): enclosed, the margin does not move with rho
-    try:
-        e1, e2 = M.solve(M.with_(P, theta=1.0)), M.solve(M.with_(P, theta=1.0, rho=P["rho"] * 0.5))
-        if not (abs(e1["x"] - e2["x"]) < 1e-12 and e2["v"] < e1["v"] and e2["omega"] < e1["omega"]):
-            bad.append(("P3", P))
-    except ValueError:
-        pass
+    # Proposition 3(ii), at this economy's theta: a lower return lowers w/r, w/P_s and labor's share and raises land's
+    # price in hours (both equilibria funded)
+    q_lo = funded_solve(M.with_(P, rho=P["rho"] * 0.5))
+    if q_lo is not None and not (q_lo["v"] < q["v"] and q_lo["omega"] < q["omega"]
+                                 and q_lo["labor_share"] < q["labor_share"]
+                                 and (P["rho"] == 0 or q_lo["land_price_hours"] > q["land_price_hours"])):
+        bad.append(("P3ii", P))
+    # Proposition 3(iii): enclosed, the margin does not move with rho
+    e1, e2 = funded_solve(M.with_(P, theta=1.0)), funded_solve(M.with_(P, theta=1.0, rho=P["rho"] * 0.5))
+    if e1 is not None and e2 is not None and not (abs(e1["x"] - e2["x"]) < 1e-12 and e2["v"] < e1["v"]
+                                                  and e2["omega"] < e1["omega"]):
+        bad.append(("P3iii", P))
     if kept >= 300:
         break
-check("R1 300 random interior economies: Lemma 1, Proposition 1, the income identity, Proposition 3(ii)",
-      kept >= 300 and not bad, f"kept {kept}, failures {len(bad)}" + (f" first {bad[0][0]}" if bad else ""))
+check("R1 300 random funded interior economies: Lemma 1, Proposition 1, the income identity, Proposition 3(ii)-(iii)",
+      kept >= 300 and not bad, f"kept {kept} (skipped {unfunded} whose labor market clears but support is unfunded), "
+      f"failures {len(bad)}" + (f" first {bad[0][0]}" if bad else ""))
 
 # ------------------------------------------------------------------------------- Q: the numbers in paper/main.tex
 TEX = ROOT / "paper" / "main.tex"
@@ -382,7 +450,14 @@ QUOTES = [
     ("pi_drop_enclosed", "pct", r"lower than with funded exit"),
     ("ls_base", "{:.2f}", r"labor's share"), ("ls_enclosed", "{:.2f}", r"labor's share"),
     ("ceil_conditioned", "{:.1f}", r"conditioned support it levels off"),
-    ("ceil_quarter", "{:.1f}", r"quarter of people unsupported"), ("ceil_enclosed", "{:.2f}", r"nobody supported"),
+    ("ceil_quarter", "{:.1f}", r"quarter unsupported"), ("ceil_enclosed", "{:.2f}", r"nobody supported"),
+    ("slope_funded_d1", "{:.2f}", r"first tenfold gain"), ("slope_conditioned_d1", "{:.2f}", r"first tenfold gain"),
+    ("slope_quarter_d1", "{:.2f}", r"first tenfold gain"), ("slope_enclosed_d1", "{:.2f}", r"first tenfold gain"),
+    ("slope_funded_d3", "{:.2f}", r"third tenfold gain"), ("slope_conditioned_d3", "{:.2f}", r"third tenfold gain"),
+    ("slope_quarter_d3", "{:.2f}", r"third tenfold gain"), ("slope_enclosed_d3", "{:.3f}", r"third tenfold gain"),
+    ("ls_k8_funded", "{:.2f}", r"steeper schedule"), ("ls_k8_enclosed", "{:.2f}", r"steeper schedule"),
+    ("rate_ls_enclosed", "{:.2f}", r"labor's share from 0\.58"), ("rate_ls_funded", "{:.2f}", r"labor's share from 0\.55"),
+    ("rent_cover_base", "{:.2f}", r"rent alone would pay"),
     ("Ninf_conditioned", "{:.2f}", r"hours tend to"),
     ("D_base", "pct", r"land is"), ("invD_base", "{:.2f}", r"elasticity in \(i\)"),
     ("invD_enclosed", "{:.2f}", r"nobody supported"),

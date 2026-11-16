@@ -21,7 +21,7 @@ freeze go in the log at the foot of this file, dated, each saying whether outcom
 Measured output per hour is an equilibrium outcome: the inverse of the hours an economy uses per unit of output.
 When production and living costs depend on an input that cannot be produced (sites, deposits, permits), machine
 progress raises output per hour only as far as hours are released. Where support outside work is funded and
-unconditional, falling wages release hours and measured productivity grows at the pace of machine progress. Where
+unconditional, falling wages release hours and measured productivity eventually rises in proportion to machine capability. Where
 consumption is financed by wages and support is conditioned on work, the hours stay, the wage falls instead, displaced
 workers are re-employed at tasks of low value, and the gains from machine progress go to rents. Keynes (1930) expected
 the first. The record since about 1973 looks more like the second: Joan Robinson's (1936) disguised unemployment,
@@ -77,41 +77,49 @@ system in Båge and Wilson (2026, Appendix B), with labor supply generalized.
 ## 4. Results to prove
 
 Each is checked in `checks/check_theory.py` (sympy for the algebra, numbers on the instance and on random
-economies).
+economies). Restated 2026-11-16 after the independent review (Amendments); the statements below are the paper's.
 
+- **Clearing and equilibrium.** If T > Nh and supply exceeds demand at x_c, exactly one threshold in (0, x_c) clears
+  the labor market; it is an equilibrium if support is funded there, (7). Funding is a separate condition.
 - **Lemma 1 (output per hour).** At an interior equilibrium, Y = T/B_s(x*), N_a = T L_s(x*)/B_s(x*), and output per
   hour π = Y/N_a = 1/L_s(x*). L_s is strictly decreasing and B_s strictly increasing on (0, x_c). Across equilibria
-  with the same technology, d log π / d log N_a = −1/(1+ψ), ψ = (B_s'/B_s)/(−L_s'/L_s) > 0, so the elasticity lies in
-  (−1, 0).
-- **Proposition 1 (absorption).** Fix technology. If labor supply rises at every margin, strictly at the original
-  equilibrium (a higher θ or Δ), the margin moves toward labor; hours and output rise; output per hour, w/r and w/P_s
-  fall.
-- **Proposition 2 (machine progress and the hours that remain).** Let γ_η = ηγ̂ with η ↓ 0, along interior
+  with the same technology, land endowment T and basket h, d log π / d log N_a = −1/(1+ψ), ψ = (B_s'/B_s)/(−L_s'/L_s)
+  > 0, so the elasticity lies in (−1, 0).
+- **Proposition 1 (absorption).** Fix technology, T and h. If labor supply rises at every margin, strictly at the
+  original equilibrium, the margin moves toward labor; hours and output rise; output per hour, w/r and w/P_s fall. A
+  higher θ is such a shift where some supported people do not work; a higher Δ where F has a positive density at
+  log(1+ω+Δ). Labor's share is ω L_s(x*), so absorption's effect on it depends on the schedule (it rises in the
+  instance and falls with a steeper schedule).
+- **Proposition 2 (machine progress and the hours that remain).** Let γ_η = ηγ̂ with η ↓ 0, along funded interior
   equilibria, everything else fixed. (i) w/r → 0, w/P_s → 0, labor's share → 0. (ii) Hours → N_∞ =
   N[θ + (1−θ)F(log(1+Δ))]. (iii) Output → T/h; output per hour → T/(hN_∞) if N_∞ > 0, a ceiling machine progress
-  cannot raise, and diverges if N_∞ = 0. (iv) If η falls at a constant rate g and F has a positive finite density at
-  zero, the growth of output per hour converges to g when N_∞ = 0 and to zero when N_∞ > 0. Sufficient conditions for
-  interior equilibria at small η are stated and proved (λ = 0, or N_∞ > 0, or a stated inequality).
-- **Proposition 3 (the required return).** (i) At a given margin, ∂log(w/r)/∂log(ρ+δ) = 1/D(x) > 1, where D is land's
-  share of a machine's build cost; w/P_s is increasing in ρ. (ii) With θ = 1, the margin does not depend on ρ: a lower
-  required return lowers w/r and w/P_s, leaves hours, output and output per hour unchanged, and raises the price of
-  land in hours of work, 1/(ρ v), with elasticity −1 − ρ/((ρ+δ)D) < −1. (iii) With θ < 1, a lower required return
-  lowers labor supply at every margin: hours fall and output per hour rises.
-- **Lemma 2 (the price wedge).** In the two-factor flow cost system, ∂log(P_C/P_Y)/∂log(r/w) = β_C − β_Y, with β_j
-  the rent share of bundle j's full-chain cost; real pay per hour over output per hour equals labor's share times
-  P_Y/P_C. A falling wage–rent ratio opens a gap between pay and productivity beyond labor's share when consumption is
-  more rent-intensive than measured output.
+  cannot raise, and diverges if N_∞ = 0. (iv) With γ̂ continuously differentiable near [0,1] and F with a continuous
+  density near log(1+Δ), positive at zero when N_∞ = 0, the elasticity of output per hour with respect to machine
+  capability across stationary equilibria, d log π / d log(1/η), tends to one when N_∞ = 0 and to zero when N_∞ > 0
+  (a comparison of stationary states, not a growth rate along a path). Clearing thresholds are interior for small η
+  when T > Nh and N_∞ > 0, or λ = 0 with F(z) > 0 for z > 0, or N_∞ = 0 with f(0) > 0 and condition (12); support is
+  funded for small η if T > h[(1−θ)N + ΔN_∞].
+- **Proposition 3 (the required return).** (i) At a given margin, ∂log(w/r)/∂log(ρ+δ) = 1/D(x) ≥ 1 (strictly if
+  a + λγ > 0), where D is land's share of a machine's build cost; w/P_s is increasing in ρ. (ii) Whoever can leave
+  work, the equilibrium with the lower required return has lower w/r, w/P_s and labor's share and a higher price of
+  land in hours of work (proof through the identity 1/ω = m(x) + h/v, m(x) = 1 − x + J/γ nonincreasing). (iii) With
+  θ = 1 the margin does not depend on ρ: hours, output and output per hour are unchanged, and the land price in hours
+  has elasticity −1 − ρ/((ρ+δ)D) with respect to ρ. (iv) With θ < 1, a lower required return lowers labor supply at
+  every margin, strictly where F has a positive density at log(1+ω+Δ): hours fall and output per hour rises.
+- **Lemma 2 (the price wedge).** With prices resolved into hours and land at user cost, P_j = w L̃_j + r B̃_j (the
+  price requirements, which with ρ > 0 charge each round of machine-building at ρ + δ), ∂log(P_C/P_Y)/∂log(r/w) =
+  β_C − β_Y with β_j = r B̃_j / P_j; real pay per hour over output per hour equals labor's share times P_Y/P_C.
 - **Lemma 3 (composition).** With CES consumption over a machine-made good and a bound good (land-bound or
-  human-required) at elasticity σ < 1, if the relative price of the machine-made good falls at a bounded rate, the
-  bound good's expenditure share tends to one and measured (Divisia) real consumption growth tends to the bound good's
-  growth. The level of consumption is bounded by a multiple of the bound good. (Baumol 1967; Ngai and Pissarides
-  2007; the new part is the fixed-input version tied to the cost system.)
-- **Remarks.** (a) Δ > 0 draws in hours whose workers value them below their cost; with Δ = 0 and lump-sum support the
-  participation margin is undistorted. (b) Directed automation: cheaper labor lowers the private return to automating
-  labor-held tasks (Habakkuk 1962; Allen 2009; Acemoglu 2010), a growth-rate channel not modeled. (c) θ is a
+  human-required): (a) at σ < 1, if the machine-made good's relative price falls to zero at a bounded rate, the bound
+  good's expenditure share tends to one, measured (Divisia) growth tends to the bound good's growth, and consumption
+  is bounded by a multiple of the bound good; (b) at σ ≥ 1, consumption is unbounded in the machine-made good. The
+  economy with a CES basket is not solved. (Baumol 1967; Ngai and Pissarides 2007.)
+- **Remarks.** (a) The results are positive: they describe measured output per hour, not welfare; ranking
+  allocations needs a criterion the paper does not supply, and a uniform rent dividend is not in the model (in the
+  instance rent alone covers 0.38 of a basket per person). (b) Directed automation: cheaper labor lowers the private
+  return to automating labor-held tasks (Habakkuk 1962; Allen 2009; Acemoglu 2010), a channel not modeled. (c) θ is a
   primitive here; its endogenous version (support financed from wages) belongs to the transition paper (P2 in
-  `../progress_and_prosperity/PLAN.md`). (d) In the instance absorption *raises* labor's share; the fall in labor's
-  share has to come from Propositions 2–3, not from Proposition 1.
+  `../progress_and_prosperity/PLAN.md`).
 
 ## 5. The instance and the illustrations
 
@@ -241,3 +249,9 @@ Summers 2017; Acemoglu and Restrepo 2018; Båge and Wilson 2026.
 - 2026-11-16, no outcome data seen (none pulled): citations only, nothing tested changes. Dew-Becker and Gordon
   cited as published (Review of Economics and Institutions 3(2), 2012) instead of the 2008 working paper; the
   comment on Hsieh and Moretti named (Greaney 2026, AEJ: Macroeconomics 18(2)), verified the same day.
+- 2026-11-16, no outcome data seen (none pulled): Section 4 restated as the paper now states its results, after an
+  independent review of the theory (`../STATE.md`, Log): funding made a separate condition of equilibrium; Lemma 1
+  at fixed T and h; the density conditions F needs; Proposition 2(iv) an elasticity across stationary states, not a
+  growth rate; Proposition 3(ii) new (prices fall whoever can leave work); Lemma 2 on price requirements; Lemma 3(b)
+  new; the welfare remark withdrawn. M4's mapping from hours to output per hour (Section 6) uses Lemma 1 and so holds
+  technology, land and the basket fixed: it remains an envelope. Nothing in H-X changes.
