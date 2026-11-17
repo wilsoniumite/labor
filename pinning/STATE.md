@@ -177,7 +177,7 @@ both at tag `pre-cleanup-2026-09-04`.
    section is dropped from the title page; (e) "looks good"; (f) her "agreed": the new instance (Log).
    Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission. It now
    also covers the one-panel Figure 4, Section 8's new premium sentence and the review fixes
-   (Log, 2026-11-04), and the oddities pass (Log, 2026-11-17).
+   (Log, 2026-11-04), and the oddities and wording passes (Log, 2026-11-17).
 
 12. **The whole-paper review (2026-11-04): her calls.** One full read here and three independent
    reviewers (main-text maths, Appendices B and D, a referee read), every finding re-checked
@@ -198,7 +198,8 @@ both at tag `pre-cleanup-2026-09-04`.
        unstated (if it keeps half of H, with sigma_H = 1/2 the limiting share is 0.586, not 1).
    (f) The transition index: D = phi_C·max(0, 1−κ)² (as printed it rises with κ above one); the
        comparison assumes a fixed transfer-to-consumption ratio; "model-based-extension central
-       values" fits phi_C only, κ being measured.
+       values" fits phi_C only, κ being measured. → 2026-11-17: the label is fixed (Log, the
+       wording pass); the formula and the fixed ratio remain.
    (g) D.2: the circular share equals the incidence share only if the transfer returns to the
        taxed workers; with the uniform transfer the employed get N_a/N of it.
    (h) Section 5's "proves existence and uniqueness": Lemma B.1 proves a unique interior
@@ -227,6 +228,36 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-17 — a wording-and-flow pass.** Asked for in session, after the oddities pass below ("I was
+  mostly thinking in terms of wording and flow"). Small edits in her voice; the word diff against the
+  oddities pass has 105 regions in 50 paragraphs, and the reading view shows each paragraph whole. No
+  value, equation, label or caption changed (0.68 is now written "68 percent", beside "about 30
+  percent"), and none of the sentences `check_interior` anchors. **Order:** 2.3 ends on Acemoglu and
+  Restrepo (2026), leading into 2.4's wedges, with trade straight after the threshold ("Cross-border
+  trade fits the same threshold", was "is treated similarly" after the wedge sentence); 2.5's Polanyi
+  follows Marx, so "the same event" is enclosure again; 3.1 describes the threshold before the
+  H-only case; 3.2's "Long-run applications require persistent non-produced inputs" follows the land
+  example; Section 4's parents example is one sentence; 6.1's ownership aside follows the A.3 pointer,
+  so "these costs" are the chain's; Appendix E states gamma_L before the assumption that "This is a
+  price-path condition" describes. **Section 8** gives its fourth configuration its own paragraph,
+  "Candidate AI: competition reaches trained tasks." (the heading is the one new phrase of any length:
+  the section and Figure 4 have four configurations, the text had three headings). **Wording:** the
+  introduction's "established and used by the factor-price condition" and "two questions around that
+  margin"; "the same scarcity market" ("scarce inputs"); Proposition 1(iii)'s "reservation value"
+  ("reservation wage", as defined); 2.7's "three empirical objects" ("literatures": Section 9 has a
+  different three) and its welfare-ratio sentence that said the measure twice; "granted a theorem";
+  the corollary's "is sufficient" (for what it keeps bounded away from zero) and, after it, that
+  recursive automation alone does not meet the conditions; D.5's and Table D.1's "model-based-extension
+  central values" (Open 12f's label: only phi_C is model-based); "remain empirical questions" just before
+  "The remaining empirical question is" (two questions follow; now "remain to be measured" and "The
+  central empirical questions are"); Section 12's "It" without an antecedent, "significant nuances",
+  "help significantly with this", "orbits around"; and smaller repeats, ties and pointers. Not touched:
+  the abstract, the captions, the data note (Open 12k), and D.5's "Proposition 5 accounts for both wage
+  and rent income throughout", whose purpose there is unclear (her call). 41 pages, no warnings, every
+  float on its page; lint (113 refs), `check_interior` (112), `check_pinning` (51), `check_fan` and
+  `check_cost_system` (22) green. The package rebuilt: manuscript.tex (the same edits) and the preview;
+  the Word files differed only in their creation time and were kept.
 
 - **2026-11-17 — an oddities pass.** Asked for in session ("go through the pinning paper and try and
   find things that are out of place or odd, and fix them"). One full read; every number quoted in
