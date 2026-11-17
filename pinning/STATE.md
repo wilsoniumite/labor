@@ -6,7 +6,8 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-11-04 — `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+**State as of:** 2026-11-17 — an oddities pass is in (Log, 2026-11-17; branch
+`ccr-be1db06f-3zuf72`, not yet on `main`). Before it, as of 2026-11-04: `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
@@ -176,7 +177,7 @@ both at tag `pre-cleanup-2026-09-04`.
    section is dropped from the title page; (e) "looks good"; (f) her "agreed": the new instance (Log).
    Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission. It now
    also covers the one-panel Figure 4, Section 8's new premium sentence and the review fixes
-   (Log, 2026-11-04).
+   (Log, 2026-11-04), and the oddities pass (Log, 2026-11-17).
 
 12. **The whole-paper review (2026-11-04): her calls.** One full read here and three independent
    reviewers (main-text maths, Appendices B and D, a referee read), every finding re-checked
@@ -208,12 +209,14 @@ both at tag `pre-cleanup-2026-09-04`.
        indifference condition" fails at the corner where labor holds every contestable task, and
        "active contestable margin" is undefined.
    (j) Notation still overloaded: I (identity and income), m (machine and m_w, m_e), alpha in
-       (26), j for goods and for non-produced inputs.
+       (26), j for goods and for non-produced inputs. → 2026-11-17: I and j done (Log); m and
+       alpha remain.
    (k) Smaller: the data note's "All U.S. figures are gross annual flows computed from BEA
        national accounts" (Figure 5 is BLS earnings and CPIs); Figure 6's "the Orshansky 1963
        subsistence bundle" (there are two) and its missing reference (the SSA's copy of the 1965
        Social Security Bulletin article returned HTTP 403, so no entry was added); "Future Work"
-       after the conclusion.
+       after the conclusion. → 2026-11-17: the caption now names both bundles and the heading
+       reads "Future work" (Log); the data note, the reference and the section's place remain.
 
 ## Note on the batteries
 
@@ -224,6 +227,32 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-17 — an oddities pass.** Asked for in session ("go through the pinning paper and try and
+  find things that are out of place or odd, and fix them"). One full read; every number quoted in
+  Section 9, Table D.1 and Figure D.1's caption recomputed from its file (all match but Table D.1's
+  0.99, Open 12a); every figure read against its caption; the abstract and highlights recounted against
+  the journal's limits. **main.tex** (word diff against 3d27e66: exactly these, 15 regions): the
+  identity matrix bold in (3), (4) and A.1's display, as polish 1 made it in its other four uses, so the
+  italic I is income only; Section 7's rents indexed by k ($T_k$, $r_k$), A.1's index for non-produced
+  inputs, where j indexes goods in (2); A.2's proof of Proposition 1 names $N_F$, which it then
+  differentiates; A.1's "The eras figure" (this repository's name for it) is "Figure 4"; Lemma B.1's
+  title in lower case, like every other result's; Figure 6's caption says "an Orshansky 1963
+  subsistence bundle, for a single person or per person in a family of four" (the grid has both bases,
+  `GRID_BUNDLE` in `code/feasibility_kappa.py`; the caption already said "subsistence bundles");
+  "Future work" in sentence case, like every other heading; "input--output" with its en dash, as
+  elsewhere; one curly apostrophe made plain (no change in print). **Figure D.1:** the axis label
+  "Year" (was "year"; Figures 5 and 7 print "Year"). Unchanged, `code/fig_fourway.py` reproduced both
+  tracked files byte for byte, so the new PDF differs only in the label (429 pixels of the 200-dpi
+  render, all in its box). **`paper/submission/abstract.txt`** was still the 21 September revision's
+  abstract ("about one-third"); it is now the manuscript's, generated from main.tex. Left for her: the
+  data note's first sentence, the Orshansky reference, "Future work" after the conclusion (Open 12k);
+  the m and alpha overloads (Open 12j); the rest of Open 12. 41 pages, no warnings, every float on its
+  page; lint (86 labels, 109 refs), `check_pinning` (51), `check_fan`, `check_cost_system` (22),
+  `check_interior` (112) and the eleven corner checks green; the effort batteries and Lean not rerun
+  (nothing they check changed). The package rebuilt: manuscript.tex (the same 15 regions),
+  Figure_D1.pdf and the preview change; the Word files differed only in their creation time and were
+  kept.
 
 - **2026-11-04 — `main` fast-forwarded.** Her go ("You can fix A2, and after that I'd like you to
   merge and give me the new pdf"). A2 of the review, Figure D.1's "about a fifth" for "approximately

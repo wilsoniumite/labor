@@ -183,13 +183,13 @@ Collecting the equations gives the input--output price system of Leontief (1936)
 \begin{equation}\label{eq:3}
 \mathbf{p} = \mathbf{A}\mathbf{p} + \bm{\lambda}w + \mathbf{b}r,
 \qquad
-\mathbf{p} = (I-\mathbf{A})^{-1}(\bm{\lambda}w + \mathbf{b}r).
+\mathbf{p} = (\mathbf{I}-\mathbf{A})^{-1}(\bm{\lambda}w + \mathbf{b}r).
 \end{equation}
 Row $i$ of $\mathbf{A}$ records inputs per unit of output $i$. The coefficients are nonnegative, and the spectral radius of $\mathbf{A}$ is below one, so intermediate production can deliver positive net output. Define the total requirements, including all intermediate rounds, by
 \begin{equation}\label{eq:4}
-\widetilde{\bm{\lambda}} = (I-\mathbf{A})^{-1}\bm{\lambda},
+\widetilde{\bm{\lambda}} = (\mathbf{I}-\mathbf{A})^{-1}\bm{\lambda},
 \qquad
-\widetilde{\mathbf{b}} = (I-\mathbf{A})^{-1}\mathbf{b}.
+\widetilde{\mathbf{b}} = (\mathbf{I}-\mathbf{A})^{-1}\mathbf{b}.
 \end{equation}
 Thus $p_i = w\widetilde{\lambda}_i + r\widetilde{b}_i$. The tilde distinguishes the full production chain from the direct requirements in one row. A directly rented non-produced service can also be recorded in $\mathbf{p}$ with price $p_h = r$, zero intermediate and labor requirements, and $b_h = 1$. Its quantity is drawn from the fixed endowment.
 
@@ -371,7 +371,7 @@ Ownership of the non-produced input receives the non-wage component of income in
 
 The income identity separates two sources of purchasing power: hours sold and ownership claims. A lower wage--rent ratio increases the importance of ownership at given employment. Rent taxation and transfers determine how this income is distributed across households.
 
-Let non-produced inputs supply fixed service endowments $T_j$ at gross competitive rents $r_j$, and write $R=\sum_jr_jT_j$. A tax at rate $\tau_R$ on pure ownership rents finances a uniform per-person transfer $d=\tau_RR/N$, paid identically in and out of work.
+Let non-produced inputs supply fixed service endowments $T_k$ at gross competitive rents $r_k$, and write $R=\sum_kr_kT_k$. A tax at rate $\tau_R$ on pure ownership rents finances a uniform per-person transfer $d=\tau_RR/N$, paid identically in and out of work.
 
 \begin{proposition}[sharing rents while labor remains employed]\label{prop:6}
 (i) The physical supply of the fixed factor is invariant to a tax on its pure ownership rent. Producers continue to pay the gross competitive rental for using it.
@@ -480,8 +480,8 @@ FRED HOOREVLMHMV) and convert the residual to an annual flow using the 10-year
 Treasury yield (GS10), with a +150 basis-point variant and household and
 economy-wide scopes. The red specifications apply land shares of 0.30 and
 0.50 to PCE housing services (BEA, DHSGRC1A027NBEA). Every specification
-uses population times the Orshansky 1963 subsistence bundle as the
-denominator. Drawn by code written with Claude (Anthropic).}
+uses population times an Orshansky 1963 subsistence bundle, for a single
+person or per person in a family of four, as the denominator. Drawn by code written with Claude (Anthropic).}
 \label{fig:6}
 \end{figure}
 
@@ -524,12 +524,12 @@ We close with a conjecture that the model suggests but does not establish. Wages
 
 The mechanism also joins older lines of thought. The classical economists tied wages to subsistence and scarcity, George drew the fiscal consequences of rent, and Keynes (1936) put employment and demand at the center of the economy. Automation that reaches the machines' own supply chains gives them a common setting, and perhaps a common wage equation.
 
-\section{Future Work}\label{sec:12}
+\section{Future work}\label{sec:12}
 There is much still to be done. The static model describes prices and limiting configurations. A dynamic extension could ask whether automation arrives smoothly or in waves, how quickly rents adjust, and what happens when wages fall faster than institutions can respond. It may also have implications for monetary policy. When machine-made goods become cheaper while housing, energy, and other scarce necessities become more expensive, a single inflation rate can hide significant nuances. Can one interest rate stabilize both sides of a divide? Do low interest rates support employment and demand, or do they mainly raise scarce-asset rents and accelerate the replacement of labor? The relative-price structure developed here provides a starting point for these questions.
 
 Participation also invites further study. The benchmark holds real support fixed. A richer account would let families and public institutions adjust provision as living costs and their own resources change. Personal assets, pensions, and savings would add further ways to sustain life outside employment. Richer household structure would open further questions. If wages buy ever more manufactured goods but ever less housing, energy, and care, then forming a household may become harder even while measured productivity rises. Delayed household formation, adult children remaining with their parents, and declining fertility may therefore reflect changing preferences alongside a growing separation between wages and the scarce goods required to begin an independent life.
 
-The model also suggests avenues for choosing the tax mix as automation changes the sources of income. Labor and ownership both finance consumption, and site rents may cover only part of a desired transfer. The relevant question is the best mixture of value-added, income, corporate, land-value, and other pure-rent taxes. Our input-output and consumption financing measurements may help significantly with this. Sovereign wealth funds may provide another instrument. A country with little land, energy, or mineral wealth of its own cannot tax rents earned elsewhere, but it can acquire claims on them. For resource-poor countries, owning part of the world’s scarce-resource base may eventually matter as much as taxing the domestic one.
+The model also suggests avenues for choosing the tax mix as automation changes the sources of income. Labor and ownership both finance consumption, and site rents may cover only part of a desired transfer. The relevant question is the best mixture of value-added, income, corporate, land-value, and other pure-rent taxes. Our input--output and consumption financing measurements may help significantly with this. Sovereign wealth funds may provide another instrument. A country with little land, energy, or mineral wealth of its own cannot tax rents earned elsewhere, but it can acquire claims on them. For resource-poor countries, owning part of the world's scarce-resource base may eventually matter as much as taxing the domestic one.
 
 Finally, structuring a society that no longer orbits around labor is not a trivial problem. Work provides more than a wage. It provides structure to the day, social contact, status, a sense of contribution, and an understanding of the complexity of the real economy. An income transfer can replace a wage; it cannot by itself replace all of those functions. Some may emerge naturally through family, community, education, art, care, or voluntary work. Others may have to be deliberately nurtured. The economic problem may be how to distribute purchasing power without labor. The larger human problem is how to distribute purpose, status, and a meaningful place in society once labor is no longer the institution that provides them.
 
@@ -552,7 +552,7 @@ The price system in Section~\ref{sec:3} applies to goods and services throughout
 \[
 \mathbf{p}=\mathbf{A}\mathbf{p}+\boldsymbol{\lambda}w+\mathbf{B}\mathbf{r},\qquad
 \mathbf{p}=w\widetilde{\boldsymbol{\lambda}}+\widetilde{\mathbf{B}}\mathbf{r},\qquad
-\widetilde{\mathbf{B}}=(I-\mathbf{A})^{-1}\mathbf{B}.
+\widetilde{\mathbf{B}}=(\mathbf{I}-\mathbf{A})^{-1}\mathbf{B}.
 \]
 The selected recipes are nonnegative and productive, with spectral radius of $\mathbf{A}$ below one. Unused feasible methods have unit costs at least as high as the equilibrium output price. The matrix records which good or service each activity uses; it changes when firms switch methods. At an active margin against machine $m$, the replacement closure is
 \[
@@ -594,12 +594,12 @@ Appendix~\ref{app:E}
 }
 \end{table}
 
-\textbf{Heterogeneous workers.} With type-specific schedules, replacement applies at each type's active contestable margin. Cross-type assignment, relative labor supplies, and training determine skill premia jointly. Reservation wages depend on each type's support, living costs, and preferences. The eras figure illustrates two types facing a common wall, with schematic schedules and wage ratios.
+\textbf{Heterogeneous workers.} With type-specific schedules, replacement applies at each type's active contestable margin. Cross-type assignment, relative labor supplies, and training determine skill premia jointly. Reservation wages depend on each type's support, living costs, and preferences. Figure~\ref{fig:4} illustrates two types facing a common wall, with schematic schedules and wage ratios.
 
 \subsection{Proofs of the main results}\label{app:A.2}
 
 \begin{proof}[Proof of Proposition~\ref{prop:1}]
-(i) At the boundary between human and machine assignment, continuity and cost minimization give $w/\gamma_L(x^*)=p_m/\gamma_M(x^*)$. (ii) Differentiate the equality at fixed $p_m$. If output is $Y$, final-task labor demand is $Y\int_{x^*}^1dx/\gamma_L(x)$, including the human-required tail. Thus $dN_F/dx^*=-Y/\gamma_L(x^*)$ and $dw/dN_F=-p_m\gamma'(x^*)\gamma_L(x^*)/Y$. (iii) is the participation condition. Output, the rental, and labor used in machine production also respond in a full equilibrium; Appendix~\ref{app:B} supplies a complete interior example under stated conditions.
+(i) At the boundary between human and machine assignment, continuity and cost minimization give $w/\gamma_L(x^*)=p_m/\gamma_M(x^*)$. (ii) Differentiate the equality at fixed $p_m$. If output is $Y$, final-task labor demand is $N_F=Y\int_{x^*}^1dx/\gamma_L(x)$, including the human-required tail. Thus $dN_F/dx^*=-Y/\gamma_L(x^*)$ and $dw/dN_F=-p_m\gamma'(x^*)\gamma_L(x^*)/Y$. (iii) is the participation condition. Output, the rental, and labor used in machine production also respond in a full equilibrium; Appendix~\ref{app:B} supplies a complete interior example under stated conditions.
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{prop:2}]
@@ -691,7 +691,7 @@ These equations are a three-row instance of the common cost system. Ordering the
 \]
 while stationary quantities use the replacement rate $\delta$ in place of $\rho+\delta$. Gross output is $(Y,X,hY)^{\mathsf{T}}$, and final consumption is $(Y,0,hY)^{\mathsf{T}}$. Applied to the replacement coefficients with $\mathbf{z}=(1,0,h)^{\mathsf{T}}$, \eqref{eq:4} gives the basket's total requirements of hours and land, $L_s=1-x+\lambda\delta J(x)/(1-a\delta)$ and $B_s=h+b\delta J(x)/(1-a\delta)$. Thus $Y=T/B_s$ and $n_D=TL_s/B_s$, giving \eqref{eq:11}. The price coefficients add the return $\rho$ to replacement, so $P_s=wL_s+rB_s+\rho V_mX/Y$: the basket also pays interest on the machines that supply it. In the flow benchmark the two sets of coefficients coincide, and $P_s=wL_s+rB_s$ as in Section~\ref{sec:5}. Structures and maintenance could enter the space-service row through their own input requirements.
 
-\begin{lemma}[Interior equilibrium with funded support]\label{lem:B.1}
+\begin{lemma}[interior equilibrium with funded support]\label{lem:B.1}
 Suppose
 \begin{equation}\label{eq:25}
 T>Nh,\qquad

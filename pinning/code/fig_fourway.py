@@ -46,7 +46,7 @@ for yr in (2009, 2021):
                 arrowprops=dict(arrowstyle="->", color="#b0803c", lw=0.88, mutation_scale=8.4))
 ax.annotate("crisis borrowing", (2001, 20.3), fontsize=8, color="#7a5a2a")
 ax.set_ylabel("% of non-owner-loop consumption financing")
-ax.set_xlabel("year"); ax.set_ylim(0, 100)
+ax.set_xlabel("Year"); ax.set_ylim(0, 100)
 ax.legend(fontsize=8, loc="center left", framealpha=0.95)
 OUT = ROOT / "paper" / "figures" / "fig_fourway.png"
 fig.savefig(OUT, dpi=300)
