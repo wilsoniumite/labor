@@ -1,7 +1,7 @@
 """
 build_fig3_realwage_fork.py — pinning/effort
 
-Figure 3 (the real-wage fork), rebuilt from live FRED pulls. Replaces the
+Figure 3 (the real-wage fork; the paper's Figure 5 since the SSRN version), rebuilt from live FRED pulls. Replaces the
 broken placeholder PNG shipped in archive_v28/expected/BASELINE_FIG3_*.png.
 
 Construction is the house-established one (the long draft's deflator_fork.py (git history, tag pre-cleanup-2026-09-04);

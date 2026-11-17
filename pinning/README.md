@@ -16,9 +16,9 @@ paper/figures/      the eight script-built figures, one script each, as PDF (wha
                     extracted from the SSRN PDF, which main.tex no longer uses
 paper/ssrn-7226858.pdf  the version posted to SSRN on 2026-09-23; main.tex was rebuilt from
                     this PDF on 2026-11-02 and revised since for Economic Modelling (STATE.md, Log)
-paper/submission/   the journal's Word files: the blind manuscript and the separate title
-                    page, built by code/build_submission_docx.py (section below), plus
-                    abstract.txt, the plain-text abstract for submission forms
+paper/submission/   em/, the Economic Modelling package, built from main.tex and em_src/ (its
+                    editable sources); abstract.txt, the plain-text abstract for submission
+                    forms; and STRECO's Word files of September, now out of date (section below)
 code/               figure scripts and the FRED-based measurement scripts
 data/               built results and vendored inputs
 cache/              the FRED pulls the measurement scripts read (August 2026 vintage;
@@ -28,7 +28,7 @@ cache/              the FRED pulls the measurement scripts read (August 2026 vin
 checks/             sympy and numerical checks; checks/corner/ is the lambda = 0 corner
                     spine inherited from the long draft (its own numbering; map below)
 lean/               Lean 4 statements and proofs (mathlib v4.33.0); see lean/README.md
-effort/             Appendix E: the reproduction archive of the financing and production
+effort/             Appendix F: the reproduction archive of the financing and production
                     accounts (archive_v28/, verbatim, read-only) and the repo-side pipeline
 docs/               the coverage-ratio measurement spec, the ceiling-grid note, and the
                     handoff note for the 2026-09-21 interior revision
@@ -36,7 +36,7 @@ docs/               the coverage-ratio measurement spec, the ceiling-grid note, 
 
 ## Figures
 
-Numbered as in the paper (the SSRN version). Files are in `paper/figures/`; each script
+Numbered as the paper prints them (the SSRN version numbered Figure D.1 as 8). Files are in `paper/figures/`; each script
 writes its figure twice, as `.pdf` (vector, TrueType fonts embedded; what `main.tex`
 includes) and as `.png` (300 dpi). Each script draws its figure at the width `main.tex`
 prints it (0.88 of the 16 cm text width, 0.92 for Figure 7), so its text prints at
@@ -52,11 +52,11 @@ the script.
 | 5 The deflator fork | `fig_deflator_fork.pdf`, `.png` | `effort/code/build_fig3_realwage_fan.py` | `effort/data/raw/` (FRED: AHETPI, AHEMAN, CUSR0000SAD, CUUR0000SAD, CUSR0000SAH1, CUUR0000SEHA, CPIUFDNS, CPIENGNS); gated against `effort/data/fig3_realwage_fork_1950.csv` |
 | 6 The coverage ratio | `fig_kappa_measurement.pdf`, `.png` | `code/fig_kappa_measurement.py` | `data/kappa_results.csv` (built by `code/feasibility_kappa.py`) |
 | 7 Two labor linkages | `fig_consumption_financing_and_human_effort.pdf`, `.png` | `effort/code/build_fullband_df_figures.py` | `effort/archive_v28/expected/` (DF21, LR_Q1) |
-| 8 Composition of consumption financing | `fig_fourway.pdf`, `.png` | `code/fig_fourway.py` | `data/four_way_split.csv` (built by `code/four_way.py`) |
+| D.1 Composition of consumption financing | `fig_fourway.pdf`, `.png` | `code/fig_fourway.py` | `data/four_way_split.csv` (built by `code/four_way.py`) |
 
-The figures carry no in-image titles and no in-image notes; the captions carry the
-words. Figure 5's two-line key was the last note, removed 2026-11-02 once the caption
-marked the dashed pre-1964 stretch.
+The figures carry no in-image titles and no explanatory notes, only short labels on the
+features they mark; the captions carry the words. Figure 5's two-line key was the last
+note, removed 2026-11-02 once the caption marked the dashed pre-1964 stretch.
 
 ## Numbers in the text
 
@@ -64,11 +64,12 @@ marked the dashed pre-1964 stretch.
 |---|---|
 | Fork 4.8x; durables +277%, food +13%, shelter −21% over 1964–2024 | `effort/data/fig3_realwage_fan.csv`; anchored by `checks/check_fan.py` |
 | Coverage ratio 0.30 [0.15–0.59] in 2025, about 0.05 in the 1950s | `data/kappa_results.csv` (`code/feasibility_kappa.py`; method in `docs/feasibility_empirics_spec.md`) |
-| Labor-origin financing 69.6% (2004), 65.8% (2023), 64.2% (2025 extension); production content 50.1/47.2 (1997/2023), 66.4/46.2 (1950/2025 extension) | `effort/archive_v28/expected/DF19_…`, `DF21_…`, `LR_Q1_…`; verified by `effort/checks/check_effort_reproduction.py` |
-| Share of tax revenue from labor-income bases 0.68 (2025), 0.64 (1965) | `data/lambda_results.csv`, column `lamR_med` (`code/lambda_compute2.py`) |
+| Labor-origin financing 69.6% (2004), 65.8% (2023), 64.2% (2025 extension); production content 50.1/48.9/47.2 (1997/2004/2023), 66.4/46.2 (1950/2025 extension) | `effort/archive_v28/expected/DF19_…`, `DF21_…`, `LR_Q1_…`; verified by `effort/checks/check_effort_reproduction.py` |
+| Share of tax revenue from labor-income bases 0.68 (2025; "68 percent" in Section 11), 0.64 (1965), about 0.70 from the mid-1980s | `data/lambda_results.csv`, column `lamR_med` (`code/lambda_compute2.py`) |
 | Conditioned share of benefits at least 0.84; about 0.99 by withdrawal rule | `data/lambdaB_results.csv` (`lamB_floor`, `lamB_rule`), computed for the long draft in August 2026; the script that produced it predates this repository's first commit and is not included |
-| Borrowing financed 19% of transfers in 2025, zero only in 1960, 1963, 1999 and 2000 | `data/four_way_split.csv` (`code/four_way.py`) |
-| The HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
+| Figure D.1: the direct-wage share down about twenty points over 1960–2025; ownership taxes about a fifth of transfer financing (mean 19%, range 15–24%); borrowing 19% of transfers in 2025, zero only in 1960, 1963, 1999 and 2000 | `data/four_way_split.csv` (`code/four_way.py`) |
+| Transition index D = 0.31 (2025) | 0.64 × (1 − 0.30)², from the financing and coverage rows above (Appendix D.5, Table D.1) |
+| No longer in the text (the data note's clause went on 2026-11-03): the HUD FY2025 fair-market-rent ceiling grid | `data/kappa_ceiling.csv` (`code/kappa_ceiling.py`, `data/hud_fy25_fmrs.xlsx`); `docs/kappa_ceiling_notes.md` |
 | Appendix B's illustrative instance (durable machines; parameters set from U.S.-like shares: labor 0.456 of a machine's build cost and 0.469 of consumption, machine services 0.196, site 0.065 of the basket, participation 0.602; x* 0.82987 below the ceiling 0.94634, Y 3.01320, support 0.02599 of rent and interest 0.03520) and its automation path (participation 0.56 at eta 1, 0.13 at 0.01); Figure 3's equilibria, w/P_s and N_a/N 2.76/0.60 at baseline, 2.46/0.56 recursive, 2.66/0.59 task automation | `code/appendix_b.py` (`PRINTED`; how it was set is in its comments and STATE.md, Log 2026-11-03); every quoted number recomputed and matched to the text by `checks/check_interior.py` (group Q) |
 
 ## Submission files
@@ -87,16 +88,18 @@ highlights (3–5, 85 characters) break the journal's limits. It needs `latexmk`
 on the path. `paper/submission/em_src/submission_notes.md` lists what to upload and what to
 enter in Editorial Manager.
 
-**STRECO (2026-09-04).** `code/build_submission_docx.py` builds `paper/submission/manuscript_blind.docx`, the full
+**STRECO (2026-09-04; desk-rejected 2026-11-02).** `code/build_submission_docx.py` builds `paper/submission/manuscript_blind.docx`, the full
 paper with an anonymized title page (no authors, affiliations, emails, or disclaimer
 footnote; the repository address withheld for review; no author in the file properties),
 and `paper/submission/title_page.docx`, the separate title page with the author details.
 Every equation is a Word equation, the six figures are embedded, cross-references carry
 the numbers LaTeX prints, and theorem environments are written out with their numbers.
 Styling is Times New Roman 12 pt, one-and-a-half spacing, A4 with 2.5 cm margins; adjust
-`reference_docx` in the script for a journal template. The build needs the
-`pypandoc_binary` package in the venv (it bundles pandoc); rebuild after any change to
-`paper/main.tex`:
+`reference_docx` in the script for a journal template. The two Word files now in
+`paper/submission/` are its build of 2026-09-21 (the interior revision) and do not match
+`main.tex`; before the next build, map the figure PDFs to their PNGs (the script passes
+figure files to pandoc). The build needs the `pypandoc_binary` package in the venv (it
+bundles pandoc):
 
 ```
 ../venv/Scripts/python.exe code/build_submission_docx.py
@@ -115,7 +118,7 @@ From this folder, with the repository's virtual environment:
 ../venv/Scripts/python.exe code/fig_eras_workers.py         # Figure 4
 ../venv/Scripts/python.exe code/lambda_compute2.py        # FRED (cache/); writes data/lambda_results.csv
 ../venv/Scripts/python.exe code/four_way.py               # writes data/four_way_split.csv
-../venv/Scripts/python.exe code/fig_fourway.py            # Figure 8
+../venv/Scripts/python.exe code/fig_fourway.py            # Figure D.1
 ../venv/Scripts/python.exe code/feasibility_kappa.py      # writes data/kappa_results.csv
 ../venv/Scripts/python.exe code/fig_kappa_measurement.py  # Figure 6
 ../venv/Scripts/python.exe code/kappa_ceiling.py          # needs python-calamine; writes data/kappa_ceiling.csv
@@ -156,7 +159,7 @@ the paper:
 
 | File | Long-draft object | In the paper |
 |---|---|---|
-| `check_baseline_props.py` | the task margin, the recursion, the flat limit | Propositions 1 and 2 at lambda = 0; the flat-case remark in Section 6 |
+| `check_baseline_props.py` | the task margin, the recursion, the flat limit | Propositions 1 and 2 at lambda = 0; Appendix A.3's uniform-capability case |
 | `check_closure.py` | the land-only closure | nothing: the interior revision of 2026-09-21 retired that appendix |
 | `check_conditionality.py` | conditionality | Appendix D.1 |
 | `check_feasibility.py` | the coverage ratio | Appendix D.3 |
@@ -166,11 +169,11 @@ the paper:
 | `check_open.py` | the open economy | the trade remark in Section 2 |
 | `check_welfare.py` | the welfare pair | Proposition 6 |
 | `check_fortification.py` | wedge targeting and punctuated adoption | the stabilizers section |
-| `check_repairs.py` | existence and uniqueness; depreciation in the recursion | Appendix A's durability paragraph; the existence half is no longer a paper object, the interior revision having replaced the old Lemma A.1 with Appendix B's worked equilibrium (`check_interior.py`) |
+| `check_repairs.py` | existence and uniqueness; depreciation in the recursion | Appendix A.4's durable-asset user cost; the existence half is no longer a paper object, the interior revision having replaced the old Lemma A.1 with Appendix B's worked equilibrium (`check_interior.py`) |
 
 `lean/` states and proves the full-automation chain, the lambda > 0 closure and its
 comparative statics, the user-cost closures, the fraud and superstar lemmas, and the CES
-share limits; its README lists the exact scope, the assumption manifest, and what is
-deliberately left out. The interior category-price results that Section 6 and Appendix B
+share limits; its README lists the exact scope, the assumption manifest, what is
+deliberately left out, and where each result now sits in the paper. The interior category-price results that Section 6 and Appendix B
 now carry are outside that scope; `checks/check_cost_system.py` and `checks/check_interior.py`
 are what back them.

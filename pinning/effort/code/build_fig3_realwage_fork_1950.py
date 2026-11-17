@@ -2,7 +2,9 @@
 build_fig3_realwage_fork_1950.py — pinning/effort
 
 The deflator fork extended back to 1950 (VARIANT artwork, pending her call;
-the adopted FIG3_realwage_fork.png and its inputs are untouched). The
+the adopted FIG3_realwage_fork.png and its inputs are untouched). Since
+2026-09-04 it is step 2 of the chain behind the paper's Figure 5: the gate
+reference for build_fig3_realwage_fan.py, whose four-leg figure was adopted. The
 established 1964–2024 segment is reproduced from the same vendored raws and
 gated to equal data/fig3_realwage_fork.csv to 1e-9; three documented long
 members extend the legs left, each growth-spliced at its seam:

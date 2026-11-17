@@ -6,6 +6,10 @@ that grid's record, originally data item two of the revision thread (moved here
 `data/hud_fy25_fmrs.xlsx` (vendored raw, validated). The script imports the paper's own
 rT machinery from `code/feasibility_kappa.py` and needs `python-calamine` for the HUD file.
 
+(2026-11-17: the data note no longer cites the grid. Its clause was dropped on 2026-11-03,
+the paper quoting no ceiling number; this note is the grid's record, and "Prop 8" below
+is the long draft's numbering.)
+
 **Object.** Prop 8's coverage ratio κ(q) rises toward T/(N·h_s) and never exceeds it;
 the paper never checked that ceiling against 1 (audit point iv). In flow terms:
 (aggregate site rent) / (N × site-rent bill of one person's floor housing).

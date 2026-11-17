@@ -6,8 +6,9 @@ Wilson), being prepared for submission.
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-11-17 — an oddities pass is in (Log, 2026-11-17; branch
-`ccr-be1db06f-3zuf72`, not yet on `main`). Before it, as of 2026-11-04: `paper/main.tex` is the version posted to SSRN on 2026-09-23,
+**State as of:** 2026-11-17 — an oddities pass and a wording-and-flow pass are in, both approved
+but for one word ("orbits" stays), and on `main` with the docs around the paper aligned (Log,
+2026-11-17; fast-forwarded from branch `ccr-be1db06f-3zuf72`). Before them, as of 2026-11-04: `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
 (Log, 2026-11-02; branch `ssrn-rebuild`), with polish 1–3 and, since 2026-11-03, Appendix B's
 Lemma B.1 for durable machines with the SSRN instance as its flow case (Log). Since 2026-11-04
@@ -18,7 +19,7 @@ the package is rebuilt with both (Log; on `main` since 2026-11-04, fast-forwarde
 was ported, reviewed and not adopted (Log, 2026-11-03). The Economic Modelling package is built
 (`paper/submission/em/`; `main` fast-forwarded to it at 6117344; the tag `em-package-2026-11-03`
 could not be pushed from the session, HTTP 403 on tags, so it exists only if she pushes it); she
-submits after Johan's sign-off (Open 11d) and revises the SSRN posting herself. Next: the polish pass for the next submission, the
+submits after Johan's sign-off (Open 11d) and revises the SSRN posting herself. Next: that sign-off and the submission to the
 Economic Modelling special issue "Artificial Intelligence, Data Investment and the Digital
 Economy" (deadline 2027-02-28). STRECO desk-rejected the 4 September Word build on
 2026-11-02, without comments. Before that, 2026-09-24: the SSRN PDF staged; 2026-09-21: the
@@ -229,6 +230,27 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 
 ## Log
 
+- **2026-11-17 — on `main`; the docs aligned.** Her go ("I love all your changes, except swapping
+  orbits for revolves. Apart from that, please merge and push to main, and make sure all the other
+  docs are aligned"). **main.tex:** "orbits around" restored (the sentence keeps "organizing"); the
+  header comment records both passes. **Docs:** the repository README and `effort/README.md` put the
+  financing and production accounts in Appendix F (they said E); `effort/README.md` names the paper's
+  Figures 5 and 7 (it said 3 and 5, the `fig3` script names dating from that numbering), and so do the
+  two fork scripts' docstrings. `README.md` here: the submission folder as it is (em/, em_src/,
+  abstract.txt, STRECO's Word files); figures numbered as printed (D.1, was 8); "no explanatory notes,
+  only short labels" (every figure but 6 and 7 labels features in the image); the numbers table adds 48.9 (2004), the tax
+  share's "68 percent" and mid-1980s level, Figure D.1's other numbers and D = 0.31, and marks the HUD
+  grid as no longer in the text; the STRECO section says its Word files are the build of 2026-09-21
+  and do not match main.tex (it said to rebuild after any change); the corner table points the flat
+  limit at A.3 (it said Section 6) and the repairs at A.4's user cost. `lean/README.md` says where each
+  formalized result sits in the paper now (its scope keeps the August numbering). `docs/` gains dated
+  notes: the coverage spec's current result and numerator, and the ceiling note's that the data note
+  no longer cites the grid. Checked and left as they are: em_src (cover letter, highlights, title page,
+  submission notes) and abstract.txt match the paper; the long-draft records (the corner checks,
+  TheLink.lean's manifest, the ceiling note's body) keep their own numbering by design. The package
+  rebuilt (manuscript.tex, the preview; the Word files differed only in their creation time and were
+  kept); 41 pages; lint and `check_interior` (112) green. `main` fast-forwarded from 3d27e66.
+
 - **2026-11-17 — a wording-and-flow pass.** Asked for in session, after the oddities pass below ("I was
   mostly thinking in terms of wording and flow"). Small edits in her voice; the word diff against the
   oddities pass has 105 regions in 50 paragraphs, and the reading view shows each paragraph whole. No
@@ -252,7 +274,8 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
   central values" (Open 12f's label: only phi_C is model-based); "remain empirical questions" just before
   "The remaining empirical question is" (two questions follow; now "remain to be measured" and "The
   central empirical questions are"); Section 12's "It" without an antecedent, "significant nuances",
-  "help significantly with this", "orbits around"; and smaller repeats, ties and pointers. Not touched:
+  "help significantly with this", "orbits around" ("revolves around"; reverted at her word, see the
+  merge entry); and smaller repeats, ties and pointers. Not touched:
   the abstract, the captions, the data note (Open 12k), and D.5's "Proposition 5 accounts for both wage
   and rent income throughout", whose purpose there is unclear (her call). 41 pages, no warnings, every
   float on its page; lint (113 refs), `check_interior` (112), `check_pinning` (51), `check_fan` and

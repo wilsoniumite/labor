@@ -18,6 +18,14 @@ thresholds would plausibly widen it, and the stock side currently rests on Z.1
 alone — the grid's own "never the sole source" rule is unmet until the
 Larson/BEA member lands. (Coverage gap surfaced by the 2026-08-05 review pass.)
 
+Current (2026-11-17): the paper's Section 9 and Figure 6 report κ(2025) = 0.30
+[0.15–0.59], about 0.05 in the 1950s, drawn by `code/fig_kappa_measurement.py` as
+`paper/figures/fig_kappa_measurement.pdf`. Since 2026-11-02 the household residual
+nets households' structures from households' own real estate (HOOREVLMHMV) in place
+of households-and-nonprofits' (HNOREMV), which had counted about $4.3T of nonprofit
+property as land (`STATE.md`, Open 10 and Log, polish 2). The status paragraph above
+is the first pass's.
+
 Method inherits §7's discipline verbatim: live public pulls only (FRED /
 BEA / Fed Z.1), validation identities and magnitude anchors before use,
 stop-and-report on unreachable series, every contestable classification

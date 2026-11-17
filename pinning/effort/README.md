@@ -1,4 +1,4 @@
-# effort — the financing and production accounts (Appendix E)
+# effort — the financing and production accounts (Appendix F)
 
 Two labor linkages of U.S. consumption, 1950–2025: the share of consumption financed
 from labor-origin resources (D-F, about 66–70 percent and roughly flat) and the share of
@@ -18,8 +18,9 @@ collaboration (August 2026, archive versions v1 to v28) and landed here 2026-08-
   documented exception is the 22 archived 1958–1979 capacity uppers, up to 3.28pp
   tighter than the archive's own DF9 implies).
 - `code/` — `build_fullband_df_figures.py` draws the D-F figure and the paper's
-  Figure 5 with the weak-year bounds drawn at a lighter tint (the archive's own
-  guardrail); the Figure 3 chain is `build_fig3_realwage_fork.py` (1964 base, live FRED,
+  Figure 7 with the weak-year bounds drawn at a lighter tint (the archive's own
+  guardrail); the real-wage fork's chain (the paper's Figure 5; the `fig3` names date
+  from the draft that numbered it 3) is `build_fig3_realwage_fork.py` (1964 base, live FRED,
   vendored raws), `build_fig3_realwage_fork_1950.py` (the 1950 extension with spliced
   long members, the gate reference), and `build_fig3_realwage_fan.py` (the four-leg
   figure the paper prints); `vendor_legacy_inputs.py` and `build_df9_df10_longrun.py`
@@ -27,9 +28,9 @@ collaboration (August 2026, archive versions v1 to v28) and landed here 2026-08-
   intermediates.
 - `data/` — `raw/` holds the vendored FRED pulls with a manifest; `legacy_inputs/` the
   vendored intermediates with their provenance file; `rebuilt/` the DF9/DF10 rebuild and
-  the 1958–79 discrepancy report; the Figure 3 series are `fig3_realwage_fork.csv`,
+  the 1958–79 discrepancy report; the fork's series are `fig3_realwage_fork.csv`,
   `fig3_realwage_fork_1950.csv`, `fig3_realwage_fan.csv` and `fig3_dfq_gap_overlay.csv`.
-- `figures/` — the D-F figure and the Figure 3 chain's intermediate renderings. The
+- `figures/` — the D-F figure and the fork chain's intermediate renderings. The
   paper's own figures are written to `../paper/figures/`.
 
 ## Construction
@@ -56,7 +57,7 @@ in `archive_v28/source_manifests/`.
   passes predate the export (`data/legacy_inputs/PROVENANCE_legacy_inputs.csv`).
 - 2024–2025 D-F and D-Q values are weak-extension years (the tier column in the CSVs;
   dashed tails in the figures).
-- The Figure 3 series end in 2024 because the October 2025 CPI was never published;
+- The fork's series end in 2024 because the October 2025 CPI was never published;
   the complete-calendar-year rule holds.
 
 Run commands are in `../README.md`.

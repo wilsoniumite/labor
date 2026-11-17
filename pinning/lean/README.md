@@ -100,6 +100,16 @@ mass, and the ε → 0 ratio limit); and the CES dial's three-case share
 limit (Appendix B's General-σ display). Its manifest findings (P1–P5) are
 at the foot of the file.
 
+Where these sit in the paper now (`paper/main.tex`, 2026-11-17): Proposition 2
+keeps its number, stated in full-chain coefficients (with one machine row,
+b̃_m = b/(1 − a) and λ̃_m = λ/(1 − a)); the user-cost closures are Appendix
+A.4's two displays; the CES share limit is Appendix C's display, printed (C.1);
+the fraud bound and superstar concentration are prose in Appendix E's closing
+paragraphs, without lemma numbers; and Proposition 4's flat case survives as
+Appendix A.3's uniform-capability paragraph. The interior results of Section 6
+and Appendix B are outside this scope (`checks/check_cost_system.py` and
+`checks/check_interior.py` back them).
+
 Omitted, deliberately:
 
 - **Props 1–2** — equilibrium existence and stability. Large definitional
