@@ -1,0 +1,256 @@
+year,member,theta,country,source
+1967,lam,0.6424554476304994,US,"BEA IO, machinery (lambda thread)"
+1972,lam,0.7008588340855556,US,"BEA IO, machinery (lambda thread)"
+1977,lam,0.6578949801676173,US,"BEA IO, machinery (lambda thread)"
+1982,lam,0.7399910572112064,US,"BEA IO, machinery (lambda thread)"
+1987,lam,0.606807317216145,US,"BEA IO, machinery (lambda thread)"
+1992,lam,0.631947896557139,US,"BEA IO, machinery (lambda thread)"
+1967,lam_spliced,0.5913341856401003,US,"BEA IO, machinery (lambda thread)"
+1972,lam_spliced,0.6450903162720374,US,"BEA IO, machinery (lambda thread)"
+1977,lam_spliced,0.6055451685700036,US,"BEA IO, machinery (lambda thread)"
+1982,lam_spliced,0.6811087224971524,US,"BEA IO, machinery (lambda thread)"
+1987,lam_spliced,0.5585226370013405,US,"BEA IO, machinery (lambda thread)"
+1992,lam_spliced,0.581662738102448,US,"BEA IO, machinery (lambda thread)"
+1997,lam_narrow_tot,0.581662738102448,US,"BEA IO, machinery (lambda thread)"
+1998,lam_narrow_tot,0.608979896536047,US,"BEA IO, machinery (lambda thread)"
+1999,lam_narrow_tot,0.634485158894855,US,"BEA IO, machinery (lambda thread)"
+2000,lam_narrow_tot,0.6229764785795385,US,"BEA IO, machinery (lambda thread)"
+2001,lam_narrow_tot,0.667983600898515,US,"BEA IO, machinery (lambda thread)"
+2002,lam_narrow_tot,0.6232006512241961,US,"BEA IO, machinery (lambda thread)"
+2003,lam_narrow_tot,0.5982384101791263,US,"BEA IO, machinery (lambda thread)"
+2004,lam_narrow_tot,0.5849439900179316,US,"BEA IO, machinery (lambda thread)"
+2005,lam_narrow_tot,0.5698256861900216,US,"BEA IO, machinery (lambda thread)"
+2006,lam_narrow_tot,0.5606770634879779,US,"BEA IO, machinery (lambda thread)"
+2007,lam_narrow_tot,0.5609568138036011,US,"BEA IO, machinery (lambda thread)"
+2008,lam_narrow_tot,0.5420391081703047,US,"BEA IO, machinery (lambda thread)"
+2009,lam_narrow_tot,0.5413744090999086,US,"BEA IO, machinery (lambda thread)"
+2010,lam_narrow_tot,0.5262653407739358,US,"BEA IO, machinery (lambda thread)"
+2011,lam_narrow_tot,0.5354376609695479,US,"BEA IO, machinery (lambda thread)"
+2012,lam_narrow_tot,0.541444900519503,US,"BEA IO, machinery (lambda thread)"
+2013,lam_narrow_tot,0.521918651587238,US,"BEA IO, machinery (lambda thread)"
+2014,lam_narrow_tot,0.5295175484096392,US,"BEA IO, machinery (lambda thread)"
+2015,lam_narrow_tot,0.5346350596669337,US,"BEA IO, machinery (lambda thread)"
+2016,lam_narrow_tot,0.5507844352732406,US,"BEA IO, machinery (lambda thread)"
+2017,lam_narrow_tot,0.5664460483480867,US,"BEA IO, machinery (lambda thread)"
+2018,lam_narrow_tot,0.5603479327181423,US,"BEA IO, machinery (lambda thread)"
+2019,lam_narrow_tot,0.5573676079079691,US,"BEA IO, machinery (lambda thread)"
+2020,lam_narrow_tot,0.5658317144575389,US,"BEA IO, machinery (lambda thread)"
+2021,lam_narrow_tot,0.5666755066432988,US,"BEA IO, machinery (lambda thread)"
+2022,lam_narrow_tot,0.5478461025737628,US,"BEA IO, machinery (lambda thread)"
+2023,lam_narrow_tot,0.5466350980327335,US,"BEA IO, machinery (lambda thread)"
+1997,lam_medium_tot,0.5998490187603128,US,"BEA IO, machinery (lambda thread)"
+1998,lam_medium_tot,0.62760034566514,US,"BEA IO, machinery (lambda thread)"
+1999,lam_medium_tot,0.6434075024389978,US,"BEA IO, machinery (lambda thread)"
+2000,lam_medium_tot,0.6597752000342652,US,"BEA IO, machinery (lambda thread)"
+2001,lam_medium_tot,0.6904905610018868,US,"BEA IO, machinery (lambda thread)"
+2002,lam_medium_tot,0.6331548796711872,US,"BEA IO, machinery (lambda thread)"
+2003,lam_medium_tot,0.6098323863878921,US,"BEA IO, machinery (lambda thread)"
+2004,lam_medium_tot,0.5960787358651161,US,"BEA IO, machinery (lambda thread)"
+2005,lam_medium_tot,0.5819289175549893,US,"BEA IO, machinery (lambda thread)"
+2006,lam_medium_tot,0.5815723793281886,US,"BEA IO, machinery (lambda thread)"
+2007,lam_medium_tot,0.5804491182640185,US,"BEA IO, machinery (lambda thread)"
+2008,lam_medium_tot,0.5652159487618846,US,"BEA IO, machinery (lambda thread)"
+2009,lam_medium_tot,0.562259745687663,US,"BEA IO, machinery (lambda thread)"
+2010,lam_medium_tot,0.5466930508438638,US,"BEA IO, machinery (lambda thread)"
+2011,lam_medium_tot,0.5528565585126323,US,"BEA IO, machinery (lambda thread)"
+2012,lam_medium_tot,0.5586745807498772,US,"BEA IO, machinery (lambda thread)"
+2013,lam_medium_tot,0.5441908350906784,US,"BEA IO, machinery (lambda thread)"
+2014,lam_medium_tot,0.5546263445389579,US,"BEA IO, machinery (lambda thread)"
+2015,lam_medium_tot,0.5660244133747059,US,"BEA IO, machinery (lambda thread)"
+2016,lam_medium_tot,0.5733719768785746,US,"BEA IO, machinery (lambda thread)"
+2017,lam_medium_tot,0.585976298634172,US,"BEA IO, machinery (lambda thread)"
+2018,lam_medium_tot,0.5847051367545677,US,"BEA IO, machinery (lambda thread)"
+2019,lam_medium_tot,0.5813907966042886,US,"BEA IO, machinery (lambda thread)"
+2020,lam_medium_tot,0.5893662667014219,US,"BEA IO, machinery (lambda thread)"
+2021,lam_medium_tot,0.5991070156131963,US,"BEA IO, machinery (lambda thread)"
+2022,lam_medium_tot,0.5822147718336937,US,"BEA IO, machinery (lambda thread)"
+2023,lam_medium_tot,0.577942056826373,US,"BEA IO, machinery (lambda thread)"
+1997,lam_broad_tot,0.5758204938335785,US,"BEA IO, machinery (lambda thread)"
+1998,lam_broad_tot,0.6034987528081088,US,"BEA IO, machinery (lambda thread)"
+1999,lam_broad_tot,0.6148777476596876,US,"BEA IO, machinery (lambda thread)"
+2000,lam_broad_tot,0.6321412368208272,US,"BEA IO, machinery (lambda thread)"
+2001,lam_broad_tot,0.6572189357896413,US,"BEA IO, machinery (lambda thread)"
+2002,lam_broad_tot,0.6026412931600479,US,"BEA IO, machinery (lambda thread)"
+2003,lam_broad_tot,0.5844337986509727,US,"BEA IO, machinery (lambda thread)"
+2004,lam_broad_tot,0.5746747943796185,US,"BEA IO, machinery (lambda thread)"
+2005,lam_broad_tot,0.5619119362711994,US,"BEA IO, machinery (lambda thread)"
+2006,lam_broad_tot,0.5588384392447531,US,"BEA IO, machinery (lambda thread)"
+2007,lam_broad_tot,0.559953885894502,US,"BEA IO, machinery (lambda thread)"
+2008,lam_broad_tot,0.544012850310666,US,"BEA IO, machinery (lambda thread)"
+2009,lam_broad_tot,0.5387957919049777,US,"BEA IO, machinery (lambda thread)"
+2010,lam_broad_tot,0.5271150767421473,US,"BEA IO, machinery (lambda thread)"
+2011,lam_broad_tot,0.5332171905153626,US,"BEA IO, machinery (lambda thread)"
+2012,lam_broad_tot,0.5381678139701631,US,"BEA IO, machinery (lambda thread)"
+2013,lam_broad_tot,0.5250172430551588,US,"BEA IO, machinery (lambda thread)"
+2014,lam_broad_tot,0.5348710763326568,US,"BEA IO, machinery (lambda thread)"
+2015,lam_broad_tot,0.5431108211731315,US,"BEA IO, machinery (lambda thread)"
+2016,lam_broad_tot,0.5478950833516829,US,"BEA IO, machinery (lambda thread)"
+2017,lam_broad_tot,0.560470794415487,US,"BEA IO, machinery (lambda thread)"
+2018,lam_broad_tot,0.5608179418362007,US,"BEA IO, machinery (lambda thread)"
+2019,lam_broad_tot,0.556924425808389,US,"BEA IO, machinery (lambda thread)"
+2020,lam_broad_tot,0.565280674419825,US,"BEA IO, machinery (lambda thread)"
+2021,lam_broad_tot,0.5759630261257745,US,"BEA IO, machinery (lambda thread)"
+2022,lam_broad_tot,0.5613924262764396,US,"BEA IO, machinery (lambda thread)"
+2023,lam_broad_tot,0.5580951177593768,US,"BEA IO, machinery (lambda thread)"
+1855,labour share ex rents,0.6750668511903845,UK,BoE millennium dataset (proxy)
+1856,labour share ex rents,0.6589815860617925,UK,BoE millennium dataset (proxy)
+1857,labour share ex rents,0.6478097287050233,UK,BoE millennium dataset (proxy)
+1858,labour share ex rents,0.6329257907008323,UK,BoE millennium dataset (proxy)
+1859,labour share ex rents,0.6629670435011902,UK,BoE millennium dataset (proxy)
+1860,labour share ex rents,0.6620515922394764,UK,BoE millennium dataset (proxy)
+1861,labour share ex rents,0.6303883888954385,UK,BoE millennium dataset (proxy)
+1862,labour share ex rents,0.6185358771569424,UK,BoE millennium dataset (proxy)
+1863,labour share ex rents,0.6106177768362592,UK,BoE millennium dataset (proxy)
+1864,labour share ex rents,0.6079754913957764,UK,BoE millennium dataset (proxy)
+1865,labour share ex rents,0.6187197369964637,UK,BoE millennium dataset (proxy)
+1866,labour share ex rents,0.61973191157866,UK,BoE millennium dataset (proxy)
+1867,labour share ex rents,0.6330256928877293,UK,BoE millennium dataset (proxy)
+1868,labour share ex rents,0.6207254616206235,UK,BoE millennium dataset (proxy)
+1869,labour share ex rents,0.620315438863404,UK,BoE millennium dataset (proxy)
+1870,labour share ex rents,0.5955169530575449,UK,BoE millennium dataset (proxy)
+1871,labour share ex rents,0.582685290236649,UK,BoE millennium dataset (proxy)
+1872,labour share ex rents,0.6084233088350737,UK,BoE millennium dataset (proxy)
+1873,labour share ex rents,0.6188976488236589,UK,BoE millennium dataset (proxy)
+1874,labour share ex rents,0.6248675212011446,UK,BoE millennium dataset (proxy)
+1875,labour share ex rents,0.6335513756896448,UK,BoE millennium dataset (proxy)
+1876,labour share ex rents,0.6450756807559906,UK,BoE millennium dataset (proxy)
+1877,labour share ex rents,0.6551221875380996,UK,BoE millennium dataset (proxy)
+1878,labour share ex rents,0.6569004442200236,UK,BoE millennium dataset (proxy)
+1879,labour share ex rents,0.6662118028780326,UK,BoE millennium dataset (proxy)
+1880,labour share ex rents,0.6450483409590457,UK,BoE millennium dataset (proxy)
+1881,labour share ex rents,0.6414744023086892,UK,BoE millennium dataset (proxy)
+1882,labour share ex rents,0.6554319458684442,UK,BoE millennium dataset (proxy)
+1883,labour share ex rents,0.6717223209669533,UK,BoE millennium dataset (proxy)
+1884,labour share ex rents,0.6750608344496676,UK,BoE millennium dataset (proxy)
+1885,labour share ex rents,0.6747980902368416,UK,BoE millennium dataset (proxy)
+1886,labour share ex rents,0.6582204634318918,UK,BoE millennium dataset (proxy)
+1887,labour share ex rents,0.6624608194675533,UK,BoE millennium dataset (proxy)
+1888,labour share ex rents,0.6549263473046427,UK,BoE millennium dataset (proxy)
+1889,labour share ex rents,0.6620289446880525,UK,BoE millennium dataset (proxy)
+1890,labour share ex rents,0.6761089495969111,UK,BoE millennium dataset (proxy)
+1891,labour share ex rents,0.6886448689278186,UK,BoE millennium dataset (proxy)
+1892,labour share ex rents,0.7102142024445786,UK,BoE millennium dataset (proxy)
+1893,labour share ex rents,0.7117073640766888,UK,BoE millennium dataset (proxy)
+1894,labour share ex rents,0.6789079569851731,UK,BoE millennium dataset (proxy)
+1895,labour share ex rents,0.6771528243674835,UK,BoE millennium dataset (proxy)
+1896,labour share ex rents,0.6838844774581092,UK,BoE millennium dataset (proxy)
+1897,labour share ex rents,0.6750968092314822,UK,BoE millennium dataset (proxy)
+1898,labour share ex rents,0.6672627513513811,UK,BoE millennium dataset (proxy)
+1899,labour share ex rents,0.6524010897189881,UK,BoE millennium dataset (proxy)
+1900,labour share ex rents,0.6693040319558399,UK,BoE millennium dataset (proxy)
+1901,labour share ex rents,0.6829642074592361,UK,BoE millennium dataset (proxy)
+1902,labour share ex rents,0.6707636387632563,UK,BoE millennium dataset (proxy)
+1903,labour share ex rents,0.6927161821932715,UK,BoE millennium dataset (proxy)
+1904,labour share ex rents,0.6899293348513016,UK,BoE millennium dataset (proxy)
+1905,labour share ex rents,0.6734497817871664,UK,BoE millennium dataset (proxy)
+1906,labour share ex rents,0.6609701683763012,UK,BoE millennium dataset (proxy)
+1907,labour share ex rents,0.6637231823428492,UK,BoE millennium dataset (proxy)
+1908,labour share ex rents,0.6834182135457239,UK,BoE millennium dataset (proxy)
+1909,labour share ex rents,0.6828899090184223,UK,BoE millennium dataset (proxy)
+1910,labour share ex rents,0.6794096562486744,UK,BoE millennium dataset (proxy)
+1911,labour share ex rents,0.6726344638756532,UK,BoE millennium dataset (proxy)
+1912,labour share ex rents,0.6634917404643053,UK,BoE millennium dataset (proxy)
+1913,labour share ex rents,0.6660428064411769,UK,BoE millennium dataset (proxy)
+1914,labour share ex rents,0.7058933169995653,UK,BoE millennium dataset (proxy)
+1915,labour share ex rents,0.734204918015085,UK,BoE millennium dataset (proxy)
+1916,labour share ex rents,0.7269519724254465,UK,BoE millennium dataset (proxy)
+1917,labour share ex rents,0.7137184571870759,UK,BoE millennium dataset (proxy)
+1918,labour share ex rents,0.709068599713529,UK,BoE millennium dataset (proxy)
+1919,labour share ex rents,0.7274043796505881,UK,BoE millennium dataset (proxy)
+1920,labour share ex rents,0.7431415862442022,UK,BoE millennium dataset (proxy)
+1921,labour share ex rents,0.7757637360340295,UK,BoE millennium dataset (proxy)
+1922,labour share ex rents,0.7490460105243472,UK,BoE millennium dataset (proxy)
+1923,labour share ex rents,0.7624578792164026,UK,BoE millennium dataset (proxy)
+1924,labour share ex rents,0.7522217476790651,UK,BoE millennium dataset (proxy)
+1925,labour share ex rents,0.7330479500395768,UK,BoE millennium dataset (proxy)
+1926,labour share ex rents,0.7429151946979557,UK,BoE millennium dataset (proxy)
+1927,labour share ex rents,0.7469794855348011,UK,BoE millennium dataset (proxy)
+1928,labour share ex rents,0.7437859422714024,UK,BoE millennium dataset (proxy)
+1929,labour share ex rents,0.7344768715239706,UK,BoE millennium dataset (proxy)
+1930,labour share ex rents,0.7275107589104038,UK,BoE millennium dataset (proxy)
+1931,labour share ex rents,0.7687438852842713,UK,BoE millennium dataset (proxy)
+1932,labour share ex rents,0.7810534438018084,UK,BoE millennium dataset (proxy)
+1933,labour share ex rents,0.7795241162880601,UK,BoE millennium dataset (proxy)
+1934,labour share ex rents,0.7618156192078441,UK,BoE millennium dataset (proxy)
+1935,labour share ex rents,0.7558674713800019,UK,BoE millennium dataset (proxy)
+1936,labour share ex rents,0.7519357261438088,UK,BoE millennium dataset (proxy)
+1937,labour share ex rents,0.7455940419848387,UK,BoE millennium dataset (proxy)
+1938,labour share ex rents,0.7336672420214043,UK,BoE millennium dataset (proxy)
+1939,labour share ex rents,0.7501938737229398,UK,BoE millennium dataset (proxy)
+1940,labour share ex rents,0.7671794726864697,UK,BoE millennium dataset (proxy)
+1941,labour share ex rents,0.7353949875311698,UK,BoE millennium dataset (proxy)
+1942,labour share ex rents,0.7279159785598722,UK,BoE millennium dataset (proxy)
+1943,labour share ex rents,0.7314698710056304,UK,BoE millennium dataset (proxy)
+1944,labour share ex rents,0.7417251489434368,UK,BoE millennium dataset (proxy)
+1945,labour share ex rents,0.7446223097775942,UK,BoE millennium dataset (proxy)
+1946,labour share ex rents,0.7556768390922154,UK,BoE millennium dataset (proxy)
+1947,labour share ex rents,0.7645618000239248,UK,BoE millennium dataset (proxy)
+1948,labour share ex rents,0.7412878140840106,UK,BoE millennium dataset (proxy)
+1949,labour share ex rents,0.7318087700645417,UK,BoE millennium dataset (proxy)
+1950,labour share ex rents,0.7418921983706647,UK,BoE millennium dataset (proxy)
+1951,labour share ex rents,0.7366876833450904,UK,BoE millennium dataset (proxy)
+1952,labour share ex rents,0.7223977644162587,UK,BoE millennium dataset (proxy)
+1953,labour share ex rents,0.7180858644539495,UK,BoE millennium dataset (proxy)
+1954,labour share ex rents,0.7216311718240994,UK,BoE millennium dataset (proxy)
+1955,labour share ex rents,0.725954777316404,UK,BoE millennium dataset (proxy)
+1956,labour share ex rents,0.729873218254284,UK,BoE millennium dataset (proxy)
+1957,labour share ex rents,0.7281765742874773,UK,BoE millennium dataset (proxy)
+1958,labour share ex rents,0.7216733625576314,UK,BoE millennium dataset (proxy)
+1959,labour share ex rents,0.7202065278398,UK,BoE millennium dataset (proxy)
+1960,labour share ex rents,0.7031825261944468,UK,BoE millennium dataset (proxy)
+1961,labour share ex rents,0.7163410326553616,UK,BoE millennium dataset (proxy)
+1962,labour share ex rents,0.7200760329538893,UK,BoE millennium dataset (proxy)
+1963,labour share ex rents,0.72453228372832,UK,BoE millennium dataset (proxy)
+1964,labour share ex rents,0.7238450016083513,UK,BoE millennium dataset (proxy)
+1965,labour share ex rents,0.726885104695965,UK,BoE millennium dataset (proxy)
+1966,labour share ex rents,0.7365075048198289,UK,BoE millennium dataset (proxy)
+1967,labour share ex rents,0.7369477899785049,UK,BoE millennium dataset (proxy)
+1968,labour share ex rents,0.7261711001014858,UK,BoE millennium dataset (proxy)
+1969,labour share ex rents,0.7221478246247582,UK,BoE millennium dataset (proxy)
+1970,labour share ex rents,0.7232910057174222,UK,BoE millennium dataset (proxy)
+1971,labour share ex rents,0.7110461002388698,UK,BoE millennium dataset (proxy)
+1972,labour share ex rents,0.704938043123273,UK,BoE millennium dataset (proxy)
+1973,labour share ex rents,0.7017514919333212,UK,BoE millennium dataset (proxy)
+1974,labour share ex rents,0.7497704423021327,UK,BoE millennium dataset (proxy)
+1975,labour share ex rents,0.7871871723021459,UK,BoE millennium dataset (proxy)
+1976,labour share ex rents,0.7681226584126111,UK,BoE millennium dataset (proxy)
+1977,labour share ex rents,0.7267335116525232,UK,BoE millennium dataset (proxy)
+1978,labour share ex rents,0.7181282595124548,UK,BoE millennium dataset (proxy)
+1979,labour share ex rents,0.7186919448745129,UK,BoE millennium dataset (proxy)
+1980,labour share ex rents,0.7380422327890342,UK,BoE millennium dataset (proxy)
+1981,labour share ex rents,0.7368182723305046,UK,BoE millennium dataset (proxy)
+1982,labour share ex rents,0.7179480234554085,UK,BoE millennium dataset (proxy)
+1983,labour share ex rents,0.6995320902135927,UK,BoE millennium dataset (proxy)
+1984,labour share ex rents,0.7013473969444706,UK,BoE millennium dataset (proxy)
+1985,labour share ex rents,0.6907204850409016,UK,BoE millennium dataset (proxy)
+1986,labour share ex rents,0.6945140967235438,UK,BoE millennium dataset (proxy)
+1987,labour share ex rents,0.6802891095860589,UK,BoE millennium dataset (proxy)
+1988,labour share ex rents,0.677761619647099,UK,BoE millennium dataset (proxy)
+1989,labour share ex rents,0.6860747974961647,UK,BoE millennium dataset (proxy)
+1990,labour share ex rents,0.6971561490718968,UK,BoE millennium dataset (proxy)
+1991,labour share ex rents,0.7152789169567216,UK,BoE millennium dataset (proxy)
+1992,labour share ex rents,0.7275124356516549,UK,BoE millennium dataset (proxy)
+1993,labour share ex rents,0.7082028209055962,UK,BoE millennium dataset (proxy)
+1994,labour share ex rents,0.698803025737556,UK,BoE millennium dataset (proxy)
+1995,labour share ex rents,0.7000734336999785,UK,BoE millennium dataset (proxy)
+1996,labour share ex rents,0.6800491292459412,UK,BoE millennium dataset (proxy)
+1997,labour share ex rents,0.690061727636381,UK,BoE millennium dataset (proxy)
+1998,labour share ex rents,0.7099599209026416,UK,BoE millennium dataset (proxy)
+1999,labour share ex rents,0.7322313669394153,UK,BoE millennium dataset (proxy)
+2000,labour share ex rents,0.7384648366392116,UK,BoE millennium dataset (proxy)
+2001,labour share ex rents,0.7565458201003649,UK,BoE millennium dataset (proxy)
+2002,labour share ex rents,0.7453600865583105,UK,BoE millennium dataset (proxy)
+2003,labour share ex rents,0.7405863399350773,UK,BoE millennium dataset (proxy)
+2004,labour share ex rents,0.7460337937226814,UK,BoE millennium dataset (proxy)
+2005,labour share ex rents,0.731815845695032,UK,BoE millennium dataset (proxy)
+2006,labour share ex rents,0.740585939700617,UK,BoE millennium dataset (proxy)
+2007,labour share ex rents,0.7479686739389737,UK,BoE millennium dataset (proxy)
+2008,labour share ex rents,0.7444799163388922,UK,BoE millennium dataset (proxy)
+2009,labour share ex rents,0.7559561488211987,UK,BoE millennium dataset (proxy)
+2010,labour share ex rents,0.765622575020971,UK,BoE millennium dataset (proxy)
+2011,labour share ex rents,0.757925523295243,UK,BoE millennium dataset (proxy)
+2012,labour share ex rents,0.7604170009829013,UK,BoE millennium dataset (proxy)
+2013,labour share ex rents,0.7554078519410784,UK,BoE millennium dataset (proxy)
+2014,labour share ex rents,0.7456794338890923,UK,BoE millennium dataset (proxy)
+2015,labour share ex rents,0.7477248811903776,UK,BoE millennium dataset (proxy)
+2016,labour share ex rents,0.7528973339679614,UK,BoE millennium dataset (proxy)

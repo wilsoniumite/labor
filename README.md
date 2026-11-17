@@ -26,6 +26,8 @@ Each folder is a self-contained thread whose `STATE.md` is the session entry poi
 | `companion/` | The empirical schedule: the OEWS task panel on the occ1990dd classification, the w/c grid, the revealed-adoption envelope, wedges, the right tail. |
 | `long-record/` | One Schedule, Seven Centuries: the model's configurations fitted to the English wage record (parked at Breakpoint A). |
 | `progress_and_prosperity/` | The book program (`PLAN.md`: phases, chapter map, papers P1 to P5), the lambda series (is the labor content of machine production falling?), and data notes (the Swedish deflator fork). |
+| `walls/` | The schedule's upper end: the machine chain's ceiling (soft wall), what the backward calibration can say about it, H's floor, latent goods; adopted into the paper on 2026-11-16. |
+| `eras/` | Rough shapes and sizes of the schedule through history: the machines' region from 1700, the ceiling's height and the contestable band through time, the 1999–2025 US schedule and the 2025 split. A first look. |
 | `three-drivers/` | Napkin-grade data support for a blog post; not a paper. |
 | `tools/` | Editing utilities shared across threads: word-level diff reports, reading views, HTML-to-PDF rendering. |
 
