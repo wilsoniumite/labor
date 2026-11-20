@@ -1,12 +1,17 @@
 # STATE — pinning (the paper; resume point for the next session)
 
 **Project:** *Pinning the Wage to Scarcity and Technology* (Johan Båge and Stella
-Wilson), being prepared for submission.
+Wilson), under review at Economic Modelling (special issue "Artificial Intelligence, Data
+Investment and the Digital Economy"): submitted 2026-11-03, sent to referees 2026-11-12.
 **Collaboration:** her TeX is the working file. Claude ports edits exactly once, produces
 word diffs (`../tools/word_diff_report.py`) and reading views
 (`../tools/reading_view.py`), never re-voices, and flags slips for her one-word
 decisions. Checks gate absolutely (`README.md` lists them).
-**State as of:** 2026-11-17 — an oddities pass and a wording-and-flow pass are in, both approved
+**State as of:** 2026-11-20 — **under review.** Submitted on 2026-11-03 and sent to referees on
+2026-11-12 (her word; Log, 2026-11-20). The version under review is the 2026-11-03 package at
+6117344, not `main`: the one-panel Figure 4, the 2026-11-04 review fixes and the 2026-11-17
+passes came after it and carry into the revision, with Open 12. Before that, as of 2026-11-17:
+an oddities pass and a wording-and-flow pass are in, both approved
 but for one word ("orbits" stays), and on `main` with the docs around the paper aligned (Log,
 2026-11-17; fast-forwarded from branch `ccr-be1db06f-3zuf72`). Before them, as of 2026-11-04: `paper/main.tex` is the version posted to SSRN on 2026-09-23,
 rebuilt from its PDF (`paper/ssrn-7226858.pdf`) because her Overleaf source was unavailable
@@ -19,8 +24,8 @@ the package is rebuilt with both (Log; on `main` since 2026-11-04, fast-forwarde
 was ported, reviewed and not adopted (Log, 2026-11-03). The Economic Modelling package is built
 (`paper/submission/em/`; `main` fast-forwarded to it at 6117344; the tag `em-package-2026-11-03`
 could not be pushed from the session, HTTP 403 on tags, so it exists only if she pushes it); she
-submits after Johan's sign-off (Open 11d) and revises the SSRN posting herself. Next: that sign-off and the submission to the
-Economic Modelling special issue "Artificial Intelligence, Data Investment and the Digital
+was to submit after Johan's sign-off (Open 11d) and revises the SSRN posting herself; the submission went in on
+2026-11-03, before the 2026-11-04 rebuild, to the Economic Modelling special issue "Artificial Intelligence, Data Investment and the Digital
 Economy" (deadline 2027-02-28). STRECO desk-rejected the 4 September Word build on
 2026-11-02, without comments. Before that, 2026-09-24: the SSRN PDF staged; 2026-09-21: the
 interior revision landed. The folder dates from the
@@ -179,6 +184,9 @@ both at tag `pre-cleanup-2026-09-04`.
    Open: (d) Johan's sign-off before submitting, since authorship is fixed at submission. It now
    also covers the one-panel Figure 4, Section 8's new premium sentence and the review fixes
    (Log, 2026-11-04), and the oddities and wording passes (Log, 2026-11-17).
+   → Closed by the submission of 2026-11-03 (Log, 2026-11-20). It went in with the 2026-11-03
+   package, so none of what this item lists from 2026-11-04 and 2026-11-17 is in the version
+   under review.
 
 12. **The whole-paper review (2026-11-04): her calls.** One full read here and three independent
    reviewers (main-text maths, Appendices B and D, a referee read), every finding re-checked
@@ -229,6 +237,24 @@ README's corner table now carries the new pointers. `check_cost_system.py` and
 `check_interior.py` are what back Section 6 and Appendix B.
 
 ## Log
+
+- **2026-11-20 — submitted and under review.** Her word: "we submitted Pinning to Economic
+  Modelling on November 3rd and it went under review on Nov 12th". In Elsevier's Editorial
+  Manager, "Under Review" means reviewers have been invited. The journal's assignment email
+  names Editor Angus Chu as the handling editor. The version under review is the
+  2026-11-03 package: her `Downloads/Pinning_the_Wage_EM_submission.zip` (20:10 that day) holds a
+  `manuscript.tex` byte-identical to `paper/submission/em/manuscript.tex` at 6117344 (SHA-256
+  3a1adc23…; the same file at b4a57bc and 91f10c7), and its `manuscript_preview.pdf` (41 pages)
+  is that afternoon's build. So everything on `main` since 2026-11-04 is newer than what the
+  referees have: the one-panel Figure 4, Section 8's premium sentence, the review fixes and the
+  2026-11-17 passes carry into the revision, with Open 12's findings. Answer referees against
+  6117344's page and equation numbers. The tag `em-package-2026-11-03` is not on this machine
+  either, so the commit is the record. The journal's published medians, read 2026-11-20 from its
+  ScienceDirect insights page: 4 days from submission to first decision (desk reject or sent
+  out), 59 days to the first decision for papers sent to review, 280 days to acceptance for
+  accepted papers, and 6 days from acceptance to online publication. The acceptance rate is 10%
+  of all submissions. The special issue's guest editors are Cecilia Jona-Lasinio, Antonio
+  Minniti, Klaus Prettner and Francesco Venturini.
 
 - **2026-11-17 — on `main`; the docs aligned.** Her go ("I love all your changes, except swapping
   orbits for revolves. Apart from that, please merge and push to main, and make sure all the other
